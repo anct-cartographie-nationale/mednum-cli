@@ -4,7 +4,7 @@ name: Validate feature
 on:
   push:
     branches:
-      - 'main/*'
+      - 'main'
       - 'build/*'
       - 'chore/*'
       - 'ci/*'
