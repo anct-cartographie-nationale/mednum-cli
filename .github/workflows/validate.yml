@@ -32,4 +32,4 @@ jobs:
   validation-matrix:
     uses: romain-cambonie/serenity-workflows/.github/workflows/_validation-matrix.reusable.yml@master
     with:
-      commands-as-comma-separated-string: 'lint,prettier.check,test'
+      commands-as-comma-separated-string: 'lint.es,lint.commit,prettier.check,test'
