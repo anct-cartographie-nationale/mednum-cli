@@ -1,0 +1,101 @@
+---
+name: Validate feature
+
+on:
+  push:
+    branches:
+      - 'main/*'
+      - 'build/*'
+      - 'chore/*'
+      - 'ci/*'
+      - 'docs/*'
+      - 'feat/*'
+      - 'fix/*'
+      - 'perf/*'
+      - 'refactor/*'
+      - 'revert/*'
+      - 'style/*'
+      - 'test/*'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  prettier:
+    name: Prettier
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout import repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Prettier
+        run: yarn prettier --check .
+
+  eslint:
+    name: ESLint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout import repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Lint
+        run: yarn lint
+
+  commitlint:
+    name: CommitLint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout import repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: commitlint
+        run: |
+          npx commitlint --from origin/main
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout import repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          cache: 'yarn'
+
+      - name: Test
+        run: yarn test client-application

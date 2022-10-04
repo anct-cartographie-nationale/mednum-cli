@@ -1,0 +1,66 @@
+{
+  "name": "import",
+  "version": "0.0.0",
+  "description": "✨ Use import pour transformer une source de données vers le schéma des lieux de mediation numerique",
+  "keywords": [
+    "data",
+    "données",
+    "transformations",
+    "gouvernement",
+    "betagouv",
+    "anct",
+    "médiation numérique"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anct-cartographie-nationale/import.git"
+  },
+  "contributors": [
+    {
+      "name": "Arthur Belkhayat",
+      "email": "arthur.belkhayat@beta.gouv.fr",
+      "url": "https://www.linkedin.com/in/arthur-belkhayat/"
+    },
+    {
+      "name": "Marc Gavanier",
+      "email": "marc.gavanier@beta.gouv.fr",
+      "url": "https://www.linkedin.com/in/marc-gavanier/"
+    }
+  ],
+  "license": "SEE LICENSE IN LICENSE.md",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "main": "src/index.ts",
+  "scripts": {
+    "lint": "eslint --config=./.tooling/.eslint/.eslintrc.cjs ./src/",
+    "lint-staged": "lint-staged --config=./.tooling/.lintstaged/.lintstagedrc",
+    "prettier": "prettier --config=./.tooling/.prettier/.prettierrc.cjs --write ./src/",
+    "prettier.check": "prettier --config=./.tooling/.prettier/.prettierrc.cjs --check ./src/",
+    "test": "jest --config=./.tooling/.jest/jest.config.ts",
+    "start.les-assembleurs": "ts-node src/les-assembleurs/main.ts"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.1.2",
+    "@commitlint/config-conventional": "^17.1.0",
+    "@types/jest": "^29.1.1",
+    "@types/node": "^18.8.1",
+    "@typescript-eslint/eslint-plugin": "^5.39.0",
+    "@typescript-eslint/parser": "^5.39.0",
+    "eslint": "^8.24.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-jest": "^27.0.4",
+    "husky": "^8.0.1",
+    "jest": "^29.1.2",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
+    "standard-version": "^9.5.0",
+    "ts-jest": "^29.0.3",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.8.4"
+  },
+  "dependencies": {
+    "@gouvfr-anct/timetable-to-osm-opening-hours": "^1.0.1"
+  }
+}
