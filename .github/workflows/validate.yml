@@ -23,6 +23,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  build:
+    uses: romain-cambonie/serenity-workflows/.github/workflows/_build-and-upload-artifact.reusable.yml@master
+    with:
+      build-command: build.les-assembleurs
+      artifact-name: les-assembleurs
+
   validation-matrix:
     uses: romain-cambonie/serenity-workflows/.github/workflows/_validation-matrix.reusable.yml@master
     with:

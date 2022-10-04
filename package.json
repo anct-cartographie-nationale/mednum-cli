@@ -39,6 +39,7 @@
     "prettier": "prettier --config=./.tooling/.prettier/.prettierrc.cjs --write ./src/",
     "prettier.check": "prettier --config=./.tooling/.prettier/.prettierrc.cjs --check ./src/",
     "test": "jest --config=./.tooling/.jest/jest.config.ts",
+    "build.les-assembleurs": "tsc --project .tsconfig/tsconfig.json",
     "start.les-assembleurs": "ts-node src/les-assembleurs/main.ts"
   },
   "devDependencies": {
