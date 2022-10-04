@@ -1,82 +1,110 @@
 # Contribution
 
-## Table of contents
+## Table des matières
 
-- 📦 [Prerequisites](#prerequisites)
 - 🚀 [Installation](#installation)
-- 🤝 [Contribution requirements](#contribution-requirements)
+- 🛠️ [Utilisation](#utilisation)
+- 🤝 [Contribution](#contribution)
+- 🏗️ [Construit avec](#construit-avec)
 
-# Prerequisites
+## Installation
 
-- [Git](https://git-scm.com/) :software for distributed version control
-- [Node](https://nodejs.org/) : cross-platform JavaScript runtime environment
-- [Yarn](https://yarnpkg.com/) : Software packaging system
+### Mise en place des sources et des dépendances
 
-## Recommended
+Cloner le dépôt en local
 
-> Node and Yarn can be installed with Node Version Manager [nvm](https://github.com/nvm-sh/nvm) that allows you to quickly install and use different versions of node via the command line.
-
-# Installation
-
-## 1. Clone
-
-```shell
-git clone git@github.com:anct-cartographie-nationale/timetable-to-osm-opening-hours.git
+```bash
+git clone git@github.com:anct-cartographie-nationale/import.git
 ```
 
-## 2. Install dependencies
+Aller dans le dossier du projet pour installer les dépendances
 
-```shell
+```bash
+cd import
 yarn
 ```
 
-## 3. Set active Husky hooks as executable
+### Installer Husky
 
+[Husky](https://typicode.github.io/husky) est un outil de gestion des hooks git pour effectuer des tâches automatiques
+
+```bash
+yarn husky install
 ```
-husky install
+
+Rendre exécutable les fichiers qui contiennent les hooks :
+
+```bash
 chmod a+x .husky/commit-msg
 chmod a+x .husky/pre-commit
 ```
 
-# Contribution requirements
+## Utilisation
 
-## Branches naming rules
+Ces commandes servent dans un contexte de développement de l'application.
 
-- Must be up-to-date with master (rebased, linear history)
-- Must be prefixed with follow the `build/`, `chore/`, `ci/`, `docs/`, `feat/`, `fix/`, `perf/`, `refactor/`, `revert/`, `style/` or `test/` according to their content. See [Conventional Commits cheat sheet](https://kapeli.com/cheat_sheets/Conventional_Commits.docset/Contents/Resources/Documents/index)
+### Lancement de l'opération de transformation pour les données du hub **Les Assembleurs**
 
-## Commits rules
+Exécuter `yarn start.les-assembleurs`.
 
-### Format
+### Construction de l'opération de transformation pour les données du hub **Les Assembleurs**
 
-Must follow conventional commits specification: [Commits Conventionnels](https://www.conventionalcommits.org/fr)
+Exécuter `yarn build.les-assembleurs` pour vérifier que les sources transpilent correctement, le résultat esy disponible dans le dossier `build/`.
 
-### Verified
+### Test
 
-Commits must be verified: [About commit signature verification](https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification)
+Exécuter `yarn test` pour tester le projet.
 
-### Continuous integration check
+### ESLint
 
-- All validation checks in workflow `Build` must pass without failure
+Exécuter `yarn lint.es` pour une analyse statique des fichiers `.ts` du projet.
 
-# Releases
+### Commit lint
 
-Release on NPM and Github are fully automated on merge on master with Semantic Release.
+Exécuter `yarn lint.commit` pour valider la syntaxe de l'ensemble des commits réalisés depuis la dernière version commune avec la branche `main`.
 
-## NPM
+### Prettier
 
-[npm](https://www.npmjs.com/) npm is the world's largest javascript software registry.
+Exécuter `yarn prettier` pour mettre à niveau la syntaxe de l'ensemble des fichiers du projet.
 
-- Organisation: [@gouvfr-anct](https://www.npmjs.com/org/gouvfr-anct)
-- Package: [@gouvfr-anct/timetable-to-osm-opening-hours](https://www.npmjs.com/package/@gouvfr-anct/timetable-to-osm-opening-hours)
+## Contribution
 
-## Github
+### Nommage des branches
 
-[Repository](https://github.com/anct-cartographie-nationale/timetable-to-osm-opening-hours)
+- Avant de créer une nouvelle branche de travail, récupérer les dernières modifications disponibles sur la branche `main`
+- La nouvelle branche de travail doit ête préfixée par `build/`, `chore/`, `ci/`, `docs/`, `feat/`, `fix/`, `perf/`, `refactor/`, `revert/`, `style/` ou `test/` en fonction du type de modification prévu, pour plus de détails à ce sujet, consulter [Conventional Commits cheat sheet](https://kapeli.com/cheat_sheets/Conventional_Commits.docset/Contents/Resources/Documents/index)
 
-# Forking additional setup
+### Commits
 
-## Github actions
+#### Convention
 
-- Repository secrets to setup :
-  - `NODE_AUTH_TOKEN`: NPM access token to publish on organisation [@gouvfr-anct](https://www.npmjs.com/org/gouvfr-anct)
+Les commits de ce repository doivent respecter la syntaxe décrite par la spécification des [Commits Conventionnels](https://www.conventionalcommits.org/fr)
+
+#### Signature
+
+La branche `main`, ainsi que l'ensemble des branches de travail avec un préfixe valide requièrent que les commits soient signés :
+
+- La documentation de GitHub indique comment [configurer la signature des commits](https://docs.github.com/en/enterprise-server@3.5/authentication/managing-commit-signature-verification/about-commit-signature-verification)
+- Les utilisateurs de [keybase](https://keybase.io/) peuvent [signer leurs commits avec leur clé GPG sur Keybase](https://stephenreescarter.net/signing-git-commits-with-a-keybase-gpg-key/)
+
+## Construit avec
+
+### langages & Frameworks
+
+- [TypeScript](https://www.typescriptlang.org/) est un langage open source construit à partir de JavaScript
+
+### Outils
+
+#### CLI
+
+- [Jest](https://jestjs.io/) est une boîte à outils pour écrire des tests automatisés en JavaScript
+- [Eslint](https://eslint.org/) est un analyseur statique de JavaScript
+- [Prettier](https://prettier.io/) est un magnificateur de code source en JavaScript
+- [Husky](https://typicode.github.io/husky/#/) est un outil qui permet d'effectuer des vérifications automatiques avant de publier des contributions.
+- [Commitlint](https://github.com/conventional-changelog/commitlint) est un outil de vérification des commits suivant le [format des Commits Conventionnels](https://www.conventionalcommits.org/fr/v1.0.0/).
+- [Lint-staged](https://github.com/okonet/lint-staged) est un outil qui permet d'effectuer un ensemble de vérifications à l'aide d'autres outils sur un ensemble de fichiers qui viennent d'être modifiés.
+
+#### CI/CD
+
+- [Github Actions](https://docs.github.com/en/actions) est l'outil d'intégration et de déploiement continu intégré à GitHub
+  - L'historique des déploiements est disponible [sous l'onglet Actions](https://github.com/anct-cartographie-nationale/import/actions/)
