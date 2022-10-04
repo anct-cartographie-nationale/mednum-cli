@@ -1,7 +1,7 @@
 {
   "name": "import",
   "version": "0.0.0",
-  "description": "✨ Use import pour transformer une source de données vers le schéma des lieux de mediation numerique",
+  "description": "✨ Permet de transformer une source de données vers le schéma des lieux de mediation numerique",
   "keywords": [
     "data",
     "données",

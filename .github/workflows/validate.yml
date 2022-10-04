@@ -1,0 +1,29 @@
+---
+name: Validate
+
+on:
+  push:
+    branches:
+      - 'main'
+      - 'build/*'
+      - 'chore/*'
+      - 'ci/*'
+      - 'docs/*'
+      - 'feat/*'
+      - 'fix/*'
+      - 'perf/*'
+      - 'refactor/*'
+      - 'revert/*'
+      - 'style/*'
+      - 'test/*'
+      - 'release/*'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validation-matrix:
+    uses: romain-cambonie/serenity-workflows/.github/workflows/_validation-matrix.reusable.yml@master
+    with:
+      commands-as-comma-separated-string: 'lint,prettier.check,test'
