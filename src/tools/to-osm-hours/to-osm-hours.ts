@@ -1,6 +1,6 @@
-/* eslint-disable */
-
 import { CleanOperation, CLEAN_OPERATIONS } from './clean-operations';
+
+const TIME_PARTS_SELECTOR: RegExp = /\d?\d/gu;
 
 const clean = (hours: string): string =>
   CLEAN_OPERATIONS.reduce(
@@ -8,28 +8,39 @@ const clean = (hours: string): string =>
     hours.toLowerCase()
   );
 
-const execRegExp = (regExp: RegExp, hours: string): string[] => {
-  let m0: RegExpExecArray | null = null;
-  const matches: string[] = [];
-  while ((m0 = regExp.exec(hours)) !== null) {
-    if (m0.index === regExp.lastIndex) {
-      regExp.lastIndex++;
-    }
+const hasMatch = (matchIteration: IteratorResult<RegExpMatchArray>): boolean =>
+  matchIteration.done != null && !matchIteration.done && matchIteration.value[0] != null;
 
-    m0.forEach((match: string): void => {
-      matches.push(match);
-    });
+const execRegExp = (regExp: RegExp, hours: string): string[] => {
+  const matches: string[] = [];
+  const matchesIterator: IterableIterator<RegExpMatchArray> = hours.matchAll(regExp);
+  let matchIteration: IteratorResult<RegExpMatchArray> = matchesIterator.next();
+
+  while (hasMatch(matchIteration)) {
+    matches.push(matchIteration.value.at(0));
+    matchIteration = matchesIterator.next();
   }
   return matches;
 };
 
-export const toOsmHours = (hours: string): string =>
-  execRegExp(/\d?\d/gu, clean(hours))
-    .map((timeMatch: string): string => (timeMatch.length === 1 ? `0${timeMatch}` : timeMatch))
-    .reduce((osmHours: string, timeMatch: string, index: number): string => {
-      if (index === 0) return timeMatch;
-      if (index % 4 === 0) return `${osmHours},${timeMatch}`;
-      if (index % 2 === 0) return `${osmHours}-${timeMatch}`;
+const isEndTime = (timePartIndex: number): boolean => timePartIndex % 2 === 0;
+const TIMES_SEPARATOR: string = '-';
 
-      return `${osmHours}:${timeMatch}`;
-    }, '');
+const HOURS_AND_MINUTES_SEPARATOR: string = ':';
+
+const inTimeRangeSeparator = (timePartIndex: number): string =>
+  isEndTime(timePartIndex) ? TIMES_SEPARATOR : HOURS_AND_MINUTES_SEPARATOR;
+
+const isTimeRange = (index: number): boolean => index % 4 === 0;
+const TIME_RANGES_SEPARATOR: string = ',';
+
+const timePartsSeparator = (timePartIndex: number): string =>
+  isTimeRange(timePartIndex) ? TIME_RANGES_SEPARATOR : inTimeRangeSeparator(timePartIndex);
+
+const addMissing0Digit = (timeMatch: string): string => (timeMatch.length === 1 ? `0${timeMatch}` : timeMatch);
+
+const concatTimeParts = (osmHours: string, timeMatch: string, index: number): string =>
+  index === 0 ? timeMatch : `${osmHours}${timePartsSeparator(index)}${timeMatch}`;
+
+export const toOsmHours = (hours: string): string =>
+  execRegExp(TIME_PARTS_SELECTOR, clean(hours)).map(addMissing0Digit).reduce(concatTimeParts);
