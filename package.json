@@ -5,7 +5,7 @@
   "keywords": [
     "data",
     "données",
-    "transformations",
+    "transformation",
     "gouvernement",
     "betagouv",
     "anct",
@@ -35,7 +35,7 @@
   "main": "src/index.ts",
   "scripts": {
     "lint.es": "eslint --config=./.tooling/.eslint/.eslintrc.cjs ./src/",
-    "lint.commit": "commitlint --from origin/main --config ./.tooling/.commitlint/commitlint.config.cjs",
+    "lint.commit": "npx commitlint --from origin/main --config ./.tooling/.commitlint/commitlint.config.cjs",
     "lint-staged": "lint-staged --config=./.tooling/.lintstaged/.lintstagedrc",
     "prettier": "prettier --config=./.tooling/.prettier/.prettierrc.cjs --write ./src/",
     "prettier.check": "prettier --config=./.tooling/.prettier/.prettierrc.cjs --check ./src/",
@@ -52,7 +52,7 @@
     "@typescript-eslint/parser": "^5.39.0",
     "eslint": "^8.24.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-jest": "^27.0.4",
+    "eslint-plugin-jest": "^27.1.0",
     "husky": "^8.0.1",
     "jest": "^29.1.2",
     "lint-staged": "^13.0.3",
