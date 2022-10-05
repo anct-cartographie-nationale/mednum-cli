@@ -35,7 +35,7 @@
   "main": "src/index.ts",
   "scripts": {
     "lint.es": "eslint --config=./.tooling/.eslint/.eslintrc.cjs ./src/",
-    "lint.commit": "commitlint --from origin/main --config ./.tooling/.commitlint/commitlint.config.cjs",
+    "lint.commit": "npx commitlint --from origin/main --config ./.tooling/.commitlint/commitlint.config.cjs",
     "lint-staged": "lint-staged --config=./.tooling/.lintstaged/.lintstagedrc",
     "prettier": "prettier --config=./.tooling/.prettier/.prettierrc.cjs --write ./src/",
     "prettier.check": "prettier --config=./.tooling/.prettier/.prettierrc.cjs --check ./src/",

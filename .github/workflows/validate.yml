@@ -23,7 +23,30 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  commitlint:
+    name: CommitLint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout client-application repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: commitlint
+        run: yarn lint.commit
+
   build:
+    name: Build
     uses: romain-cambonie/serenity-workflows/.github/workflows/_build-and-upload-artifact.reusable.yml@master
     with:
       build-command: build.les-assembleurs
@@ -32,4 +55,4 @@ jobs:
   validation-matrix:
     uses: romain-cambonie/serenity-workflows/.github/workflows/_validation-matrix.reusable.yml@master
     with:
-      commands-as-comma-separated-string: 'lint.es,lint.commit,prettier.check,test'
+      commands-as-comma-separated-string: 'lint.es,prettier.check,test'
