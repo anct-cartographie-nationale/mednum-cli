@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import * as fs from 'fs';
 import ErrnoException = NodeJS.ErrnoException;
 import { objectKeyFormatter } from './helper';
