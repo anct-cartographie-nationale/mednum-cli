@@ -1,4 +1,4 @@
-/* eslint-disable no-console,@typescript-eslint/no-restricted-imports,no-undef,max-lines-per-function,max-statements,camelcase,complexity,@typescript-eslint/naming-convention,id-denylist,@typescript-eslint/no-explicit-any,no-param-reassign,@typescript-eslint/no-dynamic-delete,max-depth */
+/* eslint-disable no-console,@typescript-eslint/no-restricted-imports,no-undef,max-lines-per-function,max-statements,camelcase,complexity,@typescript-eslint/naming-convention,id-denylist,@typescript-eslint/no-explicit-any,no-param-reassign,@typescript-eslint/no-dynamic-delete,max-depth,prefer-named-capture-group */
 
 import * as fs from 'fs';
 import ErrnoException = NodeJS.ErrnoException;
@@ -30,8 +30,16 @@ fs.readFile(`${SOURCE_PATH}${HINAURA_FILE}`, 'utf8', (readError: ErrnoException 
     let conditions_access: string = '';
     let modalites_accompagnement: string = '';
     let services: string = '';
+    let formatAdresse: string = '';
     for (const [key, value] of Object.entries(item)) {
       let newKey: string = objectKeyFormatter(key);
+      if (newKey === 'ville') newKey = 'commune';
+      if (newKey === 'adresse_postale') newKey = 'adresse';
+      if (newKey === 'adresse') {
+        formatAdresse = String(value).includes('\n') ? value.substring(0, value.indexOf('\n')) : value;
+        // if (value.includes('\n')) formatAdresse = value.substring(0, value.indexOf('\n'));
+        // else formatAdresse = value;
+      }
       if (newKey === 'bf_latitude') newKey = 'latitude';
       if (newKey === 'bf_longitude') newKey = 'longitude';
       if (newKey === 'datetime_latest') {
@@ -81,16 +89,26 @@ fs.readFile(`${SOURCE_PATH}${HINAURA_FILE}`, 'utf8', (readError: ErrnoException 
       item['publics_accueillis' as keyof typeof item] = publics_accueillis;
       item['conditions_access' as keyof typeof item] = conditions_access;
       item['modalites_accompagnement' as keyof typeof item] = modalites_accompagnement;
-      item['services' as keyof typeof item] = services.replace(',,', ',');
+      item['services' as keyof typeof item] = services;
       item['code_postal' as keyof typeof item] = codePostalToString;
       item['date_maj' as keyof typeof item] = dateMajFormat;
+      item['adresse' as keyof typeof item] = formatAdresse;
       item[newKey as keyof typeof item] = item[key as keyof typeof item];
       delete item[key as keyof typeof item];
+      if (newKey === 'site_web') {
+        const siteWebRegex: RegExp = /^(ftp|http|https):\/\/[^ "]+$/u;
+        if (!siteWebRegex.test(value)) delete item['site_web' as keyof typeof item];
+      }
+      if (newKey === 'telephone') {
+        if (value === '') delete item['telephone' as keyof typeof item];
+      }
     }
   });
 
   // we print formated data in a json but we also can use directly formatedData here
-  const dataToStringify: string = JSON.stringify(formatedData);
+  const dataToStringify: string = JSON.stringify(
+    formatedData.filter((item: { key: string; value: any }): boolean => item['services' as keyof typeof item] !== '')
+  );
   fs.writeFile('./assets/output/hinaura-formated.json', dataToStringify, 'utf8', (err: ErrnoException | null): void => {
     if (err != null) {
       console.log(err);
