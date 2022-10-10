@@ -30,7 +30,7 @@ fs.readFile(`${SOURCE_PATH}${HINAURA_FILE}`, 'utf8', (err: ErrnoException | null
       if (newKey === 'datetime_latest') {
         newKey = 'date_maj';
         dateMajFormat = value.split('/');
-        dateMajFormat = dateMajFormat[2].split(' ')[0] + '-' + dateMajFormat[1] + '-' + dateMajFormat[0];
+        dateMajFormat = dateMajFormat[2]?.split(' ')[0] + '-' + dateMajFormat[1] + '-' + dateMajFormat[0];
       }
       if (newKey === 'code_postal') codePostalToString = value.toString();
       if (newKey === 'adresse_postale') newKey = 'adresse';
