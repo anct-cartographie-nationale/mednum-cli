@@ -1,5 +1,41 @@
 /* eslint-disable no-console,@typescript-eslint/no-restricted-imports,no-undef,max-lines-per-function,max-statements,camelcase,complexity,@typescript-eslint/naming-convention,id-denylist,@typescript-eslint/no-explicit-any,no-param-reassign,@typescript-eslint/no-dynamic-delete,max-depth,max-lines */
 
+export type HinauraLieuMediationNumerique = {
+  datetime_create: string;
+  datetime_latest: string;
+  'Nom du lieu ou de la structure *': string;
+  'Adresse postale *': string;
+  'Code postal': string;
+  'Ville *': string;
+  bf_latitude: number;
+  bf_longitude: number;
+  "Email (éviter les emails nominatifs - en cas d'email nominitatif seule la personne concernée est autorisé à l'ajouter)": string;
+  Téléphone: string;
+  'Site Web': string;
+  'Informations diverses (précisions sur votre structure, vos services, vos partenaires...)': string;
+  "Type d'opérateur": string;
+  'Type de lieu': string;
+  'Accueille un ou des Conseillers Numériques France Services': string;
+  Lundi: string;
+  Mardi: string;
+  Mercredi: string;
+  Jeudi: string;
+  Vendredi: string;
+  Samedi: string;
+  Dimanche: string;
+  'Publics accueillis': string;
+  'Accueil pour les personnes en situation de handicap': string;
+  'Accompagnement de publics spécifiques': string;
+  Tarifs: string;
+  'À disposition': string;
+  "Types d'accompagnement proposés": string;
+  'Accompagnements proposés aux démarches en ligne': string;
+  'Formations compétences de base proposées': string;
+  'Comprendre et Utiliser les sites d’accès aux droits proposées': string;
+  'Sensibilisations culture numérique': string;
+  'Politique de confidentialité relative aux données personnelles *': string;
+};
+
 export const objectKeyFormatter = (str: string): string =>
   objectKeyRemovePonctuation(str).replace('*', '').trim().replace(/ /gu, '_').toLocaleLowerCase();
 
@@ -92,60 +128,4 @@ export const processModalitesAccompagnement = (value: string): string => {
     if (modalitesAccompagnement === '') modalitesAccompagnement = 'A ma place';
   }
   return modalitesAccompagnement;
-};
-
-export const processServices = (value: string, modalites_accompagnement: string): string => {
-  let services: string = '';
-  if (value.toLocaleLowerCase().includes('réseau wifi')) {
-    if (services !== '') services = `${services},Accéder à une connexion internet`;
-    if (services === '') services = 'Accéder à une connexion internet';
-  }
-  if (value.toLocaleLowerCase().includes('accès libre à du matériel informatique')) {
-    if (services !== '') services = `${services},Accéder à du matériel`;
-    if (services === '') services = 'Accéder à du matériel';
-  }
-  if (value.toLocaleLowerCase().includes("découvrir l'ordinateur")) {
-    if (services !== '')
-      services = `${services},Prendre en main un ordinateur,Utiliser le numérique au quotidien,Approfondir ma culture numérique`;
-    if (services === '')
-      services = 'Prendre en main un ordinateur,Utiliser le numérique au quotidien,Approfondir ma culture numérique';
-  }
-  if (value.toLocaleLowerCase().includes('tablette') || value.toLocaleLowerCase().includes('smartphone')) {
-    if (services !== '') services = `${services},Prendre en main un smartphone ou une tablette`;
-    if (services === '') services = 'Prendre en main un smartphone ou une tablette';
-  }
-  if (
-    value.toLocaleLowerCase().includes('services de la caf') ||
-    value.toLocaleLowerCase().includes('services des impôts') ||
-    value.toLocaleLowerCase().includes('logement social') ||
-    value.toLocaleLowerCase().includes('pôle emploi') ||
-    value.toLocaleLowerCase().includes('pole-emploi.fr')
-  ) {
-    if (modalites_accompagnement.includes('Seul') && modalites_accompagnement.includes("Avec de l'aide")) {
-      if (services !== '')
-        services = `${services},Devenir autonome dans les démarches administratives,Réaliser des démarches administratives avec un accompagnement`;
-      if (services === '')
-        services =
-          'Devenir autonome dans les démarches administratives,Réaliser des démarches administratives avec un accompagnement';
-    }
-    if (modalites_accompagnement.includes('Seul')) {
-      if (services !== '') services = `${services},Devenir autonome dans les démarches administratives`;
-      if (services === '') services = 'Devenir autonome dans les démarches administratives';
-    }
-    if (modalites_accompagnement.includes("Avec de l'aide")) {
-      if (services !== '') services = `${services},Réaliser des démarches administratives avec un accompagnement`;
-      if (services === '') services = 'Réaliser des démarches administratives avec un accompagnement';
-    }
-  }
-  if (value.includes('CPAM') || value.includes('ameli.fr')) {
-    if (services !== '') services = `${services},Accompagner les démarches de santé`;
-    if (services === '') services = 'Accompagner les démarches de santé';
-  }
-  if (value.toLocaleLowerCase().includes('cultures numériques')) {
-    if (services !== '')
-      services = `${services},Utiliser le numérique au quotidien,Approfondir ma culture numérique,Promouvoir la citoyenneté numérique`;
-    if (services === '')
-      services = 'Utiliser le numérique au quotidien,Approfondir ma culture numérique,Promouvoir la citoyenneté numérique';
-  }
-  return services;
 };

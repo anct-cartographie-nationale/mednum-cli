@@ -3,12 +3,13 @@
 import * as fs from 'fs';
 import ErrnoException = NodeJS.ErrnoException;
 import {
+  HinauraLieuMediationNumerique,
   objectKeyFormatter,
   processConditionsAccess,
   processModalitesAccompagnement,
-  processPublicsAccueillis,
-  processServices
+  processPublicsAccueillis
 } from './helper';
+import { formatServicesField } from './fields/services/services.field';
 
 const SOURCE_PATH: string = './assets/input/';
 const HINAURA_FILE: string = 'hinaura.json';
@@ -19,18 +20,20 @@ fs.readFile(`${SOURCE_PATH}${HINAURA_FILE}`, 'utf8', (readError: ErrnoException 
     return undefined;
   }
 
-  const formatedData: { key: string; value: any }[] = JSON.parse(dataString);
+  const hinauraLieuxMediationNumerique: { key: string; value: any }[] = JSON.parse(dataString);
 
   let index: number = 0;
-  formatedData.forEach((item: { key: string; value: any }): void => {
+  hinauraLieuxMediationNumerique.forEach((item: { key: string; value: any }): void => {
     index += 1;
     let codePostalToString: string = '';
     let dateMajFormat: string = '';
     let publics_accueillis: string = '';
     let conditions_access: string = '';
     let modalites_accompagnement: string = '';
-    let services: string = '';
     let formatAdresse: string = '';
+
+    const hinauraLieuMediationNumerique: HinauraLieuMediationNumerique = JSON.parse(JSON.stringify(item));
+
     for (const [key, value] of Object.entries(item)) {
       let newKey: string = objectKeyFormatter(key);
       if (newKey === 'ville') newKey = 'commune';
@@ -67,29 +70,13 @@ fs.readFile(`${SOURCE_PATH}${HINAURA_FILE}`, 'utf8', (readError: ErrnoException 
       if (newKey === 'tarifs') conditions_access = processConditionsAccess(value);
       if (newKey === "types_d'accompagnement_proposes") modalites_accompagnement = processModalitesAccompagnement(value);
 
-      // process services
-      if (newKey === 'a_disposition') services = processServices(value, modalites_accompagnement);
-      if (newKey === 'formations_competences_de_base_proposees') {
-        if (services !== '' && processServices(value, modalites_accompagnement) !== '')
-          services = `${services},${processServices(value, modalites_accompagnement)}`;
-        if (services === '') services = processServices(value, modalites_accompagnement);
-      }
-      if (newKey === 'comprendre_et_utiliser_les_sites_d’acces_aux_droits_proposees') {
-        if (services !== '' && processServices(value, modalites_accompagnement) !== '')
-          services = `${services},${processServices(value, modalites_accompagnement)}`;
-        if (services === '') services = processServices(value, modalites_accompagnement);
-      }
-      if (newKey === 'sensibilisations_culture_numerique') {
-        if (services !== '' && processServices(value, modalites_accompagnement) !== '')
-          services = `${services},${processServices(value, modalites_accompagnement)}`;
-        if (services === '') services = processServices(value, modalites_accompagnement);
-      }
-
       item['id' as keyof typeof item] = index.toString();
       item['publics_accueillis' as keyof typeof item] = publics_accueillis;
       item['conditions_access' as keyof typeof item] = conditions_access;
       item['modalites_accompagnement' as keyof typeof item] = modalites_accompagnement;
-      item['services' as keyof typeof item] = services;
+      item['services' as keyof typeof item] = formatServicesField(hinauraLieuMediationNumerique, modalites_accompagnement).join(
+        ', '
+      );
       item['code_postal' as keyof typeof item] = codePostalToString;
       item['date_maj' as keyof typeof item] = dateMajFormat;
       item['adresse' as keyof typeof item] = formatAdresse;
@@ -107,7 +94,9 @@ fs.readFile(`${SOURCE_PATH}${HINAURA_FILE}`, 'utf8', (readError: ErrnoException 
 
   // we print formated data in a json but we also can use directly formatedData here
   const dataToStringify: string = JSON.stringify(
-    formatedData.filter((item: { key: string; value: any }): boolean => item['services' as keyof typeof item] !== '')
+    hinauraLieuxMediationNumerique.filter(
+      (item: { key: string; value: any }): boolean => item['services' as keyof typeof item] !== ''
+    )
   );
   fs.writeFile('./assets/output/hinaura-formated.json', dataToStringify, 'utf8', (err: ErrnoException | null): void => {
     if (err != null) {
