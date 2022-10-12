@@ -109,23 +109,3 @@ export const processConditionsAccess = (value: string): string => {
   }
   return conditionsAccess;
 };
-
-export const processModalitesAccompagnement = (value: string): string => {
-  let modalitesAccompagnement: string = '';
-  if (
-    value.toLocaleLowerCase().includes('accompagnement individuel') ||
-    value.toLocaleLowerCase().includes('accès libre avec un accompagnement')
-  ) {
-    if (modalitesAccompagnement !== '') modalitesAccompagnement = `${modalitesAccompagnement},Seul,Avec de l'aide`;
-    if (modalitesAccompagnement === '') modalitesAccompagnement = "Seul,Avec de l'aide";
-  }
-  if (value.toLocaleLowerCase().includes('accompagnement en groupe')) {
-    if (modalitesAccompagnement !== '') modalitesAccompagnement = `${modalitesAccompagnement},Dans un atelier`;
-    if (modalitesAccompagnement === '') modalitesAccompagnement = 'Dans un atelier';
-  }
-  if (value.toLocaleLowerCase().includes('faire à la place de')) {
-    if (modalitesAccompagnement !== '') modalitesAccompagnement = `${modalitesAccompagnement},A ma place`;
-    if (modalitesAccompagnement === '') modalitesAccompagnement = 'A ma place';
-  }
-  return modalitesAccompagnement;
-};
