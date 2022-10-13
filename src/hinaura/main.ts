@@ -2,9 +2,8 @@
 
 import * as fs from 'fs';
 import ErrnoException = NodeJS.ErrnoException;
-import { HinauraLieuMediationNumerique, objectKeyFormatter, processConditionsAccess, processPublicsAccueillis } from './helper';
-import { formatServicesField, processModalitesAccompagnement } from './fields';
-import { formatPublicAccueilliField } from './fields/publics-accueillis/publics-accueillis.field';
+import { HinauraLieuMediationNumerique, objectKeyFormatter, processConditionsAccess } from './helper';
+import { formatServicesField, processModalitesAccompagnement, formatPublicAccueilliField } from './fields';
 
 const SOURCE_PATH: string = './assets/input/';
 const HINAURA_FILE: string = 'hinaura.json';
