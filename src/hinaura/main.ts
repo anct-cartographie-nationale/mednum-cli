@@ -4,6 +4,7 @@ import * as fs from 'fs';
 import ErrnoException = NodeJS.ErrnoException;
 import { HinauraLieuMediationNumerique, objectKeyFormatter, processConditionsAccess, processPublicsAccueillis } from './helper';
 import { formatServicesField, processModalitesAccompagnement } from './fields';
+import { formatPublicAccueilliField } from './fields/publics-accueillis/publics-accueillis.field';
 
 const SOURCE_PATH: string = './assets/input/';
 const HINAURA_FILE: string = 'hinaura.json';
@@ -32,11 +33,7 @@ fs.readFile(`${SOURCE_PATH}${HINAURA_FILE}`, 'utf8', (readError: ErrnoException 
       let newKey: string = objectKeyFormatter(key);
       if (newKey === 'ville') newKey = 'commune';
       if (newKey === 'adresse_postale') newKey = 'adresse';
-      if (newKey === 'adresse') {
-        formatAdresse = String(value).includes('\n') ? value.substring(0, value.indexOf('\n')) : value;
-        // if (value.includes('\n')) formatAdresse = value.substring(0, value.indexOf('\n'));
-        // else formatAdresse = value;
-      }
+      if (newKey === 'adresse') formatAdresse = String(value).includes('\n') ? value.substring(0, value.indexOf('\n')) : value;
       if (newKey === 'bf_latitude') newKey = 'latitude';
       if (newKey === 'bf_longitude') newKey = 'longitude';
       if (newKey === 'datetime_latest') {
@@ -48,26 +45,13 @@ fs.readFile(`${SOURCE_PATH}${HINAURA_FILE}`, 'utf8', (readError: ErrnoException 
       if (newKey === 'adresse_postale') newKey = 'adresse';
       if (newKey === 'nom_du_lieu_ou_de_la_structure') newKey = 'nom';
 
-      // process publics accueillis
-      if (newKey === 'publics_accueillis') publics_accueillis = processPublicsAccueillis(value);
-      if (newKey === 'accueil_pour_les_personnes_en_situation_de_handicap') {
-        if (publics_accueillis !== '' && processPublicsAccueillis(value) !== '')
-          publics_accueillis = `${publics_accueillis},${processPublicsAccueillis(value)}`;
-        if (publics_accueillis === '') publics_accueillis = processPublicsAccueillis(value);
-      }
-      if (newKey === 'accompagnement_de_publics_specifiques') {
-        if (publics_accueillis !== '' && processPublicsAccueillis(value) !== '')
-          publics_accueillis = `${publics_accueillis},${processPublicsAccueillis(value)}`;
-        if (publics_accueillis === '') publics_accueillis = processPublicsAccueillis(value);
-      }
-
       if (newKey === 'tarifs') conditions_access = processConditionsAccess(value);
       if (newKey === "types_d'accompagnement_proposes") modalites_accompagnement = processModalitesAccompagnement(value);
 
       item['id' as keyof typeof item] = index.toString();
-      item['publics_accueillis' as keyof typeof item] = publics_accueillis;
       item['conditions_access' as keyof typeof item] = conditions_access;
       item['modalites_accompagnement' as keyof typeof item] = modalites_accompagnement;
+      item['publics_accueillis' as keyof typeof item] = formatPublicAccueilliField(hinauraLieuMediationNumerique).join(',');
       item['services' as keyof typeof item] = formatServicesField(hinauraLieuMediationNumerique, modalites_accompagnement).join(
         ', '
       );
