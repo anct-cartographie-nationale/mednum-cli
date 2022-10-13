@@ -41,50 +41,6 @@ export const objectKeyFormatter = (str: string): string =>
 
 const objectKeyRemovePonctuation = (str: string): string => str.normalize('NFD').replace(/[\u0300-\u036f]/gu, '');
 
-export const processPublicsAccueillis = (value: string): string => {
-  let publicsAccueillis: string = '';
-  if (value.toLowerCase().includes('adultes')) {
-    if (publicsAccueillis !== '') publicsAccueillis = `${publicsAccueillis},Adultes`;
-    if (publicsAccueillis === '') publicsAccueillis = 'Adultes';
-  }
-  if (value.toLowerCase().includes('parentalité')) {
-    if (publicsAccueillis !== '') publicsAccueillis = `${publicsAccueillis},Familles/enfants`;
-    if (publicsAccueillis === '') publicsAccueillis = 'Familles/enfants';
-  }
-  if (value.toLowerCase().includes('jeunesse')) {
-    if (publicsAccueillis !== '') publicsAccueillis = `${publicsAccueillis},Jeunes (16-26 ans)`;
-    if (publicsAccueillis === '') publicsAccueillis = 'Jeunes (16-26 ans)';
-  }
-  if (value.toLowerCase().includes('seniors') || value.toLowerCase().includes('séniors')) {
-    if (publicsAccueillis !== '') publicsAccueillis = `${publicsAccueillis},Seniors (+ 65 ans)`;
-    if (publicsAccueillis === '') publicsAccueillis = 'Seniors (+ 65 ans)';
-  }
-  if (value.toLowerCase().includes('tout public'))
-    publicsAccueillis =
-      "Seniors (+ 65 ans),Familles/enfants,Adultes,Jeunes (16-26 ans),Public langues étrangères,Déficience visuelle,Surdité,Handicaps psychiques,Handicaps mentaux,Uniquement femmes,Personnes en situation d'illettrisme";
-  if (value.toLocaleLowerCase().includes('surdité')) {
-    if (publicsAccueillis !== '') publicsAccueillis = `${publicsAccueillis},Surdité`;
-    if (publicsAccueillis === '') publicsAccueillis = 'Surdité';
-  }
-  if (value.toLocaleLowerCase().includes('cécité') || value.toLocaleLowerCase().includes('déficience visuelle')) {
-    if (publicsAccueillis !== '') publicsAccueillis = `${publicsAccueillis},Déficience visuelle`;
-    if (publicsAccueillis === '') publicsAccueillis = 'Déficience visuelle';
-  }
-  if (value.toLocaleLowerCase().includes('handicap mental')) {
-    if (publicsAccueillis !== '') publicsAccueillis = `${publicsAccueillis},Handicaps mentaux`;
-    if (publicsAccueillis === '') publicsAccueillis = 'Handicaps mentaux';
-  }
-  if (value.toLocaleLowerCase().includes("personnes en situation d'illettrisme")) {
-    if (publicsAccueillis !== '') publicsAccueillis = `${publicsAccueillis},Personnes en situation d'illettrisme`;
-    if (publicsAccueillis === '') publicsAccueillis = "Personnes en situation d'illettrisme";
-  }
-  if (value.toLocaleLowerCase().includes('langue étrangère')) {
-    if (publicsAccueillis !== '') publicsAccueillis = `${publicsAccueillis},Public langues étrangères`;
-    if (publicsAccueillis === '') publicsAccueillis = 'Public langues étrangères';
-  }
-  return publicsAccueillis;
-};
-
 export const processConditionsAccess = (value: string): string => {
   let conditionsAccess: string = '';
   if (value.toLocaleLowerCase().includes('gratuit')) {
