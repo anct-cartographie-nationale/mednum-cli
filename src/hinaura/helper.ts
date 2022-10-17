@@ -40,28 +40,3 @@ export const objectKeyFormatter = (str: string): string =>
   objectKeyRemovePonctuation(str).replace('*', '').trim().replace(/ /gu, '_').toLocaleLowerCase();
 
 const objectKeyRemovePonctuation = (str: string): string => str.normalize('NFD').replace(/[\u0300-\u036f]/gu, '');
-
-export const processConditionsAccess = (value: string): string => {
-  let conditionsAccess: string = '';
-  if (value.toLocaleLowerCase().includes('gratuit')) {
-    if (conditionsAccess !== '') conditionsAccess = `${conditionsAccess},Gratuit`;
-    if (conditionsAccess === '') conditionsAccess = 'Gratuit';
-  }
-  if (value.toLocaleLowerCase().includes('gratuit sous condition')) {
-    if (conditionsAccess !== '') conditionsAccess = `${conditionsAccess},Gratuit sous condition`;
-    if (conditionsAccess === '') conditionsAccess = 'Gratuit sous condition';
-  }
-  if (value.toLocaleLowerCase().includes('adhésion')) {
-    if (conditionsAccess !== '') conditionsAccess = `${conditionsAccess},Adhésion`;
-    if (conditionsAccess === '') conditionsAccess = 'Adhésion';
-  }
-  if (value.toLocaleLowerCase().includes('payant')) {
-    if (conditionsAccess !== '') conditionsAccess = `${conditionsAccess},Payant`;
-    if (conditionsAccess === '') conditionsAccess = 'Payant';
-  }
-  if (value.toLocaleLowerCase().includes('pass numérique')) {
-    if (conditionsAccess !== '') conditionsAccess = `${conditionsAccess},Accepte le Pass numérique`;
-    if (conditionsAccess === '') conditionsAccess = 'Accepte le Pass numérique';
-  }
-  return conditionsAccess;
-};
