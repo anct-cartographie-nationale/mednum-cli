@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/naming-convention, camelcase */
+
 import { Contact, Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { processContact } from './contact.field';
 import { HinauraLieuMediationNumerique } from '../../helper';
@@ -69,16 +71,14 @@ describe('contact field', (): void => {
     );
   });
 
-  it('should fix phones with parenthesis', (): void => {
+  it('should fix phones with single quotes', (): void => {
     const contact: Contact = processContact({
-      Téléphone: '(+33)474327740',
-      'Site Web': 'http://epn.adeaformation.fr'
+      Téléphone: "'+33476498847"
     } as HinauraLieuMediationNumerique);
 
     expect(contact).toStrictEqual<Contact>(
       Contact({
-        telephone: '+33474327740',
-        site_web: [Url('http://epn.adeaformation.fr')]
+        telephone: '+33476498847'
       })
     );
   });
@@ -119,14 +119,16 @@ describe('contact field', (): void => {
     );
   });
 
-  it('should fix phones with single quotes', (): void => {
+  it('should fix phones with parenthesis', (): void => {
     const contact: Contact = processContact({
-      Téléphone: "'+33476498847"
+      Téléphone: '(+33)474327740',
+      'Site Web': 'http://epn.adeaformation.fr'
     } as HinauraLieuMediationNumerique);
 
     expect(contact).toStrictEqual<Contact>(
       Contact({
-        telephone: '+33476498847'
+        telephone: '+33474327740',
+        site_web: [Url('http://epn.adeaformation.fr')]
       })
     );
   });

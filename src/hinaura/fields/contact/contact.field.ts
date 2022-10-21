@@ -1,116 +1,166 @@
 import { Contact, Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { HinauraLieuMediationNumerique } from '../../helper';
 
-const emailField =
+const EMAIL_FIELD =
   "Email (éviter les emails nominatifs - en cas d'email nominitatif seule la personne concernée est autorisé à l'ajouter)";
 
 const toLieuxMediationNumeriqueContact = (hinauraLieuMediationNumerique: HinauraLieuMediationNumerique): Contact =>
   Contact({
     ...(hinauraLieuMediationNumerique.Téléphone ? { telephone: hinauraLieuMediationNumerique.Téléphone.toString() } : {}),
     ...(hinauraLieuMediationNumerique['Site Web'] ? { site_web: [Url(hinauraLieuMediationNumerique['Site Web'])] } : {}),
-    ...(hinauraLieuMediationNumerique[emailField]
+    ...(hinauraLieuMediationNumerique[EMAIL_FIELD]
       ? {
-          courriel: hinauraLieuMediationNumerique[emailField]
+          courriel: hinauraLieuMediationNumerique[EMAIL_FIELD]
         }
       : {})
   });
 
-const fixAndRetry = (hinauraLieuMediationNumerique: HinauraLieuMediationNumerique, e: unknown) => {
-  if (hinauraLieuMediationNumerique['Site Web'] === 'http://') {
-    const { 'Site Web': removedProperty, ...filteredSiteWeb } = hinauraLieuMediationNumerique;
-
-    return processContact(filteredSiteWeb);
-  }
-  if (hinauraLieuMediationNumerique['Site Web'] && !hinauraLieuMediationNumerique['Site Web']?.startsWith('http://'))
-    return processContact({
-      ...hinauraLieuMediationNumerique,
-      ...{ 'Site Web': `http://${hinauraLieuMediationNumerique['Site Web']}` }
-    });
-  if (
-    hinauraLieuMediationNumerique.Téléphone &&
-    /['\-à’é().\sA-Za-z]/g.test(hinauraLieuMediationNumerique.Téléphone.toString())
-  ) {
-    return processContact({
-      ...({
-        ...hinauraLieuMediationNumerique,
-        Téléphone: hinauraLieuMediationNumerique.Téléphone.toString().replace(/['\-à’é().\sA-Za-z]/g, '')
-      } as HinauraLieuMediationNumerique)
-    });
-  }
-  if (hinauraLieuMediationNumerique.Téléphone && /\d{10}\/\d{10}/.test(hinauraLieuMediationNumerique.Téléphone.toString())) {
-    return processContact({
-      ...({
-        ...hinauraLieuMediationNumerique,
-        Téléphone: hinauraLieuMediationNumerique.Téléphone.toString().split('/')[0]
-      } as HinauraLieuMediationNumerique)
-    });
-  }
-  if (hinauraLieuMediationNumerique.Téléphone?.toString().length === 9) {
-    return processContact({
-      ...hinauraLieuMediationNumerique,
-      ...({ Téléphone: `+33${hinauraLieuMediationNumerique.Téléphone}` } as HinauraLieuMediationNumerique)
-    });
-  }
-  if (hinauraLieuMediationNumerique.Téléphone?.toString() === '3230') {
-    return processContact({
-      ...hinauraLieuMediationNumerique,
-      ...({ Téléphone: '+33969322121' } as HinauraLieuMediationNumerique)
-    });
-  }
-  if (hinauraLieuMediationNumerique.Téléphone && hinauraLieuMediationNumerique.Téléphone.toString().length < 9) {
-    const { Téléphone: removedProperty, ...filteredPhoneNumber } = hinauraLieuMediationNumerique;
-
-    return processContact(filteredPhoneNumber);
-  }
-  if (
-    hinauraLieuMediationNumerique.Téléphone &&
-    hinauraLieuMediationNumerique.Téléphone.toString().startsWith('0') &&
-    hinauraLieuMediationNumerique.Téléphone.toString().length > 10
-  ) {
-    const { Téléphone: removedProperty, ...filteredPhoneNumber } = hinauraLieuMediationNumerique;
-
-    return processContact(filteredPhoneNumber);
-  }
-  if (hinauraLieuMediationNumerique[emailField] && hinauraLieuMediationNumerique[emailField]?.startsWith('www.')) {
-    const { [emailField]: removedProperty, ...filteredEmail } = hinauraLieuMediationNumerique;
-
-    return processContact(filteredEmail);
-  }
-  if (hinauraLieuMediationNumerique[emailField] && /\S\s:\s\S/.test(hinauraLieuMediationNumerique[emailField])) {
-    return processContact({
-      ...({
-        ...hinauraLieuMediationNumerique,
-        [emailField]: hinauraLieuMediationNumerique[emailField].split(/\s:\s/)[1]
-      } as HinauraLieuMediationNumerique)
-    });
-  }
-  if (
-    hinauraLieuMediationNumerique[emailField] &&
-    /\S\s?(?:et|ou|;|\s|\/)\s?\S/.test(hinauraLieuMediationNumerique[emailField])
-  ) {
-    return processContact({
-      ...({
-        ...hinauraLieuMediationNumerique,
-        [emailField]: hinauraLieuMediationNumerique[emailField].split(/\s?(?:et|ou|;|\s|\/)\s?/)[0]
-      } as HinauraLieuMediationNumerique)
-    });
-  }
-  if (hinauraLieuMediationNumerique[emailField] && /\[a]/g.test(hinauraLieuMediationNumerique[emailField])) {
-    return processContact({
-      ...({
-        ...hinauraLieuMediationNumerique,
-        [emailField]: hinauraLieuMediationNumerique[emailField].replace('[a]', '@')
-      } as HinauraLieuMediationNumerique)
-    });
-  }
-  if (hinauraLieuMediationNumerique[emailField] && !/\.[a-z]{2,3}$/.test(hinauraLieuMediationNumerique[emailField])) {
-    const { [emailField]: removedProperty, ...filteredEmail } = hinauraLieuMediationNumerique;
-
-    return processContact(filteredEmail);
-  }
-
-  throw e;
+type CleanOperation = {
+  selector: RegExp;
+  field:
+    | 'Site Web'
+    | 'Téléphone'
+    | "Email (éviter les emails nominatifs - en cas d'email nominitatif seule la personne concernée est autorisé à l'ajouter)";
+  negate?: boolean;
+  fix?: (toFix: string) => string;
 };
+
+type FixedContact = HinauraLieuMediationNumerique | undefined;
+
+const REMOVE_HTTP_ONLY_WEBSITES: CleanOperation = {
+  selector: /^http:\/\/$/u,
+  field: 'Site Web'
+};
+
+const FIX_NO_HTTP_WEBSITES: CleanOperation = {
+  selector: /^(?!http:\/\/).*/u,
+  field: 'Site Web',
+  fix: (toFix: string): string => `http://${toFix}`
+};
+
+const FIX_WRONG_CHARS_IN_PHONE: CleanOperation = {
+  selector: /(?!\d|\+)./gu,
+  field: 'Téléphone',
+  fix: (toFix: string): string => toFix.toString().replace(/(?!\d|\+)./gu, '')
+};
+
+const FIX_UNEXPECTED_PHONE_LIST: CleanOperation = {
+  selector: /\d{10}\/\d{10}/u,
+  field: 'Téléphone',
+  fix: (toFix: string): string => toFix.toString().split('/')[0] ?? ''
+};
+
+const FIX_PHONE_WITHOUT_STARTING_0: CleanOperation = {
+  selector: /^\d{9}$/u,
+  field: 'Téléphone',
+  fix: (toFix: string): string => `+33${toFix}`
+};
+
+const FIX_NO_INTERNATIONAL_CAF_PHONE: CleanOperation = {
+  selector: /3230/u,
+  field: 'Téléphone',
+  fix: (): string => '+33969322121'
+};
+
+const REMOVE_TOO_FEW_DIGITS_IN_PHONE: CleanOperation = {
+  selector: /^.{0,8}$/u,
+  field: 'Téléphone'
+};
+
+const REMOVE_TOO_MANY_DIGITS_IN_PHONE: CleanOperation = {
+  selector: /^0.{10,}/u,
+  field: 'Téléphone'
+};
+
+const REMOVE_EMAIL_STARTING_WITH_WWW: CleanOperation = {
+  selector: /^www\./u,
+  field: EMAIL_FIELD
+};
+
+const FIX_UNEXPECTED_EMAIL_LABEL: CleanOperation = {
+  selector: /\S\s:\s\S/u,
+  field: EMAIL_FIELD,
+  fix: (toFix: string): string => toFix.toString().split(/\s:\s/u)[1] ?? ''
+};
+
+const FIX_UNEXPECTED_EMAIL_LIST: CleanOperation = {
+  selector: /\S\s?(?:et|ou|;|\s|\/)\s?\S/u,
+  field: EMAIL_FIELD,
+  fix: (toFix: string): string => toFix.toString().split(/\s?(?:et|ou|;|\s|\/)\s?/u)[0] ?? ''
+};
+
+const FIX_MISSING_AT_IN_EMAIL: CleanOperation = {
+  selector: /\[a\]/gu,
+  field: EMAIL_FIELD,
+  fix: (toFix: string): string => toFix.toString().replace('[a]', '@')
+};
+
+const FIX_MISSING_EMAIL_EXTENSION: CleanOperation = {
+  selector: /\.[a-z]{2,3}$/u,
+  field: EMAIL_FIELD,
+  negate: true
+};
+
+const CLEAN_OPERATIONS: CleanOperation[] = [
+  REMOVE_HTTP_ONLY_WEBSITES,
+  FIX_NO_HTTP_WEBSITES,
+  FIX_UNEXPECTED_PHONE_LIST,
+  FIX_WRONG_CHARS_IN_PHONE,
+  FIX_WRONG_CHARS_IN_PHONE,
+  FIX_PHONE_WITHOUT_STARTING_0,
+  FIX_NO_INTERNATIONAL_CAF_PHONE,
+  REMOVE_TOO_FEW_DIGITS_IN_PHONE,
+  REMOVE_TOO_MANY_DIGITS_IN_PHONE,
+  REMOVE_EMAIL_STARTING_WITH_WWW,
+  FIX_UNEXPECTED_EMAIL_LABEL,
+  FIX_UNEXPECTED_EMAIL_LIST,
+  FIX_MISSING_AT_IN_EMAIL,
+  FIX_MISSING_EMAIL_EXTENSION
+];
+
+const testCleanSelector = (cleanOperation: CleanOperation, property?: string | number): boolean =>
+  (property != null && cleanOperation.selector.test(property.toString())) ?? false;
+
+const shouldApplyFix = (cleanOperation: CleanOperation, property?: string | number): boolean =>
+  cleanOperation.negate === true ? !testCleanSelector(cleanOperation, property) : testCleanSelector(cleanOperation, property);
+
+const applyRemoveFix = (
+  hinauraLieuMediationNumerique: HinauraLieuMediationNumerique,
+  cleanOperation: CleanOperation
+): HinauraLieuMediationNumerique => {
+  const { [cleanOperation.field]: removedProperty, ...filteredSiteWeb } = hinauraLieuMediationNumerique;
+  return filteredSiteWeb;
+};
+
+const applyFix = (
+  hinauraLieuMediationNumerique: HinauraLieuMediationNumerique,
+  cleanOperation: CleanOperation
+): HinauraLieuMediationNumerique =>
+  cleanOperation.fix == null
+    ? applyRemoveFix(hinauraLieuMediationNumerique, cleanOperation)
+    : {
+        ...hinauraLieuMediationNumerique,
+        ...{
+          [cleanOperation.field]: cleanOperation.fix(hinauraLieuMediationNumerique[cleanOperation.field]?.toString() ?? '')
+        }
+      };
+
+const toFixedContact =
+  (hinauraLieuMediationNumerique: HinauraLieuMediationNumerique) =>
+  (contact: FixedContact, cleanOperation: CleanOperation): FixedContact =>
+    contact == null && shouldApplyFix(cleanOperation, hinauraLieuMediationNumerique[cleanOperation.field]?.toString())
+      ? applyFix(hinauraLieuMediationNumerique, cleanOperation)
+      : contact;
+
+const cannotFixContact = (error: unknown): Contact => {
+  throw error;
+};
+
+const retryOrThrow = (fixedContact: FixedContact, error: unknown): Contact =>
+  fixedContact != null ? processContact(fixedContact) : cannotFixContact(error);
+
+const fixAndRetry = (hinauraLieuMediationNumerique: HinauraLieuMediationNumerique, error: unknown): Contact =>
+  retryOrThrow(CLEAN_OPERATIONS.reduce(toFixedContact(hinauraLieuMediationNumerique), undefined), error);
 
 export const processContact = (hinauraLieuMediationNumerique: HinauraLieuMediationNumerique): Contact => {
   try {
