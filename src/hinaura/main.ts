@@ -21,6 +21,7 @@ import {
   toSchemaLieuxDeMediationNumerique
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { processContact } from './fields/contact/contact.field';
+import { Recorder, Report } from '../tools';
 
 const SOURCE_PATH: string = './assets/input/';
 const HINAURA_FILE: string = 'hinaura.json';
@@ -34,8 +35,12 @@ fs.readFile(`${SOURCE_PATH}${HINAURA_FILE}`, 'utf8', (readError: ErrnoException 
   const hinauraLieuxMediationNumerique: HinauraLieuMediationNumerique[] = JSON.parse(dataString);
   const lieuxDeMediationNumerique: LieuMediationNumerique[] = [];
 
+  const report: Report = Report();
+
   hinauraLieuxMediationNumerique.forEach(
     (hinauraLieuMediationNumerique: HinauraLieuMediationNumerique, index: number): void => {
+      const recorder: Recorder = report.entry(index);
+
       lieuxDeMediationNumerique.push({
         id: index.toString(),
         nom: hinauraLieuMediationNumerique['Nom du lieu ou de la structure *'],
@@ -49,12 +54,12 @@ fs.readFile(`${SOURCE_PATH}${HINAURA_FILE}`, 'utf8', (readError: ErrnoException 
                 hinauraLieuMediationNumerique['Adresse postale *'].indexOf('\n')
               )
             : hinauraLieuMediationNumerique['Adresse postale *']
-        } as Adresse,
+        } as unknown as Adresse,
         localisation: Localisation({
           latitude: hinauraLieuMediationNumerique.bf_latitude,
           longitude: hinauraLieuMediationNumerique.bf_longitude
         }),
-        contact: processContact(hinauraLieuMediationNumerique),
+        contact: processContact(recorder)(hinauraLieuMediationNumerique),
         conditions_access: processConditionsAccess(hinauraLieuMediationNumerique.Tarifs).split(
           ','
         ) as unknown as ConditionsAccess,
@@ -75,6 +80,9 @@ fs.readFile(`${SOURCE_PATH}${HINAURA_FILE}`, 'utf8', (readError: ErrnoException 
       });
     }
   );
+
+  // console.log(report.records());
+
   // we print formated data in a json but we also can use directly formatedData here
   const schemaLieuxDeMediationNumeriqueBlob: string = JSON.stringify(
     toSchemaLieuxDeMediationNumerique(
@@ -94,5 +102,6 @@ fs.readFile(`${SOURCE_PATH}${HINAURA_FILE}`, 'utf8', (readError: ErrnoException 
       }
     }
   );
+
   return undefined;
 });
