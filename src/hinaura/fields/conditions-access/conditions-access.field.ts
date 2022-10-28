@@ -11,6 +11,12 @@ const CONDITIONS_ACCESS: Map<ConditionAccess, { keywords: string[]; blacklisted?
 const appendConditionsAccess = (conditionsAccess: string, newConditionsAccess: string): string =>
   [newConditionsAccess, ...(conditionsAccess === '' ? [] : [conditionsAccess])].join(',');
 
+const keywordFound = (conditionAccessFromHinaura: string, keyword: string): boolean =>
+  conditionAccessFromHinaura.toLocaleLowerCase().includes(keyword);
+
+const keywordIsBlacklisted = (conditionAccessFromHinaura: string, blackListedValue?: string): boolean =>
+  blackListedValue != null && conditionAccessFromHinaura.toLocaleLowerCase().includes(blackListedValue);
+
 const whenConditionsAccessFromHinauraContainsKeyword = (
   conditionAccessFromHinaura: string,
   conditionAccess: ConditionAccess
@@ -18,8 +24,8 @@ const whenConditionsAccessFromHinauraContainsKeyword = (
   (CONDITIONS_ACCESS.get(conditionAccess) ?? { keywords: [], blacklisted: '' }).keywords.reduce(
     (alreadyIncluded: boolean, keyword: string): boolean =>
       alreadyIncluded ||
-      (conditionAccessFromHinaura.toLocaleLowerCase().includes(keyword) &&
-        !conditionAccessFromHinaura.toLocaleLowerCase().includes(CONDITIONS_ACCESS.get(conditionAccess)?.blacklisted!)),
+      (keywordFound(conditionAccessFromHinaura, keyword) &&
+        !keywordIsBlacklisted(conditionAccessFromHinaura, CONDITIONS_ACCESS.get(conditionAccess)?.blacklisted)),
     false
   );
 
@@ -30,5 +36,5 @@ const appendConditionAccessMatchingKeywords =
       ? appendConditionsAccess(concatConditionAccess, conditionAccess)
       : concatConditionAccess;
 
-export const processConditionsAccess = (conditionsAccess: string): string =>
-  Array.from(CONDITIONS_ACCESS.keys()).reduce(appendConditionAccessMatchingKeywords(conditionsAccess), '');
+export const processConditionsAccess = (conditionsAccessFromHinaura: string): string =>
+  Array.from(CONDITIONS_ACCESS.keys()).reduce(appendConditionAccessMatchingKeywords(conditionsAccessFromHinaura), '');

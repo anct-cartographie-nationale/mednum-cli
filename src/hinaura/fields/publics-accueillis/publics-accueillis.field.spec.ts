@@ -59,7 +59,7 @@ describe('hinaura publics accueillis field', (): void => {
     expect(publicsAccueillis).toStrictEqual([PublicAccueilli.FamillesEnfants]);
   });
 
-  it('should find "Seniors (+ 65 ans)" publics accueillis', (): void => {
+  it('should find "Seniors (+ 65 ans)" publics accueillis - senior with é', (): void => {
     const publicsAccueillis: PublicAccueilli[] = formatPublicAccueilliField({
       'Publics accueillis': 'séniors'
     } as HinauraLieuMediationNumerique);
@@ -67,7 +67,7 @@ describe('hinaura publics accueillis field', (): void => {
     expect(publicsAccueillis).toStrictEqual([PublicAccueilli.Seniors]);
   });
 
-  it('should find "Seniors (+ 65 ans)" publics accueillis', (): void => {
+  it('should find "Seniors (+ 65 ans)" publics accueillis - senior without é', (): void => {
     const publicsAccueillis: PublicAccueilli[] = formatPublicAccueilliField({
       'Publics accueillis': 'seniors'
     } as HinauraLieuMediationNumerique);

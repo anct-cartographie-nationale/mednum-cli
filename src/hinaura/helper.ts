@@ -10,7 +10,7 @@ export type HinauraLieuMediationNumerique = {
   bf_latitude: number;
   bf_longitude: number;
   "Email (éviter les emails nominatifs - en cas d'email nominitatif seule la personne concernée est autorisé à l'ajouter)"?: string;
-  Téléphone?: string | number;
+  Téléphone?: number | string;
   'Site Web'?: string;
   'Informations diverses (précisions sur votre structure, vos services, vos partenaires...)': string;
   "Type d'opérateur": string;
