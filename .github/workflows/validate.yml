@@ -45,14 +45,7 @@ jobs:
       - name: commitlint
         run: yarn lint.commit
 
-  build:
-    name: Build
-    uses: romain-cambonie/serenity-workflows/.github/workflows/_build-and-upload-artifact.reusable.yml@master
-    with:
-      build-command: build.les-assembleurs
-      artifact-name: les-assembleurs
-
   validation-matrix:
     uses: romain-cambonie/serenity-workflows/.github/workflows/_validation-matrix.reusable.yml@master
     with:
-      commands-as-comma-separated-string: 'lint.es,prettier.check,test'
+      commands-as-comma-separated-string: 'lint.es,prettier.check,test,build'
