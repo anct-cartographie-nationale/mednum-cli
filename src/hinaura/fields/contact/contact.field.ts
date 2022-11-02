@@ -35,13 +35,13 @@ const applyRemoveFix =
     valueToFix: string,
     hinauraLieuMediationNumerique: HinauraLieuMediationNumerique
   ): HinauraLieuMediationNumerique => {
-    const { [cleanOperation.field]: removedProperty, ...filteredSiteWeb }: HinauraLieuMediationNumerique =
+    const { [cleanOperation.field]: removedProperty, ...filteredProperties }: HinauraLieuMediationNumerique =
       hinauraLieuMediationNumerique;
     recorder.fix({
       apply: cleanOperation.name,
       before: valueToFix
     });
-    return filteredSiteWeb;
+    return filteredProperties;
   };
 
 const applyUpdateFix =
@@ -106,7 +106,7 @@ const fixAndRetry =
     retryOrThrow(recorder)(CLEAN_OPERATIONS.reduce(toFixedContact(recorder)(hinauraLieuMediationNumerique), undefined), error);
 
 export const processContact =
-  (recorder: Recorder): ((hinauraLieuMediationNumerique: HinauraLieuMediationNumerique) => Contact) =>
+  (recorder: Recorder) =>
   (hinauraLieuMediationNumerique: HinauraLieuMediationNumerique): Contact => {
     try {
       const contact: Contact = toLieuxMediationNumeriqueContact(hinauraLieuMediationNumerique);
