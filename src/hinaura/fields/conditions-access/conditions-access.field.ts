@@ -1,4 +1,5 @@
 import { ConditionAccess } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { HinauraLieuMediationNumerique } from '../../helper';
 
 const CONDITIONS_ACCESS: Map<ConditionAccess, { keywords: string[]; blacklisted?: string }> = new Map([
   [ConditionAccess.Gratuit, { keywords: ['gratuit'], blacklisted: 'gratuit sous condition' }],
@@ -8,8 +9,10 @@ const CONDITIONS_ACCESS: Map<ConditionAccess, { keywords: string[]; blacklisted?
   [ConditionAccess.AccepteLePassNumerique, { keywords: ['pass numérique'] }]
 ]);
 
-const appendConditionsAccess = (conditionsAccess: string, newConditionsAccess: string): string =>
-  [newConditionsAccess, ...(conditionsAccess === '' ? [] : [conditionsAccess])].join(',');
+const appendConditionsAccess = (
+  conditionsAccess: ConditionAccess[],
+  newConditionsAccess: ConditionAccess
+): ConditionAccess[] => [...conditionsAccess, newConditionsAccess];
 
 const keywordFound = (conditionAccessFromHinaura: string, keyword: string): boolean =>
   conditionAccessFromHinaura.toLocaleLowerCase().includes(keyword);
@@ -31,10 +34,10 @@ const whenConditionsAccessFromHinauraContainsKeyword = (
 
 const appendConditionAccessMatchingKeywords =
   (conditionAccessFromHinaura: string) =>
-  (concatConditionAccess: string, conditionAccess: ConditionAccess): string =>
+  (concatConditionAccess: ConditionAccess[], conditionAccess: ConditionAccess): ConditionAccess[] =>
     whenConditionsAccessFromHinauraContainsKeyword(conditionAccessFromHinaura, conditionAccess)
       ? appendConditionsAccess(concatConditionAccess, conditionAccess)
       : concatConditionAccess;
 
-export const processConditionsAccess = (conditionsAccessFromHinaura: string): string =>
-  Array.from(CONDITIONS_ACCESS.keys()).reduce(appendConditionAccessMatchingKeywords(conditionsAccessFromHinaura), '');
+export const processConditionsAccess = (hinauraLieuMediationNumerique: HinauraLieuMediationNumerique): ConditionAccess[] =>
+  Array.from(CONDITIONS_ACCESS.keys()).reduce(appendConditionAccessMatchingKeywords(hinauraLieuMediationNumerique.Tarifs), []);

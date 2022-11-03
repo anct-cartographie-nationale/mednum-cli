@@ -36,15 +36,13 @@ const toLieuDeMediationNumerique = (
   id: index.toString(),
   nom: hinauraLieuMediationNumerique['Nom du lieu ou de la structure *'],
   pivot: Pivot('00000000000000'),
-  // todo: add recorder
   adresse: processAdresse(recorder)(hinauraLieuMediationNumerique),
   localisation: Localisation({
     latitude: hinauraLieuMediationNumerique.bf_latitude,
     longitude: hinauraLieuMediationNumerique.bf_longitude
   }),
-  // todo: set phones to international format
   contact: processContact(recorder)(hinauraLieuMediationNumerique),
-  conditions_access: processConditionsAccess(hinauraLieuMediationNumerique.Tarifs).split(',') as unknown as ConditionsAccess,
+  conditions_access: ConditionsAccess(processConditionsAccess(hinauraLieuMediationNumerique)),
   modalites_accompagnement: processModalitesAccompagnement(
     hinauraLieuMediationNumerique["Types d'accompagnement proposés"]
   ).split(',') as unknown as ModalitesAccompagnement,
@@ -59,6 +57,7 @@ const toLieuDeMediationNumerique = (
     processModalitesAccompagnement(hinauraLieuMediationNumerique["Types d'accompagnement proposés"])
   ) as Services,
   source: 'Hinaura'
+  // todo: add opening hours
 });
 
 fs.readFile(`${SOURCE_PATH}${HINAURA_FILE}`, 'utf8', (_: ErrnoException | null, dataString: string): void => {
