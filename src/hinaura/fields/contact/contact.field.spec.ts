@@ -89,7 +89,7 @@ describe('contact field', (): void => {
 
     expect(contact).toStrictEqual<Contact>(
       Contact({
-        telephone: '0479287928'
+        telephone: '+33479287928'
       })
     );
   });
@@ -101,7 +101,7 @@ describe('contact field', (): void => {
 
     expect(contact).toStrictEqual<Contact>(
       Contact({
-        telephone: '0443762762'
+        telephone: '+33443762762'
       })
     );
   });
@@ -113,7 +113,7 @@ describe('contact field', (): void => {
 
     expect(contact).toStrictEqual<Contact>(
       Contact({
-        telephone: '0473942049'
+        telephone: '+33473942049'
       })
     );
   });
@@ -139,19 +139,91 @@ describe('contact field', (): void => {
 
     expect(contact).toStrictEqual<Contact>(
       Contact({
-        telephone: '0476714473'
+        telephone: '+33476714473'
       })
     );
   });
 
-  it('should have only one phone number', (): void => {
+  it('should have only one phone number / separator', (): void => {
     const contact: Contact = processContact(Report().entry(0))({
       Téléphone: '0473658950/0761294745'
     } as HinauraLieuMediationNumerique);
 
     expect(contact).toStrictEqual<Contact>(
       Contact({
-        telephone: '0473658950'
+        telephone: '+33473658950'
+      })
+    );
+  });
+
+  it('should have only one phone number // separator', (): void => {
+    const contact: Contact = processContact(Report().entry(0))({
+      Téléphone: '0476070902//0685053452'
+    } as HinauraLieuMediationNumerique);
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        telephone: '+33476070902'
+      })
+    );
+  });
+
+  it('should remove phone dot separators', (): void => {
+    const contact: Contact = processContact(Report().entry(0))({
+      Téléphone: '04.50.22.09.07'
+    } as HinauraLieuMediationNumerique);
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        telephone: '+33450220907'
+      })
+    );
+  });
+
+  it('should remove phone hyphen separators', (): void => {
+    const contact: Contact = processContact(Report().entry(0))({
+      Téléphone: '04-50-72-70-47'
+    } as HinauraLieuMediationNumerique);
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        telephone: '+33450727047'
+      })
+    );
+  });
+
+  it('should remove optional local 0 from international format', (): void => {
+    const contact: Contact = processContact(Report().entry(0))({
+      Téléphone: '+33(0)450336550'
+    } as HinauraLieuMediationNumerique);
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        telephone: '+33450336550'
+      })
+    );
+  });
+
+  it('should remove trailing details in phone', (): void => {
+    const contact: Contact = processContact(Report().entry(0))({
+      Téléphone: '0450950700 Poste 152'
+    } as HinauraLieuMediationNumerique);
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        telephone: '+33450950700'
+      })
+    );
+  });
+
+  it('should remove heading details in phone', (): void => {
+    const contact: Contact = processContact(Report().entry(0))({
+      Téléphone: 'sur rendez-vous à l’accueil de la mairie ou par téléphone au 0476714473'
+    } as HinauraLieuMediationNumerique);
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        telephone: '+33476714473'
       })
     );
   });
@@ -176,7 +248,7 @@ describe('contact field', (): void => {
     expect(contact).toStrictEqual<Contact>(Contact({}));
   });
 
-  it('should remove phone number with too mutch numbers', (): void => {
+  it('should remove phone number with too much numbers', (): void => {
     const contact: Contact = processContact(Report().entry(0))({
       Téléphone: '0450950700152'
     } as HinauraLieuMediationNumerique);
@@ -269,18 +341,6 @@ describe('contact field', (): void => {
   });
 
   it('should fix manual @ character escape', (): void => {
-    const contact: Contact = processContact(Report().entry(0))({
-      [EMAIL_FIELD]: 'accuei[a]cap-berriat.com'
-    } as HinauraLieuMediationNumerique);
-
-    expect(contact).toStrictEqual<Contact>(
-      Contact({
-        courriel: 'accuei@cap-berriat.com'
-      })
-    );
-  });
-
-  it('should fix manual @ character escape ???', (): void => {
     const contact: Contact = processContact(Report().entry(0))({
       [EMAIL_FIELD]: 'accuei[a]cap-berriat.com'
     } as HinauraLieuMediationNumerique);

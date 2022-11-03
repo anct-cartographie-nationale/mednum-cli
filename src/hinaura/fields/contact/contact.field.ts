@@ -7,11 +7,15 @@ import { CLEAN_OPERATIONS, CleanOperation, EMAIL_FIELD } from './clean-operation
 
 type FixedContact = HinauraLieuMediationNumerique | undefined;
 
+const toInternationalFormat = (phone: string): string => (/^0\d{9}$/u.test(phone) ? `+33${phone.slice(1)}` : phone);
+
+const formatPhone = (phone: string): string => toInternationalFormat(phone.replace(/[\s,.-]/gu, '').replace('(0)', ''));
+
 const toLieuxMediationNumeriqueContact = (hinauraLieuMediationNumerique: HinauraLieuMediationNumerique): Contact =>
   Contact({
     ...(hinauraLieuMediationNumerique.Téléphone == null
       ? {}
-      : { telephone: hinauraLieuMediationNumerique.Téléphone.toString() }),
+      : { telephone: formatPhone(hinauraLieuMediationNumerique.Téléphone.toString()) }),
     ...(hinauraLieuMediationNumerique['Site Web'] == null
       ? {}
       : { site_web: [Url(hinauraLieuMediationNumerique['Site Web'])] }),

@@ -25,16 +25,30 @@ const FIX_MISSING_HTTP_WEBSITES: CleanOperation = {
   fix: (toFix: string): string => `http://${toFix}`
 };
 
+const FIX_HEADING_DETAILS_IN_PHONE: CleanOperation = {
+  name: 'heading details in phone',
+  selector: /^\D{3,}/gu,
+  field: 'Téléphone',
+  fix: (toFix: string): string => toFix.replace(/^\D{3,}/gu, '')
+};
+
+const FIX_TRAILING_DETAILS_IN_PHONE: CleanOperation = {
+  name: 'trailing details in phone',
+  selector: /\s[A-Za-z].*$/gu,
+  field: 'Téléphone',
+  fix: (toFix: string): string => toFix.replace(/\s[A-Za-z].*$/gu, '')
+};
+
 const FIX_WRONG_CHARS_IN_PHONE: CleanOperation = {
   name: 'wrong chars in phone',
-  selector: /(?!\d|\+)./gu,
+  selector: /(?!\w|\+)./gu,
   field: 'Téléphone',
-  fix: (toFix: string): string => toFix.replace(/(?!\d|\+)./gu, '')
+  fix: (toFix: string): string => toFix.replace(/(?!\w|\+)./gu, '')
 };
 
 const FIX_UNEXPECTED_PHONE_LIST: CleanOperation = {
   name: 'unexpected phone list',
-  selector: /\d{10}\/\d{10}/u,
+  selector: /\d{10}\/\/?\d{10}/u,
   field: 'Téléphone',
   fix: (toFix: string): string => toFix.split('/')[0] ?? ''
 };
@@ -103,6 +117,8 @@ export const CLEAN_OPERATIONS: CleanOperation[] = [
   REMOVE_HTTP_ONLY_WEBSITES,
   FIX_MISSING_HTTP_WEBSITES,
   FIX_UNEXPECTED_PHONE_LIST,
+  FIX_HEADING_DETAILS_IN_PHONE,
+  FIX_TRAILING_DETAILS_IN_PHONE,
   FIX_WRONG_CHARS_IN_PHONE,
   FIX_PHONE_WITHOUT_STARTING_0,
   FIX_SHORT_CAF_PHONE,
