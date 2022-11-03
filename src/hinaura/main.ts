@@ -6,7 +6,7 @@ import { HinauraLieuMediationNumerique } from './helper';
 import {
   formatServicesField,
   processModalitesAccompagnement,
-  formatPublicAccueilliField,
+  processPublicAccueilli,
   processConditionsAccess,
   processContact,
   processAdresse,
@@ -42,7 +42,7 @@ const toLieuDeMediationNumerique = (
   conditions_access: processConditionsAccess(hinauraLieuMediationNumerique),
   modalites_accompagnement: processModalitesAccompagnement(hinauraLieuMediationNumerique),
   date_maj: processDate(hinauraLieuMediationNumerique),
-  publics_accueillis: formatPublicAccueilliField(hinauraLieuMediationNumerique),
+  publics_accueillis: processPublicAccueilli(hinauraLieuMediationNumerique),
   services: formatServicesField(
     hinauraLieuMediationNumerique,
     processModalitesAccompagnement(hinauraLieuMediationNumerique)

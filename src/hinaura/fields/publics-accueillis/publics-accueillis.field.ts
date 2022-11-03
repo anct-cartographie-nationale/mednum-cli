@@ -29,7 +29,7 @@ const canAppendPublicAccueillis = (publicAccueillis: PublicAccueilli, publicsAcc
   publicsAccueillisToProcess != null &&
   publicsAccueillisToProcessIncludesOnOfTheKeywords(publicsAccueillisToProcess, publicAccueillis);
 
-const processPublicsAccueillis = (publicsAccueillisToProcess?: string): PublicAccueilli[] =>
+const extractPublicsAccueillisFrom = (publicsAccueillisToProcess?: string): PublicAccueilli[] =>
   Array.from(PUBLICS_ACCUEILLIS_MAP.keys()).reduce(
     (publicsAccueillis: PublicAccueilli[], publicAccueillis: PublicAccueilli): PublicAccueilli[] =>
       canAppendPublicAccueillis(publicAccueillis, publicsAccueillisToProcess)
@@ -38,13 +38,13 @@ const processPublicsAccueillis = (publicsAccueillisToProcess?: string): PublicAc
     []
   );
 
-export const formatPublicAccueilliField = (hinauraLieuMediationNumerique: HinauraLieuMediationNumerique): PublicsAccueillis =>
+export const processPublicAccueilli = (hinauraLieuMediationNumerique: HinauraLieuMediationNumerique): PublicsAccueillis =>
   PublicsAccueillis(
     Array.from(
       new Set([
-        ...processPublicsAccueillis(hinauraLieuMediationNumerique['Publics accueillis']),
-        ...processPublicsAccueillis(hinauraLieuMediationNumerique['Accueil pour les personnes en situation de handicap']),
-        ...processPublicsAccueillis(hinauraLieuMediationNumerique['Accompagnement de publics spécifiques'])
+        ...extractPublicsAccueillisFrom(hinauraLieuMediationNumerique['Publics accueillis']),
+        ...extractPublicsAccueillisFrom(hinauraLieuMediationNumerique['Accueil pour les personnes en situation de handicap']),
+        ...extractPublicsAccueillisFrom(hinauraLieuMediationNumerique['Accompagnement de publics spécifiques'])
       ])
     )
   );
