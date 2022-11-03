@@ -1,4 +1,3 @@
-// /* eslint-disable @typescript-eslint/naming-convention, camelcase, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
 import { Adresse, OptionalPropertyError } from '@gouvfr-anct/lieux-de-mediation-numerique';

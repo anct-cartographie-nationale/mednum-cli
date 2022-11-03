@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase, @typescript-eslint/no-restricted-imports, no-undef */
-/* eslint-disable max-lines-per-function */
 
 import * as fs from 'fs';
 import ErrnoException = NodeJS.ErrnoException;
@@ -10,7 +9,8 @@ import {
   formatPublicAccueilliField,
   processConditionsAccess,
   processContact,
-  processAdresse
+  processAdresse,
+  processDate
 } from './fields';
 import {
   LieuMediationNumerique,
@@ -42,11 +42,7 @@ const toLieuDeMediationNumerique = (
   contact: processContact(recorder)(hinauraLieuMediationNumerique),
   conditions_access: processConditionsAccess(hinauraLieuMediationNumerique),
   modalites_accompagnement: processModalitesAccompagnement(hinauraLieuMediationNumerique),
-  date_maj: new Date(
-    `${hinauraLieuMediationNumerique.datetime_latest.split('/')[2]?.split(' ')[0]}-${
-      hinauraLieuMediationNumerique.datetime_latest.split('/')[1]
-    }-${hinauraLieuMediationNumerique.datetime_latest.split('/')[0]}`
-  ),
+  date_maj: processDate(hinauraLieuMediationNumerique),
   publics_accueillis: PublicsAccueillis(formatPublicAccueilliField(hinauraLieuMediationNumerique)),
   services: formatServicesField(
     hinauraLieuMediationNumerique,
