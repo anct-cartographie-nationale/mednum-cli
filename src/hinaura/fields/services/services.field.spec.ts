@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
 import { formatServicesField } from './services.field';
-import { Service } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { ModaliteAccompagnement, Service } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { HinauraLieuMediationNumerique } from '../../helper';
 
 describe('hinaura services field', (): void => {
@@ -90,7 +90,7 @@ describe('hinaura services field', (): void => {
   it('should find "Devenir autonome dans les démarches administratives,Réaliser des démarches administratives avec un accompagnement" services when modalites_accompagnement is set to "Seul, Avec de l\'aide"', (): void => {
     const services: Service[] = formatServicesField(
       { 'À disposition': 'services de la caf' } as HinauraLieuMediationNumerique,
-      "Seul, Avec de l'aide"
+      [ModaliteAccompagnement.Seul, ModaliteAccompagnement.AvecDeLAide]
     );
 
     expect(services).toStrictEqual([
@@ -102,7 +102,7 @@ describe('hinaura services field', (): void => {
   it('should find "Devenir autonome dans les démarches administratives" service when modalites_accompagnement is set to "Seul"', (): void => {
     const services: Service[] = formatServicesField(
       { 'À disposition': 'services de la caf' } as HinauraLieuMediationNumerique,
-      'Seul'
+      [ModaliteAccompagnement.Seul]
     );
 
     expect(services).toStrictEqual([Service.DevenirAutonomeDansLesDemarchesAdministratives]);
@@ -111,7 +111,7 @@ describe('hinaura services field', (): void => {
   it('should find "Réaliser des démarches administratives avec un accompagnement" service when modalites_accompagnement is set to "Avec de l\'aide"', (): void => {
     const services: Service[] = formatServicesField(
       { 'À disposition': 'services de la caf' } as HinauraLieuMediationNumerique,
-      "Avec de l'aide"
+      [ModaliteAccompagnement.AvecDeLAide]
     );
 
     expect(services).toStrictEqual([Service.RealiserDesDemarchesAdministratives]);
@@ -147,7 +147,7 @@ describe('hinaura services field', (): void => {
         'À disposition':
           "réseau wifi, accès libre à du matériel informatique, découvrir l'ordinateur, utiliser une tablette, démarches CPAM, cultures numériques, pôle emploi"
       } as HinauraLieuMediationNumerique,
-      'Seul'
+      [ModaliteAccompagnement.Seul]
     );
 
     expect(services).toStrictEqual([
@@ -169,7 +169,7 @@ describe('hinaura services field', (): void => {
         'À disposition':
           "réseau wifi, accès libre à du matériel informatique, découvrir l'ordinateur, utiliser une tablette, démarches CPAM, cultures numériques, pôle emploi"
       } as HinauraLieuMediationNumerique,
-      "Avec de l'aide"
+      [ModaliteAccompagnement.AvecDeLAide]
     );
 
     expect(services).toStrictEqual([
@@ -191,7 +191,7 @@ describe('hinaura services field', (): void => {
         'À disposition':
           "réseau wifi, accès libre à du matériel informatique, découvrir l'ordinateur, utiliser une tablette, démarches CPAM, cultures numériques, pôle emploi"
       } as HinauraLieuMediationNumerique,
-      "Seul, Avec de l'aide"
+      [ModaliteAccompagnement.Seul, ModaliteAccompagnement.AvecDeLAide]
     );
 
     expect(services).toStrictEqual([

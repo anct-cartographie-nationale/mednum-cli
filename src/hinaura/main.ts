@@ -13,10 +13,8 @@ import {
   processAdresse
 } from './fields';
 import {
-  ConditionsAccess,
   LieuMediationNumerique,
   Localisation,
-  ModalitesAccompagnement,
   Pivot,
   PublicsAccueillis,
   Services,
@@ -42,10 +40,8 @@ const toLieuDeMediationNumerique = (
     longitude: hinauraLieuMediationNumerique.bf_longitude
   }),
   contact: processContact(recorder)(hinauraLieuMediationNumerique),
-  conditions_access: ConditionsAccess(processConditionsAccess(hinauraLieuMediationNumerique)),
-  modalites_accompagnement: processModalitesAccompagnement(
-    hinauraLieuMediationNumerique["Types d'accompagnement proposés"]
-  ).split(',') as unknown as ModalitesAccompagnement,
+  conditions_access: processConditionsAccess(hinauraLieuMediationNumerique),
+  modalites_accompagnement: processModalitesAccompagnement(hinauraLieuMediationNumerique),
   date_maj: new Date(
     `${hinauraLieuMediationNumerique.datetime_latest.split('/')[2]?.split(' ')[0]}-${
       hinauraLieuMediationNumerique.datetime_latest.split('/')[1]
@@ -54,7 +50,7 @@ const toLieuDeMediationNumerique = (
   publics_accueillis: PublicsAccueillis(formatPublicAccueilliField(hinauraLieuMediationNumerique)),
   services: formatServicesField(
     hinauraLieuMediationNumerique,
-    processModalitesAccompagnement(hinauraLieuMediationNumerique["Types d'accompagnement proposés"])
+    processModalitesAccompagnement(hinauraLieuMediationNumerique)
   ) as Services,
   source: 'Hinaura'
   // todo: add opening hours

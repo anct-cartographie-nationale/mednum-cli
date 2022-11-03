@@ -1,4 +1,4 @@
-import { ConditionAccess } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { ConditionAccess, ConditionsAccess } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { HinauraLieuMediationNumerique } from '../../helper';
 
 const CONDITIONS_ACCESS: Map<ConditionAccess, { keywords: string[]; blacklisted?: string }> = new Map([
@@ -8,11 +8,6 @@ const CONDITIONS_ACCESS: Map<ConditionAccess, { keywords: string[]; blacklisted?
   [ConditionAccess.Payant, { keywords: ['payant'] }],
   [ConditionAccess.AccepteLePassNumerique, { keywords: ['pass numérique'] }]
 ]);
-
-const appendConditionsAccess = (
-  conditionsAccess: ConditionAccess[],
-  newConditionsAccess: ConditionAccess
-): ConditionAccess[] => [...conditionsAccess, newConditionsAccess];
 
 const keywordFound = (conditionAccessFromHinaura: string, keyword: string): boolean =>
   conditionAccessFromHinaura.toLocaleLowerCase().includes(keyword);
@@ -34,10 +29,12 @@ const whenConditionsAccessFromHinauraContainsKeyword = (
 
 const appendConditionAccessMatchingKeywords =
   (conditionAccessFromHinaura: string) =>
-  (concatConditionAccess: ConditionAccess[], conditionAccess: ConditionAccess): ConditionAccess[] =>
+  (conditionsAccess: ConditionAccess[], conditionAccess: ConditionAccess): ConditionAccess[] =>
     whenConditionsAccessFromHinauraContainsKeyword(conditionAccessFromHinaura, conditionAccess)
-      ? appendConditionsAccess(concatConditionAccess, conditionAccess)
-      : concatConditionAccess;
+      ? [...conditionsAccess, conditionAccess]
+      : conditionsAccess;
 
-export const processConditionsAccess = (hinauraLieuMediationNumerique: HinauraLieuMediationNumerique): ConditionAccess[] =>
-  Array.from(CONDITIONS_ACCESS.keys()).reduce(appendConditionAccessMatchingKeywords(hinauraLieuMediationNumerique.Tarifs), []);
+export const processConditionsAccess = (hinauraLieuMediationNumerique: HinauraLieuMediationNumerique): ConditionsAccess =>
+  ConditionsAccess(
+    Array.from(CONDITIONS_ACCESS.keys()).reduce(appendConditionAccessMatchingKeywords(hinauraLieuMediationNumerique.Tarifs), [])
+  );

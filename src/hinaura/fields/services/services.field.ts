@@ -1,7 +1,7 @@
-import { Service } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { ModaliteAccompagnement, Service } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { HinauraLieuMediationNumerique } from '../../helper';
 
-const SERVICES_MAP: Map<Service, { keywords: string[]; modalitesAccompagnement?: string }> = new Map([
+const SERVICES_MAP: Map<Service, { keywords: string[]; modalitesAccompagnement?: ModaliteAccompagnement }> = new Map([
   [Service.AccederAUneConnexionInternet, { keywords: ['réseau wifi'] }],
   [Service.AccederADuMateriel, { keywords: ['accès libre à du matériel informatique'] }],
   [Service.PrendreEnMainUnOrdinateur, { keywords: ["découvrir l'ordinateur"] }],
@@ -14,14 +14,14 @@ const SERVICES_MAP: Map<Service, { keywords: string[]; modalitesAccompagnement?:
     Service.DevenirAutonomeDansLesDemarchesAdministratives,
     {
       keywords: ['services de la caf', 'services des impôts', 'logement social', 'pôle emploi', 'pole-emploi.fr'],
-      modalitesAccompagnement: 'Seul'
+      modalitesAccompagnement: ModaliteAccompagnement.Seul
     }
   ],
   [
     Service.RealiserDesDemarchesAdministratives,
     {
       keywords: ['services de la caf', 'services des impôts', 'logement social', 'pôle emploi', 'pole-emploi.fr'],
-      modalitesAccompagnement: "Avec de l'aide"
+      modalitesAccompagnement: ModaliteAccompagnement.AvecDeLAide
     }
   ]
 ]);
@@ -35,18 +35,18 @@ const servicesToProcessIncludesOnOfTheKeywords = (servicesToProcess: string, ser
 
 const canAppendService = (
   service: Service,
+  modalitesAccompagnement: ModaliteAccompagnement[],
   servicesToProcess?: string,
-  modalitesAccompagnement?: string,
-  expectedModalite?: string
+  expectedModalite?: ModaliteAccompagnement
 ): boolean =>
   servicesToProcess != null &&
-  (expectedModalite == null || (modalitesAccompagnement?.includes(expectedModalite) ?? false)) &&
+  (expectedModalite == null || modalitesAccompagnement.includes(expectedModalite)) &&
   servicesToProcessIncludesOnOfTheKeywords(servicesToProcess, service);
 
-const processServices = (servicesToProcess?: string, modalitesAccompagnement?: string): Service[] =>
+const processServices = (servicesToProcess?: string, modalitesAccompagnement: ModaliteAccompagnement[] = []): Service[] =>
   Array.from(SERVICES_MAP.keys()).reduce(
     (services: Service[], service: Service): Service[] =>
-      canAppendService(service, servicesToProcess, modalitesAccompagnement, SERVICES_MAP.get(service)?.modalitesAccompagnement)
+      canAppendService(service, modalitesAccompagnement, servicesToProcess, SERVICES_MAP.get(service)?.modalitesAccompagnement)
         ? [...services, service]
         : services,
     []
@@ -54,7 +54,7 @@ const processServices = (servicesToProcess?: string, modalitesAccompagnement?: s
 
 export const formatServicesField = (
   hinauraLieuMediationNumerique: HinauraLieuMediationNumerique,
-  modalitesAccompagnement?: string
+  modalitesAccompagnement: ModaliteAccompagnement[] = []
 ): Service[] =>
   Array.from(
     new Set([
