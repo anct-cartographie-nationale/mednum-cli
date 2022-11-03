@@ -16,7 +16,6 @@ import {
   LieuMediationNumerique,
   Localisation,
   Pivot,
-  PublicsAccueillis,
   Services,
   toSchemaLieuxDeMediationNumerique
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
@@ -43,7 +42,7 @@ const toLieuDeMediationNumerique = (
   conditions_access: processConditionsAccess(hinauraLieuMediationNumerique),
   modalites_accompagnement: processModalitesAccompagnement(hinauraLieuMediationNumerique),
   date_maj: processDate(hinauraLieuMediationNumerique),
-  publics_accueillis: PublicsAccueillis(formatPublicAccueilliField(hinauraLieuMediationNumerique)),
+  publics_accueillis: formatPublicAccueilliField(hinauraLieuMediationNumerique),
   services: formatServicesField(
     hinauraLieuMediationNumerique,
     processModalitesAccompagnement(hinauraLieuMediationNumerique)
@@ -59,8 +58,6 @@ fs.readFile(`${SOURCE_PATH}${HINAURA_FILE}`, 'utf8', (_: ErrnoException | null, 
         toLieuDeMediationNumerique(index, hinauraLieuMediationNumerique, report.entry(index))
     )
     .filter((lieuDeMediationNumerique: LieuMediationNumerique): boolean => lieuDeMediationNumerique.services.length > 0);
-
-  // console.log(report.records());
 
   // we print formated data in a json but we also can use directly formatedData here
   const schemaLieuxDeMediationNumeriqueBlob: string = JSON.stringify(
