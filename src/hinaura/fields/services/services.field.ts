@@ -1,5 +1,6 @@
-import { ModaliteAccompagnement, Service } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { ModaliteAccompagnement, Service, Services } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { HinauraLieuMediationNumerique } from '../../helper';
+import { processModalitesAccompagnement } from '../modalites-accompagnement/modalites-accompagnement.field';
 
 const SERVICES_MAP: Map<Service, { keywords: string[]; modalitesAccompagnement?: ModaliteAccompagnement }> = new Map([
   [Service.AccederAUneConnexionInternet, { keywords: ['réseau wifi'] }],
@@ -43,7 +44,7 @@ const canAppendService = (
   (expectedModalite == null || modalitesAccompagnement.includes(expectedModalite)) &&
   servicesToProcessIncludesOnOfTheKeywords(servicesToProcess, service);
 
-const processServices = (servicesToProcess?: string, modalitesAccompagnement: ModaliteAccompagnement[] = []): Service[] =>
+const extractServicesFrom = (servicesToProcess?: string, modalitesAccompagnement: ModaliteAccompagnement[] = []): Service[] =>
   Array.from(SERVICES_MAP.keys()).reduce(
     (services: Service[], service: Service): Service[] =>
       canAppendService(service, modalitesAccompagnement, servicesToProcess, SERVICES_MAP.get(service)?.modalitesAccompagnement)
@@ -52,18 +53,29 @@ const processServices = (servicesToProcess?: string, modalitesAccompagnement: Mo
     []
   );
 
-export const formatServicesField = (
+const useModalitesAccompagnementToGetServices = (
   hinauraLieuMediationNumerique: HinauraLieuMediationNumerique,
-  modalitesAccompagnement: ModaliteAccompagnement[] = []
-): Service[] =>
-  Array.from(
-    new Set([
-      ...processServices(hinauraLieuMediationNumerique['À disposition'], modalitesAccompagnement),
-      ...processServices(hinauraLieuMediationNumerique['Formations compétences de base proposées'], modalitesAccompagnement),
-      ...processServices(
-        hinauraLieuMediationNumerique['Comprendre et Utiliser les sites d’accès aux droits proposées'],
-        modalitesAccompagnement
-      ),
-      ...processServices(hinauraLieuMediationNumerique['Sensibilisations culture numérique'], modalitesAccompagnement)
-    ])
+  modalitesAccompagnement: ModaliteAccompagnement[]
+): Services =>
+  Services(
+    Array.from(
+      new Set([
+        ...extractServicesFrom(hinauraLieuMediationNumerique['À disposition'], modalitesAccompagnement),
+        ...extractServicesFrom(
+          hinauraLieuMediationNumerique['Formations compétences de base proposées'],
+          modalitesAccompagnement
+        ),
+        ...extractServicesFrom(
+          hinauraLieuMediationNumerique['Comprendre et Utiliser les sites d’accès aux droits proposées'],
+          modalitesAccompagnement
+        ),
+        ...extractServicesFrom(hinauraLieuMediationNumerique['Sensibilisations culture numérique'], modalitesAccompagnement)
+      ])
+    )
+  );
+
+export const processServices = (hinauraLieuMediationNumerique: HinauraLieuMediationNumerique): Services =>
+  useModalitesAccompagnementToGetServices(
+    hinauraLieuMediationNumerique,
+    processModalitesAccompagnement(hinauraLieuMediationNumerique)
   );

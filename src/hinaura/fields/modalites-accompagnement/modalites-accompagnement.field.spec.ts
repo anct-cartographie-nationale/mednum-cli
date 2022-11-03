@@ -13,20 +13,20 @@ describe('modalites accompagnement field', (): void => {
     expect(modalitesAccompagnement).toStrictEqual([]);
   });
 
-  it('should get "Seul,Avec de l\'aide" when value is "accompagnement individuel"', (): void => {
+  it('should get "Avec de l\'aide" when value is "accompagnement individuel"', (): void => {
     const modalitesAccompagnement: ModalitesAccompagnement = processModalitesAccompagnement({
       [MODALITES_ACCOMPAGNEMENT_FIELD]: 'accompagnement individuel'
     } as HinauraLieuMediationNumerique);
 
-    expect(modalitesAccompagnement).toStrictEqual([ModaliteAccompagnement.Seul, ModaliteAccompagnement.AvecDeLAide]);
+    expect(modalitesAccompagnement).toStrictEqual([ModaliteAccompagnement.AvecDeLAide]);
   });
 
-  it('should get "Seul,Avec de l\'aide" when value is "accès libre avec un accompagnement"', (): void => {
+  it('should get "Seul" when value is "accès libre avec un accompagnement"', (): void => {
     const modalitesAccompagnement: ModalitesAccompagnement = processModalitesAccompagnement({
       [MODALITES_ACCOMPAGNEMENT_FIELD]: 'accès libre avec un accompagnement'
     } as HinauraLieuMediationNumerique);
 
-    expect(modalitesAccompagnement).toStrictEqual([ModaliteAccompagnement.Seul, ModaliteAccompagnement.AvecDeLAide]);
+    expect(modalitesAccompagnement).toStrictEqual([ModaliteAccompagnement.Seul]);
   });
 
   it('should get "Dans un atelier" when value is "accompagnement en groupe"', (): void => {

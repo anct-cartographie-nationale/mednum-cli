@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import ErrnoException = NodeJS.ErrnoException;
 import { HinauraLieuMediationNumerique } from './helper';
 import {
-  formatServicesField,
+  processServices,
   processModalitesAccompagnement,
   processPublicAccueilli,
   processConditionsAccess,
@@ -16,7 +16,6 @@ import {
   LieuMediationNumerique,
   Localisation,
   Pivot,
-  Services,
   toSchemaLieuxDeMediationNumerique
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Recorder, Report } from '../tools';
@@ -43,21 +42,23 @@ const toLieuDeMediationNumerique = (
   modalites_accompagnement: processModalitesAccompagnement(hinauraLieuMediationNumerique),
   date_maj: processDate(hinauraLieuMediationNumerique),
   publics_accueillis: processPublicAccueilli(hinauraLieuMediationNumerique),
-  services: formatServicesField(
-    hinauraLieuMediationNumerique,
-    processModalitesAccompagnement(hinauraLieuMediationNumerique)
-  ) as Services,
+  services: processServices(hinauraLieuMediationNumerique),
   source: 'Hinaura'
   // todo: add opening hours
 });
 
+const validValuesOnly = (lieuDeMediationNumerique?: LieuMediationNumerique): boolean => lieuDeMediationNumerique != null;
+
 fs.readFile(`${SOURCE_PATH}${HINAURA_FILE}`, 'utf8', (_: ErrnoException | null, dataString: string): void => {
   const lieuxDeMediationNumerique: LieuMediationNumerique[] = JSON.parse(dataString)
-    .map(
-      (hinauraLieuMediationNumerique: HinauraLieuMediationNumerique, index: number): LieuMediationNumerique =>
-        toLieuDeMediationNumerique(index, hinauraLieuMediationNumerique, report.entry(index))
-    )
-    .filter((lieuDeMediationNumerique: LieuMediationNumerique): boolean => lieuDeMediationNumerique.services.length > 0);
+    .map((hinauraLieuMediationNumerique: HinauraLieuMediationNumerique, index: number): LieuMediationNumerique | undefined => {
+      try {
+        return toLieuDeMediationNumerique(index, hinauraLieuMediationNumerique, report.entry(index));
+      } catch {
+        return undefined;
+      }
+    })
+    .filter(validValuesOnly);
 
   // we print formated data in a json but we also can use directly formatedData here
   const schemaLieuxDeMediationNumeriqueBlob: string = JSON.stringify(

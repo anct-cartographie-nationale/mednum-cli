@@ -4,8 +4,8 @@ import { HinauraLieuMediationNumerique } from '../../helper';
 const MODALITE_ACCOMPAGNEMENT_MAP: Map<ModaliteAccompagnement, string[]> = new Map<ModaliteAccompagnement, string[]>([
   [ModaliteAccompagnement.DansUnAtelier, ['accompagnement en groupe']],
   [ModaliteAccompagnement.AMaPlace, ['faire à la place de']],
-  [ModaliteAccompagnement.AvecDeLAide, ['accompagnement individuel', 'accès libre avec un accompagnement']],
-  [ModaliteAccompagnement.Seul, ['accompagnement individuel', 'accès libre avec un accompagnement']]
+  [ModaliteAccompagnement.AvecDeLAide, ['accompagnement individuel']],
+  [ModaliteAccompagnement.Seul, ['accès libre avec un accompagnement']]
 ]);
 
 const findIncludedKeywords =
