@@ -97,9 +97,7 @@ export const processAdresse =
   (recorder: Recorder) =>
   (hinauraLieuMediationNumerique: HinauraLieuMediationNumerique): Adresse => {
     try {
-      const adresse: Adresse = toLieuxMediationNumeriqueAdresse(hinauraLieuMediationNumerique);
-      recorder.commit();
-      return adresse;
+      return toLieuxMediationNumeriqueAdresse(hinauraLieuMediationNumerique);
     } catch (error: unknown) {
       error instanceof OptionalPropertyError && recorder.record(error.key, error.message);
       return fixAndRetry(recorder)(hinauraLieuMediationNumerique, error);

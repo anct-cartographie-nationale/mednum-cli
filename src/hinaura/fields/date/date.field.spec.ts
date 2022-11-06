@@ -9,6 +9,6 @@ describe('date field', (): void => {
       datetime_latest: '21/04/2022 14:34:13'
     } as HinauraLieuMediationNumerique);
 
-    expect(date).toEqual(new Date('2022-04-21T12:34:13.000Z'));
+    expect(date).toEqual(new Date('2022-04-21T14:34:13.000Z'));
   });
 });

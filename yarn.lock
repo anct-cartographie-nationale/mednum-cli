@@ -480,9 +480,9 @@
   integrity sha512-oLS+ICvjkaUiQpcW05mI8l22y/oOPGUxvXW0E0u1bpVOEpk1QvM5eayqDo98X5fv94rpxBozfhKDTWpsZm10MA==
 
 "@gouvfr-anct/timetable-to-osm-opening-hours@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@gouvfr-anct/timetable-to-osm-opening-hours/-/timetable-to-osm-opening-hours-1.0.1.tgz#2230af6627b9384fd07613401a8c5fbdd95c1ef3"
-  integrity sha512-kcY71Na7iWRm/hvk40UXqXxEGdgFFa+i9fZ5nfnt/yiZevHKkjj9lhtzWD5daKT1gCaTS92YEvQmESHRn1aTYQ==
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@gouvfr-anct/timetable-to-osm-opening-hours/-/timetable-to-osm-opening-hours-1.1.0.tgz#2502a268452df2f9f9880f7c962fd24f6a46c218"
+  integrity sha512-lUqYH2mDbp/VX49rxua1hjKsxWjpOR9Yqt1tI6dPViLF+Ac58ku8lEWGKJwVK2rLl3Kwq/xen+ml7CfmvNdhWQ==
 
 "@humanwhocodes/config-array@^0.10.5":
   version "0.10.5"

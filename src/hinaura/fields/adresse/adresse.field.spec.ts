@@ -96,6 +96,8 @@ describe('adresse field', (): void => {
       'Ville *': 'Bessenay'
     } as HinauraLieuMediationNumerique);
 
+    recorder.commit();
+
     expect(report.records()).toStrictEqual([
       {
         index: 0,

@@ -372,6 +372,8 @@ describe('contact field', (): void => {
       [EMAIL_FIELD]: 'dupond[a]conseiller-numerique.fr'
     } as HinauraLieuMediationNumerique);
 
+    recorder.commit();
+
     expect(report.records()).toStrictEqual([
       {
         index: 0,
@@ -399,6 +401,8 @@ describe('contact field', (): void => {
     processContact(recorder)({
       [EMAIL_FIELD]: 'dupond@conseiller-numerique.'
     } as HinauraLieuMediationNumerique);
+
+    recorder.commit();
 
     expect(report.records()).toStrictEqual([
       {
