@@ -1,4 +1,4 @@
-import { PublicAccueilli } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { PublicAccueilli, PublicsAccueillis } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { HinauraLieuMediationNumerique } from '../../helper';
 
 const PUBLICS_ACCUEILLIS_MAP: Map<PublicAccueilli, { keywords: string[] }> = new Map([
@@ -29,7 +29,7 @@ const canAppendPublicAccueillis = (publicAccueillis: PublicAccueilli, publicsAcc
   publicsAccueillisToProcess != null &&
   publicsAccueillisToProcessIncludesOnOfTheKeywords(publicsAccueillisToProcess, publicAccueillis);
 
-const processPublicsAccueillis = (publicsAccueillisToProcess?: string): PublicAccueilli[] =>
+const extractPublicsAccueillisFrom = (publicsAccueillisToProcess?: string): PublicAccueilli[] =>
   Array.from(PUBLICS_ACCUEILLIS_MAP.keys()).reduce(
     (publicsAccueillis: PublicAccueilli[], publicAccueillis: PublicAccueilli): PublicAccueilli[] =>
       canAppendPublicAccueillis(publicAccueillis, publicsAccueillisToProcess)
@@ -38,11 +38,13 @@ const processPublicsAccueillis = (publicsAccueillisToProcess?: string): PublicAc
     []
   );
 
-export const formatPublicAccueilliField = (hinauraLieuMediationNumerique: HinauraLieuMediationNumerique): PublicAccueilli[] =>
-  Array.from(
-    new Set([
-      ...processPublicsAccueillis(hinauraLieuMediationNumerique['Publics accueillis']),
-      ...processPublicsAccueillis(hinauraLieuMediationNumerique['Accueil pour les personnes en situation de handicap']),
-      ...processPublicsAccueillis(hinauraLieuMediationNumerique['Accompagnement de publics spécifiques'])
-    ])
+export const processPublicAccueilli = (hinauraLieuMediationNumerique: HinauraLieuMediationNumerique): PublicsAccueillis =>
+  PublicsAccueillis(
+    Array.from(
+      new Set([
+        ...extractPublicsAccueillisFrom(hinauraLieuMediationNumerique['Publics accueillis']),
+        ...extractPublicsAccueillisFrom(hinauraLieuMediationNumerique['Accueil pour les personnes en situation de handicap']),
+        ...extractPublicsAccueillisFrom(hinauraLieuMediationNumerique['Accompagnement de publics spécifiques'])
+      ])
+    )
   );
