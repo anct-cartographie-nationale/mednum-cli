@@ -3,6 +3,14 @@
 
 import * as fs from 'fs';
 import ErrnoException = NodeJS.ErrnoException;
+import {
+  LieuMediationNumerique,
+  Pivot,
+  SchemaLieuMediationNumerique,
+  ServicesError,
+  toSchemaLieuxDeMediationNumerique
+} from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { fileName, Recorder, Report, toLieuxMediationNumeriqueCsv } from '../tools';
 import { HinauraLieuMediationNumerique } from './helper';
 import {
   processServices,
@@ -15,13 +23,6 @@ import {
   processHoraires,
   processLocalisation
 } from './fields';
-import {
-  LieuMediationNumerique,
-  Pivot,
-  ServicesError,
-  toSchemaLieuxDeMediationNumerique
-} from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { Recorder, Report } from '../tools';
 
 const SOURCE_PATH: string = './assets/input/';
 const HINAURA_FILE: string = 'hinaura.json';
@@ -52,6 +53,9 @@ const toLieuDeMediationNumerique = (
 };
 const validValuesOnly = (lieuDeMediationNumerique?: LieuMediationNumerique): boolean => lieuDeMediationNumerique != null;
 
+const ID_PRODUCTEUR: string = 'hinaura'; // todo: remplacer par le SIREN
+const TERRITOIRE: string = 'auvergne-rhone-alpes';
+
 fs.readFile(`${SOURCE_PATH}${HINAURA_FILE}`, 'utf8', (_: ErrnoException | null, dataString: string): void => {
   const lieuxDeMediationNumerique: LieuMediationNumerique[] = JSON.parse(dataString)
     .map((hinauraLieuMediationNumerique: HinauraLieuMediationNumerique, index: number): LieuMediationNumerique | undefined => {
@@ -64,12 +68,20 @@ fs.readFile(`${SOURCE_PATH}${HINAURA_FILE}`, 'utf8', (_: ErrnoException | null, 
     })
     .filter(validValuesOnly);
 
-  // we print formated data in a json but we also can use directly formatedData here
-  const schemaLieuxDeMediationNumeriqueBlob: string = JSON.stringify(
-    toSchemaLieuxDeMediationNumerique(lieuxDeMediationNumerique)
+  const schemaLieuxDeMediationNumerique: SchemaLieuMediationNumerique[] =
+    toSchemaLieuxDeMediationNumerique(lieuxDeMediationNumerique);
+
+  fs.writeFile(
+    `./assets/output/${fileName(new Date(), ID_PRODUCTEUR, TERRITOIRE, 'json')}`,
+    JSON.stringify(schemaLieuxDeMediationNumerique),
+    (): void => undefined
   );
 
-  fs.writeFile('./assets/output/hinaura-formated.json', schemaLieuxDeMediationNumeriqueBlob, (): void => undefined);
+  fs.writeFile(
+    `./assets/output/${fileName(new Date(), ID_PRODUCTEUR, TERRITOIRE, 'csv')}`,
+    toLieuxMediationNumeriqueCsv(schemaLieuxDeMediationNumerique),
+    (): void => undefined
+  );
 
   // report.records().forEach((record) => {
   //   console.log(record.index);
@@ -77,6 +89,4 @@ fs.readFile(`${SOURCE_PATH}${HINAURA_FILE}`, 'utf8', (_: ErrnoException | null, 
   //     console.log(reportError);
   //   });
   // });
-
-  return undefined;
 });
