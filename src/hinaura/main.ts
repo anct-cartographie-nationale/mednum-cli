@@ -3,6 +3,8 @@
 
 import * as fs from 'fs';
 import ErrnoException = NodeJS.ErrnoException;
+import { LieuMediationNumerique, Pivot, ServicesError } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { Recorder, Report, writeOutputFiles } from '../tools';
 import { HinauraLieuMediationNumerique } from './helper';
 import {
   processServices,
@@ -15,13 +17,6 @@ import {
   processHoraires,
   processLocalisation
 } from './fields';
-import {
-  LieuMediationNumerique,
-  Pivot,
-  ServicesError,
-  toSchemaLieuxDeMediationNumerique
-} from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { Recorder, Report } from '../tools';
 
 const SOURCE_PATH: string = './assets/input/';
 const HINAURA_FILE: string = 'hinaura.json';
@@ -52,6 +47,10 @@ const toLieuDeMediationNumerique = (
 };
 const validValuesOnly = (lieuDeMediationNumerique?: LieuMediationNumerique): boolean => lieuDeMediationNumerique != null;
 
+const ID: string = 'hinaura'; // todo: remplacer par le SIREN
+const NAME: string = 'hinaura';
+const TERRITOIRE: string = 'auvergne-rhone-alpes';
+
 fs.readFile(`${SOURCE_PATH}${HINAURA_FILE}`, 'utf8', (_: ErrnoException | null, dataString: string): void => {
   const lieuxDeMediationNumerique: LieuMediationNumerique[] = JSON.parse(dataString)
     .map((hinauraLieuMediationNumerique: HinauraLieuMediationNumerique, index: number): LieuMediationNumerique | undefined => {
@@ -64,12 +63,11 @@ fs.readFile(`${SOURCE_PATH}${HINAURA_FILE}`, 'utf8', (_: ErrnoException | null, 
     })
     .filter(validValuesOnly);
 
-  // we print formated data in a json but we also can use directly formatedData here
-  const schemaLieuxDeMediationNumeriqueBlob: string = JSON.stringify(
-    toSchemaLieuxDeMediationNumerique(lieuxDeMediationNumerique)
-  );
-
-  fs.writeFile('./assets/output/hinaura-formated.json', schemaLieuxDeMediationNumeriqueBlob, (): void => undefined);
+  writeOutputFiles({
+    id: ID,
+    name: NAME,
+    territoire: TERRITOIRE
+  })(lieuxDeMediationNumerique);
 
   // report.records().forEach((record) => {
   //   console.log(record.index);
