@@ -3,7 +3,7 @@
 
 import * as fs from 'fs';
 import ErrnoException = NodeJS.ErrnoException;
-import { LieuMediationNumerique, Pivot, ServicesError } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { LieuMediationNumerique, Pivot, ServicesError, VoieError } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Recorder, Report, writeOutputFiles } from '../tools';
 import { HinauraLieuMediationNumerique } from './helper';
 import {
@@ -58,6 +58,7 @@ fs.readFile(`${SOURCE_PATH}${HINAURA_FILE}`, 'utf8', (_: ErrnoException | null, 
         return toLieuDeMediationNumerique(index, hinauraLieuMediationNumerique, report.entry(index));
       } catch (error: unknown) {
         if (error instanceof ServicesError) return undefined;
+        if (error instanceof VoieError) return undefined;
         throw error;
       }
     })
