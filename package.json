@@ -42,6 +42,7 @@
     "test": "jest --config=./.tooling/.jest/jest.config.ts",
     "build": "tsc --project .tsconfig/tsconfig.json",
     "start.les-assembleurs": "ts-node src/les-assembleurs/main.ts",
+    "start.data-inclusion": "ts-node src/data-inclusion/main.ts",
     "start.hinaura": "ts-node src/hinaura/main.ts"
   },
   "devDependencies": {
