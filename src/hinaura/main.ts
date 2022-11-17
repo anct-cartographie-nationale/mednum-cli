@@ -15,7 +15,6 @@ import {
   processAdresse,
   processDate,
   processHoraires
-  // processLocalisation
 } from './fields';
 
 const SOURCE_PATH: string = './assets/input/';

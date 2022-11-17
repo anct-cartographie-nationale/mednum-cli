@@ -7,7 +7,6 @@ describe('localisation field', (): void => {
   it('should process localisation form maine et loire', (): void => {
     const geoPoint = '47.52108262171417,-0.4712484447080984';
     const latitude = geoPoint?.split(',')[0] ?? 0;
-    console.log('l', latitude);
     const longitude = geoPoint?.split(',')[1] ?? 0;
     const localisation: Localisation = processLocalisation(latitude, longitude);
 
