@@ -2,74 +2,95 @@
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 
 import * as fs from 'fs';
-import ErrnoException = NodeJS.ErrnoException;
-import { LieuMediationNumerique, Pivot, ServicesError } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { Recorder, Report, writeOutputFiles } from '../tools';
+import { LieuMediationNumerique, Pivot, ServicesError, VoieError } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import {
-  // processServices,
-  // processModalitesAccompagnement,
-  // processPublicAccueilli,
-  // processConditionsAccess,
-  // processContact,
-  processAdresse
-  // processDate,
-  // processHoraires,
-  // processLocalisation
-} from './fields';
-import { MaineEtLoireLieuMediationNumerique } from './helper';
+  LieuxMediationNumeriqueMatching,
+  processAdresse,
+  processConditionsAccess,
+  processContact,
+  processDate,
+  processHoraires,
+  processId,
+  processLocalisation,
+  processModalitesAccompagnement,
+  processNom,
+  processPublicAccueilli,
+  processServices,
+  Recorder,
+  Report,
+  Source,
+  writeOutputFiles
+} from '../tools';
+import ErrnoException = NodeJS.ErrnoException;
 
-const SOURCE_PATH: string = './assets/input/';
-const MAINE_ET_LOIRE_FILE: string = 'lieux-de-mediation-numerique-en-maine-et-loire.json';
 const report: Report = Report();
 
-const toLieuDeMediationNumerique = (
-  maineEtLoireLieuMediationNumerique: MaineEtLoireLieuMediationNumerique,
-  recorder: Recorder
-): LieuMediationNumerique => {
-  const lieuMediationNumerique: LieuMediationNumerique = {
-    id: maineEtLoireLieuMediationNumerique.ID,
-    nom: maineEtLoireLieuMediationNumerique.Nom,
-    pivot: Pivot('00000000000000'),
-    adresse: processAdresse(recorder)(maineEtLoireLieuMediationNumerique),
-    // localisation: processLocalisation(maineEtLoireLieuMediationNumerique),
-    // contact: processContact(recorder)(maineEtLoireLieuMediationNumerique),
-    // conditions_access: processConditionsAccess(hinauraLieuMediationNumerique),
-    // modalites_accompagnement: processModalitesAccompagnement(hinauraLieuMediationNumerique),
-    // date_maj: processDate(maineEtLoireLieuMediationNumerique),
-    // publics_accueillis: processPublicAccueilli(hinauraLieuMediationNumerique),
-    // services: processServices(maineEtLoireLieuMediationNumerique),
-    source: 'Maine-et-Loire'
-    // horaires: processHoraires(recorder)(hinauraLieuMediationNumerique) as string
-  };
-  recorder.commit();
-  return lieuMediationNumerique;
-};
-const validValuesOnly = (lieuDeMediationNumerique?: LieuMediationNumerique): boolean => lieuDeMediationNumerique != null;
+const SOURCE_PATH: string = './assets/input/';
+const SOURCE_FILE: string = 'maine-et-loire.json';
+const CONFIG_FILE: string = 'maine-et-loire.config.json';
 
 const ID: string = 'maine-et-loire'; // todo: remplacer par le SIREN
 const NAME: string = 'maine-et-loire';
 const TERRITOIRE: string = 'pays-de-la-loire';
 
-fs.readFile(`${SOURCE_PATH}${MAINE_ET_LOIRE_FILE}`, 'utf8', (_: ErrnoException | null, dataString: string): void => {
-  const lieuxDeMediationNumerique: LieuMediationNumerique[] = JSON.parse(dataString)
-    .map((maineEtLoireLieuMediationNumerique: MaineEtLoireLieuMediationNumerique): LieuMediationNumerique | undefined => {
-      try {
-        return toLieuDeMediationNumerique(
-          maineEtLoireLieuMediationNumerique,
-          report.entry(parseInt(maineEtLoireLieuMediationNumerique.ID, 10))
-        );
-      } catch (error: unknown) {
-        if (error instanceof ServicesError) return undefined;
-        throw error;
-      }
-    })
-    .filter(validValuesOnly);
+const lieuDeMediationNumerique = (
+  index: number,
+  source: Source,
+  matching: LieuxMediationNumeriqueMatching,
+  recorder: Recorder
+): LieuMediationNumerique => {
+  const lieuMediationNumerique: LieuMediationNumerique = {
+    id: processId(source, matching, index),
+    nom: processNom(source, matching),
+    pivot: Pivot('00000000000000'),
+    adresse: processAdresse(recorder)(source, matching),
+    localisation: processLocalisation(source, matching),
+    contact: processContact(recorder)(source, matching),
+    conditions_access: processConditionsAccess(source, matching),
+    modalites_accompagnement: processModalitesAccompagnement(source, matching),
+    date_maj: processDate(source, matching),
+    publics_accueillis: processPublicAccueilli(source, matching),
+    services: processServices(source, matching),
+    source: NAME,
+    horaires: processHoraires(recorder)(source, matching)?.toString() ?? ''
+  };
+  recorder.commit();
+  return lieuMediationNumerique;
+};
+const validValuesOnly = (lieuDeMediationNumeriqueToValidate?: LieuMediationNumerique): boolean =>
+  lieuDeMediationNumeriqueToValidate != null;
 
-  writeOutputFiles({
-    id: ID,
-    name: NAME,
-    territoire: TERRITOIRE
-  })(lieuxDeMediationNumerique);
+const toLieuxMediationNumerique =
+  (matching: string) =>
+  (source: Source, index: number): LieuMediationNumerique | undefined => {
+    try {
+      return lieuDeMediationNumerique(index, source, JSON.parse(matching), report.entry(index));
+    } catch (error: unknown) {
+      if (error instanceof ServicesError) return undefined;
+      if (error instanceof VoieError) return undefined;
+      throw error;
+    }
+  };
 
-  return undefined;
+fs.readFile(`${SOURCE_PATH}${SOURCE_FILE}`, 'utf8', (_1: ErrnoException | null, dataString: string): void => {
+  fs.readFile(`${SOURCE_PATH}${CONFIG_FILE}`, 'utf8', (_2: ErrnoException | null, matching: string): void => {
+    const lieuxDeMediationNumerique: LieuMediationNumerique[] = JSON.parse(dataString)
+      .map(toLieuxMediationNumerique(matching))
+      .filter(validValuesOnly);
+
+    writeOutputFiles({
+      id: ID,
+      name: NAME,
+      territoire: TERRITOIRE
+    })(lieuxDeMediationNumerique);
+
+    // report.records().forEach((record) => {
+    //   console.log(record.index);
+    //   record.errors.forEach((reportError) => {
+    //     console.log(reportError);
+    //   });
+    // });
+
+    return undefined;
+  });
 });

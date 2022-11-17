@@ -36,12 +36,9 @@ const writeMediationNumeriqueJsonOutput = (
   schemaLieuxDeMediationNumerique: SchemaLieuMediationNumerique[]
 ): void => {
   fs.writeFile(
-    `${createFolderIfNotExist(`./assets/output/${producer.name}/mediation-numerique`)}/${mediationNumeriqueFileName(
-      new Date(),
-      producer.id,
-      producer.territoire,
-      'json'
-    )}`,
+    `${createFolderIfNotExist(
+      `./assets/output/${producer.name.toLowerCase()}/mediation-numerique`
+    )}/${mediationNumeriqueFileName(new Date(), producer.id, producer.territoire, 'json')}`,
     JSON.stringify(schemaLieuxDeMediationNumerique),
     throwWriteFileError
   );
@@ -52,12 +49,9 @@ const writeMediationNumeriqueCsvOutput = (
   schemaLieuxDeMediationNumerique: SchemaLieuMediationNumerique[]
 ): void => {
   fs.writeFile(
-    `${createFolderIfNotExist(`./assets/output/${producer.name}/mediation-numerique`)}/${mediationNumeriqueFileName(
-      new Date(),
-      producer.id,
-      producer.territoire,
-      'csv'
-    )}`,
+    `${createFolderIfNotExist(
+      `./assets/output/${producer.name.toLowerCase()}/mediation-numerique`
+    )}/${mediationNumeriqueFileName(new Date(), producer.id, producer.territoire, 'csv')}`,
     toLieuxMediationNumeriqueCsv(schemaLieuxDeMediationNumerique),
     throwWriteFileError
   );
@@ -68,12 +62,9 @@ const writeStructuresDataInclusionJsonOutput = (
   lieuxDeMediationNumerique: LieuMediationNumerique[]
 ): void => {
   fs.writeFile(
-    `${createFolderIfNotExist(`./assets/output/${producer.name}/data-inclusion/strcutures`)}/${dataInclusionFileName(
-      new Date(),
-      producer.id,
-      'structures',
-      'json'
-    )}`,
+    `${createFolderIfNotExist(
+      `./assets/output/${producer.name.toLowerCase()}/data-inclusion/strcutures`
+    )}/${dataInclusionFileName(new Date(), producer.id, 'structures', 'json')}`,
     JSON.stringify(toSchemaStructuresDataInclusion(lieuxDeMediationNumerique)),
     throwWriteFileError
   );
@@ -84,12 +75,9 @@ const writeServicesDataInclusionJsonOutput = (
   lieuxDeMediationNumerique: LieuMediationNumerique[]
 ): void => {
   fs.writeFile(
-    `${createFolderIfNotExist(`./assets/output/${producer.name}/data-inclusion/services`)}/${dataInclusionFileName(
-      new Date(),
-      producer.id,
-      'services',
-      'json'
-    )}`,
+    `${createFolderIfNotExist(
+      `./assets/output/${producer.name.toLowerCase()}/data-inclusion/services`
+    )}/${dataInclusionFileName(new Date(), producer.id, 'services', 'json')}`,
     JSON.stringify(toSchemaServicesDataInclusion(lieuxDeMediationNumerique)),
     throwWriteFileError
   );
