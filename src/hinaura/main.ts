@@ -4,7 +4,7 @@
 import * as fs from 'fs';
 import ErrnoException = NodeJS.ErrnoException;
 import { LieuMediationNumerique, Pivot, ServicesError } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { Recorder, Report, writeOutputFiles } from '../tools';
+import { processLocalisation, Recorder, Report, writeOutputFiles } from '../tools';
 import { HinauraLieuMediationNumerique } from './helper';
 import {
   processServices,
@@ -14,8 +14,8 @@ import {
   processContact,
   processAdresse,
   processDate,
-  processHoraires,
-  processLocalisation
+  processHoraires
+  // processLocalisation
 } from './fields';
 
 const SOURCE_PATH: string = './assets/input/';
@@ -32,7 +32,7 @@ const toLieuDeMediationNumerique = (
     nom: hinauraLieuMediationNumerique['Nom du lieu ou de la structure *'],
     pivot: Pivot('00000000000000'),
     adresse: processAdresse(recorder)(hinauraLieuMediationNumerique),
-    localisation: processLocalisation(hinauraLieuMediationNumerique),
+    localisation: processLocalisation(hinauraLieuMediationNumerique.bf_latitude, hinauraLieuMediationNumerique.bf_longitude),
     contact: processContact(recorder)(hinauraLieuMediationNumerique),
     conditions_access: processConditionsAccess(hinauraLieuMediationNumerique),
     modalites_accompagnement: processModalitesAccompagnement(hinauraLieuMediationNumerique),

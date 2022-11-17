@@ -4,7 +4,7 @@
 import * as fs from 'fs';
 import ErrnoException = NodeJS.ErrnoException;
 import { LieuMediationNumerique, Pivot, ServicesError } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { Recorder, Report, writeOutputFiles } from '../tools';
+import { processLocalisation, Recorder, Report, writeOutputFiles } from '../tools';
 import {
   // processServices,
   // processModalitesAccompagnement,
@@ -31,7 +31,10 @@ const toLieuDeMediationNumerique = (
     nom: maineEtLoireLieuMediationNumerique.Nom,
     pivot: Pivot('00000000000000'),
     adresse: processAdresse(recorder)(maineEtLoireLieuMediationNumerique),
-    // localisation: processLocalisation(maineEtLoireLieuMediationNumerique),
+    localisation: processLocalisation(
+      maineEtLoireLieuMediationNumerique['Geo Point'].split(',')[0],
+      maineEtLoireLieuMediationNumerique['Geo Point'].split(',')[1]
+    ),
     // contact: processContact(recorder)(maineEtLoireLieuMediationNumerique),
     // conditions_access: processConditionsAccess(hinauraLieuMediationNumerique),
     // modalites_accompagnement: processModalitesAccompagnement(hinauraLieuMediationNumerique),
