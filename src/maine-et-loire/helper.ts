@@ -12,9 +12,9 @@ export type MaineEtLoireLieuMediationNumerique = {
   Adresse: string;
   CP: number;
   Commune: string;
-  Téléphone: string;
-  Courriel: string;
-  'Site web': string;
+  Téléphone?: number | string;
+  Courriel?: string;
+  'Site web'?: string;
   JT_MAT_Wif: string;
   JT_MAT_Imp: string;
   JT_MAT_Sca: string;

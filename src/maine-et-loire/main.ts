@@ -11,7 +11,8 @@ import {
   // processPublicAccueilli,
   // processConditionsAccess,
   // processContact,
-  processAdresse
+  processAdresse,
+  processContact
   // processDate,
   // processHoraires,
   // processLocalisation
@@ -26,7 +27,7 @@ const toLieuDeMediationNumerique = (
   maineEtLoireLieuMediationNumerique: MaineEtLoireLieuMediationNumerique,
   recorder: Recorder
 ): LieuMediationNumerique => {
-  const lieuMediationNumerique: LieuMediationNumerique = {
+  const lieuMediationNumerique: any = {
     id: maineEtLoireLieuMediationNumerique.ID,
     nom: maineEtLoireLieuMediationNumerique.Nom,
     pivot: Pivot('00000000000000'),
@@ -35,7 +36,7 @@ const toLieuDeMediationNumerique = (
       maineEtLoireLieuMediationNumerique['Geo Point'].split(',')[0],
       maineEtLoireLieuMediationNumerique['Geo Point'].split(',')[1]
     ),
-    // contact: processContact(recorder)(maineEtLoireLieuMediationNumerique),
+    contact: console.log(processContact(recorder)(maineEtLoireLieuMediationNumerique)),
     // conditions_access: processConditionsAccess(hinauraLieuMediationNumerique),
     // modalites_accompagnement: processModalitesAccompagnement(hinauraLieuMediationNumerique),
     // date_maj: processDate(maineEtLoireLieuMediationNumerique),
@@ -57,10 +58,14 @@ fs.readFile(`${SOURCE_PATH}${MAINE_ET_LOIRE_FILE}`, 'utf8', (_: ErrnoException |
   const lieuxDeMediationNumerique: LieuMediationNumerique[] = JSON.parse(dataString)
     .map((maineEtLoireLieuMediationNumerique: MaineEtLoireLieuMediationNumerique): LieuMediationNumerique | undefined => {
       try {
-        return toLieuDeMediationNumerique(
+        toLieuDeMediationNumerique(
           maineEtLoireLieuMediationNumerique,
           report.entry(parseInt(maineEtLoireLieuMediationNumerique.ID, 10))
         );
+        // return toLieuDeMediationNumerique(
+        //   maineEtLoireLieuMediationNumerique,
+        //   report.entry(parseInt(maineEtLoireLieuMediationNumerique.ID, 10))
+        // );
       } catch (error: unknown) {
         if (error instanceof ServicesError) return undefined;
         throw error;
@@ -68,11 +73,11 @@ fs.readFile(`${SOURCE_PATH}${MAINE_ET_LOIRE_FILE}`, 'utf8', (_: ErrnoException |
     })
     .filter(validValuesOnly);
 
-  writeOutputFiles({
-    id: ID,
-    name: NAME,
-    territoire: TERRITOIRE
-  })(lieuxDeMediationNumerique);
+  // writeOutputFiles({
+  //   id: ID,
+  //   name: NAME,
+  //   territoire: TERRITOIRE
+  // })(lieuxDeMediationNumerique);
 
   return undefined;
 });

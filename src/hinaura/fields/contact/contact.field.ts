@@ -2,14 +2,10 @@
 
 import { Contact, OptionalPropertyError, Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { HinauraLieuMediationNumerique } from '../../helper';
-import { Recorder } from '../../../tools';
+import { cannotFixContact, formatPhone, Recorder } from '../../../tools';
 import { CLEAN_OPERATIONS, CleanOperation, EMAIL_FIELD } from './clean-operations';
 
 type FixedContact = HinauraLieuMediationNumerique | undefined;
-
-const toInternationalFormat = (phone: string): string => (/^0\d{9}$/u.test(phone) ? `+33${phone.slice(1)}` : phone);
-
-const formatPhone = (phone: string): string => toInternationalFormat(phone.replace(/[\s,.-]/gu, '').replace('(0)', ''));
 
 const toLieuxMediationNumeriqueContact = (hinauraLieuMediationNumerique: HinauraLieuMediationNumerique): Contact =>
   Contact({
@@ -94,10 +90,6 @@ const toFixedContact =
           hinauraLieuMediationNumerique
         )
       : contact;
-
-const cannotFixContact = (error: unknown): Contact => {
-  throw error;
-};
 
 const retryOrThrow =
   (recorder: Recorder) =>
