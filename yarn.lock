@@ -474,10 +474,10 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
-"@gouvfr-anct/lieux-de-mediation-numerique@^1.7.0":
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/@gouvfr-anct/lieux-de-mediation-numerique/-/lieux-de-mediation-numerique-1.7.0.tgz#014353c78c4b6f1d1a3bc910dd606a27a4206ad3"
-  integrity sha512-6RdvHnUZ5Lv2jAgUVYwqryxkXUeujsE3NFY1Ry5GFYy/T3s1yMj5vRzQT36uIk73CVVWiNXrJrrJ2pC8/un2iQ==
+"@gouvfr-anct/lieux-de-mediation-numerique@^1.7.1":
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/@gouvfr-anct/lieux-de-mediation-numerique/-/lieux-de-mediation-numerique-1.7.1.tgz#b52e861908409f5cfd1a23d68f5814842a0cf733"
+  integrity sha512-Z1TaqAD9kBBGHCVRl+mJ2q8jKRknWTP/XhpWtkWFKW0kkXEncqzBF2bB5TsLPWJXVE6ySi20R7/tgPJWAOf1qw==
 
 "@gouvfr-anct/timetable-to-osm-opening-hours@^1.0.1":
   version "1.1.0"
