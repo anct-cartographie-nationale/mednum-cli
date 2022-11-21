@@ -3,19 +3,28 @@
 
 import * as fs from 'fs';
 import ErrnoException = NodeJS.ErrnoException;
-import { LieuMediationNumerique, Pivot, ServicesError } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { processLocalisation, Recorder, Report, writeOutputFiles } from '../tools';
 import {
+  LieuMediationNumerique,
+  ModaliteAccompagnement,
+  ModalitesAccompagnement,
+  Pivot,
+  Services,
+  ServicesError
+} from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { appendModaliteAccompagnementMatchingKeywords, processServices, Recorder, Report, writeOutputFiles } from '../tools';
+import {
+  formatServicesField,
   // processServices,
   // processModalitesAccompagnement,
   // processPublicAccueilli,
   // processConditionsAccess,
   // processContact,
   processAdresse,
-  processContact
+  processContact,
+  processLocalisation,
+  processModalitesAccompagnement
   // processDate,
   // processHoraires,
-  // processLocalisation
 } from './fields';
 import { MaineEtLoireLieuMediationNumerique } from './helper';
 
@@ -27,7 +36,7 @@ const toLieuDeMediationNumerique = (
   maineEtLoireLieuMediationNumerique: MaineEtLoireLieuMediationNumerique,
   recorder: Recorder
 ): LieuMediationNumerique => {
-  const lieuMediationNumerique: any = {
+  const lieuMediationNumerique: LieuMediationNumerique = {
     id: maineEtLoireLieuMediationNumerique.ID,
     nom: maineEtLoireLieuMediationNumerique.Nom,
     pivot: Pivot('00000000000000'),
@@ -36,12 +45,17 @@ const toLieuDeMediationNumerique = (
       maineEtLoireLieuMediationNumerique['Geo Point'].split(',')[0],
       maineEtLoireLieuMediationNumerique['Geo Point'].split(',')[1]
     ),
-    contact: console.log(processContact(recorder)(maineEtLoireLieuMediationNumerique)),
+    contact: processContact(recorder)(maineEtLoireLieuMediationNumerique),
     // conditions_access: processConditionsAccess(hinauraLieuMediationNumerique),
-    // modalites_accompagnement: processModalitesAccompagnement(hinauraLieuMediationNumerique),
-    // date_maj: processDate(maineEtLoireLieuMediationNumerique),
+    modalites_accompagnement: ModalitesAccompagnement(
+      processModalitesAccompagnement(maineEtLoireLieuMediationNumerique.JT_Accueil)
+    ),
+    date_maj: new Date(maineEtLoireLieuMediationNumerique.Date_maj),
     // publics_accueillis: processPublicAccueilli(hinauraLieuMediationNumerique),
-    // services: processServices(maineEtLoireLieuMediationNumerique),
+    services: formatServicesField(
+      maineEtLoireLieuMediationNumerique,
+      ModalitesAccompagnement(processModalitesAccompagnement(maineEtLoireLieuMediationNumerique.JT_Accueil))
+    ) as Services,
     source: 'Maine-et-Loire'
     // horaires: processHoraires(recorder)(hinauraLieuMediationNumerique) as string
   };

@@ -3,18 +3,25 @@
 
 import * as fs from 'fs';
 import ErrnoException = NodeJS.ErrnoException;
-import { LieuMediationNumerique, Pivot, ServicesError } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { processLocalisation, Recorder, Report, writeOutputFiles } from '../tools';
+import {
+  LieuMediationNumerique,
+  ModalitesAccompagnement,
+  Pivot,
+  Services,
+  ServicesError
+} from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { Recorder, Report, writeOutputFiles } from '../tools';
 import { HinauraLieuMediationNumerique } from './helper';
 import {
-  processServices,
   processModalitesAccompagnement,
   processPublicAccueilli,
   processConditionsAccess,
   processContact,
   processAdresse,
   processDate,
-  processHoraires
+  processHoraires,
+  formatServicesField,
+  processLocalisation
 } from './fields';
 
 const SOURCE_PATH: string = './assets/input/';
@@ -26,18 +33,21 @@ const toLieuDeMediationNumerique = (
   hinauraLieuMediationNumerique: HinauraLieuMediationNumerique,
   recorder: Recorder
 ): LieuMediationNumerique => {
-  const lieuMediationNumerique: LieuMediationNumerique = {
+  const lieuMediationNumerique: any = {
     id: index.toString(),
     nom: hinauraLieuMediationNumerique['Nom du lieu ou de la structure *'],
     pivot: Pivot('00000000000000'),
     adresse: processAdresse(recorder)(hinauraLieuMediationNumerique),
-    localisation: processLocalisation(hinauraLieuMediationNumerique.bf_latitude, hinauraLieuMediationNumerique.bf_longitude),
+    localisation: processLocalisation(hinauraLieuMediationNumerique),
     contact: processContact(recorder)(hinauraLieuMediationNumerique),
     conditions_access: processConditionsAccess(hinauraLieuMediationNumerique),
     modalites_accompagnement: processModalitesAccompagnement(hinauraLieuMediationNumerique),
     date_maj: processDate(hinauraLieuMediationNumerique),
     publics_accueillis: processPublicAccueilli(hinauraLieuMediationNumerique),
-    services: processServices(hinauraLieuMediationNumerique),
+    services: formatServicesField(
+      hinauraLieuMediationNumerique,
+      ModalitesAccompagnement(processModalitesAccompagnement(hinauraLieuMediationNumerique))
+    ) as Services,
     source: 'Hinaura',
     horaires: processHoraires(recorder)(hinauraLieuMediationNumerique) as string
   };
