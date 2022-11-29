@@ -65,7 +65,7 @@
     "typescript": "^4.8.4"
   },
   "dependencies": {
-    "@gouvfr-anct/lieux-de-mediation-numerique": "^1.7.1",
+    "@gouvfr-anct/lieux-de-mediation-numerique": "^1.7.2",
     "@gouvfr-anct/timetable-to-osm-opening-hours": "^1.0.1"
   }
 }
