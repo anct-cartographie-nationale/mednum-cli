@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-restricted-imports,no-undef */
+/* eslint-disable @typescript-eslint/no-restricted-imports,no-undef,max-lines-per-function,@typescript-eslint/naming-convention, camelcase */
 
 import * as fs from 'fs';
 import ErrnoException = NodeJS.ErrnoException;
@@ -14,6 +14,7 @@ import {
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { DataInclusionMerged, mergeServicesInStructure } from './merge-services-in-structure';
 import { writeOutputFiles } from '../tools';
+import { processCommune, processVoie } from './fields';
 
 const SOURCE_PATH: string = './assets/input/';
 const DATA_INCLUSION_STRUCTURES_FILE: string = 'data-inclusion-structures.json';
@@ -27,18 +28,45 @@ const onlyDefindedLieuxMediationNumerique = (
   lieuMediationNumerique?: LieuMediationNumerique
 ): lieuMediationNumerique is LieuMediationNumerique => lieuMediationNumerique != null;
 
+const processFields = (structure: SchemaStructureDataInclusion): SchemaStructureDataInclusion => ({
+  id: structure.id,
+  siret: structure.siret,
+  rna: structure.rna,
+  nom: structure.nom,
+  commune: processCommune(structure.commune),
+  code_postal: structure.code_postal,
+  code_insee: structure.code_insee,
+  adresse: processVoie(structure.adresse),
+  complement_adresse: structure.complement_adresse,
+  longitude: structure.longitude,
+  latitude: structure.latitude,
+  typologie: structure.typologie,
+  telephone: structure.telephone,
+  courriel: structure.courriel,
+  site_web: structure.site_web,
+  presentation_resume: structure.presentation_resume,
+  presentation_detail: structure.presentation_detail,
+  source: structure.source,
+  date_maj: structure.date_maj,
+  lien_source: structure.lien_source,
+  horaires_ouverture: structure.horaires_ouverture,
+  accessibilite: structure.accessibilite,
+  labels_nationaux: structure.labels_nationaux,
+  labels_autres: structure.labels_autres,
+  thematiques: structure.thematiques
+});
+
 const toLieuxDeMediationNumerique =
   (dataInclusionServices: SchemaServiceDataInclusion[]) =>
   (structure: SchemaStructureDataInclusion): LieuMediationNumerique | undefined => {
     try {
       const dataInclusionMerged: DataInclusionMerged = mergeServicesInStructure(dataInclusionServices, structure);
-      return fromSchemaDataInclusion(dataInclusionMerged.services, dataInclusionMerged.structure);
+      return fromSchemaDataInclusion(dataInclusionMerged.services, processFields(dataInclusionMerged.structure));
     } catch (error: unknown) {
       if (error instanceof ServicesError) return undefined;
       if (error instanceof CommuneError) return undefined;
       if (error instanceof MandatorySiretOrRnaError) return undefined;
       if (error instanceof CodeInseeError) return undefined;
-
       throw error;
     }
   };
