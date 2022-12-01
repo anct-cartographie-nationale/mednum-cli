@@ -23,15 +23,37 @@ const REMOVE_MULTIPLE_SPACES: CleanOperation = {
   fix: (): string => ' '
 };
 
+const ADD_MISSING_TIME_RANGE_SEPARATOR: CleanOperation = {
+  selector: /(?<startHour>[0-2]?\d)[hH](?<endHour>[0-2]?\d)[hH]/gu,
+  fix: (_: string, startHour: string, endHour: string): string => `${startHour}h-${endHour}h`
+};
+
+const REMOVE_FORMAT_SPACE_TIME_SEPARATOR: CleanOperation = {
+  selector:
+    /^(?<startRangeStartHour>[0-2]?\d)h(?<startRangeStarMinute>[0-5]\d)?\s(?<startRangeEndHour>[0-2]?\d)h(?<startRangeEndMinute>[0-5]\d)?\D+(?<endRangeStartHour>[0-2]?\d)h(?<endRangeStartMinute>[0-5]\d)?\s(?<endRangeEndHour>[0-2]?\d)h(?<endRangeEndMinute>[0-5]\d)?$/u,
+  fix: (
+    _: string,
+    startRangeStartHour: string,
+    startRangeStarMinute: string,
+    startRangeEndHour: string,
+    startRangeEndMinute: string,
+    endRangeStartHour: string,
+    endRangeStarMinute: string,
+    endRangeEndHour: string,
+    endRangeEndMinute: string
+  ): string =>
+    `${startRangeStartHour}:${startRangeStarMinute}-${startRangeEndHour}:${startRangeEndMinute},${endRangeStartHour}:${endRangeStarMinute}-${endRangeEndHour}:${endRangeEndMinute}`
+};
+
 const REMOVE_H_FOR_HOURS_ONLY_RANGE: CleanOperation = {
   selector: /(?<startHour>[0-2]?\d)[hH]\s?(?<endHour>[0-2]?\d)[hH](?<nextCharacter>\D)/gu,
   fix: (_: string, startHour: string, endHour: string, nextCharacter: string): string =>
     `${startHour}:00 ${endHour}:00${nextCharacter}`
 };
 
-const REMOVE_H_FOLLOWED_BY_NEXT_RANGE_TIME: CleanOperation = {
-  selector: /[hH]\s?(?<hour>[0-2]?\d)[hH]\s?(?<minute>[0-5]\d)?-/gu,
-  fix: (_: string, hour: string, minute?: string): string => `/${formatTime(hour, minute)}-`
+const REMOVE_H_FOR_HOURS_ONLY_RANGE_SINGLE_H: CleanOperation = {
+  selector: /(?<startHour>[0-2]\d)\s(?<endHour>[0-2]?\d)\s*[hH](?<after>\D|$)/gu,
+  fix: (_: string, startHour: string, endHour: string, after: string): string => `${startHour}:00 ${endHour}:00${after}`
 };
 
 const REMOVE_H_FOLLOWED_BY_HOURS: CleanOperation = {
@@ -59,8 +81,9 @@ const REMOVE_WHITE_SPACES: CleanOperation = {
   fix: (): string => ''
 };
 
-const FORMAT_ET_SEPARATORS_AND_SLASHES_TIME_SEPARATOR: CleanOperation = {
-  selector: /^(?<startTimeStartRange>.*)\/(?<startTimeEndRange>.*)\set\s(?<endTimeStartRange>.*)\/(?<endTimeEndRange>.*)$/u,
+const FORMAT_ET_SEPARATORS: CleanOperation = {
+  selector:
+    /^(?<startTimeStartRange>.*)[à/,-](?<startTimeEndRange>.*)\s?(?:et|&amp;)\s?(?<endTimeStartRange>.*)[à/,-](?<endTimeEndRange>.*)$/u,
   fix: (
     _: string,
     startTimeStartRange: string,
@@ -68,11 +91,6 @@ const FORMAT_ET_SEPARATORS_AND_SLASHES_TIME_SEPARATOR: CleanOperation = {
     endTimeStartRange: string,
     endTimeEndRange: string
   ): string => `${startTimeStartRange}-${startTimeEndRange},${endTimeStartRange}-${endTimeEndRange}`
-};
-
-const FORMAT_ET_SEPARATORS: CleanOperation = {
-  selector: /^(?<startRange>.*\W)(?:et|&amp;)(?<endRange>.*\d)/u,
-  fix: (_: string, startRange: string, endRange?: string): string => (endRange == null ? '' : `${startRange},${endRange}`)
 };
 
 const FORMAT_LITERARY_TIME_SEPARATORS: CleanOperation = {
@@ -118,7 +136,7 @@ const REMOVE_NUMBERS_IN_ADDITIONAL_INFORMATION_TEXT: CleanOperation = {
 };
 
 const REMOVE_ADDITIONAL_INFORMATION_TEXT: CleanOperation = {
-  selector: /[a-zA-ZÀ-úû*.'_(|]+/gu,
+  selector: /[a-zA-ZÀ-úû*.'_(|>]+/gu,
   fix: (): string => ''
 };
 
@@ -160,6 +178,18 @@ const FORMAT_SPACE_RANGES_SEPARATORS: CleanOperation = {
   ): string => `${startTimeStartRange}-${startTimeEndRange},${endTimeStartRange}-${endTimeEndRange}`
 };
 
+const FORMAT_SPACE_TIMES_SEPARATORS: CleanOperation = {
+  selector:
+    /^(?<startTimeStartRange>\d\d:\d\d)\s(?<startTimeEndRange>\d\d:\d\d)\s-\s(?<endTimeStartRange>\d\d:\d\d)\s(?<endTimeEndRange>\d\d:\d\d)$/u,
+  fix: (
+    _: string,
+    startTimeStartRange: string,
+    startTimeEndRange: string,
+    endTimeStartRange: string,
+    endTimeEndRange: string
+  ): string => `${startTimeStartRange}-${startTimeEndRange},${endTimeStartRange}-${endTimeEndRange}`
+};
+
 const FORMAT_SPACE_TIME_SEPARATOR: CleanOperation = {
   selector: /^(?<startTime>\d.+\d)\s(?<endTime>\d.*\d)$/u,
   fix: (_: string, startTime: string, endTime: string): string => `${startTime}-${endTime}`
@@ -177,7 +207,7 @@ const FORMAT_HYPHEN_RANGES_SEPARATORS: CleanOperation = {
 };
 
 const REMOVE_MULTIPLE_SAME_SEPARATOR: CleanOperation = {
-  selector: /(?<separator>[-/,])+/gu,
+  selector: /(?<separator>[-/,:])+/gu,
   fix: (_: string, separator: string): string => `${separator}`
 };
 
@@ -202,7 +232,7 @@ const REMOVE_USELESS_TIME_SEPARATOR: CleanOperation = {
 };
 
 const FORMAT_SINGLE_RANGE: CleanOperation = {
-  selector: /^(?<startHour>[0-2]?\d)(?<startMinute>:[0-5]\d)?[-/à](?<endHour>[0-2]?\d)(?<endMinute>:[0-5]\d)?$/u,
+  selector: /^(?<startHour>[0-2]?\d)(?<startMinute>:[0-5]\d)?[-/à,](?<endHour>[0-2]?\d)(?<endMinute>:[0-5]\d)?$/u,
   fix: (
     _: string,
     startHour: string,
@@ -214,7 +244,7 @@ const FORMAT_SINGLE_RANGE: CleanOperation = {
 
 const FORMAT_TWO_TIMES_RANGES: CleanOperation = {
   selector:
-    /^(?<startHourStartRange>[0-2]?\d)(?<startMinuteStartRange>:[0-5]\d)?-?(?<endHourStartRange>[0-2]?\d)(?<endMinuteStartRange>:[0-5]\d)?[|/;,](?<startHourEndRange>[0-2]?\d)(?<startMinuteEndRange>:[0-5]\d)?-?(?<endHourEndRange>[0-2]?\d)(?<endMinuteEndRange>:[0-5]\d)?$/u,
+    /^(?<startHourStartRange>[0-2]?\d)(?<startMinuteStartRange>:[0-5]\d)?[-/à,]?(?<endHourStartRange>[0-2]?\d)(?<endMinuteStartRange>:[0-5]\d)?[|/;,](?<startHourEndRange>[0-2]?\d)(?<startMinuteEndRange>:[0-5]\d)?[-/à,]?(?<endHourEndRange>[0-2]?\d)(?<endMinuteEndRange>:[0-5]\d)?$/u,
   fix: (
     _: string,
     startHourStartRange: string,
@@ -237,7 +267,16 @@ const REMOVE_NO_TIME_RANGE: CleanOperation = {
   fix: (): string => ''
 };
 
-const CLEAN_WHITESPACE_SEPARATORS: CleanOperation[] = [FORMAT_SPACE_RANGES_SEPARATORS, FORMAT_SPACE_TIME_SEPARATOR];
+const REMOVE_TIME_EXTRA_DIGITS: CleanOperation = {
+  selector: /(?<digitsToKeep>\d\d)\d/gu,
+  fix: (_: string, digitsToKeep: string): string => digitsToKeep
+};
+
+const CLEAN_WHITESPACE_SEPARATORS: CleanOperation[] = [
+  FORMAT_SPACE_TIMES_SEPARATORS,
+  FORMAT_SPACE_RANGES_SEPARATORS,
+  FORMAT_SPACE_TIME_SEPARATOR
+];
 
 const CLEAN_ALL_SEPARATORS: CleanOperation[] = [
   FORMAT_MISSING_MINUTE_SEPARATOR,
@@ -250,18 +289,24 @@ const CLEAN_ALL_SEPARATORS: CleanOperation[] = [
   FORMAT_HYPHEN_RANGES_SEPARATORS
 ];
 
-const FINAL_OSM_FORMATTING: CleanOperation[] = [FORMAT_SINGLE_RANGE, FORMAT_TWO_TIMES_RANGES, REMOVE_NO_TIME_RANGE];
+const FINAL_OSM_FORMATTING: CleanOperation[] = [
+  FORMAT_SINGLE_RANGE,
+  FORMAT_TWO_TIMES_RANGES,
+  REMOVE_NO_TIME_RANGE,
+  REMOVE_TIME_EXTRA_DIGITS
+];
 
 export const CLEAN_OPERATIONS: CleanOperation[] = [
   UNIFORMIZE_HYPHEN_SEPARATOR,
   REMOVE_MULTIPLE_SPACES,
+  ADD_MISSING_TIME_RANGE_SEPARATOR,
+  REMOVE_FORMAT_SPACE_TIME_SEPARATOR,
   REMOVE_H_FOR_HOURS_ONLY_RANGE,
-  REMOVE_H_FOLLOWED_BY_NEXT_RANGE_TIME,
+  REMOVE_H_FOR_HOURS_ONLY_RANGE_SINGLE_H,
   REMOVE_H_FOLLOWED_BY_HOURS,
   REMOVE_H_FOLLOWED_BY_MINUTES,
   REMOVE_H_FOLLOWED_BY_A_SPACE,
   REMOVE_H_FOLLOWED_BY_A_SEPARATOR,
-  FORMAT_ET_SEPARATORS_AND_SLASHES_TIME_SEPARATOR,
   FORMAT_ET_SEPARATORS,
   FORMAT_LITERARY_TIME_SEPARATORS,
   FORMAT_LITERARY_TIME_SEPARATORS_NO_RANGE_SEPARATOR,

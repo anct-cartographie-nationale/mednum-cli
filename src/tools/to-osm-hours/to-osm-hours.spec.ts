@@ -532,4 +532,67 @@ describe('to osm hours', (): void => {
 
     expect(formattedHours).toBe('09:00-12:30,14:00-17:30');
   });
+
+  it('should format 08:30 12:30 - 13:30 17:00 to osm hours', (): void => {
+    const hours: string = '08:30 12:30 - 13:30 17:00';
+    const formattedHours: string = toOsmHours(hours);
+
+    expect(formattedHours).toBe('08:30-12:30,13:30-17:00');
+  });
+
+  it('should format 9h-12h 14h18h to osm hours', (): void => {
+    const hours: string = '9h-12h 14h18h';
+    const formattedHours: string = toOsmHours(hours);
+
+    expect(formattedHours).toBe('09:00-12:00,14:00-18:00');
+  });
+
+  it('should format samedi de 14 h 30 à 18 h 30 pinto 5 rue des fortes terres to osm hours', (): void => {
+    const hours: string = 'samedi de 14 h 30 à 18 h 30 pinto 5 rue des fortes terres';
+    const formattedHours: string = toOsmHours(hours);
+
+    expect(formattedHours).toBe('14:30-18:30');
+  });
+
+  it('should format 9h30-12h et 13h,17h to osm hours', (): void => {
+    const hours: string = '9h30-12h et 13h,17h';
+    const formattedHours: string = toOsmHours(hours);
+
+    expect(formattedHours).toBe('09:30-12:00,13:00-17:00');
+  });
+
+  it('should format 9h,12/ 13h30-17h30 to osm hours', (): void => {
+    const hours: string = '9h,12/ 13h30-17h30';
+    const formattedHours: string = toOsmHours(hours);
+
+    expect(formattedHours).toBe('09:00-12:00,13:30-17:30');
+  });
+
+  it('should format 9h 12h - 13h30 17h to osm hours', (): void => {
+    const hours: string = '9h 12h - 13h30 17h';
+    const formattedHours: string = toOsmHours(hours);
+
+    expect(formattedHours).toBe('09:00-12:00,13:30-17:00');
+  });
+
+  it('should format 14 18 h to osm hours', (): void => {
+    const hours: string = '14 15 h et 16 19h';
+    const formattedHours: string = toOsmHours(hours);
+
+    expect(formattedHours).toBe('14:00-15:00,16:00-19:00');
+  });
+
+  it('should format 10h-18h  -  pendant les vacances : > to osm hours', (): void => {
+    const hours: string = '10h-18h  -  pendant les vacances : >';
+    const formattedHours: string = toOsmHours(hours);
+
+    expect(formattedHours).toBe('10:00-18:00');
+  });
+
+  it('should format 9h 12h et 14h 19h to osm hours', (): void => {
+    const hours: string = '9h 12h et 14h 19h';
+    const formattedHours: string = toOsmHours(hours);
+
+    expect(formattedHours).toBe('09:00-12:00,14:00-19:00');
+  });
 });
