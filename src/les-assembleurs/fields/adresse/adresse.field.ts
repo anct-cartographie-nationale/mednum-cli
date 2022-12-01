@@ -1,7 +1,7 @@
 // /* eslint-disable @typescript-eslint/naming-convention, camelcase, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
-import { Adresse, OptionalPropertyError } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { Adresse, ModelError } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Recorder } from '../../../tools';
 import { LesAssembleursLieuMediationNumerique } from '../../helpers';
 import { CLEAN_OPERATIONS, CleanOperation } from './clean-operations';
@@ -107,7 +107,7 @@ export const processAdresse =
       recorder.commit();
       return adresse;
     } catch (error: unknown) {
-      error instanceof OptionalPropertyError && recorder.record(error.key, error.message);
+      error instanceof ModelError && recorder.record(error.key, error.message);
       return fixAndRetry(recorder)(lesAssembleursLieuMediationNumerique, error);
     }
   };

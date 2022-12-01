@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
-import { Contact, OptionalPropertyError, Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { Contact, ModelError, Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Recorder } from '../../../tools';
 import { CLEAN_OPERATIONS, CleanOperation, EMAIL_FIELD, SITE_WEB_FIELD } from './clean-operations';
 import { LesAssembleursLieuMediationNumerique } from '../../helpers';
@@ -122,7 +122,7 @@ export const processContact =
       recorder.commit();
       return contact;
     } catch (error: unknown) {
-      error instanceof OptionalPropertyError && recorder.record(error.key, error.message);
+      error instanceof ModelError && recorder.record(error.key, error.message);
       return fixAndRetry(recorder)(lesAssembleursLieuMediationNumerique, error);
     }
   };
