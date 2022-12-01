@@ -1,0 +1,226 @@
+{
+  "nom": {
+    "colonne": "Nom du lieu ou de la structure *"
+  },
+  "code_postal": {
+    "colonne": "Code postal"
+  },
+  "commune": {
+    "colonne": "Ville *"
+  },
+  "voie": {
+    "colonne": "Adresse postale *"
+  },
+  "latitude": {
+    "colonne": "bf_latitude"
+  },
+  "longitude": {
+    "colonne": "bf_longitude"
+  },
+  "telephone": {
+    "colonne": "Téléphone"
+  },
+  "courriel": {
+    "colonne":
+    "Email (éviter les emails nominatifs - en cas d'email nominitatif seule la personne concernée est autorisé à l'ajouter)"
+  },
+  "site_web": {
+    "colonne": "Site Web"
+  },
+  "conditionAcces": [
+    {
+      "colonnes": ["Tarifs"],
+      "termes": ["gratuit"],
+      "sauf": ["gratuit sous condition"],
+      "cible": "Gratuit : Je peux accéder gratuitement au lieu et à ses services"
+    },
+    {
+      "colonnes": ["Tarifs"],
+      "termes": ["gratuit sous condition"],
+      "cible": "Gratuit sous condition : La gratuité est conditionnée à des critères (situation familiale, convention avec un organisme social...)"
+    },
+    {
+      "colonnes": ["Tarifs"],
+      "termes": ["adhésion"],
+      "cible": "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"
+    },
+    {
+      "colonnes": ["Tarifs"],
+      "termes": ["payant"],
+      "cible": "Payant : L'accès au lieu et/ou à ses services est payant"
+    },
+    {
+      "colonnes": ["Tarifs"],
+      "termes": ["pass numérique"],
+      "cible": "Accepte le Pass numérique : Il est possible d'utiliser un Pass numérique pour accéder au lieu"
+    }
+  ],
+  "modaliteAccompagnement": [
+    {
+      "colonnes": ["Types d'accompagnement proposés"],
+      "termes": ["accompagnement en groupe"],
+      "cible": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
+    },
+    {
+      "colonnes": ["Types d'accompagnement proposés"],
+      "termes": ["faire à la place de"],
+      "cible": "A ma place : une personne habilitée fait les démarches à ma place"
+    },
+    {
+      "colonnes": ["Types d'accompagnement proposés"],
+      "termes": ["accompagnement individuel"],
+      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+    },
+    {
+      "colonnes": ["Types d'accompagnement proposés"],
+      "termes": ["accès libre avec un accompagnement"],
+      "cible": "Seul : j'ai accès à du matériel et une connexion"
+    }
+  ],
+  "date_maj": {
+    "colonne": "datetime_latest"
+  },
+  "publics_accueillis": [
+    {
+      "colonnes": ["Publics accueillis", "Accueil pour les personnes en situation de handicap", "Accompagnement de publics spécifiques"],
+      "termes": ["adultes", "tout public"],
+      "cible": "Adultes"
+    },
+    {
+      "colonnes": ["Publics accueillis", "Accueil pour les personnes en situation de handicap", "Accompagnement de publics spécifiques"],
+      "termes": ["parentalité", "tout public"],
+      "cible": "Familles/enfants"
+    },
+    {
+      "colonnes": ["Publics accueillis", "Accueil pour les personnes en situation de handicap", "Accompagnement de publics spécifiques"],
+      "termes": ["jeunesse", "tout public"],
+      "cible": "Jeunes (16-26 ans)"
+    },
+    {
+      "colonnes": ["Publics accueillis", "Accueil pour les personnes en situation de handicap", "Accompagnement de publics spécifiques"],
+      "termes": ["sénior", "senior", "tout public"],
+      "cible": "Seniors (+ 65 ans)"
+    },
+    {
+      "colonnes": ["Publics accueillis", "Accueil pour les personnes en situation de handicap", "Accompagnement de publics spécifiques"],
+      "termes": ["surdité", "tout public"],
+      "cible": "Surdité"
+    },
+    {
+      "colonnes": ["Publics accueillis", "Accueil pour les personnes en situation de handicap", "Accompagnement de publics spécifiques"],
+      "termes": ["handicap mental", "tout public"],
+      "cible": "Handicaps mentaux : déficiences limitant les activités d'une personne"
+    },
+    {
+      "colonnes": ["Publics accueillis", "Accueil pour les personnes en situation de handicap", "Accompagnement de publics spécifiques"],
+      "termes": ["personnes en situation d'illettrisme", "tout public"],
+      "cible": "Personnes en situation d'illettrisme"
+    },
+    {
+      "colonnes": ["Publics accueillis", "Accueil pour les personnes en situation de handicap", "Accompagnement de publics spécifiques"],
+      "termes": ["langue étrangère", "tout public"],
+      "cible": "Public langues étrangères"
+    },
+    {
+      "colonnes": ["Publics accueillis", "Accueil pour les personnes en situation de handicap", "Accompagnement de publics spécifiques"],
+      "termes": ["tout public"],
+      "cible": "Uniquement femmes"
+    },
+    {
+      "colonnes": ["Publics accueillis", "Accueil pour les personnes en situation de handicap", "Accompagnement de publics spécifiques"],
+      "termes": ["tout public"],
+      "cible": "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales"
+    },
+    {
+      "colonnes": ["Publics accueillis", "Accueil pour les personnes en situation de handicap", "Accompagnement de publics spécifiques"],
+      "termes": ["cécité", "déficience visuelle", "tout public"],
+      "cible": "Déficience visuelle"
+    }
+  ],
+  "services": [
+    {
+      "colonnes": ["À disposition", "Formations compétences de base proposées", "Comprendre et Utiliser les sites d’accès aux droits proposées", "Sensibilisations culture numérique"],
+      "termes": ["réseau wifi"],
+      "cible": "Accéder à une connexion internet"
+    },
+    {
+      "colonnes": ["À disposition", "Formations compétences de base proposées", "Comprendre et Utiliser les sites d’accès aux droits proposées", "Sensibilisations culture numérique"],
+      "termes": ["accès libre à du matériel informatique"],
+      "cible": "Accéder à du matériel"
+    },
+    {
+      "colonnes": ["À disposition", "Formations compétences de base proposées", "Comprendre et Utiliser les sites d’accès aux droits proposées", "Sensibilisations culture numérique"],
+      "termes": ["découvrir l'ordinateur"],
+      "cible": "Prendre en main un ordinateur"
+    },
+    {
+      "colonnes": ["À disposition", "Formations compétences de base proposées", "Comprendre et Utiliser les sites d’accès aux droits proposées", "Sensibilisations culture numérique"],
+      "termes": ["découvrir l'ordinateur", "cultures numériques"],
+      "cible": "Utiliser le numérique au quotidien"
+    },
+    {
+      "colonnes": ["À disposition", "Formations compétences de base proposées", "Comprendre et Utiliser les sites d’accès aux droits proposées", "Sensibilisations culture numérique"],
+      "termes": ["découvrir l'ordinateur", "cultures numériques"],
+      "cible": "Approfondir ma culture numérique"
+    },
+    {
+      "colonnes": ["À disposition", "Formations compétences de base proposées", "Comprendre et Utiliser les sites d’accès aux droits proposées", "Sensibilisations culture numérique"],
+      "termes": ["tablette", "smartphone"],
+      "cible": "Prendre en main un smartphone ou une tablette"
+    },
+    {
+      "colonnes": ["À disposition", "Formations compétences de base proposées", "Comprendre et Utiliser les sites d’accès aux droits proposées", "Sensibilisations culture numérique"],
+      "termes": ["cultures numériques"],
+      "cible": "Promouvoir la citoyenneté numérique"
+    },
+    {
+      "colonnes": ["À disposition", "Formations compétences de base proposées", "Comprendre et Utiliser les sites d’accès aux droits proposées", "Sensibilisations culture numérique"],
+      "termes": ["cpam", "ameli.fr"],
+      "cible": "Accompagner les démarches de santé"
+    },
+    {
+      "colonnes": ["À disposition", "Formations compétences de base proposées", "Comprendre et Utiliser les sites d’accès aux droits proposées", "Sensibilisations culture numérique"],
+      "termes": ["services de la caf", "services des impôts", "logement social", "pôle emploi", "pole-emploi.fr"],
+      "cible": "Devenir autonome dans les démarches administratives",
+      "modalitesAccompagnement": "Seul : j'ai accès à du matériel et une connexion"
+    },
+    {
+      "colonnes": ["À disposition", "Formations compétences de base proposées", "Comprendre et Utiliser les sites d’accès aux droits proposées", "Sensibilisations culture numérique"],
+      "termes": ["services de la caf", "services des impôts", "logement social", "pôle emploi", "pole-emploi.fr"],
+      "cible": "Réaliser des démarches administratives avec un accompagnement",
+      "modalitesAccompagnement": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+    }
+  ],
+  "horaires": {
+    "jours": [
+      {
+        "colonne": "Lundi",
+        "osm": "Mo"
+      },
+      {
+        "colonne": "Mardi",
+        "osm": "Tu"
+      },
+      {
+        "colonne": "Mercredi",
+        "osm": "We"
+      },
+      {
+        "colonne": "Jeudi",
+        "osm": "Th"
+      },
+      {
+        "colonne": "Vendredi",
+        "osm": "Fr"
+      },
+      {
+        "colonne": "Samedi",
+        "osm": "Sa"
+      },
+      {
+        "colonne": "Dimanche",
+        "osm": "Su"
+      }
+    ]
+  }
+}

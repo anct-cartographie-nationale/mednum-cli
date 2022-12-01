@@ -1,0 +1,130 @@
+{
+  "id": {
+    "colonne": "ID"
+  },
+  "nom": {
+    "colonne": "Nom"
+  },
+  "code_postal": {
+    "colonne": "CP"
+  },
+  "commune": {
+    "colonne": "Commune"
+  },
+  "voie": {
+    "joindre": {
+      "colonnes" : ["Numéro", "Adresse"],
+      "séparateur": " "
+    }
+  },
+  "latitude": {
+    "dissocier": {
+      "colonne" : ["Geo Point"],
+      "séparateur": ",",
+      "partie": 0
+    }
+  },
+  "longitude": {
+    "dissocier": {
+      "colonne" : ["Geo Point"],
+      "séparateur": ",",
+      "partie": 1
+    }
+  },
+  "telephone": {
+    "colonne": "Téléphone"
+  },
+  "courriel": {
+    "colonne": "Courriel"
+  },
+  "site_web": {
+    "colonne": "Site web"
+  },
+  "conditionAcces": [
+    {
+      "colonnes": ["JT_PBC_Adh"],
+      "cible": "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"
+    }
+  ],
+  "date_maj": {
+    "colonne": "Date_maj"
+  },
+  "publics_accueillis": [
+    {
+      "colonnes": ["JT_PBC_Tou", "JT_PBC_Adu"],
+      "cible": "Adultes"
+    },
+    {
+      "colonnes": ["JT_PBC_Tou"],
+      "cible": "Familles/enfants"
+    },
+    {
+      "colonnes": ["JT_PBC_Tou", "JT_PBC_Jeu"],
+      "cible": "Jeunes (16-26 ans)"
+    },
+    {
+      "colonnes": ["JT_PBC_Tou", "JT_PBC_Sen"],
+      "cible": "Seniors (+ 65 ans)"
+    },
+    {
+      "colonnes": ["JT_PBC_Tou"],
+      "cible": "Surdité"
+    },
+    {
+      "colonnes": ["JT_PBC_Tou"],
+      "cible": "Handicaps mentaux : déficiences limitant les activités d'une personne"
+    },
+    {
+      "colonnes": ["JT_PBC_Tou"],
+      "cible": "Personnes en situation d'illettrisme"
+    },
+    {
+      "colonnes": ["JT_PBC_Tou"],
+      "cible": "Public langues étrangères"
+    },
+    {
+      "colonnes": ["JT_PBC_Tou"],
+      "cible": "Uniquement femmes"
+    },
+    {
+      "colonnes": ["JT_PBC_Tou"],
+      "cible": "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales"
+    },
+    {
+      "colonnes": ["JT_PBC_Tou"],
+      "cible": "Déficience visuelle"
+    }
+  ],
+  "services": [
+    {
+      "colonnes": ["Accès internet"],
+      "cible": "Accéder à une connexion internet"
+    },
+    {
+      "colonnes": ["JT_MAT_Wif"],
+      "cible": "Accéder à une connexion internet"
+    },
+    {
+      "colonnes": ["JT_MAT_Imp", "JT_MAT_Sca", "JT_MAT_Bor", "JT_MAT_3D", "JT_MAT_Con", "JT_MAT_Vid"],
+      "cible": "Accéder à du matériel"
+    },
+    {
+      "colonnes": ["Initiation aux outils numériques"],
+      "cible": "Prendre en main un ordinateur"
+    },
+    {
+      "colonnes": ["Initiation aux outils numériques"],
+      "cible": "Prendre en main un smartphone ou une tablette"
+    },
+    {
+      "colonnes": ["Démarches générales"],
+      "cible": "Devenir autonome dans les démarches administratives"
+    },
+    {
+      "colonnes": ["Démarches spécifiques"],
+      "cible": "Réaliser des démarches administratives avec un accompagnement"
+    }
+  ]
+}
+
+

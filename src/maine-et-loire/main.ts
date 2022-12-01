@@ -26,12 +26,12 @@ import ErrnoException = NodeJS.ErrnoException;
 const report: Report = Report();
 
 const SOURCE_PATH: string = './assets/input/';
-const SOURCE_FILE: string = 'hinaura.json';
-const CONFIG_FILE: string = 'hinaura.config.json';
+const SOURCE_FILE: string = 'maine-et-loire.json';
+const CONFIG_FILE: string = 'maine-et-loire.config.json';
 
-const ID: string = 'hinaura'; // todo: remplacer par le SIREN
-const NAME: string = 'Hinaura';
-const TERRITOIRE: string = 'auvergne-rhone-alpes';
+const ID: string = 'maine-et-loire'; // todo: remplacer par le SIREN
+const NAME: string = 'maine-et-loire';
+const TERRITOIRE: string = 'pays-de-la-loire';
 
 const lieuDeMediationNumerique = (
   index: number,
