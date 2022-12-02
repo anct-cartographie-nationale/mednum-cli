@@ -8,16 +8,18 @@ import {
   processAdresse,
   formatServicesField,
   formatPublicAccueilliField,
-  formatConditionAccessField,
+  formatConditionsAccesField,
   formatModalitesAccompagnementField,
   processContact,
   processHoraires
 } from './fields';
 import {
-  ConditionsAccess,
+  ConditionsAcces,
+  Id,
   LieuMediationNumerique,
   Localisation,
   ModalitesAccompagnement,
+  Nom,
   Pivot,
   PublicsAccueillis,
   Services,
@@ -33,8 +35,8 @@ const toLieuDeMediationNumerique = (
   recorder: Recorder
 ): LieuMediationNumerique => {
   const lieuMediationNumerique: LieuMediationNumerique = {
-    id: lesAssembleursLieuMediationNumerique.ID,
-    nom: lesAssembleursLieuMediationNumerique.Nom,
+    id: Id(lesAssembleursLieuMediationNumerique.ID),
+    nom: Nom(lesAssembleursLieuMediationNumerique.Nom),
     pivot: Pivot('00000000000000'),
     adresse: processAdresse(recorder)(lesAssembleursLieuMediationNumerique),
     localisation: Localisation({
@@ -42,7 +44,7 @@ const toLieuDeMediationNumerique = (
       longitude: parseInt(lesAssembleursLieuMediationNumerique.Longitude, 10)
     }),
     contact: processContact(recorder)(lesAssembleursLieuMediationNumerique),
-    conditions_access: ConditionsAccess(formatConditionAccessField(lesAssembleursLieuMediationNumerique)),
+    conditions_acces: ConditionsAcces(formatConditionsAccesField(lesAssembleursLieuMediationNumerique)),
     modalites_accompagnement: ModalitesAccompagnement(formatModalitesAccompagnementField(lesAssembleursLieuMediationNumerique)),
     date_maj: new Date(
       `${lesAssembleursLieuMediationNumerique['Date MAJ'].split('/')[2]?.split(' ')[0]}-${

@@ -44,7 +44,8 @@
     "start.les-assembleurs": "ts-node src/les-assembleurs/main.ts",
     "start.data-inclusion": "ts-node src/data-inclusion/main.ts",
     "start.hinaura": "ts-node src/hinaura/main.ts",
-    "start.maine-et-loire": "ts-node src/maine-et-loire/main.ts"
+    "start.maine-et-loire": "ts-node src/maine-et-loire/main.ts",
+    "start.cnfs": "ts-node src/cnfs/main.ts"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
@@ -66,7 +67,7 @@
     "typescript": "^4.8.4"
   },
   "dependencies": {
-    "@gouvfr-anct/lieux-de-mediation-numerique": "^1.8.1",
+    "@gouvfr-anct/lieux-de-mediation-numerique": "^1.11.1",
     "@gouvfr-anct/timetable-to-osm-opening-hours": "^1.0.1"
   }
 }

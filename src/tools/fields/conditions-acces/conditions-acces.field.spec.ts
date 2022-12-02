@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import { ConditionAccess } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { ConditionAcces } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching, Source } from '../../input';
-import { processConditionsAccess } from './conditions-access.field';
+import { processConditionsAcces } from './conditions-acces.field';
 
 const STANDARD_MATCHING: LieuxMediationNumeriqueMatching = {
   conditionAcces: [
@@ -10,96 +10,96 @@ const STANDARD_MATCHING: LieuxMediationNumeriqueMatching = {
       colonnes: ['Tarifs'],
       termes: ['gratuit'],
       sauf: ['gratuit sous condition'],
-      cible: ConditionAccess.Gratuit
+      cible: ConditionAcces.Gratuit
     },
     {
       colonnes: ['Tarifs'],
       termes: ['gratuit sous condition'],
-      cible: ConditionAccess.GratuitSousCondition
+      cible: ConditionAcces.GratuitSousCondition
     },
     {
       colonnes: ['Tarifs'],
       termes: ['adhésion'],
-      cible: ConditionAccess.Adhesion
+      cible: ConditionAcces.Adhesion
     },
     {
       colonnes: ['Tarifs'],
       termes: ['payant'],
-      cible: ConditionAccess.Payant
+      cible: ConditionAcces.Payant
     },
     {
       colonnes: ['Tarifs'],
       termes: ['pass numérique'],
-      cible: ConditionAccess.AccepteLePassNumerique
+      cible: ConditionAcces.AccepteLePassNumerique
     }
   ]
 } as LieuxMediationNumeriqueMatching;
 
-describe('condition access field', (): void => {
-  it('should get no value as condition access', (): void => {
-    const conditionsAccess: ConditionAccess[] = processConditionsAccess(
+describe('condition acces field', (): void => {
+  it('should get no value as condition acces', (): void => {
+    const conditionsAcces: ConditionAcces[] = processConditionsAcces(
       {
         Tarifs: ''
       } as Source,
       STANDARD_MATCHING
     );
 
-    expect(conditionsAccess).toStrictEqual([]);
+    expect(conditionsAcces).toStrictEqual([]);
   });
 
-  it('should get Gratuit as condition access', (): void => {
-    const conditionsAccess: ConditionAccess[] = processConditionsAccess(
+  it('should get Gratuit as condition acces', (): void => {
+    const conditionsAcces: ConditionAcces[] = processConditionsAcces(
       {
         Tarifs: 'gratuit'
       } as Source,
       STANDARD_MATCHING
     );
 
-    expect(conditionsAccess).toStrictEqual([ConditionAccess.Gratuit]);
+    expect(conditionsAcces).toStrictEqual([ConditionAcces.Gratuit]);
   });
 
-  it('should get Gratuit sous condition as condition access', (): void => {
-    const conditionsAccess: ConditionAccess[] = processConditionsAccess(
+  it('should get Gratuit sous condition as condition acces', (): void => {
+    const conditionsAcces: ConditionAcces[] = processConditionsAcces(
       {
         Tarifs: 'gratuit sous condition'
       } as Source,
       STANDARD_MATCHING
     );
 
-    expect(conditionsAccess).toStrictEqual([ConditionAccess.GratuitSousCondition]);
+    expect(conditionsAcces).toStrictEqual([ConditionAcces.GratuitSousCondition]);
   });
 
-  it('should get Adhésion as condition access', (): void => {
-    const conditionsAccess: ConditionAccess[] = processConditionsAccess(
+  it('should get Adhésion as condition acces', (): void => {
+    const conditionsAcces: ConditionAcces[] = processConditionsAcces(
       {
         Tarifs: 'adhésion'
       } as Source,
       STANDARD_MATCHING
     );
 
-    expect(conditionsAccess).toStrictEqual([ConditionAccess.Adhesion]);
+    expect(conditionsAcces).toStrictEqual([ConditionAcces.Adhesion]);
   });
 
-  it('should get Payant as condition access', (): void => {
-    const conditionsAccess: ConditionAccess[] = processConditionsAccess(
+  it('should get Payant as condition acces', (): void => {
+    const conditionsAcces: ConditionAcces[] = processConditionsAcces(
       {
         Tarifs: 'payant'
       } as Source,
       STANDARD_MATCHING
     );
 
-    expect(conditionsAccess).toStrictEqual([ConditionAccess.Payant]);
+    expect(conditionsAcces).toStrictEqual([ConditionAcces.Payant]);
   });
 
-  it('should get Pass Numérique as condition access', (): void => {
-    const conditionsAccess: ConditionAccess[] = processConditionsAccess(
+  it('should get Pass Numérique as condition acces', (): void => {
+    const conditionsAcces: ConditionAcces[] = processConditionsAcces(
       {
         Tarifs: 'pass numérique'
       } as Source,
       STANDARD_MATCHING
     );
 
-    expect(conditionsAccess).toStrictEqual([ConditionAccess.AccepteLePassNumerique]);
+    expect(conditionsAcces).toStrictEqual([ConditionAcces.AccepteLePassNumerique]);
   });
 
   it('should get only one gratuit', (): void => {
@@ -108,12 +108,12 @@ describe('condition access field', (): void => {
         {
           colonnes: ['Tarifs', 'Frais à charge'],
           termes: ['gratuit', 'sans frais'],
-          cible: ConditionAccess.Gratuit
+          cible: ConditionAcces.Gratuit
         }
       ]
     } as LieuxMediationNumeriqueMatching;
 
-    const conditionsAccess: ConditionAccess[] = processConditionsAccess(
+    const conditionsAcces: ConditionAcces[] = processConditionsAcces(
       {
         Tarifs: 'gratuit',
         'Frais à charge': 'sans frais'
@@ -121,7 +121,7 @@ describe('condition access field', (): void => {
       matching
     );
 
-    expect(conditionsAccess).toStrictEqual([ConditionAccess.Gratuit]);
+    expect(conditionsAcces).toStrictEqual([ConditionAcces.Gratuit]);
   });
 
   it('should get nothing when no check in Gratuit column', (): void => {
@@ -129,19 +129,19 @@ describe('condition access field', (): void => {
       conditionAcces: [
         {
           colonnes: ['Gratuit'],
-          cible: ConditionAccess.Gratuit
+          cible: ConditionAcces.Gratuit
         }
       ]
     } as LieuxMediationNumeriqueMatching;
 
-    const conditionsAccess: ConditionAccess[] = processConditionsAccess(
+    const conditionsAcces: ConditionAcces[] = processConditionsAcces(
       {
         Gratuit: ''
       } as Source,
       matching
     );
 
-    expect(conditionsAccess).toStrictEqual([]);
+    expect(conditionsAcces).toStrictEqual([]);
   });
 
   it('should get gratuit when check in specific column', (): void => {
@@ -149,18 +149,18 @@ describe('condition access field', (): void => {
       conditionAcces: [
         {
           colonnes: ['Gratuit'],
-          cible: ConditionAccess.Gratuit
+          cible: ConditionAcces.Gratuit
         }
       ]
     } as LieuxMediationNumeriqueMatching;
 
-    const conditionsAccess: ConditionAccess[] = processConditionsAccess(
+    const conditionsAcces: ConditionAcces[] = processConditionsAcces(
       {
         Gratuit: 'X'
       } as Source,
       matching
     );
 
-    expect(conditionsAccess).toStrictEqual([ConditionAccess.Gratuit]);
+    expect(conditionsAcces).toStrictEqual([ConditionAcces.Gratuit]);
   });
 });
