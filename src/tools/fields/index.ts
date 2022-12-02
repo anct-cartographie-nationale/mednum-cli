@@ -1,5 +1,5 @@
 export * from './adresse/adresse.field';
-export * from './conditions-access/conditions-access.field';
+export * from './conditions-acces/conditions-acces.field';
 export * from './contact/contact.field';
 export * from './date/date.field';
 export * from './horaires/horaires.field';

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import { ConditionAccess, ModaliteAccompagnement, PublicAccueilli, Service } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { ConditionAcces, ModaliteAccompagnement, PublicAccueilli, Service } from '@gouvfr-anct/lieux-de-mediation-numerique';
 
 export type Source = Record<string, string>;
 
@@ -44,7 +44,7 @@ export type LieuxMediationNumeriqueMatching = {
   telephone: Colonne;
   site_web: Colonne;
   courriel: Colonne;
-  conditionAcces: Choice<ConditionAccess>[];
+  conditionAcces: Choice<ConditionAcces>[];
   modaliteAccompagnement?: Choice<ModaliteAccompagnement>[];
   date_maj: Colonne;
   publics_accueillis: Choice<PublicAccueilli>[];

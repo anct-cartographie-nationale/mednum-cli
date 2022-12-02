@@ -6,7 +6,7 @@ import { LieuMediationNumerique, Pivot, ServicesError, VoieError } from '@gouvfr
 import {
   LieuxMediationNumeriqueMatching,
   processAdresse,
-  processConditionsAccess,
+  processConditionsAcces,
   processContact,
   processDate,
   processHoraires,
@@ -46,7 +46,7 @@ const lieuDeMediationNumerique = (
     adresse: processAdresse(recorder)(source, matching),
     localisation: processLocalisation(source, matching),
     contact: processContact(recorder)(source, matching),
-    conditions_access: processConditionsAccess(source, matching),
+    conditions_acces: processConditionsAcces(source, matching),
     modalites_accompagnement: processModalitesAccompagnement(source, matching),
     date_maj: processDate(source, matching),
     publics_accueillis: processPublicAccueilli(source, matching),
