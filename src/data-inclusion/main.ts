@@ -29,31 +29,9 @@ const onlyDefindedLieuxMediationNumerique = (
 ): lieuMediationNumerique is LieuMediationNumerique => lieuMediationNumerique != null;
 
 const processFields = (structure: SchemaStructureDataInclusion): SchemaStructureDataInclusion => ({
-  id: structure.id,
-  siret: structure.siret,
-  rna: structure.rna,
-  nom: structure.nom,
+  ...structure,
   commune: processCommune(structure.commune),
-  code_postal: structure.code_postal,
-  code_insee: structure.code_insee,
-  adresse: processVoie(structure.adresse),
-  complement_adresse: structure.complement_adresse,
-  longitude: structure.longitude,
-  latitude: structure.latitude,
-  typologie: structure.typologie,
-  telephone: structure.telephone,
-  courriel: structure.courriel,
-  site_web: structure.site_web,
-  presentation_resume: structure.presentation_resume,
-  presentation_detail: structure.presentation_detail,
-  source: structure.source,
-  date_maj: structure.date_maj,
-  lien_source: structure.lien_source,
-  horaires_ouverture: structure.horaires_ouverture,
-  accessibilite: structure.accessibilite,
-  labels_nationaux: structure.labels_nationaux,
-  labels_autres: structure.labels_autres,
-  thematiques: structure.thematiques
+  adresse: processVoie(structure.adresse)
 });
 
 const toLieuxDeMediationNumerique =
