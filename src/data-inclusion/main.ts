@@ -14,7 +14,7 @@ import {
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { DataInclusionMerged, mergeServicesInStructure } from './merge-services-in-structure';
 import { writeOutputFiles } from '../tools';
-import { processCommune, processVoie } from './fields';
+import { processVoie } from './fields';
 
 const SOURCE_PATH: string = './assets/input/';
 const DATA_INCLUSION_STRUCTURES_FILE: string = 'data-inclusion-structures.json';
@@ -30,7 +30,6 @@ const onlyDefindedLieuxMediationNumerique = (
 
 const processFields = (structure: SchemaStructureDataInclusion): SchemaStructureDataInclusion => ({
   ...structure,
-  commune: processCommune(structure.commune),
   adresse: processVoie(structure.adresse)
 });
 
