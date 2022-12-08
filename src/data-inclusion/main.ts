@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-restricted-imports,no-undef */
+/* eslint-disable @typescript-eslint/no-restricted-imports,no-undef,max-lines-per-function,@typescript-eslint/naming-convention, camelcase */
 
 import * as fs from 'fs';
 import ErrnoException = NodeJS.ErrnoException;
@@ -14,6 +14,7 @@ import {
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { DataInclusionMerged, mergeServicesInStructure } from './merge-services-in-structure';
 import { writeOutputFiles } from '../tools';
+import { processVoie } from './fields';
 
 const SOURCE_PATH: string = './assets/input/';
 const DATA_INCLUSION_STRUCTURES_FILE: string = 'data-inclusion-structures.json';
@@ -27,18 +28,22 @@ const onlyDefindedLieuxMediationNumerique = (
   lieuMediationNumerique?: LieuMediationNumerique
 ): lieuMediationNumerique is LieuMediationNumerique => lieuMediationNumerique != null;
 
+const processFields = (structure: SchemaStructureDataInclusion): SchemaStructureDataInclusion => ({
+  ...structure,
+  adresse: processVoie(structure.adresse)
+});
+
 const toLieuxDeMediationNumerique =
   (dataInclusionServices: SchemaServiceDataInclusion[]) =>
   (structure: SchemaStructureDataInclusion): LieuMediationNumerique | undefined => {
     try {
       const dataInclusionMerged: DataInclusionMerged = mergeServicesInStructure(dataInclusionServices, structure);
-      return fromSchemaDataInclusion(dataInclusionMerged.services, dataInclusionMerged.structure);
+      return fromSchemaDataInclusion(dataInclusionMerged.services, processFields(dataInclusionMerged.structure));
     } catch (error: unknown) {
       if (error instanceof ServicesError) return undefined;
       if (error instanceof CommuneError) return undefined;
       if (error instanceof MandatorySiretOrRnaError) return undefined;
       if (error instanceof CodeInseeError) return undefined;
-
       throw error;
     }
   };
