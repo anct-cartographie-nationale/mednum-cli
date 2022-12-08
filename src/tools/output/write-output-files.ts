@@ -24,12 +24,12 @@ const throwWriteFileError = (writeFileError: unknown): void => {
 };
 
 const createFolderIfNotExist = (folderPath: string): string => {
-  if (!fs.existsSync(folderPath)) {
-    fs.mkdirSync(folderPath, { recursive: true });
-  }
+  !fs.existsSync(folderPath) && fs.mkdirSync(folderPath, { recursive: true });
 
   return folderPath;
 };
+
+const noEmptyCell = <T>(_: string, cell: T): T | undefined => (cell === '' ? undefined : cell);
 
 const writeMediationNumeriqueJsonOutput = (
   producer: Producer,
@@ -39,7 +39,7 @@ const writeMediationNumeriqueJsonOutput = (
     `${createFolderIfNotExist(
       `./assets/output/${producer.name.toLowerCase()}/mediation-numerique`
     )}/${mediationNumeriqueFileName(new Date(), producer.id, producer.territoire, 'json')}`,
-    JSON.stringify(schemaLieuxDeMediationNumerique),
+    JSON.stringify(schemaLieuxDeMediationNumerique, noEmptyCell),
     throwWriteFileError
   );
 };
@@ -65,7 +65,7 @@ const writeStructuresDataInclusionJsonOutput = (
     `${createFolderIfNotExist(
       `./assets/output/${producer.name.toLowerCase()}/data-inclusion/strcutures`
     )}/${dataInclusionFileName(new Date(), producer.id, 'structures', 'json')}`,
-    JSON.stringify(toSchemaStructuresDataInclusion(lieuxDeMediationNumerique)),
+    JSON.stringify(toSchemaStructuresDataInclusion(lieuxDeMediationNumerique), noEmptyCell),
     throwWriteFileError
   );
 };
@@ -78,7 +78,7 @@ const writeServicesDataInclusionJsonOutput = (
     `${createFolderIfNotExist(
       `./assets/output/${producer.name.toLowerCase()}/data-inclusion/services`
     )}/${dataInclusionFileName(new Date(), producer.id, 'services', 'json')}`,
-    JSON.stringify(toSchemaServicesDataInclusion(lieuxDeMediationNumerique)),
+    JSON.stringify(toSchemaServicesDataInclusion(lieuxDeMediationNumerique), noEmptyCell),
     throwWriteFileError
   );
 };
