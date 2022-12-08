@@ -163,4 +163,21 @@ describe('adresse field', (): void => {
       voie: '5 rue Malakoff'
     });
   });
+
+  it('should process an address with a number code postal', (): void => {
+    const source: Source = {
+      CP: 38000 as unknown as string,
+      Commune: 'Grenoble',
+      Adresse: 'rue Malakoff',
+      Numéro: '5'
+    };
+
+    const adresse: Adresse = processAdresse(Report().entry(0))(source, SPLIT_VOIE_MATCHING);
+
+    expect(adresse).toStrictEqual({
+      code_postal: '38000',
+      commune: 'Grenoble',
+      voie: '5 rue Malakoff'
+    });
+  });
 });

@@ -27,7 +27,7 @@ const voieField = (source: Source, voie: Jonction & Partial<Colonne>): string =>
 
 const toLieuxMediationNumeriqueAdresse = (source: Source, matching: LieuxMediationNumeriqueMatching): Adresse =>
   Adresse({
-    code_postal: source[matching.code_postal.colonne] ?? '',
+    code_postal: source[matching.code_postal.colonne]?.toString() ?? '',
     commune: formatCommune(source[matching.commune.colonne] ?? ''),
     voie: formatVoie(voieField(source, matching.voie))
   });
