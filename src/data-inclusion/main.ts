@@ -3,14 +3,15 @@
 import * as fs from 'fs';
 import ErrnoException = NodeJS.ErrnoException;
 import {
-  CodeInseeError,
   CommuneError,
   fromSchemaDataInclusion,
   LieuMediationNumerique,
   MandatorySiretOrRnaError,
   SchemaServiceDataInclusion,
   SchemaStructureDataInclusion,
-  ServicesError
+  ServicesError,
+  UrlError,
+  VoieError
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { DataInclusionMerged, mergeServicesInStructure } from './merge-services-in-structure';
 import { writeOutputFiles } from '../tools';
@@ -33,6 +34,19 @@ const processFields = (structure: SchemaStructureDataInclusion): SchemaStructure
   adresse: processVoie(structure.adresse)
 });
 
+const invalidLieuErrors: unknown[] = [
+  UrlError, // todo: fix instead of drop
+  VoieError,
+  ServicesError,
+  CommuneError,
+  MandatorySiretOrRnaError
+];
+
+const matchActual =
+  (error: unknown) =>
+  (invalidLieuError: typeof Error): boolean =>
+    error instanceof invalidLieuError;
+
 const toLieuxDeMediationNumerique =
   (dataInclusionServices: SchemaServiceDataInclusion[]) =>
   (structure: SchemaStructureDataInclusion): LieuMediationNumerique | undefined => {
@@ -40,10 +54,8 @@ const toLieuxDeMediationNumerique =
       const dataInclusionMerged: DataInclusionMerged = mergeServicesInStructure(dataInclusionServices, structure);
       return fromSchemaDataInclusion(dataInclusionMerged.services, processFields(dataInclusionMerged.structure));
     } catch (error: unknown) {
-      if (error instanceof ServicesError) return undefined;
-      if (error instanceof CommuneError) return undefined;
-      if (error instanceof MandatorySiretOrRnaError) return undefined;
-      if (error instanceof CodeInseeError) return undefined;
+      if (invalidLieuErrors.some(matchActual(error))) return undefined;
+
       throw error;
     }
   };
