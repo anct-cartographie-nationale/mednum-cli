@@ -1,13 +1,16 @@
-import { Dataset, PostDataset } from '../mednum';
+import { Dataset, PostDataset, Ressource } from '../mednum';
 import axios from 'axios';
 /* eslint-disable-next-line @typescript-eslint/no-restricted-imports */
 import * as fs from 'fs';
 /* eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/naming-convention, @typescript-eslint/typedef, @typescript-eslint/no-shadow, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
 const FormData = require('form-data');
 
-export type Ressource = {
+export type PublishRessource = {
+  id?: string;
   name: string;
   source: string;
+  schema: string;
+  description: string;
 };
 
 type Headers = Record<string, string>;
@@ -16,7 +19,7 @@ export type PublishDatasetRepository = {
   get: (ownerId: string) => Promise<Dataset[]>;
   post: (datasetToCreate: PostDataset) => Promise<Dataset>;
   update: (datasetToUpdate: PostDataset, dataset: Dataset) => Promise<Dataset>;
-  addRessourceTo: (dataset: Dataset) => (ressource: Ressource) => Promise<void>;
+  addRessourceTo: (dataset: Dataset) => (ressource: PublishRessource) => Promise<void>;
 };
 
 const PROTOCOL: string = 'https://';
@@ -42,6 +45,7 @@ const authHeader = (apiKey: string): Headers => ({
 const getDataset = async (ownerId: string): Promise<Dataset[]> =>
   (
     await axios
+      // todo: switch between owner and organization
       // .get(`${API_URL}/datasets/?organization=${organization.id}`)
       .get(`${API_URL}/datasets/?owner=${ownerId}&page_size=10000`, headers())
   ).data.data;
@@ -59,14 +63,27 @@ const updateDataset =
 const addRessourceTo =
   (apiKey: string) =>
   (dataset: Dataset) =>
-  async (ressource: Ressource): Promise<void> => {
+  async (ressource: PublishRessource): Promise<void> => {
     const formData: typeof FormData = new FormData();
     formData.append('file', fs.readFileSync(`${ressource.source}/${ressource.name}`), ressource.name);
 
-    await axios.post<Dataset>(
-      `${API_URL}/datasets/${dataset.id}/upload`,
-      formData.getBuffer(),
-      headers(formData.getHeaders(authHeader(apiKey)))
+    const ressourceId: string = (
+      await axios.post<Ressource>(
+        ressource.id == null
+          ? `${API_URL}/datasets/${dataset.id}/upload`
+          : `${API_URL}/datasets/${dataset.id}/resources/${ressource.id}/upload`,
+        formData.getBuffer(),
+        headers(formData.getHeaders(authHeader(apiKey)))
+      )
+    ).data.id;
+
+    await axios.put<Ressource>(
+      `${API_URL}/datasets/${dataset.id}/resources/${ressourceId}`,
+      {
+        schema: { name: ressource.schema },
+        description: ressource.description
+      },
+      headers(authHeader(apiKey))
     );
   };
 
