@@ -1,6 +1,4 @@
-import { PublishDatasetRepository, PublishRessource } from './repositories/publish-dataset.repository';
-
-export type Frequency = 'daily';
+import { PublishDatasetRepository } from './repositories/publish-dataset.repository';
 
 export type Organization = {
   class: string;
@@ -10,80 +8,96 @@ export type Organization = {
 
 export type Ressource = {
   id: string;
-  title: string;
+  name: string;
+  schema?: string;
+  description?: string;
+};
+
+export type PublishRessource = {
+  name: string;
+  source: string;
+  schema: string;
+  description: string;
 };
 
 export type Dataset = {
   id: string;
   description: string;
-  frequency: Frequency;
+  frequency: string;
   title: string;
   organization?: Organization;
   resources: Ressource[];
 };
 
-export type PostDataset = {
+export type PublishDataset = {
   description: string;
-  frequency: Frequency;
+  frequency: string;
   title: string;
   organization?: Organization;
+  tags: string[];
+  license: string;
+  zone: string;
+  granularity: string;
+  start: string;
+  end: string;
+  ressources: PublishRessource[];
 };
 
 type DatasetToPublishActions = {
-  shouldCreate?: (datasetToCreate: PostDataset) => Promise<void>;
-  exist?: (datasetToUpdate: PostDataset, datasetFound: Dataset) => Promise<void>;
+  shouldCreate?: (datasetToCreate: PublishDataset) => Promise<void>;
+  exist?: (datasetToUpdate: PublishDataset, datasetFound: Dataset) => Promise<void>;
 };
 
 const datasetFound = (dataset: Dataset | undefined): dataset is Dataset => dataset != null;
 
 const matchTitleFrom =
-  (postDataset: PostDataset) =>
+  (postDataset: PublishDataset) =>
   (dataset: Dataset): boolean =>
     dataset.title === postDataset.title;
 
 const datasetToPublish =
   (datasetRepository: PublishDatasetRepository, ownerId: string) =>
-  async (postDataset: PostDataset, { shouldCreate, exist }: DatasetToPublishActions): Promise<void> => {
+  async (postDataset: PublishDataset, { shouldCreate, exist }: DatasetToPublishActions): Promise<void> => {
     const dataset: Dataset | undefined = (await datasetRepository.get(ownerId)).find(matchTitleFrom(postDataset));
     await (datasetFound(dataset) ? exist?.(postDataset, dataset) : shouldCreate?.(postDataset));
   };
-
-const idIfAny = (id?: string): { id?: string } => (id == null ? {} : { id });
 
 const removeDatePrefix = (title: string): string => title.substring(8);
 
 const matchName =
   (ressource: PublishRessource) =>
   (existingRessource: Ressource): boolean =>
-    removeDatePrefix(existingRessource.title).replace(/_/gu, '-') === removeDatePrefix(ressource.name).replace(/_/gu, '-');
+    removeDatePrefix(existingRessource.name).replace(/_/gu, '-') === removeDatePrefix(ressource.name).replace(/_/gu, '-');
 
 const toRessourceToUpload =
   (dataset: Dataset, datasetRepository: PublishDatasetRepository) =>
   async (ressourceToPublish: PublishRessource): Promise<void> =>
-    datasetRepository.addRessourceTo(dataset)({
-      ...idIfAny(dataset.resources.find(matchName(ressourceToPublish))?.id),
-      ...ressourceToPublish
-    });
+    datasetRepository.updateRessourceFor(dataset)(
+      ressourceToPublish,
+      dataset.resources.find(matchName(ressourceToPublish))?.id
+    );
 
 const updateExistingDataset =
-  (datasetRepository: PublishDatasetRepository, ressources: PublishRessource[]) =>
-  async (postDataset: PostDataset, dataset: Dataset): Promise<void> => {
+  (datasetRepository: PublishDatasetRepository) =>
+  async (postDataset: PublishDataset, dataset: Dataset): Promise<void> => {
     await datasetRepository.update(postDataset, dataset);
-    ressources.length > 0 && (await Promise.all(ressources.map(toRessourceToUpload(dataset, datasetRepository))));
+    postDataset.ressources.length > 0 &&
+      (await Promise.all(postDataset.ressources.map(toRessourceToUpload(dataset, datasetRepository))));
   };
 
 const createNewDataset =
-  (datasetRepository: PublishDatasetRepository, ressources: PublishRessource[]) =>
-  async (postDataset: PostDataset): Promise<void> => {
+  (datasetRepository: PublishDatasetRepository) =>
+  async (postDataset: PublishDataset): Promise<void> => {
     const dataset: Dataset = await datasetRepository.post(postDataset);
-    ressources.length > 0 && (await Promise.all(ressources.map(datasetRepository.addRessourceTo(dataset))));
+    postDataset.ressources.length > 0 &&
+      (await Promise.all(postDataset.ressources.map(datasetRepository.addRessourceTo(dataset))));
   };
 
 export const publishDataset =
-  (datasetRepository: PublishDatasetRepository, ownerId: string, ressources: PublishRessource[]) =>
-  async (dataset: PostDataset): Promise<void> => {
+  (datasetRepository: PublishDatasetRepository, ownerId: string) =>
+  async (dataset: PublishDataset): Promise<void> => {
     await datasetToPublish(datasetRepository, ownerId)(dataset, {
-      exist: updateExistingDataset(datasetRepository, ressources),
-      shouldCreate: createNewDataset(datasetRepository, ressources)
+      exist: updateExistingDataset(datasetRepository),
+      shouldCreate: createNewDataset(datasetRepository)
     });
   };

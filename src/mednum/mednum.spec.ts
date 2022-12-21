@@ -1,13 +1,35 @@
-import { PostDataset, Dataset, publishDataset } from './mednum';
-import { PublishDatasetRepository, PublishRessource } from './repositories/publish-dataset.repository';
+import { PublishDataset, Dataset, publishDataset, PublishRessource, Ressource } from './mednum';
+import { PublishDatasetRepository } from './repositories/publish-dataset.repository';
 
 const OWNER_ID: string = 'cdf56af1aa1f5c6';
 
-const DATASET_TO_CREATE: PostDataset = {
+const DATASET_TO_CREATE: PublishDataset = {
   description: 'This is a dataset to publish',
   frequency: 'daily',
-  title: 'New Dataset'
+  title: 'New Dataset',
+  ressources: []
+} as unknown as PublishDataset;
+
+const CSV_CREATE_RESSOURCE: PublishRessource = {
+  source: 'assets/output/maine-et-loire/mediation-numerique',
+  name: '20221213_maine-et-loire_lieux-de-mediation-numeriques-pays-de-la-loire.csv',
+  schema: 'LaMednum/standard-mediation-num',
+  description: 'Test ressource for a csv file'
 };
+
+const DATASET_TO_CREATE_WITH_CREATE_CSV_RESSOURCE: PublishDataset = {
+  description: 'This is a dataset to publish',
+  frequency: 'daily',
+  title: 'New Dataset',
+  ressources: [CSV_CREATE_RESSOURCE]
+} as PublishDataset;
+
+const DATASET_TO_CREATE_WITHOUT_RESSOURCES: PublishDataset = {
+  description: 'This is a dataset to publish',
+  frequency: 'daily',
+  title: 'New Dataset',
+  ressources: []
+} as unknown as PublishDataset;
 
 const DATASET_CREATED: Dataset = {
   id: '6a564acf45cf645dfa5d4cd5',
@@ -17,11 +39,68 @@ const DATASET_CREATED: Dataset = {
   resources: []
 };
 
-const DATASET_TO_UPDATE: PostDataset = {
+const DATASET_TO_UPDATE: PublishDataset = {
   description: 'This is a dataset to publish',
   frequency: 'daily',
-  title: 'Existing Dataset'
+  title: 'Existing Dataset',
+  ressources: []
+} as unknown as PublishDataset;
+
+const CSV_CREATE_RESSOURCE_WITHOUT_UNDERSCORES: PublishRessource = {
+  source: 'assets/output/maine-et-loire/mediation-numerique',
+  name: '20221213-maine-et-loire-lieux-de-mediation-numeriques-pays-de-la-loire.csv',
+  schema: 'LaMednum/standard-mediation-num',
+  description: 'Test ressource for a csv file without underscores in file name'
 };
+
+const DATASET_TO_UPDATE_WITH_CREATE_CSV_RESSOURCE_WITHOUT_UNDERSCORES: PublishDataset = {
+  description: 'This is a dataset to publish',
+  frequency: 'daily',
+  title: 'Existing Dataset',
+  ressources: [CSV_CREATE_RESSOURCE_WITHOUT_UNDERSCORES]
+} as PublishDataset;
+
+const CSV_CREATE_RESSOURCE_AT_DIFFERENT_DATE: PublishRessource = {
+  source: 'assets/output/maine-et-loire/mediation-numerique',
+  name: '20230115_maine-et-loire_lieux-de-mediation-numeriques-pays-de-la-loire.csv',
+  schema: 'LaMednum/standard-mediation-num',
+  description: 'Test ressource for a csv file with a different date prefix in file name'
+};
+
+const DATASET_TO_UPDATE_WITH_CREATE_CSV_RESSOURCE_AT_DIFFERENT_DATE: PublishDataset = {
+  description: 'This is a dataset to publish',
+  frequency: 'daily',
+  title: 'Existing Dataset',
+  ressources: [CSV_CREATE_RESSOURCE_AT_DIFFERENT_DATE]
+} as PublishDataset;
+
+const DATASET_TO_UPDATE_WITHOUT_RESSOURCES: PublishDataset = {
+  description: 'This is a dataset to publish',
+  frequency: 'daily',
+  title: 'Existing Dataset',
+  ressources: []
+} as unknown as PublishDataset;
+
+const DATASET_TO_UPDATE_WITH_CREATE_CSV_RESSOURCE: PublishDataset = {
+  description: 'This is a dataset to publish',
+  frequency: 'daily',
+  title: 'Existing Dataset',
+  ressources: [CSV_CREATE_RESSOURCE]
+} as PublishDataset;
+
+const JSON_CREATE_RESSOURCE: PublishRessource = {
+  source: 'assets/output/maine-et-loire/mediation-numerique',
+  name: '20221213_maine-et-loire_lieux-de-mediation-numeriques-pays-de-la-loire.json',
+  schema: 'LaMednum/standard-mediation-num',
+  description: 'Test ressource for a json file'
+};
+
+const DATASET_TO_UPDATE_WITH_CREATE_JSON_RESSOURCE: PublishDataset = {
+  description: 'This is a dataset to publish',
+  frequency: 'daily',
+  title: 'Existing Dataset',
+  ressources: [JSON_CREATE_RESSOURCE]
+} as PublishDataset;
 
 const EXISTING_DATASET: Dataset = {
   id: '6a564acf45cf645dfa5d4cd5',
@@ -39,41 +118,12 @@ const EXISTING_DATASET_WITH_CSV_RESOURCE: Dataset = {
   resources: [
     {
       id: '15e10bf7-6d6a-44a1-9d70-176a44fc92a5',
-      title: '20221213_maine-et-loire_lieux-de-mediation-numeriques-pays-de-la-loire.csv'
+      name: '20221213_maine-et-loire_lieux-de-mediation-numeriques-pays-de-la-loire.csv'
     }
   ]
 };
 
-const CSV_CREATE_RESSOURCE: PublishRessource = {
-  source: 'assets/output/maine-et-loire/mediation-numerique',
-  name: '20221213_maine-et-loire_lieux-de-mediation-numeriques-pays-de-la-loire.csv',
-  schema: 'LaMednum/standard-mediation-num',
-  description: 'Test ressource for a csv file'
-};
-
-const CSV_CREATE_RESSOURCE_AT_DIFFERENT_DATE: PublishRessource = {
-  source: 'assets/output/maine-et-loire/mediation-numerique',
-  name: '20230115_maine-et-loire_lieux-de-mediation-numeriques-pays-de-la-loire.csv',
-  schema: 'LaMednum/standard-mediation-num',
-  description: 'Test ressource for a csv file with a different date prefix in file name'
-};
-
-const CSV_CREATE_RESSOURCE_WITHOUT_UNDERSCORES: PublishRessource = {
-  source: 'assets/output/maine-et-loire/mediation-numerique',
-  name: '20221213-maine-et-loire-lieux-de-mediation-numeriques-pays-de-la-loire.csv',
-  schema: 'LaMednum/standard-mediation-num',
-  description: 'Test ressource for a csv file without underscores in file name'
-};
-
-const JSON_CREATE_RESSOURCE: PublishRessource = {
-  source: 'assets/output/maine-et-loire/mediation-numerique',
-  name: '20221213_maine-et-loire_lieux-de-mediation-numeriques-pays-de-la-loire.json',
-  schema: 'LaMednum/standard-mediation-num',
-  description: 'Test ressource for a json file'
-};
-
 const CSV_UPDATE_RESSOURCE: PublishRessource = {
-  id: '15e10bf7-6d6a-44a1-9d70-176a44fc92a5',
   source: 'assets/output/maine-et-loire/mediation-numerique',
   name: '20221213_maine-et-loire_lieux-de-mediation-numeriques-pays-de-la-loire.csv',
   schema: 'LaMednum/standard-mediation-num',
@@ -81,7 +131,6 @@ const CSV_UPDATE_RESSOURCE: PublishRessource = {
 };
 
 const CSV_UPDATE_RESSOURCE_AT_DIFFERENT_DATE: PublishRessource = {
-  id: '15e10bf7-6d6a-44a1-9d70-176a44fc92a5',
   source: 'assets/output/maine-et-loire/mediation-numerique',
   name: '20230115_maine-et-loire_lieux-de-mediation-numeriques-pays-de-la-loire.csv',
   schema: 'LaMednum/standard-mediation-num',
@@ -89,7 +138,6 @@ const CSV_UPDATE_RESSOURCE_AT_DIFFERENT_DATE: PublishRessource = {
 };
 
 const CSV_UPDATE_RESSOURCE_WITHOUT_UNDERSCORES: PublishRessource = {
-  id: '15e10bf7-6d6a-44a1-9d70-176a44fc92a5',
   source: 'assets/output/maine-et-loire/mediation-numerique',
   name: '20221213-maine-et-loire-lieux-de-mediation-numeriques-pays-de-la-loire.csv',
   schema: 'LaMednum/standard-mediation-num',
@@ -98,51 +146,51 @@ const CSV_UPDATE_RESSOURCE_WITHOUT_UNDERSCORES: PublishRessource = {
 
 describe('mednum - dataset to update', (): void => {
   it('should find that there is no dataset to update since there is no existing dataset with this title', async (): Promise<void> => {
-    const datasetsToCreate: PostDataset[] = [];
+    const datasetsToCreate: PublishDataset[] = [];
 
     const publishDatasetRepository: PublishDatasetRepository = {
       get: (): Dataset[] => [],
-      post: (datasetToCreate: PostDataset): Dataset => {
+      post: (datasetToCreate: PublishDataset): Dataset => {
         datasetsToCreate.push(datasetToCreate);
         return DATASET_CREATED;
       }
     } as unknown as PublishDatasetRepository;
 
-    await publishDataset(publishDatasetRepository, OWNER_ID, [])(DATASET_TO_CREATE);
+    await publishDataset(publishDatasetRepository, OWNER_ID)(DATASET_TO_CREATE_WITHOUT_RESSOURCES);
 
     expect(datasetsToCreate).toStrictEqual([DATASET_TO_CREATE]);
   });
 
   it('should find an already published dataset to update with the same title', async (): Promise<void> => {
-    const datasetsToUpdate: PostDataset[] = [];
+    const datasetsToUpdate: PublishDataset[] = [];
 
     const publishDatasetRepository: PublishDatasetRepository = {
       get: (): Dataset[] => [EXISTING_DATASET],
-      update: (datasetToUpdate: PostDataset, dataset: Dataset): Dataset => {
+      update: (datasetToUpdate: PublishDataset, dataset: Dataset): Dataset => {
         datasetsToUpdate.push(datasetToUpdate);
         return dataset;
       }
     } as unknown as PublishDatasetRepository;
 
-    await publishDataset(publishDatasetRepository, OWNER_ID, [])(DATASET_TO_UPDATE);
+    await publishDataset(publishDatasetRepository, OWNER_ID)(DATASET_TO_UPDATE_WITHOUT_RESSOURCES);
 
     expect(datasetsToUpdate).toStrictEqual([DATASET_TO_UPDATE]);
   });
 
   it('should add ressources to new published dataset', async (): Promise<void> => {
-    const ressourcesToAdd: PublishRessource[] = [];
+    const ressourcesToAdd: Ressource[] = [];
 
     const publishDatasetRepository: PublishDatasetRepository = {
       addRessourceTo:
         () =>
-        (ressource: PublishRessource): void => {
+        (ressource: Ressource): void => {
           ressourcesToAdd.push(ressource);
         },
       get: (): Dataset[] => [],
       post: (): Dataset => DATASET_CREATED
     } as unknown as PublishDatasetRepository;
 
-    await publishDataset(publishDatasetRepository, OWNER_ID, [CSV_CREATE_RESSOURCE])(DATASET_TO_CREATE);
+    await publishDataset(publishDatasetRepository, OWNER_ID)(DATASET_TO_CREATE_WITH_CREATE_CSV_RESSOURCE);
 
     expect(ressourcesToAdd).toStrictEqual([CSV_CREATE_RESSOURCE]);
   });
@@ -151,18 +199,18 @@ describe('mednum - dataset to update', (): void => {
     const ressourcesToAdd: PublishRessource[] = [];
 
     const publishDatasetRepository: PublishDatasetRepository = {
-      addRessourceTo:
+      updateRessourceFor:
         () =>
         (ressource: PublishRessource): void => {
           ressourcesToAdd.push(ressource);
         },
       get: (): Dataset[] => [EXISTING_DATASET],
-      update(_: PostDataset, dataset: Dataset): Dataset {
+      update(_: PublishDataset, dataset: Dataset): Dataset {
         return dataset;
       }
     } as unknown as PublishDatasetRepository;
 
-    await publishDataset(publishDatasetRepository, OWNER_ID, [CSV_CREATE_RESSOURCE])(DATASET_TO_UPDATE);
+    await publishDataset(publishDatasetRepository, OWNER_ID)(DATASET_TO_UPDATE_WITH_CREATE_CSV_RESSOURCE);
 
     expect(ressourcesToAdd).toStrictEqual([CSV_CREATE_RESSOURCE]);
   });
@@ -171,18 +219,18 @@ describe('mednum - dataset to update', (): void => {
     const ressourcesToAdd: PublishRessource[] = [];
 
     const publishDatasetRepository: PublishDatasetRepository = {
-      addRessourceTo:
+      updateRessourceFor:
         () =>
         (ressource: PublishRessource): void => {
           ressourcesToAdd.push(ressource);
         },
       get: (): Dataset[] => [EXISTING_DATASET_WITH_CSV_RESOURCE],
-      update(_: PostDataset, dataset: Dataset): Dataset {
+      update(_: PublishDataset, dataset: Dataset): Dataset {
         return dataset;
       }
     } as unknown as PublishDatasetRepository;
 
-    await publishDataset(publishDatasetRepository, OWNER_ID, [CSV_CREATE_RESSOURCE])(DATASET_TO_UPDATE);
+    await publishDataset(publishDatasetRepository, OWNER_ID)(DATASET_TO_UPDATE_WITH_CREATE_CSV_RESSOURCE);
 
     expect(ressourcesToAdd).toStrictEqual([CSV_UPDATE_RESSOURCE]);
   });
@@ -191,18 +239,18 @@ describe('mednum - dataset to update', (): void => {
     const ressourcesToAdd: PublishRessource[] = [];
 
     const publishDatasetRepository: PublishDatasetRepository = {
-      addRessourceTo:
+      updateRessourceFor:
         () =>
         (ressource: PublishRessource): void => {
           ressourcesToAdd.push(ressource);
         },
       get: (): Dataset[] => [EXISTING_DATASET_WITH_CSV_RESOURCE],
-      update(_: PostDataset, dataset: Dataset): Dataset {
+      update(_: PublishDataset, dataset: Dataset): Dataset {
         return dataset;
       }
     } as unknown as PublishDatasetRepository;
 
-    await publishDataset(publishDatasetRepository, OWNER_ID, [JSON_CREATE_RESSOURCE])(DATASET_TO_UPDATE);
+    await publishDataset(publishDatasetRepository, OWNER_ID)(DATASET_TO_UPDATE_WITH_CREATE_JSON_RESSOURCE);
 
     expect(ressourcesToAdd).toStrictEqual([JSON_CREATE_RESSOURCE]);
   });
@@ -211,18 +259,18 @@ describe('mednum - dataset to update', (): void => {
     const ressourcesToAdd: PublishRessource[] = [];
 
     const publishDatasetRepository: PublishDatasetRepository = {
-      addRessourceTo:
+      updateRessourceFor:
         () =>
         (ressource: PublishRessource): void => {
           ressourcesToAdd.push(ressource);
         },
       get: (): Dataset[] => [EXISTING_DATASET_WITH_CSV_RESOURCE],
-      update(_: PostDataset, dataset: Dataset): Dataset {
+      update(_: PublishDataset, dataset: Dataset): Dataset {
         return dataset;
       }
     } as unknown as PublishDatasetRepository;
 
-    await publishDataset(publishDatasetRepository, OWNER_ID, [CSV_CREATE_RESSOURCE_AT_DIFFERENT_DATE])(DATASET_TO_UPDATE);
+    await publishDataset(publishDatasetRepository, OWNER_ID)(DATASET_TO_UPDATE_WITH_CREATE_CSV_RESSOURCE_AT_DIFFERENT_DATE);
 
     expect(ressourcesToAdd).toStrictEqual([CSV_UPDATE_RESSOURCE_AT_DIFFERENT_DATE]);
   });
@@ -231,18 +279,18 @@ describe('mednum - dataset to update', (): void => {
     const ressourcesToAdd: PublishRessource[] = [];
 
     const publishDatasetRepository: PublishDatasetRepository = {
-      addRessourceTo:
+      updateRessourceFor:
         () =>
         (ressource: PublishRessource): void => {
           ressourcesToAdd.push(ressource);
         },
       get: (): Dataset[] => [EXISTING_DATASET_WITH_CSV_RESOURCE],
-      update(_: PostDataset, dataset: Dataset): Dataset {
+      update(_: PublishDataset, dataset: Dataset): Dataset {
         return dataset;
       }
     } as unknown as PublishDatasetRepository;
 
-    await publishDataset(publishDatasetRepository, OWNER_ID, [CSV_CREATE_RESSOURCE_WITHOUT_UNDERSCORES])(DATASET_TO_UPDATE);
+    await publishDataset(publishDatasetRepository, OWNER_ID)(DATASET_TO_UPDATE_WITH_CREATE_CSV_RESSOURCE_WITHOUT_UNDERSCORES);
 
     expect(ressourcesToAdd).toStrictEqual([CSV_UPDATE_RESSOURCE_WITHOUT_UNDERSCORES]);
   });
