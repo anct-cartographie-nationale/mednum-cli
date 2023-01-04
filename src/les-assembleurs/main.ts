@@ -1,4 +1,4 @@
-/* eslint-disable no-console,@typescript-eslint/no-restricted-imports,@typescript-eslint/non-nullable-type-assertion-style,no-undef,max-lines-per-function,max-statements,camelcase,complexity,@typescript-eslint/naming-convention,id-denylist,@typescript-eslint/no-explicit-any,no-param-reassign,@typescript-eslint/no-dynamic-delete */
+/* eslint-disable no-console,@typescript-eslint/no-restricted-imports,@typescript-eslint/non-nullable-type-assertion-style,max-lines-per-function,max-statements,camelcase,complexity,@typescript-eslint/naming-convention,id-denylist,@typescript-eslint/no-explicit-any,no-param-reassign,@typescript-eslint/no-dynamic-delete */
 
 import * as fs from 'fs';
 import { LesAssembleursLieuMediationNumerique } from './helpers';

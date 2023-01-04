@@ -27,7 +27,7 @@ const termsToFilter: string[] = [
   'réservé'
 ];
 
-/* eslint-disable no-console,@typescript-eslint/no-restricted-imports,no-undef,max-lines-per-function,max-statements,camelcase,complexity,@typescript-eslint/naming-convention,id-denylist,@typescript-eslint/no-explicit-any,no-param-reassign,@typescript-eslint/no-dynamic-delete,max-depth,max-lines */
+/* eslint-disable no-console,@typescript-eslint/no-restricted-imports,max-lines-per-function,max-statements,camelcase,complexity,@typescript-eslint/naming-convention,id-denylist,@typescript-eslint/no-explicit-any,no-param-reassign,@typescript-eslint/no-dynamic-delete,max-depth,max-lines */
 
 export type LesAssembleursLieuMediationNumerique = {
   ID: string;

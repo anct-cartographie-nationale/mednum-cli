@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-restricted-imports,no-undef,max-lines-per-function,@typescript-eslint/naming-convention, camelcase */
+/* eslint-disable @typescript-eslint/no-restricted-imports,max-lines-per-function,@typescript-eslint/naming-convention, camelcase */
 
 import * as fs from 'fs';
 import ErrnoException = NodeJS.ErrnoException;

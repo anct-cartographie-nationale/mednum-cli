@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-restricted-imports, no-undef */
+/* eslint-disable @typescript-eslint/no-restricted-imports */
 
 import * as fs from 'fs';
 import { fromSchemaLieuxDeMediationNumerique, LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
