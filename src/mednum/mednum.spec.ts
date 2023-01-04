@@ -1,7 +1,10 @@
-import { PublishDataset, Dataset, publishDataset, PublishRessource, Ressource } from './mednum';
+import { PublishDataset, Dataset, publishDataset, PublishRessource, Ressource, Reference } from './mednum';
 import { PublishDatasetRepository } from './repositories/publish-dataset.repository';
 
-const OWNER_ID: string = 'cdf56af1aa1f5c6';
+const REFERENCE: Reference = {
+  id: 'cdf56af1aa1f5c6',
+  isOwner: true
+};
 
 const DATASET_TO_CREATE: PublishDataset = {
   description: 'This is a dataset to publish',
@@ -156,7 +159,7 @@ describe('mednum - dataset to update', (): void => {
       }
     } as unknown as PublishDatasetRepository;
 
-    await publishDataset(publishDatasetRepository, OWNER_ID)(DATASET_TO_CREATE_WITHOUT_RESSOURCES);
+    await publishDataset(publishDatasetRepository, REFERENCE)(DATASET_TO_CREATE_WITHOUT_RESSOURCES);
 
     expect(datasetsToCreate).toStrictEqual([DATASET_TO_CREATE]);
   });
@@ -172,7 +175,7 @@ describe('mednum - dataset to update', (): void => {
       }
     } as unknown as PublishDatasetRepository;
 
-    await publishDataset(publishDatasetRepository, OWNER_ID)(DATASET_TO_UPDATE_WITHOUT_RESSOURCES);
+    await publishDataset(publishDatasetRepository, REFERENCE)(DATASET_TO_UPDATE_WITHOUT_RESSOURCES);
 
     expect(datasetsToUpdate).toStrictEqual([DATASET_TO_UPDATE]);
   });
@@ -190,7 +193,7 @@ describe('mednum - dataset to update', (): void => {
       post: (): Dataset => DATASET_CREATED
     } as unknown as PublishDatasetRepository;
 
-    await publishDataset(publishDatasetRepository, OWNER_ID)(DATASET_TO_CREATE_WITH_CREATE_CSV_RESSOURCE);
+    await publishDataset(publishDatasetRepository, REFERENCE)(DATASET_TO_CREATE_WITH_CREATE_CSV_RESSOURCE);
 
     expect(ressourcesToAdd).toStrictEqual([CSV_CREATE_RESSOURCE]);
   });
@@ -210,7 +213,7 @@ describe('mednum - dataset to update', (): void => {
       }
     } as unknown as PublishDatasetRepository;
 
-    await publishDataset(publishDatasetRepository, OWNER_ID)(DATASET_TO_UPDATE_WITH_CREATE_CSV_RESSOURCE);
+    await publishDataset(publishDatasetRepository, REFERENCE)(DATASET_TO_UPDATE_WITH_CREATE_CSV_RESSOURCE);
 
     expect(ressourcesToAdd).toStrictEqual([CSV_CREATE_RESSOURCE]);
   });
@@ -230,7 +233,7 @@ describe('mednum - dataset to update', (): void => {
       }
     } as unknown as PublishDatasetRepository;
 
-    await publishDataset(publishDatasetRepository, OWNER_ID)(DATASET_TO_UPDATE_WITH_CREATE_CSV_RESSOURCE);
+    await publishDataset(publishDatasetRepository, REFERENCE)(DATASET_TO_UPDATE_WITH_CREATE_CSV_RESSOURCE);
 
     expect(ressourcesToAdd).toStrictEqual([CSV_UPDATE_RESSOURCE]);
   });
@@ -250,7 +253,7 @@ describe('mednum - dataset to update', (): void => {
       }
     } as unknown as PublishDatasetRepository;
 
-    await publishDataset(publishDatasetRepository, OWNER_ID)(DATASET_TO_UPDATE_WITH_CREATE_JSON_RESSOURCE);
+    await publishDataset(publishDatasetRepository, REFERENCE)(DATASET_TO_UPDATE_WITH_CREATE_JSON_RESSOURCE);
 
     expect(ressourcesToAdd).toStrictEqual([JSON_CREATE_RESSOURCE]);
   });
@@ -270,7 +273,7 @@ describe('mednum - dataset to update', (): void => {
       }
     } as unknown as PublishDatasetRepository;
 
-    await publishDataset(publishDatasetRepository, OWNER_ID)(DATASET_TO_UPDATE_WITH_CREATE_CSV_RESSOURCE_AT_DIFFERENT_DATE);
+    await publishDataset(publishDatasetRepository, REFERENCE)(DATASET_TO_UPDATE_WITH_CREATE_CSV_RESSOURCE_AT_DIFFERENT_DATE);
 
     expect(ressourcesToAdd).toStrictEqual([CSV_UPDATE_RESSOURCE_AT_DIFFERENT_DATE]);
   });
@@ -290,7 +293,7 @@ describe('mednum - dataset to update', (): void => {
       }
     } as unknown as PublishDatasetRepository;
 
-    await publishDataset(publishDatasetRepository, OWNER_ID)(DATASET_TO_UPDATE_WITH_CREATE_CSV_RESSOURCE_WITHOUT_UNDERSCORES);
+    await publishDataset(publishDatasetRepository, REFERENCE)(DATASET_TO_UPDATE_WITH_CREATE_CSV_RESSOURCE_WITHOUT_UNDERSCORES);
 
     expect(ressourcesToAdd).toStrictEqual([CSV_UPDATE_RESSOURCE_WITHOUT_UNDERSCORES]);
   });

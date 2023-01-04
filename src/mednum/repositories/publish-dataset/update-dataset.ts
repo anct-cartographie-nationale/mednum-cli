@@ -2,7 +2,7 @@
 
 import axios, { AxiosResponse } from 'axios';
 import { Dataset, PublishDataset } from '../../mednum';
-import { API_URL, authHeader, headers } from '../data-gouv.api';
+import { apiUrl, authHeader, headers } from '../data-gouv.api';
 
 type UpdateDatasetTransfer = {
   description: string;
@@ -41,7 +41,7 @@ export const updateDataset =
   async (publishDataset: PublishDataset, dataset: Dataset): Promise<Dataset> =>
     (
       await axios.put<Dataset, AxiosResponse<Dataset>, UpdateDatasetTransfer>(
-        `${API_URL}/datasets/${dataset.id}`,
+        `${apiUrl()}/datasets/${dataset.id}`,
         toUpdateDatasetTransfer(publishDataset),
         headers(authHeader(apiKey))
       )

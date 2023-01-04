@@ -48,6 +48,11 @@ type DatasetToPublishActions = {
   exist?: (datasetToUpdate: PublishDataset, datasetFound: Dataset) => Promise<void>;
 };
 
+export type Reference = {
+  isOwner: boolean;
+  id: string;
+};
+
 const datasetFound = (dataset: Dataset | undefined): dataset is Dataset => dataset != null;
 
 const matchTitleFrom =
@@ -56,9 +61,9 @@ const matchTitleFrom =
     dataset.title === postDataset.title;
 
 const datasetToPublish =
-  (datasetRepository: PublishDatasetRepository, ownerId: string) =>
+  (datasetRepository: PublishDatasetRepository, reference: Reference) =>
   async (postDataset: PublishDataset, { shouldCreate, exist }: DatasetToPublishActions): Promise<void> => {
-    const dataset: Dataset | undefined = (await datasetRepository.get(ownerId)).find(matchTitleFrom(postDataset));
+    const dataset: Dataset | undefined = (await datasetRepository.get(reference)).find(matchTitleFrom(postDataset));
     await (datasetFound(dataset) ? exist?.(postDataset, dataset) : shouldCreate?.(postDataset));
   };
 
@@ -86,18 +91,18 @@ const updateExistingDataset =
   };
 
 const createNewDataset =
-  (datasetRepository: PublishDatasetRepository) =>
+  (datasetRepository: PublishDatasetRepository, reference: Reference) =>
   async (postDataset: PublishDataset): Promise<void> => {
-    const dataset: Dataset = await datasetRepository.post(postDataset);
+    const dataset: Dataset = await datasetRepository.post(postDataset, reference);
     postDataset.ressources.length > 0 &&
       (await Promise.all(postDataset.ressources.map(datasetRepository.addRessourceTo(dataset))));
   };
 
 export const publishDataset =
-  (datasetRepository: PublishDatasetRepository, ownerId: string) =>
+  (datasetRepository: PublishDatasetRepository, reference: Reference) =>
   async (dataset: PublishDataset): Promise<void> => {
-    await datasetToPublish(datasetRepository, ownerId)(dataset, {
+    await datasetToPublish(datasetRepository, reference)(dataset, {
       exist: updateExistingDataset(datasetRepository),
-      shouldCreate: createNewDataset(datasetRepository)
+      shouldCreate: createNewDataset(datasetRepository, reference)
     });
   };

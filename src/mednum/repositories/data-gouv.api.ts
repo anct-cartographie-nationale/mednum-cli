@@ -1,9 +1,7 @@
 type Headers = Record<string, string>;
 
-const PROTOCOL: string = 'https://';
-const HOST: string = 'demo.data.gouv.fr';
-const API: string = '/api/1';
-export const API_URL: string = `${PROTOCOL}${HOST}${API}`;
+//todo: externaliser process.env.DATA_GOUV_API_URL pour être indépendant du fichier .env
+export const apiUrl = (): string => process.env.DATA_GOUV_API_URL ?? '';
 
 export const headers = (headersToAppend?: Headers): { headers: Headers } => ({
   headers: {

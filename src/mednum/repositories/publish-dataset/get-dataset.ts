@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
 import axios from 'axios';
-import { Dataset, Ressource } from '../../mednum';
-import { API_URL, headers } from '../data-gouv.api';
+import { Dataset, Reference, Ressource } from '../../mednum';
+import { apiUrl, headers } from '../data-gouv.api';
 
 type GetDatasetRessource = {
   created_at: Date;
@@ -50,10 +50,8 @@ const toDataset = (getDatasetTransfer: GetDataset): Dataset => ({
   title: getDatasetTransfer.title
 });
 
-export const getDataset = async (ownerId: string): Promise<Dataset[]> =>
-  (
-    await axios
-      // todo: switch between owner and organization
-      // .get(`${API_URL}/datasets/?organization=${organization.id}`)
-      .get(`${API_URL}/datasets/?owner=${ownerId}&page_size=10000`, headers())
-  ).data.data.map(toDataset);
+const idQueryParams = (reference: Reference): string =>
+  reference.isOwner ? `?owner=${reference.id}&page_size=10000` : `?organization=${reference.id}`;
+
+export const getDataset = async (reference: Reference): Promise<Dataset[]> =>
+  (await axios.get(`${apiUrl()}/datasets/${idQueryParams(reference)}`, headers())).data.data.map(toDataset);

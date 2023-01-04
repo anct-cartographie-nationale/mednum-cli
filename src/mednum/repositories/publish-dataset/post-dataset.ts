@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
 import axios, { AxiosResponse } from 'axios';
-import { Dataset, PublishDataset } from '../../mednum';
-import { API_URL, authHeader, headers } from '../data-gouv.api';
+import { Dataset, PublishDataset, Reference } from '../../mednum';
+import { apiUrl, authHeader, headers } from '../data-gouv.api';
 
 type PostDatasetTransfer = {
   description: string;
@@ -20,11 +20,12 @@ type PostDatasetTransfer = {
   };
 };
 
-const toCreateDatasetTransfer = (publishDataset: PublishDataset): PostDatasetTransfer => ({
+const toCreateDatasetTransfer = (publishDataset: PublishDataset, reference: Reference): PostDatasetTransfer => ({
   description: publishDataset.description,
   frequency: publishDataset.frequency,
   title: publishDataset.title,
   license: publishDataset.license,
+  ...(reference.isOwner ? {} : { organization: { id: reference.id } }),
   tags: publishDataset.tags.join(', '),
   spatial: {
     zones: publishDataset.zone,
@@ -38,11 +39,11 @@ const toCreateDatasetTransfer = (publishDataset: PublishDataset): PostDatasetTra
 
 export const postDataset =
   (apiKey: string) =>
-  async (publishDataset: PublishDataset): Promise<Dataset> =>
+  async (publishDataset: PublishDataset, reference: Reference): Promise<Dataset> =>
     (
       await axios.post<Dataset, AxiosResponse<Dataset>, PostDatasetTransfer>(
-        `${API_URL}/datasets`,
-        toCreateDatasetTransfer(publishDataset),
+        `${apiUrl()}/datasets`,
+        toCreateDatasetTransfer(publishDataset, reference),
         headers(authHeader(apiKey))
       )
     ).data;
