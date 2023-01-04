@@ -1,0 +1,36 @@
+{
+  "title": "Lieux de médiation numérique en Maine-et-Loire collectés par le département de Maine-et-Loire.",
+  "description":
+  "Lieux de médiation numérique en Maine-et-Loire proposant des services ou de l'accompagnement au public.\n\nCe jeu de données répond aux spécifications du schéma \"Lieux de médiation numérique\" disponible sur le site [schema.data.gouv.fr](https://schema.data.gouv.fr/LaMednum/standard-mediation-num)",
+  "tags": [
+    "departement-maine-et-loire",
+    "inclusion",
+    "inclusion-numerique",
+    "lieux-d-inclusion-numerique",
+    "mediation",
+    "mediation-numerique",
+    "lieux-de-mediation-numerique"
+  ],
+  "frequency": "daily",
+  "license": "lov2",
+  "zone": "fr:departement:49",
+  "granularity": "poi",
+  "start": "2022-12-01",
+  "end": "2022-12-12",
+  "ressources": [
+    {
+      "source": "assets/output/maine-et-loire/mediation-numerique",
+      "name": "20221213_maine-et-loire_lieux-de-mediation-numeriques-pays-de-la-loire.csv",
+      "schema": "LaMednum/standard-mediation-num",
+      "description":
+      "Lieux de médiation numérique en Maine-et-Loire collectés par le département de Maine-et-Loire au format CSV."
+    },
+    {
+      "source": "assets/output/maine-et-loire/mediation-numerique",
+      "name": "20221213_maine-et-loire_lieux-de-mediation-numeriques-pays-de-la-loire.json",
+      "schema": "LaMednum/standard-mediation-num",
+      "description":
+      "Lieux de médiation numérique en Maine-et-Loire collectés par le département de Maine-et-Loire au format JSON.\nVous pouvez utiliser l’url stable associé à cette ressource pour alimenter une version locale de la cartographie des lieux de médiation numérique."
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/naming-convention, camelcase, @typescript-eslint/no-restricted-imports, no-undef */
+/* eslint-disable @typescript-eslint/naming-convention, camelcase, @typescript-eslint/no-restricted-imports */
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 
 import * as fs from 'fs';
@@ -25,7 +25,7 @@ import ErrnoException = NodeJS.ErrnoException;
 
 const report: Report = Report();
 
-const SOURCE_PATH: string = './assets/input/';
+const SOURCE_PATH: string = './assets/input/maine-et-loire/';
 const SOURCE_FILE: string = 'maine-et-loire.json';
 const CONFIG_FILE: string = 'maine-et-loire.config.json';
 
