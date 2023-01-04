@@ -45,11 +45,13 @@
     "start.data-inclusion": "ts-node src/data-inclusion/main.ts",
     "start.hinaura": "ts-node src/hinaura/main.ts",
     "start.maine-et-loire": "ts-node src/maine-et-loire/main.ts",
-    "start.cnfs": "ts-node src/cnfs/main.ts"
+    "start.cnfs": "ts-node src/cnfs/main.ts",
+    "start.mednum": "ts-node src/mednum/main.ts"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
+    "@types/inquirer": "^9.0.3",
     "@types/jest": "^29.1.1",
     "@types/node": "^18.8.1",
     "@typescript-eslint/eslint-plugin": "^5.39.0",
@@ -68,6 +70,9 @@
   },
   "dependencies": {
     "@gouvfr-anct/lieux-de-mediation-numerique": "^1.12.1",
-    "@gouvfr-anct/timetable-to-osm-opening-hours": "^1.0.1"
+    "@gouvfr-anct/timetable-to-osm-opening-hours": "^1.0.1",
+    "axios": "^1.2.2",
+    "dotenv": "^16.0.3",
+    "inquirer": "^8.0.0"
   }
 }
