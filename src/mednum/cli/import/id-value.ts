@@ -13,7 +13,7 @@ export const dataGouvIdValueQuestion = (
   mednumImportProperties: MednumProperties
 ): InputQuestion & { name: keyof MednumProperties } => ({
   message: (answers: Record<string, string>): string =>
-    `Valeur de l'${answers.dataGouvIdType ?? 'id'} auquel rattacher la ressource sur Data.gouv`,
+    `Valeur de l'${answers['dataGouvIdType'] ?? 'id'} auquel rattacher la ressource sur Data.gouv`,
   name: 'dataGouvIdValue',
   validate: validateDataGouvIdValue,
   when: (): boolean => validateDataGouvIdValue(mednumImportProperties.dataGouvIdValue) !== true,

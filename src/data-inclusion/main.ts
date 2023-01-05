@@ -43,9 +43,9 @@ const invalidLieuErrors: unknown[] = [
 ];
 
 const matchActual =
-  (error: unknown) =>
-  (invalidLieuError: typeof Error): boolean =>
-    error instanceof invalidLieuError;
+  (error: Error) =>
+  (invalidLieuError: unknown): boolean =>
+    error instanceof (invalidLieuError as typeof Error);
 
 const toLieuxDeMediationNumerique =
   (dataInclusionServices: SchemaServiceDataInclusion[]) =>
@@ -54,7 +54,7 @@ const toLieuxDeMediationNumerique =
       const dataInclusionMerged: DataInclusionMerged = mergeServicesInStructure(dataInclusionServices, structure);
       return fromSchemaDataInclusion(dataInclusionMerged.services, processFields(dataInclusionMerged.structure));
     } catch (error: unknown) {
-      if (invalidLieuErrors.some(matchActual(error))) return undefined;
+      if (error instanceof Error && invalidLieuErrors.some(matchActual(error))) return undefined;
 
       throw error;
     }
