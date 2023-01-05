@@ -5,7 +5,7 @@ import * as fs from 'fs';
 /* eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/naming-convention, @typescript-eslint/typedef, @typescript-eslint/no-shadow, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
 const FormData = require('form-data');
 import { getDataset, postDataset, updateDataset } from './publish-dataset';
-import { apiUrl, authHeader, headers } from './data-gouv.api';
+import { Api, authHeader, headers } from './data-gouv.api';
 
 export type PublishDatasetRepository = {
   get: (reference: Reference) => Promise<Dataset[]>;
@@ -16,7 +16,7 @@ export type PublishDatasetRepository = {
 };
 
 const addRessourceTo =
-  (apiKey: string) =>
+  (api: Api) =>
   (dataset: Dataset) =>
   async (ressource: PublishRessource): Promise<void> => {
     const formData: typeof FormData = new FormData();
@@ -24,49 +24,49 @@ const addRessourceTo =
 
     const ressourceId: string = (
       await axios.post<Ressource>(
-        `${apiUrl()}/datasets/${dataset.id}/upload`,
+        `${api.url}/datasets/${dataset.id}/upload`,
         formData.getBuffer(),
-        headers(formData.getHeaders(authHeader(apiKey)))
+        headers(formData.getHeaders(authHeader(api.key)))
       )
     ).data.id;
 
     await axios.put<Ressource>(
-      `${apiUrl()}/datasets/${dataset.id}/resources/${ressourceId}`,
+      `${api.url}/datasets/${dataset.id}/resources/${ressourceId}`,
       {
         schema: { name: ressource.schema },
         description: ressource.description
       },
-      headers(authHeader(apiKey))
+      headers(authHeader(api.key))
     );
   };
 
 const updateRessourceFor =
-  (apiKey: string) =>
+  (api: Api) =>
   (dataset: Dataset) =>
   async (ressource: PublishRessource, ressourceId?: string): Promise<void> => {
     const formData: typeof FormData = new FormData();
     formData.append('file', fs.readFileSync(`${ressource.source}/${ressource.name}`), ressource.name);
 
     await axios.post<Ressource>(
-      `${apiUrl()}/datasets/${dataset.id}/resources/${ressourceId}/upload`,
+      `${api.url}/datasets/${dataset.id}/resources/${ressourceId}/upload`,
       formData.getBuffer(),
-      headers(formData.getHeaders(authHeader(apiKey)))
+      headers(formData.getHeaders(authHeader(api.key)))
     );
 
     await axios.put<Ressource>(
-      `${apiUrl()}/datasets/${dataset.id}/resources/${ressourceId}`,
+      `${api.url}/datasets/${dataset.id}/resources/${ressourceId}`,
       {
         schema: { name: ressource.schema },
         description: ressource.description
       },
-      headers(authHeader(apiKey))
+      headers(authHeader(api.key))
     );
   };
 
-export const publishDatasetRepository = (apiKey: string): PublishDatasetRepository => ({
-  get: getDataset,
-  post: postDataset(apiKey),
-  update: updateDataset(apiKey),
-  addRessourceTo: addRessourceTo(apiKey),
-  updateRessourceFor: updateRessourceFor(apiKey)
+export const publishDatasetRepository = (api: Api): PublishDatasetRepository => ({
+  get: getDataset(api),
+  post: postDataset(api),
+  update: updateDataset(api),
+  addRessourceTo: addRessourceTo(api),
+  updateRessourceFor: updateRessourceFor(api)
 });

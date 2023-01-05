@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 import { Dataset, Reference, Ressource } from '../../mednum';
-import { apiUrl, headers } from '../data-gouv.api';
+import { Api, headers } from '../data-gouv.api';
 
 type GetDatasetRessource = {
   created_at: Date;
@@ -53,5 +53,7 @@ const toDataset = (getDatasetTransfer: GetDataset): Dataset => ({
 const idQueryParams = (reference: Reference): string =>
   reference.isOwner ? `?owner=${reference.id}&page_size=10000` : `?organization=${reference.id}`;
 
-export const getDataset = async (reference: Reference): Promise<Dataset[]> =>
-  (await axios.get(`${apiUrl()}/datasets/${idQueryParams(reference)}`, headers())).data.data.map(toDataset);
+export const getDataset =
+  (api: Api) =>
+  async (reference: Reference): Promise<Dataset[]> =>
+    (await axios.get(`${api.url}/datasets/${idQueryParams(reference)}`, headers())).data.data.map(toDataset);

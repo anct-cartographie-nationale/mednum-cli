@@ -1,6 +1,6 @@
 import { Command } from 'commander';
 import { InputQuestion } from 'inquirer';
-import { MednumProperties } from './api-key';
+import { MednumProperties } from '../mednum-properties';
 
 enum DataGouvMetadataFileValidationMessages {
   REQUIRED = 'Le fichier de métadonnées est obligatoire'

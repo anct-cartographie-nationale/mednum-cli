@@ -1,7 +1,9 @@
 type Headers = Record<string, string>;
 
-//todo: externaliser process.env.DATA_GOUV_API_URL pour être indépendant du fichier .env
-export const apiUrl = (): string => process.env.DATA_GOUV_API_URL ?? '';
+export type Api = {
+  key: string;
+  url: string;
+};
 
 export const headers = (headersToAppend?: Headers): { headers: Headers } => ({
   headers: {

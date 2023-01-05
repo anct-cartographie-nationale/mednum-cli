@@ -1,6 +1,6 @@
 import { Command } from 'commander';
 import { ListQuestion } from 'inquirer';
-import { MednumProperties } from './api-key';
+import { MednumProperties } from '../mednum-properties';
 
 export enum IdTypeChoice {
   ORGANIZATION = "id d'organisation",

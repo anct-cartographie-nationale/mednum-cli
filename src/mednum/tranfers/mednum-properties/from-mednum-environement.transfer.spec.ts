@@ -1,5 +1,5 @@
-import { MednumProperties } from '../../cli/import';
 import { fromMednumEnvironment } from './from-mednum-environement.transfer';
+import { MednumProperties } from '../../cli';
 
 describe('transfer mednum properties from mednum environment', (): void => {
   it('should transfer an empty environment', (): void => {
@@ -22,6 +22,7 @@ describe('transfer mednum properties from mednum environment', (): void => {
     const mednumProperties: Partial<MednumProperties> = fromMednumEnvironment(env);
 
     expect(mednumProperties).toStrictEqual({
+      dataGouvApiUrl: 'https://demo.data.gouv.fr/api/1',
       dataGouvApiKey:
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiaWF0IjoxNTE2MjM5MDIyfQ.L8i6g3PfcHlioHCCPURC9pmXT7gdJpx3kOoyAfNUwCc',
       dataGouvIdValue: '6ab51a168916556556ae156e',
@@ -41,6 +42,7 @@ describe('transfer mednum properties from mednum environment', (): void => {
     const mednumProperties: Partial<MednumProperties> = fromMednumEnvironment(env);
 
     expect(mednumProperties).toStrictEqual({
+      dataGouvApiUrl: 'https://demo.data.gouv.fr/api/1',
       dataGouvApiKey:
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiaWF0IjoxNTE2MjM5MDIyfQ.L8i6g3PfcHlioHCCPURC9pmXT7gdJpx3kOoyAfNUwCc',
       dataGouvIdValue: '6ab51a168916556556ae156e',
@@ -60,6 +62,7 @@ describe('transfer mednum properties from mednum environment', (): void => {
     const mednumProperties: Partial<MednumProperties> = fromMednumEnvironment(env);
 
     expect(mednumProperties).toStrictEqual({
+      dataGouvApiUrl: 'https://demo.data.gouv.fr/api/1',
       dataGouvApiKey:
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiaWF0IjoxNTE2MjM5MDIyfQ.L8i6g3PfcHlioHCCPURC9pmXT7gdJpx3kOoyAfNUwCc',
       dataGouvIdValue: '6ab51a168916556556ae156e'

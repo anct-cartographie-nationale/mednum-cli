@@ -1,6 +1,6 @@
 import { Command } from 'commander';
 import { InputQuestion } from 'inquirer';
-import { MednumProperties } from './api-key';
+import { MednumProperties } from '../mednum-properties';
 
 enum DataGouvIdValueValidationMessages {
   REQUIRED = "La valeur de l'id est obligatoire"

@@ -2,7 +2,7 @@
 
 import axios, { AxiosResponse } from 'axios';
 import { Dataset, PublishDataset } from '../../mednum';
-import { apiUrl, authHeader, headers } from '../data-gouv.api';
+import { Api, authHeader, headers } from '../data-gouv.api';
 
 type UpdateDatasetTransfer = {
   description: string;
@@ -37,12 +37,12 @@ const toUpdateDatasetTransfer = (publishDataset: PublishDataset): UpdateDatasetT
 });
 
 export const updateDataset =
-  (apiKey: string) =>
+  (api: Api) =>
   async (publishDataset: PublishDataset, dataset: Dataset): Promise<Dataset> =>
     (
       await axios.put<Dataset, AxiosResponse<Dataset>, UpdateDatasetTransfer>(
-        `${apiUrl()}/datasets/${dataset.id}`,
+        `${api.url}/datasets/${dataset.id}`,
         toUpdateDatasetTransfer(publishDataset),
-        headers(authHeader(apiKey))
+        headers(authHeader(api.key))
       )
     ).data;

@@ -1,12 +1,6 @@
 import { Command } from 'commander';
 import { Question } from 'inquirer';
-
-export type MednumProperties = {
-  dataGouvApiKey: string;
-  dataGouvIdValue: string;
-  dataGouvIdType: string;
-  dataGouvMetadataFile: string;
-};
+import { MednumProperties } from '../mednum-properties';
 
 enum DataGouvApiKeyValidationMessages {
   REQUIRED = "La clé d'API Data.gouv est obligatoire"
