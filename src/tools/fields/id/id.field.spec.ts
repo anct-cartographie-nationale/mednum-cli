@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import { LieuxMediationNumeriqueMatching, Source } from '../../input';
+import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { processId } from './id.field';
 
 describe('id field', (): void => {
@@ -11,7 +11,7 @@ describe('id field', (): void => {
       }
     } as LieuxMediationNumeriqueMatching;
 
-    const source: Source = {
+    const source: DataSource = {
       ID: 'a91cae7af848a1c65'
     };
 
@@ -23,7 +23,7 @@ describe('id field', (): void => {
   it('should get index as id when no id in matching information', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {} as LieuxMediationNumeriqueMatching;
 
-    const source: Source = {};
+    const source: DataSource = {};
 
     const id: string = processId(source, matching, 0);
 

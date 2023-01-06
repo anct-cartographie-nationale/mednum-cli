@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
 import { Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { LieuxMediationNumeriqueMatching, Source } from '../../input';
+import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { processLocalisation } from './localisation.field';
 
 const STANDARD_MATCHING: LieuxMediationNumeriqueMatching = {
@@ -32,7 +32,7 @@ const JOINED_LATITUDE_AND_LONGITUDE_MATCHING: LieuxMediationNumeriqueMatching = 
 
 describe('localisation field', (): void => {
   it('should process localisation form source', (): void => {
-    const source: Source = {
+    const source: DataSource = {
       bf_latitude: '0',
       bf_longitude: '0'
     };
@@ -48,7 +48,7 @@ describe('localisation field', (): void => {
   });
 
   it('should process localisation form source with associated latitude and longitude', (): void => {
-    const source: Source = {
+    const source: DataSource = {
       'Geo Point': '47.29212184845607,0.02176010906045345'
     };
 

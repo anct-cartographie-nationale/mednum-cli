@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
 import { Contact, Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { LieuxMediationNumeriqueMatching, Source } from '../../input';
+import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { Recorder, Report } from '../../report/report';
 import { processContact } from './contact.field';
 
@@ -22,7 +22,7 @@ const matching: LieuxMediationNumeriqueMatching = {
 
 describe('contact field', (): void => {
   it('should extract empty contact data form source', (): void => {
-    const contact: Contact = processContact(Report().entry(0))({} as Source, matching);
+    const contact: Contact = processContact(Report().entry(0))({} as DataSource, matching);
 
     expect(contact).toStrictEqual<Contact>(Contact({}));
   });
@@ -33,7 +33,7 @@ describe('contact field', (): void => {
         Téléphone: '+33124963587',
         [EMAIL_FIELD]: 'test@mairie.fr',
         'Site Web': 'https://mairie.fr'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -51,7 +51,7 @@ describe('contact field', (): void => {
       {
         'Site Web': 'http://',
         Téléphone: '+33475582913'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -67,7 +67,7 @@ describe('contact field', (): void => {
       {
         'Site Web': 'epn.adeaformation.fr',
         Téléphone: '+33475582913'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -83,7 +83,7 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         'Site Web': 'http://https://www.crangevrieranimation.com/'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -98,7 +98,7 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         'Site Web': 'https://expresshauts73.wordpress.com/;http://www.bm-chambery.fr'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -113,7 +113,7 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         'Site Web': 'https://expresshauts73.wordpress.com/ ou http://www.bm-chambery.fr'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -128,7 +128,7 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         'Site Web': 'http://www.souzay-champigny.Mairie et services municipaux49.fr/'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -140,7 +140,7 @@ describe('contact field', (): void => {
       {
         Téléphone: 475582913 as unknown as string,
         'Site Web': 'http://epn.adeaformation.fr'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -158,7 +158,7 @@ describe('contact field', (): void => {
         [EMAIL_FIELD]: 'contact@crangevrieranimation.com',
         Téléphone: 450673375 as unknown as string,
         'Site Web': 'https://www.crangevrieranimation.com/'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -175,7 +175,7 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         Téléphone: "'+33476498847"
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -190,7 +190,7 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         Téléphone: '04.79.28.79.28.'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -205,7 +205,7 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         Téléphone: '04 43 762 762'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -220,7 +220,7 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         Téléphone: '04 73 94 20 49 Mairie'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -236,7 +236,7 @@ describe('contact field', (): void => {
       {
         Téléphone: '(+33)474327740',
         'Site Web': 'http://epn.adeaformation.fr'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -252,7 +252,7 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         Téléphone: "'-à’éé0476714473"
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -267,7 +267,7 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         Téléphone: '0473658950/0761294745'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -282,7 +282,7 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         Téléphone: '0476070902//0685053452'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -297,7 +297,7 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         Téléphone: '04.50.22.09.07'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -312,7 +312,7 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         Téléphone: '04-50-72-70-47'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -327,7 +327,7 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         Téléphone: '+33(0)450336550'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -342,7 +342,7 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         Téléphone: '0450950700 Poste 152'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -357,7 +357,7 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         Téléphone: 'sur rendez-vous à l’accueil de la mairie ou par téléphone au 0476714473'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -372,7 +372,7 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         Téléphone: '3230'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -387,7 +387,7 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         Téléphone: '024178384'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -398,7 +398,7 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         Téléphone: '0450950700152'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -409,7 +409,7 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         [EMAIL_FIELD]: 'bibliotheque.lecendre@clermontmetropole.'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -420,7 +420,7 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         [EMAIL_FIELD]: 'biblio@saint-jorioz'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -431,7 +431,7 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         [EMAIL_FIELD]: 'chambéry@accorderie.fr ou accueilchambery@accorderie.fr'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -446,7 +446,7 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         [EMAIL_FIELD]: 'epnevs26@gmail.com / contact@eustaches.com'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -461,7 +461,7 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         [EMAIL_FIELD]: 'gieres-jeunesse@wanadoo.fr et pij@ville-gieres.fr'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -476,7 +476,7 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         [EMAIL_FIELD]: 'mlidv.direction@gmail.com ; accueil.mipe.ml@gmail.com'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -491,7 +491,7 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         [EMAIL_FIELD]: 's.fontaine@vichy-communaute.fr t.chosson@vichy-communaute.fr'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -506,7 +506,7 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         [EMAIL_FIELD]: 'www.cc-mdl.fr/maisons-services'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -517,7 +517,7 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         [EMAIL_FIELD]: 'accuei[a]cap-berriat.com'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -532,7 +532,7 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         [EMAIL_FIELD]: 'courriel : cnumerique15@gmail.com'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -550,7 +550,7 @@ describe('contact field', (): void => {
     processContact(recorder)(
       {
         [EMAIL_FIELD]: 'dupond[a]conseiller-numerique.fr'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -583,7 +583,7 @@ describe('contact field', (): void => {
     processContact(recorder)(
       {
         [EMAIL_FIELD]: 'dupond@conseiller-numerique.'
-      } as Source,
+      } as DataSource,
       matching
     );
 

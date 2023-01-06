@@ -2,7 +2,7 @@
 
 import { Adresse } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Recorder, Report } from '../../../tools';
-import { LieuxMediationNumeriqueMatching, Source } from '../../input';
+import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { processAdresse } from './adresse.field';
 
 const STANDARD_MATCHING: LieuxMediationNumeriqueMatching = {
@@ -34,7 +34,7 @@ const SPLIT_VOIE_MATCHING: LieuxMediationNumeriqueMatching = {
 
 describe('adresse field', (): void => {
   it('should process a valid address', (): void => {
-    const source: Source = {
+    const source: DataSource = {
       'Code postal': '38000',
       'Ville *': 'Grenoble',
       'Adresse postale *': '5 rue Malakoff'
@@ -50,7 +50,7 @@ describe('adresse field', (): void => {
   });
 
   it('should fix value with code postal in adresse postale field instead of Code postal field', (): void => {
-    const source: Source = {
+    const source: DataSource = {
       'Adresse postale *': '5, rue Malakoff,\n38000 Grenoble \n\n-\n\n29, bis rue Colonel Bougault, 38100 Grenoble',
       'Code postal': '',
       'Ville *': 'grenoble'
@@ -66,7 +66,7 @@ describe('adresse field', (): void => {
   });
 
   it('should fix commune with invalid â character', (): void => {
-    const source: Source = {
+    const source: DataSource = {
       'Adresse postale *': '10 rue du Serre Blanc',
       'Code postal': '26130',
       'Ville *': 'SAINT PAUL TROIS CH╢TEAUX'
@@ -82,7 +82,7 @@ describe('adresse field', (): void => {
   });
 
   it('should fix commune Saint Laurent de Chamousset with no code postal', (): void => {
-    const source: Source = {
+    const source: DataSource = {
       'Adresse postale *': '122, avenue des 4 cantons',
       'Code postal': '',
       'Ville *': 'Saint Laurent de Chamousset'
@@ -98,7 +98,7 @@ describe('adresse field', (): void => {
   });
 
   it('should fix commune Gannat with no code postal', (): void => {
-    const source: Source = {
+    const source: DataSource = {
       'Adresse postale *': '12 Allée des tilleuls',
       'Code postal': '',
       'Ville *': 'Gannat'
@@ -117,7 +117,7 @@ describe('adresse field', (): void => {
     const report: Report = Report();
     const recorder: Recorder = report.entry(0);
 
-    const source: Source = {
+    const source: DataSource = {
       'Adresse postale *': '3 rue de la mairie',
       'Code postal': '',
       'Ville *': 'Bessenay'
@@ -148,7 +148,7 @@ describe('adresse field', (): void => {
   });
 
   it('should process an address with a split voie', (): void => {
-    const source: Source = {
+    const source: DataSource = {
       CP: '38000',
       Commune: 'Grenoble',
       Adresse: 'rue Malakoff',
@@ -165,7 +165,7 @@ describe('adresse field', (): void => {
   });
 
   it('should process an address with a number code postal', (): void => {
-    const source: Source = {
+    const source: DataSource = {
       CP: 38000 as unknown as string,
       Commune: 'Grenoble',
       Adresse: 'rue Malakoff',

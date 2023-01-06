@@ -1,5 +1,5 @@
 import { OsmDaysOfWeek, OsmOpeningHours, toOsmOpeningHours } from '@gouvfr-anct/timetable-to-osm-opening-hours';
-import { LieuxMediationNumeriqueMatching, Source } from '../../input';
+import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { toOsmHours } from '../../to-osm-hours/to-osm-hours';
 import { Recorder } from '../../report/report';
 import { InvalidHoursError } from './errors/invalid-hours-error';
@@ -44,7 +44,7 @@ const osmOpeningHoursString = (osmOpeningHours: string): OsmOpeningHoursString =
 
 export const processHoraires =
   (recorder: Recorder) =>
-  (source: Source, matching: LieuxMediationNumeriqueMatching): OsmOpeningHoursString => {
+  (source: DataSource, matching: LieuxMediationNumeriqueMatching): OsmOpeningHoursString => {
     try {
       return osmOpeningHoursString(
         toOsmOpeningHours([

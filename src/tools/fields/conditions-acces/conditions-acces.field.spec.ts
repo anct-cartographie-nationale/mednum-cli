@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
 import { ConditionAcces } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { LieuxMediationNumeriqueMatching, Source } from '../../input';
+import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { processConditionsAcces } from './conditions-acces.field';
 
 const STANDARD_MATCHING: LieuxMediationNumeriqueMatching = {
@@ -40,7 +40,7 @@ describe('condition acces field', (): void => {
     const conditionsAcces: ConditionAcces[] = processConditionsAcces(
       {
         Tarifs: ''
-      } as Source,
+      } as DataSource,
       STANDARD_MATCHING
     );
 
@@ -51,7 +51,7 @@ describe('condition acces field', (): void => {
     const conditionsAcces: ConditionAcces[] = processConditionsAcces(
       {
         Tarifs: 'gratuit'
-      } as Source,
+      } as DataSource,
       STANDARD_MATCHING
     );
 
@@ -62,7 +62,7 @@ describe('condition acces field', (): void => {
     const conditionsAcces: ConditionAcces[] = processConditionsAcces(
       {
         Tarifs: 'gratuit sous condition'
-      } as Source,
+      } as DataSource,
       STANDARD_MATCHING
     );
 
@@ -73,7 +73,7 @@ describe('condition acces field', (): void => {
     const conditionsAcces: ConditionAcces[] = processConditionsAcces(
       {
         Tarifs: 'adhésion'
-      } as Source,
+      } as DataSource,
       STANDARD_MATCHING
     );
 
@@ -84,7 +84,7 @@ describe('condition acces field', (): void => {
     const conditionsAcces: ConditionAcces[] = processConditionsAcces(
       {
         Tarifs: 'payant'
-      } as Source,
+      } as DataSource,
       STANDARD_MATCHING
     );
 
@@ -95,7 +95,7 @@ describe('condition acces field', (): void => {
     const conditionsAcces: ConditionAcces[] = processConditionsAcces(
       {
         Tarifs: 'pass numérique'
-      } as Source,
+      } as DataSource,
       STANDARD_MATCHING
     );
 
@@ -117,7 +117,7 @@ describe('condition acces field', (): void => {
       {
         Tarifs: 'gratuit',
         'Frais à charge': 'sans frais'
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -137,7 +137,7 @@ describe('condition acces field', (): void => {
     const conditionsAcces: ConditionAcces[] = processConditionsAcces(
       {
         Gratuit: ''
-      } as Source,
+      } as DataSource,
       matching
     );
 
@@ -157,7 +157,7 @@ describe('condition acces field', (): void => {
     const conditionsAcces: ConditionAcces[] = processConditionsAcces(
       {
         Gratuit: 'X'
-      } as Source,
+      } as DataSource,
       matching
     );
 

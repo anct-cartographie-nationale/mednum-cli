@@ -1,5 +1,5 @@
 import { ModaliteAccompagnement, ModalitesAccompagnement } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { Choice, LieuxMediationNumeriqueMatching, Source } from '../../input';
+import { Choice, LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 
 const isAllowedTerm = (choice: Choice<ModaliteAccompagnement>, sourceValue: string): boolean =>
   choice.sauf?.every((forbidden: string): boolean => !sourceValue.includes(forbidden)) ?? true;
@@ -21,19 +21,19 @@ const appendModaliteAccompagnement = (
 ];
 
 const modalitesAccompagnementForTerms =
-  (choice: Choice<ModaliteAccompagnement>, source: Source) =>
+  (choice: Choice<ModaliteAccompagnement>, source: DataSource) =>
   (modalitesAccompagnement: ModaliteAccompagnement[], colonne: string): ModaliteAccompagnement[] =>
     containsOneOfTheTerms(choice, source[colonne])
       ? appendModaliteAccompagnement(modalitesAccompagnement, choice.cible)
       : modalitesAccompagnement;
 
 const appendModalitesAccompagnement =
-  (source: Source) =>
+  (source: DataSource) =>
   (modalitesAccompagnement: ModaliteAccompagnement[], choice: Choice<ModaliteAccompagnement>): ModaliteAccompagnement[] =>
     [...modalitesAccompagnement, ...(choice.colonnes ?? []).reduce(modalitesAccompagnementForTerms(choice, source), [])];
 
 export const processModalitesAccompagnement = (
-  source: Source,
+  source: DataSource,
   matching: LieuxMediationNumeriqueMatching
 ): ModalitesAccompagnement =>
   ModalitesAccompagnement(

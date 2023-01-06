@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import { LieuxMediationNumeriqueMatching, Source } from '../../input';
+import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { processNom } from './nom.field';
 
 describe('nom field', (): void => {
@@ -11,7 +11,7 @@ describe('nom field', (): void => {
       }
     } as LieuxMediationNumeriqueMatching;
 
-    const source: Source = {
+    const source: DataSource = {
       'Nom du lieu ou de la structure *': 'Anonymal'
     };
 

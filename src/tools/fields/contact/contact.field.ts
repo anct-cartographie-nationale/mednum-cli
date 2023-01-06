@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
 import { Contact, ModelError, Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { LieuxMediationNumeriqueMatching, Source } from '../../input';
+import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { Recorder } from '../../report/report';
 import { cleanOperations, CleanOperation } from './clean-operations';
 
-type FixedContact = Source | undefined;
+type FixedContact = DataSource | undefined;
 
 const toInternationalFormat = (phone: string): string => (/^0\d{9}$/u.test(phone) ? `+33${phone.slice(1)}` : phone);
 
@@ -26,7 +26,7 @@ const siteWebField = (siteWeb?: string): Pick<Contact, 'site_web'> =>
 
 const courrielField = (courriel?: string): Pick<Contact, 'courriel'> => (courriel == null ? {} : { courriel });
 
-const toLieuxMediationNumeriqueContact = (source: Source, matching: LieuxMediationNumeriqueMatching): Contact =>
+const toLieuxMediationNumeriqueContact = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Contact =>
   Contact({
     ...telephoneField(source[matching.telephone.colonne]),
     ...siteWebField(source[matching.site_web.colonne]),
@@ -41,8 +41,8 @@ const shouldApplyFix = (cleanOperation: CleanOperation, property?: string): bool
 
 const applyRemoveFix =
   (recorder: Recorder) =>
-  (cleanOperation: CleanOperation, valueToFix: string, source: Source): Source => {
-    const { [cleanOperation.field]: removedProperty, ...filteredProperties }: Source = source;
+  (cleanOperation: CleanOperation, valueToFix: string, source: DataSource): DataSource => {
+    const { [cleanOperation.field]: removedProperty, ...filteredProperties }: DataSource = source;
     recorder.fix({
       apply: cleanOperation.name,
       before: valueToFix
@@ -52,7 +52,7 @@ const applyRemoveFix =
 
 const applyUpdateFix =
   (recorder: Recorder) =>
-  (cleanOperation: CleanOperation & { fix: (toFix: string) => string }, valueToFix: string, source: Source): Source => {
+  (cleanOperation: CleanOperation & { fix: (toFix: string) => string }, valueToFix: string, source: DataSource): DataSource => {
     const cleanValue: string = cleanOperation.fix(valueToFix);
     recorder.fix({
       apply: cleanOperation.name,
@@ -73,14 +73,14 @@ const canFix = (cleanOperation: CleanOperation): cleanOperation is CleanOperatio
 
 const applyCleanOperation =
   (recorder: Recorder) =>
-  (cleanOperation: CleanOperation, valueToFix: string, source: Source): Source =>
+  (cleanOperation: CleanOperation, valueToFix: string, source: DataSource): DataSource =>
     canFix(cleanOperation)
       ? applyUpdateFix(recorder)(cleanOperation, valueToFix, source)
       : applyRemoveFix(recorder)(cleanOperation, valueToFix, source);
 
 const toFixedContact =
   (recorder: Recorder) =>
-  (source: Source) =>
+  (source: DataSource) =>
   (contact: FixedContact, cleanOperation: CleanOperation): FixedContact =>
     contact == null && shouldApplyFix(cleanOperation, source[cleanOperation.field]?.toString())
       ? applyCleanOperation(recorder)(cleanOperation, source[cleanOperation.field]?.toString() ?? '', source)
@@ -97,12 +97,12 @@ const retryOrThrow =
 
 const fixAndRetry =
   (recorder: Recorder) =>
-  (source: Source, matching: LieuxMediationNumeriqueMatching, error: unknown): Contact =>
+  (source: DataSource, matching: LieuxMediationNumeriqueMatching, error: unknown): Contact =>
     retryOrThrow(recorder)(cleanOperations(matching).reduce(toFixedContact(recorder)(source), undefined), matching, error);
 
 export const processContact =
   (recorder: Recorder) =>
-  (source: Source, matching: LieuxMediationNumeriqueMatching): Contact => {
+  (source: DataSource, matching: LieuxMediationNumeriqueMatching): Contact => {
     try {
       return toLieuxMediationNumeriqueContact(source, matching);
     } catch (error: unknown) {

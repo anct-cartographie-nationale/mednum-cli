@@ -1,5 +1,5 @@
 import { ConditionAcces, ConditionsAcces } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { Choice, LieuxMediationNumeriqueMatching, Source } from '../../input';
+import { Choice, LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 
 const isAllowedTerm = (choice: Choice<ConditionAcces>, sourceValue: string): boolean =>
   choice.sauf?.every((forbidden: string): boolean => !sourceValue.includes(forbidden)) ?? true;
@@ -18,14 +18,14 @@ const appendConditionAcces = (conditionsAcces: ConditionAcces[], conditionAcces?
 ];
 
 const conditionsAccesForTerms =
-  (choice: Choice<ConditionAcces>, source: Source) =>
+  (choice: Choice<ConditionAcces>, source: DataSource) =>
   (conditionsAcces: ConditionAcces[], colonne: string): ConditionAcces[] =>
     containsOneOfTheTerms(choice, source[colonne]) ? appendConditionAcces(conditionsAcces, choice.cible) : conditionsAcces;
 
 const appendConditionsAcces =
-  (source: Source) =>
+  (source: DataSource) =>
   (conditionsAcces: ConditionAcces[], choice: Choice<ConditionAcces>): ConditionAcces[] =>
     [...conditionsAcces, ...(choice.colonnes ?? []).reduce(conditionsAccesForTerms(choice, source), [])];
 
-export const processConditionsAcces = (source: Source, matching: LieuxMediationNumeriqueMatching): ConditionsAcces =>
+export const processConditionsAcces = (source: DataSource, matching: LieuxMediationNumeriqueMatching): ConditionsAcces =>
   ConditionsAcces(Array.from(new Set(matching.conditionAcces.reduce(appendConditionsAcces(source), []))));

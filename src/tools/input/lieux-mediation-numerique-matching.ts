@@ -2,7 +2,7 @@
 
 import { ConditionAcces, ModaliteAccompagnement, PublicAccueilli, Service } from '@gouvfr-anct/lieux-de-mediation-numerique';
 
-export type Source = Record<string, string>;
+export type DataSource = Record<string, string>;
 
 export type Colonne = {
   colonne: string;

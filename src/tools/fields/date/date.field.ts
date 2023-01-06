@@ -1,4 +1,4 @@
-import { LieuxMediationNumeriqueMatching, Source } from '../../input';
+import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 
 type RegexResult = {
   year: string;
@@ -27,5 +27,5 @@ const dateFromRegExp =
   (date: Date, dateRegexp: RegExp): Date =>
     dateRegexp.test(sourceDate) ? toDate(dateRegexpResultFrom(dateRegexp, sourceDate)) : date;
 
-export const processDate = (source: Source, matching: LieuxMediationNumeriqueMatching): Date =>
+export const processDate = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Date =>
   DATE_REGEXP.reduce(dateFromRegExp(source[matching.date_maj.colonne]), new Date(NaN));

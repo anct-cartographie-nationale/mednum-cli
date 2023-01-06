@@ -46,7 +46,7 @@
     "start.hinaura": "ts-node src/hinaura/main.ts",
     "start.maine-et-loire": "ts-node src/maine-et-loire/main.ts",
     "start.cnfs": "ts-node src/cnfs/main.ts",
-    "start.mednum": "ts-node src/mednum/main.ts"
+    "mednum": "ts-node src/mednum/mednum-cli.ts"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",

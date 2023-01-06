@@ -18,14 +18,14 @@
   "ressources": [
     {
       "source": "assets/output/hinaura/mediation-numerique",
-      "name": "20230104_hinaura_lieux-de-mediation-numeriques-auvergne-rhone-alpes.csv",
+      "name": "20230106_hinaura_lieux-de-mediation-numeriques-auvergne-rhone-alpes.csv",
       "schema": "LaMednum/standard-mediation-num",
       "description":
       "Lieux de médiation numériques en Auvergne Rhône-Alpes collectés par le hub Hinaura au format CSV."
     },
     {
       "source": "assets/output/hinaura/mediation-numerique",
-      "name": "20230104_hinaura_lieux-de-mediation-numeriques-auvergne-rhone-alpes.json",
+      "name": "20230106_hinaura_lieux-de-mediation-numeriques-auvergne-rhone-alpes.json",
       "schema": "LaMednum/standard-mediation-num",
       "description":
       "Lieux de médiation numériques en Auvergne Rhône-Alpes collectés par le hub Hinaura au format JSON.\nVous pouvez utiliser l’url stable associé à cette ressource pour alimenter une version locale de la cartographie des lieux de médiation numérique."

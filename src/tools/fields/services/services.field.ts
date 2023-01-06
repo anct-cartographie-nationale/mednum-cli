@@ -1,5 +1,5 @@
 import { ModaliteAccompagnement, ModalitesAccompagnement, Service, Services } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { Choice, LieuxMediationNumeriqueMatching, Source } from '../../input';
+import { Choice, LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { processModalitesAccompagnement } from '../modalites-accompagnement/modalites-accompagnement.field';
 
 const isAllowedTerm = (choice: Choice<Service>, sourceValue: string): boolean =>
@@ -38,16 +38,16 @@ const appendService = (services: Service[], service?: Service): Service[] => [
 ];
 
 const servicesForTerms =
-  (choice: Choice<Service>, source: Source, modalitesAccompagnement: ModalitesAccompagnement) =>
+  (choice: Choice<Service>, source: DataSource, modalitesAccompagnement: ModalitesAccompagnement) =>
   (services: Service[], colonne: string): Service[] =>
     containsOneOfTheTerms(choice, modalitesAccompagnement, source[colonne]) ? appendService(services, choice.cible) : services;
 
 const appendServices =
-  (source: Source, modalitesAccompagnement: ModalitesAccompagnement) =>
+  (source: DataSource, modalitesAccompagnement: ModalitesAccompagnement) =>
   (services: Service[], choice: Choice<Service>): Service[] =>
     [...services, ...(choice.colonnes ?? []).reduce(servicesForTerms(choice, source, modalitesAccompagnement), [])];
 
-export const processServices = (source: Source, matching: LieuxMediationNumeriqueMatching): Services =>
+export const processServices = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Services =>
   Services(
     Array.from(new Set(matching.services.reduce(appendServices(source, processModalitesAccompagnement(source, matching)), [])))
   );

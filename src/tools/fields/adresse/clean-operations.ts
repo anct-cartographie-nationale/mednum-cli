@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
 
-import { LieuxMediationNumeriqueMatching, Source } from '../../input';
+import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 
 const communes: Commune[] = require('../../../../assets/data/communes.json');
 
@@ -11,7 +11,7 @@ export type CleanOperation = {
   selector: RegExp;
   field: string;
   negate?: boolean;
-  fix?: (toFix: string, source?: Source) => string;
+  fix?: (toFix: string, source?: DataSource) => string;
 };
 
 const FIX_WRONG_ACCENT_CHARS_IN_COMMUNE = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
@@ -45,7 +45,7 @@ const findCodePostal = (matchingCommuneName: string): string =>
 
 const codePostalFromCommune = (commune: string): string => formatCodePostal(findCodePostal(commune));
 
-const processCodePostal = (source: Source, matching: LieuxMediationNumeriqueMatching): string =>
+const processCodePostal = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
   (source[matching.code_postal.colonne] ?? '') === ''
     ? codePostalFromCommune(source[matching.commune.colonne] ?? '')
     : source[matching.code_postal.colonne] ?? '';
@@ -58,7 +58,7 @@ const FIX_MISSING_CODE_POSTAL = (matching: LieuxMediationNumeriqueMatching): Cle
   name: 'missing code postal',
   selector: /^$/u,
   field: matching.code_postal.colonne,
-  fix: (_: string, source?: Source): string =>
+  fix: (_: string, source?: DataSource): string =>
     source == null ? throwMissingFixRequiredDataError() : processCodePostal(source, matching)
 });
 
