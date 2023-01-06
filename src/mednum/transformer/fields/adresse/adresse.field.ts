@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
 import { Adresse, ModelError } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { Colonne, Jonction, Recorder } from '../../../tools';
-import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
+import { LieuxMediationNumeriqueMatching, DataSource, Colonne, Jonction } from '../../input';
+import { Recorder } from '../../report';
 import { CLEAN_OPERATIONS, CleanOperation } from './clean-operations';
 
 type FixedAdresse = DataSource | undefined;

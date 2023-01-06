@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
 import { Adresse } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { Recorder, Report } from '../../../tools';
+import { Recorder, Report } from '../../report';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { processAdresse } from './adresse.field';
 

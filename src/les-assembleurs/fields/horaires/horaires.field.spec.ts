@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
 import { processHoraires } from './horaires.field';
-import { Recorder, Report } from '../../../tools';
 import { LesAssembleursLieuMediationNumerique } from '../../helpers';
 import { OsmOpeningHoursString } from '../../../tools/process-horaires.field';
+import { Recorder, Report } from '../../../mednum/transformer/report';
 
 describe('horaires field', (): void => {
   it('should process opening hours when only open on monday', (): void => {

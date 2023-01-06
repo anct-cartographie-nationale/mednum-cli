@@ -1,8 +1,7 @@
 import { Command } from 'commander';
-
+import { Question } from 'inquirer';
 import { apiKeyOption, apiUrlOption, idTypeOption, idValueOption, metadataFileOption } from './options';
 import { apiKeyQuestion, idTypeQuestion, metadataFileQuestion, valueQuestion } from './questions';
-import { Question } from 'inquirer';
 
 export type PublierOptions = {
   dataGouvApiKey: string;

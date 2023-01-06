@@ -1,9 +1,10 @@
 import { OsmDaysOfWeek, OsmOpeningHours, toOsmOpeningHours } from '@gouvfr-anct/timetable-to-osm-opening-hours';
-import { Recorder, toOsmHours } from '../../../tools';
 import { LesAssembleursLieuMediationNumerique } from '../../helpers';
 import { InvalidHoursError } from './errors/invalid-hours-error';
 import { processHorairesSingleField } from '../../../tools/process-horaires-single-field';
 import { NO_OSM_OPENING_HOURS, osmOpeningHoursString, OsmOpeningHoursString } from '../../../tools/process-horaires.field';
+import { Recorder } from '../../../mednum/transformer/report';
+import { toOsmHours } from '../../../mednum/transformer/to-osm-hours/to-osm-hours';
 
 type LesAssembleursDayFields =
   /* eslint-disable-next-line @typescript-eslint/sort-type-union-intersection-members */

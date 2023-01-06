@@ -11,8 +11,8 @@ import {
 import { dataInclusionFileName, mediationNumeriqueFileName } from './file-name/file-name';
 import { toLieuxMediationNumeriqueCsv } from './to-lieux-mediation-numerique-csv/to-lieux-mediation-numerique-csv';
 
-export type Producer = {
-  id: string;
+export type Output = {
+  path: string;
   name: string;
   territoire: string;
 };
@@ -32,59 +32,58 @@ const createFolderIfNotExist = (folderPath: string): string => {
 const noEmptyCell = <T>(_: string, cell: T): T | undefined => (cell === '' ? undefined : cell);
 
 const writeMediationNumeriqueJsonOutput = (
-  producer: Producer,
+  producer: Output,
   schemaLieuxDeMediationNumerique: SchemaLieuMediationNumerique[]
 ): void => {
   fs.writeFile(
-    `${createFolderIfNotExist(
-      `./assets/output/${producer.name.toLowerCase()}/mediation-numerique`
-    )}/${mediationNumeriqueFileName(new Date(), producer.id, producer.territoire, 'json')}`,
+    `${createFolderIfNotExist(producer.path)}/${mediationNumeriqueFileName(
+      new Date(),
+      producer.name,
+      producer.territoire,
+      'json'
+    )}`,
     JSON.stringify(schemaLieuxDeMediationNumerique, noEmptyCell),
     throwWriteFileError
   );
 };
 
 const writeMediationNumeriqueCsvOutput = (
-  producer: Producer,
+  producer: Output,
   schemaLieuxDeMediationNumerique: SchemaLieuMediationNumerique[]
 ): void => {
   fs.writeFile(
-    `${createFolderIfNotExist(
-      `./assets/output/${producer.name.toLowerCase()}/mediation-numerique`
-    )}/${mediationNumeriqueFileName(new Date(), producer.id, producer.territoire, 'csv')}`,
+    `${createFolderIfNotExist(producer.path)}/${mediationNumeriqueFileName(
+      new Date(),
+      producer.name,
+      producer.territoire,
+      'csv'
+    )}`,
     toLieuxMediationNumeriqueCsv(schemaLieuxDeMediationNumerique),
     throwWriteFileError
   );
 };
 
 const writeStructuresDataInclusionJsonOutput = (
-  producer: Producer,
+  producer: Output,
   lieuxDeMediationNumerique: LieuMediationNumerique[]
 ): void => {
   fs.writeFile(
-    `${createFolderIfNotExist(
-      `./assets/output/${producer.name.toLowerCase()}/data-inclusion/strcutures`
-    )}/${dataInclusionFileName(new Date(), producer.id, 'structures', 'json')}`,
+    `${createFolderIfNotExist(producer.path)}/${dataInclusionFileName(new Date(), producer.name, 'structures', 'json')}`,
     JSON.stringify(toSchemaStructuresDataInclusion(lieuxDeMediationNumerique), noEmptyCell),
     throwWriteFileError
   );
 };
 
-const writeServicesDataInclusionJsonOutput = (
-  producer: Producer,
-  lieuxDeMediationNumerique: LieuMediationNumerique[]
-): void => {
+const writeServicesDataInclusionJsonOutput = (producer: Output, lieuxDeMediationNumerique: LieuMediationNumerique[]): void => {
   fs.writeFile(
-    `${createFolderIfNotExist(
-      `./assets/output/${producer.name.toLowerCase()}/data-inclusion/services`
-    )}/${dataInclusionFileName(new Date(), producer.id, 'services', 'json')}`,
+    `${createFolderIfNotExist(producer.path)}/${dataInclusionFileName(new Date(), producer.name, 'services', 'json')}`,
     JSON.stringify(toSchemaServicesDataInclusion(lieuxDeMediationNumerique), noEmptyCell),
     throwWriteFileError
   );
 };
 
 export const writeOutputFiles =
-  (producer: Producer) =>
+  (producer: Output) =>
   (lieuxDeMediationNumerique: LieuMediationNumerique[]): void => {
     const schemaLieuxDeMediationNumerique: SchemaLieuMediationNumerique[] =
       toSchemaLieuxDeMediationNumerique(lieuxDeMediationNumerique);

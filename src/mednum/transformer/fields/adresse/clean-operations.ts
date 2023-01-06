@@ -2,7 +2,7 @@
 
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 
-const communes: Commune[] = require('../../../../assets/data/communes.json');
+const communes: Commune[] = require('../../data/communes.json');
 
 type Commune = { Nom_commune: string; Code_postal: number };
 

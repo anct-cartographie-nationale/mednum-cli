@@ -2,13 +2,12 @@
 
 import * as fs from 'fs';
 import { fromSchemaLieuxDeMediationNumerique, LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { writeOutputFiles } from '../tools';
 import ErrnoException = NodeJS.ErrnoException;
+import { writeOutputFiles } from '../mednum/transformer/output';
 
 const SOURCE_PATH: string = './assets/input/';
 const SOURCE_FILE: string = 'cnfs.json';
 
-const ID: string = 'cnfs'; // todo: remplacer par le SIREN
 const NAME: string = 'CnFS';
 const TERRITOIRE: string = 'france';
 
@@ -16,7 +15,7 @@ fs.readFile(`${SOURCE_PATH}${SOURCE_FILE}`, 'utf8', (_: ErrnoException | null, d
   const lieuxDeMediationNumerique: LieuMediationNumerique[] = fromSchemaLieuxDeMediationNumerique(JSON.parse(dataString));
 
   writeOutputFiles({
-    id: ID,
+    path: `./assets/output/${NAME}`,
     name: NAME,
     territoire: TERRITOIRE
   })(lieuxDeMediationNumerique);

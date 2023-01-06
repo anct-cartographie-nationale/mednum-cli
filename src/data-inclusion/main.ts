@@ -14,14 +14,13 @@ import {
   VoieError
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { DataInclusionMerged, mergeServicesInStructure } from './merge-services-in-structure';
-import { writeOutputFiles } from '../tools';
 import { processVoie } from './fields';
+import { writeOutputFiles } from '../mednum/transformer/output';
 
 const SOURCE_PATH: string = './assets/input/';
 const DATA_INCLUSION_STRUCTURES_FILE: string = 'data-inclusion-structures.json';
 const DATA_INCLUSION_SERVICES_FILE: string = 'data-inclusion-services.json';
 
-const ID: string = 'data-inclusion'; // todo: remplacer par le SIREN
 const NAME: string = 'data-inclusion';
 const TERRITOIRE: string = 'france';
 
@@ -76,7 +75,7 @@ fs.readFile(
           .filter(onlyDefindedLieuxMediationNumerique);
 
         writeOutputFiles({
-          id: ID,
+          path: `./assets/output/${NAME}`,
           name: NAME,
           territoire: TERRITOIRE
         })(lieuxDeMediationNumerique);

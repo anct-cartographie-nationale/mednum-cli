@@ -1,8 +1,8 @@
 import { OsmDaysOfWeek, OsmOpeningHours, toOsmOpeningHours } from '@gouvfr-anct/timetable-to-osm-opening-hours';
 import { HORAIRES_FIELD_CLEAN_OPERATIONS, HorairesFieldCleanOperation } from './horaires.field.clean-operations';
 import { OPENING_HOURS_EXTRACTION, OpeningHoursExtraction } from './horaires.field.extract-operations';
-import { mergeMultipleHoursRanges } from './merge-hours-ranges/merge-hours-ranges';
 import { NO_OSM_OPENING_HOURS, osmOpeningHoursString, OsmOpeningHoursString } from './process-horaires.field';
+import { mergeMultipleHoursRanges } from '../mednum/transformer/merge-hours-ranges/merge-hours-ranges';
 
 type DayWithOsmHours = { osmHours: string; day: OsmDaysOfWeek };
 
