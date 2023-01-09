@@ -10,6 +10,7 @@ import {
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { dataInclusionFileName, mediationNumeriqueFileName } from './file-name/file-name';
 import { toLieuxMediationNumeriqueCsv } from './to-lieux-mediation-numerique-csv/to-lieux-mediation-numerique-csv';
+import { generatePublishMetadata } from './publish-metadata/publish-metadata';
 
 export type Output = {
   path: string;
@@ -82,6 +83,14 @@ const writeServicesDataInclusionJsonOutput = (producer: Output, lieuxDeMediation
   );
 };
 
+const writePublierMetadataOutput = (producer: Output, lieuxDeMediationNumerique: LieuMediationNumerique[]): void => {
+  fs.writeFile(
+    `${createFolderIfNotExist(producer.path)}/publier.json`,
+    JSON.stringify(generatePublishMetadata(producer, lieuxDeMediationNumerique, new Date())),
+    throwWriteFileError
+  );
+};
+
 export const writeOutputFiles =
   (producer: Output) =>
   (lieuxDeMediationNumerique: LieuMediationNumerique[]): void => {
@@ -92,4 +101,5 @@ export const writeOutputFiles =
     writeMediationNumeriqueCsvOutput(producer, schemaLieuxDeMediationNumerique);
     writeStructuresDataInclusionJsonOutput(producer, lieuxDeMediationNumerique);
     writeServicesDataInclusionJsonOutput(producer, lieuxDeMediationNumerique);
+    writePublierMetadataOutput(producer, lieuxDeMediationNumerique);
   };

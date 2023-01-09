@@ -1,301 +1,495 @@
-import { PublishDataset, Dataset, PublishRessource, Ressource, Reference } from './models';
-import { PublishDatasetRepository } from './repositories';
 import { publishDataset } from './publish-dataset';
-
-const REFERENCE: Reference = {
-  id: 'cdf56af1aa1f5c6',
-  isOwner: true
-};
-
-const DATASET_TO_CREATE: PublishDataset = {
-  description: 'This is a dataset to publish',
-  frequency: 'daily',
-  title: 'New Dataset',
-  ressources: []
-} as unknown as PublishDataset;
-
-const CSV_CREATE_RESSOURCE: PublishRessource = {
-  source: 'assets/output/maine-et-loire/mediation-numerique',
-  name: '20221213_maine-et-loire_lieux-de-mediation-numeriques-pays-de-la-loire.csv',
-  schema: 'LaMednum/standard-mediation-num',
-  description: 'Test ressource for a csv file'
-};
-
-const DATASET_TO_CREATE_WITH_CREATE_CSV_RESSOURCE: PublishDataset = {
-  description: 'This is a dataset to publish',
-  frequency: 'daily',
-  title: 'New Dataset',
-  ressources: [CSV_CREATE_RESSOURCE]
-} as PublishDataset;
-
-const DATASET_TO_CREATE_WITHOUT_RESSOURCES: PublishDataset = {
-  description: 'This is a dataset to publish',
-  frequency: 'daily',
-  title: 'New Dataset',
-  ressources: []
-} as unknown as PublishDataset;
-
-const DATASET_CREATED: Dataset = {
-  id: '6a564acf45cf645dfa5d4cd5',
-  description: 'This is a dataset to publish',
-  frequency: 'daily',
-  title: 'New Dataset',
-  resources: []
-};
-
-const DATASET_TO_UPDATE: PublishDataset = {
-  description: 'This is a dataset to publish',
-  frequency: 'daily',
-  title: 'Existing Dataset',
-  ressources: []
-} as unknown as PublishDataset;
-
-const CSV_CREATE_RESSOURCE_WITHOUT_UNDERSCORES: PublishRessource = {
-  source: 'assets/output/maine-et-loire/mediation-numerique',
-  name: '20221213-maine-et-loire-lieux-de-mediation-numeriques-pays-de-la-loire.csv',
-  schema: 'LaMednum/standard-mediation-num',
-  description: 'Test ressource for a csv file without underscores in file name'
-};
-
-const DATASET_TO_UPDATE_WITH_CREATE_CSV_RESSOURCE_WITHOUT_UNDERSCORES: PublishDataset = {
-  description: 'This is a dataset to publish',
-  frequency: 'daily',
-  title: 'Existing Dataset',
-  ressources: [CSV_CREATE_RESSOURCE_WITHOUT_UNDERSCORES]
-} as PublishDataset;
-
-const CSV_CREATE_RESSOURCE_AT_DIFFERENT_DATE: PublishRessource = {
-  source: 'assets/output/maine-et-loire/mediation-numerique',
-  name: '20230115_maine-et-loire_lieux-de-mediation-numeriques-pays-de-la-loire.csv',
-  schema: 'LaMednum/standard-mediation-num',
-  description: 'Test ressource for a csv file with a different date prefix in file name'
-};
-
-const DATASET_TO_UPDATE_WITH_CREATE_CSV_RESSOURCE_AT_DIFFERENT_DATE: PublishDataset = {
-  description: 'This is a dataset to publish',
-  frequency: 'daily',
-  title: 'Existing Dataset',
-  ressources: [CSV_CREATE_RESSOURCE_AT_DIFFERENT_DATE]
-} as PublishDataset;
-
-const DATASET_TO_UPDATE_WITHOUT_RESSOURCES: PublishDataset = {
-  description: 'This is a dataset to publish',
-  frequency: 'daily',
-  title: 'Existing Dataset',
-  ressources: []
-} as unknown as PublishDataset;
-
-const DATASET_TO_UPDATE_WITH_CREATE_CSV_RESSOURCE: PublishDataset = {
-  description: 'This is a dataset to publish',
-  frequency: 'daily',
-  title: 'Existing Dataset',
-  ressources: [CSV_CREATE_RESSOURCE]
-} as PublishDataset;
-
-const JSON_CREATE_RESSOURCE: PublishRessource = {
-  source: 'assets/output/maine-et-loire/mediation-numerique',
-  name: '20221213_maine-et-loire_lieux-de-mediation-numeriques-pays-de-la-loire.json',
-  schema: 'LaMednum/standard-mediation-num',
-  description: 'Test ressource for a json file'
-};
-
-const DATASET_TO_UPDATE_WITH_CREATE_JSON_RESSOURCE: PublishDataset = {
-  description: 'This is a dataset to publish',
-  frequency: 'daily',
-  title: 'Existing Dataset',
-  ressources: [JSON_CREATE_RESSOURCE]
-} as PublishDataset;
-
-const EXISTING_DATASET: Dataset = {
-  id: '6a564acf45cf645dfa5d4cd5',
-  description: 'This is a dataset that have already been published',
-  frequency: 'daily',
-  title: 'Existing Dataset',
-  resources: []
-};
-
-const EXISTING_DATASET_WITH_CSV_RESOURCE: Dataset = {
-  id: '6a564acf45cf645dfa5d4cd5',
-  description: 'This is a dataset that have already been published',
-  frequency: 'daily',
-  title: 'Existing Dataset',
-  resources: [
-    {
-      id: '15e10bf7-6d6a-44a1-9d70-176a44fc92a5',
-      name: '20221213_maine-et-loire_lieux-de-mediation-numeriques-pays-de-la-loire.csv'
-    }
-  ]
-};
-
-const CSV_UPDATE_RESSOURCE: PublishRessource = {
-  source: 'assets/output/maine-et-loire/mediation-numerique',
-  name: '20221213_maine-et-loire_lieux-de-mediation-numeriques-pays-de-la-loire.csv',
-  schema: 'LaMednum/standard-mediation-num',
-  description: 'Test ressource for a csv file'
-};
-
-const CSV_UPDATE_RESSOURCE_AT_DIFFERENT_DATE: PublishRessource = {
-  source: 'assets/output/maine-et-loire/mediation-numerique',
-  name: '20230115_maine-et-loire_lieux-de-mediation-numeriques-pays-de-la-loire.csv',
-  schema: 'LaMednum/standard-mediation-num',
-  description: 'Test ressource for a csv file with a different date prefix in file name'
-};
-
-const CSV_UPDATE_RESSOURCE_WITHOUT_UNDERSCORES: PublishRessource = {
-  source: 'assets/output/maine-et-loire/mediation-numerique',
-  name: '20221213-maine-et-loire-lieux-de-mediation-numeriques-pays-de-la-loire.csv',
-  schema: 'LaMednum/standard-mediation-num',
-  description: 'Test ressource for a csv file without underscores in file name'
-};
+import { PublishDatasetRepository } from './repositories';
+import { Dataset, PublishDataset, PublishRessource } from './models';
 
 describe('mednum - dataset to update', (): void => {
-  it('should find that there is no dataset to update since there is no existing dataset with this title', async (): Promise<void> => {
-    const datasetsToCreate: PublishDataset[] = [];
+  it('should create new dataset without ressources', async (): Promise<void> => {
+    const expectedDatasets: Dataset[] = [];
 
     const publishDatasetRepository: PublishDatasetRepository = {
       get: (): Dataset[] => [],
       post: (datasetToCreate: PublishDataset): Dataset => {
-        datasetsToCreate.push(datasetToCreate);
-        return DATASET_CREATED;
-      }
-    } as unknown as PublishDatasetRepository;
+        const dataset: Dataset = {
+          description: datasetToCreate.description,
+          frequency: datasetToCreate.frequency,
+          id: '6a564acf45cf645dfa5d4cd5',
+          ressources: [],
+          title: datasetToCreate.title
+        };
 
-    await publishDataset(publishDatasetRepository, REFERENCE)(DATASET_TO_CREATE_WITHOUT_RESSOURCES);
+        expectedDatasets.push(dataset);
 
-    expect(datasetsToCreate).toStrictEqual([DATASET_TO_CREATE]);
-  });
-
-  it('should find an already published dataset to update with the same title', async (): Promise<void> => {
-    const datasetsToUpdate: PublishDataset[] = [];
-
-    const publishDatasetRepository: PublishDatasetRepository = {
-      get: (): Dataset[] => [EXISTING_DATASET],
-      update: (datasetToUpdate: PublishDataset, dataset: Dataset): Dataset => {
-        datasetsToUpdate.push(datasetToUpdate);
         return dataset;
       }
     } as unknown as PublishDatasetRepository;
 
-    await publishDataset(publishDatasetRepository, REFERENCE)(DATASET_TO_UPDATE_WITHOUT_RESSOURCES);
+    await publishDataset(publishDatasetRepository, { id: '', isOwner: false })({
+      description: 'Lieux de médiation numérique au standard de la Mednum',
+      frequency: 'daily',
+      title: 'Lieux de médiation numérique',
+      tags: ['inclusion'],
+      license: 'lov2',
+      zone: 'fr:region:84',
+      granularity: 'poi',
+      start: '2021-09-03',
+      end: '2023-01-04',
+      ressources: []
+    });
 
-    expect(datasetsToUpdate).toStrictEqual([DATASET_TO_UPDATE]);
+    expect(expectedDatasets).toStrictEqual([
+      {
+        id: '6a564acf45cf645dfa5d4cd5',
+        description: 'Lieux de médiation numérique au standard de la Mednum',
+        frequency: 'daily',
+        title: 'Lieux de médiation numérique',
+        ressources: []
+      }
+    ]);
   });
 
-  it('should add ressources to new published dataset', async (): Promise<void> => {
-    const ressourcesToAdd: Ressource[] = [];
+  it('should create new dataset without ressources when existing dataset with different name', async (): Promise<void> => {
+    const expectedDatasets: Dataset[] = [
+      {
+        id: '6aacf16451afc56441ac64a6',
+        description: 'Lieux de médiation numérique au standard de la Mednum',
+        frequency: 'daily',
+        title: 'Already existing dataset',
+        ressources: []
+      }
+    ];
 
     const publishDatasetRepository: PublishDatasetRepository = {
-      addRessourceTo:
-        () =>
-        (ressource: Ressource): void => {
-          ressourcesToAdd.push(ressource);
-        },
+      get: (): Dataset[] => [
+        {
+          id: '6aacf16451afc56441ac64a6',
+          description: 'Lieux de médiation numérique au standard de la Mednum',
+          frequency: 'daily',
+          title: 'Already existing dataset',
+          ressources: []
+        }
+      ],
+      post: (datasetToCreate: PublishDataset): Dataset => {
+        const dataset: Dataset = {
+          description: datasetToCreate.description,
+          frequency: datasetToCreate.frequency,
+          id: '6a564acf45cf645dfa5d4cd5',
+          ressources: [],
+          title: datasetToCreate.title
+        };
+
+        expectedDatasets.push(dataset);
+
+        return dataset;
+      }
+    } as unknown as PublishDatasetRepository;
+
+    await publishDataset(publishDatasetRepository, { id: '', isOwner: false })({
+      description: 'Lieux de médiation numérique au standard de la Mednum',
+      frequency: 'daily',
+      title: 'Lieux de médiation numérique',
+      tags: ['inclusion'],
+      license: 'lov2',
+      zone: 'fr:region:84',
+      granularity: 'poi',
+      start: '2021-09-03',
+      end: '2023-01-04',
+      ressources: []
+    });
+
+    expect(expectedDatasets).toStrictEqual([
+      {
+        id: '6aacf16451afc56441ac64a6',
+        description: 'Lieux de médiation numérique au standard de la Mednum',
+        frequency: 'daily',
+        title: 'Already existing dataset',
+        ressources: []
+      },
+      {
+        id: '6a564acf45cf645dfa5d4cd5',
+        description: 'Lieux de médiation numérique au standard de la Mednum',
+        frequency: 'daily',
+        title: 'Lieux de médiation numérique',
+        ressources: []
+      }
+    ]);
+  });
+
+  it('should create new dataset with ressources', async (): Promise<void> => {
+    const expectedDatasets: Dataset[] = [];
+
+    const publishDatasetRepository: PublishDatasetRepository = {
       get: (): Dataset[] => [],
-      post: (): Dataset => DATASET_CREATED
+      post: (datasetToCreate: PublishDataset): Dataset => {
+        const dataset: Dataset = {
+          description: datasetToCreate.description,
+          frequency: datasetToCreate.frequency,
+          id: '6a564acf45cf645dfa5d4cd5',
+          ressources: [
+            {
+              id: '15e10bf7-6d6a-44a1-9d70-176a44fc92a5',
+              name: 'services-inclusion-20230107_le-hub-hinaura.json',
+              schema: datasetToCreate.ressources[0]?.schema ?? '',
+              description: datasetToCreate.ressources[0]?.description ?? ''
+            }
+          ],
+          title: datasetToCreate.title
+        };
+
+        expectedDatasets.push(dataset);
+
+        return dataset;
+      },
+      addRessourceTo: (dataset: Dataset) => (): Dataset => dataset
     } as unknown as PublishDatasetRepository;
 
-    await publishDataset(publishDatasetRepository, REFERENCE)(DATASET_TO_CREATE_WITH_CREATE_CSV_RESSOURCE);
+    await publishDataset(publishDatasetRepository, { id: '', isOwner: false })({
+      description: 'Lieux de médiation numérique au standard de la Mednum',
+      frequency: 'daily',
+      title: 'Lieux de médiation numérique',
+      tags: ['inclusion'],
+      license: 'lov2',
+      zone: 'fr:region:84',
+      granularity: 'poi',
+      start: '2021-09-03',
+      end: '2023-01-04',
+      ressources: [
+        {
+          source: './assets/output/hinaura/services-inclusion-20230107_le-hub-hinaura.json',
+          schema: 'betagouv/data-inclusion-schema',
+          description: "Structures de l'inclusion qui proposent des services de médiation numérique"
+        }
+      ]
+    });
 
-    expect(ressourcesToAdd).toStrictEqual([CSV_CREATE_RESSOURCE]);
+    expect(expectedDatasets).toStrictEqual([
+      {
+        id: '6a564acf45cf645dfa5d4cd5',
+        description: 'Lieux de médiation numérique au standard de la Mednum',
+        frequency: 'daily',
+        title: 'Lieux de médiation numérique',
+        ressources: [
+          {
+            id: '15e10bf7-6d6a-44a1-9d70-176a44fc92a5',
+            name: 'services-inclusion-20230107_le-hub-hinaura.json',
+            schema: 'betagouv/data-inclusion-schema',
+            description: "Structures de l'inclusion qui proposent des services de médiation numérique"
+          }
+        ]
+      }
+    ]);
   });
 
-  it('should add ressources to updated dataset', async (): Promise<void> => {
-    const ressourcesToAdd: PublishRessource[] = [];
+  it('should update existing dataset without ressources', async (): Promise<void> => {
+    const expectedDatasets: Dataset[] = [];
 
     const publishDatasetRepository: PublishDatasetRepository = {
-      updateRessourceFor:
-        () =>
-        (ressource: PublishRessource): void => {
-          ressourcesToAdd.push(ressource);
-        },
-      get: (): Dataset[] => [EXISTING_DATASET],
-      update(_: PublishDataset, dataset: Dataset): Dataset {
-        return dataset;
+      get: (): Dataset[] => [
+        {
+          id: '6aacf16451afc56441ac64a6',
+          description: 'Previous description',
+          frequency: 'monthly',
+          title: 'Lieux de médiation numérique',
+          ressources: []
+        }
+      ],
+      update: (updateDataset: PublishDataset, dataset: Dataset): Dataset => {
+        const updatedDataset: Dataset = {
+          description: updateDataset.description,
+          frequency: updateDataset.frequency,
+          id: dataset.id,
+          ressources: [],
+          title: updateDataset.title
+        };
+
+        expectedDatasets.push(updatedDataset);
+
+        return updatedDataset;
       }
     } as unknown as PublishDatasetRepository;
 
-    await publishDataset(publishDatasetRepository, REFERENCE)(DATASET_TO_UPDATE_WITH_CREATE_CSV_RESSOURCE);
+    await publishDataset(publishDatasetRepository, { id: '', isOwner: false })({
+      description: 'Lieux de médiation numérique au standard de la Mednum',
+      frequency: 'daily',
+      title: 'Lieux de médiation numérique',
+      tags: ['inclusion'],
+      license: 'lov2',
+      zone: 'fr:region:84',
+      granularity: 'poi',
+      start: '2021-09-03',
+      end: '2023-01-04',
+      ressources: []
+    });
 
-    expect(ressourcesToAdd).toStrictEqual([CSV_CREATE_RESSOURCE]);
+    expect(expectedDatasets).toStrictEqual([
+      {
+        description: 'Lieux de médiation numérique au standard de la Mednum',
+        frequency: 'daily',
+        id: '6aacf16451afc56441ac64a6',
+        title: 'Lieux de médiation numérique',
+        ressources: []
+      }
+    ]);
   });
 
-  it('should update existing csv ressource', async (): Promise<void> => {
-    const ressourcesToAdd: PublishRessource[] = [];
+  it('should update existing dataset with new ressources, no preexisting ressource', async (): Promise<void> => {
+    const expectedDatasets: Dataset[] = [];
 
     const publishDatasetRepository: PublishDatasetRepository = {
-      updateRessourceFor:
-        () =>
-        (ressource: PublishRessource): void => {
-          ressourcesToAdd.push(ressource);
-        },
-      get: (): Dataset[] => [EXISTING_DATASET_WITH_CSV_RESOURCE],
-      update(_: PublishDataset, dataset: Dataset): Dataset {
-        return dataset;
-      }
+      get: (): Dataset[] => [
+        {
+          id: '6aacf16451afc56441ac64a6',
+          description: 'Previous description',
+          frequency: 'monthly',
+          title: 'Lieux de médiation numérique',
+          ressources: []
+        }
+      ],
+      update: (updateDataset: PublishDataset, dataset: Dataset): Dataset => {
+        const updatedDataset: Dataset = {
+          description: updateDataset.description,
+          frequency: updateDataset.frequency,
+          id: dataset.id,
+          ressources: [
+            {
+              id: '15e10bf7-6d6a-44a1-9d70-176a44fc92a5',
+              name: 'services-inclusion-20230107_le-hub-hinaura.json',
+              schema: 'betagouv/data-inclusion-schema',
+              description: "Structures de l'inclusion qui proposent des services de médiation numérique"
+            }
+          ],
+          title: updateDataset.title
+        };
+
+        expectedDatasets.push(updatedDataset);
+
+        return updatedDataset;
+      },
+      updateRessourceFor: (dataset: Dataset) => (): Dataset => dataset
     } as unknown as PublishDatasetRepository;
 
-    await publishDataset(publishDatasetRepository, REFERENCE)(DATASET_TO_UPDATE_WITH_CREATE_CSV_RESSOURCE);
+    await publishDataset(publishDatasetRepository, { id: '', isOwner: false })({
+      description: 'Lieux de médiation numérique au standard de la Mednum',
+      frequency: 'daily',
+      title: 'Lieux de médiation numérique',
+      tags: ['inclusion'],
+      license: 'lov2',
+      zone: 'fr:region:84',
+      granularity: 'poi',
+      start: '2021-09-03',
+      end: '2023-01-04',
+      ressources: [
+        {
+          source: './assets/output/hinaura/services-inclusion-20230107_le-hub-hinaura.json',
+          schema: 'betagouv/data-inclusion-schema',
+          description: "Structures de l'inclusion qui proposent des services de médiation numérique"
+        }
+      ]
+    });
 
-    expect(ressourcesToAdd).toStrictEqual([CSV_UPDATE_RESSOURCE]);
+    expect(expectedDatasets).toStrictEqual([
+      {
+        description: 'Lieux de médiation numérique au standard de la Mednum',
+        frequency: 'daily',
+        id: '6aacf16451afc56441ac64a6',
+        title: 'Lieux de médiation numérique',
+        ressources: [
+          {
+            id: '15e10bf7-6d6a-44a1-9d70-176a44fc92a5',
+            name: 'services-inclusion-20230107_le-hub-hinaura.json',
+            schema: 'betagouv/data-inclusion-schema',
+            description: "Structures de l'inclusion qui proposent des services de médiation numérique"
+          }
+        ]
+      }
+    ]);
   });
 
-  it('should not update non existing json ressource', async (): Promise<void> => {
-    const ressourcesToAdd: PublishRessource[] = [];
+  it('should update existing dataset with new ressources, do not update preexisting ressource', async (): Promise<void> => {
+    let expectedId: string | undefined = 'SHOULD_BE_UNDEFINED';
 
     const publishDatasetRepository: PublishDatasetRepository = {
+      get: (): Dataset[] => [
+        {
+          id: '6aacf16451afc56441ac64a6',
+          description: 'Previous description',
+          frequency: 'monthly',
+          title: 'Lieux de médiation numérique',
+          ressources: [
+            {
+              id: '65af465a-8641-af68-5af4-1a65f1fc651a',
+              name: 'preexisting-ressource.json',
+              schema: 'betagouv/data-inclusion-schema',
+              description: 'This preexisting ressource should not be updated'
+            }
+          ]
+        }
+      ],
+      update: (updateDataset: PublishDataset, dataset: Dataset): Dataset => ({
+        description: updateDataset.description,
+        frequency: updateDataset.frequency,
+        id: dataset.id,
+        ressources: [
+          {
+            id: '15e10bf7-6d6a-44a1-9d70-176a44fc92a5',
+            name: 'services-inclusion-20230107_le-hub-hinaura.json',
+            schema: 'betagouv/data-inclusion-schema',
+            description: "Structures de l'inclusion qui proposent des services de médiation numérique"
+          }
+        ],
+        title: updateDataset.title
+      }),
       updateRessourceFor:
         () =>
-        (ressource: PublishRessource): void => {
-          ressourcesToAdd.push(ressource);
-        },
-      get: (): Dataset[] => [EXISTING_DATASET_WITH_CSV_RESOURCE],
-      update(_: PublishDataset, dataset: Dataset): Dataset {
-        return dataset;
-      }
+        (_: PublishRessource, id?: string): void => {
+          expectedId = id;
+        }
     } as unknown as PublishDatasetRepository;
 
-    await publishDataset(publishDatasetRepository, REFERENCE)(DATASET_TO_UPDATE_WITH_CREATE_JSON_RESSOURCE);
+    await publishDataset(publishDatasetRepository, { id: '', isOwner: false })({
+      description: 'Lieux de médiation numérique au standard de la Mednum',
+      frequency: 'daily',
+      title: 'Lieux de médiation numérique',
+      tags: ['inclusion'],
+      license: 'lov2',
+      zone: 'fr:region:84',
+      granularity: 'poi',
+      start: '2021-09-03',
+      end: '2023-01-04',
+      ressources: [
+        {
+          source: './assets/output/hinaura/services-inclusion-20230107_le-hub-hinaura.json',
+          schema: 'betagouv/data-inclusion-schema',
+          description: "Structures de l'inclusion qui proposent des services de médiation numérique"
+        }
+      ]
+    });
 
-    expect(ressourcesToAdd).toStrictEqual([JSON_CREATE_RESSOURCE]);
+    expect(expectedId).toBeUndefined();
   });
 
-  it('should update existing csv ressource with different date', async (): Promise<void> => {
-    const ressourcesToAdd: PublishRessource[] = [];
+  it('should update existing dataset with new ressources, and also update preexisting ressource', async (): Promise<void> => {
+    let expectedId: string | undefined = 'SHOULD_BE_RESSOURCE_ID';
 
     const publishDatasetRepository: PublishDatasetRepository = {
+      get: (): Dataset[] => [
+        {
+          id: '6aacf16451afc56441ac64a6',
+          description: 'Previous description',
+          frequency: 'monthly',
+          title: 'Lieux de médiation numérique',
+          ressources: [
+            {
+              id: '65af465a-8641-af68-5af4-1a65f1fc651a',
+              name: 'services-inclusion-20230107_le-hub-hinaura.json',
+              schema: 'betagouv/data-inclusion-schema',
+              description: 'This preexisting ressource should not be updated'
+            }
+          ]
+        }
+      ],
+      update: (updateDataset: PublishDataset, dataset: Dataset): Dataset => ({
+        description: updateDataset.description,
+        frequency: updateDataset.frequency,
+        id: dataset.id,
+        ressources: [
+          {
+            id: '65af465a-8641-af68-5af4-1a65f1fc651a',
+            name: 'services-inclusion-20230107_le-hub-hinaura.json',
+            schema: 'betagouv/data-inclusion-schema',
+            description: "Structures de l'inclusion qui proposent des services de médiation numérique"
+          }
+        ],
+        title: updateDataset.title
+      }),
       updateRessourceFor:
         () =>
-        (ressource: PublishRessource): void => {
-          ressourcesToAdd.push(ressource);
-        },
-      get: (): Dataset[] => [EXISTING_DATASET_WITH_CSV_RESOURCE],
-      update(_: PublishDataset, dataset: Dataset): Dataset {
-        return dataset;
-      }
+        (_: PublishRessource, id?: string): void => {
+          expectedId = id;
+        }
     } as unknown as PublishDatasetRepository;
 
-    await publishDataset(publishDatasetRepository, REFERENCE)(DATASET_TO_UPDATE_WITH_CREATE_CSV_RESSOURCE_AT_DIFFERENT_DATE);
+    await publishDataset(publishDatasetRepository, { id: '', isOwner: false })({
+      description: 'Lieux de médiation numérique au standard de la Mednum',
+      frequency: 'daily',
+      title: 'Lieux de médiation numérique',
+      tags: ['inclusion'],
+      license: 'lov2',
+      zone: 'fr:region:84',
+      granularity: 'poi',
+      start: '2021-09-03',
+      end: '2023-01-04',
+      ressources: [
+        {
+          source: './assets/output/hinaura/services-inclusion-20230107_le-hub-hinaura.json',
+          schema: 'betagouv/data-inclusion-schema',
+          description: "Structures de l'inclusion qui proposent des services de médiation numérique"
+        }
+      ]
+    });
 
-    expect(ressourcesToAdd).toStrictEqual([CSV_UPDATE_RESSOURCE_AT_DIFFERENT_DATE]);
+    expect(expectedId).toBe('65af465a-8641-af68-5af4-1a65f1fc651a');
   });
 
-  it('should update existing csv ressource with - instead of _', async (): Promise<void> => {
-    const ressourcesToAdd: PublishRessource[] = [];
+  it('should update existing dataset with new ressources, and also update preexisting ressource at different date', async (): Promise<void> => {
+    let expectedId: string | undefined = 'SHOULD_BE_RESSOURCE_ID';
 
     const publishDatasetRepository: PublishDatasetRepository = {
+      get: (): Dataset[] => [
+        {
+          id: '6aacf16451afc56441ac64a6',
+          description: 'Previous description',
+          frequency: 'monthly',
+          title: 'Lieux de médiation numérique',
+          ressources: [
+            {
+              id: '65af465a-8641-af68-5af4-1a65f1fc651a',
+              name: 'services-inclusion-20230104_le-hub-hinaura.json',
+              schema: 'betagouv/data-inclusion-schema',
+              description: 'This preexisting ressource should not be updated'
+            }
+          ]
+        }
+      ],
+      update: (updateDataset: PublishDataset, dataset: Dataset): Dataset => ({
+        description: updateDataset.description,
+        frequency: updateDataset.frequency,
+        id: dataset.id,
+        ressources: [
+          {
+            id: '65af465a-8641-af68-5af4-1a65f1fc651a',
+            name: 'services-inclusion-20230107_le-hub-hinaura.json',
+            schema: 'betagouv/data-inclusion-schema',
+            description: "Structures de l'inclusion qui proposent des services de médiation numérique"
+          }
+        ],
+        title: updateDataset.title
+      }),
       updateRessourceFor:
         () =>
-        (ressource: PublishRessource): void => {
-          ressourcesToAdd.push(ressource);
-        },
-      get: (): Dataset[] => [EXISTING_DATASET_WITH_CSV_RESOURCE],
-      update(_: PublishDataset, dataset: Dataset): Dataset {
-        return dataset;
-      }
+        (_: PublishRessource, id?: string): void => {
+          expectedId = id;
+        }
     } as unknown as PublishDatasetRepository;
 
-    await publishDataset(publishDatasetRepository, REFERENCE)(DATASET_TO_UPDATE_WITH_CREATE_CSV_RESSOURCE_WITHOUT_UNDERSCORES);
+    await publishDataset(publishDatasetRepository, { id: '', isOwner: false })({
+      description: 'Lieux de médiation numérique au standard de la Mednum',
+      frequency: 'daily',
+      title: 'Lieux de médiation numérique',
+      tags: ['inclusion'],
+      license: 'lov2',
+      zone: 'fr:region:84',
+      granularity: 'poi',
+      start: '2021-09-03',
+      end: '2023-01-04',
+      ressources: [
+        {
+          source: './assets/output/hinaura/services-inclusion-20230107_le-hub-hinaura.json',
+          schema: 'betagouv/data-inclusion-schema',
+          description: "Structures de l'inclusion qui proposent des services de médiation numérique"
+        }
+      ]
+    });
 
-    expect(ressourcesToAdd).toStrictEqual([CSV_UPDATE_RESSOURCE_WITHOUT_UNDERSCORES]);
+    expect(expectedId).toBe('65af465a-8641-af68-5af4-1a65f1fc651a');
   });
 });

@@ -1,7 +1,7 @@
 import { Command } from 'commander';
 import { Question } from 'inquirer';
-import { apiKeyOption, apiUrlOption, idTypeOption, idValueOption, metadataFileOption } from './options';
-import { apiKeyQuestion, idTypeQuestion, metadataFileQuestion, valueQuestion } from './questions';
+import { apiKeyOption, apiUrlOption, idTypeOption, idValueOption, metadataFileOption, zoneOption } from './options';
+import { apiKeyQuestion, idTypeQuestion, metadataFileQuestion, valueQuestion, zoneQuestion } from './questions';
 
 export type PublierOptions = {
   dataGouvApiKey: string;
@@ -9,9 +9,11 @@ export type PublierOptions = {
   dataGouvIdValue: string;
   dataGouvIdType: string;
   dataGouvMetadataFile: string;
+  dataGouvZone: string;
 };
 
 export const PUBLIER_OPTIONS: ((program: Command) => Command)[] = [
+  zoneOption,
   metadataFileOption,
   idValueOption,
   idTypeOption,
@@ -23,7 +25,8 @@ export const publierOptionsQuestions = (publierOptions: PublierOptions): Questio
   apiKeyQuestion(publierOptions),
   idTypeQuestion(publierOptions),
   valueQuestion(publierOptions),
-  metadataFileQuestion(publierOptions)
+  metadataFileQuestion(publierOptions),
+  zoneQuestion(publierOptions)
 ];
 
 const toDataGouvIdType = (environmentDataGouvIdType?: string): string | undefined => {

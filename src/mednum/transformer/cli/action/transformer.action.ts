@@ -19,8 +19,8 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
 
     writeOutputFiles({
       path: transformerOptions.outputDirectory,
-      name: transformerOptions.sourceName.toLowerCase().replace(/\s/gu, '-'),
-      territoire: transformerOptions.territory.toLowerCase().replace(/\s/gu, '-')
+      name: transformerOptions.sourceName,
+      territoire: transformerOptions.territory
     })(lieuxDeMediationNumerique);
   });
 };

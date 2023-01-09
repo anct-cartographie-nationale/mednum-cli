@@ -22,6 +22,9 @@ export const publierAction = (publierOptions: PublierOptions): void => {
     publierOptions.dataGouvMetadataFile,
     'utf8',
     async (_: ErrnoException | null, dataString: string): Promise<void> =>
-      publishDataset(publishDatasetRepository(getApi(publierOptions)), getReference(publierOptions))(JSON.parse(dataString))
+      publishDataset(
+        publishDatasetRepository(getApi(publierOptions)),
+        getReference(publierOptions)
+      )({ ...JSON.parse(dataString), zone: publierOptions.dataGouvZone })
   );
 };

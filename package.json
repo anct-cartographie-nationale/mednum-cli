@@ -43,10 +43,12 @@
     "build": "tsc --project .tsconfig/tsconfig.json",
     "start.les-assembleurs": "ts-node src/les-assembleurs/main.ts",
     "start.data-inclusion": "ts-node src/data-inclusion/main.ts",
-    "start.hinaura": "ts-node src/mednum/mednum-cli.ts transformer -n \"Hinaura\" -t \"Auvergne-Rhône-Alpes\" -s \"./assets/input/hinaura/hinaura.json\" -c \"./assets/input/hinaura/hinaura.config.json\" -o \"./assets/output/hinaura\"",
-    "start.maine-et-loire": "ts-node src/mednum/mednum-cli.ts transformer -n \"departement du Maine-et-Loire\" -t \"Maine-et-Loire\" -s \"./assets/input/maine-et-loire/maine-et-loire.json\" -c \"./assets/input/maine-et-loire/maine-et-loire.config.json\" -o \"./assets/output/maine-et-loire\"",
     "start.cnfs": "ts-node src/cnfs/main.ts",
-    "mednum": "ts-node src/mednum/mednum-cli.ts"
+    "mednum": "ts-node src/mednum/mednum-cli.ts",
+    "transformer.hinaura": "ts-node src/mednum/mednum-cli.ts transformer -n \"le hub Hinaura\" -t \"Auvergne-Rhône-Alpes\" -s \"./assets/input/hinaura/hinaura.json\" -c \"./assets/input/hinaura/hinaura.config.json\" -o \"./assets/output/hinaura\"",
+    "transformer.maine-et-loire": "ts-node src/mednum/mednum-cli.ts transformer -n \"le département du Maine-et-Loire\" -t \"Maine-et-Loire\" -s \"./assets/input/maine-et-loire/maine-et-loire.json\" -c \"./assets/input/maine-et-loire/maine-et-loire.config.json\" -o \"./assets/output/maine-et-loire\"",
+    "publier.hinaura": "ts-node src/mednum/mednum-cli.ts publier -z \"fr:region:84\" -m \"./assets/output/hinaura/publier.json\"",
+    "publier.maine-et-loire": "ts-node src/mednum/mednum-cli.ts publier -z \"fr:departement:49\" -m \"./assets/output/maine-et-loire/publier.json\""
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",

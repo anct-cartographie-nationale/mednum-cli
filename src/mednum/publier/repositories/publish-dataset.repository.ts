@@ -15,12 +15,14 @@ export type PublishDatasetRepository = {
   updateRessourceFor: (dataset: Dataset) => (ressource: PublishRessource, ressourceId?: string) => Promise<void>;
 };
 
+const extractNameFromPath = (splitPath: string[]): string | undefined => splitPath[splitPath.length - 1];
+
 const addRessourceTo =
   (api: Api) =>
   (dataset: Dataset) =>
   async (ressource: PublishRessource): Promise<void> => {
     const formData: typeof FormData = new FormData();
-    formData.append('file', fs.readFileSync(`${ressource.source}/${ressource.name}`), ressource.name);
+    formData.append('file', fs.readFileSync(`${ressource.source}`), extractNameFromPath(ressource.source.split('/')));
 
     const ressourceId: string = (
       await axios.post<Ressource>(
@@ -45,7 +47,7 @@ const updateRessourceFor =
   (dataset: Dataset) =>
   async (ressource: PublishRessource, ressourceId?: string): Promise<void> => {
     const formData: typeof FormData = new FormData();
-    formData.append('file', fs.readFileSync(`${ressource.source}/${ressource.name}`), ressource.name);
+    formData.append('file', fs.readFileSync(`${ressource.source}`), extractNameFromPath(ressource.source.split('/')));
 
     await axios.post<Ressource>(
       `${api.url}/datasets/${dataset.id}/resources/${ressourceId}/upload`,

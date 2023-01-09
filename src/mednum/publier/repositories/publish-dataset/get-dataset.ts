@@ -46,7 +46,7 @@ const toDataset = (getDatasetTransfer: GetDataset): Dataset => ({
   description: getDatasetTransfer.description,
   frequency: getDatasetTransfer.frequency,
   id: getDatasetTransfer.id,
-  resources: getDatasetTransfer.resources.map(toRessource),
+  ressources: getDatasetTransfer.resources.map(toRessource),
   title: getDatasetTransfer.title
 });
 

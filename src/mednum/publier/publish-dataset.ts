@@ -20,19 +20,21 @@ const datasetToPublish =
     await (datasetFound(dataset) ? exist?.(postDataset, dataset) : shouldCreate?.(postDataset));
   };
 
-const removeDatePrefix = (title: string): string => title.substring(8);
+const removeDate = (title?: string): string | undefined => title?.replace(/\d/gu, '');
+
+const extractNameFromPath = (splitPath: string[]): string | undefined => splitPath[splitPath.length - 1];
 
 const matchName =
   (ressource: PublishRessource) =>
   (existingRessource: Ressource): boolean =>
-    removeDatePrefix(existingRessource.name).replace(/_/gu, '-') === removeDatePrefix(ressource.name).replace(/_/gu, '-');
+    removeDate(existingRessource.name) === removeDate(extractNameFromPath(ressource.source.split('/')));
 
 const toRessourceToUpload =
   (dataset: Dataset, datasetRepository: PublishDatasetRepository) =>
   async (ressourceToPublish: PublishRessource): Promise<void> =>
     datasetRepository.updateRessourceFor(dataset)(
       ressourceToPublish,
-      dataset.resources.find(matchName(ressourceToPublish))?.id
+      dataset.ressources.find(matchName(ressourceToPublish))?.id
     );
 
 const updateExistingDataset =

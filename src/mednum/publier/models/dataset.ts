@@ -7,5 +7,5 @@ export type Dataset = {
   frequency: string;
   title: string;
   organization?: Organization;
-  resources: Ressource[];
+  ressources: Ressource[];
 };
