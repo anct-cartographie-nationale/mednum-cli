@@ -8,10 +8,10 @@ const dissocier = (source: DataSource, coordonnee: Dissociation & Partial<Colonn
   source[coordonnee.dissocier.colonne]?.split(coordonnee.dissocier.séparateur)[coordonnee.dissocier.partie];
 
 const latitudeField = (source: DataSource, latitude: Dissociation & Partial<Colonne>): string | undefined =>
-  isColonne(latitude) ? source[latitude.colonne] : dissocier(source, latitude);
+  (isColonne(latitude) ? source[latitude.colonne] : dissocier(source, latitude))?.toString().replace(',', '.');
 
 const longitudeField = (source: DataSource, longitude: Dissociation & Partial<Colonne>): string | undefined =>
-  isColonne(longitude) ? source[longitude.colonne] : dissocier(source, longitude);
+  (isColonne(longitude) ? source[longitude.colonne] : dissocier(source, longitude))?.toString().replace(',', '.');
 
 export const processLocalisation = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Localisation =>
   Localisation({

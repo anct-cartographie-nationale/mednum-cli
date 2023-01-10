@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase, max-lines-per-function */
 
-import { LieuxMediationNumeriqueMatching, DataSource } from './lieux-mediation-numerique-matching';
-import { Recorder, Report } from '../report/report';
 import { LieuMediationNumerique, Pivot, ServicesError, VoieError } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { Recorder, Report } from '../report';
 import {
   processAdresse,
   processConditionsAcces,
@@ -16,6 +15,7 @@ import {
   processPublicAccueilli,
   processServices
 } from '../fields';
+import { LieuxMediationNumeriqueMatching, DataSource } from './lieux-mediation-numerique-matching';
 
 const lieuDeMediationNumerique = (
   index: number,

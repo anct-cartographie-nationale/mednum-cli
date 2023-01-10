@@ -180,4 +180,38 @@ describe('adresse field', (): void => {
       voie: '5 rue Malakoff'
     });
   });
+
+  it('should process an address with a number code postal with 4 digits', (): void => {
+    const source: DataSource = {
+      CP: '2800',
+      Commune: 'La Fère',
+      Adresse: 'rue Henri Martin',
+      Numéro: '17'
+    };
+
+    const adresse: Adresse = processAdresse(Report().entry(0))(source, SPLIT_VOIE_MATCHING);
+
+    expect(adresse).toStrictEqual({
+      code_postal: '02800',
+      commune: 'La Fère',
+      voie: '17 rue Henri Martin'
+    });
+  });
+
+  it('should process an address with a commune with details', (): void => {
+    const source: DataSource = {
+      CP: '02510',
+      Commune: 'Etreux (Le Gard)',
+      Adresse: 'rue Henri Martin',
+      Numéro: '17'
+    };
+
+    const adresse: Adresse = processAdresse(Report().entry(0))(source, SPLIT_VOIE_MATCHING);
+
+    expect(adresse).toStrictEqual({
+      code_postal: '02510',
+      commune: 'Etreux',
+      voie: '17 rue Henri Martin'
+    });
+  });
 });

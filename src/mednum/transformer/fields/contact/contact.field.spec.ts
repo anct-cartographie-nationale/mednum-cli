@@ -2,7 +2,7 @@
 
 import { Contact, Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
-import { Recorder, Report } from '../../report/report';
+import { Recorder, Report } from '../../report';
 import { processContact } from './contact.field';
 
 const EMAIL_FIELD: string =
@@ -109,17 +109,47 @@ describe('contact field', (): void => {
     );
   });
 
-  it('should fix multiple urls separated with ou', (): void => {
+  it('should fix url with comma instead of dot', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
-        'Site Web': 'https://expresshauts73.wordpress.com/ ou http://www.bm-chambery.fr'
+        'Site Web': 'http://www,devandyou.fr'
       } as DataSource,
       matching
     );
 
     expect(contact).toStrictEqual<Contact>(
       Contact({
-        site_web: [Url('https://expresshauts73.wordpress.com/'), Url('http://www.bm-chambery.fr')]
+        site_web: [Url('http://www.devandyou.fr')]
+      })
+    );
+  });
+
+  it('should fix url with missing slash after http:', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        'Site Web': 'http:/www.plume-mediatheques.fr'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        site_web: [Url('http://www.plume-mediatheques.fr')]
+      })
+    );
+  });
+
+  it('should remove details in parenthesis', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        Téléphone: '3960 (Service 0,06 € / mn + prix appel)'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        telephone: '+33971103960'
       })
     );
   });
@@ -539,6 +569,64 @@ describe('contact field', (): void => {
     expect(contact).toStrictEqual<Contact>(
       Contact({
         courriel: 'cnumerique15@gmail.com'
+      })
+    );
+  });
+
+  it('should remove courriel starting with @', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        [EMAIL_FIELD]: '@pole-emploi.fr'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(Contact({}));
+  });
+
+  it('should fix courriel starting with mailto:', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        [EMAIL_FIELD]: 'mailto:mfs-stjust@oise.fr'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        courriel: 'mfs-stjust@oise.fr'
+      })
+    );
+  });
+
+  it('should trim courriel with heading and trailing spaces', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        [EMAIL_FIELD]: '  mfs-stjust@oise.fr  '
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        courriel: 'mfs-stjust@oise.fr'
+      })
+    );
+  });
+
+  it('should remove dash email', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        [EMAIL_FIELD]: '-----',
+        Téléphone: '3960 (Service 0,06 € / mn + prix appel)'
+        // 'Site Web': 'http://www.carsat-hdf.fr'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        telephone: '+33971103960'
       })
     );
   });
