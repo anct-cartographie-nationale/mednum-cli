@@ -1,4 +1,4 @@
-/* eslint-disable max-lines */
+/* eslint-disable max-lines, max-lines-per-function */
 
 import { LieuxMediationNumeriqueMatching } from '../../input';
 
@@ -43,10 +43,31 @@ const fixMultipleWebsitesSeparator = (matching: LieuxMediationNumeriqueMatching)
   fix: (toFix: string): string => toFix.replace(/\s(?:ou|\/)\s/u, ';')
 });
 
+const fixWebsitesWithComaInsteadOfDot = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+  name: 'website with coma instead of dot',
+  selector: /^http:\/\/www,/u,
+  field: matching.site_web.colonne,
+  fix: (toFix: string): string => toFix.replace(/^http:\/\/www,/u, 'http://www.')
+});
+
+const fixWebsitesWithMissingSlashAfterHttp = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+  name: 'website with coma instead of dot',
+  selector: /^http:\/[^/]/u,
+  field: matching.site_web.colonne,
+  fix: (toFix: string): string => toFix.replace(/^http:\//u, 'http://')
+});
+
 const removeWebsitesWithSpaces = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
   name: 'websites with spaces',
   selector: /\s/u,
   field: matching.site_web.colonne
+});
+
+const fixDetailsInParenthesisInPhone = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+  name: 'trailing details in phone',
+  selector: /\s\(.*\)$/gu,
+  field: matching.telephone.colonne,
+  fix: (toFix: string): string => toFix.replace(/\s\(.*\)$/gu, '')
 });
 
 const fixHeadingDetailsInPhone = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
@@ -91,6 +112,13 @@ const fixShortCafPhone = (matching: LieuxMediationNumeriqueMatching): CleanOpera
   fix: (): string => '+33969322121'
 });
 
+const fixShortAssuranceRetraitePhone = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+  name: 'short assurance retraite phone',
+  selector: /3960/u,
+  field: matching.telephone.colonne,
+  fix: (): string => '+33971103960'
+});
+
 const removeTooFewDigitsInPhone = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
   name: 'too few digits in phone',
   selector: /^.{0,9}$/u,
@@ -107,6 +135,26 @@ const removeEmailStartingWithWww = (matching: LieuxMediationNumeriqueMatching): 
   name: 'email starts with www.',
   selector: /^www\./u,
   field: matching.courriel.colonne
+});
+
+const removeEmailStartingWithAt = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+  name: 'email starts with @',
+  selector: /^@/u,
+  field: matching.courriel.colonne
+});
+
+const trimEmail = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+  name: 'email starts with mailto:',
+  selector: /^\s+|\s+$/u,
+  field: matching.courriel.colonne,
+  fix: (toFix: string): string => toFix.trim()
+});
+
+const fixEmailStartingWithMailTo = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+  name: 'email starts with mailto:',
+  selector: /^mailto:/u,
+  field: matching.courriel.colonne,
+  fix: (toFix: string): string => toFix.replace('mailto:', '')
 });
 
 const fixUnexpectedEmailLabel = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
@@ -137,22 +185,36 @@ const fixMissingEmailExtension = (matching: LieuxMediationNumeriqueMatching): Cl
   negate: true
 });
 
+const removeDashEmail = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+  name: 'dash email',
+  selector: /^-----$/u,
+  field: matching.courriel.colonne
+});
+
 export const cleanOperations = (matching: LieuxMediationNumeriqueMatching): CleanOperation[] => [
+  removeDashEmail(matching),
   removeHttpOnlyWebsites(matching),
   removeMissingExtensionWebsites(matching),
   fixMissingHttpWebsites(matching),
   fixDuplicateHttpWebsites(matching),
   fixMultipleWebsitesSeparator(matching),
+  fixWebsitesWithComaInsteadOfDot(matching),
+  fixWebsitesWithMissingSlashAfterHttp(matching),
   removeWebsitesWithSpaces(matching),
   fixUnexpectedPhoneList(matching),
+  fixDetailsInParenthesisInPhone(matching),
   fixHeadingDetailsInPhone(matching),
   fixTrailingDetailsInPhone(matching),
   fixWrongCharsInPhone(matching),
   fixPhoneWithoutStarting0(matching),
   fixShortCafPhone(matching),
+  fixShortAssuranceRetraitePhone(matching),
   removeTooFewDigitsInPhone(matching),
   removeTooManyDigitsInPhone(matching),
   removeEmailStartingWithWww(matching),
+  removeEmailStartingWithAt(matching),
+  trimEmail(matching),
+  fixEmailStartingWithMailTo(matching),
   fixUnexpectedEmailLabel(matching),
   fixUnexpectedEmailList(matching),
   fixMissingAtInEmail(matching),

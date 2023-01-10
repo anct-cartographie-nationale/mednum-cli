@@ -9,9 +9,11 @@ type RegexResult = {
 
 const STANDARD_DATE_REG_EXP: RegExp = /^(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})$/u;
 
-const FRENCH_DATE_REG_EXP: RegExp = /^(?<day>\d{2})\/(?<month>\d{2})\/(?<year>\d{4}) (?<time>\d{2}:\d{2}:\d{2})$/u;
+const FRENCH_DATE_REG_EXP: RegExp = /^(?<day>\d{2})\/(?<month>\d{2})\/(?<year>\d{4})$/u;
 
-const DATE_REGEXP: RegExp[] = [STANDARD_DATE_REG_EXP, FRENCH_DATE_REG_EXP];
+const FRENCH_DATE_TIME_REG_EXP: RegExp = /^(?<day>\d{2})\/(?<month>\d{2})\/(?<year>\d{4}) (?<time>\d{2}:\d{2}:\d{2})$/u;
+
+const DATE_REGEXP: RegExp[] = [STANDARD_DATE_REG_EXP, FRENCH_DATE_TIME_REG_EXP, FRENCH_DATE_REG_EXP];
 
 const DEFAULT_TIME: { time: '00:00:00' } = { time: '00:00:00' };
 

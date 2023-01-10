@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention,  @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
 
 import { LesAssembleursLieuMediationNumerique } from '../../helpers';
+
 const communes: Commune[] = require('../../../mednum/transformer/data/communes.json');
 
 type Commune = { Nom_commune: string; Code_postal: number };

@@ -1,0 +1,223 @@
+{
+  "id": {
+    "colonne": "ID"
+  },
+  "nom": {
+    "colonne": "Nom"
+  },
+  "code_postal": {
+    "colonne": "Code postal"
+  },
+  "commune": {
+    "colonne": "Commune"
+  },
+  "voie": {
+    "colonne": "Adresse"
+  },
+  "latitude": {
+    "colonne": "Latitude"
+  },
+  "longitude": {
+    "colonne": "Longitude"
+  },
+  "telephone": {
+    "colonne": "Téléphone"
+  },
+  "courriel": {
+    "colonne": "Email contact"
+  },
+  "site_web": {
+    "colonne": "Site internet"
+  },
+  "conditionAcces": [
+    {
+      "colonnes": ["Coût accès équipement", "Coût accès médiation numérique", "Coût accès démarches"],
+      "termes": ["gratuit"],
+      "sauf": ["gratuit sous condition"],
+      "cible": "Gratuit : Je peux accéder gratuitement au lieu et à ses services"
+    },
+    {
+      "colonnes": ["Coût accès équipement", "Coût accès médiation numérique", "Coût accès démarches"],
+      "termes": ["gratuit sous condition"],
+      "cible": "Gratuit sous condition : La gratuité est conditionnée à des critères (situation familiale, convention avec un organisme social...)"
+    },
+    {
+      "colonnes": ["Coût accès équipement", "Coût accès médiation numérique", "Coût accès démarches"],
+      "termes": ["adhésion"],
+      "cible": "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"
+    },
+    {
+      "colonnes": ["Coût accès équipement", "Coût accès médiation numérique", "Coût accès démarches"],
+      "termes": ["payant", "payante", "abonnement", "tarifs", "€", "euros"],
+      "cible": "Payant : L'accès au lieu et/ou à ses services est payant"
+    },
+    {
+      "colonnes": ["Coût accès équipement", "Coût accès médiation numérique", "Coût accès démarches"],
+      "termes": ["pass numérique", "aptic"],
+      "cible": "Accepte le Pass numérique : Il est possible d'utiliser un Pass numérique pour accéder au lieu"
+    }
+  ],
+  "modaliteAccompagnement": [
+    {
+      "colonnes": ["Accompagnement démarches", "Accompagnement médiation numérique"],
+      "termes": ["en groupe", "accompagnement collectif", "oui en collectif", "collectif", "groupes"],
+      "cible": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
+    },
+    {
+      "colonnes": ["Accompagnement démarches", "Accompagnement médiation numérique"],
+      "termes": ["faire à la place de"],
+      "cible": "A ma place : une personne habilitée fait les démarches à ma place"
+    },
+    {
+      "colonnes": ["Accompagnement démarches", "Accompagnement médiation numérique"],
+      "termes": ["accompagnement individuel", "accompagnement collectif", "suivi personnalisé", "personnalisé"],
+      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+    },
+    {
+      "colonnes": ["Accompagnement démarches", "Accompagnement médiation numérique"],
+      "termes": ["individuel", "individuellement", "accompagnement individuel", "suivi personnalisé", "personnalisé"],
+      "cible": "Seul : j'ai accès à du matériel et une connexion"
+    }
+  ],
+  "date_maj": {
+    "colonne": "Date MAJ"
+  },
+  "publics_accueillis": [
+    {
+      "colonnes": ["Détail publics", "Accessibilité PMR"],
+      "termes": ["adultes", "tout public", "tous publics", "Toute personne", "Tous"],
+      "cible": "Adultes"
+    },
+    {
+      "colonnes": ["Détail publics", "Accessibilité PMR"],
+      "termes": ["parentalité", "tout public", "tous publics", "Toute personne", "Tous"],
+      "cible": "Familles/enfants"
+    },
+    {
+      "colonnes": ["Détail publics", "Accessibilité PMR"],
+      "termes": ["jeunesse", "jeunes", "jeune", "tout public", "tous publics", "Toute personne", "Tous"],
+      "cible": "Jeunes (16-26 ans)"
+    },
+    {
+      "colonnes": ["Détail publics", "Accessibilité PMR"],
+      "termes": ["sénior", "senior", "séniors", "seniors", "tout public", "tous publics", "Toute personne", "Tous"],
+      "cible": "Seniors (+ 65 ans)"
+    },
+    {
+      "colonnes": ["Détail publics", "Accessibilité PMR"],
+      "termes": ["oui", "tout public", "tous publics", "Toute personne", "Tous"],
+      "cible": "Surdité"
+    },
+    {
+      "colonnes": ["Détail publics", "Accessibilité PMR"],
+      "termes": ["oui", "tout public", "tous publics", "Toute personne", "Tous"],
+      "cible": "Handicaps mentaux : déficiences limitant les activités d'une personne"
+    },
+    {
+      "colonnes": ["Détail publics", "Accessibilité PMR"],
+      "termes": ["illettrisme", "tout public", "tous publics", "Toute personne", "Tous"],
+      "cible": "Personnes en situation d'illettrisme"
+    },
+    {
+      "colonnes": ["Détail publics", "Accessibilité PMR"],
+      "termes": ["tout public", "tous publics", "Toute personne", "Tous"],
+      "cible": "Public langues étrangères"
+    },
+    {
+      "colonnes": ["Détail publics", "Accessibilité PMR"],
+      "termes": ["oui", "tout public", "tous publics", "Toute personne", "Tous"],
+      "cible": "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales"
+    },
+    {
+      "colonnes": ["Détail publics", "Accessibilité PMR"],
+      "termes": ["oui", "tout public", "tous publics", "Toute personne", "Tous"],
+      "cible": "Déficience visuelle"
+    }
+  ],
+  "services": [
+    {
+      "colonnes": ["Type démarches", "Type médiation numérique"],
+      "termes": ["réseaux sociaux", "développement web", "initiation à l'informatique", "navigation internet", "utilisation du poste informatique", "publication de contenus en ligne"],
+      "cible": "Accéder à une connexion internet"
+    },
+    {
+      "colonnes": ["Type démarches", "Type médiation numérique"],
+      "termes": ["poste informatique", "imprimantes", "scanner", "utilisation du poste informatique"],
+      "cible": "Accéder à du matériel"
+    },
+    {
+      "colonnes": ["Type démarches", "Type médiation numérique"],
+      "termes": ["initiation à l'informatique", "outil informatique", "découverte de l'ordinateur", "utilisation du poste informatique", "navigation sur le web"],
+      "cible": "Prendre en main un ordinateur"
+    },
+    {
+      "colonnes": ["Type démarches", "Type médiation numérique"],
+      "termes": ["poste informatique", "réseaux sociaux", "usages du numérique", "cultures", "initiation à l'informatique", "outil informatique", "cours informatiques", "découverte de l'ordinateur", "utilisation du poste informatique", "navigation sur le web"],
+      "cible": "Utiliser le numérique au quotidien"
+    },
+    {
+      "colonnes": ["Type démarches", "Type médiation numérique"],
+      "termes": ["poste informatique", "réseaux sociaux", "cultures", "développement web", "usages du numérique", "initiation à l'informatique", "outil informatique", "cours informatiques", "découverte de l'ordinateur", "renforcement du numérique", "navigation sur le web"],
+      "cible": "Approfondir ma culture numérique"
+    },
+    {
+      "colonnes": ["Type démarches", "Type médiation numérique"],
+      "termes": ["tablette", "smartphone", "téléphone"],
+      "cible": "Prendre en main un smartphone ou une tablette"
+    },
+    {
+      "colonnes": ["Type démarches", "Type médiation numérique"],
+      "termes": ["citoyenneté", "usages du numérique", "cultures"],
+      "cible": "Promouvoir la citoyenneté numérique"
+    },
+    {
+      "colonnes": ["Type démarches", "Type médiation numérique"],
+      "termes": ["santé", "sécurité sociale", "caisse nationale d'assurance maladie", "démarches maladie"],
+      "cible": "Accompagner les démarches de santé"
+    },
+    {
+      "colonnes": ["Type démarches", "Type médiation numérique"],
+      "termes": ["caf", "caf.fr", "caisse nationale des allocations familiales", "caisse centrale de la mutualité sociale agricole", "caisse nationale d'assurance vieillesse", "cnav", "msa", "emploi", "citoyenneté", "social", "retraite", "fiscalité", "justice", "étrangers", "logement", "transports", "loisirs", "accès libre", "démarches administratives", "administrations", "démarches", "accompagnement individuel", "services dématérialisés"],
+      "cible": "Devenir autonome dans les démarches administratives",
+      "modalitesAccompagnement": "Seul : j'ai accès à du matériel et une connexion"
+    },
+    {
+      "colonnes": ["Type démarches", "Type médiation numérique"],
+      "termes": ["caf", "caf.fr", "caisse nationale des allocations familiales", "caisse centrale de la mutualité sociale agricole", "caisse nationale d'assurance vieillesse", "cnav", "msa", "emploi", "citoyenneté", "social", "retraite", "fiscalité", "justice", "étrangers", "logement", "transports", "loisirs","démarches administratives", "administrations", "démarches", "services dématérialisés"],
+      "cible": "Réaliser des démarches administratives avec un accompagnement",
+      "modalitesAccompagnement": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+    }
+  ],
+  "horaires": {
+    "jours": [
+      {
+        "colonne": "horaires lundi",
+        "osm": "Mo"
+      },
+      {
+        "colonne": "horaires mardi",
+        "osm": "Tu"
+      },
+      {
+        "colonne": "horaires mercredi",
+        "osm": "We"
+      },
+      {
+        "colonne": "horaires jeudi",
+        "osm": "Th"
+      },
+      {
+        "colonne": "horaires vendredi",
+        "osm": "Fr"
+      },
+      {
+        "colonne": "horaires samedi",
+        "osm": "Sa"
+      },
+      {
+        "colonne": "horaires dimanche",
+        "osm": "Su"
+      }
+    ]
+  }
+}

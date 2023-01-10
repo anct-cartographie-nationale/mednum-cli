@@ -33,16 +33,32 @@ const JOINED_LATITUDE_AND_LONGITUDE_MATCHING: LieuxMediationNumeriqueMatching = 
 describe('localisation field', (): void => {
   it('should process localisation form source', (): void => {
     const source: DataSource = {
-      bf_latitude: '0',
-      bf_longitude: '0'
+      bf_latitude: '47.29212184845607',
+      bf_longitude: '0.02176010906045345'
     };
 
     const localisation: Localisation = processLocalisation(source, STANDARD_MATCHING);
 
     expect(localisation).toStrictEqual<Localisation>(
       Localisation({
-        latitude: 0,
-        longitude: 0
+        latitude: 47.29212184845607,
+        longitude: 0.02176010906045345
+      })
+    );
+  });
+
+  it('should process localisation with coma form source', (): void => {
+    const source: DataSource = {
+      bf_latitude: '47,29212184845607',
+      bf_longitude: '0,02176010906045345'
+    };
+
+    const localisation: Localisation = processLocalisation(source, STANDARD_MATCHING);
+
+    expect(localisation).toStrictEqual<Localisation>(
+      Localisation({
+        latitude: 47.29212184845607,
+        longitude: 0.02176010906045345
       })
     );
   });
