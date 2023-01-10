@@ -43,13 +43,17 @@
     "build": "tsc --project .tsconfig/tsconfig.json",
     "start.les-assembleurs": "ts-node src/les-assembleurs/main.ts",
     "start.data-inclusion": "ts-node src/data-inclusion/main.ts",
-    "start.hinaura": "ts-node src/hinaura/main.ts",
-    "start.maine-et-loire": "ts-node src/maine-et-loire/main.ts",
-    "start.cnfs": "ts-node src/cnfs/main.ts"
+    "start.cnfs": "ts-node src/cnfs/main.ts",
+    "mednum": "ts-node src/mednum/mednum-cli.ts",
+    "transformer.hinaura": "ts-node src/mednum/mednum-cli.ts transformer -n \"le hub Hinaura\" -t \"Auvergne-Rhône-Alpes\" -s \"./assets/input/hinaura/hinaura.json\" -c \"./assets/input/hinaura/hinaura.config.json\" -o \"./assets/output/hinaura\"",
+    "transformer.maine-et-loire": "ts-node src/mednum/mednum-cli.ts transformer -n \"le département du Maine-et-Loire\" -t \"Maine-et-Loire\" -s \"./assets/input/maine-et-loire/maine-et-loire.json\" -c \"./assets/input/maine-et-loire/maine-et-loire.config.json\" -o \"./assets/output/maine-et-loire\"",
+    "publier.hinaura": "ts-node src/mednum/mednum-cli.ts publier -z \"fr:region:84\" -m \"./assets/output/hinaura/publier.json\"",
+    "publier.maine-et-loire": "ts-node src/mednum/mednum-cli.ts publier -z \"fr:departement:49\" -m \"./assets/output/maine-et-loire/publier.json\""
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
+    "@types/inquirer": "^9.0.3",
     "@types/jest": "^29.1.1",
     "@types/node": "^18.8.1",
     "@typescript-eslint/eslint-plugin": "^5.39.0",
@@ -68,6 +72,9 @@
   },
   "dependencies": {
     "@gouvfr-anct/lieux-de-mediation-numerique": "^1.12.1",
-    "@gouvfr-anct/timetable-to-osm-opening-hours": "^1.0.1"
+    "@gouvfr-anct/timetable-to-osm-opening-hours": "^1.0.1",
+    "axios": "^1.2.2",
+    "dotenv": "^16.0.3",
+    "inquirer": "^8.0.0"
   }
 }

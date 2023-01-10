@@ -2,9 +2,9 @@
 
 import { Contact, Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { processContact } from './contact.field';
-import { Recorder, Report } from '../../../tools';
 import { EMAIL_FIELD, SITE_WEB_FIELD } from './clean-operations';
 import { LesAssembleursLieuMediationNumerique } from '../../helpers';
+import { Recorder, Report } from '../../../mednum/transformer/report';
 
 describe('contact field', (): void => {
   it('should extract empty contact data form source', (): void => {

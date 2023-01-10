@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 
 import { OsmDaysOfWeek, OsmOpeningHours } from '@gouvfr-anct/timetable-to-osm-opening-hours';
-import { toOsmHours } from './to-osm-hours/to-osm-hours';
+import { toOsmHours } from '../mednum/transformer/to-osm-hours/to-osm-hours';
 
 export type OpeningHoursExtraction = {
   selector: RegExp;

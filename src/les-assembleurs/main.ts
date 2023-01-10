@@ -1,9 +1,8 @@
-/* eslint-disable no-console,@typescript-eslint/no-restricted-imports,@typescript-eslint/non-nullable-type-assertion-style,no-undef,max-lines-per-function,max-statements,camelcase,complexity,@typescript-eslint/naming-convention,id-denylist,@typescript-eslint/no-explicit-any,no-param-reassign,@typescript-eslint/no-dynamic-delete */
+/* eslint-disable no-console,@typescript-eslint/no-restricted-imports,@typescript-eslint/non-nullable-type-assertion-style,max-lines-per-function,max-statements,camelcase,complexity,@typescript-eslint/naming-convention,id-denylist,@typescript-eslint/no-explicit-any,no-param-reassign,@typescript-eslint/no-dynamic-delete */
 
 import * as fs from 'fs';
 import { LesAssembleursLieuMediationNumerique } from './helpers';
 import ErrnoException = NodeJS.ErrnoException;
-import { Recorder, Report, writeOutputFiles } from '../tools';
 import {
   processAdresse,
   formatServicesField,
@@ -25,6 +24,8 @@ import {
   Services,
   ServicesError
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { Recorder, Report } from '../mednum/transformer/report';
+import { writeOutputFiles } from '../mednum/transformer/output';
 
 const SOURCE_PATH: string = './assets/input/';
 const LES_ASSEMBLEURS_FILE: string = 'les-assembleurs.json';
@@ -64,7 +65,6 @@ const toLieuDeMediationNumerique = (
 };
 const validValuesOnly = (lieuDeMediationNumerique?: LieuMediationNumerique): boolean => lieuDeMediationNumerique != null;
 
-const ID: string = 'les-assembleurs'; // todo: remplacer par le SIREN
 const NAME: string = 'les-assembleurs';
 const TERRITOIRE: string = 'hauts-de-france';
 
@@ -84,7 +84,7 @@ fs.readFile(`${SOURCE_PATH}${LES_ASSEMBLEURS_FILE}`, 'utf8', (_: ErrnoException 
     .filter(validValuesOnly);
 
   writeOutputFiles({
-    id: ID,
+    path: `./assets/output/${NAME}`,
     name: NAME,
     territoire: TERRITOIRE
   })(lieuxDeMediationNumerique);

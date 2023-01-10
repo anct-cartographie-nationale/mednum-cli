@@ -4,7 +4,6 @@ name: Validate
 on:
   push:
     branches:
-      - 'main'
       - 'build/*'
       - 'chore/*'
       - 'ci/*'
@@ -49,3 +48,41 @@ jobs:
     uses: romain-cambonie/serenity-workflows/.github/workflows/_validation-matrix.reusable.yml@master
     with:
       commands-as-comma-separated-string: 'lint.es,prettier.check,test,build'
+
+  transform-and-publish:
+    strategy:
+      matrix:
+        source: [ hinaura, maine-et-loire ]
+    runs-on: ubuntu-latest
+    environment: demo
+
+    steps:
+      - name: Checkout client-application repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Transform
+        run:
+          yarn transformer.${{ matrix.source }}
+
+      - name: 'Create env file'
+        run: |
+          touch .env
+          echo DATA_GOUV_API_URL="${{ secrets.DATA_GOUV_API_URL }}" >> .env
+          echo DATA_GOUV_API_KEY="${{ secrets.DATA_GOUV_API_KEY }}" >> .env
+          echo DATA_GOUV_REFERENCE_ID="${{ secrets.DATA_GOUV_REFERENCE_ID }}" >> .env
+          echo DATA_GOUV_REFERENCE_TYPE="${{ secrets.DATA_GOUV_REFERENCE_TYPE }}" >> .env
+
+      - name: Publish
+        run:
+          yarn publier.${{ matrix.source }}

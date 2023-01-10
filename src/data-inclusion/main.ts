@@ -1,26 +1,26 @@
-/* eslint-disable @typescript-eslint/no-restricted-imports,no-undef,max-lines-per-function,@typescript-eslint/naming-convention, camelcase */
+/* eslint-disable @typescript-eslint/no-restricted-imports,max-lines-per-function,@typescript-eslint/naming-convention, camelcase */
 
 import * as fs from 'fs';
 import ErrnoException = NodeJS.ErrnoException;
 import {
-  CodeInseeError,
   CommuneError,
   fromSchemaDataInclusion,
   LieuMediationNumerique,
   MandatorySiretOrRnaError,
   SchemaServiceDataInclusion,
   SchemaStructureDataInclusion,
-  ServicesError
+  ServicesError,
+  UrlError,
+  VoieError
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { DataInclusionMerged, mergeServicesInStructure } from './merge-services-in-structure';
-import { writeOutputFiles } from '../tools';
 import { processVoie } from './fields';
+import { writeOutputFiles } from '../mednum/transformer/output';
 
 const SOURCE_PATH: string = './assets/input/';
 const DATA_INCLUSION_STRUCTURES_FILE: string = 'data-inclusion-structures.json';
 const DATA_INCLUSION_SERVICES_FILE: string = 'data-inclusion-services.json';
 
-const ID: string = 'data-inclusion'; // todo: remplacer par le SIREN
 const NAME: string = 'data-inclusion';
 const TERRITOIRE: string = 'france';
 
@@ -33,6 +33,19 @@ const processFields = (structure: SchemaStructureDataInclusion): SchemaStructure
   adresse: processVoie(structure.adresse)
 });
 
+const invalidLieuErrors: unknown[] = [
+  UrlError, // todo: fix instead of drop
+  VoieError,
+  ServicesError,
+  CommuneError,
+  MandatorySiretOrRnaError
+];
+
+const matchActual =
+  (error: Error) =>
+  (invalidLieuError: unknown): boolean =>
+    error instanceof (invalidLieuError as typeof Error);
+
 const toLieuxDeMediationNumerique =
   (dataInclusionServices: SchemaServiceDataInclusion[]) =>
   (structure: SchemaStructureDataInclusion): LieuMediationNumerique | undefined => {
@@ -40,10 +53,8 @@ const toLieuxDeMediationNumerique =
       const dataInclusionMerged: DataInclusionMerged = mergeServicesInStructure(dataInclusionServices, structure);
       return fromSchemaDataInclusion(dataInclusionMerged.services, processFields(dataInclusionMerged.structure));
     } catch (error: unknown) {
-      if (error instanceof ServicesError) return undefined;
-      if (error instanceof CommuneError) return undefined;
-      if (error instanceof MandatorySiretOrRnaError) return undefined;
-      if (error instanceof CodeInseeError) return undefined;
+      if (error instanceof Error && invalidLieuErrors.some(matchActual(error))) return undefined;
+
       throw error;
     }
   };
@@ -64,7 +75,7 @@ fs.readFile(
           .filter(onlyDefindedLieuxMediationNumerique);
 
         writeOutputFiles({
-          id: ID,
+          path: `./assets/output/${NAME}`,
           name: NAME,
           territoire: TERRITOIRE
         })(lieuxDeMediationNumerique);

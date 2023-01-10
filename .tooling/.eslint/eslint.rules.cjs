@@ -23,12 +23,6 @@ module.exports = {
   'no-promise-executor-return': 'error',
   'no-self-compare': 'error',
   'no-template-curly-in-string': 'error',
-  'no-undef': [
-    'error',
-    {
-      typeof: true
-    }
-  ],
   'no-unmodified-loop-condition': 'error',
   'no-unreachable-loop': 'error',
   'no-unsafe-negation': [

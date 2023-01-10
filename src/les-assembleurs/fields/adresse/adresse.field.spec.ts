@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
 import { Adresse } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { Report } from '../../../tools';
 import { LesAssembleursLieuMediationNumerique } from '../../helpers';
 import { processAdresse } from './adresse.field';
+import { Report } from '../../../mednum/transformer/report';
 
 describe('adresse field', (): void => {
   it('should process a valid address', (): void => {

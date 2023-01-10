@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
 import { Contact, ModelError, Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { Recorder } from '../../../tools';
 import { CLEAN_OPERATIONS, CleanOperation, EMAIL_FIELD, SITE_WEB_FIELD } from './clean-operations';
 import { LesAssembleursLieuMediationNumerique } from '../../helpers';
+import { Recorder } from '../../../mednum/transformer/report';
 
 type FixedContact = LesAssembleursLieuMediationNumerique | undefined;
 

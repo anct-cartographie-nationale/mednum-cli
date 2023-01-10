@@ -2,9 +2,9 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
 import { Adresse, ModelError } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { Recorder } from '../../../tools';
 import { LesAssembleursLieuMediationNumerique } from '../../helpers';
 import { CLEAN_OPERATIONS, CleanOperation } from './clean-operations';
+import { Recorder } from '../../../mednum/transformer/report';
 
 type FixedAdresse = LesAssembleursLieuMediationNumerique | undefined;
 
