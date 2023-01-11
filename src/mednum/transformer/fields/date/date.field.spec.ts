@@ -32,6 +32,17 @@ describe('date field', (): void => {
     expect(date).toEqual(new Date('2022-04-21'));
   });
 
+  it('should process date field with value 21/4/2022', (): void => {
+    const date: Date = processDate(
+      {
+        datetime_latest: '21/4/2022'
+      },
+      matching
+    );
+
+    expect(date).toEqual(new Date('2022-04-21'));
+  });
+
   it('should process date field with value 2021-06-10', (): void => {
     const date: Date = processDate(
       {

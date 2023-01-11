@@ -60,7 +60,7 @@
   "modaliteAccompagnement": [
     {
       "colonnes": ["Accompagnement démarches", "Accompagnement médiation numérique"],
-      "termes": ["en groupe", "accompagnement collectif", "oui en collectif", "collectif", "groupes"],
+      "termes": ["En groupe", "en groupe", "accompagnement collectif", "oui en collectif", "collectif", "groupes"],
       "cible": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
     },
     {
@@ -70,12 +70,12 @@
     },
     {
       "colonnes": ["Accompagnement démarches", "Accompagnement médiation numérique"],
-      "termes": ["accompagnement individuel", "accompagnement collectif", "suivi personnalisé", "personnalisé"],
+      "termes": ["accompagnement individuel", "Indivuduel", "individuel", "accompagnement collectif", "suivi personnalisé", "personnalisé"],
       "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
     },
     {
       "colonnes": ["Accompagnement démarches", "Accompagnement médiation numérique"],
-      "termes": ["individuel", "individuellement", "accompagnement individuel", "suivi personnalisé", "personnalisé"],
+      "termes": ["seul", "autonome", "autonomie"],
       "cible": "Seul : j'ai accès à du matériel et une connexion"
     }
   ],
@@ -136,32 +136,107 @@
   ],
   "services": [
     {
-      "colonnes": ["Type démarches", "Type médiation numérique"],
-      "termes": ["réseaux sociaux", "développement web", "initiation à l'informatique", "navigation internet", "utilisation du poste informatique", "publication de contenus en ligne"],
+      "colonnes": ["Type démarches", "Type médiation numérique", "Type équipement"],
+      "termes": [
+        "réseaux sociaux",
+        "développement web",
+        "navigation internet",
+        "publication de contenus en ligne",
+        "Accès à Internet",
+        "accès internet",
+        "accès wifi",
+        "accès aux sites internet",
+        "Camion numérique mobile connecté à internet",
+        "espace numérique",
+        "connexion internet",
+        "Mise à disposition d'un ordinateur connecté",
+        "postes informatique avec internet",
+        "accéder à son compte allocataire",
+        "connexion haut débit",
+        "connectée à internet",
+        "connexion WiFI",
+        "Accès à un ordinateur connecté"
+      ],
       "cible": "Accéder à une connexion internet"
     },
     {
-      "colonnes": ["Type démarches", "Type médiation numérique"],
-      "termes": ["poste informatique", "imprimantes", "scanner", "utilisation du poste informatique"],
+      "colonnes": ["Type démarches", "Type médiation numérique", "Type équipement"],
+      "termes": [
+        "imprimantes",
+        "scanner",
+        "Accès libre à un ordinateur",
+        "Accès libre à l’équipement",
+        "équipement en libre service",
+        "ordinateurs en accès libre",
+        "tablettes",
+        "équipements informatiques accessibles librement",
+        "Coffre-fort numérique",
+        "Ordinateur pour les usagers",
+        "postes",
+        "matériel informatique",
+        "Mise à disposition d'un ordinateur connecté",
+        "accéder à son compte allocataire",
+        "ordinateurs en libre accès",
+        "trois ordinateurs",
+        "imprimante 3D",
+        "Accueil numérique mis à disposition des usagers",
+        "accès libre aux ordinateurs",
+        "Accès à un ordinateur"
+      ],
+      "cible": "Accéder à du matériel"
+    },
+    {
+      "colonnes": ["Accès équipement"],
+      "termes": ["Oui"],
       "cible": "Accéder à du matériel"
     },
     {
       "colonnes": ["Type démarches", "Type médiation numérique"],
-      "termes": ["initiation à l'informatique", "outil informatique", "découverte de l'ordinateur", "utilisation du poste informatique", "navigation sur le web"],
+      "termes": [
+        "apprendre à utiliser un ordinateur",
+        "outil informatique",
+        "découverte de l'ordinateur",
+        "utilisation du poste informatique",
+        "navigation sur le web"
+      ],
       "cible": "Prendre en main un ordinateur"
     },
     {
-      "colonnes": ["Type démarches", "Type médiation numérique"],
-      "termes": ["poste informatique", "réseaux sociaux", "usages du numérique", "cultures", "initiation à l'informatique", "outil informatique", "cours informatiques", "découverte de l'ordinateur", "utilisation du poste informatique", "navigation sur le web"],
+      "colonnes": ["Type démarches", "Type médiation numérique", "Type équipement"],
+      "termes": [
+        "poste informatique",
+        "réseaux sociaux",
+        "usages du numérique",
+        "cultures",
+        "initiation",
+        "initie",
+        "s'initier au numérique",
+        "outil informatique",
+        "cours informatiques",
+        "découverte de l'ordinateur",
+        "utilisation du poste informatique",
+        "navigation sur le web",
+        "Table numérique",
+        "Cours d'informatique",
+        "formation",
+        "Numérique au quotidien",
+        "améliorer leurs compétences",
+        "cultures et usages du numérique"
+      ],
+      "cible": "Utiliser le numérique au quotidien"
+    },
+    {
+      "colonnes": ["Médiation numérique"],
+      "termes": ["Oui"],
       "cible": "Utiliser le numérique au quotidien"
     },
     {
       "colonnes": ["Type démarches", "Type médiation numérique"],
-      "termes": ["poste informatique", "réseaux sociaux", "cultures", "développement web", "usages du numérique", "initiation à l'informatique", "outil informatique", "cours informatiques", "découverte de l'ordinateur", "renforcement du numérique", "navigation sur le web"],
+      "termes": ["poste informatique", "améliorer leurs compétences", "réseaux sociaux", "cultures", "développement web", "usages du numérique", "initiation à l'informatique", "outil informatique", "cours informatiques", "découverte de l'ordinateur", "renforcement du numérique", "navigation sur le web"],
       "cible": "Approfondir ma culture numérique"
     },
     {
-      "colonnes": ["Type démarches", "Type médiation numérique"],
+      "colonnes": ["Type démarches", "Type médiation numérique", "Type équipement"],
       "termes": ["tablette", "smartphone", "téléphone"],
       "cible": "Prendre en main un smartphone ou une tablette"
     },
@@ -176,16 +251,134 @@
       "cible": "Accompagner les démarches de santé"
     },
     {
+      "colonnes": ["Type démarches"],
+      "termes": ["création d'entreprise"],
+      "cible": "Créer et développer mon entreprise"
+    },
+    {
+      "colonnes": ["Type démarches"],
+      "termes": ["Emploi", "compétences professionnelles", "bureautique"],
+      "cible": "Favoriser mon insertion professionnelle"
+    },
+    {
       "colonnes": ["Type démarches", "Type médiation numérique"],
-      "termes": ["caf", "caf.fr", "caisse nationale des allocations familiales", "caisse centrale de la mutualité sociale agricole", "caisse nationale d'assurance vieillesse", "cnav", "msa", "emploi", "citoyenneté", "social", "retraite", "fiscalité", "justice", "étrangers", "logement", "transports", "loisirs", "accès libre", "démarches administratives", "administrations", "démarches", "accompagnement individuel", "services dématérialisés"],
+      "termes": ["3D", "FabLab", "atelier bois", "textile", "métal", "découpe laser", "fabrication d'objets numériques", "vidéos", "CNC", "outils DYS"],
+      "cible": "Créer avec le numérique"
+    },
+    {
+      "colonnes": ["Vente matériel"],
+      "termes": ["Oui"],
+      "cible": "S'équiper en matériel informatique"
+    },
+    {
+      "colonnes": ["Type démarches", "Type médiation numérique"],
+      "termes": [
+        "espaces numériques Caf",
+        "caf",
+        "caf.fr",
+        "caisse nationale des allocations familiales",
+        "caisse centrale de la mutualité sociale agricole",
+        "caisse nationale d'assurance vieillesse",
+        "cnav",
+        "msa",
+        "emploi",
+        "citoyenneté",
+        "social",
+        "retraite",
+        "fiscalité",
+        "justice",
+        "étrangers",
+        "logement",
+        "transports",
+        "loisirs",
+        "accès libre",
+        "démarches administratives",
+        "administrations",
+        "démarches",
+        "accompagnement individuel",
+        "services dématérialisés",
+        "Relations avec les administrations",
+        "tous types de démarches",
+        "rsa",
+        "accompagnement"
+      ],
       "cible": "Devenir autonome dans les démarches administratives",
       "modalitesAccompagnement": "Seul : j'ai accès à du matériel et une connexion"
     },
     {
+      "colonnes": ["Démarches"],
+      "termes": ["Oui"],
+      "cible": "Devenir autonome dans les démarches administratives"
+    },
+    {
       "colonnes": ["Type démarches", "Type médiation numérique"],
-      "termes": ["caf", "caf.fr", "caisse nationale des allocations familiales", "caisse centrale de la mutualité sociale agricole", "caisse nationale d'assurance vieillesse", "cnav", "msa", "emploi", "citoyenneté", "social", "retraite", "fiscalité", "justice", "étrangers", "logement", "transports", "loisirs","démarches administratives", "administrations", "démarches", "services dématérialisés"],
+      "termes": [
+        "espaces numériques Caf",
+        "caf",
+        "caf.fr",
+        "caisse nationale des allocations familiales",
+        "caisse centrale de la mutualité sociale agricole",
+        "caisse nationale d'assurance vieillesse",
+        "cnav",
+        "msa",
+        "emploi",
+        "citoyenneté",
+        "social",
+        "retraite",
+        "fiscalité",
+        "justice",
+        "étrangers",
+        "logement",
+        "transports",
+        "loisirs",
+        "démarches administratives",
+        "administrations",
+        "démarches",
+        "services dématérialisés",
+        "Relations avec les administrations",
+        "rsa",
+        "accompagnement"
+      ],
       "cible": "Réaliser des démarches administratives avec un accompagnement",
       "modalitesAccompagnement": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+    },
+    {
+      "colonnes": ["Accompagnement démarches"],
+      "termes": ["Individuel", "Personnalisé", "en groupe"],
+      "cible": "Réaliser des démarches administratives avec un accompagnement"
+    },
+    {
+      "colonnes": ["Type démarches", "Type médiation numérique"],
+      "termes": [
+        "espaces numériques Caf",
+        "caf",
+        "caf.fr",
+        "caisse nationale des allocations familiales",
+        "caisse centrale de la mutualité sociale agricole",
+        "caisse nationale d'assurance vieillesse",
+        "cnav",
+        "msa",
+        "emploi",
+        "citoyenneté",
+        "social",
+        "retraite",
+        "fiscalité",
+        "justice",
+        "étrangers",
+        "logement",
+        "transports",
+        "loisirs",
+        "démarches administratives",
+        "administrations",
+        "démarches",
+        "services dématérialisés",
+        "Relations avec les administrations",
+        "démarches informatiques",
+        "rsa",
+        "accompagnement"
+      ],
+      "cible": "Réaliser des démarches administratives avec un accompagnement",
+      "modalitesAccompagnement": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
     }
   ],
   "horaires": {

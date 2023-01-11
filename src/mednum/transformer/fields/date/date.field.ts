@@ -1,4 +1,4 @@
-import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
+import { DataSource, LieuxMediationNumeriqueMatching } from '../../input';
 
 type RegexResult = {
   year: string;
@@ -9,7 +9,7 @@ type RegexResult = {
 
 const STANDARD_DATE_REG_EXP: RegExp = /^(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})$/u;
 
-const FRENCH_DATE_REG_EXP: RegExp = /^(?<day>\d{2})\/(?<month>\d{2})\/(?<year>\d{4})$/u;
+const FRENCH_DATE_REG_EXP: RegExp = /^(?<day>\d{2})\/(?<month>\d{1,2})\/(?<year>\d{4})$/u;
 
 const FRENCH_DATE_TIME_REG_EXP: RegExp = /^(?<day>\d{2})\/(?<month>\d{2})\/(?<year>\d{4}) (?<time>\d{2}:\d{2}:\d{2})$/u;
 
@@ -17,7 +17,10 @@ const DATE_REGEXP: RegExp[] = [STANDARD_DATE_REG_EXP, FRENCH_DATE_TIME_REG_EXP, 
 
 const DEFAULT_TIME: { time: '00:00:00' } = { time: '00:00:00' };
 
-const toDate = (date?: Partial<RegexResult>): Date => new Date(`${date?.year}-${date?.month}-${date?.day}T${date?.time}`);
+const addMissing0 = (month: string | undefined): string => (month?.length === 1 ? '0' : '');
+
+const toDate = (date?: Partial<RegexResult>): Date =>
+  new Date(`${date?.year}-${addMissing0(date?.month)}${date?.month}-${date?.day}T${date?.time}`);
 
 const dateRegexpResultFrom = (dateRegexp: RegExp, sourceDate: string): Partial<RegexResult> => ({
   ...DEFAULT_TIME,
