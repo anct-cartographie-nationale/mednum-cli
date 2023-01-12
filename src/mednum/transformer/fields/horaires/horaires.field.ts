@@ -1,14 +1,10 @@
 import { OsmDaysOfWeek, OsmOpeningHours, toOsmOpeningHours } from '@gouvfr-anct/timetable-to-osm-opening-hours';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { toOsmHours } from '../../to-osm-hours/to-osm-hours';
-import { Recorder } from '../../report/report';
+import { Recorder } from '../../report';
 import { InvalidHoursError } from './errors/invalid-hours-error';
-
-type NoOsmOpeningHours = undefined;
-
-export type OsmOpeningHoursString = NoOsmOpeningHours | string;
-
-const NO_OSM_OPENING_HOURS: NoOsmOpeningHours = undefined;
+import { NO_OSM_OPENING_HOURS, OsmOpeningHoursString, osmOpeningHoursString } from './process-horaires.field';
+import { processHorairesSingleField } from './process-horaires-single-field';
 
 const OPENING_HOURS_REGEXP: RegExp = /^\d{2}:\d{2}-\d{2}:\d{2}(?:,\d{2}:\d{2}-\d{2}:\d{2})?$/u;
 
@@ -39,14 +35,11 @@ const processDay =
   (day: OsmDaysOfWeek, dayField: string, hours?: string): [] | [OsmOpeningHours] =>
     hours == null || hours === '' ? [] : wrapInArray(toSingleOsmOpeningHours(recorder)(day, hours, dayField));
 
-const osmOpeningHoursString = (osmOpeningHours: string): OsmOpeningHoursString =>
-  osmOpeningHours === '' ? NO_OSM_OPENING_HOURS : osmOpeningHours;
-
 export const processHoraires =
   (recorder: Recorder) =>
   (source: DataSource, matching: LieuxMediationNumeriqueMatching): OsmOpeningHoursString => {
     try {
-      return osmOpeningHoursString(
+      const osmOpeningHours: OsmOpeningHoursString = osmOpeningHoursString(
         toOsmOpeningHours([
           ...(matching.horaires?.jours.reduce(
             (processedDay: OsmOpeningHours[], currentValue: { colonne: string; osm: OsmDaysOfWeek }): OsmOpeningHours[] => [
@@ -57,6 +50,10 @@ export const processHoraires =
           ) ?? [])
         ])
       );
+
+      return osmOpeningHours === NO_OSM_OPENING_HOURS && matching.horaires?.semaine != null
+        ? processHorairesSingleField(source[matching.horaires.semaine])
+        : osmOpeningHours;
     } catch (error: unknown) {
       if (error instanceof InvalidHoursError) return NO_OSM_OPENING_HOURS;
       throw error;

@@ -411,6 +411,7 @@
         "colonne": "horaires dimanche",
         "osm": "Su"
       }
-    ]
+    ],
+    "semaine": "Horaires ouverture"
   }
 }

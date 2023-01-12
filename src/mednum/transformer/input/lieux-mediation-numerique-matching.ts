@@ -80,5 +80,6 @@ export type LieuxMediationNumeriqueMatching = {
         osm: 'Su';
       }
     ];
+    semaine?: string;
   };
 };
