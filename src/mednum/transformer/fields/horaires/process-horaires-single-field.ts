@@ -1,8 +1,8 @@
 import { OsmDaysOfWeek, OsmOpeningHours, toOsmOpeningHours } from '@gouvfr-anct/timetable-to-osm-opening-hours';
-import { HORAIRES_FIELD_CLEAN_OPERATIONS, HorairesFieldCleanOperation } from './horaires.field.clean-operations';
+import { mergeMultipleHoursRanges } from '../../merge-hours-ranges/merge-hours-ranges';
 import { OPENING_HOURS_EXTRACTION, OpeningHoursExtraction } from './horaires.field.extract-operations';
-import { NO_OSM_OPENING_HOURS, osmOpeningHoursString, OsmOpeningHoursString } from './process-horaires.field';
-import { mergeMultipleHoursRanges } from '../mednum/transformer/merge-hours-ranges/merge-hours-ranges';
+import { HORAIRES_FIELD_CLEAN_OPERATIONS, HorairesFieldCleanOperation } from './horaires.field.clean-operations';
+import { NO_OSM_OPENING_HOURS, OsmOpeningHoursString, osmOpeningHoursString } from './process-horaires.field';
 
 type DayWithOsmHours = { osmHours: string; day: OsmDaysOfWeek };
 
@@ -84,7 +84,7 @@ const processOpeningHours = (singleStringOpeningHours?: string): OsmOpeningHours
 const isValidOdmHours = (osmOpeningHours: OsmOpeningHoursString): boolean =>
   /(?:Mo|Tu|We|Th|Fr|Sa|Su)\s?;|(?:Mo|Tu|We|Th|Fr|Sa|Su)\s?$/gu.test(osmOpeningHours ?? '');
 
-export const processHorairesSingleField = (horairesSingleField: string): OsmOpeningHoursString =>
+export const processHorairesSingleField = (horairesSingleField?: string): OsmOpeningHoursString =>
   ((singleStringOpeningHours: OsmOpeningHoursString): OsmOpeningHoursString =>
     isValidOdmHours(singleStringOpeningHours) ? NO_OSM_OPENING_HOURS : singleStringOpeningHours)(
     osmOpeningHoursString(
@@ -93,7 +93,7 @@ export const processHorairesSingleField = (horairesSingleField: string): OsmOpen
           HORAIRES_FIELD_CLEAN_OPERATIONS.reduce(
             (horaires: OsmOpeningHoursString, cleanOperation: HorairesFieldCleanOperation): string | undefined =>
               horaires?.replace(cleanOperation.selector, cleanOperation.fix),
-            horairesSingleField.toLowerCase().trim()
+            horairesSingleField?.toLowerCase().trim()
           )
         )
       )
