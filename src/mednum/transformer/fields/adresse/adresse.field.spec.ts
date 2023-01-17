@@ -12,7 +12,7 @@ const STANDARD_MATCHING: LieuxMediationNumeriqueMatching = {
   commune: {
     colonne: 'Ville *'
   },
-  voie: {
+  adresse: {
     colonne: 'Adresse postale *'
   },
   complement_adresse: {
@@ -30,7 +30,7 @@ const SPLIT_VOIE_MATCHING: LieuxMediationNumeriqueMatching = {
   commune: {
     colonne: 'Commune'
   },
-  voie: {
+  adresse: {
     joindre: {
       colonnes: ['Numéro', 'Adresse'],
       séparateur: ' '

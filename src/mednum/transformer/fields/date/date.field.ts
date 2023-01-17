@@ -21,7 +21,7 @@ const FRENCH_DATE_TIME_REG_EXP: RegExp = /^(?<day>\d{2})\/(?<month>\d{2})\/(?<ye
 
 const DATE_REGEXP: RegExp[] = [STANDARD_DATE_REG_EXP, FRENCH_DATE_TIME_REG_EXP, FRENCH_DATE_REG_EXP];
 
-const DEFAULT_TIME: { time: '00:00:00' } = { time: '00:00:00' };
+const DEFAULT_TIME: { time: '12:00:00' } = { time: '12:00:00' };
 
 const addMissing0 = (month: string | undefined): string => (month?.length === 1 ? '0' : '');
 

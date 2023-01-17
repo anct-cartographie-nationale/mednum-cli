@@ -14,7 +14,7 @@
   "commune": {
     "colonne": "lib_com"
   },
-  "voie": {
+  "adresse": {
     "colonne": "adresse"
   },
   "complement_adresse": {
@@ -40,7 +40,7 @@
       "cible": "France Services"
     }
   ],
-  "conditionAcces": [
+  "conditions_acces": [
     {
       "cible": "Gratuit : Je peux accéder gratuitement au lieu et à ses services"
     }

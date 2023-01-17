@@ -84,7 +84,7 @@ const processOpeningHours = (singleStringOpeningHours?: string): OsmOpeningHours
 const isValidOdmHours = (osmOpeningHours: OsmOpeningHoursString): boolean =>
   /(?:Mo|Tu|We|Th|Fr|Sa|Su)\s?;|(?:Mo|Tu|We|Th|Fr|Sa|Su)\s?$/gu.test(osmOpeningHours ?? '');
 
-export const processHorairesSingleField = (horairesSingleField?: string): OsmOpeningHoursString =>
+export const openingHoursFromWeek = (horairesSingleField?: string): OsmOpeningHoursString =>
   ((singleStringOpeningHours: OsmOpeningHoursString): OsmOpeningHoursString =>
     isValidOdmHours(singleStringOpeningHours) ? NO_OSM_OPENING_HOURS : singleStringOpeningHours)(
     osmOpeningHoursString(

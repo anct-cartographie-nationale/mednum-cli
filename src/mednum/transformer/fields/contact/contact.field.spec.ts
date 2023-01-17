@@ -226,10 +226,21 @@ describe('contact field', (): void => {
     );
   });
 
-  it('should remove url with spaces', (): void => {
+  it('should remove websites with spaces', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         'Site Web': 'http://www.souzay-champigny.Mairie et services municipaux49.fr/'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(Contact({}));
+  });
+
+  it('should remove websites with accented characters', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        'Site Web': 'https://www.apis-ingénierie.fr'
       } as DataSource,
       matching
     );

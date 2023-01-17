@@ -34,7 +34,7 @@ const toLieuxMediationNumeriqueAdresse = (source: DataSource, matching: LieuxMed
   Adresse({
     code_postal: source[matching.code_postal.colonne]?.toString() ?? '',
     commune: formatCommune(source[matching.commune.colonne] ?? ''),
-    voie: formatVoie(voieField(source, matching.voie)),
+    voie: formatVoie(voieField(source, matching.adresse)),
     ...complementAdresseIfAny(source[matching.complement_adresse?.colonne ?? '']),
     ...codeInseeIfAny(source[matching.code_insee?.colonne ?? '']?.toString())
   });

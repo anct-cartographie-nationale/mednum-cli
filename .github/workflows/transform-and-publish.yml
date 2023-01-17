@@ -16,7 +16,7 @@ jobs:
   transform-and-publish:
     strategy:
       matrix:
-        source: [hinaura, maine-et-loire, les-assembleurs, france-services]
+        source: [hinaura, maine-et-loire, les-assembleurs, france-services, conseiller-numerique]
     runs-on: ubuntu-latest
     environment: production
 

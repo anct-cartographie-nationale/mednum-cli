@@ -11,7 +11,7 @@
   "commune": {
     "colonne": "Commune"
   },
-  "voie": {
+  "adresse": {
     "joindre": {
       "colonnes" : ["Numéro", "Adresse"],
       "séparateur": " "
@@ -40,7 +40,7 @@
   "site_web": {
     "colonne": "Site web"
   },
-  "conditionAcces": [
+  "conditions_acces": [
     {
       "colonnes": ["JT_PBC_Adh"],
       "cible": "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"

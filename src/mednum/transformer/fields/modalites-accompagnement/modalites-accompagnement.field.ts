@@ -37,5 +37,5 @@ export const processModalitesAccompagnement = (
   matching: LieuxMediationNumeriqueMatching
 ): ModalitesAccompagnement =>
   ModalitesAccompagnement(
-    Array.from(new Set(matching.modaliteAccompagnement?.reduce(appendModalitesAccompagnement(source), [])))
+    Array.from(new Set(matching.modalites_accompagnement?.reduce(appendModalitesAccompagnement(source), [])))
   );

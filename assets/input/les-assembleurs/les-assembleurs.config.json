@@ -11,7 +11,7 @@
   "commune": {
     "colonne": "Commune"
   },
-  "voie": {
+  "adresse": {
     "colonne": "Adresse"
   },
   "latitude": {
@@ -29,7 +29,7 @@
   "site_web": {
     "colonne": "Site internet"
   },
-  "conditionAcces": [
+  "conditions_acces": [
     {
       "colonnes": ["Coût accès équipement", "Coût accès médiation numérique", "Coût accès démarches"],
       "termes": ["gratuit"],
@@ -57,7 +57,7 @@
       "cible": "Accepte le Pass numérique : Il est possible d'utiliser un Pass numérique pour accéder au lieu"
     }
   ],
-  "modaliteAccompagnement": [
+  "modalites_accompagnement": [
     {
       "colonnes": ["Accompagnement démarches", "Accompagnement médiation numérique"],
       "termes": ["En groupe", "en groupe", "accompagnement collectif", "oui en collectif", "collectif", "groupes"],
@@ -303,7 +303,7 @@
         "accompagnement"
       ],
       "cible": "Devenir autonome dans les démarches administratives",
-      "modalitesAccompagnement": "Seul : j'ai accès à du matériel et une connexion"
+      "modalites_accompagnement": "Seul : j'ai accès à du matériel et une connexion"
     },
     {
       "colonnes": ["Démarches"],
@@ -340,7 +340,7 @@
         "accompagnement"
       ],
       "cible": "Réaliser des démarches administratives avec un accompagnement",
-      "modalitesAccompagnement": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+      "modalites_accompagnement": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
     },
     {
       "colonnes": ["Accompagnement démarches"],
@@ -378,7 +378,7 @@
         "accompagnement"
       ],
       "cible": "Réaliser des démarches administratives avec un accompagnement",
-      "modalitesAccompagnement": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
+      "modalites_accompagnement": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
     }
   ],
   "horaires": {

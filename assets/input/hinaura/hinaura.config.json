@@ -8,7 +8,7 @@
   "commune": {
     "colonne": "Ville *"
   },
-  "voie": {
+  "adresse": {
     "colonne": "Adresse postale *"
   },
   "latitude": {
@@ -27,7 +27,7 @@
   "site_web": {
     "colonne": "Site Web"
   },
-  "conditionAcces": [
+  "conditions_acces": [
     {
       "colonnes": ["Tarifs"],
       "termes": ["gratuit"],
@@ -55,7 +55,7 @@
       "cible": "Accepte le Pass numérique : Il est possible d'utiliser un Pass numérique pour accéder au lieu"
     }
   ],
-  "modaliteAccompagnement": [
+  "modalites_accompagnement": [
     {
       "colonnes": ["Types d'accompagnement proposés"],
       "termes": ["accompagnement en groupe"],
@@ -182,13 +182,13 @@
       "colonnes": ["À disposition", "Formations compétences de base proposées", "Comprendre et Utiliser les sites d’accès aux droits proposées", "Sensibilisations culture numérique"],
       "termes": ["services de la caf", "services des impôts", "logement social", "pôle emploi", "pole-emploi.fr"],
       "cible": "Devenir autonome dans les démarches administratives",
-      "modalitesAccompagnement": "Seul : j'ai accès à du matériel et une connexion"
+      "modalites_accompagnement": "Seul : j'ai accès à du matériel et une connexion"
     },
     {
       "colonnes": ["À disposition", "Formations compétences de base proposées", "Comprendre et Utiliser les sites d’accès aux droits proposées", "Sensibilisations culture numérique"],
       "termes": ["services de la caf", "services des impôts", "logement social", "pôle emploi", "pole-emploi.fr"],
       "cible": "Réaliser des démarches administratives avec un accompagnement",
-      "modalitesAccompagnement": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+      "modalites_accompagnement": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
     }
   ],
   "horaires": {

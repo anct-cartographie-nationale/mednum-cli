@@ -1,11 +1,11 @@
-/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
 import { ConditionAcces } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { processConditionsAcces } from './conditions-acces.field';
 
 const STANDARD_MATCHING: LieuxMediationNumeriqueMatching = {
-  conditionAcces: [
+  conditions_acces: [
     {
       colonnes: ['Tarifs'],
       termes: ['gratuit'],
@@ -104,7 +104,7 @@ describe('condition acces field', (): void => {
 
   it('should get only one gratuit', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
-      conditionAcces: [
+      conditions_acces: [
         {
           colonnes: ['Tarifs', 'Frais à charge'],
           termes: ['gratuit', 'sans frais'],
@@ -126,7 +126,7 @@ describe('condition acces field', (): void => {
 
   it('should get nothing when no check in Gratuit column', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
-      conditionAcces: [
+      conditions_acces: [
         {
           colonnes: ['Gratuit'],
           cible: ConditionAcces.Gratuit
@@ -146,7 +146,7 @@ describe('condition acces field', (): void => {
 
   it('should get gratuit when check in specific column', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
-      conditionAcces: [
+      conditions_acces: [
         {
           colonnes: ['Gratuit'],
           cible: ConditionAcces.Gratuit
@@ -166,7 +166,7 @@ describe('condition acces field', (): void => {
 
   it('should get gratuit default condition acces', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
-      conditionAcces: [
+      conditions_acces: [
         {
           cible: ConditionAcces.Gratuit
         }

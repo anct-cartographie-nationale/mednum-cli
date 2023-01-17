@@ -3,8 +3,10 @@
 import {
   CommuneError,
   LieuMediationNumerique,
-  Pivot,
+  ModalitesAccompagnement,
+  PublicsAccueillis,
   ServicesError,
+  Url,
   VoieError
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Recorder, Report } from '../report';
@@ -20,10 +22,24 @@ import {
   processLocalisation,
   processModalitesAccompagnement,
   processNom,
+  processPivot,
+  processPriseRdv,
   processPublicsAccueillis,
   processServices
 } from '../fields';
 import { DataSource, LieuxMediationNumeriqueMatching } from './lieux-mediation-numerique-matching';
+
+const horairesIfAny = (horaires?: string): { horaires?: string } => (horaires == null ? {} : { horaires });
+
+const priseRdvIfAny = (priseRdv?: Url): { prise_rdv?: Url } => (priseRdv == null ? {} : { prise_rdv: priseRdv });
+
+const publicsAccueillisIfAny = (publicsAccueillis: PublicsAccueillis): { publics_accueillis?: PublicsAccueillis } =>
+  publicsAccueillis.length === 0 ? {} : { publics_accueillis: publicsAccueillis };
+
+const modalitesAccompagnementIfAny = (
+  modaliteAccompagnement: ModalitesAccompagnement
+): { modalites_accompagnement?: ModalitesAccompagnement } =>
+  modaliteAccompagnement.length === 0 ? {} : { modalites_accompagnement: modaliteAccompagnement };
 
 const lieuDeMediationNumerique = (
   index: number,
@@ -35,18 +51,19 @@ const lieuDeMediationNumerique = (
   const lieuMediationNumerique: LieuMediationNumerique = {
     id: processId(dataSource, matching, index),
     nom: processNom(dataSource, matching),
-    pivot: Pivot('00000000000000'),
+    pivot: processPivot(dataSource, matching),
     adresse: processAdresse(recorder)(dataSource, matching),
     localisation: processLocalisation(dataSource, matching),
     contact: processContact(recorder)(dataSource, matching),
     conditions_acces: processConditionsAcces(dataSource, matching),
-    modalites_accompagnement: processModalitesAccompagnement(dataSource, matching),
+    ...modalitesAccompagnementIfAny(processModalitesAccompagnement(dataSource, matching)),
     date_maj: processDate(dataSource, matching),
-    labels_nationaux: processLabelsNationaux(matching),
-    publics_accueillis: processPublicsAccueillis(dataSource, matching),
+    labels_nationaux: processLabelsNationaux(dataSource, matching),
+    ...publicsAccueillisIfAny(processPublicsAccueillis(dataSource, matching)),
     services: processServices(dataSource, matching),
     source: sourceName,
-    horaires: processHoraires(recorder)(dataSource, matching)?.toString() ?? ''
+    ...horairesIfAny(processHoraires(recorder)(dataSource, matching)),
+    ...priseRdvIfAny(processPriseRdv(dataSource, matching))
   };
   recorder.commit();
   return lieuMediationNumerique;
