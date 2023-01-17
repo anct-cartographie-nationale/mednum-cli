@@ -4,6 +4,7 @@ export * from './contact/contact.field';
 export * from './date/date.field';
 export * from './horaires/horaires.field';
 export * from './id/id.field';
+export * from './labels-nationaux/labels-nationaux.field';
 export * from './localisation/localisation.field';
 export * from './modalites-accompagnement/modalites-accompagnement.field';
 export * from './nom/nom.field';

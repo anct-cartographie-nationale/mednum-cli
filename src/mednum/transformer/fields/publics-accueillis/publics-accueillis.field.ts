@@ -17,15 +17,24 @@ const appendPublicAccueilli = (publicsAccueilli: PublicAccueilli[], publicAccuei
   ...(publicAccueilli == null ? [] : [publicAccueilli])
 ];
 
+const isDefault = (choice: Choice<PublicAccueilli>): boolean => choice.colonnes == null;
+
+const findAndAppendPublicAccueilli =
+  (choice: Choice<PublicAccueilli>, source: DataSource) =>
+  (publicsAccueillis: PublicAccueilli[], colonne: string): PublicAccueilli[] =>
+    containsOneOfTheTerms(choice, source[colonne]) ? appendPublicAccueilli(publicsAccueillis, choice.cible) : publicsAccueillis;
+
 const publicsAccueilliForTerms =
   (choice: Choice<PublicAccueilli>, source: DataSource) =>
-  (publicsAccueilli: PublicAccueilli[], colonne: string): PublicAccueilli[] =>
-    containsOneOfTheTerms(choice, source[colonne]) ? appendPublicAccueilli(publicsAccueilli, choice.cible) : publicsAccueilli;
+  (publicsAccueillis: PublicAccueilli[], colonne: string): PublicAccueilli[] =>
+    isDefault(choice)
+      ? appendPublicAccueilli(publicsAccueillis, choice.cible)
+      : findAndAppendPublicAccueilli(choice, source)(publicsAccueillis, colonne);
 
 const appendPublicsAccueilli =
   (source: DataSource) =>
   (publicsAccueilli: PublicAccueilli[], choice: Choice<PublicAccueilli>): PublicAccueilli[] =>
-    [...publicsAccueilli, ...(choice.colonnes ?? []).reduce(publicsAccueilliForTerms(choice, source), [])];
+    [...publicsAccueilli, ...(choice.colonnes ?? [choice.cible]).reduce(publicsAccueilliForTerms(choice, source), [])];
 
-export const processPublicAccueilli = (source: DataSource, matching: LieuxMediationNumeriqueMatching): PublicsAccueillis =>
+export const processPublicsAccueillis = (source: DataSource, matching: LieuxMediationNumeriqueMatching): PublicsAccueillis =>
   PublicsAccueillis(Array.from(new Set(matching.publics_accueillis.reduce(appendPublicsAccueilli(source), []))));

@@ -163,4 +163,18 @@ describe('condition acces field', (): void => {
 
     expect(conditionsAcces).toStrictEqual([ConditionAcces.Gratuit]);
   });
+
+  it('should get gratuit default condition acces', (): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      conditionAcces: [
+        {
+          cible: ConditionAcces.Gratuit
+        }
+      ]
+    } as LieuxMediationNumeriqueMatching;
+
+    const conditionsAcces: ConditionAcces[] = processConditionsAcces({} as DataSource, matching);
+
+    expect(conditionsAcces).toStrictEqual([ConditionAcces.Gratuit]);
+  });
 });

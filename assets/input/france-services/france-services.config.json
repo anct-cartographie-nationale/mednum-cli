@@ -1,0 +1,100 @@
+{
+  "id": {
+    "colonne": "id_fs"
+  },
+  "nom": {
+    "colonne": "lib_fs"
+  },
+  "code_postal": {
+    "colonne": "code_postal"
+  },
+  "code_insee": {
+    "colonne": "insee_com"
+  },
+  "commune": {
+    "colonne": "lib_com"
+  },
+  "voie": {
+    "colonne": "adresse"
+  },
+  "complement_adresse": {
+    "colonne": "complement_adresse"
+  },
+  "latitude": {
+    "colonne": "latitude"
+  },
+  "longitude": {
+    "colonne": "longitude"
+  },
+  "telephone": {
+    "colonne": "telephone"
+  },
+  "courriel": {
+    "colonne": "mail"
+  },
+  "date_maj": {
+    "colonne": "labellisation"
+  },
+  "labels_nationaux": [
+    {
+      "cible": "France Services"
+    }
+  ],
+  "conditionAcces": [
+    {
+      "cible": "Gratuit : Je peux accéder gratuitement au lieu et à ses services"
+    }
+  ],
+  "publics_accueillis": [
+    {
+      "cible": "Adultes"
+    },
+    {
+      "cible": "Jeunes (16-26 ans)"
+    },
+    {
+      "cible": "Seniors (+ 65 ans)"
+    }
+  ],
+  "services": [
+    {
+      "cible": "Réaliser des démarches administratives avec un accompagnement"
+    },
+    {
+      "cible": "Accompagner les démarches de santé"
+    },
+    {
+      "cible": "Favoriser mon insertion professionnelle"
+    }
+  ],
+  "horaires": {
+    "jours": [
+      {
+        "colonne": "h_lundi",
+        "osm": "Mo"
+      },
+      {
+        "colonne": "h_mardi",
+        "osm": "Tu"
+      },
+      {
+        "colonne": "h_mercredi",
+        "osm": "We"
+      },
+      {
+        "colonne": "h_jeudi",
+        "osm": "Th"
+      },
+      {
+        "colonne": "h_vendredi",
+        "osm": "Fr"
+      },
+      {
+        "colonne": "h_samedi",
+        "osm": "Sa"
+      }
+    ]
+  }
+}
+
+

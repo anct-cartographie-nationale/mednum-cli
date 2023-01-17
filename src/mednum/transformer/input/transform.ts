@@ -1,21 +1,29 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase, max-lines-per-function */
 
-import { LieuMediationNumerique, Pivot, ServicesError, VoieError } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import {
+  CommuneError,
+  LieuMediationNumerique,
+  Pivot,
+  ServicesError,
+  VoieError
+} from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Recorder, Report } from '../report';
 import {
+  DateCannotBeEmptyError,
   processAdresse,
   processConditionsAcces,
   processContact,
   processDate,
   processHoraires,
   processId,
+  processLabelsNationaux,
   processLocalisation,
   processModalitesAccompagnement,
   processNom,
-  processPublicAccueilli,
+  processPublicsAccueillis,
   processServices
 } from '../fields';
-import { LieuxMediationNumeriqueMatching, DataSource } from './lieux-mediation-numerique-matching';
+import { DataSource, LieuxMediationNumeriqueMatching } from './lieux-mediation-numerique-matching';
 
 const lieuDeMediationNumerique = (
   index: number,
@@ -34,7 +42,8 @@ const lieuDeMediationNumerique = (
     conditions_acces: processConditionsAcces(dataSource, matching),
     modalites_accompagnement: processModalitesAccompagnement(dataSource, matching),
     date_maj: processDate(dataSource, matching),
-    publics_accueillis: processPublicAccueilli(dataSource, matching),
+    labels_nationaux: processLabelsNationaux(matching),
+    publics_accueillis: processPublicsAccueillis(dataSource, matching),
     services: processServices(dataSource, matching),
     source: sourceName,
     horaires: processHoraires(recorder)(dataSource, matching)?.toString() ?? ''
@@ -54,6 +63,8 @@ export const toLieuxMediationNumerique =
     } catch (error: unknown) {
       if (error instanceof ServicesError) return undefined;
       if (error instanceof VoieError) return undefined;
+      if (error instanceof CommuneError) return undefined;
+      if (error instanceof DateCannotBeEmptyError) return undefined;
       throw error;
     }
   };

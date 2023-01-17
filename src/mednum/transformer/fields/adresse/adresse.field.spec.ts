@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
-import { Adresse } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { Adresse, CommuneError } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Recorder, Report } from '../../report';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { processAdresse } from './adresse.field';
@@ -14,6 +14,12 @@ const STANDARD_MATCHING: LieuxMediationNumeriqueMatching = {
   },
   voie: {
     colonne: 'Adresse postale *'
+  },
+  complement_adresse: {
+    colonne: 'Complement adresse'
+  },
+  code_insee: {
+    colonne: 'Code INSEE'
   }
 } as LieuxMediationNumeriqueMatching;
 
@@ -47,6 +53,54 @@ describe('adresse field', (): void => {
       commune: 'Grenoble',
       voie: '5 rue Malakoff'
     });
+  });
+
+  it('should process a valid address with complement adresse', (): void => {
+    const source: DataSource = {
+      'Code postal': '38000',
+      'Ville *': 'Grenoble',
+      'Adresse postale *': '5 rue Malakoff',
+      'Complement adresse': 'Allée 5'
+    };
+
+    const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
+
+    expect(adresse).toStrictEqual({
+      code_postal: '38000',
+      commune: 'Grenoble',
+      voie: '5 rue Malakoff',
+      complement_adresse: 'Allée 5'
+    });
+  });
+
+  it('should process a valid address with code insee', (): void => {
+    const source: DataSource = {
+      'Code postal': '38000',
+      'Ville *': 'Grenoble',
+      'Adresse postale *': '5 rue Malakoff',
+      'Code INSEE': '38110'
+    };
+
+    const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
+
+    expect(adresse).toStrictEqual({
+      code_postal: '38000',
+      commune: 'Grenoble',
+      voie: '5 rue Malakoff',
+      code_insee: '38110'
+    });
+  });
+
+  it('should not process empty address', (): void => {
+    const source: DataSource = {
+      'Code postal': '',
+      'Ville *': '',
+      'Adresse postale *': ''
+    };
+
+    expect((): void => {
+      processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
+    }).toThrow(new CommuneError(''));
   });
 
   it('should fix value with code postal in adresse postale field instead of Code postal field', (): void => {

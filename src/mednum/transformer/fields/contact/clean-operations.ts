@@ -10,213 +10,216 @@ export type CleanOperation = {
   fix?: (toFix: string) => string;
 };
 
-const removeHttpOnlyWebsites = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+const removeHttpOnlyWebsites = (field: string): CleanOperation => ({
   name: 'http only websites',
   selector: /^http:\/\/$/u,
-  field: matching.site_web.colonne
+  field
 });
 
-const removeMissingExtensionWebsites = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+const removeMissingExtensionWebsites = (field: string): CleanOperation => ({
   name: 'missing extension websites',
   selector: /^.*(?<!\.\w+\/?)$/u,
-  field: matching.site_web.colonne
+  field
 });
 
-const fixMissingHttpWebsites = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+const fixMissingHttpWebsites = (field: string): CleanOperation => ({
   name: 'missing http websites',
   selector: /^(?!http).*/u,
-  field: matching.site_web.colonne,
+  field,
   fix: (toFix: string): string => `http://${toFix}`
 });
 
-const fixDuplicateHttpWebsites = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+const fixDuplicateHttpWebsites = (field: string): CleanOperation => ({
   name: 'duplicate http websites',
   selector: /^https?:\/\/https?:\/\/.*/u,
-  field: matching.site_web.colonne,
+  field,
   fix: (toFix: string): string => toFix.replace(/^https?:\/\/https?:\/\//u, 'https://')
 });
 
-const fixMultipleWebsitesSeparator = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+const fixMultipleWebsitesSeparator = (field: string): CleanOperation => ({
   name: 'multipe websites separator',
   selector: /^.*\s(?:ou|\/)\s.*$/u,
-  field: matching.site_web.colonne,
+  field,
   fix: (toFix: string): string => toFix.replace(/\s(?:ou|\/)\s/u, ';')
 });
 
-const fixWebsitesWithComaInsteadOfDot = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+const fixWebsitesWithComaInsteadOfDot = (field: string): CleanOperation => ({
   name: 'website with coma instead of dot',
   selector: /^http:\/\/www,/u,
-  field: matching.site_web.colonne,
+  field,
   fix: (toFix: string): string => toFix.replace(/^http:\/\/www,/u, 'http://www.')
 });
 
-const fixWebsitesWithMissingSlashAfterHttp = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+const fixWebsitesWithMissingSlashAfterHttp = (field: string): CleanOperation => ({
   name: 'website with coma instead of dot',
   selector: /^http:\/[^/]/u,
-  field: matching.site_web.colonne,
+  field,
   fix: (toFix: string): string => toFix.replace(/^http:\//u, 'http://')
 });
 
-const removeWebsitesWithSpaces = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+const removeWebsitesWithSpaces = (field: string): CleanOperation => ({
   name: 'websites with spaces',
   selector: /\s/u,
-  field: matching.site_web.colonne
+  field
 });
 
-const fixDetailsInParenthesisInPhone = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+const fixDetailsInParenthesisInPhone = (field: string): CleanOperation => ({
   name: 'trailing details in phone',
   selector: /\s\(.*\)$/gu,
-  field: matching.telephone.colonne,
+  field,
   fix: (toFix: string): string => toFix.replace(/\s\(.*\)$/gu, '')
 });
 
-const fixHeadingDetailsInPhone = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+const fixHeadingDetailsInPhone = (field: string): CleanOperation => ({
   name: 'heading details in phone',
   selector: /^\D{3,}/gu,
-  field: matching.telephone.colonne,
+  field,
   fix: (toFix: string): string => toFix.replace(/^\D{3,}/gu, '')
 });
 
-const fixTrailingDetailsInPhone = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+const fixTrailingDetailsInPhone = (field: string): CleanOperation => ({
   name: 'trailing details in phone',
   selector: /\s[A-Za-z].*$/gu,
-  field: matching.telephone.colonne,
+  field,
   fix: (toFix: string): string => toFix.replace(/\s[A-Za-z].*$/gu, '')
 });
 
-const fixWrongCharsInPhone = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+const fixWrongCharsInPhone = (field: string): CleanOperation => ({
   name: 'wrong chars in phone',
   selector: /(?!\w|\+)./gu,
-  field: matching.telephone.colonne,
+  field,
   fix: (toFix: string): string => toFix.replace(/(?!\w|\+)./gu, '')
 });
 
-const fixUnexpectedPhoneList = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+const fixUnexpectedPhoneList = (field: string): CleanOperation => ({
   name: 'unexpected phone list',
   selector: /\d{10}\/\/?\d{10}/u,
-  field: matching.telephone.colonne,
+  field,
   fix: (toFix: string): string => toFix.split('/')[0] ?? ''
 });
 
-const fixPhoneWithoutStarting0 = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+const fixPhoneWithoutStarting0 = (field: string): CleanOperation => ({
   name: 'phone without starting 0',
   selector: /^[1-9]\d{8}$/u,
-  field: matching.telephone.colonne,
+  field,
   fix: (toFix: string): string => `+33${toFix}`
 });
 
-const fixShortCafPhone = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+const fixShortCafPhone = (field: string): CleanOperation => ({
   name: 'short CAF phone',
   selector: /3230/u,
-  field: matching.telephone.colonne,
+  field,
   fix: (): string => '+33969322121'
 });
 
-const fixShortAssuranceRetraitePhone = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+const fixShortAssuranceRetraitePhone = (field: string): CleanOperation => ({
   name: 'short assurance retraite phone',
   selector: /3960/u,
-  field: matching.telephone.colonne,
+  field,
   fix: (): string => '+33971103960'
 });
 
-const removeTooFewDigitsInPhone = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+const removeTooFewDigitsInPhone = (field: string): CleanOperation => ({
   name: 'too few digits in phone',
   selector: /^.{0,9}$/u,
-  field: matching.telephone.colonne
+  field
 });
 
-const removeTooManyDigitsInPhone = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+const removeTooManyDigitsInPhone = (field: string): CleanOperation => ({
   name: 'too many digits in phone',
   selector: /^0.{10,}/u,
-  field: matching.telephone.colonne
+  field
 });
 
-const removeEmailStartingWithWww = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+const removeEmailStartingWithWww = (field: string): CleanOperation => ({
   name: 'email starts with www.',
   selector: /^www\./u,
-  field: matching.courriel.colonne
+  field
 });
 
-const removeEmailStartingWithAt = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+const removeEmailStartingWithAt = (field: string): CleanOperation => ({
   name: 'email starts with @',
   selector: /^@/u,
-  field: matching.courriel.colonne
+  field
 });
 
-const trimEmail = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+const trimEmail = (field: string): CleanOperation => ({
   name: 'email starts with mailto:',
   selector: /^\s+|\s+$/u,
-  field: matching.courriel.colonne,
+  field,
   fix: (toFix: string): string => toFix.trim()
 });
 
-const fixEmailStartingWithMailTo = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+const fixEmailStartingWithMailTo = (field: string): CleanOperation => ({
   name: 'email starts with mailto:',
   selector: /^mailto:/u,
-  field: matching.courriel.colonne,
+  field,
   fix: (toFix: string): string => toFix.replace('mailto:', '')
 });
 
-const fixUnexpectedEmailLabel = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+const fixUnexpectedEmailLabel = (field: string): CleanOperation => ({
   name: 'unexpected email label',
   selector: /\S\s:\s\S/u,
-  field: matching.courriel.colonne,
+  field,
   fix: (toFix: string): string => toFix.split(/\s:\s/u)[1] ?? ''
 });
 
-const fixUnexpectedEmailList = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+const fixUnexpectedEmailList = (field: string): CleanOperation => ({
   name: 'unexpected email list',
   selector: /\S\s?(?:et|ou|;|\s|\/)\s?\S/u,
-  field: matching.courriel.colonne,
+  field,
   fix: (toFix: string): string => toFix.split(/\s?(?:et|ou|;|\s|\/)\s?/u)[0] ?? ''
 });
 
-const fixMissingAtInEmail = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+const fixMissingAtInEmail = (field: string): CleanOperation => ({
   name: 'missing @ in email',
   selector: /\[a\]/gu,
-  field: matching.courriel.colonne,
+  field,
   fix: (toFix: string): string => toFix.replace('[a]', '@')
 });
 
-const fixMissingEmailExtension = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+const fixMissingEmailExtension = (field: string): CleanOperation => ({
   name: 'missing dot suffix in email',
   selector: /\.[a-z]{2,3}$/u,
-  field: matching.courriel.colonne,
+  field,
   negate: true
 });
 
-const removeDashEmail = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+const removeDashEmail = (field: string): CleanOperation => ({
   name: 'dash email',
   selector: /^-----$/u,
-  field: matching.courriel.colonne
+  field
 });
 
+const cleanOperationIfAny = (cleanOperator: (colonne: string) => CleanOperation, colonne?: string): CleanOperation[] =>
+  colonne == null ? [] : [cleanOperator(colonne)];
+
 export const cleanOperations = (matching: LieuxMediationNumeriqueMatching): CleanOperation[] => [
-  removeDashEmail(matching),
-  removeHttpOnlyWebsites(matching),
-  removeMissingExtensionWebsites(matching),
-  fixMissingHttpWebsites(matching),
-  fixDuplicateHttpWebsites(matching),
-  fixMultipleWebsitesSeparator(matching),
-  fixWebsitesWithComaInsteadOfDot(matching),
-  fixWebsitesWithMissingSlashAfterHttp(matching),
-  removeWebsitesWithSpaces(matching),
-  fixUnexpectedPhoneList(matching),
-  fixDetailsInParenthesisInPhone(matching),
-  fixHeadingDetailsInPhone(matching),
-  fixTrailingDetailsInPhone(matching),
-  fixWrongCharsInPhone(matching),
-  fixPhoneWithoutStarting0(matching),
-  fixShortCafPhone(matching),
-  fixShortAssuranceRetraitePhone(matching),
-  removeTooFewDigitsInPhone(matching),
-  removeTooManyDigitsInPhone(matching),
-  removeEmailStartingWithWww(matching),
-  removeEmailStartingWithAt(matching),
-  trimEmail(matching),
-  fixEmailStartingWithMailTo(matching),
-  fixUnexpectedEmailLabel(matching),
-  fixUnexpectedEmailList(matching),
-  fixMissingAtInEmail(matching),
-  fixMissingEmailExtension(matching)
+  ...cleanOperationIfAny(removeDashEmail, matching.courriel?.colonne),
+  ...cleanOperationIfAny(removeHttpOnlyWebsites, matching.site_web?.colonne),
+  ...cleanOperationIfAny(removeMissingExtensionWebsites, matching.site_web?.colonne),
+  ...cleanOperationIfAny(fixMissingHttpWebsites, matching.site_web?.colonne),
+  ...cleanOperationIfAny(fixDuplicateHttpWebsites, matching.site_web?.colonne),
+  ...cleanOperationIfAny(fixMultipleWebsitesSeparator, matching.site_web?.colonne),
+  ...cleanOperationIfAny(fixWebsitesWithComaInsteadOfDot, matching.site_web?.colonne),
+  ...cleanOperationIfAny(fixWebsitesWithMissingSlashAfterHttp, matching.site_web?.colonne),
+  ...cleanOperationIfAny(removeWebsitesWithSpaces, matching.site_web?.colonne),
+  ...cleanOperationIfAny(fixUnexpectedPhoneList, matching.telephone?.colonne),
+  ...cleanOperationIfAny(fixDetailsInParenthesisInPhone, matching.telephone?.colonne),
+  ...cleanOperationIfAny(fixHeadingDetailsInPhone, matching.telephone?.colonne),
+  ...cleanOperationIfAny(fixTrailingDetailsInPhone, matching.telephone?.colonne),
+  ...cleanOperationIfAny(fixWrongCharsInPhone, matching.telephone?.colonne),
+  ...cleanOperationIfAny(fixPhoneWithoutStarting0, matching.telephone?.colonne),
+  ...cleanOperationIfAny(fixShortCafPhone, matching.telephone?.colonne),
+  ...cleanOperationIfAny(fixShortAssuranceRetraitePhone, matching.telephone?.colonne),
+  ...cleanOperationIfAny(removeTooFewDigitsInPhone, matching.telephone?.colonne),
+  ...cleanOperationIfAny(removeTooManyDigitsInPhone, matching.telephone?.colonne),
+  ...cleanOperationIfAny(removeEmailStartingWithWww, matching.courriel?.colonne),
+  ...cleanOperationIfAny(removeEmailStartingWithAt, matching.courriel?.colonne),
+  ...cleanOperationIfAny(trimEmail, matching.courriel?.colonne),
+  ...cleanOperationIfAny(fixEmailStartingWithMailTo, matching.courriel?.colonne),
+  ...cleanOperationIfAny(fixUnexpectedEmailLabel, matching.courriel?.colonne),
+  ...cleanOperationIfAny(fixUnexpectedEmailList, matching.courriel?.colonne),
+  ...cleanOperationIfAny(fixMissingAtInEmail, matching.courriel?.colonne),
+  ...cleanOperationIfAny(fixMissingEmailExtension, matching.courriel?.colonne)
 ];

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
-import { Adresse, ModelError } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { Adresse, CodeInseeError, CommuneError, ModelError } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching, DataSource, Colonne, Jonction } from '../../input';
 import { Recorder } from '../../report';
 import { CLEAN_OPERATIONS, CleanOperation } from './clean-operations';
@@ -25,11 +25,18 @@ const voieField = (source: DataSource, voie: Jonction & Partial<Colonne>): strin
         .reduce((voiePart: string, colonne: string): string => [voiePart, source[colonne]].join(voie.joindre.séparateur), '')
         .trim();
 
+const complementAdresseIfAny = (complementAdresse?: string): { complement_adresse?: string } =>
+  complementAdresse == null ? {} : { complement_adresse: complementAdresse };
+
+const codeInseeIfAny = (codeInsee?: string): { code_insee?: string } => (codeInsee == null ? {} : { code_insee: codeInsee });
+
 const toLieuxMediationNumeriqueAdresse = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Adresse =>
   Adresse({
     code_postal: source[matching.code_postal.colonne]?.toString() ?? '',
     commune: formatCommune(source[matching.commune.colonne] ?? ''),
-    voie: formatVoie(voieField(source, matching.voie))
+    voie: formatVoie(voieField(source, matching.voie)),
+    ...complementAdresseIfAny(source[matching.complement_adresse?.colonne ?? '']),
+    ...codeInseeIfAny(source[matching.code_insee?.colonne ?? '']?.toString())
   });
 
 const testCleanSelector = (cleanOperation: CleanOperation, property?: string): boolean =>
@@ -98,6 +105,12 @@ export const processAdresse =
       return toLieuxMediationNumeriqueAdresse(source, matching);
     } catch (error: unknown) {
       error instanceof ModelError && recorder.record(error.key, error.message);
+      if (source[matching.commune.colonne] === '') throw new CommuneError('');
+      if (error instanceof CodeInseeError) {
+        const { [matching.code_insee?.colonne ?? '']: _, ...sourceWithoutCodeInsee }: DataSource = source;
+        return toLieuxMediationNumeriqueAdresse(sourceWithoutCodeInsee, matching);
+      }
+
       return fixAndRetry(recorder)(source, matching, error);
     }
   };

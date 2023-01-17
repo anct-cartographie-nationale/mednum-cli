@@ -37,15 +37,24 @@ const appendService = (services: Service[], service?: Service): Service[] => [
   ...(service == null ? [] : [service])
 ];
 
-const servicesForTerms =
+const isDefault = (choice: Choice<Service>): boolean => choice.colonnes == null;
+
+const findAndAppendServices =
   (choice: Choice<Service>, source: DataSource, modalitesAccompagnement: ModalitesAccompagnement) =>
   (services: Service[], colonne: string): Service[] =>
     containsOneOfTheTerms(choice, modalitesAccompagnement, source[colonne]) ? appendService(services, choice.cible) : services;
 
+const servicesForTerms =
+  (choice: Choice<Service>, source: DataSource, modalitesAccompagnement: ModalitesAccompagnement) =>
+  (services: Service[], colonne: string): Service[] =>
+    isDefault(choice)
+      ? appendService(services, choice.cible)
+      : findAndAppendServices(choice, source, modalitesAccompagnement)(services, colonne);
+
 const appendServices =
   (source: DataSource, modalitesAccompagnement: ModalitesAccompagnement) =>
   (services: Service[], choice: Choice<Service>): Service[] =>
-    [...services, ...(choice.colonnes ?? []).reduce(servicesForTerms(choice, source, modalitesAccompagnement), [])];
+    [...services, ...(choice.colonnes ?? [choice.cible]).reduce(servicesForTerms(choice, source, modalitesAccompagnement), [])];
 
 export const processServices = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Services =>
   Services(
