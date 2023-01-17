@@ -37,7 +37,8 @@ const matching: LieuxMediationNumeriqueMatching = {
         osm: 'Su'
       }
     ],
-    semaine: 'Horaires ouverture'
+    semaine: 'Horaires ouverture',
+    osm: 'OSM'
   }
 } as LieuxMediationNumeriqueMatching;
 
@@ -673,6 +674,15 @@ describe('horaires field', (): void => {
         'Horaires ouverture':
           '> mardi : 14h-18h30 > mercredi : 10h-18h30 > jeudi : 14h-18h30 > vendredi : 10h-18h30 > samedi : 10h-18h  -  horaires pendant les vacances scolaires : > mardi : 14h-18h > mercredi : 10h-12h et 14h-18h > jeudi : 14h-18h > vendredi : 10h-12h et 14h-18h > samedi : 10h-12h et 14h-18h  -  la médiathèque est fermée les jours fériés.'
       },
+      matching
+    );
+
+    expect(openingHours).toBe('Tu,Th 14:00-18:30; We,Fr 10:00-18:30; Sa 10:00-18:00');
+  });
+
+  it('should get osm hours without transformation', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(Report().entry(0))(
+      { OSM: 'Tu,Th 14:00-18:30; We,Fr 10:00-18:30; Sa 10:00-18:00' },
       matching
     );
 

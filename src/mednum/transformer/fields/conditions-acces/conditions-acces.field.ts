@@ -37,4 +37,4 @@ const appendConditionsAcces =
     [...conditionsAcces, ...(choice.colonnes ?? [choice.cible]).reduce(conditionsAccesForTerms(choice, source), [])];
 
 export const processConditionsAcces = (source: DataSource, matching: LieuxMediationNumeriqueMatching): ConditionsAcces =>
-  ConditionsAcces(Array.from(new Set(matching.conditionAcces?.reduce(appendConditionsAcces(source), []))));
+  ConditionsAcces(Array.from(new Set(matching.conditions_acces?.reduce(appendConditionsAcces(source), []))));

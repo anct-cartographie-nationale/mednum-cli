@@ -1,11 +1,11 @@
-/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
 import { processServices } from './services.field';
 import { ModaliteAccompagnement, Service } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { DataSource, LieuxMediationNumeriqueMatching } from '../../input';
 
 const MATCHING: LieuxMediationNumeriqueMatching = {
-  modaliteAccompagnement: [
+  modalites_accompagnement: [
     {
       colonnes: ["Types d'accompagnement proposés"],
       termes: ['accompagnement en groupe'],

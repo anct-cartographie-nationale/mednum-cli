@@ -39,9 +39,10 @@ export type Choice<T> = {
 export type LieuxMediationNumeriqueMatching = {
   id?: Colonne;
   nom: Colonne;
+  pivot?: Colonne;
   code_postal: Colonne;
   commune: Colonne;
-  voie: Jonction & Partial<Colonne>;
+  adresse: Jonction & Partial<Colonne>;
   complement_adresse?: Colonne;
   code_insee?: Colonne;
   latitude: Dissociation & Partial<Colonne>;
@@ -49,14 +50,15 @@ export type LieuxMediationNumeriqueMatching = {
   telephone?: Colonne;
   site_web?: Colonne;
   courriel?: Colonne;
-  conditionAcces?: Choice<ConditionAcces>[];
-  modaliteAccompagnement?: Choice<ModaliteAccompagnement>[];
+  conditions_acces?: Choice<ConditionAcces>[];
+  modalites_accompagnement?: Choice<ModaliteAccompagnement>[];
   date_maj: Colonne;
   labels_nationaux?: Choice<LabelNational>[];
   publics_accueillis: Choice<PublicAccueilli>[];
   services: (Choice<Service> & { modalitesAccompagnement?: ModaliteAccompagnement })[];
+  prise_rdv?: Colonne;
   horaires?: {
-    jours: [
+    jours?: [
       {
         colonne: string;
         osm: 'Mo';
@@ -87,5 +89,6 @@ export type LieuxMediationNumeriqueMatching = {
       }
     ];
     semaine?: string;
+    osm?: string;
   };
 };

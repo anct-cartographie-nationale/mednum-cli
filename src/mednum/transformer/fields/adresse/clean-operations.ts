@@ -24,7 +24,7 @@ const FIX_WRONG_ACCENT_CHARS_IN_COMMUNE = (matching: LieuxMediationNumeriqueMatc
 const FIX_MULTILINES_IN_VOIE = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
   name: 'replace \\n with space',
   selector: /\n/u,
-  field: matching.voie.colonne ?? '',
+  field: matching.adresse.colonne ?? '',
   fix: (toFix: string): string => toFix.replace('\n', ' ')
 });
 

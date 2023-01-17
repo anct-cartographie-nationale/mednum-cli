@@ -6,7 +6,7 @@ import { LieuxMediationNumeriqueMatching } from '../../input';
 
 describe('labels nationaux field', (): void => {
   it('should get labels nationaux for empty value', (): void => {
-    const labelsNationaux: LabelsNationaux = processLabelsNationaux({} as LieuxMediationNumeriqueMatching);
+    const labelsNationaux: LabelsNationaux = processLabelsNationaux({}, {} as LieuxMediationNumeriqueMatching);
 
     expect(labelsNationaux).toStrictEqual([]);
   });
@@ -20,8 +20,60 @@ describe('labels nationaux field', (): void => {
       ]
     } as LieuxMediationNumeriqueMatching;
 
-    const labelsNationaux: LabelsNationaux = processLabelsNationaux(matching);
+    const labelsNationaux: LabelsNationaux = processLabelsNationaux({}, matching);
 
     expect(labelsNationaux).toStrictEqual([LabelNational.FranceServices]);
+  });
+
+  it('should get matching CNFS and France Services labels nationaux', (): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      labels_nationaux: [
+        {
+          colonnes: ['label'],
+          termes: ['FS'],
+          cible: 'France Services'
+        },
+        {
+          colonnes: ['label'],
+          termes: ['Conseiller Numérique'],
+          cible: 'CNFS'
+        }
+      ]
+    } as LieuxMediationNumeriqueMatching;
+
+    const labelsNationaux: LabelsNationaux = processLabelsNationaux(
+      {
+        label: 'FS et Conseiller Numérique'
+      },
+      matching
+    );
+
+    expect(labelsNationaux).toStrictEqual([LabelNational.FranceServices, LabelNational.CNFS]);
+  });
+
+  it('should not get any matching label national', (): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      labels_nationaux: [
+        {
+          colonnes: ['label'],
+          termes: ['FS'],
+          cible: 'France Services'
+        },
+        {
+          colonnes: ['label'],
+          termes: ['Conseiller Numérique'],
+          cible: 'CNFS'
+        }
+      ]
+    } as LieuxMediationNumeriqueMatching;
+
+    const labelsNationaux: LabelsNationaux = processLabelsNationaux(
+      {
+        label: 'pas de labels'
+      },
+      matching
+    );
+
+    expect(labelsNationaux).toStrictEqual([]);
   });
 });

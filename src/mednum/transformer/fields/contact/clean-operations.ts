@@ -16,6 +16,12 @@ const removeHttpOnlyWebsites = (field: string): CleanOperation => ({
   field
 });
 
+const removeWebsitesWithAccentedCharacters = (field: string): CleanOperation => ({
+  name: 'websites with accented characters',
+  selector: /é/gu,
+  field
+});
+
 const removeMissingExtensionWebsites = (field: string): CleanOperation => ({
   name: 'missing extension websites',
   selector: /^.*(?<!\.\w+\/?)$/u,
@@ -197,6 +203,7 @@ const cleanOperationIfAny = (cleanOperator: (colonne: string) => CleanOperation,
 export const cleanOperations = (matching: LieuxMediationNumeriqueMatching): CleanOperation[] => [
   ...cleanOperationIfAny(removeDashEmail, matching.courriel?.colonne),
   ...cleanOperationIfAny(removeHttpOnlyWebsites, matching.site_web?.colonne),
+  ...cleanOperationIfAny(removeWebsitesWithAccentedCharacters, matching.site_web?.colonne),
   ...cleanOperationIfAny(removeMissingExtensionWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixMissingHttpWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixDuplicateHttpWebsites, matching.site_web?.colonne),
