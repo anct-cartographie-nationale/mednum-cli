@@ -46,6 +46,78 @@ describe('contact field', (): void => {
     );
   });
 
+  it('should extract contact without téléphone in matching', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        [EMAIL_FIELD]: 'test@mairie.fr',
+        'Site Web': 'https://mairie.fr'
+      } as DataSource,
+      {
+        courriel: {
+          colonne: EMAIL_FIELD
+        },
+        site_web: {
+          colonne: 'Site Web'
+        }
+      } as LieuxMediationNumeriqueMatching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        courriel: 'test@mairie.fr',
+        site_web: [Url('https://mairie.fr')]
+      })
+    );
+  });
+
+  it('should extract contact without courriel in matching', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        Téléphone: '+33124963587',
+        'Site Web': 'https://mairie.fr'
+      } as DataSource,
+      {
+        telephone: {
+          colonne: 'Téléphone'
+        },
+        site_web: {
+          colonne: 'Site Web'
+        }
+      } as LieuxMediationNumeriqueMatching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        telephone: '+33124963587',
+        site_web: [Url('https://mairie.fr')]
+      })
+    );
+  });
+
+  it('should extract contact without site web in matching', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        Téléphone: '+33124963587',
+        [EMAIL_FIELD]: 'test@mairie.fr'
+      } as DataSource,
+      {
+        telephone: {
+          colonne: 'Téléphone'
+        },
+        courriel: {
+          colonne: EMAIL_FIELD
+        }
+      } as LieuxMediationNumeriqueMatching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        telephone: '+33124963587',
+        courriel: 'test@mairie.fr'
+      })
+    );
+  });
+
   it('should excludes site webs with only http:// as value', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {

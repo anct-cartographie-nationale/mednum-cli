@@ -2,9 +2,9 @@
 
 import { processServices } from './services.field';
 import { ModaliteAccompagnement, Service } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { LieuxMediationNumeriqueMatching } from '../../input';
+import { DataSource, LieuxMediationNumeriqueMatching } from '../../input';
 
-const matching: LieuxMediationNumeriqueMatching = {
+const MATCHING: LieuxMediationNumeriqueMatching = {
   modaliteAccompagnement: [
     {
       colonnes: ["Types d'accompagnement proposés"],
@@ -141,14 +141,14 @@ describe('services field', (): void => {
         {
           [MODALITES_ACCOMPAGNEMENT_FIELD]: ''
         },
-        matching
+        MATCHING
       );
     }).toThrow(new Error("Le service 'service indéfini' n'est pas une valeur admise"));
   });
 
   it('should not find any service matching a_disposition key', (): void => {
     expect((): void => {
-      processServices({ 'À disposition': '', [MODALITES_ACCOMPAGNEMENT_FIELD]: '' }, matching);
+      processServices({ 'À disposition': '', [MODALITES_ACCOMPAGNEMENT_FIELD]: '' }, MATCHING);
     }).toThrow(new Error("Le service 'service indéfini' n'est pas une valeur admise"));
   });
 
@@ -159,7 +159,7 @@ describe('services field', (): void => {
           'Formations compétences de base proposées': '',
           [MODALITES_ACCOMPAGNEMENT_FIELD]: ''
         },
-        matching
+        MATCHING
       );
     }).toThrow(new Error("Le service 'service indéfini' n'est pas une valeur admise"));
   });
@@ -171,7 +171,7 @@ describe('services field', (): void => {
           'Comprendre et Utiliser les sites d’accès aux droits proposées': '',
           [MODALITES_ACCOMPAGNEMENT_FIELD]: ''
         },
-        matching
+        MATCHING
       );
     }).toThrow(new Error("Le service 'service indéfini' n'est pas une valeur admise"));
   });
@@ -183,7 +183,7 @@ describe('services field', (): void => {
           'Sensibilisations culture numérique': '',
           [MODALITES_ACCOMPAGNEMENT_FIELD]: ''
         },
-        matching
+        MATCHING
       );
     }).toThrow(new Error("Le service 'service indéfini' n'est pas une valeur admise"));
   });
@@ -194,7 +194,7 @@ describe('services field', (): void => {
         'À disposition': 'réseau wifi',
         [MODALITES_ACCOMPAGNEMENT_FIELD]: ''
       },
-      matching
+      MATCHING
     );
 
     expect(services).toStrictEqual([Service.AccederAUneConnexionInternet]);
@@ -206,7 +206,7 @@ describe('services field', (): void => {
         'À disposition': 'accès libre à du matériel informatique',
         [MODALITES_ACCOMPAGNEMENT_FIELD]: ''
       },
-      matching
+      MATCHING
     );
 
     expect(services).toStrictEqual([Service.AccederADuMateriel]);
@@ -218,7 +218,7 @@ describe('services field', (): void => {
         'À disposition': "découvrir l'ordinateur",
         [MODALITES_ACCOMPAGNEMENT_FIELD]: ''
       },
-      matching
+      MATCHING
     );
 
     expect(services).toStrictEqual([
@@ -234,7 +234,7 @@ describe('services field', (): void => {
         'À disposition': 'tablette',
         [MODALITES_ACCOMPAGNEMENT_FIELD]: ''
       },
-      matching
+      MATCHING
     );
 
     expect(services).toStrictEqual([Service.PrendreEnMainUnSmartphoneOuUneTablette]);
@@ -246,7 +246,7 @@ describe('services field', (): void => {
         'À disposition': 'smartphone',
         [MODALITES_ACCOMPAGNEMENT_FIELD]: ''
       },
-      matching
+      MATCHING
     );
 
     expect(services).toStrictEqual([Service.PrendreEnMainUnSmartphoneOuUneTablette]);
@@ -259,7 +259,7 @@ describe('services field', (): void => {
           'À disposition': 'services de la caf',
           [MODALITES_ACCOMPAGNEMENT_FIELD]: ''
         },
-        matching
+        MATCHING
       );
     }).toThrow(new Error("Le service 'service indéfini' n'est pas une valeur admise"));
   });
@@ -270,7 +270,7 @@ describe('services field', (): void => {
         'À disposition': 'services de la caf',
         [MODALITES_ACCOMPAGNEMENT_FIELD]: ['accès libre avec un accompagnement', 'accompagnement individuel'].join(',')
       },
-      matching
+      MATCHING
     );
 
     expect(services).toStrictEqual([
@@ -285,7 +285,7 @@ describe('services field', (): void => {
         'À disposition': 'services de la caf',
         [MODALITES_ACCOMPAGNEMENT_FIELD]: 'accès libre avec un accompagnement'
       },
-      matching
+      MATCHING
     );
 
     expect(services).toStrictEqual([Service.DevenirAutonomeDansLesDemarchesAdministratives]);
@@ -297,7 +297,7 @@ describe('services field', (): void => {
         'À disposition': 'services de la caf',
         [MODALITES_ACCOMPAGNEMENT_FIELD]: 'accompagnement individuel'
       },
-      matching
+      MATCHING
     );
 
     expect(services).toStrictEqual([Service.RealiserDesDemarchesAdministratives]);
@@ -309,7 +309,7 @@ describe('services field', (): void => {
         'À disposition': 'CPAM',
         [MODALITES_ACCOMPAGNEMENT_FIELD]: ''
       },
-      matching
+      MATCHING
     );
 
     expect(services).toStrictEqual([Service.AccompagnerLesDemarchesDeSante]);
@@ -321,7 +321,7 @@ describe('services field', (): void => {
         'À disposition': 'ameli.fr',
         [MODALITES_ACCOMPAGNEMENT_FIELD]: ''
       },
-      matching
+      MATCHING
     );
 
     expect(services).toStrictEqual([Service.AccompagnerLesDemarchesDeSante]);
@@ -333,7 +333,7 @@ describe('services field', (): void => {
         'À disposition': 'cultures numériques',
         [MODALITES_ACCOMPAGNEMENT_FIELD]: ''
       },
-      matching
+      MATCHING
     );
 
     expect(services).toStrictEqual([
@@ -350,7 +350,7 @@ describe('services field', (): void => {
           "réseau wifi, accès libre à du matériel informatique, découvrir l'ordinateur, utiliser une tablette, démarches CPAM, cultures numériques, pôle emploi",
         [MODALITES_ACCOMPAGNEMENT_FIELD]: 'accès libre avec un accompagnement'
       },
-      matching
+      MATCHING
     );
 
     expect(services).toStrictEqual([
@@ -373,7 +373,7 @@ describe('services field', (): void => {
           "réseau wifi, accès libre à du matériel informatique, découvrir l'ordinateur, utiliser une tablette, démarches CPAM, cultures numériques, pôle emploi",
         [MODALITES_ACCOMPAGNEMENT_FIELD]: 'accompagnement individuel'
       },
-      matching
+      MATCHING
     );
 
     expect(services).toStrictEqual([
@@ -396,7 +396,7 @@ describe('services field', (): void => {
           "réseau wifi, accès libre à du matériel informatique, découvrir l'ordinateur, utiliser une tablette, démarches CPAM, cultures numériques, pôle emploi",
         [MODALITES_ACCOMPAGNEMENT_FIELD]: ['accès libre avec un accompagnement', 'accompagnement individuel'].join(',')
       },
-      matching
+      MATCHING
     );
 
     expect(services).toStrictEqual([
@@ -420,9 +420,23 @@ describe('services field', (): void => {
         'Sensibilisations culture numérique': 'utiliser une tablette',
         [MODALITES_ACCOMPAGNEMENT_FIELD]: ''
       },
-      matching
+      MATCHING
     );
 
     expect(services).toStrictEqual([Service.PrendreEnMainUnSmartphoneOuUneTablette]);
+  });
+
+  it('should get gratuit default services', (): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      services: [
+        {
+          cible: Service.UtiliserLeNumerique
+        }
+      ]
+    } as LieuxMediationNumeriqueMatching;
+
+    const services: Service[] = processServices({} as DataSource, matching);
+
+    expect(services).toStrictEqual([Service.UtiliserLeNumerique]);
   });
 });

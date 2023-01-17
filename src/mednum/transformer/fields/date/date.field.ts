@@ -7,6 +7,12 @@ type RegexResult = {
   time: string;
 };
 
+export class DateCannotBeEmptyError extends Error {
+  constructor() {
+    super('Date cannot be empty');
+  }
+}
+
 const STANDARD_DATE_REG_EXP: RegExp = /^(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})$/u;
 
 const FRENCH_DATE_REG_EXP: RegExp = /^(?<day>\d{2})\/(?<month>\d{1,2})\/(?<year>\d{4})$/u;
@@ -27,10 +33,19 @@ const dateRegexpResultFrom = (dateRegexp: RegExp, sourceDate: string): Partial<R
   ...dateRegexp.exec(sourceDate)?.groups
 });
 
+const throwDateCannotBeEmptyError = (): Date => {
+  throw new DateCannotBeEmptyError();
+};
+
+const formatDate = (dateRegexp: RegExp, sourceDate: string, date: Date): Date =>
+  dateRegexp.test(sourceDate) ? toDate(dateRegexpResultFrom(dateRegexp, sourceDate)) : date;
+
 const dateFromRegExp =
-  (sourceDate: string = '') =>
+  (sourceDate: string) =>
   (date: Date, dateRegexp: RegExp): Date =>
-    dateRegexp.test(sourceDate) ? toDate(dateRegexpResultFrom(dateRegexp, sourceDate)) : date;
+    sourceDate === '' ? throwDateCannotBeEmptyError() : formatDate(dateRegexp, sourceDate, date);
+
+const removeInvalidChars = (sourceDate: string = ''): string => sourceDate.replace(/[A-Za-zÀ-ÖØ-öø-ÿœ]/gu, '').trim();
 
 export const processDate = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Date =>
-  DATE_REGEXP.reduce(dateFromRegExp(source[matching.date_maj.colonne]), new Date(NaN));
+  DATE_REGEXP.reduce(dateFromRegExp(removeInvalidChars(source[matching.date_maj.colonne])), new Date(NaN));

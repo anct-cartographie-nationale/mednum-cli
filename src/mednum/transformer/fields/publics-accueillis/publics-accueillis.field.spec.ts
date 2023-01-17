@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
 import { PublicAccueilli } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { LieuxMediationNumeriqueMatching } from '../../input';
-import { processPublicAccueilli } from './publics-accueillis.field';
+import { DataSource, LieuxMediationNumeriqueMatching } from '../../input';
+import { processPublicsAccueillis } from './publics-accueillis.field';
 
-const matching: LieuxMediationNumeriqueMatching = {
+const MATCHING: LieuxMediationNumeriqueMatching = {
   publics_accueillis: [
     {
       colonnes: [
@@ -110,105 +110,105 @@ const matching: LieuxMediationNumeriqueMatching = {
 
 describe('publics accueillis field', (): void => {
   it('should handle empty value', (): void => {
-    const publicsAccueillis: PublicAccueilli[] = processPublicAccueilli({}, matching);
+    const publicsAccueillis: PublicAccueilli[] = processPublicsAccueillis({}, MATCHING);
 
     expect(publicsAccueillis).toStrictEqual([]);
   });
 
   it('should not find any publics accueillis matching Publics accueillis key', (): void => {
-    const publicsAccueillis: PublicAccueilli[] = processPublicAccueilli(
+    const publicsAccueillis: PublicAccueilli[] = processPublicsAccueillis(
       {
         'Publics accueillis': ''
       },
-      matching
+      MATCHING
     );
 
     expect(publicsAccueillis).toStrictEqual([]);
   });
 
   it('should not find any publics accueillis matching Accueil pour les personnes en situation de handicap key', (): void => {
-    const publicsAccueillis: PublicAccueilli[] = processPublicAccueilli(
+    const publicsAccueillis: PublicAccueilli[] = processPublicsAccueillis(
       {
         'Accueil pour les personnes en situation de handicap': ''
       },
-      matching
+      MATCHING
     );
 
     expect(publicsAccueillis).toStrictEqual([]);
   });
 
   it('should not find any publics accueillis matching Accompagnement de publics spécifiques key', (): void => {
-    const publicsAccueillis: PublicAccueilli[] = processPublicAccueilli(
+    const publicsAccueillis: PublicAccueilli[] = processPublicsAccueillis(
       {
         'Accompagnement de publics spécifiques': ''
       },
-      matching
+      MATCHING
     );
 
     expect(publicsAccueillis).toStrictEqual([]);
   });
 
   it('should find "Adultes" publics accueillis', (): void => {
-    const publicsAccueillis: PublicAccueilli[] = processPublicAccueilli(
+    const publicsAccueillis: PublicAccueilli[] = processPublicsAccueillis(
       {
         'Publics accueillis': 'adultes'
       },
-      matching
+      MATCHING
     );
 
     expect(publicsAccueillis).toStrictEqual([PublicAccueilli.Adultes]);
   });
 
   it('should find "Adultes,Familles/enfants" publics accueillis', (): void => {
-    const publicsAccueillis: PublicAccueilli[] = processPublicAccueilli(
+    const publicsAccueillis: PublicAccueilli[] = processPublicsAccueillis(
       {
         'Publics accueillis': 'adultes, parentalité'
       },
-      matching
+      MATCHING
     );
 
     expect(publicsAccueillis).toStrictEqual([PublicAccueilli.Adultes, PublicAccueilli.FamillesEnfants]);
   });
 
   it('should find "Familles/enfants" publics accueillis', (): void => {
-    const publicsAccueillis: PublicAccueilli[] = processPublicAccueilli(
+    const publicsAccueillis: PublicAccueilli[] = processPublicsAccueillis(
       {
         'Publics accueillis': 'parentalité'
       },
-      matching
+      MATCHING
     );
 
     expect(publicsAccueillis).toStrictEqual([PublicAccueilli.FamillesEnfants]);
   });
 
   it('should find "Seniors (+ 65 ans)" publics accueillis - senior with é', (): void => {
-    const publicsAccueillis: PublicAccueilli[] = processPublicAccueilli(
+    const publicsAccueillis: PublicAccueilli[] = processPublicsAccueillis(
       {
         'Publics accueillis': 'séniors'
       },
-      matching
+      MATCHING
     );
 
     expect(publicsAccueillis).toStrictEqual([PublicAccueilli.Seniors]);
   });
 
   it('should find "Seniors (+ 65 ans)" publics accueillis - senior without é', (): void => {
-    const publicsAccueillis: PublicAccueilli[] = processPublicAccueilli(
+    const publicsAccueillis: PublicAccueilli[] = processPublicsAccueillis(
       {
         'Publics accueillis': 'seniors'
       },
-      matching
+      MATCHING
     );
 
     expect(publicsAccueillis).toStrictEqual([PublicAccueilli.Seniors]);
   });
 
   it('should find all publics accueillis', (): void => {
-    const publicsAccueillis: PublicAccueilli[] = processPublicAccueilli(
+    const publicsAccueillis: PublicAccueilli[] = processPublicsAccueillis(
       {
         'Publics accueillis': 'tout public'
       },
-      matching
+      MATCHING
     );
 
     expect(publicsAccueillis).toStrictEqual([
@@ -227,13 +227,27 @@ describe('publics accueillis field', (): void => {
   });
 
   it('should find "Déficience visuelle" publics accueillis', (): void => {
-    const publicsAccueillis: PublicAccueilli[] = processPublicAccueilli(
+    const publicsAccueillis: PublicAccueilli[] = processPublicsAccueillis(
       {
         'Accueil pour les personnes en situation de handicap': 'cécité'
       },
-      matching
+      MATCHING
     );
 
     expect(publicsAccueillis).toStrictEqual([PublicAccueilli.DeficienceVisuelle]);
+  });
+
+  it('should get gratuit default publics accueillis', (): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      publics_accueillis: [
+        {
+          cible: PublicAccueilli.Adultes
+        }
+      ]
+    } as LieuxMediationNumeriqueMatching;
+
+    const publicsAccueillis: PublicAccueilli[] = processPublicsAccueillis({} as DataSource, matching);
+
+    expect(publicsAccueillis).toStrictEqual([PublicAccueilli.Adultes]);
   });
 });

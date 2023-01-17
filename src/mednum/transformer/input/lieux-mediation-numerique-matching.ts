@@ -1,15 +1,17 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import { ConditionAcces, ModaliteAccompagnement, PublicAccueilli, Service } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import {
+  ConditionAcces,
+  LabelNational,
+  ModaliteAccompagnement,
+  PublicAccueilli,
+  Service
+} from '@gouvfr-anct/lieux-de-mediation-numerique';
 
 export type DataSource = Record<string, string>;
 
 export type Colonne = {
   colonne: string;
-};
-
-export type Colonnes = {
-  colonnes: string[];
 };
 
 export type Jonction = {
@@ -27,7 +29,8 @@ export type Dissociation = {
   };
 };
 
-export type Choice<T> = Partial<Colonnes> & {
+export type Choice<T> = {
+  colonnes?: string[];
   termes?: string[];
   sauf?: string[];
   cible: T;
@@ -39,14 +42,17 @@ export type LieuxMediationNumeriqueMatching = {
   code_postal: Colonne;
   commune: Colonne;
   voie: Jonction & Partial<Colonne>;
+  complement_adresse?: Colonne;
+  code_insee?: Colonne;
   latitude: Dissociation & Partial<Colonne>;
   longitude: Dissociation & Partial<Colonne>;
-  telephone: Colonne;
-  site_web: Colonne;
-  courriel: Colonne;
-  conditionAcces: Choice<ConditionAcces>[];
+  telephone?: Colonne;
+  site_web?: Colonne;
+  courriel?: Colonne;
+  conditionAcces?: Choice<ConditionAcces>[];
   modaliteAccompagnement?: Choice<ModaliteAccompagnement>[];
   date_maj: Colonne;
+  labels_nationaux?: Choice<LabelNational>[];
   publics_accueillis: Choice<PublicAccueilli>[];
   services: (Choice<Service> & { modalitesAccompagnement?: ModaliteAccompagnement })[];
   horaires?: {

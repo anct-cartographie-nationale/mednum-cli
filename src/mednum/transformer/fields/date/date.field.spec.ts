@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
-import { processDate } from './date.field';
+import { DateCannotBeEmptyError, processDate } from './date.field';
 import { LieuxMediationNumeriqueMatching } from '../../input';
 
 const matching: LieuxMediationNumeriqueMatching = {
@@ -52,5 +52,27 @@ describe('date field', (): void => {
     );
 
     expect(date).toEqual(new Date('2021-06-10T00:00:00.000Z'));
+  });
+
+  it('should process date field with value Espace labellisé 01/12/2022', (): void => {
+    const date: Date = processDate(
+      {
+        datetime_latest: 'Espace labellisé 01/12/2022'
+      },
+      matching
+    );
+
+    expect(date).toEqual(new Date('2022-12-01T00:00:00.000Z'));
+  });
+
+  it('should not process empty date', (): void => {
+    expect((): void => {
+      processDate(
+        {
+          datetime_latest: ' '
+        },
+        matching
+      );
+    }).toThrow(new DateCannotBeEmptyError());
   });
 });

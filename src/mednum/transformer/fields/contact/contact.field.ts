@@ -28,9 +28,9 @@ const courrielField = (courriel?: string): Pick<Contact, 'courriel'> => (courrie
 
 const toLieuxMediationNumeriqueContact = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Contact =>
   Contact({
-    ...telephoneField(source[matching.telephone.colonne]),
-    ...siteWebField(source[matching.site_web.colonne]),
-    ...courrielField(source[matching.courriel.colonne])
+    ...(matching.telephone?.colonne == null ? {} : telephoneField(source[matching.telephone.colonne])),
+    ...(matching.site_web?.colonne == null ? {} : siteWebField(source[matching.site_web.colonne])),
+    ...(matching.courriel?.colonne == null ? {} : courrielField(source[matching.courriel.colonne]))
   });
 
 const testCleanSelector = (cleanOperation: CleanOperation, property?: string): boolean =>

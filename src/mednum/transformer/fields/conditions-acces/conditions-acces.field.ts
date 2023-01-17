@@ -17,15 +17,24 @@ const appendConditionAcces = (conditionsAcces: ConditionAcces[], conditionAcces?
   ...(conditionAcces == null ? [] : [conditionAcces])
 ];
 
-const conditionsAccesForTerms =
+const isDefault = (choice: Choice<ConditionAcces>): boolean => choice.colonnes == null;
+
+const findAndAppendConditionsAcces =
   (choice: Choice<ConditionAcces>, source: DataSource) =>
   (conditionsAcces: ConditionAcces[], colonne: string): ConditionAcces[] =>
     containsOneOfTheTerms(choice, source[colonne]) ? appendConditionAcces(conditionsAcces, choice.cible) : conditionsAcces;
 
+const conditionsAccesForTerms =
+  (choice: Choice<ConditionAcces>, source: DataSource) =>
+  (conditionsAcces: ConditionAcces[], colonne: string): ConditionAcces[] =>
+    isDefault(choice)
+      ? appendConditionAcces(conditionsAcces, choice.cible)
+      : findAndAppendConditionsAcces(choice, source)(conditionsAcces, colonne);
+
 const appendConditionsAcces =
   (source: DataSource) =>
   (conditionsAcces: ConditionAcces[], choice: Choice<ConditionAcces>): ConditionAcces[] =>
-    [...conditionsAcces, ...(choice.colonnes ?? []).reduce(conditionsAccesForTerms(choice, source), [])];
+    [...conditionsAcces, ...(choice.colonnes ?? [choice.cible]).reduce(conditionsAccesForTerms(choice, source), [])];
 
 export const processConditionsAcces = (source: DataSource, matching: LieuxMediationNumeriqueMatching): ConditionsAcces =>
-  ConditionsAcces(Array.from(new Set(matching.conditionAcces.reduce(appendConditionsAcces(source), []))));
+  ConditionsAcces(Array.from(new Set(matching.conditionAcces?.reduce(appendConditionsAcces(source), []))));
