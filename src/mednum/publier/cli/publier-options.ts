@@ -1,7 +1,7 @@
 import { Command } from 'commander';
 import { Question } from 'inquirer';
 import { apiKeyOption, apiUrlOption, idTypeOption, idValueOption, metadataFileOption, zoneOption } from './options';
-import { apiKeyQuestion, idTypeQuestion, metadataFileQuestion, valueQuestion, zoneQuestion } from './questions';
+import { apiKeyQuestion, idTypeQuestion, metadataFileQuestion, idValueQuestion, zoneQuestion } from './questions';
 
 export type PublierOptions = {
   dataGouvApiKey: string;
@@ -13,18 +13,18 @@ export type PublierOptions = {
 };
 
 export const PUBLIER_OPTIONS: ((program: Command) => Command)[] = [
-  zoneOption,
-  metadataFileOption,
-  idValueOption,
-  idTypeOption,
+  apiUrlOption,
   apiKeyOption,
-  apiUrlOption
+  idTypeOption,
+  idValueOption,
+  metadataFileOption,
+  zoneOption
 ];
 
 export const publierOptionsQuestions = (publierOptions: PublierOptions): Question[] => [
   apiKeyQuestion(publierOptions),
   idTypeQuestion(publierOptions),
-  valueQuestion(publierOptions),
+  idValueQuestion(publierOptions),
   metadataFileQuestion(publierOptions),
   zoneQuestion(publierOptions)
 ];
