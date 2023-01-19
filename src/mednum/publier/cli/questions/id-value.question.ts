@@ -8,7 +8,7 @@ enum DataGouvIdValueValidationMessages {
 const validateDataGouvIdValue = (input?: string): DataGouvIdValueValidationMessages | true =>
   input == null || input.trim() === '' ? DataGouvIdValueValidationMessages.REQUIRED : true;
 
-export const valueQuestion = (publierOptions: Partial<PublierOptions>): InputQuestion & { name: keyof PublierOptions } => ({
+export const idValueQuestion = (publierOptions: Partial<PublierOptions>): InputQuestion & { name: keyof PublierOptions } => ({
   message: (answers: Record<string, string>): string =>
     `Valeur de l'${answers['dataGouvIdType'] ?? 'id'} auquel rattacher la ressource sur Data.gouv`,
   name: 'dataGouvIdValue',

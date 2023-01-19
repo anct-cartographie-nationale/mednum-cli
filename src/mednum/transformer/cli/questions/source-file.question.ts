@@ -11,7 +11,7 @@ const validateSourceFile = (input?: string): SourceFileValidationMessages | true
 export const sourceFileQuestion = (
   mednumImportProperties: TransformerOptions
 ): InputQuestion & { name: keyof TransformerOptions } => ({
-  message: 'Chemin du fichier source qui contient les données originales à transformer',
+  message: 'Source qui contient les données originales à transformer',
   name: 'sourceFile',
   validate: validateSourceFile,
   when: (): boolean => validateSourceFile(mednumImportProperties.sourceFile) !== true,
