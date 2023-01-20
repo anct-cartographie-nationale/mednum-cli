@@ -13,16 +13,24 @@ Les sources de données prises en comptes pour le moment sont celles collectées
 - Le dispositif [France Services](https://agence-cohesion-territoires.gouv.fr/france-services-36)
 - Le Hub [Les Assembleurs](https://assembleurs.co/)
 - Le Hub [Hinaura](https://www.hinaura.fr/)
-- Le [département du Maine-et-Loire](https://www.maine-et-loire.fr/aides-et-services/insertion-et-emploi/numerique/carte-mediation)
+- Le département du [Maine-et-Loire](https://www.maine-et-loire.fr/aides-et-services/insertion-et-emploi/numerique/carte-mediation)
 
 Les données sont republiées quotidiennement sur [data.gouv dans l'organisation de la Cartographie Nationale des lieux de médiation numérique](https://www.data.gouv.fr/fr/organizations/cartographie-nationale-des-lieux-de-mediation-numerique/)
 
 ## Table des matières
 
 - 🪧 [À propos](#à-propos)
+- 📦 [Prérequis](#prérequis)
 - 🛠️ [Utilisation](#utilisation)
 - 🤝 [Contribution](#contribution)
+- 🏷️ [Gestion des versions](#gestion-des-versions)
 - 📝 [Licence](#licence)
+
+## Prérequis
+
+L'interface en ligne de commande `mednum` a besoin de l'installation d'un environnement [Node](https://nodejs.org/) pour permettre son exécution.
+
+> Node peut être installés via [nvm](https://github.com/nvm-sh/nvm) qui permet d'obtenir et d'utiliser rapidement différentes versions de Node via la ligne de commande.
 
 ## Utilisation
 
@@ -31,7 +39,7 @@ Les données sont republiées quotidiennement sur [data.gouv dans l'organisation
 La commande `mednum transformer` permet de générer un ensemble de fichiers standardisés à partir d'une source et d'un fichier de configuration qui fourni des instructions à propos des opérations à effectuer.
 
 ```bash
-yarn mednum transformer
+npx @gouvfr-anct/mednum transformer
 ```
 
 #### Exemple d'utilisation pour la commande transformer
@@ -74,11 +82,11 @@ Plutôt que de laisser le programme poser des questions, il est possible d'utili
 La source originale qui contient les données à transformer selon le schéma des lieux de médiation numérique. La source peut être un fichier ou une URL, les données doivent être au format CSV ou JSON.
 
 ```bash
-yarn mednum transformer --source https://api.conseiller-numerique.gouv.fr/permanences
+npx @gouvfr-anct/mednum transformer --source https://api.conseiller-numerique.gouv.fr/permanences
 ```
 ou
 ```bash
-yarn mednum transformer -s https://api.conseiller-numerique.gouv.fr/permanences
+npx @gouvfr-anct/mednum transformer -s https://api.conseiller-numerique.gouv.fr/permanences
 ```
 
 ##### Fichier de configuration `-c, --config-file <config-file>`
@@ -86,11 +94,11 @@ yarn mednum transformer -s https://api.conseiller-numerique.gouv.fr/permanences
 Le chemin vers le fichier de configuration contenant les instructions de transformation.
 
 ```bash
-yarn mednum transformer --config-file ./assets/input/conseiller-numerique/conseiller-numerique.config.json
+npx @gouvfr-anct/mednum transformer --config-file ./assets/input/conseiller-numerique/conseiller-numerique.config.json
 ```
 ou
 ```bash
-yarn mednum transformer -c ./assets/input/conseiller-numerique/conseiller-numerique.config.json
+npx @gouvfr-anct/mednum transformer -c ./assets/input/conseiller-numerique/conseiller-numerique.config.json
 ```
 
 ##### Dossier de sortie `-o, --output-directory <output-directory>`
@@ -98,11 +106,11 @@ yarn mednum transformer -c ./assets/input/conseiller-numerique/conseiller-numeri
 Le dossier dans lequel écrire les fichiers transformés.
 
 ```bash
-yarn mednum transformer --output-directory ./assets/output/conseiller-numerique
+npx @gouvfr-anct/mednum transformer --output-directory ./assets/output/conseiller-numerique
 ```
 ou
 ```bash
-yarn mednum transformer -o ./assets/output/conseiller-numerique
+npx @gouvfr-anct/mednum transformer -o ./assets/output/conseiller-numerique
 ```
 
 ##### Le nom de la source `-n, --source-name <source-name>`
@@ -110,11 +118,11 @@ yarn mednum transformer -o ./assets/output/conseiller-numerique
 Le nom de l'entité source à l'origine de la collecte des données.
 
 ```bash
-yarn mednum transformer --source-name conseiller-numerique
+npx @gouvfr-anct/mednum transformer --source-name conseiller-numerique
 ```
 ou
 ```bash
-yarn mednum transformer -n conseiller-numerique
+npx @gouvfr-anct/mednum transformer -n conseiller-numerique
 ```
 
 ##### Le nom du territoire `t, --territory <territory>`
@@ -122,11 +130,11 @@ yarn mednum transformer -n conseiller-numerique
 Le nom du territoire couvert par les données.
 
 ```bash
-yarn mednum transformer -t National 
+npx @gouvfr-anct/mednum transformer -t National 
 ```
 ou
 ```bash
-yarn mednum transformer --territory National 
+npx @gouvfr-anct/mednum transformer --territory National 
 ```
 
 ##### Utilisation partielle des options
@@ -136,11 +144,11 @@ Si certaines options ne sont pas définies, les questions qui correspondent aux 
 ##### Exemple complet
 
 ```bash
-yarn mednum transformer -s https://api.conseiller-numerique.gouv.fr/permanences -c ./assets/input/conseiller-numerique/conseiller-numerique.config.json -o ./assets/output/conseiller-numerique -n conseiller-numerique -t National 
+npx @gouvfr-anct/mednum transformer -s https://api.conseiller-numerique.gouv.fr/permanences -c ./assets/input/conseiller-numerique/conseiller-numerique.config.json -o ./assets/output/conseiller-numerique -n conseiller-numerique -t National 
 ```
 ou
 ```bash
-yarn mednum transformer --source https://api.conseiller-numerique.gouv.fr/permanences --config-file ./assets/input/conseiller-numerique/conseiller-numerique.config.json --output-directory ./assets/output/conseiller-numerique --source-name conseiller-numerique --territory National 
+npx @gouvfr-anct/mednum transformer --source https://api.conseiller-numerique.gouv.fr/permanences --config-file ./assets/input/conseiller-numerique/conseiller-numerique.config.json --output-directory ./assets/output/conseiller-numerique --source-name conseiller-numerique --territory National 
 ```
 
 #### Fichier de configuration
@@ -253,12 +261,12 @@ Il est possible de rechercher dans plusieurs colonnes :
 ...
 "publics_accueillis": [
   {
-    "colonnes": ["Détail publics", 'Accueil'],
+    "colonnes": ["Détail publics", "Accueil"],
     "termes": ["adultes"],
     "cible": "Adultes"
   },
   {
-    "colonnes": ["Détail publics", 'Accueil'],
+    "colonnes": ["Détail publics", "Accueil"],
     "termes": ["parentalité"],
     "cible": "Familles/enfants"
   },
@@ -275,7 +283,7 @@ Il est possible de rechercher plusieurs termes :
     "cible": "Adultes"
   },
   {
-    "colonnes": ["Détail publics", 'Accueil'],
+    "colonnes": ["Détail publics", "Accueil"],
     "termes": ["parentalité", "enfants"],
     "cible": "Familles/enfants"
   },
@@ -287,16 +295,82 @@ Il est possible de combiner plusieurs colonnes et plusieurs termes :
 ...
 "publics_accueillis": [
   {
-  "colonnes": ["Détail publics", 'Accueil'],
+  "colonnes": ["Détail publics", "Accueil"],
     "termes": ["adultes", "plus de 18 ans"],
     "cible": "Adultes"
   },
   {
-    "colonnes": ["Détail publics", 'Accueil'],
+    "colonnes": ["Détail publics", "Accueil"],
     "termes": ["parentalité", "enfants"],
     "cible": "Familles/enfants"
   },
 ]
+...
+```
+
+##### Correspondance des horaires
+
+Le champ `horaires` doit contenir les [horaires d'ouvertures au format OSM](https://wiki.openstreetmap.org/wiki/Key:opening_hours/specification) 
+
+Si dans la source originale les horaires sont définis pour chaque jour, il est possible d'indiquer à quel jour de la semaine correspond chacune des colonnes au format OSM : `Mo` pour lundi, `Tu` pour mardi, `We` pour mercredi, `Th` pour jeudi, `Fr` pour vendredi, `Sa` pour samedi et `Su` pour dimanche.
+```json
+...
+"horaires": {
+  "jours": [
+    {
+      "colonne": "horaires lundi",
+      "osm": "Mo"
+    },
+    {
+      "colonne": "horaires mardi",
+      "osm": "Tu"
+    },
+    {
+      "colonne": "horaires mercredi",
+      "osm": "We"
+    },
+    {
+      "colonne": "horaires jeudi",
+      "osm": "Th"
+    },
+    {
+      "colonne": "horaires vendredi",
+      "osm": "Fr"
+    },
+    {
+      "colonne": "horaires samedi",
+      "osm": "Sa"
+    },
+    {
+      "colonne": "horaires dimanche",
+      "osm": "Su"
+    }
+  ]
+}
+...
+```
+Par exemple ici pour les colonnes `horaires lundi` et `horaires mardi`, avec la valeur `de 9h00 à 12h00, puis de 14h00 à 17h00` on obtient l'équivalent au format OSM dans la colonne `horaires` : `Mo-Tu 09:00-12:00,14:00-17:00`.
+
+Si les horaires sont saisis pour toute la semaine dans une même colonne, il est également possible de faire la correspondance en utilisant le champ `semaine` :
+
+```json
+...
+"horaires": {
+  "semaine": "Horaires ouverture"
+}
+...
+```
+Par exemple ici pour la colonne `Horaires ouverture`, avec la valeur `lundi et mardi : de 9h00 à 12h00, puis de 14h00 à 17h00` on obtient l'équivalent au format OSM dans la colonne `horaires` : `Mo-Tu 09:00-12:00,14:00-17:00`.
+
+Il est possible d'utiliser les champs `jours` et `semaine` en même temps si des colonnes avec des horaires pour chaque jour et pour toute la semaine coexistent dans la source originale.
+
+Enfin, si les horaires de la source originale sont déjà dans le format OSM, il n'y a pas besoin de les transformer, il suffit de l'indiquer avec le champ `osm` :
+
+```json
+...
+"horaires": {
+  "osm": "Horaires OSM"
+}
 ...
 ```
 
@@ -305,7 +379,7 @@ Il est possible de combiner plusieurs colonnes et plusieurs termes :
 La commande `mednum publier` permet de publier un jeu de données sur data.gouv.fr et d'y associer des ressources. Un fichier de métadonnées permet de définir les valeurs attendues par data.gouv dans les différentes étapes du processus de publication.
 
 ```bash
-yarn mednum publier
+npx @gouvfr-anct/mednum publier
 ```
 
 #### Exemple d'utilisation pour la commande publier
@@ -348,11 +422,11 @@ Plutôt que de laisser le programme poser des questions, il est possible d'utili
 L'URL de l'API data.gouv utilisé pour la publication. La valeur par défaut est l'URL de production : `https://www.data.gouv.fr/api/1`.
 
 ```bash
-yarn mednum publier -u https://demo.data.gouv.fr/api/1
+npx @gouvfr-anct/mednum publier -u https://demo.data.gouv.fr/api/1
 ```
 ou
 ```bash
-yarn mednum publier --data-gouv-api-url https://demo.data.gouv.fr/api/1
+npx @gouvfr-anct/mednum publier --data-gouv-api-url https://demo.data.gouv.fr/api/1
 ```
 
 ##### La clé d'API `-k, --data-gouv-api-key <api-key>`
@@ -360,11 +434,11 @@ yarn mednum publier --data-gouv-api-url https://demo.data.gouv.fr/api/1
 Une clé d'API data.gouv est nécessaire pour que l'outil ait les droits nécessaires à la publication des données en votre nom en utilisant l'API (https://doc.data.gouv.fr/api/intro/#autorisations).  
 
 ```bash
-yarn mednum publier -k eyJhbGciOiJIUzUxMiJ9.eyJ1...A0fQ.-mCovxzx9-MjO-T_ynjky-Frl03fjjAL_AQlzQOPWpg8w_wvbzpz5KciStA
+npx @gouvfr-anct/mednum publier -k eyJhbGciOiJIUzUxMiJ9.eyJ1...A0fQ.-mCovxzx9-MjO-T_ynjky-Frl03fjjAL_AQlzQOPWpg8w_wvbzpz5KciStA
 ```
 ou
 ```bash
-yarn mednum publier --data-gouv-api-key eyJhbGciOiJIUzUxMiJ9.eyJ1...A0fQ.-mCovxzx9-MjO-T_ynjky-Frl03fjjAL_AQlzQOPWpg8w_wvbzpz5KciStA
+npx @gouvfr-anct/mednum publier --data-gouv-api-key eyJhbGciOiJIUzUxMiJ9.eyJ1...A0fQ.-mCovxzx9-MjO-T_ynjky-Frl03fjjAL_AQlzQOPWpg8w_wvbzpz5KciStA
 ```
 
 ##### Le type d'id `-t, --data-gouv-id-type <id-type>`
@@ -374,11 +448,11 @@ Le type de l'id est nécessaire savoir s'il faut rattacher les données à publi
 Il n'existe que deux valeurs possibles : `owner` et `organization`
 
 ```bash
-yarn mednum publier -t organization
+npx @gouvfr-anct/mednum publier -t organization
 ```
 ou
 ```bash
-yarn mednum publier --data-gouv-id-type organization
+npx @gouvfr-anct/mednum publier --data-gouv-id-type organization
 ```
 
 ##### La valeur de l'id `-v, --data-gouv-id-value <id-value>`
@@ -386,11 +460,11 @@ yarn mednum publier --data-gouv-id-type organization
 La valeur de l'id est nécessaire pour rattacher les données à publier à un utilisateur ou à une organisation existant sur data.gouv.
 
 ```bash
-yarn mednum publier -v 6396e6363a1ab130371ff777
+npx @gouvfr-anct/mednum publier -v 6396e6363a1ab130371ff777
 ```
 ou
 ```bash
-yarn mednum publier --data-gouv-id-value 6396e6363a1ab130371ff777
+npx @gouvfr-anct/mednum publier --data-gouv-id-value 6396e6363a1ab130371ff777
 ```
 
 ##### La zone de couverture `-z, --data-gouv-zone <zone>`
@@ -398,11 +472,11 @@ yarn mednum publier --data-gouv-id-value 6396e6363a1ab130371ff777
 La zone est nécessaire pour indiquer quel est le territoire couvert par le jeu de données.
 
 ```bash
-yarn mednum publier -z country:fr
+npx @gouvfr-anct/mednum publier -z country:fr
 ```
 ou
 ```bash
-yarn mednum publier --data-gouv-zone country:fr
+npx @gouvfr-anct/mednum publier --data-gouv-zone country:fr
 ```
 
 ##### Le chemin vers le fichier de métadonnées `-m, --data-gouv-metadata-file <metadata-file>`
@@ -410,11 +484,11 @@ yarn mednum publier --data-gouv-zone country:fr
 Le chemin vers le fichier de métadonnées permet de savoir quel est le jeu de données à publier ainsi que les ressources qui le composent.
 
 ```bash
-yarn mednum publier -m ./assets/output/conseiller-numerique/publier.json
+npx @gouvfr-anct/mednum publier -m ./assets/output/conseiller-numerique/publier.json
 ```
 ou
 ```bash
-yarn mednum publier --data-gouv-metadata-file ./assets/output/conseiller-numerique/publier.json
+npx @gouvfr-anct/mednum publier --data-gouv-metadata-file ./assets/output/conseiller-numerique/publier.json
 ```
 
 ##### Utilisation partielle des options
@@ -424,11 +498,11 @@ Si certaines options ne sont pas définies, les questions qui correspondent aux 
 ##### Exemple complet
 
 ```bash
-yarn mednum publie -u https://demo.data.gouv.fr/api/1 -k eyJhbGciOiJIUzUxMiJ9.eyJ1...A0fQ.-mCovxzx9-MjO-T_ynjky-Frl03fjjAL_AQlzQOPWpg8w_wvbzpz5KciStA -t organization -v 6396e6363a1ab130371ff777 -z country:fr -m ./assets/output/conseiller-numerique/publier.json
+npx @gouvfr-anct/mednum publier -u https://demo.data.gouv.fr/api/1 -k eyJhbGciOiJIUzUxMiJ9.eyJ1...A0fQ.-mCovxzx9-MjO-T_ynjky-Frl03fjjAL_AQlzQOPWpg8w_wvbzpz5KciStA -t organization -v 6396e6363a1ab130371ff777 -z country:fr -m ./assets/output/conseiller-numerique/publier.json
 ```
 ou
 ```bash
-yarn mednum publier --data-gouv-api-url https://demo.data.gouv.fr/api/1 --data-gouv-api-key eyJhbGciOiJIUzUxMiJ9.eyJ1...A0fQ.-mCovxzx9-MjO-T_ynjky-Frl03fjjAL_AQlzQOPWpg8w_wvbzpz5KciStA --data-gouv-id-type organization --data-gouv-id-type organization --data-gouv-zone country:fr --data-gouv-metadata-file ./assets/output/conseiller-numerique/publier.json
+npx @gouvfr-anct/mednum publier --data-gouv-api-url https://demo.data.gouv.fr/api/1 --data-gouv-api-key eyJhbGciOiJIUzUxMiJ9.eyJ1...A0fQ.-mCovxzx9-MjO-T_ynjky-Frl03fjjAL_AQlzQOPWpg8w_wvbzpz5KciStA --data-gouv-id-type organization --data-gouv-id-type organization --data-gouv-zone country:fr --data-gouv-metadata-file ./assets/output/conseiller-numerique/publier.json
 ```
 
 #### Variables d'environnements pour la commande publier
@@ -440,6 +514,13 @@ Voir [le fichier CONTRIBUTING.md](CONTRIBUTING.md#configurer-lenvironnement) pou
 ## Contribution
 
 Voir le [guide de contribution](./CONTRIBUTING.md) du dépôt.
+
+## Gestion des versions
+
+Afin de maintenir un cycle de publication clair et de favoriser la rétrocompatibilité, la dénomination des versions suit la spécification décrite par la [Gestion sémantique de version](https://semver.org/lang/fr/)
+
+Les versions disponibles ainsi que les journaux décrivant les changements apportés sont disponibles depuis [la page des Releases](https://github.com/anct-cartographie-nationale/mednum-cli/releases).
+
 
 ## Licence
 
