@@ -200,8 +200,24 @@ La branche `main`, ainsi que l'ensemble des branches de travail avec un préfixe
 
 - [Github Actions](https://docs.github.com/en/actions) est l'outil d'intégration et de déploiement continu intégré à GitHub
   - L'historique des déploiements est disponible [sous l'onglet Actions](https://github.com/anct-cartographie-nationale/mednum-cli/actions/)
+- Secrets du dépôt :
+  - `NODE_AUTH_TOKEN` : Clé d'accès NPM pour publier sur l'organisation [@gouvfr-anct](https://www.npmjs.com/org/gouvfr-anct)
+- Secrets de l'environnement `demo` :
+  - [DATA_GOUV_API_URL](#DATAGOUVAPIURL)
+  - [DATA_GOUV_API_KEY](#DATAGOUVAPIKEY)
+  - [DATA_GOUV_REFERENCE_ID](#DATAGOUVREFERENCEID)
+  - [DATA_GOUV_REFERENCE_TYPE](#DATAGOUVREFERENCETYPE)
+- Secrets de l'environnement `production` :
+  - [DATA_GOUV_API_URL](#DATAGOUVAPIURL)
+  - [DATA_GOUV_API_KEY](#DATAGOUVAPIKEY)
+  - [DATA_GOUV_REFERENCE_ID](#DATAGOUVREFERENCEID)
+  - [DATA_GOUV_REFERENCE_TYPE](#DATAGOUVREFERENCETYPE)
 
-[//]: # (Todo: add repository variables and environements)
+#### Publication sur le registre npm
+
+À chaque fusion sur la branche `main`, l'outil est publié sur [npm](https://www.npmjs.com/)
+- Organisation: [@gouvfr-anct](https://www.npmjs.com/org/gouvfr-anct)
+- Package: [@gouvfr-anct/mednum](https://www.npmjs.com/package/@gouvfr-anct/mednum)
 
 ##### Transformations et publication automatique
 

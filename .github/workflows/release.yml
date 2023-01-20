@@ -12,6 +12,7 @@ concurrency:
 
 jobs:
   publish-to-data-gouv:
+    name: Publish to data.gouv
     strategy:
       matrix:
         source: [hinaura, maine-et-loire, les-assembleurs, france-services, conseiller-numerique]

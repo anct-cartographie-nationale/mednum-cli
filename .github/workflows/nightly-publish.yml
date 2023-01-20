@@ -1,5 +1,5 @@
 ---
-name: Transform and publish
+name: Nightly publish
 
 on:
   schedule:
