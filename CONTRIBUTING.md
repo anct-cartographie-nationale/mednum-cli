@@ -203,15 +203,15 @@ La branche `main`, ainsi que l'ensemble des branches de travail avec un préfixe
 - Secrets du dépôt :
   - `NODE_AUTH_TOKEN` : Clé d'accès NPM pour publier sur l'organisation [@gouvfr-anct](https://www.npmjs.com/org/gouvfr-anct)
 - Secrets de l'environnement `demo` :
-  - [DATA_GOUV_API_URL](#DATAGOUVAPIURL)
-  - [DATA_GOUV_API_KEY](#DATAGOUVAPIKEY)
-  - [DATA_GOUV_REFERENCE_ID](#DATAGOUVREFERENCEID)
-  - [DATA_GOUV_REFERENCE_TYPE](#DATAGOUVREFERENCETYPE)
+  - [DATA_GOUV_API_URL](#DATA_GOUV_API_URL)
+  - [DATA_GOUV_API_KEY](#DATA_GOUV_API_KEY)
+  - [DATA_GOUV_REFERENCE_ID](#DATA_GOUV_REFERENCE_ID)
+  - [DATA_GOUV_REFERENCE_TYPE](#DATA_GOUV_REFERENCE_TYPE)
 - Secrets de l'environnement `production` :
-  - [DATA_GOUV_API_URL](#DATAGOUVAPIURL)
-  - [DATA_GOUV_API_KEY](#DATAGOUVAPIKEY)
-  - [DATA_GOUV_REFERENCE_ID](#DATAGOUVREFERENCEID)
-  - [DATA_GOUV_REFERENCE_TYPE](#DATAGOUVREFERENCETYPE)
+  - [DATA_GOUV_API_URL](#DATA_GOUV_API_URL)
+  - [DATA_GOUV_API_KEY](#DATA_GOUV_API_KEY)
+  - [DATA_GOUV_REFERENCE_ID](#DATA_GOUV_REFERENCE_ID)
+  - [DATA_GOUV_REFERENCE_TYPE](#DATA_GOUV_REFERENCE_TYPE)
 
 #### Publication sur le registre npm
 

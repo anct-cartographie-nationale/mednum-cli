@@ -626,7 +626,7 @@ describe('contact field', (): void => {
     expect(contact).toStrictEqual<Contact>(Contact({}));
   });
 
-  it('should fix manual @ character escape', (): void => {
+  it('should fix obfuscated @ in email', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         [EMAIL_FIELD]: 'accuei[a]cap-berriat.com'
@@ -639,6 +639,17 @@ describe('contact field', (): void => {
         courriel: 'accuei@cap-berriat.com'
       })
     );
+  });
+
+  it('should remove missing @ in email', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        [EMAIL_FIELD]: 'mediathequechevilly.cyber-base.org'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(Contact({}));
   });
 
   it('should remove label in courriel', (): void => {
@@ -737,7 +748,7 @@ describe('contact field', (): void => {
             fixes: [
               {
                 before: 'dupond[a]conseiller-numerique.fr',
-                apply: 'missing @ in email',
+                apply: 'obfuscated @ in email',
                 after: 'dupond@conseiller-numerique.fr'
               }
             ]

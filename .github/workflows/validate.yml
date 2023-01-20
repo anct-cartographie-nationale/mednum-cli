@@ -52,7 +52,7 @@ jobs:
   publish-to-data-gouv:
     strategy:
       matrix:
-        source: [hinaura, maine-et-loire, les-assembleurs, france-services, conseiller-numerique]
+        source: [hinaura, maine-et-loire, les-assembleurs, france-services, conseiller-numerique, francil-in]
     runs-on: ubuntu-latest
     environment: demo
 

@@ -177,11 +177,17 @@ const fixUnexpectedEmailList = (field: string): CleanOperation => ({
   fix: (toFix: string): string => toFix.split(/\s?(?:et|ou|;|\s|\/)\s?/u)[0] ?? ''
 });
 
-const fixMissingAtInEmail = (field: string): CleanOperation => ({
-  name: 'missing @ in email',
+const fixObfuscatedAtInEmail = (field: string): CleanOperation => ({
+  name: 'obfuscated @ in email',
   selector: /\[a\]/gu,
   field,
   fix: (toFix: string): string => toFix.replace('[a]', '@')
+});
+
+const removeMissingAtInEmail = (field: string): CleanOperation => ({
+  name: 'missing @ in email',
+  selector: /^[^@]+$/gu,
+  field
 });
 
 const fixMissingEmailExtension = (field: string): CleanOperation => ({
@@ -227,6 +233,7 @@ export const cleanOperations = (matching: LieuxMediationNumeriqueMatching): Clea
   ...cleanOperationIfAny(fixEmailStartingWithMailTo, matching.courriel?.colonne),
   ...cleanOperationIfAny(fixUnexpectedEmailLabel, matching.courriel?.colonne),
   ...cleanOperationIfAny(fixUnexpectedEmailList, matching.courriel?.colonne),
-  ...cleanOperationIfAny(fixMissingAtInEmail, matching.courriel?.colonne),
-  ...cleanOperationIfAny(fixMissingEmailExtension, matching.courriel?.colonne)
+  ...cleanOperationIfAny(fixObfuscatedAtInEmail, matching.courriel?.colonne),
+  ...cleanOperationIfAny(fixMissingEmailExtension, matching.courriel?.colonne),
+  ...cleanOperationIfAny(removeMissingAtInEmail, matching.courriel?.colonne)
 ];

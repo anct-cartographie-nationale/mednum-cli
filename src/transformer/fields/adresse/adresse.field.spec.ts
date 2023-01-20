@@ -105,7 +105,7 @@ describe('adresse field', (): void => {
 
   it('should fix value with code postal in adresse postale field instead of Code postal field', (): void => {
     const source: DataSource = {
-      'Adresse postale *': '5, rue Malakoff,\n38000 Grenoble \n\n-\n\n29, bis rue Colonel Bougault, 38100 Grenoble',
+      'Adresse postale *': '5, rue Malakoff,\n38000 Grenoble \n\n-\n\\n29, bis rue Colonel Bougault, 38100 Grenoble',
       'Code postal': '',
       'Ville *': 'grenoble'
     };
