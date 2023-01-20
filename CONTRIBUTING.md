@@ -201,10 +201,14 @@ La branche `main`, ainsi que l'ensemble des branches de travail avec un préfixe
 - [Github Actions](https://docs.github.com/en/actions) est l'outil d'intégration et de déploiement continu intégré à GitHub
   - L'historique des déploiements est disponible [sous l'onglet Actions](https://github.com/anct-cartographie-nationale/mednum-cli/actions/)
 
+[//]: # (Todo: add repository variables and environements)
+
 ##### Transformations et publication automatique
 
 Les workflows GitHub [validate.yml](.github%2Fworkflows%2Fvalidate.yml) et [transform-and-publish.yml](.github%2Fworkflows%2Ftransform-and-publish.yml) se chargent de transformer et de publier automatiquement les données :
 - `validate.yml` est lancé à chaque push sur une branche en cours de développement. Les données sont publiées dans un [environnement de démo de data.gouv](https://demo.data.gouv.fr/fr/organizations/cartographie-nationale-des-lieux-de-mediation-numerique/).  
-  Pour qu'une nouvelle source de données soit prise en compte, il faut bien penser à l'ajouter dans le job `transform-and-publish` : une `strategy` de type `matrix` définie chaque `source` à transformer et publier.
-- `transform-and-publish.yml` est lancé à chaque fusion sur `main` et tous les jours à 04:15 AM. Les données sont publiées dans [l'organisation Cartographie Nationale des lieux de médiation numérique sur data.gouv](https://data.gouv.fr/fr/organizations/cartographie-nationale-des-lieux-de-mediation-numerique/).  
-  De même, pour qu'une nouvelle source de données soit prise en compte, il faut bien penser à l'ajouter dans le job `transform-and-publish` : une `strategy` de type `matrix` définie chaque `source` à transformer et publier.
+  Pour qu'une nouvelle source de données soit prise en compte, il faut bien penser à l'ajouter dans le job `publish-to-data-gouv` : une `strategy` de type `matrix` définie chaque `source` à transformer et publier.
+- `release.yml` est lancé à chaque fusion sur `main`. Les données sont publiées dans [l'organisation Cartographie Nationale des lieux de médiation numérique sur data.gouv](https://data.gouv.fr/fr/organizations/cartographie-nationale-des-lieux-de-mediation-numerique/).  
+  Pour qu'une nouvelle source de données soit prise en compte, il faut bien penser à l'ajouter dans le job `publish-to-data-gouv` : une `strategy` de type `matrix` définie chaque `source` à transformer et publier.
+- `daily` est lancé tous les jours à 04:15 AM. Les données sont publiées dans [l'organisation Cartographie Nationale des lieux de médiation numérique sur data.gouv](https://data.gouv.fr/fr/organizations/cartographie-nationale-des-lieux-de-mediation-numerique/).  
+  Pour qu'une nouvelle source de données soit prise en compte, il faut bien penser à l'ajouter dans le job `publish-to-data-gouv` : une `strategy` de type `matrix` définie chaque `source` à transformer et publier.
