@@ -25,13 +25,13 @@
 Cloner le dépôt en local
 
 ```bash
-git clone git@github.com:anct-cartographie-nationale/import.git
+git clone git@github.com:anct-cartographie-nationale/mednum-cli.git
 ```
 
 Aller dans le dossier du projet pour installer les dépendances
 
 ```bash
-cd import
+cd mednum-cli
 yarn
 ```
 
@@ -199,7 +199,7 @@ La branche `main`, ainsi que l'ensemble des branches de travail avec un préfixe
 #### CI/CD
 
 - [Github Actions](https://docs.github.com/en/actions) est l'outil d'intégration et de déploiement continu intégré à GitHub
-  - L'historique des déploiements est disponible [sous l'onglet Actions](https://github.com/anct-cartographie-nationale/import/actions/)
+  - L'historique des déploiements est disponible [sous l'onglet Actions](https://github.com/anct-cartographie-nationale/mednum-cli/actions/)
 
 ##### Transformations et publication automatique
 

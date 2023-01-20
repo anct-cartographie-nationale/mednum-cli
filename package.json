@@ -13,7 +13,7 @@
   "homepage": "https://npmjs.com/package/@gouvfr-anct/mednum",
   "repository": {
     "type": "git",
-    "url": "https://github.com/anct-cartographie-nationale/import.git"
+    "url": "https://github.com/anct-cartographie-nationale/mednum-cli.git"
   },
   "contributors": [
     {
