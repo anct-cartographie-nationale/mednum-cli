@@ -1,6 +1,5 @@
 {
-  "name": "import",
-  "version": "0.0.0",
+  "name": "@gouvfr-anct/mednum",
   "description": "✨ Permet de transformer une source de données vers le schéma des lieux de mediation numerique",
   "keywords": [
     "data",
@@ -11,6 +10,7 @@
     "anct",
     "médiation numérique"
   ],
+  "homepage": "https://npmjs.com/package/@gouvfr-anct/mednum",
   "repository": {
     "type": "git",
     "url": "https://github.com/anct-cartographie-nationale/import.git"
@@ -32,7 +32,10 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
-  "main": "src/index.ts",
+  "main": "dist/index.js",
+  "bin": {
+    "mednum": "./bin/mednum"
+  },
   "scripts": {
     "lint.all": "eslint --config=./.tooling/.eslint/.eslintrc.cjs ./src/",
     "lint.commit": "npx commitlint --from origin/main --config ./.tooling/.commitlint/commitlint.config.cjs",
@@ -40,19 +43,19 @@
     "prettier": "prettier --config=./.tooling/.prettier/.prettierrc.cjs --write ./src/",
     "prettier.check": "prettier --config=./.tooling/.prettier/.prettierrc.cjs --check ./src/",
     "test": "jest --config=./.tooling/.jest/jest.config.ts",
-    "build": "tsc --project .tsconfig/tsconfig.json",
+    "build": "tsc --project .tsconfig/tsconfig.json && cp -r ./src/data ./dist/",
     "start.data-inclusion": "ts-node src/data-inclusion/main.ts",
-    "mednum": "ts-node src/mednum/mednum-cli.ts",
-    "transformer.conseiller-numerique": "ts-node src/mednum/mednum-cli.ts transformer -n \"conseiller-numerique\" -t \"National\" -s \"https://api.conseiller-numerique.gouv.fr/permanences\" -c \"./assets/input/conseiller-numerique/conseiller-numerique.config.json\" -o \"./assets/output/conseiller-numerique\"",
-    "transformer.france-services": "ts-node src/mednum/mednum-cli.ts transformer -n \"le label France Services\" -t \"National\" -s \"https://www.data.gouv.fr/fr/datasets/r/afc3f97f-0ef5-429b-bf16-7b7876d27cd4\" -c \"./assets/input/france-services/france-services.config.json\" -o \"./assets/output/france-services\"",
-    "transformer.hinaura": "ts-node src/mednum/mednum-cli.ts transformer -n \"le hub Hinaura\" -t \"Auvergne-Rhône-Alpes\" -s \"./assets/input/hinaura/hinaura.json\" -c \"./assets/input/hinaura/hinaura.config.json\" -o \"./assets/output/hinaura\"",
-    "transformer.maine-et-loire": "ts-node src/mednum/mednum-cli.ts transformer -n \"le département du Maine-et-Loire\" -t \"Maine-et-Loire\" -s \"./assets/input/maine-et-loire/maine-et-loire.json\" -c \"./assets/input/maine-et-loire/maine-et-loire.config.json\" -o \"./assets/output/maine-et-loire\"",
-    "transformer.les-assembleurs": "ts-node src/mednum/mednum-cli.ts transformer -n \"le hub les Assembleurs\" -t \"Hauts-de-France\" -s \"./assets/input/les-assembleurs/les-assembleurs.json\" -c \"./assets/input/les-assembleurs/les-assembleurs.config.json\" -o \"./assets/output/les-assembleurs\"",
-    "publier.conseiller-numerique": "ts-node src/mednum/mednum-cli.ts publier -z \"country:fr\" -m \"./assets/output/conseiller-numerique/publier.json\"",
-    "publier.france-services": "ts-node src/mednum/mednum-cli.ts publier -z \"country:fr\" -m \"./assets/output/france-services/publier.json\"",
-    "publier.hinaura": "ts-node src/mednum/mednum-cli.ts publier -z \"fr:region:84\" -m \"./assets/output/hinaura/publier.json\"",
-    "publier.maine-et-loire": "ts-node src/mednum/mednum-cli.ts publier -z \"fr:departement:49\" -m \"./assets/output/maine-et-loire/publier.json\"",
-    "publier.les-assembleurs": "ts-node src/mednum/mednum-cli.ts publier -z \"fr:region:32\" -m \"./assets/output/les-assembleurs/publier.json\""
+    "mednum": "ts-node src/index.ts",
+    "transformer.conseiller-numerique": "ts-node src/index.ts transformer -n \"conseiller-numerique\" -t \"National\" -s \"https://api.conseiller-numerique.gouv.fr/permanences\" -c \"./assets/input/conseiller-numerique/conseiller-numerique.config.json\" -o \"./assets/output/conseiller-numerique\"",
+    "transformer.france-services": "ts-node src/index.ts transformer -n \"le label France Services\" -t \"National\" -s \"https://www.data.gouv.fr/fr/datasets/r/afc3f97f-0ef5-429b-bf16-7b7876d27cd4\" -c \"./assets/input/france-services/france-services.config.json\" -o \"./assets/output/france-services\"",
+    "transformer.hinaura": "ts-node src/index.ts transformer -n \"le hub Hinaura\" -t \"Auvergne-Rhône-Alpes\" -s \"./assets/input/hinaura/hinaura.json\" -c \"./assets/input/hinaura/hinaura.config.json\" -o \"./assets/output/hinaura\"",
+    "transformer.maine-et-loire": "ts-node src/index.ts transformer -n \"le département du Maine-et-Loire\" -t \"Maine-et-Loire\" -s \"./assets/input/maine-et-loire/maine-et-loire.json\" -c \"./assets/input/maine-et-loire/maine-et-loire.config.json\" -o \"./assets/output/maine-et-loire\"",
+    "transformer.les-assembleurs": "ts-node src/index.ts transformer -n \"le hub les Assembleurs\" -t \"Hauts-de-France\" -s \"./assets/input/les-assembleurs/les-assembleurs.json\" -c \"./assets/input/les-assembleurs/les-assembleurs.config.json\" -o \"./assets/output/les-assembleurs\"",
+    "publier.conseiller-numerique": "ts-node src/index.ts publier -z \"country:fr\" -m \"./assets/output/conseiller-numerique/publier.json\"",
+    "publier.france-services": "ts-node src/index.ts publier -z \"country:fr\" -m \"./assets/output/france-services/publier.json\"",
+    "publier.hinaura": "ts-node src/index.ts publier -z \"fr:region:84\" -m \"./assets/output/hinaura/publier.json\"",
+    "publier.maine-et-loire": "ts-node src/index.ts publier -z \"fr:departement:49\" -m \"./assets/output/maine-et-loire/publier.json\"",
+    "publier.les-assembleurs": "ts-node src/index.ts publier -z \"fr:region:32\" -m \"./assets/output/les-assembleurs/publier.json\""
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
@@ -71,8 +74,7 @@
     "prettier": "^2.7.1",
     "standard-version": "^9.5.0",
     "ts-jest": "^29.0.3",
-    "ts-node": "^10.9.1",
-    "typescript": "^4.8.4"
+    "ts-node": "^10.9.1"
   },
   "dependencies": {
     "@gouvfr-anct/lieux-de-mediation-numerique": "^1.12.3",
@@ -80,6 +82,7 @@
     "axios": "^1.2.2",
     "csvtojson": "^2.0.10",
     "dotenv": "^16.0.3",
-    "inquirer": "^8.0.0"
+    "inquirer": "^8.0.0",
+    "typescript": "^4.8.4"
   }
 }

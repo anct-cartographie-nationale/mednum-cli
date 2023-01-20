@@ -15,7 +15,7 @@ import {
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { DataInclusionMerged, mergeServicesInStructure } from './merge-services-in-structure';
 import { processVoie } from './fields';
-import { writeOutputFiles } from '../mednum/transformer/output';
+import { writeOutputFiles } from '../transformer/output';
 
 const SOURCE_PATH: string = './assets/input/';
 const DATA_INCLUSION_STRUCTURES_FILE: string = 'data-inclusion-structures.json';
