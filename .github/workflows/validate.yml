@@ -52,7 +52,7 @@ jobs:
   publish-to-data-gouv:
     strategy:
       matrix:
-        source: [hinaura, maine-et-loire, les-assembleurs, france-services, conseiller-numerique, francil-in]
+        source: [hinaura, maine-et-loire, les-assembleurs, france-services, conseiller-numerique, francil-in, angers]
     runs-on: ubuntu-latest
     environment: demo
 
@@ -72,8 +72,7 @@ jobs:
         run: yarn
 
       - name: Transform
-        run:
-          yarn transformer.${{ matrix.source }}
+        run: yarn transformer.${{ matrix.source }}
 
       - name: 'Create env file'
         run: |
@@ -84,5 +83,4 @@ jobs:
           echo DATA_GOUV_REFERENCE_TYPE="${{ secrets.DATA_GOUV_REFERENCE_TYPE }}" >> .env
 
       - name: Publish
-        run:
-          yarn publier.${{ matrix.source }}
+        run: yarn publier.${{ matrix.source }}
