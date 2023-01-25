@@ -37,4 +37,4 @@ const appendPublicsAccueilli =
     [...publicsAccueilli, ...(choice.colonnes ?? [choice.cible]).reduce(publicsAccueilliForTerms(choice, source), [])];
 
 export const processPublicsAccueillis = (source: DataSource, matching: LieuxMediationNumeriqueMatching): PublicsAccueillis =>
-  PublicsAccueillis(Array.from(new Set(matching.publics_accueillis.reduce(appendPublicsAccueilli(source), []))));
+  PublicsAccueillis(Array.from(new Set(matching.publics_accueillis?.reduce(appendPublicsAccueilli(source), []) ?? [])));

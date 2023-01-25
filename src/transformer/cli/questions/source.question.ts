@@ -1,19 +1,19 @@
 import { InputQuestion } from 'inquirer';
 import { TransformerOptions } from '../transformer-options';
 
-enum SourceFileValidationMessages {
+enum SourceValidationMessages {
   REQUIRED = 'Le fichier source est obligatoire'
 }
 
-const validateSourceFile = (input?: string): SourceFileValidationMessages | true =>
-  input == null || input.trim() === '' ? SourceFileValidationMessages.REQUIRED : true;
+const validateSource = (input?: string): SourceValidationMessages | true =>
+  input == null || input.trim() === '' ? SourceValidationMessages.REQUIRED : true;
 
-export const sourceFileQuestion = (
+export const sourceQuestion = (
   mednumImportProperties: TransformerOptions
 ): InputQuestion & { name: keyof TransformerOptions } => ({
   message: 'Source qui contient les données originales à transformer',
-  name: 'sourceFile',
-  validate: validateSourceFile,
-  when: (): boolean => validateSourceFile(mednumImportProperties.sourceFile) !== true,
+  name: 'source',
+  validate: validateSource,
+  when: (): boolean => validateSource(mednumImportProperties.source) !== true,
   filter: (answer: string): string => answer.trim()
 });

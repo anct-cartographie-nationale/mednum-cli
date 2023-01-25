@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase, max-lines-per-function */
 
 import {
+  CodePostalError,
   CommuneError,
+  ConditionsAcces,
+  LabelsNationaux,
   LieuMediationNumerique,
   ModalitesAccompagnement,
   PublicsAccueillis,
@@ -18,6 +21,7 @@ import {
   processDate,
   processHoraires,
   processId,
+  processLabelsAutres,
   processLabelsNationaux,
   processLocalisation,
   processModalitesAccompagnement,
@@ -33,8 +37,17 @@ const horairesIfAny = (horaires?: string): { horaires?: string } => (horaires ==
 
 const priseRdvIfAny = (priseRdv?: Url): { prise_rdv?: Url } => (priseRdv == null ? {} : { prise_rdv: priseRdv });
 
+const labelsAutresIfAny = (labelsAutres: string[]): { labels_autres?: string[] } =>
+  labelsAutres.length === 0 ? {} : { labels_autres: labelsAutres };
+
+const labelsNationauxIfAny = (labelsNationaux: LabelsNationaux): { labels_nationaux?: LabelsNationaux } =>
+  labelsNationaux.length === 0 ? {} : { labels_nationaux: labelsNationaux };
+
 const publicsAccueillisIfAny = (publicsAccueillis: PublicsAccueillis): { publics_accueillis?: PublicsAccueillis } =>
   publicsAccueillis.length === 0 ? {} : { publics_accueillis: publicsAccueillis };
+
+const conditionsAccesIfAny = (conditionsAcces: ConditionsAcces): { conditions_acces?: ConditionsAcces } =>
+  conditionsAcces.length === 0 ? {} : { conditions_acces: conditionsAcces };
 
 const modalitesAccompagnementIfAny = (
   modaliteAccompagnement: ModalitesAccompagnement
@@ -55,10 +68,11 @@ const lieuDeMediationNumerique = (
     adresse: processAdresse(recorder)(dataSource, matching),
     localisation: processLocalisation(dataSource, matching),
     contact: processContact(recorder)(dataSource, matching),
-    conditions_acces: processConditionsAcces(dataSource, matching),
+    ...conditionsAccesIfAny(processConditionsAcces(dataSource, matching)),
     ...modalitesAccompagnementIfAny(processModalitesAccompagnement(dataSource, matching)),
     date_maj: processDate(dataSource, matching),
-    labels_nationaux: processLabelsNationaux(dataSource, matching),
+    ...labelsNationauxIfAny(processLabelsNationaux(dataSource, matching)),
+    ...labelsAutresIfAny(processLabelsAutres(dataSource, matching)),
     ...publicsAccueillisIfAny(processPublicsAccueillis(dataSource, matching)),
     services: processServices(dataSource, matching),
     source: sourceName,
@@ -81,6 +95,7 @@ export const toLieuxMediationNumerique =
       if (error instanceof ServicesError) return undefined;
       if (error instanceof VoieError) return undefined;
       if (error instanceof CommuneError) return undefined;
+      if (error instanceof CodePostalError) return undefined;
       if (error instanceof DateCannotBeEmptyError) return undefined;
       throw error;
     }
