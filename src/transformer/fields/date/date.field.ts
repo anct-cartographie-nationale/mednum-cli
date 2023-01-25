@@ -15,11 +15,18 @@ export class DateCannotBeEmptyError extends Error {
 
 const STANDARD_DATE_REG_EXP: RegExp = /^(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})$/u;
 
+const STANDARD_DATE_TIME_REG_EXP: RegExp = /^(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2}) (?<time>\d{2}:\d{2}:\d{2})$/u;
+
 const FRENCH_DATE_REG_EXP: RegExp = /^(?<day>\d{2})\/(?<month>\d{1,2})\/(?<year>\d{4})$/u;
 
 const FRENCH_DATE_TIME_REG_EXP: RegExp = /^(?<day>\d{2})\/(?<month>\d{2})\/(?<year>\d{4}) (?<time>\d{2}:\d{2}:\d{2})$/u;
 
-const DATE_REGEXP: RegExp[] = [STANDARD_DATE_REG_EXP, FRENCH_DATE_TIME_REG_EXP, FRENCH_DATE_REG_EXP];
+const DATE_REGEXP: RegExp[] = [
+  STANDARD_DATE_REG_EXP,
+  STANDARD_DATE_TIME_REG_EXP,
+  FRENCH_DATE_TIME_REG_EXP,
+  FRENCH_DATE_REG_EXP
+];
 
 const DEFAULT_TIME: { time: '12:00:00' } = { time: '12:00:00' };
 
