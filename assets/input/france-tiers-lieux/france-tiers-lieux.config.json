@@ -1,0 +1,39 @@
+{
+  "id": {
+    "colonne": "_id.$id"
+  },
+  "nom": {
+    "colonne": "name"
+  },
+  "commune": {
+    "colonne": "address.addressLocality"
+  },
+  "code_postal": {
+    "colonne": "address.postalCode"
+  },
+  "adresse": {
+    "colonne": "address.streetAddress"
+  },
+  "latitude": {
+    "colonne": "geo.latitude"
+  },
+  "longitude": {
+    "colonne": "geo.longitude"
+  },
+  "date_maj": {
+    "colonne": "updated"
+  },
+  "presentation_resume": {
+    "colonne": "shortDescription"
+  },
+  "presentation_detail": {
+    "colonne": "description"
+  },
+  "services": [
+    {
+      "colonnes": ["description"],
+      "termes": ["PC en libres accès"],
+      "cible": "Accéder à du matériel"
+    }
+  ]
+}

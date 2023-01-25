@@ -8,6 +8,7 @@
 
 # Generated files
 /assets/output/
+/assets/input/france-tiers-lieux/france-tiers-lieux.json
 
 # Logs
 logs
