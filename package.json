@@ -53,7 +53,7 @@
     "transformer.hinaura": "ts-node src/index.ts transformer -n \"Hinaura\" -t \"Auvergne-Rhône-Alpes\" -s \"./assets/input/hinaura/hinaura.json\" -c \"./assets/input/hinaura/hinaura.config.json\" -o \"./assets/output/hinaura\"",
     "transformer.maine-et-loire": "ts-node src/index.ts transformer -n \"Département du Maine-et-Loire\" -t \"Maine-et-Loire\" -s \"./assets/input/maine-et-loire/maine-et-loire.json\" -c \"./assets/input/maine-et-loire/maine-et-loire.config.json\" -o \"./assets/output/maine-et-loire\"",
     "transformer.les-assembleurs": "ts-node src/index.ts transformer -n \"Les Assembleurs\" -t \"Hauts-de-France\" -s \"./assets/input/les-assembleurs/les-assembleurs.json\" -c \"./assets/input/les-assembleurs/les-assembleurs.config.json\" -o \"./assets/output/les-assembleurs\"",
-    "publier.angers": "ts-node src/index.ts publier -z \"fr:departement:49\" -m \"./assets/output/angers/publier.json\"",
+    "publier.angers": "ts-node src/index.ts publier -z \"fr:commune:49007\" -m \"./assets/output/angers/publier.json\"",
     "publier.conseiller-numerique": "ts-node src/index.ts publier -z \"country:fr\" -m \"./assets/output/conseiller-numerique/publier.json\"",
     "publier.france-services": "ts-node src/index.ts publier -z \"country:fr\" -m \"./assets/output/france-services/publier.json\"",
     "publier.francil-in": "ts-node src/index.ts publier -z \"fr:region:11\" -m \"./assets/output/francil-in/publier.json\"",
