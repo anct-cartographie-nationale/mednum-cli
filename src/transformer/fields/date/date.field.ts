@@ -22,18 +22,15 @@ const FRENCH_DATE_REG_EXP: RegExp = /^(?<day>\d{2})\/(?<month>\d{1,2})\/(?<year>
 
 const FRENCH_DATE_TIME_REG_EXP: RegExp = /^(?<day>\d{2})\/(?<month>\d{2})\/(?<year>\d{4}) (?<time>\d{2}:\d{2}:\d{2})$/u;
 
-<<<<<<< HEAD
+const TIMESTAMP_REG_EXP: RegExp = /^(?<timestamp>\d{10})/u;
+
 const DATE_REGEXP: RegExp[] = [
   STANDARD_DATE_REG_EXP,
   STANDARD_DATE_TIME_REG_EXP,
   FRENCH_DATE_TIME_REG_EXP,
-  FRENCH_DATE_REG_EXP
+  FRENCH_DATE_REG_EXP,
+  TIMESTAMP_REG_EXP
 ];
-=======
-const TIMESTAMP_REG_EXP: RegExp = /^(?<timestamp>\d{10})/u;
-
-const DATE_REGEXP: RegExp[] = [STANDARD_DATE_REG_EXP, FRENCH_DATE_TIME_REG_EXP, FRENCH_DATE_REG_EXP, TIMESTAMP_REG_EXP];
->>>>>>> feat: add france-tiers-lieux data
 
 const DEFAULT_TIME: { time: '12:00:00' } = { time: '12:00:00' };
 
