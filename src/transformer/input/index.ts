@@ -1,2 +1,2 @@
 export * from './lieux-mediation-numerique-matching';
-export * from './transform';
+export * from './to-lieux-mediation-numerique';

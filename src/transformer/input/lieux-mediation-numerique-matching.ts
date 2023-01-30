@@ -50,6 +50,8 @@ export type LieuxMediationNumeriqueMatching = {
   telephone?: Colonne;
   site_web?: Colonne;
   courriel?: Colonne;
+  presentation_resume?: Colonne;
+  presentation_detail?: Colonne;
   conditions_acces?: Choice<ConditionAcces>[];
   modalites_accompagnement?: Choice<ModaliteAccompagnement>[];
   date_maj: Colonne;

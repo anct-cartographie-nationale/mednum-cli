@@ -15,7 +15,17 @@ jobs:
     name: Publish to data.gouv
     strategy:
       matrix:
-        source: [hinaura, maine-et-loire, les-assembleurs, france-services, conseiller-numerique, francil-in, angers]
+        source:
+          [
+            hinaura,
+            maine-et-loire,
+            les-assembleurs,
+            france-services,
+            france-tiers-lieux,
+            conseiller-numerique,
+            francil-in,
+            angers
+          ]
     runs-on: ubuntu-latest
     environment: production
 

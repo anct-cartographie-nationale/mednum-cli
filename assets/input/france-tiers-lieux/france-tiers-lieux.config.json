@@ -1,0 +1,236 @@
+{
+  "id": {
+    "colonne": "_id.$id"
+  },
+  "nom": {
+    "colonne": "name"
+  },
+  "commune": {
+    "colonne": "address.addressLocality"
+  },
+  "code_postal": {
+    "colonne": "address.postalCode"
+  },
+  "adresse": {
+    "colonne": "address.streetAddress"
+  },
+  "latitude": {
+    "colonne": "geo.latitude"
+  },
+  "longitude": {
+    "colonne": "geo.longitude"
+  },
+  "date_maj": {
+    "colonne": "updated"
+  },
+  "presentation_resume": {
+    "colonne": "shortDescription"
+  },
+  "presentation_detail": {
+    "colonne": "description"
+  },
+  "services": [
+    {
+      "colonnes": ["description", "shortDescription", "tags"],
+      "termes": [
+        "PC en libres accès",
+        "disposer d’équipements",
+        "bureaux privatifs",
+        "postes de travail",
+        "Atelier de Fabrication Numérique",
+        "Fablab",
+        "ordinateur",
+        "Espace Public Numérique",
+        "EPN"
+      ],
+      "cible": "Accéder à du matériel"
+    },
+    {
+      "colonnes": ["description", "shortDescription", "tags"],
+      "termes": [
+        "PC en libres accès",
+        "disposer d’équipements",
+        "bureaux privatifs",
+        "postes de travail",
+        "Atelier de Fabrication Numérique",
+        "Fablab",
+        "Coworking",
+        "Espace Public Numérique",
+        "EPN"
+      ],
+      "cible": "Accéder à une connexion internet"
+    },
+    {
+      "colonnes": ["description", "shortDescription", "tags"],
+      "termes": ["PC en libres accès", "disposer d’équipements", "Espace Public Numérique", "EPN"],
+      "cible": "Prendre en main un ordinateur"
+    },
+    {
+      "colonnes": ["description", "shortDescription", "tags"],
+      "termes": ["smartphone", "Espace Public Numérique", "EPN"],
+      "cible": "Prendre en main un smartphone ou une tablette"
+    },
+    {
+      "colonnes": ["description", "shortDescription", "tags"],
+      "termes": [
+        "apprentis",
+        "demandeurs d’emploi",
+        "personnes en reconversion",
+        "Atelier de Fabrication Numérique",
+        "Fablab",
+        "Lieu d'éducation populaire et nouvelles formes d'apprentissage",
+        "Formation",
+        "Transfert de savoir-faire",
+        "Éducation",
+        "étudiants",
+        "accompagnement à la scolarité",
+        "Espace Public Numérique",
+        "EPN"
+      ],
+      "cible": "Favoriser mon insertion professionnelle"
+    },
+    {
+      "colonnes": ["description", "shortDescription", "tags"],
+      "termes": ["création d’entreprise", "Coworking", "Incubateur", "Espace Public Numérique", "EPN"],
+      "cible": "Créer et développer mon entreprise"
+    },
+    {
+      "colonnes": ["description", "tags", "shortDescription"],
+      "termes": [
+        "création d’entreprise",
+        "Coworking",
+        "Incubateur",
+        "Espace Public Numérique",
+        "EPN",
+        "Atelier de Fabrication Numérique",
+        "Fablab"
+      ],
+      "cible": "Créer avec le numérique"
+    },
+    {
+      "colonnes": ["description", "shortDescription", "tags"],
+      "termes": ["échange des savoirs", "Médiation numérique", "Espace Public Numérique", "EPN"],
+      "cible": "Approfondir ma culture numérique"
+    },
+    {
+      "colonnes": ["description", "shortDescription", "tags"],
+      "termes": ["échange des savoirs", "Médiation numérique", "Espace Public Numérique", "EPN"],
+      "cible": "Promouvoir la citoyenneté numérique"
+    },
+    {
+      "colonnes": ["description", "shortDescription", "tags"],
+      "termes": ["échange des savoirs", "Médiation numérique", "Espace Public Numérique", "EPN"],
+      "cible": "Utiliser le numérique au quotidien"
+    },
+    {
+      "colonnes": ["description", "shortDescription", "tags"],
+      "termes": [
+        "Accompagnement à la parentalité",
+        "parentalité",
+        "accompagnement à la scolarité",
+        "Espace Public Numérique",
+        "EPN"
+      ],
+      "cible": "Soutenir la parentalité et l'éducation avec le numérique"
+    },
+    {
+      "colonnes": ["description", "tags"],
+      "termes": ["Espace Public Numérique", "EPN"],
+      "cible": "Devenir autonome dans les démarches administratives"
+    },
+    {
+      "colonnes": ["description", "tags"],
+      "termes": ["Espace Public Numérique", "EPN"],
+      "cible": "Réaliser des démarches administratives avec un accompagnement"
+    },
+    {
+      "colonnes": ["description", "tags"],
+      "termes": ["Espace Public Numérique", "EPN"],
+      "cible": "Accompagner les démarches de santé"
+    }
+  ],
+  "modalites_accompagnement": [
+    {
+      "colonnes": ["description"],
+      "termes": ["ateliers collectifs", "Espace Public Numérique", "EPN"],
+      "cible": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
+    },
+    {
+      "colonnes": ["description"],
+      "termes": ["ateliers individuels", "Espace Public Numérique", "EPN"],
+      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+    }
+  ],
+  "publics_accueillis": [
+    {
+      "colonnes": ["description", "shortDescription", "tags"],
+      "termes": [
+        "jeunesse",
+        "accueillir des jeunes",
+        "toutes personnes",
+        "ouvert au grand public",
+        "Formation",
+        "Éducation",
+        "étudiants"
+      ],
+      "cible": "Jeunes (16-26 ans)"
+    },
+    {
+      "colonnes": ["description", "tags", "shortDescription"],
+      "termes": ["toutes personnes", "Coworking", "Espace détente", "ouvert au grand public", "entreprises", "particuliers"],
+      "cible": "Adultes"
+    },
+    {
+      "colonnes": ["description", "tags", "shortDescription"],
+      "termes": ["toutes personnes", "Espace enfants", "ouvert au grand public"],
+      "cible": "Familles/enfants"
+    },
+    {
+      "colonnes": ["description", "shortDescription"],
+      "termes": ["toutes personnes", "ouvert au grand public"],
+      "cible": "Seniors (+ 65 ans)"
+    },
+    {
+      "colonnes": ["description", "shortDescription"],
+      "termes": ["toutes personnes", "ouvert au grand public"],
+      "cible": "Déficience visuelle"
+    },
+    {
+      "colonnes": ["description", "shortDescription"],
+      "termes": ["toutes personnes", "ouvert au grand public"],
+      "cible": "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales"
+    },
+    {
+      "colonnes": ["description", "shortDescription"],
+      "termes": ["toutes personnes", "ouvert au grand public"],
+      "cible": "Public langues étrangères"
+    },
+    {
+      "colonnes": ["description", "shortDescription"],
+      "termes": ["toutes personnes", "ouvert au grand public"],
+      "cible": "Surdité"
+    },
+    {
+      "colonnes": ["description", "shortDescription"],
+      "termes": ["toutes personnes", "accompagnons les femmes", "ouvert au grand public"],
+      "cible": "Uniquement femmes"
+    },
+    {
+      "colonnes": ["description", "shortDescription"],
+      "termes": ["toutes personnes", "ouvert au grand public"],
+      "cible": "Handicaps mentaux : déficiences limitant les activités d'une personne"
+    },
+    {
+      "colonnes": ["description", "shortDescription"],
+      "termes": ["toutes personnes", "ouvert au grand public"],
+      "cible": "Personnes en situation d'illettrisme"
+    }
+  ],
+  "conditions_acces": [
+    {
+      "colonnes": ["description"],
+      "termes": ["disposition des adhérents"],
+      "cible": "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"
+    }
+  ]
+}

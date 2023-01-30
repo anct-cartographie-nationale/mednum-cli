@@ -76,6 +76,17 @@ describe('date field', (): void => {
     expect(date).toEqual(new Date('2022-12-01T12:00:00.000Z'));
   });
 
+  it('should process date field with value 1670421075', (): void => {
+    const date: Date = processDate(
+      {
+        datetime_latest: 1670421075 as unknown as string
+      },
+      matching
+    );
+
+    expect(date).toEqual(new Date('2022-12-07T13:51:15.000Z'));
+  });
+
   it('should not process empty date', (): void => {
     expect((): void => {
       processDate(

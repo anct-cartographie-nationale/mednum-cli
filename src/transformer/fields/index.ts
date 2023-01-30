@@ -10,6 +10,7 @@ export * from './localisation/localisation.field';
 export * from './modalites-accompagnement/modalites-accompagnement.field';
 export * from './nom/nom.field';
 export * from './pivot/pivot.field';
+export * from './presentation/presentation.field';
 export * from './prise-rdv/prise-rdv.field';
 export * from './publics-accueillis/publics-accueillis.field';
 export * from './services/services.field';
