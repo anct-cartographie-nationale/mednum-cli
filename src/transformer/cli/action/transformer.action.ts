@@ -27,8 +27,10 @@ const getDataFromAPI = async (response: AxiosResponse, key?: string): Promise<st
 
 const fetchFrom = async ([source, key]: string[]): Promise<string> => getDataFromAPI(await axios.get(source ?? ''), key);
 
-const readFrom = async ([source, key]: string[]): Promise<string> =>
-  JSON.stringify(fromJson(JSON.parse(await fs.promises.readFile(source, 'utf-8')), key));
+const readFrom = async ([source, key]: string[]): Promise<string> => {
+  const sourceFrom = source ? source : '';
+  return JSON.stringify(fromJson(JSON.parse(await fs.promises.readFile(sourceFrom, 'utf-8')), key));
+};
 
 export const transformerAction = async (transformerOptions: TransformerOptions): Promise<void> => {
   await Promise.all([
