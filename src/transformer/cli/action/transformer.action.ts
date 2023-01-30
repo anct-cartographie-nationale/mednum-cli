@@ -15,10 +15,8 @@ const flatten = require('flat');
 
 const REPORT: Report = Report();
 
-// todo: remove any
-/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-const fromJson = (response: any, key?: string): unknown[] =>
-  Object.values(key != null && response[key] != null ? response[key] : response);
+const fromJson = <T>(response: Record<string, T>, key?: string): T[] =>
+  key == null ? Object.values(response) : Object.values(response[key] ?? {});
 
 const getDataFromAPI = async (response: AxiosResponse, key?: string): Promise<string> =>
   JSON.stringify(
