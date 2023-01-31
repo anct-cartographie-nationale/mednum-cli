@@ -12264,6 +12264,10 @@
     "Code_postal": 95100
   },
   {
+    "Nom_commune": "ARGENTEUIL",
+    "Code_postal": 95107
+  },
+  {
     "Nom_commune": "ARNOUVILLE",
     "Code_postal": 95400
   },
@@ -18430,6 +18434,10 @@
   {
     "Nom_commune": "MONTOULIEU",
     "Code_postal": 34190
+  },
+  {
+    "Nom_commune": "MONTPELLIER",
+    "Code_postal": 34060
   },
   {
     "Nom_commune": "MONTPELLIER",
@@ -58785,6 +58793,10 @@
   },
   {
     "Nom_commune": "ST ETIENNE",
+    "Code_postal": 42007
+  },
+  {
+    "Nom_commune": "ST ETIENNE",
     "Code_postal": 42100
   },
   {
@@ -69300,6 +69312,10 @@
     "Code_postal": 43000
   },
   {
+    "Nom_commune": "LE PUY EN VELAY",
+    "Code_postal": 43012
+  },
+  {
     "Nom_commune": "RAUCOULES",
     "Code_postal": 43290
   },
@@ -70590,6 +70606,10 @@
   {
     "Nom_commune": "CHARTRES",
     "Code_postal": 28000
+  },
+  {
+    "Nom_commune": "CHARTRES",
+    "Code_postal": 28006
   },
   {
     "Nom_commune": "CHASSANT",
@@ -73998,6 +74018,10 @@
   {
     "Nom_commune": "BLAGNAC",
     "Code_postal": 31700
+  },
+  {
+    "Nom_commune": "NANTES",
+    "Code_postal": 44036
   },
   {
     "Nom_commune": "LE LANDREAU",

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
-import { Adresse, CommuneError } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { Adresse } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Recorder, Report } from '../../report';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { processAdresse } from './adresse.field';
@@ -89,18 +89,6 @@ describe('adresse field', (): void => {
       voie: '5 rue Malakoff',
       code_insee: '38110'
     });
-  });
-
-  it('should not process empty address', (): void => {
-    const source: DataSource = {
-      'Code postal': '',
-      'Ville *': '',
-      'Adresse postale *': ''
-    };
-
-    expect((): void => {
-      processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
-    }).toThrow(new CommuneError(''));
   });
 
   it('should fix value with code postal in adresse postale field instead of Code postal field', (): void => {
@@ -266,6 +254,38 @@ describe('adresse field', (): void => {
       code_postal: '02510',
       commune: 'Etreux',
       voie: '17 rue Henri Martin'
+    });
+  });
+
+  it('should fix commune and find it with code postal', (): void => {
+    const source: DataSource = {
+      'Code postal': '10270',
+      'Adresse postale *': '5 rue Malakoff',
+      'Ville *': ''
+    };
+
+    const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
+
+    expect(adresse).toStrictEqual({
+      code_postal: '10270',
+      commune: 'LAUBRESSEL',
+      voie: '5 rue Malakoff'
+    });
+  });
+
+  it('should fix commune and find it with code postal missing 0', (): void => {
+    const source: DataSource = {
+      'Code postal': '2820',
+      'Adresse postale *': '5 rue Malakoff',
+      'Ville *': ''
+    };
+
+    const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
+
+    expect(adresse).toStrictEqual({
+      code_postal: '02820',
+      commune: 'STE CROIX',
+      voie: '5 rue Malakoff'
     });
   });
 });

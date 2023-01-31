@@ -1,0 +1,255 @@
+{
+  "id": {
+    "colonne": "Data pass ID"
+  },
+  "nom": {
+    "colonne": "Name"
+  },
+  "pivot": {
+    "colonne": "SIRET"
+  },
+  "code_postal": {
+    "colonne": "Code postal"
+  },
+  "adresse": {
+    "colonne": "Adresse"
+  },
+  "commune": {
+    "colonne": "commune"
+  },
+  "typologie": [
+    {
+      "colonnes": ["Name"],
+      "termes": ["ACI", "ASSOCIATION DE CONSEIL ET D'INSERTION", "Structure porteuse d’ateliers et chantiers d’insertion"],
+      "cible": "ACI"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["AFPA", "Agence nationale pour la formation professionnelle des adultes"],
+      "cible": "AFPA"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["Associations", "Réseau France Services"],
+      "cible": "ASSO"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["Bibliothèque", "Médiathèque"],
+      "cible": "BIB"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["CAARUD"],
+      "cible": "CAARUD"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["CADA"],
+      "cible": "CADA"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["CAF"],
+      "cible": "CAF"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["CAP EMPLOI"],
+      "cible": "CAP_EMPLOI"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["Communauté de communes"],
+      "cible": "CC"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["CCAS", "Centres communal d’action sociale"],
+      "cible": "CCAS"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["Chambre"],
+      "cible": "CCONS"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["Conseil Départemental"],
+      "cible": "CD"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["CHRS"],
+      "cible": "CHRS"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["CHU"],
+      "cible": "CHU"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["CIAS"],
+      "cible": "CIAS"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["CIDFF"],
+      "cible": "CIDFF"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["Cité des Métiers"],
+      "cible": "CITMET"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["CPH", "Centre Provisoire"],
+      "cible": "CPH"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["CS", "Centre social"],
+      "cible": "CS"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["CSAPA"],
+      "cible": "CSAPA"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["HUDA", "Hébergement d'Urgence"],
+      "cible": "HUDA"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["Maison de l'emploi"],
+      "cible": "MDE"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["Maison de l'emploi et de la formation"],
+      "cible": "MDEF"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["Maison des solidarités"],
+      "cible": "MDS"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["MJC", "Maison des jeunes et de la culture"],
+      "cible": "MJC"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["Mission Locale"],
+      "cible": "ML"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["Maison de quartier"],
+      "cible": "MQ"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["Mutualité Sociale Agricole"],
+      "cible": "MSA"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["Point d'Accès au Droit"],
+      "cible": "PAD"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["Pension de famille", "résidence accueil"],
+      "cible": "PENSION"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["BIJ", "Point Information Jeunesse", "Bureau Information Jeunesse", "Centre Information Jeunesse"],
+      "cible": "PIJ_BIJ"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["PIMMS", "Point Information Médiation Multi Services"],
+      "cible": "PIMMS"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["PLIE"],
+      "cible": "PLIE"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["PREF", "Préfecture", "Sous-Préfecture"],
+      "cible": "PREF"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["Région"],
+      "cible": "REG"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["France Service", "France Services", "Réseau France Services"],
+      "cible": "RFS"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["Résidence sociale", "Foyer des Jeunes Travailleurs", "Foyer de Jeunes Travailleurs"],
+      "cible": "RS_FJT"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["SPIP"],
+      "cible": "SPIP"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["Tiers lieu", "coworking"],
+      "cible": "TIERS_LIEUX"
+    },
+    {
+      "colonnes": ["Name"],
+      "termes": ["UDAF", "Union Départementale"],
+      "cible": "UDAF"
+    }
+  ],
+  "date_maj": {
+    "colonne": "date_maj"
+  },
+  "modalites_accompagnement": [
+    {
+      "cible": "A ma place : une personne habilitée fait les démarches à ma place"
+    }
+  ],
+  "publics_accueillis": [
+    {
+      "cible": "Adultes"
+    },
+    {
+      "cible": "Jeunes (16-26 ans)"
+    },
+    {
+      "cible": "Seniors (+ 65 ans)"
+    }
+  ],
+  "services": [
+    {
+      "cible": "Réaliser des démarches administratives avec un accompagnement"
+    },
+    {
+      "cible": "Créer et développer mon entreprise"
+    },
+    {
+      "cible": "Accompagner les démarches de santé"
+    },
+    {
+      "cible": "Favoriser mon insertion professionnelle"
+    }
+  ]
+}

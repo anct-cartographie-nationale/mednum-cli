@@ -18,7 +18,8 @@ jobs:
             france-tiers-lieux,
             conseiller-numerique,
             francil-in,
-            angers
+            angers,
+            aidants-connect
           ]
     runs-on: ubuntu-latest
     environment: production

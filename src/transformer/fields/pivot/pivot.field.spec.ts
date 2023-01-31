@@ -34,4 +34,20 @@ describe('pivot field', (): void => {
 
     expect(pivot).toBe('00000000000000');
   });
+
+  it('should get dummy pivot when there is 1 as value', (): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      pivot: {
+        colonne: 'SIRET'
+      }
+    } as LieuxMediationNumeriqueMatching;
+
+    const source: DataSource = {
+      SIRET: '1'
+    };
+
+    const pivot: Pivot = processPivot(source, matching);
+
+    expect(pivot).toBe('00000000000000');
+  });
 });

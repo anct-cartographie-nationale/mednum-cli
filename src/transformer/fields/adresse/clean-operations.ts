@@ -30,6 +30,8 @@ const FIX_MULTILINES_IN_VOIE = (matching: LieuxMediationNumeriqueMatching): Clea
 
 const toCommuneName = (commune: Commune): string => commune.Nom_commune.toLowerCase();
 
+const toCodePostal = (codePostal: Commune): string => codePostal.Code_postal.toString();
+
 const formatToCommuneNameData = (commune: string): string =>
   commune.toLowerCase().replace('saint', 'st').replace(/['-]/gu, ' ');
 
@@ -50,9 +52,32 @@ const processCodePostal = (source: DataSource, matching: LieuxMediationNumerique
     ? codePostalFromCommune(source[matching.commune.colonne] ?? '')
     : source[matching.code_postal.colonne] ?? '';
 
+const ofMatchingCodePostal =
+  (matchingCodePostal: string) =>
+  (codePostal: string): boolean =>
+    codePostal === matchingCodePostal;
+
+const findCommune = (matchingCodePostal: string): string =>
+  communes[communes.map(toCodePostal).findIndex(ofMatchingCodePostal(matchingCodePostal))]?.Nom_commune ?? '';
+
+const communeFromCodePostal = (codePostal: string): string => findCommune(codePostal);
+
+const processCommune = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
+  (source[matching.commune.colonne] ?? '') === ''
+    ? communeFromCodePostal(source[matching.code_postal.colonne].toString() ?? '')
+    : source[matching.commune.colonne] ?? '';
+
 const throwMissingFixRequiredDataError = (): string => {
   throw new Error('Missing fix required data');
 };
+
+const FIX_MISSING_COMMUNE = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+  name: 'missing commune',
+  selector: /^$/u,
+  field: matching.commune.colonne,
+  fix: (_: string, source?: DataSource): string =>
+    source == null ? throwMissingFixRequiredDataError() : processCommune(source, matching)
+});
 
 const FIX_MISSING_CODE_POSTAL = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
   name: 'missing code postal',
@@ -79,6 +104,7 @@ const FIX_UNEXPECTED_DETAILS_IN_COMMUNE = (matching: LieuxMediationNumeriqueMatc
 export const CLEAN_OPERATIONS = (matching: LieuxMediationNumeriqueMatching): CleanOperation[] => [
   FIX_UNEXPECTED_DETAILS_IN_COMMUNE(matching),
   FIX_WRONG_ACCENT_CHARS_IN_COMMUNE(matching),
+  FIX_MISSING_COMMUNE(matching),
   FIX_MISSING_CODE_POSTAL(matching),
   FIX_MISSING_0_IN_CODE_POSTAL(matching),
   FIX_MULTILINES_IN_VOIE(matching)

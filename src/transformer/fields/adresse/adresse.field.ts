@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
-import { Adresse, CodeInseeError, CommuneError, ModelError } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { Adresse, CodeInseeError, ModelError } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching, DataSource, Colonne, Jonction } from '../../input';
 import { Recorder } from '../../report';
 import { CLEAN_OPERATIONS, CleanOperation } from './clean-operations';
@@ -105,7 +105,6 @@ export const processAdresse =
       return toLieuxMediationNumeriqueAdresse(source, matching);
     } catch (error: unknown) {
       error instanceof ModelError && recorder.record(error.key, error.message);
-      if (source[matching.commune.colonne] === '') throw new CommuneError('');
       if (error instanceof CodeInseeError) {
         const { [matching.code_insee?.colonne ?? '']: _, ...sourceWithoutCodeInsee }: DataSource = source;
         return toLieuxMediationNumeriqueAdresse(sourceWithoutCodeInsee, matching);
