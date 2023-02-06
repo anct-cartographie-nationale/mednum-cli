@@ -14,7 +14,6 @@ import {
   VoieError
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { DataInclusionMerged, mergeServicesInStructure } from './merge-services-in-structure';
-import { processVoie } from './fields';
 import { writeOutputFiles } from '../transformer/output';
 
 const SOURCE_PATH: string = './assets/input/';
@@ -27,11 +26,6 @@ const TERRITOIRE: string = 'france';
 const onlyDefindedLieuxMediationNumerique = (
   lieuMediationNumerique?: LieuMediationNumerique
 ): lieuMediationNumerique is LieuMediationNumerique => lieuMediationNumerique != null;
-
-const processFields = (structure: SchemaStructureDataInclusion): SchemaStructureDataInclusion => ({
-  ...structure,
-  adresse: processVoie(structure.adresse)
-});
 
 const invalidLieuErrors: unknown[] = [
   UrlError, // todo: fix instead of drop
@@ -51,11 +45,15 @@ const toLieuxDeMediationNumerique =
   (structure: SchemaStructureDataInclusion): LieuMediationNumerique | undefined => {
     try {
       const dataInclusionMerged: DataInclusionMerged = mergeServicesInStructure(dataInclusionServices, structure);
-      return fromSchemaDataInclusion(dataInclusionMerged.services, processFields(dataInclusionMerged.structure));
+      return fromSchemaDataInclusion(dataInclusionMerged.services, dataInclusionMerged.structure);
     } catch (error: unknown) {
       if (error instanceof Error && invalidLieuErrors.some(matchActual(error))) return undefined;
 
-      throw error;
+      // throw error;
+      // imo: We don't want to throw the error here because we already do a validity check in the transformation script.
+      // We could throw the error after modifying the lib to merge structures and services without a validity check
+      // to avoid a double check and use this script to the futur only for merge structures/services and let tranformation
+      // script do the job of validity check.
     }
   };
 

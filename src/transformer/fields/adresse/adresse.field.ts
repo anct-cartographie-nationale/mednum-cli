@@ -10,10 +10,9 @@ type FixedAdresse = DataSource | undefined;
 const formatCommune = (commune: string): string => commune.charAt(0).toUpperCase() + commune.slice(1);
 
 const formatVoie = (adressePostale: string): string =>
-  (adressePostale.includes('\n') ? adressePostale.substring(0, adressePostale.indexOf('\n')) : adressePostale).replace(
-    /,/gu,
-    ''
-  );
+  (adressePostale.includes('\n') ? adressePostale.substring(0, adressePostale.indexOf('\n')) : adressePostale)
+    .replace(/,/gu, '')
+    .replace(/\"/g, '');
 
 const isColonne = (colonneToTest: Partial<Colonne> & Partial<Jonction>): colonneToTest is Colonne =>
   colonneToTest.colonne != null;
@@ -110,7 +109,6 @@ export const processAdresse =
         const { [matching.code_insee?.colonne ?? '']: _, ...sourceWithoutCodeInsee }: DataSource = source;
         return toLieuxMediationNumeriqueAdresse(sourceWithoutCodeInsee, matching);
       }
-
       return fixAndRetry(recorder)(source, matching, error);
     }
   };

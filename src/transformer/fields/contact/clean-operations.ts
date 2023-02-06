@@ -137,6 +137,12 @@ const removeTooManyDigitsInPhone = (field: string): CleanOperation => ({
   field
 });
 
+const removeOnly0ValueInPhone = (field: string): CleanOperation => ({
+  name: 'fake number in phone',
+  selector: /^0{10}$/u,
+  field
+});
+
 const removeEmailStartingWithWww = (field: string): CleanOperation => ({
   name: 'email starts with www.',
   selector: /^www\./u,
@@ -227,6 +233,7 @@ export const cleanOperations = (matching: LieuxMediationNumeriqueMatching): Clea
   ...cleanOperationIfAny(fixShortAssuranceRetraitePhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(removeTooFewDigitsInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(removeTooManyDigitsInPhone, matching.telephone?.colonne),
+  ...cleanOperationIfAny(removeOnly0ValueInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(removeEmailStartingWithWww, matching.courriel?.colonne),
   ...cleanOperationIfAny(removeEmailStartingWithAt, matching.courriel?.colonne),
   ...cleanOperationIfAny(trimEmail, matching.courriel?.colonne),
