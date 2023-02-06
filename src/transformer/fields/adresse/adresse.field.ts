@@ -7,7 +7,7 @@ import { CLEAN_OPERATIONS, CleanOperation } from './clean-operations';
 
 type FixedAdresse = DataSource | undefined;
 
-const formatCommune = (commune: string): string => (commune.charAt(0).toUpperCase() + commune.slice(1)).replace(/\s+$/, '');
+const formatCommune = (commune: string): string => (commune.charAt(0).toUpperCase() + commune.slice(1)).replace(/\s+$/u, '');
 
 const formatVoie = (adressePostale: string): string =>
   (adressePostale.includes('\n') ? adressePostale.substring(0, adressePostale.indexOf('\n')) : adressePostale).replace(
