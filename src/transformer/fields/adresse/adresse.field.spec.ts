@@ -268,4 +268,20 @@ describe('adresse field', (): void => {
       voie: '17 rue Henri Martin'
     });
   });
+
+  it('should fix commune grenoble with no code postal', (): void => {
+    const source: DataSource = {
+      'Adresse postale *': '12 Allée des tilleuls',
+      'Code postal': '',
+      'Ville *': 'grenoble  '
+    };
+
+    const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
+
+    expect(adresse).toStrictEqual({
+      code_postal: '38100',
+      commune: 'Grenoble',
+      voie: '12 Allée des tilleuls'
+    });
+  });
 });
