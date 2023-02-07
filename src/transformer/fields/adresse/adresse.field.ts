@@ -10,10 +10,10 @@ type FixedAdresse = DataSource | undefined;
 const formatCommune = (commune: string): string => (commune.charAt(0).toUpperCase() + commune.slice(1)).replace(/\s+$/u, '');
 
 const formatVoie = (adressePostale: string): string =>
-  (adressePostale.includes('\n') ? adressePostale.substring(0, adressePostale.indexOf('\n')) : adressePostale).replace(
-    /,/gu,
-    ''
-  );
+  (adressePostale.includes('\n') ? adressePostale.substring(0, adressePostale.indexOf('\n')) : adressePostale)
+    .replace(/,/gu, '')
+    .replace(/\"/g, '');
+
 const isColonne = (colonneToTest: Partial<Colonne> & Partial<Jonction>): colonneToTest is Colonne =>
   colonneToTest.colonne != null;
 

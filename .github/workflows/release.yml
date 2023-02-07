@@ -26,7 +26,8 @@ jobs:
             francil-in,
             angers,
             hub-lo,
-            mulhouse
+            mulhouse,
+            data-inclusion
           ]
     runs-on: ubuntu-latest
     environment: production

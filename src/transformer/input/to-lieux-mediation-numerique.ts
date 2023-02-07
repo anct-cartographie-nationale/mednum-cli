@@ -30,7 +30,8 @@ import {
   processPresentation,
   processPriseRdv,
   processPublicsAccueillis,
-  processServices
+  processServices,
+  processSource
 } from '../fields';
 import { DataSource, LieuxMediationNumeriqueMatching } from './lieux-mediation-numerique-matching';
 
@@ -77,7 +78,7 @@ const lieuDeMediationNumerique = (
     ...publicsAccueillisIfAny(processPublicsAccueillis(dataSource, matching)),
     presentation: processPresentation(dataSource, matching),
     services: processServices(dataSource, matching),
-    source: sourceName,
+    source: processSource(dataSource, matching, sourceName),
     ...horairesIfAny(processHoraires(recorder)(dataSource, matching)),
     ...priseRdvIfAny(processPriseRdv(dataSource, matching))
   };

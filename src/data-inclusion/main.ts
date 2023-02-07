@@ -4,33 +4,99 @@ import * as fs from 'fs';
 import ErrnoException = NodeJS.ErrnoException;
 import {
   CommuneError,
-  fromSchemaDataInclusion,
   LieuMediationNumerique,
   MandatorySiretOrRnaError,
   SchemaServiceDataInclusion,
   SchemaStructureDataInclusion,
   ServicesError,
+  Url,
   UrlError,
   VoieError
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { DataInclusionMerged, mergeServicesInStructure } from './merge-services-in-structure';
-import { processVoie } from './fields';
-import { writeOutputFiles } from '../transformer/output';
 
 const SOURCE_PATH: string = './assets/input/';
 const DATA_INCLUSION_STRUCTURES_FILE: string = 'data-inclusion-structures.json';
 const DATA_INCLUSION_SERVICES_FILE: string = 'data-inclusion-services.json';
 
 const NAME: string = 'data-inclusion';
-const TERRITOIRE: string = 'france';
 
-const onlyDefindedLieuxMediationNumerique = (
-  lieuMediationNumerique?: LieuMediationNumerique
-): lieuMediationNumerique is LieuMediationNumerique => lieuMediationNumerique != null;
+const mergeThematiques = (thematiques?: string[], thematiquesToAdd?: string[]): { thematiques: string[] } => ({
+  thematiques: Array.from(new Set([...(thematiques ?? []), ...(thematiquesToAdd ?? [])]))
+});
 
-const processFields = (structure: SchemaStructureDataInclusion): SchemaStructureDataInclusion => ({
+const mergeProfils = (profils?: string[], profilsToAdd?: string[]): { profils: string[] } => ({
+  profils: Array.from(new Set([...(profils ?? []), ...(profilsToAdd ?? [])]))
+});
+
+const mergeTypes = (types?: string[], typesToAdd?: string[]): { types: string[] } => ({
+  types: Array.from(new Set([...(types ?? []), ...(typesToAdd ?? [])]))
+});
+
+const mergePriseRdv = (priseRdv?: string, priseRdvToAdd?: string): { prise_rdv?: string } =>
+  priseRdv == null && priseRdvToAdd == null ? {} : { prise_rdv: priseRdvToAdd ?? priseRdv ?? '' };
+
+const fraisIfDefined = (frais?: string[]): { frais?: string[] } => (frais == null ? {} : { frais });
+
+const mergeFrais = (frais?: string[], fraisToAdd?: string[]): { frais?: string[] } =>
+  fraisIfDefined(Array.from(new Set([...(frais ?? []), ...(fraisToAdd ?? [])])));
+
+const toSingleService = (
+  mergedService: SchemaServiceDataInclusion,
+  service: SchemaServiceDataInclusion
+): SchemaServiceDataInclusion => ({
+  ...mergedService,
+  ...mergeThematiques(mergedService.thematiques, service.thematiques),
+  ...mergeFrais(mergedService.frais, service.frais),
+  ...mergeProfils(mergedService.profils, service.profils),
+  ...mergeTypes(mergedService.types, service.types),
+  ...mergePriseRdv(mergedService.prise_rdv, service.prise_rdv)
+});
+
+const mergeServices = (services: SchemaServiceDataInclusion[], structure: SchemaStructureDataInclusion): any =>
+  services.reduce(toSingleService, {
+    id: `${structure.id}-mediation-numerique`,
+    nom: 'Médiation numérique',
+    source: structure.source ?? '',
+    structure_id: structure.id,
+    thematiques: []
+  });
+
+const getPriseRdv = (priseRdv?: string): { prise_rdv?: Url } => (priseRdv == null ? {} : { prise_rdv: Url(priseRdv) });
+
+const getPublicsAccueillis = (profils?: string[]): { publics_accueillis?: string } =>
+  profils == null || profils.length === 0
+    ? {}
+    : {
+        publics_accueillis: profils?.map((profil: string) => profil).join(';') ?? ''
+      };
+
+const getServices = (thematiques?: string[]): { services: string } => ({
+  services: thematiques?.map((thematique: string) => thematique).join(';') ?? ''
+});
+
+const getModalitesAccompagnement = (types?: string[]): { modalites_accompagnement?: string } =>
+  types == null || types.length === 0
+    ? {}
+    : {
+        modalites_accompagnement: types?.map((type: string) => type).join(';') ?? ''
+      };
+
+const getFrais = (conditionAcces?: string[]): { conditions_acces?: string } =>
+  conditionAcces == null || conditionAcces.length === 0
+    ? {}
+    : {
+        conditions_acces: conditionAcces?.map((frais: string) => frais).join(';') ?? ''
+      };
+
+const processFields = (structure: SchemaStructureDataInclusion, service: SchemaServiceDataInclusion): any => ({
   ...structure,
-  adresse: processVoie(structure.adresse)
+  date_maj: new Date(structure.date_maj).toLocaleDateString('fr'),
+  ...getServices(service.thematiques),
+  ...getPublicsAccueillis(service.profils),
+  ...getModalitesAccompagnement(service.types),
+  ...getFrais(service.frais),
+  ...getPriseRdv(service.prise_rdv)
 });
 
 const invalidLieuErrors: unknown[] = [
@@ -51,7 +117,10 @@ const toLieuxDeMediationNumerique =
   (structure: SchemaStructureDataInclusion): LieuMediationNumerique | undefined => {
     try {
       const dataInclusionMerged: DataInclusionMerged = mergeServicesInStructure(dataInclusionServices, structure);
-      return fromSchemaDataInclusion(dataInclusionMerged.services, processFields(dataInclusionMerged.structure));
+      return processFields(
+        dataInclusionMerged.structure,
+        mergeServices(dataInclusionMerged.services, dataInclusionMerged.structure)
+      );
     } catch (error: unknown) {
       if (error instanceof Error && invalidLieuErrors.some(matchActual(error))) return undefined;
 
@@ -70,15 +139,16 @@ fs.readFile(
         const dataInclusionStructures: SchemaStructureDataInclusion[] = JSON.parse(dataInclusionStructuresString);
         const dataInclusionServices: SchemaServiceDataInclusion[] = JSON.parse(dataInclusionServicesString);
 
-        const lieuxDeMediationNumerique: LieuMediationNumerique[] = dataInclusionStructures
+        const lieuxDeMediationNumerique: any[] = dataInclusionStructures
           .map(toLieuxDeMediationNumerique(dataInclusionServices))
-          .filter(onlyDefindedLieuxMediationNumerique);
+          .filter(
+            (lieuMediationNumerique: any) =>
+              lieuMediationNumerique?.services !== '' && lieuMediationNumerique?.services.includes('numerique')
+          );
 
-        writeOutputFiles({
-          path: `./assets/output/${NAME}`,
-          name: NAME,
-          territoire: TERRITOIRE
-        })(lieuxDeMediationNumerique);
+        fs.writeFile(`./assets/output/${NAME}.json`, JSON.stringify(lieuxDeMediationNumerique), (err) => {
+          if (err) throw err;
+        });
       }
     );
   }
