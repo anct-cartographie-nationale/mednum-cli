@@ -1,4 +1,4 @@
-/* eslint-disable max-lines, max-lines-per-function, prefer-named-capture-group */
+/* eslint-disable max-lines, max-lines-per-function, prefer-named-capture-group, no-control-regex */
 
 import { LieuxMediationNumeriqueMatching } from '../../input';
 
