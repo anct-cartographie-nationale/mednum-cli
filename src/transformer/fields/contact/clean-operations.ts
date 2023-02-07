@@ -18,7 +18,7 @@ const removeHttpOnlyWebsites = (field: string): CleanOperation => ({
 
 const removeWebsitesWithAccentedCharacters = (field: string): CleanOperation => ({
   name: 'websites with accented characters',
-  selector: /é/gu,
+  selector: /[^\x00-\x7F]+/gu,
   field
 });
 
@@ -40,6 +40,13 @@ const fixMissingHttpWebsites = (field: string): CleanOperation => ({
   selector: /^(?!http).*/u,
   field,
   fix: (toFix: string): string => `http://${toFix}`
+});
+
+const fixUppercaseWebsites = (field: string): CleanOperation => ({
+  name: 'uppercase in websites',
+  selector: /[A-Z]/u,
+  field,
+  fix: (toFix: string): string => toFix.toLowerCase()
 });
 
 const fixDuplicateHttpWebsites = (field: string): CleanOperation => ({
@@ -240,6 +247,7 @@ const cleanOperationIfAny = (cleanOperator: (colonne: string) => CleanOperation,
 
 export const cleanOperations = (matching: LieuxMediationNumeriqueMatching): CleanOperation[] => [
   ...cleanOperationIfAny(fixMultipleWebsitesSeparator, matching.site_web?.colonne),
+  ...cleanOperationIfAny(fixUppercaseWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(removeDashEmail, matching.courriel?.colonne),
   ...cleanOperationIfAny(removeHttpOnlyWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(removeWebsitesWithAccentedCharacters, matching.site_web?.colonne),

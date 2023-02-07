@@ -27,7 +27,8 @@ jobs:
             angers,
             hub-lo,
             mulhouse,
-            data-inclusion
+            data-inclusion,
+            paca
           ]
     runs-on: ubuntu-latest
     environment: production

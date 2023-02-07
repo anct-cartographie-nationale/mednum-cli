@@ -29,7 +29,7 @@ const courrielField = (courriel?: string): Pick<Contact, 'courriel'> => (courrie
 const toLieuxMediationNumeriqueContact = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Contact =>
   Contact({
     ...(matching.telephone?.colonne == null ? {} : telephoneField(source[matching.telephone.colonne])),
-    ...(matching.site_web?.colonne == null ? {} : siteWebField(source[matching.site_web.colonne])),
+    ...(matching.site_web?.colonne == null ? {} : siteWebField(source[matching.site_web.colonne]?.toLowerCase())),
     ...(matching.courriel?.colonne == null ? {} : courrielField(source[matching.courriel.colonne]))
   });
 

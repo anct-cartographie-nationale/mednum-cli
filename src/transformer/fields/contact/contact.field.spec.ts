@@ -46,6 +46,36 @@ describe('contact field', (): void => {
     );
   });
 
+  it('should remove site web with all accents', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        Téléphone: '',
+        [EMAIL_FIELD]: '',
+        'Site Web': 'http://www.paciBouche-du-Rhône.com'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(Contact({}));
+  });
+
+  it('should lowercase all character in a site web', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        Téléphone: '',
+        [EMAIL_FIELD]: '',
+        'Site Web': 'Http://Deltalabprototype.Fr'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        site_web: [Url('http://deltalabprototype.fr')]
+      })
+    );
+  });
+
   it('should extract contact without téléphone in matching', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
