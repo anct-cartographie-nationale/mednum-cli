@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
-import { DateCannotBeEmptyError, processDate } from './date.field';
+import { processDate } from './date.field';
 import { LieuxMediationNumeriqueMatching } from '../../input';
 
 const matching: LieuxMediationNumeriqueMatching = {
@@ -88,14 +88,9 @@ describe('date field', (): void => {
   });
 
   it('should not process empty date', (): void => {
-    expect((): void => {
-      processDate(
-        {
-          datetime_latest: ' '
-        },
-        matching
-      );
-    }).toThrow(new DateCannotBeEmptyError());
+    const date: Date = processDate({ datetime_latest: '' }, matching);
+
+    expect(date).toEqual(new Date('1970-01-01T00:00:00.000Z'));
   });
 
   it('should delete milliseconds in date', (): void => {
@@ -118,5 +113,11 @@ describe('date field', (): void => {
     );
 
     expect(date).toEqual(new Date('2022/06/10 10:04:59'));
+  });
+
+  it('should process default date if missing field', (): void => {
+    const date: Date = processDate({}, matching);
+
+    expect(date).toEqual(new Date('1970-01-01T00:00:00.000Z'));
   });
 });

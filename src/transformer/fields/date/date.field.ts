@@ -46,22 +46,15 @@ const dateRegexpResultFrom = (dateRegexp: RegExp, sourceDate: string): Partial<R
   ...dateRegexp.exec(sourceDate)?.groups
 });
 
-const throwDateCannotBeEmptyError = (): Date => {
-  throw new DateCannotBeEmptyError();
-};
-
 const formatDate = (dateRegexp: RegExp, sourceDate: string, date: Date): Date =>
   dateRegexp.test(sourceDate) ? toDate(dateRegexpResultFrom(dateRegexp, sourceDate)) : date;
 
 const dateFromRegExp =
   (sourceDate: string) =>
   (date: Date, dateRegexp: RegExp): Date =>
-    sourceDate === '' ? throwDateCannotBeEmptyError() : formatDate(dateRegexp, sourceDate, date);
+    formatDate(dateRegexp, sourceDate, date);
 
 const removeInvalidChars = (sourceDate: string = ''): string => sourceDate.replace(/[A-Za-zÀ-ÖØ-öø-ÿœ]/gu, '').trim();
 
 export const processDate = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Date =>
-  DATE_REGEXP.reduce(
-    dateFromRegExp(removeInvalidChars(source[matching.date_maj.colonne]?.toString().replace(/\.\d+$/u, ''))),
-    new Date(NaN)
-  );
+  DATE_REGEXP.reduce(dateFromRegExp(removeInvalidChars(source[matching.date_maj.colonne]?.toString())), new Date(1970, 0, 1));
