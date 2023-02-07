@@ -55,7 +55,7 @@ export type LieuxMediationNumeriqueMatching = {
   conditions_acces?: Choice<ConditionAcces>[];
   modalites_accompagnement?: Choice<ModaliteAccompagnement>[];
   date_maj: Colonne;
-  source: Colonne;
+  source?: Colonne;
   labels_nationaux?: Choice<LabelNational>[];
   labels_autres?: Choice<string>[];
   publics_accueillis?: Choice<PublicAccueilli>[];
