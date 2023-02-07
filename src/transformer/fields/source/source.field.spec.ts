@@ -16,7 +16,7 @@ describe('source field', (): void => {
       source: 'Hinaura'
     };
 
-    const sourceName: string | undefined = processSource(source, matching, defaultSourceName);
+    const sourceName: string = processSource(source, matching, defaultSourceName);
 
     expect(sourceName).toBe('Hinaura');
   });
@@ -29,11 +29,9 @@ describe('source field', (): void => {
       }
     } as LieuxMediationNumeriqueMatching;
 
-    const source: DataSource = {
-      source: ''
-    };
+    const source: DataSource = {};
 
-    const sourceName: string | undefined = processSource(source, matching, defaultSourceName);
+    const sourceName: string = processSource(source, matching, defaultSourceName);
 
     expect(sourceName).toBe('Data Inclusion');
   });

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-restricted-imports,max-lines-per-function,@typescript-eslint/naming-convention, camelcase */
+/* eslint-disable @typescript-eslint/no-restricted-imports,max-lines-per-function,@typescript-eslint/naming-convention, camelcase, @typescript-eslint/no-explicit-any */
 
 import * as fs from 'fs';
 import ErrnoException = NodeJS.ErrnoException;
@@ -20,6 +20,8 @@ const DATA_INCLUSION_STRUCTURES_FILE: string = 'data-inclusion-structures.json';
 const DATA_INCLUSION_SERVICES_FILE: string = 'data-inclusion-services.json';
 
 const NAME: string = 'data-inclusion';
+
+const onlyWithServices = (lieu: any): boolean => lieu?.services.includes('numerique');
 
 const mergeThematiques = (thematiques?: string[], thematiquesToAdd?: string[]): { thematiques: string[] } => ({
   thematiques: Array.from(new Set([...(thematiques ?? []), ...(thematiquesToAdd ?? [])]))
@@ -68,25 +70,25 @@ const getPublicsAccueillis = (profils?: string[]): { publics_accueillis?: string
   profils == null || profils.length === 0
     ? {}
     : {
-        publics_accueillis: profils?.map((profil: string) => profil).join(';') ?? ''
+        publics_accueillis: profils.map((profil: string): string => profil).join(';')
       };
 
 const getServices = (thematiques?: string[]): { services: string } => ({
-  services: thematiques?.map((thematique: string) => thematique).join(';') ?? ''
+  services: thematiques?.map((thematique: string): string => thematique).join(';') ?? ''
 });
 
 const getModalitesAccompagnement = (types?: string[]): { modalites_accompagnement?: string } =>
   types == null || types.length === 0
     ? {}
     : {
-        modalites_accompagnement: types?.map((type: string) => type).join(';') ?? ''
+        modalites_accompagnement: types.map((type: string): string => type).join(';')
       };
 
 const getFrais = (conditionAcces?: string[]): { conditions_acces?: string } =>
   conditionAcces == null || conditionAcces.length === 0
     ? {}
     : {
-        conditions_acces: conditionAcces?.map((frais: string) => frais).join(';') ?? ''
+        conditions_acces: conditionAcces.map((frais: string): string => frais).join(';')
       };
 
 const processFields = (structure: SchemaStructureDataInclusion, service: SchemaServiceDataInclusion): any => ({
@@ -141,14 +143,9 @@ fs.readFile(
 
         const lieuxDeMediationNumerique: any[] = dataInclusionStructures
           .map(toLieuxDeMediationNumerique(dataInclusionServices))
-          .filter(
-            (lieuMediationNumerique: any) =>
-              lieuMediationNumerique?.services !== '' && lieuMediationNumerique?.services.includes('numerique')
-          );
+          .filter(onlyWithServices);
 
-        fs.writeFile(`./assets/output/${NAME}.json`, JSON.stringify(lieuxDeMediationNumerique), (err) => {
-          if (err) throw err;
-        });
+        fs.writeFileSync(`./assets/output/${NAME}.json`, JSON.stringify(lieuxDeMediationNumerique), 'utf8');
       }
     );
   }
