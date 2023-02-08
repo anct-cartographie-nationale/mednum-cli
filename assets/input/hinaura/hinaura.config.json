@@ -1,15 +1,15 @@
 {
   "nom": {
-    "colonne": "Nom du lieu ou de la structure *"
+    "colonne": "bf_titre"
   },
   "code_postal": {
-    "colonne": "Code postal"
+    "colonne": "bf_code_postal"
   },
   "commune": {
-    "colonne": "Ville *"
+    "colonne": "bf_ville"
   },
   "adresse": {
-    "colonne": "Adresse postale *"
+    "colonne": "bf_adresse1"
   },
   "latitude": {
     "colonne": "bf_latitude"
@@ -18,207 +18,215 @@
     "colonne": "bf_longitude"
   },
   "telephone": {
-    "colonne": "Téléphone"
+    "colonne": "bf_tel"
   },
   "courriel": {
-    "colonne":
-    "Email (éviter les emails nominatifs - en cas d'email nominitatif seule la personne concernée est autorisé à l'ajouter)"
-  },
-  "site_web": {
-    "colonne": "Site Web"
+    "colonne": "bf_mail"
   },
   "conditions_acces": [
     {
-      "colonnes": ["Tarifs"],
-      "termes": ["gratuit"],
-      "sauf": ["gratuit sous condition"],
+      "colonnes": ["checkboxListeTarifs"],
+      "termes": ["1"],
       "cible": "Gratuit : Je peux accéder gratuitement au lieu et à ses services"
     },
     {
-      "colonnes": ["Tarifs"],
-      "termes": ["gratuit sous condition"],
+      "colonnes": ["checkboxListeTarifs"],
+      "termes": ["5"],
       "cible": "Gratuit sous condition : La gratuité est conditionnée à des critères (situation familiale, convention avec un organisme social...)"
     },
     {
-      "colonnes": ["Tarifs"],
-      "termes": ["adhésion"],
+      "colonnes": ["checkboxListeTarifs"],
+      "termes": ["3"],
       "cible": "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"
     },
     {
-      "colonnes": ["Tarifs"],
-      "termes": ["payant"],
+      "colonnes": ["checkboxListeTarifs"],
+      "termes": ["2"],
       "cible": "Payant : L'accès au lieu et/ou à ses services est payant"
     },
     {
-      "colonnes": ["Tarifs"],
-      "termes": ["pass numérique"],
+      "colonnes": ["checkboxListeTarifs"],
+      "termes": ["6"],
       "cible": "Accepte le Pass numérique : Il est possible d'utiliser un Pass numérique pour accéder au lieu"
     }
   ],
   "modalites_accompagnement": [
     {
-      "colonnes": ["Types d'accompagnement proposés"],
-      "termes": ["accompagnement en groupe"],
+      "colonnes": ["checkboxListeTypeaccompagnement"],
+      "termes": ["3", "4"],
       "cible": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
     },
     {
-      "colonnes": ["Types d'accompagnement proposés"],
-      "termes": ["faire à la place de"],
+      "colonnes": ["checkboxListeTypeaccompagnement"],
+      "termes": ["9"],
       "cible": "A ma place : une personne habilitée fait les démarches à ma place"
     },
     {
       "colonnes": ["Types d'accompagnement proposés"],
-      "termes": ["accompagnement individuel"],
+      "termes": ["1", "2", "5"],
       "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
     },
     {
       "colonnes": ["Types d'accompagnement proposés"],
-      "termes": ["accès libre avec un accompagnement"],
+      "termes": ["5"],
       "cible": "Seul : j'ai accès à du matériel et une connexion"
     }
   ],
   "date_maj": {
-    "colonne": "datetime_latest"
+    "colonne": "date_maj_fiche"
   },
   "publics_accueillis": [
     {
-      "colonnes": ["Publics accueillis", "Accueil pour les personnes en situation de handicap", "Accompagnement de publics spécifiques"],
-      "termes": ["adultes", "tout public"],
+      "colonnes": ["checkboxListeTypepublic"],
+      "termes": ["1"],
       "cible": "Adultes"
     },
     {
-      "colonnes": ["Publics accueillis", "Accueil pour les personnes en situation de handicap", "Accompagnement de publics spécifiques"],
-      "termes": ["parentalité", "tout public"],
-      "cible": "Familles/enfants"
-    },
-    {
-      "colonnes": ["Publics accueillis", "Accueil pour les personnes en situation de handicap", "Accompagnement de publics spécifiques"],
-      "termes": ["jeunesse", "tout public"],
-      "cible": "Jeunes (16-26 ans)"
-    },
-    {
-      "colonnes": ["Publics accueillis", "Accueil pour les personnes en situation de handicap", "Accompagnement de publics spécifiques"],
-      "termes": ["sénior", "senior", "tout public"],
+      "colonnes": ["checkboxListeTypepublic"],
+      "termes": ["2"],
       "cible": "Seniors (+ 65 ans)"
     },
     {
-      "colonnes": ["Publics accueillis", "Accueil pour les personnes en situation de handicap", "Accompagnement de publics spécifiques"],
-      "termes": ["surdité", "tout public"],
+      "colonnes": ["checkboxListeTypepublic"],
+      "termes": ["3", "4"],
+      "cible": "Familles/enfants"
+    },
+    {
+      "colonnes": ["checkboxListeTypepublic"],
+      "termes": ["5"],
+      "cible": "Jeunes (16-26 ans)"
+    },
+    {
+      "colonnes": ["checkboxListeHandicap"],
+      "termes": ["1"],
       "cible": "Surdité"
     },
     {
-      "colonnes": ["Publics accueillis", "Accueil pour les personnes en situation de handicap", "Accompagnement de publics spécifiques"],
-      "termes": ["handicap mental", "tout public"],
+      "colonnes": ["checkboxListeHandicap"],
+      "termes": ["3"],
+      "cible": "Déficience visuelle"
+    },
+    {
+      "colonnes": ["checkboxListeHandicap"],
+      "termes": ["4"],
       "cible": "Handicaps mentaux : déficiences limitant les activités d'une personne"
     },
     {
-      "colonnes": ["Publics accueillis", "Accueil pour les personnes en situation de handicap", "Accompagnement de publics spécifiques"],
-      "termes": ["personnes en situation d'illettrisme", "tout public"],
+      "colonnes": ["checkboxListeTypepublicscecifiques"],
+      "termes": ["1"],
       "cible": "Personnes en situation d'illettrisme"
     },
     {
-      "colonnes": ["Publics accueillis", "Accueil pour les personnes en situation de handicap", "Accompagnement de publics spécifiques"],
-      "termes": ["langue étrangère", "tout public"],
+      "colonnes": ["checkboxListeTypepublicscecifiques"],
+      "termes": ["2"],
       "cible": "Public langues étrangères"
     },
     {
-      "colonnes": ["Publics accueillis", "Accueil pour les personnes en situation de handicap", "Accompagnement de publics spécifiques"],
-      "termes": ["tout public"],
-      "cible": "Uniquement femmes"
-    },
-    {
-      "colonnes": ["Publics accueillis", "Accueil pour les personnes en situation de handicap", "Accompagnement de publics spécifiques"],
-      "termes": ["tout public"],
+      "colonnes": ["checkboxListeHandicap"],
+      "termes": ["4"],
       "cible": "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales"
-    },
-    {
-      "colonnes": ["Publics accueillis", "Accueil pour les personnes en situation de handicap", "Accompagnement de publics spécifiques"],
-      "termes": ["cécité", "déficience visuelle", "tout public"],
-      "cible": "Déficience visuelle"
     }
   ],
   "services": [
     {
-      "colonnes": ["À disposition", "Formations compétences de base proposées", "Comprendre et Utiliser les sites d’accès aux droits proposées", "Sensibilisations culture numérique"],
-      "termes": ["réseau wifi"],
+      "colonnes": ["checkboxListeTypeacces"],
+      "termes": ["1"],
       "cible": "Accéder à une connexion internet"
     },
     {
-      "colonnes": ["À disposition", "Formations compétences de base proposées", "Comprendre et Utiliser les sites d’accès aux droits proposées", "Sensibilisations culture numérique"],
-      "termes": ["accès libre à du matériel informatique"],
+      "colonnes": ["checkboxListeTypeacces"],
+      "termes": ["2"],
       "cible": "Accéder à du matériel"
     },
     {
-      "colonnes": ["À disposition", "Formations compétences de base proposées", "Comprendre et Utiliser les sites d’accès aux droits proposées", "Sensibilisations culture numérique"],
-      "termes": ["découvrir l'ordinateur"],
+      "colonnes": ["checkboxListeTypeformationcomp"],
+      "termes": ["2"],
       "cible": "Prendre en main un ordinateur"
     },
     {
-      "colonnes": ["À disposition", "Formations compétences de base proposées", "Comprendre et Utiliser les sites d’accès aux droits proposées", "Sensibilisations culture numérique"],
-      "termes": ["découvrir l'ordinateur", "cultures numériques"],
+      "colonnes": ["checkboxListeTypeformationcomp"],
+      "termes": ["1", "2", "5", "6", "7", "8", "9", "10", "11"],
       "cible": "Utiliser le numérique au quotidien"
     },
     {
-      "colonnes": ["À disposition", "Formations compétences de base proposées", "Comprendre et Utiliser les sites d’accès aux droits proposées", "Sensibilisations culture numérique"],
-      "termes": ["découvrir l'ordinateur", "cultures numériques"],
+      "colonnes": ["checkboxListeTypeformationcomp"],
+      "termes": ["1", "2", "5", "6", "7", "8", "9", "10", "11"],
       "cible": "Approfondir ma culture numérique"
     },
     {
-      "colonnes": ["À disposition", "Formations compétences de base proposées", "Comprendre et Utiliser les sites d’accès aux droits proposées", "Sensibilisations culture numérique"],
-      "termes": ["tablette", "smartphone"],
+      "colonnes": ["checkboxListeTypeculturenum"],
+      "termes": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "cible": "Utiliser le numérique au quotidien"
+    },
+    {
+      "colonnes": ["checkboxListeTypeculturenum"],
+      "termes": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "cible": "Approfondir ma culture numérique"
+    },
+    {
+      "colonnes": ["checkboxListeTypeformationcomp"],
+      "termes": ["3", "4"],
       "cible": "Prendre en main un smartphone ou une tablette"
     },
     {
-      "colonnes": ["À disposition", "Formations compétences de base proposées", "Comprendre et Utiliser les sites d’accès aux droits proposées", "Sensibilisations culture numérique"],
-      "termes": ["cultures numériques"],
+      "colonnes": ["checkboxListeTypeformdroits"],
+      "termes": ["1", "2"],
       "cible": "Promouvoir la citoyenneté numérique"
     },
     {
-      "colonnes": ["À disposition", "Formations compétences de base proposées", "Comprendre et Utiliser les sites d’accès aux droits proposées", "Sensibilisations culture numérique"],
-      "termes": ["cpam", "ameli.fr"],
+      "colonnes": ["checkboxListeTypeculturenum"],
+      "termes": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "cible": "Promouvoir la citoyenneté numérique"
+    },
+    {
+      "colonnes": ["checkboxListeTypeaccompagnementenligne"],
+      "termes": ["6"],
       "cible": "Accompagner les démarches de santé"
     },
     {
-      "colonnes": ["À disposition", "Formations compétences de base proposées", "Comprendre et Utiliser les sites d’accès aux droits proposées", "Sensibilisations culture numérique"],
-      "termes": ["services de la caf", "services des impôts", "logement social", "pôle emploi", "pole-emploi.fr"],
-      "cible": "Devenir autonome dans les démarches administratives",
-      "modalites_accompagnement": "Seul : j'ai accès à du matériel et une connexion"
+      "colonnes": ["checkboxListeTypeformdroits"],
+      "termes": ["7"],
+      "cible": "Accompagner les démarches de santé"
     },
     {
-      "colonnes": ["À disposition", "Formations compétences de base proposées", "Comprendre et Utiliser les sites d’accès aux droits proposées", "Sensibilisations culture numérique"],
-      "termes": ["services de la caf", "services des impôts", "logement social", "pôle emploi", "pole-emploi.fr"],
-      "cible": "Réaliser des démarches administratives avec un accompagnement",
-      "modalites_accompagnement": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+      "colonnes": ["checkboxListeTypeformdroits"],
+      "termes": ["1", "2", "3", "4", "5", "6", "7"],
+      "cible": "Devenir autonome dans les démarches administratives"
+    },
+    {
+      "colonnes": ["checkboxListeTypeaccompagnementenligne"],
+      "termes": ["1", "2", "3", "4", "5", "6", "7", "8"],
+      "cible": "Réaliser des démarches administratives avec un accompagnement"
     }
   ],
   "horaires": {
     "jours": [
       {
-        "colonne": "Lundi",
+        "colonne": "ouv_lundi",
         "osm": "Mo"
       },
       {
-        "colonne": "Mardi",
+        "colonne": "ouv_mardi",
         "osm": "Tu"
       },
       {
-        "colonne": "Mercredi",
+        "colonne": "ouv_mercredi",
         "osm": "We"
       },
       {
-        "colonne": "Jeudi",
+        "colonne": "ouv_jeudi",
         "osm": "Th"
       },
       {
-        "colonne": "Vendredi",
+        "colonne": "ouv_vendredi",
         "osm": "Fr"
       },
       {
-        "colonne": "Samedi",
+        "colonne": "ouv_samedi",
         "osm": "Sa"
       },
       {
-        "colonne": "Dimanche",
+        "colonne": "ouv_dimanche",
         "osm": "Su"
       }
     ]

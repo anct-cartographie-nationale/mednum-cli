@@ -31,7 +31,7 @@ const FIX_MULTILINES_IN_VOIE = (matching: LieuxMediationNumeriqueMatching): Clea
 const toCommuneName = (commune: Commune): string => commune.Nom_commune.toLowerCase();
 
 const formatToCommuneNameData = (commune: string): string =>
-  commune.toLowerCase().replace('saint', 'st').replace(/['-]/gu, ' ');
+  commune.toLowerCase().replace('saint', 'st').replace(/['-]/gu, ' ').replace(/\s+$/u, '');
 
 const formatCodePostal = (codePostal: string): string => (codePostal.length === 4 ? `0${codePostal}` : codePostal);
 
