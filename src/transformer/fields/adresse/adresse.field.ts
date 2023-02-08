@@ -7,12 +7,15 @@ import { CLEAN_OPERATIONS, CleanOperation } from './clean-operations';
 
 type FixedAdresse = DataSource | undefined;
 
-const formatCommune = (commune: string): string => (commune.charAt(0).toUpperCase() + commune.slice(1)).replace(/\s+$/u, '');
+const formatCommune = (commune: string): string =>
+  (commune.charAt(0).toUpperCase() + commune.slice(1)).replace(/\s+/gu, ' ').trim();
 
 const formatVoie = (adressePostale: string): string =>
   (adressePostale.includes('\n') ? adressePostale.substring(0, adressePostale.indexOf('\n')) : adressePostale)
     .replace(/,/gu, '')
-    .replace(/"/gu, '');
+    .replace(/"/gu, '')
+    .replace(/\s+/gu, ' ')
+    .trim();
 
 const isColonne = (colonneToTest: Partial<Colonne> & Partial<Jonction>): colonneToTest is Colonne =>
   colonneToTest.colonne != null;
@@ -25,7 +28,7 @@ const voieField = (source: DataSource, voie: Jonction & Partial<Colonne>): strin
         .trim();
 
 const complementAdresseIfAny = (complementAdresse?: string): { complement_adresse?: string } =>
-  complementAdresse == null ? {} : { complement_adresse: complementAdresse };
+  complementAdresse == null ? {} : { complement_adresse: complementAdresse.replace(/\s+/gu, ' ').trim() };
 
 const codeInseeIfAny = (codeInsee?: string): { code_insee?: string } => (codeInsee == null ? {} : { code_insee: codeInsee });
 

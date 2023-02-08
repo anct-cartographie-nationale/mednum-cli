@@ -41,6 +41,23 @@
   "source": {
     "colonne": "source"
   },
+  "labels_nationaux": [
+    {
+      "colonnes": ["labels_nat"],
+      "termes": ["conseiller-numerique"],
+      "cible": "CNFS"
+    },
+    {
+      "colonnes": ["labels_nat"],
+      "termes": ["france-service"],
+      "cible": "France Services"
+    },
+    {
+      "colonnes": ["labels_nat"],
+      "termes": ["aidants-connect"],
+      "cible": "Aidants Connect"
+    }
+  ],
   "conditions_acces": [
     {
       "colonnes": ["conditions_acces"],
@@ -225,6 +242,6 @@
     }
   ],
   "horaires": {
-    "osm": "horaires"
+    "osm": "horaires_ouverture"
   }
 }

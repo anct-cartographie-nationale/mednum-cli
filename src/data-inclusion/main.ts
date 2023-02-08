@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-restricted-imports,max-lines-per-function,@typescript-eslint/naming-convention, camelcase, @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-restricted-imports,max-lines-per-function,@typescript-eslint/naming-convention, camelcase, @typescript-eslint/no-explicit-any, max-lines */
 
 import * as fs from 'fs';
 import ErrnoException = NodeJS.ErrnoException;
 import {
   CommuneError,
-  LieuMediationNumerique,
   MandatorySiretOrRnaError,
   SchemaServiceDataInclusion,
   SchemaStructureDataInclusion,
@@ -15,13 +14,24 @@ import {
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { DataInclusionMerged, mergeServicesInStructure } from './merge-services-in-structure';
 
+type SchemaStructureDataInclusionWithServices = SchemaStructureDataInclusion & {
+  services: string;
+  labels_nat: string;
+  labels_autre: string;
+};
+
 const SOURCE_PATH: string = './assets/input/';
 const DATA_INCLUSION_STRUCTURES_FILE: string = 'data-inclusion-structures.json';
 const DATA_INCLUSION_SERVICES_FILE: string = 'data-inclusion-services.json';
 
 const NAME: string = 'data-inclusion';
 
-const onlyWithServices = (lieu: any): boolean => lieu?.services.includes('numerique');
+const onlyDefindedSchemaStructureDataInclusion = (
+  schemaStructureDataInclusion?: SchemaStructureDataInclusionWithServices
+): schemaStructureDataInclusion is SchemaStructureDataInclusionWithServices => schemaStructureDataInclusion != null;
+
+const onlyWithServices = (schemaStructureDataInclusion: SchemaStructureDataInclusionWithServices): boolean =>
+  schemaStructureDataInclusion.services.includes('numerique');
 
 const mergeThematiques = (thematiques?: string[], thematiquesToAdd?: string[]): { thematiques: string[] } => ({
   thematiques: Array.from(new Set([...(thematiques ?? []), ...(thematiquesToAdd ?? [])]))
@@ -55,7 +65,10 @@ const toSingleService = (
   ...mergePriseRdv(mergedService.prise_rdv, service.prise_rdv)
 });
 
-const mergeServices = (services: SchemaServiceDataInclusion[], structure: SchemaStructureDataInclusion): any =>
+const mergeServices = (
+  services: SchemaServiceDataInclusion[],
+  structure: SchemaStructureDataInclusion
+): SchemaServiceDataInclusion =>
   services.reduce(toSingleService, {
     id: `${structure.id}-mediation-numerique`,
     nom: 'Médiation numérique',
@@ -91,9 +104,14 @@ const getFrais = (conditionAcces?: string[]): { conditions_acces?: string } =>
         conditions_acces: conditionAcces.map((frais: string): string => frais).join(';')
       };
 
-const processFields = (structure: SchemaStructureDataInclusion, service: SchemaServiceDataInclusion): any => ({
+const processFields = (
+  structure: SchemaStructureDataInclusion,
+  service: SchemaServiceDataInclusion
+): SchemaStructureDataInclusionWithServices => ({
   ...structure,
   date_maj: new Date(structure.date_maj).toLocaleDateString('fr'),
+  labels_nat: structure.labels_nationaux?.join(';') ?? '',
+  labels_autre: structure.labels_autres?.join(';') ?? '',
   ...getServices(service.thematiques),
   ...getPublicsAccueillis(service.profils),
   ...getModalitesAccompagnement(service.types),
@@ -114,9 +132,9 @@ const matchActual =
   (invalidLieuError: unknown): boolean =>
     error instanceof (invalidLieuError as typeof Error);
 
-const toLieuxDeMediationNumerique =
+const toMergeDataInclusionWithServices =
   (dataInclusionServices: SchemaServiceDataInclusion[]) =>
-  (structure: SchemaStructureDataInclusion): LieuMediationNumerique | undefined => {
+  (structure: SchemaStructureDataInclusion): SchemaStructureDataInclusionWithServices | undefined => {
     try {
       const dataInclusionMerged: DataInclusionMerged = mergeServicesInStructure(dataInclusionServices, structure);
       return processFields(
@@ -141,11 +159,12 @@ fs.readFile(
         const dataInclusionStructures: SchemaStructureDataInclusion[] = JSON.parse(dataInclusionStructuresString);
         const dataInclusionServices: SchemaServiceDataInclusion[] = JSON.parse(dataInclusionServicesString);
 
-        const lieuxDeMediationNumerique: any[] = dataInclusionStructures
-          .map(toLieuxDeMediationNumerique(dataInclusionServices))
+        const schemaDataInclusionWithServices: SchemaStructureDataInclusionWithServices[] = dataInclusionStructures
+          .map(toMergeDataInclusionWithServices(dataInclusionServices))
+          .filter(onlyDefindedSchemaStructureDataInclusion)
           .filter(onlyWithServices);
 
-        fs.writeFileSync(`./assets/output/${NAME}.json`, JSON.stringify(lieuxDeMediationNumerique), 'utf8');
+        fs.writeFileSync(`./assets/output/${NAME}.json`, JSON.stringify(schemaDataInclusionWithServices), 'utf8');
       }
     );
   }
