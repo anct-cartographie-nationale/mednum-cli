@@ -16,7 +16,7 @@ export class DateCannotBeEmptyError extends Error {
 
 const STANDARD_DATE_REG_EXP: RegExp = /^(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})$/u;
 
-const STANDARD_DATE_TIME_REG_EXP: RegExp = /^(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2}) (?<time>\d{2}:\d{2}:\d{2})$/u;
+const STANDARD_DATE_TIME_REG_EXP: RegExp = /^(?<year>\d{4})[-\/](?<month>\d{2})[-\/](?<day>\d{2}) (?<time>\d{2}:\d{2}:\d{2})$/u;
 
 const FRENCH_DATE_REG_EXP: RegExp = /^(?<day>\d{2})\/(?<month>\d{1,2})\/(?<year>\d{4})$/u;
 
@@ -61,4 +61,7 @@ const dateFromRegExp =
 const removeInvalidChars = (sourceDate: string = ''): string => sourceDate.replace(/[A-Za-zÀ-ÖØ-öø-ÿœ]/gu, '').trim();
 
 export const processDate = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Date =>
-  DATE_REGEXP.reduce(dateFromRegExp(removeInvalidChars(source[matching.date_maj.colonne]?.toString())), new Date(NaN));
+  DATE_REGEXP.reduce(
+    dateFromRegExp(removeInvalidChars(source[matching.date_maj.colonne]?.toString().replace(/\.\d+$/, ''))),
+    new Date(NaN)
+  );
