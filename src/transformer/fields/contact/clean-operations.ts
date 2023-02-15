@@ -28,6 +28,13 @@ const removeMissingExtensionWebsites = (field: string): CleanOperation => ({
   field
 });
 
+const fixMissingHttpWebsitesWithMultipleUrl = (field: string): CleanOperation => ({
+  name: 'missing http websites',
+  selector: /;((?!http[s]?:\/\/)[^;]+)/g,
+  field,
+  fix: (toFix: string): string => toFix.replace(/;((?!http[s]?:\/\/)[^;]+)/g, ';http://$1')
+});
+
 const fixMissingHttpWebsites = (field: string): CleanOperation => ({
   name: 'missing http websites',
   selector: /^(?!http).*/u,
@@ -176,6 +183,13 @@ const fixUnexpectedEmailLabel = (field: string): CleanOperation => ({
   fix: (toFix: string): string => toFix.split(/\s:\s/u)[1] ?? ''
 });
 
+const fixStartingWithDotEmail = (field: string): CleanOperation => ({
+  name: 'email starting with dot',
+  selector: /^\.([^@]+)@/u,
+  field,
+  fix: (toFix: string): string => toFix.replace(/^\.([^@]+)@/u, '$1@')
+});
+
 const fixUnexpectedEmailList = (field: string): CleanOperation => ({
   name: 'unexpected email list',
   selector: /\S\s?(?:et|ou|;|\s|\/)\s?\S/u,
@@ -213,16 +227,17 @@ const cleanOperationIfAny = (cleanOperator: (colonne: string) => CleanOperation,
   colonne == null ? [] : [cleanOperator(colonne)];
 
 export const cleanOperations = (matching: LieuxMediationNumeriqueMatching): CleanOperation[] => [
+  ...cleanOperationIfAny(fixMultipleWebsitesSeparator, matching.site_web?.colonne),
   ...cleanOperationIfAny(removeDashEmail, matching.courriel?.colonne),
   ...cleanOperationIfAny(removeHttpOnlyWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(removeWebsitesWithAccentedCharacters, matching.site_web?.colonne),
   ...cleanOperationIfAny(removeMissingExtensionWebsites, matching.site_web?.colonne),
-  ...cleanOperationIfAny(fixMissingHttpWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixDuplicateHttpWebsites, matching.site_web?.colonne),
-  ...cleanOperationIfAny(fixMultipleWebsitesSeparator, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixWebsitesWithComaInsteadOfDot, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixWebsitesWithMissingSlashAfterHttp, matching.site_web?.colonne),
   ...cleanOperationIfAny(removeWebsitesWithSpaces, matching.site_web?.colonne),
+  ...cleanOperationIfAny(fixMissingHttpWebsites, matching.site_web?.colonne),
+  ...cleanOperationIfAny(fixMissingHttpWebsitesWithMultipleUrl, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixUnexpectedPhoneList, matching.telephone?.colonne),
   ...cleanOperationIfAny(fixDetailsInParenthesisInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(fixHeadingDetailsInPhone, matching.telephone?.colonne),
@@ -237,6 +252,7 @@ export const cleanOperations = (matching: LieuxMediationNumeriqueMatching): Clea
   ...cleanOperationIfAny(removeEmailStartingWithWww, matching.courriel?.colonne),
   ...cleanOperationIfAny(removeEmailStartingWithAt, matching.courriel?.colonne),
   ...cleanOperationIfAny(trimEmail, matching.courriel?.colonne),
+  ...cleanOperationIfAny(fixStartingWithDotEmail, matching.courriel?.colonne),
   ...cleanOperationIfAny(fixEmailStartingWithMailTo, matching.courriel?.colonne),
   ...cleanOperationIfAny(fixUnexpectedEmailLabel, matching.courriel?.colonne),
   ...cleanOperationIfAny(fixUnexpectedEmailList, matching.courriel?.colonne),

@@ -109,6 +109,7 @@ const processFields = (
   service: SchemaServiceDataInclusion
 ): SchemaStructureDataInclusionWithServices => ({
   ...structure,
+  id: `${structure.id}-${structure.source}`,
   date_maj: new Date(structure.date_maj).toLocaleDateString('fr'),
   labels_nat: structure.labels_nationaux?.join(';') ?? '',
   labels_autre: structure.labels_autres?.join(';') ?? '',

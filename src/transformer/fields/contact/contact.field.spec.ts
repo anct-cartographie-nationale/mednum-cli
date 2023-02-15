@@ -181,6 +181,21 @@ describe('contact field', (): void => {
     );
   });
 
+  it('should fix multiple urls separated with ou and missing http', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        'Site Web': 'http://www.banquealimentaire.org ou barennes.banquealimentaire.org'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        site_web: [Url('http://www.banquealimentaire.org'), Url('http://barennes.banquealimentaire.org')]
+      })
+    );
+  });
+
   it('should fix url with comma instead of dot', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
@@ -637,6 +652,21 @@ describe('contact field', (): void => {
     expect(contact).toStrictEqual<Contact>(
       Contact({
         courriel: 'accuei@cap-berriat.com'
+      })
+    );
+  });
+
+  it('should delete starting dot in an email', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        [EMAIL_FIELD]: '.francois.legoff@orange.fr'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        courriel: 'francois.legoff@orange.fr'
       })
     );
   });
