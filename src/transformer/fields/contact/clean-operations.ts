@@ -1,4 +1,4 @@
-/* eslint-disable max-lines, max-lines-per-function */
+/* eslint-disable max-lines, max-lines-per-function, prefer-named-capture-group */
 
 import { LieuxMediationNumeriqueMatching } from '../../input';
 
@@ -30,9 +30,9 @@ const removeMissingExtensionWebsites = (field: string): CleanOperation => ({
 
 const fixMissingHttpWebsitesWithMultipleUrl = (field: string): CleanOperation => ({
   name: 'missing http websites',
-  selector: /;((?!http[s]?:\/\/)[^;]+)/g,
+  selector: /;((?!http[s]?:\/\/)[^;]+)/gu,
   field,
-  fix: (toFix: string): string => toFix.replace(/;((?!http[s]?:\/\/)[^;]+)/g, ';http://$1')
+  fix: (toFix: string): string => toFix.replace(/;((?!http[s]?:\/\/)[^;]+)/gu, ';http://$1')
 });
 
 const fixMissingHttpWebsites = (field: string): CleanOperation => ({

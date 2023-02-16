@@ -41,6 +41,9 @@
   "source": {
     "colonne": "source"
   },
+  "prise_rdv": {
+    "colonne": "prise_rdv"
+  },
   "labels_nationaux": [
     {
       "colonnes": ["labels_nat"],

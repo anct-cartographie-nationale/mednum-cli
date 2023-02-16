@@ -104,6 +104,8 @@ const getFrais = (conditionAcces?: string[]): { conditions_acces?: string } =>
         conditions_acces: conditionAcces.map((frais: string): string => frais).join(';')
       };
 
+const getSource = (source?: string): string => source?.split('mediation-numerique-')[1] ?? source ?? '';
+
 const processFields = (
   structure: SchemaStructureDataInclusion,
   service: SchemaServiceDataInclusion
@@ -111,6 +113,7 @@ const processFields = (
   ...structure,
   id: `${structure.id}-${structure.source}`,
   date_maj: new Date(structure.date_maj).toLocaleDateString('fr'),
+  source: getSource(structure.source),
   labels_nat: structure.labels_nationaux?.join(';') ?? '',
   labels_autre: structure.labels_autres?.join(';') ?? '',
   ...getServices(service.thematiques),
