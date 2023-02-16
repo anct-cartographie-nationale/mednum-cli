@@ -1,79 +1,68 @@
 {
+  "id": {
+    "colonne": "recordid"
+  },
   "nom": {
-    "colonne": "nom_structure"
+    "colonne": "fields.nom_structure"
   },
   "commune": {
-    "colonne": "commune"
+    "colonne": "fields.commune"
   },
   "code_postal": {
-    "colonne": "code_postal"
-  },
-  "code_insee": {
-    "colonne": "adresse_code_insee"
+    "colonne": "fields.code_postal"
   },
   "adresse": {
-    "joindre": {
-      "colonnes": ["compl_adresse", "adresse"],
-      "séparateur": " "
-    }
+    "colonne": "fields.adresse"
   },
   "latitude": {
-    "dissocier": {
-      "colonne": ["geom"],
-      "séparateur": ",",
-      "partie": 0
-    }
+    "colonne": "geometry.coordinates.1"
   },
   "longitude": {
-    "dissocier": {
-      "colonne": ["geom"],
-      "séparateur": ",",
-      "partie": 1
-    }
+    "colonne": "geometry.coordinates.0"
   },
   "telephone": {
-    "colonne": "telephone"
+    "colonne": "fields.telephone"
   },
   "courriel": {
-    "colonne": "adresse_mail"
+    "colonne": "fields.adresse_mail"
   },
   "site_web": {
-    "colonne": "site_web"
+    "colonne": "fields.site_web"
   },
   "date_maj": {
-    "colonne": "date"
+    "colonne": "record_timestamp"
   },
   "horaires": {
-    "semaine": "jours_horaires_ouverture"
+    "semaine": "fields.jours_horaires_ouverture"
   },
   "publics_accueillis": [
     {
-      "colonnes": ["type_public"],
-      "termes": ["Etudiants", "10-21 ans"],
+      "colonnes": ["fields.type_public"],
+      "termes": ["etudiants", "10-21 ans", "elèves"],
       "cible": "Jeunes (16-26 ans)"
     },
     {
-      "colonnes": ["type_public"],
+      "colonnes": ["fields.type_public"],
       "termes": ["10-21 ans", "8-15 ans", "parents", "enseignants"],
       "cible": "Familles/enfants"
     },
     {
-      "colonnes": ["type_public"],
+      "colonnes": ["fields.type_public"],
       "termes": ["Adultes"],
       "cible": "Adultes"
     },
     {
-      "colonnes": ["type_public"],
+      "colonnes": ["fields.type_public"],
       "termes": ["Seniors"],
       "cible": "Seniors (+ 65 ans)"
     },
     {
-      "colonnes": ["type_public"],
+      "colonnes": ["fields.type_public"],
       "termes": ["Public en situation d'illettrisme"],
       "cible": "Personnes en situation d'illettrisme"
     },
     {
-      "colonnes": ["type_public"],
+      "colonnes": ["fields.type_public"],
       "termes": ["Public en difficult", "Public d'origine"],
       "cible": "Public langues étrangères"
     }
@@ -97,80 +86,80 @@
   ],
   "conditions_acces": [
     {
-      "colonnes": ["tarif_acces_equipement"],
+      "colonnes": ["fields.tarif_acces_equipement"],
       "termes": ["Gratuit pour les apprenants", "Gratuit pour les adhérents"],
       "cible": "Gratuit sous condition : La gratuité est conditionnée à des critères (situation familiale, convention avec un organisme social...)"
     },
     {
-      "colonnes": ["tarif_acces_equipement"],
+      "colonnes": ["fields.tarif_acces_equipement"],
       "termes": ["Payant"],
       "cible": "Payant : L'accès au lieu et/ou à ses services est payant"
     },
     {
-      "colonnes": ["acces_equipement_numerique_et_internet"],
+      "colonnes": ["fields.acces_equipement_numerique_et_internet"],
       "termes": ["adhérent"],
       "cible": "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"
     }
   ],
   "services": [
     {
-      "colonnes": ["contenu_niveau_formations_ateliers"],
+      "colonnes": ["fields.contenu_niveau_formations_ateliers"],
       "termes": ["marches"],
       "cible": "Devenir autonome dans les démarches administratives"
     },
     {
-      "colonnes": ["accompagnement_pour_des_demarches_en_ligne"],
+      "colonnes": ["fields.accompagnement_pour_des_demarches_en_ligne"],
       "termes": ["oui"],
       "cible": "Réaliser des démarches administratives avec un accompagnement"
     },
     {
-      "colonnes": ["contenu_niveau_formations_ateliers"],
+      "colonnes": ["fields.contenu_niveau_formations_ateliers"],
       "termes": ["de base"],
       "cible": "Prendre en main un smartphone ou une tablette"
     },
     {
-      "colonnes": ["contenu_niveau_formations_ateliers"],
+      "colonnes": ["fields.contenu_niveau_formations_ateliers"],
       "termes": ["de base"],
       "cible": "Prendre en main un ordinateur"
     },
     {
-      "colonnes": ["contenu_niveau_formations_ateliers", "se perfectionner"],
-      "termes": ["quotidien", "bureautiques", "Initiation"],
+      "colonnes": ["fields.contenu_niveau_formations_ateliers"],
+      "termes": ["quotidien", "bureautiques", "initiation", "se perfectionner"],
       "cible": "Utiliser le numérique au quotidien"
     },
     {
-      "colonnes": ["contenu_niveau_formations_ateliers"],
+      "colonnes": ["fields.contenu_niveau_formations_ateliers"],
       "termes": ["ludiques", "loisirs"],
       "cible": "Approfondir ma culture numérique"
     },
     {
-      "colonnes": ["accompagnement_pour_des_demarches_en_ligne"],
+      "colonnes": ["fields.accompagnement_pour_des_demarches_en_ligne"],
       "termes": ["Emploi"],
       "cible": "Favoriser mon insertion professionnelle"
     },
     {
-      "colonnes": ["contenu_niveau_formations_ateliers"],
+      "colonnes": ["fields.contenu_niveau_formations_ateliers"],
       "termes": ["emploi"],
       "cible": "Favoriser mon insertion professionnelle"
     },
     {
-      "colonnes": ["contenu_niveau_formations_ateliers"],
+      "colonnes": ["fields.contenu_niveau_formations_ateliers"],
       "termes": ["arduino", "ludiques", "enregistrement audio"],
       "cible": "Créer avec le numérique"
     },
     {
-      "colonnes": ["accompagnement_pour_des_demarches_en_ligne"],
+      "colonnes": ["fields.accompagnement_pour_des_demarches_en_ligne"],
       "termes": ["marches en lien avec la scolarit"],
       "cible": "Soutenir la parentalité et l'éducation avec le numérique"
     },
     {
-      "colonnes": ["materiels_disponibles"],
-      "termes": ["oui"],
+      "colonnes": ["fields.type_equipement"],
+      "termes": ["ordinateur", "imprimante", "scanner", "internet"],
       "cible": "Accéder à du matériel"
     },
     {
-      "colonnes": ["materiels_disponibles"],
-      "termes": ["oui"],
+      "colonnes": ["fields.type_equipement"],
+      "termes": ["ordinateur", "imprimante", "scanner", "internet"],
       "cible": "Accéder à une connexion internet"
     }
   ]
