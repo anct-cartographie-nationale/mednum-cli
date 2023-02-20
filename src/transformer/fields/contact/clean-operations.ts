@@ -150,6 +150,18 @@ const removeOnly0ValueInPhone = (field: string): CleanOperation => ({
   field
 });
 
+const removeNoValidNumbersInPhone = (field: string): CleanOperation => ({
+  name: 'fake number in phone',
+  selector: /^[1-9]\d{9}$/u,
+  field
+});
+
+const removeStartingByTwoZeroInPhone = (field: string): CleanOperation => ({
+  name: 'fake number in phone',
+  selector: /^00.+/u,
+  field
+});
+
 const removeEmailStartingWithWww = (field: string): CleanOperation => ({
   name: 'email starts with www.',
   selector: /^www\./u,
@@ -238,6 +250,8 @@ export const cleanOperations = (matching: LieuxMediationNumeriqueMatching): Clea
   ...cleanOperationIfAny(removeWebsitesWithSpaces, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixMissingHttpWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixMissingHttpWebsitesWithMultipleUrl, matching.site_web?.colonne),
+  ...cleanOperationIfAny(removeStartingByTwoZeroInPhone, matching.telephone?.colonne),
+  ...cleanOperationIfAny(removeNoValidNumbersInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(fixUnexpectedPhoneList, matching.telephone?.colonne),
   ...cleanOperationIfAny(fixDetailsInParenthesisInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(fixHeadingDetailsInPhone, matching.telephone?.colonne),

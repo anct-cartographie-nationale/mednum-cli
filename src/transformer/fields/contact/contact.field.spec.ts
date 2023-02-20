@@ -511,6 +511,28 @@ describe('contact field', (): void => {
     );
   });
 
+  it('should remove phone with good numbers of digit but not valid', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        Téléphone: '5858777054'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(Contact({}));
+  });
+
+  it('should remove phone if starting by two zero', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        Téléphone: '0081188806'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(Contact({}));
+  });
+
   it('should remove phone number with missing numbers', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
