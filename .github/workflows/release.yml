@@ -24,7 +24,8 @@ jobs:
             france-tiers-lieux,
             conseiller-numerique,
             francil-in,
-            angers
+            angers,
+            hub-lo
           ]
     runs-on: ubuntu-latest
     environment: production

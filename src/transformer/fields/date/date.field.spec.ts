@@ -97,4 +97,26 @@ describe('date field', (): void => {
       );
     }).toThrow(new DateCannotBeEmptyError());
   });
+
+  it('should delete milliseconds in date', (): void => {
+    const date: Date = processDate(
+      {
+        datetime_latest: '2022/06/10 10:04:59.524'
+      },
+      matching
+    );
+
+    expect(date).toEqual(new Date('2022/06/10 10:04:59'));
+  });
+
+  it('should process date field with value 2022/06/10 10:04:59', (): void => {
+    const date: Date = processDate(
+      {
+        datetime_latest: '2022/06/10 10:04:59'
+      },
+      matching
+    );
+
+    expect(date).toEqual(new Date('2022/06/10 10:04:59'));
+  });
 });
