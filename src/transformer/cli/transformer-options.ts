@@ -1,6 +1,13 @@
 import { Command } from 'commander';
 import { Question } from 'inquirer';
-import { configFileOption, outputDirectoryOption, sourceOption, sourceNameOption, encodingOption } from './options';
+import {
+  configFileOption,
+  outputDirectoryOption,
+  sourceOption,
+  sourceNameOption,
+  encodingOption,
+  delimiterOption
+} from './options';
 import { configFileQuestion, outputDirectoryQuestion, sourceQuestion, sourceNameQuestion } from './questions';
 import { territoryOption } from './options/territory.option';
 import { territoryQuestion } from './questions/territory.question';
@@ -12,6 +19,7 @@ export type TransformerOptions = {
   sourceName: string;
   territory: string;
   encoding?: string;
+  delimiter?: string;
 };
 
 export const TRANSFORMER_OPTIONS: ((program: Command) => Command)[] = [
@@ -20,7 +28,8 @@ export const TRANSFORMER_OPTIONS: ((program: Command) => Command)[] = [
   outputDirectoryOption,
   sourceNameOption,
   territoryOption,
-  encodingOption
+  encodingOption,
+  delimiterOption
 ];
 
 export const transformerOptionsQuestions = (transformerOptions: TransformerOptions): Question[] => [

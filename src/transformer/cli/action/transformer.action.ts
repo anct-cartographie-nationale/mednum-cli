@@ -6,7 +6,7 @@ import { toLieuxMediationNumerique, validValuesOnly } from '../../input';
 import { writeOutputFiles } from '../../output';
 import { TransformerOptions } from '../transformer-options';
 import axios, { AxiosResponse } from 'axios';
-
+/* eslint-disable max-lines-per-function */
 /* eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/typedef, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
 const iconv = require('iconv-lite');
 
@@ -21,8 +21,14 @@ const REPORT: Report = Report();
 const fromJson = <T>(response: Record<string, T>, key?: string): T[] =>
   key == null ? Object.values(response) : Object.values(response[key] ?? {});
 
-const getDataFromAPI = async (response: AxiosResponse, key?: string, encoding?: string): Promise<string> => {
+const getDataFromAPI = async (
+  response: AxiosResponse,
+  key?: string,
+  encoding?: string,
+  delimiter?: string
+): Promise<string> => {
   const fromEncoding: string = encoding !== undefined && encoding !== '' ? encoding : 'utf8';
+  const fromDelimiter: string = delimiter !== undefined && delimiter !== '' ? delimiter : ',';
   const chunks: Uint8Array[] = [];
 
   response.data.on('data', (chunk: Uint8Array): number => chunks.push(chunk));
@@ -33,7 +39,7 @@ const getDataFromAPI = async (response: AxiosResponse, key?: string, encoding?: 
         resolve(
           JSON.stringify(
             response.headers['content-type'] === 'text/csv'
-              ? await csv({ delimiter: ';', ignoreEmpty: true }).fromString(decodedBody as unknown as string)
+              ? await csv({ delimiter: fromDelimiter }).fromString(decodedBody as unknown as string)
               : fromJson(JSON.parse(Buffer.concat(chunks).toString()), key)
           )
         );
@@ -43,8 +49,8 @@ const getDataFromAPI = async (response: AxiosResponse, key?: string, encoding?: 
   );
 };
 
-const fetchFrom = async ([source, key]: string[], encoding: string): Promise<string> =>
-  getDataFromAPI(await axios.get(source ?? '', { responseType: 'stream' }), key, encoding);
+const fetchFrom = async ([source, key]: string[], encoding?: string, delimiter?: string): Promise<string> =>
+  getDataFromAPI(await axios.get(source ?? '', { responseType: 'stream' }), key, encoding, delimiter);
 
 const readFrom = async ([source, key]: string[]): Promise<string> =>
   JSON.stringify(fromJson(JSON.parse(await fs.promises.readFile(source ?? '', 'utf-8')), key));
@@ -52,7 +58,11 @@ const readFrom = async ([source, key]: string[]): Promise<string> =>
 export const transformerAction = async (transformerOptions: TransformerOptions): Promise<void> => {
   await Promise.all([
     transformerOptions.source.startsWith('http')
-      ? await fetchFrom(transformerOptions.source.split('@'), transformerOptions.encoding ?? '')
+      ? await fetchFrom(
+          transformerOptions.source.split('@'),
+          transformerOptions.encoding ?? '',
+          transformerOptions.delimiter ?? ''
+        )
       : await readFrom(transformerOptions.source.split('@')),
     fs.promises.readFile(transformerOptions.configFile, 'utf-8')
   ]).then(([input, matching]: [string, string]): void => {
