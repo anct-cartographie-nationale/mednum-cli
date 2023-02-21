@@ -22,7 +22,7 @@ const fromJson = <T>(response: Record<string, T>, key?: string): T[] =>
   key == null ? Object.values(response) : Object.values(response[key] ?? {});
 
 const getDataFromAPI = async (response: AxiosResponse, key?: string, encoding?: string): Promise<string> => {
-  const fromEncoding = encoding ?? 'utf8';
+  const fromEncoding: string = encoding ?? 'utf8';
   const chunks: Uint8Array[] = [];
 
   response.data.on('data', (chunk: Uint8Array): number => chunks.push(chunk));
@@ -52,7 +52,7 @@ const readFrom = async ([source, key]: string[]): Promise<string> =>
 export const transformerAction = async (transformerOptions: TransformerOptions): Promise<void> => {
   await Promise.all([
     transformerOptions.source.startsWith('http')
-      ? await fetchFrom(transformerOptions.source.split('@'), transformerOptions.encoding)
+      ? await fetchFrom(transformerOptions.source.split('@'), transformerOptions.encoding ?? '')
       : await readFrom(transformerOptions.source.split('@')),
     fs.promises.readFile(transformerOptions.configFile, 'utf-8')
   ]).then(([input, matching]: [string, string]): void => {
