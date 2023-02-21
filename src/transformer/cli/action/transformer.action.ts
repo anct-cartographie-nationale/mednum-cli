@@ -22,7 +22,7 @@ const fromJson = <T>(response: Record<string, T>, key?: string): T[] =>
   key == null ? Object.values(response) : Object.values(response[key] ?? {});
 
 const getDataFromAPI = async (response: AxiosResponse, key?: string, encoding?: string): Promise<string> => {
-  const fromEncoding: string = encoding ? encoding : 'utf8';
+  const fromEncoding: string = encoding !== undefined && encoding !== '' ? encoding : 'utf8';
   const chunks: Uint8Array[] = [];
 
   response.data.on('data', (chunk: Uint8Array): number => chunks.push(chunk));
