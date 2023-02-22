@@ -135,6 +135,22 @@ describe('adresse field', (): void => {
     });
   });
 
+  it('should fix code postal with extra . and digit', (): void => {
+    const source: DataSource = {
+      'Adresse postale *': '10 rue du Serre Blanc',
+      'Code postal': '68100.0',
+      'Ville *': 'SAINT PAUL TROIS CH╢TEAUX'
+    };
+
+    const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
+
+    expect(adresse).toStrictEqual({
+      code_postal: '68100',
+      commune: 'SAINT PAUL TROIS CHÂTEAUX',
+      voie: '10 rue du Serre Blanc'
+    });
+  });
+
   it('should fix commune Saint Laurent de Chamousset with no code postal', (): void => {
     const source: DataSource = {
       'Adresse postale *': '122, avenue des 4 cantons',

@@ -1,0 +1,166 @@
+{
+  "id": {
+    "colonne": "recordid"
+  },
+  "nom": {
+    "colonne": "fields.nom_structure"
+  },
+  "commune": {
+    "colonne": "fields.commune"
+  },
+  "code_postal": {
+    "colonne": "fields.code_postal"
+  },
+  "adresse": {
+    "colonne": "fields.adresse"
+  },
+  "latitude": {
+    "colonne": "geometry.coordinates.1"
+  },
+  "longitude": {
+    "colonne": "geometry.coordinates.0"
+  },
+  "telephone": {
+    "colonne": "fields.telephone"
+  },
+  "courriel": {
+    "colonne": "fields.adresse_mail"
+  },
+  "site_web": {
+    "colonne": "fields.site_web"
+  },
+  "date_maj": {
+    "colonne": "record_timestamp"
+  },
+  "horaires": {
+    "semaine": "fields.jours_horaires_ouverture"
+  },
+  "publics_accueillis": [
+    {
+      "colonnes": ["fields.type_public"],
+      "termes": ["etudiants", "10-21 ans", "elèves"],
+      "cible": "Jeunes (16-26 ans)"
+    },
+    {
+      "colonnes": ["fields.type_public"],
+      "termes": ["10-21 ans", "8-15 ans", "parents", "enseignants"],
+      "cible": "Familles/enfants"
+    },
+    {
+      "colonnes": ["fields.type_public"],
+      "termes": ["Adultes"],
+      "cible": "Adultes"
+    },
+    {
+      "colonnes": ["fields.type_public"],
+      "termes": ["Seniors"],
+      "cible": "Seniors (+ 65 ans)"
+    },
+    {
+      "colonnes": ["fields.type_public"],
+      "termes": ["Public en situation d'illettrisme"],
+      "cible": "Personnes en situation d'illettrisme"
+    },
+    {
+      "colonnes": ["fields.type_public"],
+      "termes": ["Public en difficult", "Public d'origine"],
+      "cible": "Public langues étrangères"
+    }
+  ],
+  "modalites_accompagnement": [
+    {
+      "colonnes": ["acces_equipement_numerique_et_internet"],
+      "termes": ["Oui"],
+      "cible": "Seul : j'ai accès à du matériel et une connexion"
+    },
+    {
+      "colonnes": ["formations_ateliers"],
+      "termes": ["Oui"],
+      "cible": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
+    },
+    {
+      "colonnes": ["accompagnement_pour_des_demarches_en_ligne"],
+      "termes": ["Oui"],
+      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+    }
+  ],
+  "conditions_acces": [
+    {
+      "colonnes": ["fields.tarif_acces_equipement"],
+      "termes": ["Gratuit pour les apprenants", "Gratuit pour les adhérents"],
+      "cible": "Gratuit sous condition : La gratuité est conditionnée à des critères (situation familiale, convention avec un organisme social...)"
+    },
+    {
+      "colonnes": ["fields.tarif_acces_equipement"],
+      "termes": ["Payant"],
+      "cible": "Payant : L'accès au lieu et/ou à ses services est payant"
+    },
+    {
+      "colonnes": ["fields.acces_equipement_numerique_et_internet"],
+      "termes": ["adhérent"],
+      "cible": "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"
+    }
+  ],
+  "services": [
+    {
+      "colonnes": ["fields.contenu_niveau_formations_ateliers"],
+      "termes": ["marches"],
+      "cible": "Devenir autonome dans les démarches administratives"
+    },
+    {
+      "colonnes": ["fields.accompagnement_pour_des_demarches_en_ligne"],
+      "termes": ["oui"],
+      "cible": "Réaliser des démarches administratives avec un accompagnement"
+    },
+    {
+      "colonnes": ["fields.contenu_niveau_formations_ateliers"],
+      "termes": ["de base"],
+      "cible": "Prendre en main un smartphone ou une tablette"
+    },
+    {
+      "colonnes": ["fields.contenu_niveau_formations_ateliers"],
+      "termes": ["de base"],
+      "cible": "Prendre en main un ordinateur"
+    },
+    {
+      "colonnes": ["fields.contenu_niveau_formations_ateliers"],
+      "termes": ["quotidien", "bureautiques", "initiation", "se perfectionner"],
+      "cible": "Utiliser le numérique au quotidien"
+    },
+    {
+      "colonnes": ["fields.contenu_niveau_formations_ateliers"],
+      "termes": ["ludiques", "loisirs"],
+      "cible": "Approfondir ma culture numérique"
+    },
+    {
+      "colonnes": ["fields.accompagnement_pour_des_demarches_en_ligne"],
+      "termes": ["Emploi"],
+      "cible": "Favoriser mon insertion professionnelle"
+    },
+    {
+      "colonnes": ["fields.contenu_niveau_formations_ateliers"],
+      "termes": ["emploi"],
+      "cible": "Favoriser mon insertion professionnelle"
+    },
+    {
+      "colonnes": ["fields.contenu_niveau_formations_ateliers"],
+      "termes": ["arduino", "ludiques", "enregistrement audio"],
+      "cible": "Créer avec le numérique"
+    },
+    {
+      "colonnes": ["fields.accompagnement_pour_des_demarches_en_ligne"],
+      "termes": ["marches en lien avec la scolarit"],
+      "cible": "Soutenir la parentalité et l'éducation avec le numérique"
+    },
+    {
+      "colonnes": ["fields.type_equipement"],
+      "termes": ["ordinateur", "imprimante", "scanner", "internet"],
+      "cible": "Accéder à du matériel"
+    },
+    {
+      "colonnes": ["fields.type_equipement"],
+      "termes": ["ordinateur", "imprimante", "scanner", "internet"],
+      "cible": "Accéder à une connexion internet"
+    }
+  ]
+}

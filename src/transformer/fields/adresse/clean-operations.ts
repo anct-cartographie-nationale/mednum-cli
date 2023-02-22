@@ -69,6 +69,16 @@ const FIX_MISSING_0_IN_CODE_POSTAL = (matching: LieuxMediationNumeriqueMatching)
   fix: (toFix: number | string): string => `0${toFix}`
 });
 
+const FIX_CODE_POSTAL_EXTRA_CHAR = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
+  name: 'extra char in code postal',
+  selector: /\d+\.\d+/u,
+  field: matching.code_postal.colonne,
+  fix: (toFix: number | string): string =>
+    parseInt(toFix.toString(), 10)
+      .toString()
+      .replace(/\d+\.\d+/u, '$&')
+});
+
 const FIX_UNEXPECTED_DETAILS_IN_COMMUNE = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
   name: 'unexpected details in commune',
   selector: /\s*\(.*\)\s*/u,
@@ -81,5 +91,6 @@ export const CLEAN_OPERATIONS = (matching: LieuxMediationNumeriqueMatching): Cle
   FIX_WRONG_ACCENT_CHARS_IN_COMMUNE(matching),
   FIX_MISSING_CODE_POSTAL(matching),
   FIX_MISSING_0_IN_CODE_POSTAL(matching),
+  FIX_CODE_POSTAL_EXTRA_CHAR(matching),
   FIX_MULTILINES_IN_VOIE(matching)
 ];
