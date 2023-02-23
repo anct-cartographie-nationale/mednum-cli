@@ -15,7 +15,8 @@ jobs:
     name: Publish to data.gouv
     strategy:
       matrix:
-        source: [
+        source:
+          [
             hinaura,
             maine-et-loire,
             les-assembleurs,
@@ -24,7 +25,7 @@ jobs:
             conseiller-numerique,
             francil-in,
             angers,
-            hub-lo
+            hub-lo,
             mulhouse
           ]
     runs-on: ubuntu-latest
