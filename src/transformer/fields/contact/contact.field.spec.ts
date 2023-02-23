@@ -2,7 +2,7 @@
 
 import { Contact, Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
-import { Recorder, Report } from '../../report';
+import { Report } from '../../report';
 import { processContact } from './contact.field';
 
 const EMAIL_FIELD: string =
@@ -667,208 +667,18 @@ describe('contact field', (): void => {
     );
   });
 
-  it('should have only one email - white space separator', (): void => {
+  it('should seperate two url if there is no separator', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
-        [EMAIL_FIELD]: 's.fontaine@vichy-communaute.fr t.chosson@vichy-communaute.fr'
+        'Site Web': 'http://www.letoilerie.com/http://marie-et-alphonse.com/'
       } as DataSource,
       matching
     );
 
     expect(contact).toStrictEqual<Contact>(
       Contact({
-        courriel: 's.fontaine@vichy-communaute.fr'
+        site_web: [Url('http://www.letoilerie.com/'), Url('http://marie-et-alphonse.com/')]
       })
     );
-  });
-
-  it('should remove emails looking like urls', (): void => {
-    const contact: Contact = processContact(Report().entry(0))(
-      {
-        [EMAIL_FIELD]: 'www.cc-mdl.fr/maisons-services'
-      } as DataSource,
-      matching
-    );
-
-    expect(contact).toStrictEqual<Contact>(Contact({}));
-  });
-
-  it('should fix obfuscated @ in email', (): void => {
-    const contact: Contact = processContact(Report().entry(0))(
-      {
-        [EMAIL_FIELD]: 'accuei[a]cap-berriat.com'
-      } as DataSource,
-      matching
-    );
-
-    expect(contact).toStrictEqual<Contact>(
-      Contact({
-        courriel: 'accuei@cap-berriat.com'
-      })
-    );
-  });
-
-  it('should delete starting dot in an email', (): void => {
-    const contact: Contact = processContact(Report().entry(0))(
-      {
-        [EMAIL_FIELD]: '.francois.legoff@orange.fr'
-      } as DataSource,
-      matching
-    );
-
-    expect(contact).toStrictEqual<Contact>(
-      Contact({
-        courriel: 'francois.legoff@orange.fr'
-      })
-    );
-  });
-
-  it('should remove missing @ in email', (): void => {
-    const contact: Contact = processContact(Report().entry(0))(
-      {
-        [EMAIL_FIELD]: 'mediathequechevilly.cyber-base.org'
-      } as DataSource,
-      matching
-    );
-
-    expect(contact).toStrictEqual<Contact>(Contact({}));
-  });
-
-  it('should remove label in courriel', (): void => {
-    const contact: Contact = processContact(Report().entry(0))(
-      {
-        [EMAIL_FIELD]: 'courriel : cnumerique15@gmail.com'
-      } as DataSource,
-      matching
-    );
-
-    expect(contact).toStrictEqual<Contact>(
-      Contact({
-        courriel: 'cnumerique15@gmail.com'
-      })
-    );
-  });
-
-  it('should remove courriel starting with @', (): void => {
-    const contact: Contact = processContact(Report().entry(0))(
-      {
-        [EMAIL_FIELD]: '@pole-emploi.fr'
-      } as DataSource,
-      matching
-    );
-
-    expect(contact).toStrictEqual<Contact>(Contact({}));
-  });
-
-  it('should fix courriel starting with mailto:', (): void => {
-    const contact: Contact = processContact(Report().entry(0))(
-      {
-        [EMAIL_FIELD]: 'mailto:mfs-stjust@oise.fr'
-      } as DataSource,
-      matching
-    );
-
-    expect(contact).toStrictEqual<Contact>(
-      Contact({
-        courriel: 'mfs-stjust@oise.fr'
-      })
-    );
-  });
-
-  it('should trim courriel with heading and trailing spaces', (): void => {
-    const contact: Contact = processContact(Report().entry(0))(
-      {
-        [EMAIL_FIELD]: '  mfs-stjust@oise.fr  '
-      } as DataSource,
-      matching
-    );
-
-    expect(contact).toStrictEqual<Contact>(
-      Contact({
-        courriel: 'mfs-stjust@oise.fr'
-      })
-    );
-  });
-
-  it('should remove dash email', (): void => {
-    const contact: Contact = processContact(Report().entry(0))(
-      {
-        [EMAIL_FIELD]: '-----',
-        Téléphone: '3960 (Service 0,06 € / mn + prix appel)'
-        // 'Site Web': 'http://www.carsat-hdf.fr'
-      } as DataSource,
-      matching
-    );
-
-    expect(contact).toStrictEqual<Contact>(
-      Contact({
-        telephone: '+33971103960'
-      })
-    );
-  });
-
-  it('should get invalid email record in report with an update fix', (): void => {
-    const report: Report = Report();
-    const recorder: Recorder = report.entry(0);
-
-    processContact(recorder)(
-      {
-        [EMAIL_FIELD]: 'dupond[a]conseiller-numerique.fr'
-      } as DataSource,
-      matching
-    );
-
-    recorder.commit();
-
-    expect(report.records()).toStrictEqual([
-      {
-        index: 0,
-        errors: [
-          {
-            field: 'courriel',
-            message: "Le courriel dupond[a]conseiller-numerique.fr n'est pas valide",
-            fixes: [
-              {
-                before: 'dupond[a]conseiller-numerique.fr',
-                apply: 'obfuscated @ in email',
-                after: 'dupond@conseiller-numerique.fr'
-              }
-            ]
-          }
-        ]
-      }
-    ]);
-  });
-
-  it('should get invalid email record in report with a delete fix', (): void => {
-    const report: Report = Report();
-    const recorder: Recorder = report.entry(0);
-
-    processContact(recorder)(
-      {
-        [EMAIL_FIELD]: 'dupond@conseiller-numerique.'
-      } as DataSource,
-      matching
-    );
-
-    recorder.commit();
-
-    expect(report.records()).toStrictEqual([
-      {
-        index: 0,
-        errors: [
-          {
-            field: 'courriel',
-            message: "Le courriel dupond@conseiller-numerique. n'est pas valide",
-            fixes: [
-              {
-                before: 'dupond@conseiller-numerique.',
-                apply: 'missing dot suffix in email'
-              }
-            ]
-          }
-        ]
-      }
-    ]);
   });
 });

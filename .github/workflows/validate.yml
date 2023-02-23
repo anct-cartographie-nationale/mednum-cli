@@ -65,7 +65,8 @@ jobs:
             hub-lo,
             mulhouse,
             data-inclusion,
-            paca
+            paca,
+            loire-atlantique
           ]
     runs-on: ubuntu-latest
     environment: demo

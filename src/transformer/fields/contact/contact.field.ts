@@ -106,7 +106,6 @@ export const processContact =
     try {
       return toLieuxMediationNumeriqueContact(source, matching);
     } catch (error: unknown) {
-      // console.log('source', source);
       error instanceof ModelError && recorder.record(error.key, error.message);
       return fixAndRetry(recorder)(source, matching, error);
     }
