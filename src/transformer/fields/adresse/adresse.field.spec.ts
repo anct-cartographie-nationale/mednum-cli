@@ -285,13 +285,6 @@ describe('adresse field', (): void => {
     });
   });
 
-<<<<<<< HEAD
-  it('should fix commune grenoble with no code postal', (): void => {
-    const source: DataSource = {
-      'Adresse postale *': '12 Allée des tilleuls',
-      'Code postal': '',
-      'Ville *': 'grenoble  '
-=======
   it('should process a voie with extra spaces in', (): void => {
     const source: DataSource = {
       CP: '78000',
@@ -332,22 +325,15 @@ describe('adresse field', (): void => {
       'Ville *': 'Versailles',
       'Adresse postale *': '13   rue Saint     Louis  ',
       'Complement adresse': '     Allée    5     '
->>>>>>> refactor: some any and tests added
     };
 
     const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
-<<<<<<< HEAD
-      code_postal: '38100',
-      commune: 'Grenoble',
-      voie: '12 Allée des tilleuls'
-=======
       code_postal: '78000',
       commune: 'Versailles',
       voie: '13 rue Saint Louis',
       complement_adresse: 'Allée 5'
->>>>>>> refactor: some any and tests added
     });
   });
 });
