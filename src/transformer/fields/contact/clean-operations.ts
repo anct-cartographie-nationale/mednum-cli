@@ -1,4 +1,4 @@
-/* eslint-disable max-lines, max-lines-per-function */
+/* eslint-disable max-lines, max-lines-per-function, prefer-named-capture-group */
 
 import { LieuxMediationNumeriqueMatching } from '../../input';
 
@@ -26,6 +26,13 @@ const removeMissingExtensionWebsites = (field: string): CleanOperation => ({
   name: 'missing extension websites',
   selector: /^.*(?<!\.\w+\/?)$/u,
   field
+});
+
+const fixMissingHttpWebsitesWithMultipleUrl = (field: string): CleanOperation => ({
+  name: 'missing http websites',
+  selector: /;((?!http[s]?:\/\/)[^;]+)/gu,
+  field,
+  fix: (toFix: string): string => toFix.replace(/;((?!http[s]?:\/\/)[^;]+)/gu, ';http://$1')
 });
 
 const fixMissingHttpWebsites = (field: string): CleanOperation => ({
@@ -137,6 +144,24 @@ const removeTooManyDigitsInPhone = (field: string): CleanOperation => ({
   field
 });
 
+const removeOnly0ValueInPhone = (field: string): CleanOperation => ({
+  name: 'fake number in phone',
+  selector: /^0{10}$/u,
+  field
+});
+
+const removeNoValidNumbersInPhone = (field: string): CleanOperation => ({
+  name: 'fake number in phone',
+  selector: /^[1-9]\d{9}$/u,
+  field
+});
+
+const removeStartingByTwoZeroInPhone = (field: string): CleanOperation => ({
+  name: 'fake number in phone',
+  selector: /^00.+/u,
+  field
+});
+
 const removeEmailStartingWithWww = (field: string): CleanOperation => ({
   name: 'email starts with www.',
   selector: /^www\./u,
@@ -168,6 +193,13 @@ const fixUnexpectedEmailLabel = (field: string): CleanOperation => ({
   selector: /\S\s:\s\S/u,
   field,
   fix: (toFix: string): string => toFix.split(/\s:\s/u)[1] ?? ''
+});
+
+const fixStartingWithDotEmail = (field: string): CleanOperation => ({
+  name: 'email starting with dot',
+  selector: /^\.([^@]+)@/u,
+  field,
+  fix: (toFix: string): string => toFix.replace(/^\.([^@]+)@/u, '$1@')
 });
 
 const fixUnexpectedEmailList = (field: string): CleanOperation => ({
@@ -207,16 +239,19 @@ const cleanOperationIfAny = (cleanOperator: (colonne: string) => CleanOperation,
   colonne == null ? [] : [cleanOperator(colonne)];
 
 export const cleanOperations = (matching: LieuxMediationNumeriqueMatching): CleanOperation[] => [
+  ...cleanOperationIfAny(fixMultipleWebsitesSeparator, matching.site_web?.colonne),
   ...cleanOperationIfAny(removeDashEmail, matching.courriel?.colonne),
   ...cleanOperationIfAny(removeHttpOnlyWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(removeWebsitesWithAccentedCharacters, matching.site_web?.colonne),
   ...cleanOperationIfAny(removeMissingExtensionWebsites, matching.site_web?.colonne),
-  ...cleanOperationIfAny(fixMissingHttpWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixDuplicateHttpWebsites, matching.site_web?.colonne),
-  ...cleanOperationIfAny(fixMultipleWebsitesSeparator, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixWebsitesWithComaInsteadOfDot, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixWebsitesWithMissingSlashAfterHttp, matching.site_web?.colonne),
   ...cleanOperationIfAny(removeWebsitesWithSpaces, matching.site_web?.colonne),
+  ...cleanOperationIfAny(fixMissingHttpWebsites, matching.site_web?.colonne),
+  ...cleanOperationIfAny(fixMissingHttpWebsitesWithMultipleUrl, matching.site_web?.colonne),
+  ...cleanOperationIfAny(removeStartingByTwoZeroInPhone, matching.telephone?.colonne),
+  ...cleanOperationIfAny(removeNoValidNumbersInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(fixUnexpectedPhoneList, matching.telephone?.colonne),
   ...cleanOperationIfAny(fixDetailsInParenthesisInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(fixHeadingDetailsInPhone, matching.telephone?.colonne),
@@ -227,9 +262,11 @@ export const cleanOperations = (matching: LieuxMediationNumeriqueMatching): Clea
   ...cleanOperationIfAny(fixShortAssuranceRetraitePhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(removeTooFewDigitsInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(removeTooManyDigitsInPhone, matching.telephone?.colonne),
+  ...cleanOperationIfAny(removeOnly0ValueInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(removeEmailStartingWithWww, matching.courriel?.colonne),
   ...cleanOperationIfAny(removeEmailStartingWithAt, matching.courriel?.colonne),
   ...cleanOperationIfAny(trimEmail, matching.courriel?.colonne),
+  ...cleanOperationIfAny(fixStartingWithDotEmail, matching.courriel?.colonne),
   ...cleanOperationIfAny(fixEmailStartingWithMailTo, matching.courriel?.colonne),
   ...cleanOperationIfAny(fixUnexpectedEmailLabel, matching.courriel?.colonne),
   ...cleanOperationIfAny(fixUnexpectedEmailList, matching.courriel?.colonne),

@@ -285,19 +285,55 @@ describe('adresse field', (): void => {
     });
   });
 
-  it('should fix commune grenoble with no code postal', (): void => {
+  it('should process a voie with extra spaces in', (): void => {
     const source: DataSource = {
-      'Adresse postale *': '12 Allée des tilleuls',
-      'Code postal': '',
-      'Ville *': 'grenoble  '
+      CP: '78000',
+      Commune: 'Versailles',
+      Adresse: '    rue Saint     Louis  ',
+      Numéro: '13'
+    };
+
+    const adresse: Adresse = processAdresse(Report().entry(0))(source, SPLIT_VOIE_MATCHING);
+
+    expect(adresse).toStrictEqual({
+      code_postal: '78000',
+      commune: 'Versailles',
+      voie: '13 rue Saint Louis'
+    });
+  });
+
+  it('should process a commune with extra spaces in', (): void => {
+    const source: DataSource = {
+      CP: '78000',
+      Commune: '   Versailles     ',
+      Adresse: '    rue Saint     Louis  ',
+      Numéro: '13'
+    };
+
+    const adresse: Adresse = processAdresse(Report().entry(0))(source, SPLIT_VOIE_MATCHING);
+
+    expect(adresse).toStrictEqual({
+      code_postal: '78000',
+      commune: 'Versailles',
+      voie: '13 rue Saint Louis'
+    });
+  });
+
+  it('should process a complement adresse with extra spaces in', (): void => {
+    const source: DataSource = {
+      'Code postal': '78000',
+      'Ville *': 'Versailles',
+      'Adresse postale *': '13   rue Saint     Louis  ',
+      'Complement adresse': '     Allée    5     '
     };
 
     const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
-      code_postal: '38100',
-      commune: 'Grenoble',
-      voie: '12 Allée des tilleuls'
+      code_postal: '78000',
+      commune: 'Versailles',
+      voie: '13 rue Saint Louis',
+      complement_adresse: 'Allée 5'
     });
   });
 });

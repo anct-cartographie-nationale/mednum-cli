@@ -14,3 +14,4 @@ export * from './presentation/presentation.field';
 export * from './prise-rdv/prise-rdv.field';
 export * from './publics-accueillis/publics-accueillis.field';
 export * from './services/services.field';
+export * from './source/source.field';
