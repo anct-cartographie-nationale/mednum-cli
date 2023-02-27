@@ -1,0 +1,400 @@
+{
+  "nom": {
+    "colonne": "nom"
+  },
+  "commune": {
+    "colonne": "adresse_commune"
+  },
+  "structure_parente": {
+    "colonne": "structure_porteuse"
+  },
+  "code_postal": {
+    "colonne": "adresse_code_postal"
+  },
+  "code_insee": {
+    "colonne": "adresse_code_insee"
+  },
+  "adresse": {
+    "joindre": {
+      "colonnes": ["adresse_numero", "adresse_rue"],
+      "séparateur": " "
+    }
+  },
+  "latitude": {
+    "colonne": "latitude"
+  },
+  "longitude": {
+    "colonne": "longitude"
+  },
+  "telephone": {
+    "colonne": "contact_telephone"
+  },
+  "courriel": {
+    "colonne": "contact_email"
+  },
+  "site_web": {
+    "colonne": "contact_web"
+  },
+  "date_maj": {
+    "colonne": "date"
+  },
+  "publics_accueillis": [
+    {
+      "colonnes": ["public_cible"],
+      "termes": ["16-25 Ans"],
+      "cible": "Jeunes (16-26 ans)"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["Accompagnement des étudiants"],
+      "cible": "Jeunes (16-26 ans)"
+    }
+  ],
+  "modalites_accompagnement": [
+    {
+      "colonnes": ["modalites_accompagnement"],
+      "termes": ["Accueil de groupes sur rendez-vous en matinée"],
+      "cible": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["ateliers numérique"],
+      "cible": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
+    },
+    {
+      "colonnes": ["labels"],
+      "termes": ["AIDANT CONNECT"],
+      "cible": "A ma place : une personne habilitée fait les démarches à ma place"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["accompagnement"],
+      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+    }
+  ],
+  "labels_nationaux": [
+    {
+      "colonnes": ["labels"],
+      "termes": ["APTIC"],
+      "cible": "APTIC"
+    },
+    {
+      "colonnes": ["labels"],
+      "termes": ["FABRIQUE DE TERRITOIRE"],
+      "cible": "Fabriques de Territoire"
+    },
+    {
+      "colonnes": ["labels"],
+      "termes": ["FRANCE SERVICE"],
+      "cible": "France Services"
+    },
+    {
+      "colonnes": ["labels"],
+      "termes": ["GRANDE ECOLE DU NUMÉRIQUE"],
+      "cible": "Grandes écoles du numérique"
+    },
+    {
+      "colonnes": ["labels"],
+      "termes": ["AIDANT CONNECT"],
+      "cible": "Aidants Connect"
+    },
+    {
+      "colonnes": ["labels"],
+      "termes": ["CAMPUS CONNECTE"],
+      "cible": "Campus connecté"
+    },
+    {
+      "colonnes": ["labels"],
+      "termes": ["GRANDE ECOLE DU NUMÉRIQUE"],
+      "cible": "Grandes écoles du numérique"
+    },
+    {
+      "colonnes": ["labels"],
+      "termes": ["OINT INFO CAF"],
+      "cible": "Point numérique CAF"
+    },
+    {
+      "colonnes": ["labels"],
+      "termes": ["NUMÉRIQUE PÔLE EMPLOI"],
+      "cible": "Relais pôle emploi"
+    }
+  ],
+  "labels_autres": [
+    {
+      "colonnes": ["labels"],
+      "termes": ["SUD LAB"],
+      "cible": "Sud Labs"
+    },
+    {
+      "colonnes": ["labels"],
+      "termes": ["INFORMATION JEUNESSE"],
+      "cible": "Information Jeunesse"
+    },
+    {
+      "colonnes": ["labels"],
+      "termes": ["MAISON DE LA SAISONNALITÉ"],
+      "cible": "Maison de la saisonnalité"
+    },
+    {
+      "colonnes": ["labels"],
+      "termes": ["CENTRE COLLABORATIF CONNECTÉ C3"],
+      "cible": "Centre collaboratif connecté (C3)"
+    },
+
+    {
+      "colonnes": ["labels"],
+      "termes": ["BIBLIOTHÈQUES NUMÉRIQUES DE RÉFÉRENCE"],
+      "cible": "Bibliothèques numériques de référence"
+    },
+    {
+      "colonnes": ["labels"],
+      "termes": ["ECG VAUCLUSE"],
+      "cible": "ECG Vaucluse"
+    },
+    {
+      "colonnes": ["labels"],
+      "termes": ["ESPACE PUBLIC NUMÉRIQUE (EPN)"],
+      "cible": "Espace Public Numérique (EPN)"
+    },
+    {
+      "colonnes": ["labels"],
+      "termes": ["CITÉLABS"],
+      "cible": "Citélabs"
+    },
+    {
+      "colonnes": ["labels"],
+      "termes": ["INCUBATEUR SOCIAL CAMINA"],
+      "cible": "Incubateur Social Camina"
+    }
+  ],
+  "services": [
+    {
+      "colonnes": ["services"],
+      "termes": [
+        "ateliers informatique débutant",
+        "démarches en lignes",
+        "permis de conduire",
+        "médiation numérique débutants"
+      ],
+      "cible": "Devenir autonome dans les démarches administratives"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": [
+        "aide aux démarches en ligne",
+        "accompagnement aux démarches dématérialisées",
+        "démarches administratives",
+        "demande de carte grise",
+        "e-administration",
+        "logement",
+        "accompagnement à l'utilisation des services publics numériques",
+        "accompagnement aux démarches numériques",
+        "accompagnement des publics dans les démarches administratives",
+        "accompagnement dématérialisation"
+      ],
+      "cible": "Réaliser des démarches administratives avec un accompagnement"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": [
+        "microparcours smartphone",
+        "apprentissages et les usages du numeriques",
+        "initiatiations informatiques",
+        "accompagnements aux outils informatique",
+        "ateliers initiation informatique",
+        "ateliers d’initiation",
+        "formation aux usages numériques",
+        "accompagnement informatique de premier niveau"
+      ],
+      "cible": "Prendre en main un smartphone ou une tablette"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": [
+        "apprentissages et les usages du numeriques",
+        "initiatiations informatiques",
+        "accompagnements aux outils informatique",
+        "ateliers initiation informatique",
+        "ateliers d’initiation",
+        "formation aux usages numériques",
+        "accompagnement informatique de premier niveau"
+      ],
+      "cible": "Prendre en main un ordinateur"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": [
+        "autonomie numérique",
+        "médiation numérique débutants",
+        "initiation informatique",
+        "ateliers informatique débutant",
+        "ateliers d'initiation à l'informatique",
+        "montée en compétences sur les outils numériques tels que les réseaux sociaux",
+        "apprentissages et les usages du numeriques",
+        "initiatiations informatiques",
+        "accompagnements aux outils informatique",
+        "formation aux usages numériques",
+        "accompagnement informatique de premier niveau"
+      ],
+      "cible": "Utiliser le numérique au quotidien"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": [
+        "culture numérique",
+        "cultures numériques",
+        "Accompagnement et conseil sur l'innovation",
+        "jeux vidéos",
+        "jeux vidéo",
+        "séances réalité virtuelle",
+        "ateliers numériques",
+        "impression 3d",
+        "éducation à l'image",
+        "ecritures journalistiques sur blog"
+      ],
+      "cible": "Approfondir ma culture numérique"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": [
+        "cv espace personnel",
+        "insertion professionnelle",
+        "formation développeur",
+        "formation des professionnels",
+        "emploi",
+        "professionnalisation",
+        "ateliers et formations à visée d'insertion sociale"
+      ],
+      "cible": "Favoriser mon insertion professionnelle"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["espace inernet", "espace internet", "accés internet", "accès internet", "wifi", "accés à internet"],
+      "cible": "Accéder à une connexion internet"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": [
+        "un point numérique en libre service est à votre disposition",
+        "ordinateur en accès libre",
+        "équipement connecté en libre accès",
+        "accès libre et accompagnements aux outils informatique",
+        "poste informatique",
+        "mise à disposition de matériel",
+        "utiliser un ordinateur gratuitement",
+        "matériel numérique à disposition"
+      ],
+      "cible": "Accéder à du matériel"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["prêt de matériel multimédia"],
+      "cible": "S'équiper en matériel informatique"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": [
+        "évelopper son activité",
+        "pour les créteurs d'entreprises et proteurs de projet",
+        "accueil de jeunes entreprises innovantes",
+        "atelier création de sites internet avec les commerçants et artisans",
+        "stratégie de communication web",
+        "à destination des entrepreneurs",
+        "création et diffusion de data-visualisations",
+        "accompagnement numérique des porteurs de projet et entrepreneur",
+        "accompagnement aux projets",
+        "mise en réseau d'entrepreneurs",
+        "transition numérique des entreprises",
+        "pour les créateurs et entrepreuneurs",
+        "création d'entreprise",
+        "accompagnement de projets d'entreprise",
+        "accompagnement et financement à la création reprise et développement d'entreprises",
+        "accompagnement et financement des créateurs et chefs d’entreprise",
+        "développement d'entreprises",
+        "post-création des entreprises",
+        "accompagnement et financement des entreprises"
+      ],
+      "cible": "Créer et développer mon entreprise"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": [
+        "création de projets solidaires avec le support numérique",
+        "formation architecte en technologie numérique",
+        "graphisme",
+        "ateliers créatifs",
+        "créer avec le numérique",
+        "pour les créateurs",
+        "accompagnement aux projets",
+        "création numérique"
+      ],
+      "cible": "Créer avec le numérique"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["démarches de santé"],
+      "cible": "Accompagner les démarches de santé"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": [
+        "sensibilisation sur les usages numériques",
+        "sensibilisation et accès au numérique",
+        "sécurité numérique",
+        "éducation au numérique",
+        "sensibilisation aux usages numériques",
+        "identité numérique",
+        "ateliers sensibilisation",
+        "d'internet et des réseaux sociaux pour les jeunes",
+        "militer pour l'open data",
+        "usages des réseaux",
+        "gestion des réseaux sociaux",
+        "ateliers de sensibilisation",
+        "ateliers numériques de sensibilisation",
+        "gestion de son image",
+        "propriété intellectuelle"
+      ],
+      "cible": "Promouvoir la citoyenneté numérique"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": [
+        "accompagnement numérique aux devoirs",
+        "accompagnement à la parentalité",
+        "accompagnement scolaire",
+        "enfants en situation de handicap sur les apprentissages numeriques",
+        "ateliers de révisions"
+      ],
+      "cible": "Soutenir la parentalité et l'éducation avec le numérique"
+    },
+    {
+      "colonnes": ["materiels_disponibles"],
+      "termes": [
+        "point numérique",
+        "Tablettes",
+        "Tablette",
+        "Postes informatiques",
+        "rétroprojecteur",
+        "ordinateurs fixes",
+        "écrans HD",
+        "matériel",
+        "postes connectés",
+        "points numériques",
+        "pc portables",
+        "casques",
+        "imprimante",
+        "ordinateur",
+        "Equipement"
+      ],
+      "cible": "Accéder à du matériel"
+    },
+    {
+      "colonnes": ["materiels_disponibles"],
+      "termes": ["Wifi", "Connexion Internet"],
+      "cible": "Accéder à une connexion internet"
+    }
+  ],
+  "horaires": {
+    "semaine": "horaires_ouverture_brut"
+  }
+}

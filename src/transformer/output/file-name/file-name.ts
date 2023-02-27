@@ -5,7 +5,8 @@ const formatForFileName = (fileName: string): string =>
     .toLowerCase()
     .replace(/\s/gu, '-')
     .normalize('NFD')
-    .replace(/[\u0300-\u036f]/gu, '');
+    .replace(/[\u0300-\u036f]/gu, '')
+    .replace(/'+/gu, '-');
 
 export const mediationNumeriqueFileName = (
   date: Date,
