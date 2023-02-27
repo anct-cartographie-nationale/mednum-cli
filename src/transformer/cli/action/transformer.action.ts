@@ -6,9 +6,13 @@ import { toLieuxMediationNumerique, validValuesOnly } from '../../input';
 import { writeOutputFiles } from '../../output';
 import { TransformerOptions } from '../transformer-options';
 import axios, { AxiosResponse } from 'axios';
+
 /* eslint-disable max-lines-per-function */
 /* eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/typedef, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
 const iconv = require('iconv-lite');
+// import Papa from 'papaparse';
+
+const Papa = require('papaparse');
 
 /* eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/typedef, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
 const csv = require('csvtojson');
@@ -66,6 +70,7 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
       : await readFrom(transformerOptions.source.split('@')),
     fs.promises.readFile(transformerOptions.configFile, 'utf-8')
   ]).then(([input, matching]: [string, string]): void => {
+    console.log(input);
     const lieuxDeMediationNumerique: LieuMediationNumerique[] = JSON.parse(input)
       .map(flatten)
       .map(toLieuxMediationNumerique(matching, transformerOptions.sourceName, REPORT))

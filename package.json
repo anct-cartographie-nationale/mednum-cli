@@ -60,6 +60,7 @@
     "transformer.les-assembleurs": "ts-node src/index.ts transformer -n \"Les Assembleurs\" -t \"Hauts-de-France\" -s \"./assets/input/les-assembleurs/les-assembleurs.json\" -c \"./assets/input/les-assembleurs/les-assembleurs.config.json\" -o \"./assets/output/les-assembleurs\"",
     "transformer.paca": "ts-node src/index.ts transformer -n \"Paca\" -t \"Provence-Alpes-Côte d'Azur\" -s \"https://www.data.gouv.fr/fr/datasets/r/8483ce08-a82a-4d44-b227-eb82ed2f9712\" -c \"./assets/input/paca/paca.config.json\" -o \"./assets/output/paca\" -e \"win-1252\" -d \";\"",
     "transformer.loire-atlantique": "ts-node src/index.ts transformer -n \"Loire Atlantique\" -t \"Loire-Atlantique\" -s \"https://www.data.gouv.fr/fr/datasets/r/95824460-e707-4db1-a67b-46b4e540d8ac\" -c \"./assets/input/loire-atlantique/loire-atlantique.config.json\" -o \"./assets/output/loire-atlantique\"",
+    "transformer.rhin-occ": "ts-node src/index.ts transformer -n \"RhinOcc\" -t \"Occitanie\" -s \"https://raw.githubusercontent.com/multi-coop/data-rhinocc-inclusion/main/csv/rhinocc-inclusion-dataset.csv\" -c \"./assets/input/rhin-occ/rhin-occ.config.json\" -o \"./assets/output/rhin-occ\"",
     "publier.angers": "ts-node src/index.ts publier -z \"fr:commune:49007\" -m \"./assets/output/angers/publier.json\"",
     "publier.conseiller-numerique": "ts-node src/index.ts publier -z \"country:fr\" -m \"./assets/output/conseiller-numerique/publier.json\"",
     "publier.data-inclusion": "ts-node src/index.ts publier -z \"country:fr\" -m \"./assets/output/data-inclusion/publier.json\"",
@@ -103,6 +104,7 @@
     "dotenv": "^16.0.3",
     "flat": "^5.0.2",
     "inquirer": "^8.0.0",
+    "papaparse": "^5.3.2",
     "typescript": "^4.8.4"
   }
 }
