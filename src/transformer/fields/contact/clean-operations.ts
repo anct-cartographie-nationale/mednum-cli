@@ -252,7 +252,7 @@ const fixMissingEmailExtension = (field: string): CleanOperation => ({
 
 const removeDashEmail = (field: string): CleanOperation => ({
   name: 'dash email',
-  selector: /^-----$/u,
+  selector: /^-+$/u,
   field
 });
 
@@ -260,6 +260,7 @@ const cleanOperationIfAny = (cleanOperator: (colonne: string) => CleanOperation,
   colonne == null ? [] : [cleanOperator(colonne)];
 
 export const cleanOperations = (matching: LieuxMediationNumeriqueMatching): CleanOperation[] => [
+  ...cleanOperationIfAny(removeDashEmail, matching.courriel?.colonne),
   ...cleanOperationIfAny(fixDuplicateHttpWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixMultipleUrlNotSeparatedWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixMultipleWebsitesSeparator, matching.site_web?.colonne),
@@ -287,7 +288,6 @@ export const cleanOperations = (matching: LieuxMediationNumeriqueMatching): Clea
   ...cleanOperationIfAny(removeTooFewDigitsInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(removeTooManyDigitsInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(removeOnly0ValueInPhone, matching.telephone?.colonne),
-  ...cleanOperationIfAny(removeDashEmail, matching.courriel?.colonne),
   ...cleanOperationIfAny(removeEmailStartingWithWww, matching.courriel?.colonne),
   ...cleanOperationIfAny(removeEmailStartingWithAt, matching.courriel?.colonne),
   ...cleanOperationIfAny(trimEmail, matching.courriel?.colonne),
