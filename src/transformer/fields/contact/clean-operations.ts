@@ -47,7 +47,7 @@ const fixUppercaseWebsites = (field: string): CleanOperation => ({
   selector: /[A-Z]/u,
   field,
   fix: (toFix: string): string => toFix.toLowerCase()
-})
+});
 
 const fixMissingColonWebsites = (field: string): CleanOperation => ({
   name: 'missing colon websites',
@@ -262,10 +262,9 @@ const cleanOperationIfAny = (cleanOperator: (colonne: string) => CleanOperation,
 export const cleanOperations = (matching: LieuxMediationNumeriqueMatching): CleanOperation[] => [
   ...cleanOperationIfAny(removeDashEmail, matching.courriel?.colonne),
   ...cleanOperationIfAny(fixDuplicateHttpWebsites, matching.site_web?.colonne),
-  ...cleanOperationIfAny(fixMultipleUrlNotSeparatedWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixMultipleWebsitesSeparator, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixUppercaseWebsites, matching.site_web?.colonne),
-  ...cleanOperationIfAny(removeDashEmail, matching.courriel?.colonne),
+  ...cleanOperationIfAny(fixMultipleUrlNotSeparatedWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(removeHttpOnlyWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(removeWebsitesWithAccentedCharacters, matching.site_web?.colonne),
   ...cleanOperationIfAny(removeMissingExtensionWebsites, matching.site_web?.colonne),
