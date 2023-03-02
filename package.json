@@ -73,7 +73,8 @@
     "publier.mulhouse": "ts-node src/index.ts publier -z \"fr:commune:68224\" -m \"./assets/output/mulhouse/publier.json\"",
     "publier.les-assembleurs": "ts-node src/index.ts publier -z \"fr:region:32\" -m \"./assets/output/les-assembleurs/publier.json\"",
     "publier.paca": "ts-node src/index.ts publier -z \"fr:region:93\" -m \"./assets/output/paca/publier.json\"",
-    "publier.loire-atlantique": "ts-node src/index.ts publier -z \"fr:departement:44\" -m \"./assets/output/loire-atlantique/publier.json\""
+    "publier.loire-atlantique": "ts-node src/index.ts publier -z \"fr:departement:44\" -m \"./assets/output/loire-atlantique/publier.json\"",
+    "publier.rhin-occ": "ts-node src/index.ts publier -z \"fr:region:76\" -m \"./assets/output/rhin-occ/publier.json\""
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
