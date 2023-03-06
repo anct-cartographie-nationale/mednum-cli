@@ -39,13 +39,15 @@ const getDataFromAPI = async (
   } catch (_) {
     notJson = true;
   }
+
   return new Promise<string>(
     (resolve: (promesseValue: PromiseLike<string> | string) => void, reject: (reason?: Error) => void): void => {
       response.data.on('end', async (): Promise<void> => {
         const decodedBody: Record<string, unknown> = iconv.decode(Buffer.concat(chunks), fromEncoding);
         resolve(
           JSON.stringify(
-            response.headers['content-type'] === 'text/csv' || notJson
+            response.headers['content-type'] === 'text/csv' ||
+              (notJson && response.headers['content-type'] !== 'application/geo+json')
               ? await csv({ delimiter: fromDelimiter }).fromString(decodedBody as unknown as string)
               : fromJson(JSON.parse(Buffer.concat(chunks).toString()), key)
           )
