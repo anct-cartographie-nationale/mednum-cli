@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-restricted-imports,max-lines-per-function,@typescript-eslint/naming-convention, camelcase,  max-lines */
+/* eslint-disable @typescript-eslint/no-restricted-imports,max-lines-per-function,@typescript-eslint/naming-convention, camelcase,  max-lines, @typescript-eslint/no-floating-promises */
 
 import * as fs from 'fs';
 import {
@@ -12,7 +12,7 @@ import {
   VoieError
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { DataInclusionMerged, mergeServicesInStructure } from './merge-services-in-structure';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 type SchemaStructureDataInclusionWithServices = SchemaStructureDataInclusion & {
   services: string;
@@ -149,19 +149,19 @@ const toMergeDataInclusionWithServices =
   };
 
 const dataInclusionFetch = async (): Promise<void> => {
-  try {
-    const responseStructures = await axios.get('https://www.data.gouv.fr/fr/datasets/r/4fc64287-e869-4550-8fb9-b1e0b7809ffa');
-    const dataInclusionStructures: SchemaStructureDataInclusion[] = responseStructures.data;
-    const responseServices = await axios.get('https://www.data.gouv.fr/fr/datasets/r/0eac1faa-66f9-4e49-8fb3-f0721027d89f');
-    const dataInclusionServices: SchemaServiceDataInclusion[] = responseServices.data;
-    const schemaDataInclusionWithServices: SchemaStructureDataInclusionWithServices[] = dataInclusionStructures
-      .map(toMergeDataInclusionWithServices(dataInclusionServices))
-      .filter(onlyDefindedSchemaStructureDataInclusion)
-      .filter(onlyWithServices);
+  const responseStructures: AxiosResponse = await axios.get(
+    'https://www.data.gouv.fr/fr/datasets/r/4fc64287-e869-4550-8fb9-b1e0b7809ffa'
+  );
+  const dataInclusionStructures: SchemaStructureDataInclusion[] = responseStructures.data;
+  const responseServices: AxiosResponse = await axios.get(
+    'https://www.data.gouv.fr/fr/datasets/r/0eac1faa-66f9-4e49-8fb3-f0721027d89f'
+  );
+  const dataInclusionServices: SchemaServiceDataInclusion[] = responseServices.data;
+  const schemaDataInclusionWithServices: SchemaStructureDataInclusionWithServices[] = dataInclusionStructures
+    .map(toMergeDataInclusionWithServices(dataInclusionServices))
+    .filter(onlyDefindedSchemaStructureDataInclusion)
+    .filter(onlyWithServices);
 
-    fs.writeFileSync(`./assets/input/${NAME}/${NAME}.json`, JSON.stringify(schemaDataInclusionWithServices), 'utf8');
-  } catch (error) {
-    console.log(error);
-  }
+  fs.writeFileSync(`./assets/input/${NAME}/${NAME}.json`, JSON.stringify(schemaDataInclusionWithServices), 'utf8');
 };
 dataInclusionFetch();
