@@ -7,7 +7,7 @@ import { writeOutputFiles } from '../../output';
 import { TransformerOptions } from '../transformer-options';
 import axios, { AxiosResponse } from 'axios';
 
-/* eslint-disable max-lines-per-function, max-statements */
+/* eslint-disable max-lines-per-function, max-statements, @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/typedef, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
 const iconv = require('iconv-lite');
 
