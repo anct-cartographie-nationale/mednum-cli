@@ -49,7 +49,7 @@ const getDataFromAPI = async (
         const decodedBody: Record<string, unknown> = iconv.decode(Buffer.concat(chunks), fromEncoding);
         resolve(
           JSON.stringify(
-            response.headers['content-type'] === 'text/csv'
+            response.headers['content-type'] === 'text/csv' || notJson
               ? await csv({ delimiter: fromDelimiter }).fromString(decodedBody as unknown as string)
               : fromJson(JSON.parse(Buffer.concat(chunks).toString()), key)
           )
