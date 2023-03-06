@@ -33,11 +33,14 @@ const getDataFromAPI = async (
   const chunks: Uint8Array[] = [];
 
   response.data.on('data', (chunk: Uint8Array): number => chunks.push(chunk));
+
   let notJson: boolean = false;
   try {
     JSON.parse(Buffer.concat(chunks).toString());
   } catch (_) {
     notJson = true;
+    notJson = response.headers['content-type']?.includes('application/geo+json') ? false : notJson;
+    notJson = response.headers['content-type']?.includes('application/json') ? false : notJson;
   }
 
   return new Promise<string>(
@@ -46,8 +49,7 @@ const getDataFromAPI = async (
         const decodedBody: Record<string, unknown> = iconv.decode(Buffer.concat(chunks), fromEncoding);
         resolve(
           JSON.stringify(
-            response.headers['content-type'] === 'text/csv' ||
-              (notJson && response.headers['content-type'] !== 'application/geo+json')
+            response.headers['content-type'] === 'text/csv'
               ? await csv({ delimiter: fromDelimiter }).fromString(decodedBody as unknown as string)
               : fromJson(JSON.parse(Buffer.concat(chunks).toString()), key)
           )
