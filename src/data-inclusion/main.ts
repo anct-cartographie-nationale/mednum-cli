@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-restricted-imports,max-lines-per-function,@typescript-eslint/naming-convention, camelcase,  max-lines */
 
 import * as fs from 'fs';
-import ErrnoException = NodeJS.ErrnoException;
 import {
   CommuneError,
   MandatorySiretOrRnaError,
