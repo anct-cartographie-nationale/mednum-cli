@@ -120,4 +120,10 @@ describe('date field', (): void => {
 
     expect(date).toEqual(new Date('1970-01-01T00:00:00.000Z'));
   });
+
+  it('should process standart date without milliseconds', (): void => {
+    const date: Date = processDate({ datetime_latest: '2023-03-03T10:29:10.128Z' }, matching);
+
+    expect(date).toEqual(new Date('2023-03-03T10:29:10'));
+  });
 });

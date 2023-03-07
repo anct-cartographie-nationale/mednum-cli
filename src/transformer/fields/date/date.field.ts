@@ -48,10 +48,10 @@ const dateFromRegExp =
   (date: Date, dateRegexp: RegExp): Date =>
     formatDate(dateRegexp, sourceDate, date);
 
-const removeInvalidChars = (sourceDate: string = ''): string => sourceDate.replace(/[A-Za-zÀ-ÖØ-öø-ÿœ]/gu, '').trim();
+const removeInvalidChars = (sourceDate: string = ''): string => sourceDate.replace(/[A-Za-zÀ-ÖØ-öø-ÿœ]/gu, ' ').trim();
 
 export const processDate = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Date =>
   DATE_REGEXP.reduce(
-    dateFromRegExp(removeInvalidChars(source[matching.date_maj.colonne]?.toString().replace(/\.\d+$/u, ''))),
+    dateFromRegExp(removeInvalidChars(source[matching.date_maj.colonne]?.toString().replace(/\.\d+/u, ''))),
     new Date(1970, 0, 1)
   );

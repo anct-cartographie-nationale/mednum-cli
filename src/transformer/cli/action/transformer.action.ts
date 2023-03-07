@@ -77,7 +77,6 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
       : await readFrom(transformerOptions.source.split('@')),
     fs.promises.readFile(transformerOptions.configFile, 'utf-8')
   ]).then(([input, matching]: [string, string]): void => {
-    console.log(input);
     const lieuxDeMediationNumerique: LieuMediationNumerique[] = JSON.parse(input)
       .map(flatten)
       .map(toLieuxMediationNumerique(matching, transformerOptions.sourceName, REPORT))

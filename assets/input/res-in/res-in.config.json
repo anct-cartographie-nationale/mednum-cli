@@ -1,0 +1,403 @@
+{
+  "id": {
+    "colonne": "_id"
+  },
+  "nom": {
+    "colonne": "structureName"
+  },
+  "commune": {
+    "colonne": "address.commune"
+  },
+  "code_postal": {
+    "colonne": "address.postcode"
+  },
+  "code_insee": {
+    "colonne": "address.inseeCode"
+  },
+  "adresse": {
+    "joindre": {
+      "colonnes": ["address.numero", "address.street"],
+      "séparateur": " "
+    }
+  },
+  "latitude": {
+    "colonne": "coord.1"
+  },
+  "longitude": {
+    "colonne": "coord.0"
+  },
+  "telephone": {
+    "colonne": "contactPhone"
+  },
+  "courriel": {
+    "colonne": "contactMail"
+  },
+  "site_web": {
+    "colonne": "website"
+  },
+  "date_maj": {
+    "colonne": "updatedAt"
+  },
+  "presentation_detail": {
+    "colonne": "description"
+  },
+  "publics_accueillis": [
+    {
+      "colonnes": [
+        "publics.0",
+        "publics.1",
+        "publics.2",
+        "publics.3",
+        "categories.age.0",
+        "categories.age.1",
+        "categories.age.2",
+        "categories.age.3"
+      ],
+      "termes": ["jeunes1625Ans", "toutPublic", "young"],
+      "cible": "Jeunes (16-26 ans)"
+    },
+    {
+      "colonnes": [
+        "publics.0",
+        "publics.1",
+        "publics.2",
+        "publics.3",
+        "categories.age.0",
+        "categories.age.1",
+        "categories.age.2",
+        "categories.age.3"
+      ],
+      "termes": ["adultes", "toutPublic", "adults"],
+      "cible": "Adultes"
+    },
+    {
+      "colonnes": [
+        "publics.0",
+        "publics.1",
+        "publics.2",
+        "publics.3",
+        "categories.age.0",
+        "categories.age.1",
+        "categories.age.2",
+        "categories.age.3"
+      ],
+      "termes": ["seniorsPlusDe65Ans", "toutPublic", "old"],
+      "cible": "Seniors (+ 65 ans)"
+    },
+    {
+      "colonnes": [
+        "publics.0",
+        "publics.1",
+        "publics.2",
+        "publics.3",
+        "categories.age.0",
+        "categories.age.1",
+        "categories.age.2",
+        "categories.age.3"
+      ],
+      "termes": ["toutPublic", "family"],
+      "cible": "Familles/enfants"
+    },
+    {
+      "colonnes": [
+        "categories.languageAndIlliteracy.0",
+        "categories.languageAndIlliteracy.1",
+        "categories.languageAndIlliteracy.2"
+      ],
+      "termes": ["illettrisme"],
+      "cible": "Personnes en situation d'illettrisme"
+    },
+    {
+      "colonnes": [
+        "categories.languageAndIlliteracy.0",
+        "categories.languageAndIlliteracy.1",
+        "categories.languageAndIlliteracy.2"
+      ],
+      "termes": ["foreignLanguage"],
+      "cible": "Public langues étrangères"
+    },
+    {
+      "colonnes": ["pmrAccess"],
+      "termes": ["true"],
+      "cible": "Surdité"
+    },
+    {
+      "colonnes": ["pmrAccess"],
+      "termes": ["true"],
+      "cible": "Handicaps mentaux : déficiences limitant les activités d'une personne"
+    },
+    {
+      "colonnes": ["pmrAccess"],
+      "termes": ["true"],
+      "cible": "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales"
+    },
+    {
+      "colonnes": ["pmrAccess"],
+      "termes": ["true"],
+      "cible": "Déficience visuelle"
+    }
+  ],
+  "conditions_acces": [
+    {
+      "colonnes": ["categories.accessModality.0", "categories.accessModality.1"],
+      "termes": ["accesLibre"],
+      "cible": "Gratuit : Je peux accéder gratuitement au lieu et à ses services"
+    },
+    {
+      "colonnes": [
+        "categories.labelsQualifications.0",
+        "categories.labelsQualifications.1",
+        "categories.labelsQualifications.2"
+      ],
+      "termes": ["passNumerique"],
+      "cible": "Accepte le Pass numérique : Il est possible d'utiliser un Pass numérique pour accéder au lieu"
+    }
+  ],
+  "labels_nationaux": [
+    {
+      "colonnes": ["categories.labelsQualifications.0", "categories.labelsQualifications.1"],
+      "termes": ["conseillerNumFranceServices"],
+      "cible": "CNFS"
+    }
+  ],
+  "services": [
+    {
+      "colonnes": [
+        "proceduresAccompaniment.0",
+        "proceduresAccompaniment.1",
+        "proceduresAccompaniment.2",
+        "proceduresAccompaniment.3",
+        "proceduresAccompaniment.4",
+        "proceduresAccompaniment.5",
+        "proceduresAccompaniment.6",
+        "proceduresAccompaniment.7",
+        "categories.onlineProcedures.0",
+        "categories.onlineProcedures.1",
+        "categories.onlineProcedures.2",
+        "categories.onlineProcedures.3",
+        "categories.onlineProcedures.4",
+        "categories.onlineProcedures.5"
+      ],
+      "termes": [
+        "poleEmploi",
+        "cpam",
+        "impots",
+        "logement",
+        "carsat",
+        "accompagnantCaf",
+        "demarcheMetropolitaine",
+        "housing",
+        "caf",
+        "retirement",
+        "health"
+      ],
+      "cible": "Devenir autonome dans les démarches administratives"
+    },
+    {
+      "colonnes": [
+        "proceduresAccompaniment.0",
+        "proceduresAccompaniment.1",
+        "proceduresAccompaniment.2",
+        "proceduresAccompaniment.3",
+        "proceduresAccompaniment.4",
+        "proceduresAccompaniment.5",
+        "proceduresAccompaniment.6",
+        "proceduresAccompaniment.7",
+        "categories.onlineProcedures.0",
+        "categories.onlineProcedures.1",
+        "categories.onlineProcedures.2",
+        "categories.onlineProcedures.3",
+        "categories.onlineProcedures.4",
+        "categories.onlineProcedures.5"
+      ],
+      "termes": [
+        "poleEmploi",
+        "cpam",
+        "impots",
+        "logement",
+        "carsat",
+        "accompagnantCaf",
+        "demarcheMetropolitaine",
+        "housing",
+        "caf",
+        "retirement",
+        "health"
+      ],
+      "cible": "Réaliser des démarches administratives avec un accompagnement"
+    },
+    {
+      "colonnes": ["equipmentsAndServices.0", "equipmentsAndServices.1", "equipmentsAndServices.2", "equipmentsAndServices.3"],
+      "termes": ["tablettes"],
+      "cible": "Prendre en main un smartphone ou une tablette"
+    },
+    {
+      "colonnes": [
+        "equipmentsAndServices.0",
+        "equipmentsAndServices.1",
+        "equipmentsAndServices.2",
+        "equipmentsAndServices.3",
+        "categories.selfServiceMaterial.1"
+      ],
+      "termes": ["ordinateurs", "computer"],
+      "cible": "Prendre en main un ordinateur"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": [
+        "autonomie numérique",
+        "médiation numérique débutants",
+        "initiation informatique",
+        "ateliers informatique débutant",
+        "ateliers d'initiation à l'informatique",
+        "montée en compétences sur les outils numériques tels que les réseaux sociaux",
+        "apprentissages et les usages du numeriques",
+        "initiatiations informatiques",
+        "accompagnements aux outils informatique",
+        "formation aux usages numériques",
+        "accompagnement informatique de premier niveau"
+      ],
+      "cible": "Utiliser le numérique au quotidien"
+    },
+    {
+      "colonnes": [
+        "categories.advancedSkills.0",
+        "categories.advancedSkills.1",
+        "categories.advancedSkills.2",
+        "categories.advancedSkills.3",
+        "categories.advancedSkills.4",
+        "categories.advancedSkills.5",
+        "categories.advancedSkills.6",
+        "categories.advancedSkills.7",
+        "categories.advancedSkills.8"
+      ],
+      "termes": ["responsibleDigital"],
+      "cible": "Approfondir ma culture numérique"
+    },
+    {
+      "colonnes": [
+        "categories.baseSkills.0",
+        "categories.baseSkills.1",
+        "categories.baseSkills.2",
+        "categories.baseSkills.3",
+        "categories.baseSkills.4",
+        "categories.baseSkills.5",
+        "categories.baseSkills.6",
+        "categories.baseSkills.7",
+        "categories.baseSkills.8"
+      ],
+      "termes": ["scolarity"],
+      "cible": "Favoriser mon insertion professionnelle"
+    },
+    {
+      "colonnes": [
+        "categories.baseSkills.0",
+        "categories.baseSkills.1",
+        "categories.baseSkills.2",
+        "categories.baseSkills.3",
+        "categories.baseSkills.4",
+        "categories.baseSkills.5",
+        "categories.baseSkills.6",
+        "categories.baseSkills.7",
+        "categories.baseSkills.8",
+        "categories.selfServiceMaterial.0"
+      ],
+      "termes": ["internet", "wifiEnAccesLibre"],
+      "cible": "Accéder à une connexion internet"
+    },
+    {
+      "colonnes": [
+        "categories.selfServiceMaterial.0",
+        "categories.selfServiceMaterial.1",
+        "categories.selfServiceMaterial.2",
+        "categories.selfServiceMaterial.3"
+      ],
+      "termes": ["printer", "scanner"],
+      "cible": "Accéder à du matériel"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["prêt de matériel multimédia"],
+      "cible": "S'équiper en matériel informatique"
+    },
+    {
+      "colonnes": [
+        "categories.baseSkills.0",
+        "categories.baseSkills.1",
+        "categories.baseSkills.2",
+        "categories.baseSkills.3",
+        "categories.baseSkills.4",
+        "categories.baseSkills.5",
+        "categories.baseSkills.6",
+        "categories.baseSkills.7",
+        "categories.baseSkills.8"
+      ],
+      "termes": ["work"],
+      "cible": "Créer et développer mon entreprise"
+    },
+    {
+      "colonnes": [
+        "categories.advancedSkills.0",
+        "categories.advancedSkills.1",
+        "categories.advancedSkills.2",
+        "categories.advancedSkills.3",
+        "categories.advancedSkills.4",
+        "categories.advancedSkills.5",
+        "categories.advancedSkills.6",
+        "categories.advancedSkills.7",
+        "categories.advancedSkills.8"
+      ],
+      "termes": ["numericCreate"],
+      "cible": "Créer avec le numérique"
+    },
+    {
+      "colonnes": [
+        "categories.onlineProcedures.0",
+        "categories.onlineProcedures.1",
+        "categories.onlineProcedures.2",
+        "categories.onlineProcedures.3",
+        "categories.onlineProcedures.4",
+        "categories.onlineProcedures.5",
+        "categories.onlineProcedures.6",
+        "categories.onlineProcedures.7",
+        "categories.onlineProcedures.8",
+        "categories.onlineProcedures.9",
+        "categories.onlineProcedures.10"
+      ],
+      "termes": ["cpam", "health"],
+      "cible": "Accompagner les démarches de santé"
+    },
+    {
+      "colonnes": [
+        "categories.advancedSkills.0",
+        "categories.advancedSkills.1",
+        "categories.advancedSkills.2",
+        "categories.advancedSkills.3",
+        "categories.advancedSkills.4",
+        "categories.advancedSkills.5",
+        "categories.advancedSkills.6",
+        "categories.advancedSkills.7",
+        "categories.advancedSkills.8"
+      ],
+      "termes": ["numericalCitizenship"],
+      "cible": "Promouvoir la citoyenneté numérique"
+    },
+    {
+      "colonnes": [
+        "categories.advancedSkills.0",
+        "categories.advancedSkills.1",
+        "categories.advancedSkills.2",
+        "categories.advancedSkills.3",
+        "categories.advancedSkills.4",
+        "categories.advancedSkills.5",
+        "categories.advancedSkills.6",
+        "categories.advancedSkills.7",
+        "categories.advancedSkills.8"
+      ],
+      "termes": ["parenting"],
+      "cible": "Soutenir la parentalité et l'éducation avec le numérique"
+    }
+  ],
+  "horaires": {
+    "semaine": "horaires_ouverture_brut"
+  }
+}

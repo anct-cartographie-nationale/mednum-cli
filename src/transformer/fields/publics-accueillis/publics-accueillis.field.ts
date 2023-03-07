@@ -10,7 +10,9 @@ const isTermFound =
     found || (sourceValue.includes(term.toLowerCase()) && isAllowedTerm(choice, sourceValue));
 
 const containsOneOfTheTerms = (choice: Choice<PublicAccueilli>, sourceValue: string = ''): boolean =>
-  choice.termes == null ? sourceValue !== '' : choice.termes.reduce(isTermFound(sourceValue.toLowerCase(), choice), false);
+  choice.termes == null
+    ? sourceValue !== ''
+    : choice.termes.reduce(isTermFound(sourceValue.toString().toLowerCase(), choice), false);
 
 const appendPublicAccueilli = (publicsAccueilli: PublicAccueilli[], publicAccueilli?: PublicAccueilli): PublicAccueilli[] => [
   ...publicsAccueilli,
