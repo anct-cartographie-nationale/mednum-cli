@@ -44,7 +44,7 @@
     "prettier.check": "prettier --config=./.tooling/.prettier/.prettierrc.cjs --check ./src/",
     "test": "jest --config=./.tooling/.jest/jest.config.ts",
     "build": "tsc --project .tsconfig/tsconfig.json && cp -r ./src/data ./dist/",
-    "start.data-inclusion": "ts-node src/data-inclusion/main.ts ",
+    "start.data-inclusion": "ts-node src/data-inclusion/main.ts",
     "mednum": "ts-node src/index.ts",
     "transformer.angers": "ts-node src/index.ts transformer -n \"Angers\" -t \"Maine-et-Loire\" -s \"./assets/input/angers/angers.json\" -c \"./assets/input/angers/angers.config.json\" -o \"./assets/output/angers\"",
     "fetch.france-tiers-lieux": "curl --request POST --url https://cartographie.francetierslieux.fr/co2/search/globalautocomplete --header 'Content-Type: application/x-www-form-urlencoded' --data 'searchType[]=organizations' --data indexStep= --data costumSlug=franceTierslieux > assets/input/france-tiers-lieux/france-tiers-lieux.json",
