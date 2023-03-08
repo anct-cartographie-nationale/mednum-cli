@@ -30,7 +30,8 @@ jobs:
             data-inclusion,
             paca,
             loire-atlantique,
-            rhin-occ
+            rhin-occ,
+            res-in
           ]
     runs-on: ubuntu-latest
     environment: production
