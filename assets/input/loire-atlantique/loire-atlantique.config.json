@@ -1,0 +1,196 @@
+{
+  "id": {
+    "colonne": "recordid"
+  },
+  "nom": {
+    "colonne": "fields.nom_lieu"
+  },
+  "code_postal": {
+    "colonne": "fields.code_postal"
+  },
+  "code_insee": {
+    "colonne": "fields.code_insee"
+  },
+  "commune": {
+    "colonne": "fields.commune"
+  },
+  "adresse": {
+    "colonne": "fields.adresse"
+  },
+  "latitude": {
+    "colonne": "fields.location.0"
+  },
+  "longitude": {
+    "colonne": "fields.location.1"
+  },
+  "telephone": {
+    "colonne": "fields.telephone"
+  },
+  "courriel": {
+    "colonne": "fields.mail_porteur"
+  },
+  "site_web": {
+    "colonne": "fields.site_web"
+  },
+  "presentation_detail": {
+    "colonne": "fields.descriptif"
+  },
+  "date_maj": {
+    "colonne": "fields.date_modif"
+  },
+  "conditions_acces": [
+    {
+      "colonnes": ["fields.tarifs", "fields.gratuit"],
+      "termes": ["gratuit", "oui"],
+      "cible": "Gratuit : Je peux accéder gratuitement au lieu et à ses services"
+    },
+    {
+      "colonnes": ["fields.gratuit"],
+      "termes": ["non"],
+      "cible": "Payant : L'accès au lieu et/ou à ses services est payant"
+    },
+    {
+      "colonnes": ["fields.tarifs"],
+      "termes": ["adhésion"],
+      "cible": "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"
+    },
+    {
+      "colonnes": ["fields.pass_numerique"],
+      "termes": ["chèque aptic"],
+      "cible": "Accepte le Pass numérique : Il est possible d'utiliser un Pass numérique pour accéder au lieu"
+    }
+  ],
+  "publics_accueillis": [
+    {
+      "colonnes": ["fields.public", "public_precisions"],
+      "termes": ["tout public", "demandeurs d'emploi", "chefs d'entreprise", "salariés", "adultes"],
+      "cible": "Adultes"
+    },
+
+    {
+      "colonnes": ["fields.public"],
+      "termes": ["tout public"],
+      "cible": "Familles/enfants"
+    },
+    {
+      "colonnes": ["fields.public", "public_precisions"],
+      "termes": ["tout public", "demandeurs d'emploi", "jeunes", "16-25 ans", "11-17 ans", "chefs d'entreprise", "salariés"],
+      "cible": "Jeunes (16-26 ans)"
+    },
+    {
+      "colonnes": ["fields.public", "public_precisions"],
+      "termes": ["tout public", "demandeurs d'emploi", "chefs d'entreprise", "salariés"],
+      "cible": "Seniors (+ 65 ans)"
+    },
+    {
+      "colonnes": ["fields.accessibilite_pmr"],
+      "termes": ["oui"],
+      "cible": "Surdité"
+    },
+    {
+      "colonnes": ["fields.accessibilite_pmr"],
+      "termes": ["oui"],
+      "cible": "Handicaps mentaux : déficiences limitant les activités d'une personne"
+    },
+    {
+      "colonnes": ["fields.accessibilite_pmr"],
+      "termes": ["oui"],
+      "cible": "Personnes en situation d'illettrisme"
+    },
+    {
+      "colonnes": ["fields.accessibilite_pmr"],
+      "termes": ["oui"],
+      "cible": "Public langues étrangères"
+    },
+    {
+      "colonnes": ["fields.public"],
+      "termes": ["tout public"],
+      "cible": "Uniquement femmes"
+    },
+    {
+      "colonnes": ["fields.accessibilite_pmr"],
+      "termes": ["oui"],
+      "cible": "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales"
+    },
+    {
+      "colonnes": ["fields.accessibilite_pmr"],
+      "termes": ["oui"],
+      "cible": "Déficience visuelle"
+    }
+  ],
+  "services": [
+    {
+      "colonnes": ["fields.activites", "fields.wifi_libelle"],
+      "termes": ["wi-fi", "wifi"],
+      "cible": "Accéder à une connexion internet"
+    },
+    {
+      "colonnes": ["fields.activites", "fields.imprimantes_libelle"],
+      "termes": ["postes informatiques", "poste informatique", "imprimante(s)", "imprimantes"],
+      "cible": "Accéder à du matériel"
+    },
+    {
+      "colonnes": ["fields.public", "fields.accompagnement_emploi_libelle"],
+      "termes": ["demandeurs d'emploi", "recherche d'emploi"],
+      "cible": "Favoriser mon insertion professionnelle"
+    },
+    {
+      "colonnes": ["fields.accompagnement_usages_libelle"],
+      "termes": ["usages numériques"],
+      "cible": "Approfondir ma culture numérique"
+    },
+    {
+      "colonnes": ["fields.accompagnement_usages_libelle"],
+      "termes": ["usages numériques"],
+      "cible": "Utiliser le numérique au quotidien"
+    },
+    {
+      "colonnes": ["fields.accompagnement_usages_libelle"],
+      "termes": ["usages numériques"],
+      "cible": "Promouvoir la citoyenneté numérique"
+    },
+    {
+      "colonnes": ["fields.equipements"],
+      "termes": ["tablettes", "tablette", "tablette(s)"],
+      "cible": "Prendre en main un smartphone ou une tablette"
+    },
+    {
+      "colonnes": ["fields.accompagnement_edemarches_libelle", "fields.descriptif"],
+      "termes": ["démarches administratives", "démarches"],
+      "cible": "Devenir autonome dans les démarches administratives"
+    },
+    {
+      "colonnes": ["fields.accompagnement_edemarches_libelle", "fields.descriptif"],
+      "termes": ["démarches administratives", "démarches"],
+      "cible": "Réaliser des démarches administratives avec un accompagnement"
+    }
+  ],
+  "horaires": {
+    "jours": [
+      {
+        "colonne": "fields.horaire_lundi",
+        "osm": "Mo"
+      },
+      {
+        "colonne": "fields.horaire_mardi",
+        "osm": "Tu"
+      },
+      {
+        "colonne": "fields.horaire_mercredi",
+        "osm": "We"
+      },
+      {
+        "colonne": "fields.horaire_jeudi",
+        "osm": "Th"
+      },
+      {
+        "colonne": "fields.horaire_vendredi",
+        "osm": "Fr"
+      },
+      {
+        "colonne": "fields.horaire_samedi",
+        "osm": "Sa"
+      }
+    ]
+  }
+}

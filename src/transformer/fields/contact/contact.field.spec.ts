@@ -795,7 +795,6 @@ describe('contact field', (): void => {
       {
         [EMAIL_FIELD]: '-----',
         Téléphone: '3960 (Service 0,06 € / mn + prix appel)'
-        // 'Site Web': 'http://www.carsat-hdf.fr'
       } as DataSource,
       matching
     );
@@ -870,5 +869,35 @@ describe('contact field', (): void => {
         ]
       }
     ]);
+  });
+
+  it('should add : if missing with https', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        'Site Web': 'https//www.saintpereenretz.fr/bouger/culture/mediatheque.html'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        site_web: [Url('https://www.saintpereenretz.fr/bouger/culture/mediatheque.html')]
+      })
+    );
+  });
+
+  it('should seperate two url if there is no separator', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        'Site Web': 'http://www.letoilerie.com/http://marie-et-alphonse.com/'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        site_web: [Url('http://www.letoilerie.com/'), Url('http://marie-et-alphonse.com/')]
+      })
+    );
   });
 });
