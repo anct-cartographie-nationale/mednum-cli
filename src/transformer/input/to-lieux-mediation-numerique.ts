@@ -14,7 +14,6 @@ import {
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Recorder, Report } from '../report';
 import {
-  DateCannotBeEmptyError,
   processAdresse,
   processConditionsAcces,
   processContact,
@@ -99,7 +98,6 @@ export const toLieuxMediationNumerique =
       if (error instanceof VoieError) return undefined;
       if (error instanceof CommuneError) return undefined;
       if (error instanceof CodePostalError) return undefined;
-      if (error instanceof DateCannotBeEmptyError) return undefined;
       throw error;
     }
   };

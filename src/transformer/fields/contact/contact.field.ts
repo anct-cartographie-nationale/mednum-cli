@@ -18,13 +18,15 @@ const telephoneField = (telephone?: number | string): Pick<Contact, 'telephone'>
             .toString()
             .replace(/[\s,.-]/gu, '')
             .replace('(0)', '')
+            .trim()
         )
       };
 
 const siteWebField = (siteWeb?: string): Pick<Contact, 'site_web'> =>
   siteWeb == null ? {} : { site_web: siteWeb.split(';').map(Url) };
 
-const courrielField = (courriel?: string): Pick<Contact, 'courriel'> => (courriel == null ? {} : { courriel });
+const courrielField = (courriel?: string): Pick<Contact, 'courriel'> =>
+  courriel == null || courriel === '' ? {} : { courriel };
 
 const toLieuxMediationNumeriqueContact = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Contact =>
   Contact({

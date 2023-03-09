@@ -97,6 +97,13 @@ const removeWebsitesWithSpaces = (field: string): CleanOperation => ({
   field
 });
 
+const fixWebsitesWithCodedSpacesAndParenthese = (field: string): CleanOperation => ({
+  name: 'websites with coded spaces',
+  selector: /[()]/gu,
+  field,
+  fix: (toFix: string): string => toFix.replace(/[()]/gu, (match: string): string => (match === '(' ? '%28' : '%29'))
+});
+
 const fixDetailsInParenthesisInPhone = (field: string): CleanOperation => ({
   name: 'trailing details in phone',
   selector: /\s\(.*\)$/gu,
@@ -271,6 +278,7 @@ export const cleanOperations = (matching: LieuxMediationNumeriqueMatching): Clea
   ...cleanOperationIfAny(fixWebsitesWithComaInsteadOfDot, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixWebsitesWithMissingSlashAfterHttp, matching.site_web?.colonne),
   ...cleanOperationIfAny(removeWebsitesWithSpaces, matching.site_web?.colonne),
+  ...cleanOperationIfAny(fixWebsitesWithCodedSpacesAndParenthese, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixMissingHttpWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixMissingHttpWebsitesWithMultipleUrl, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixMissingColonWebsites, matching.site_web?.colonne),

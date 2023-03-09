@@ -900,4 +900,50 @@ describe('contact field', (): void => {
       })
     );
   });
+
+  it('should process website with coded spaces and ()', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        'Site Web': 'http://www.ville-leguevin.fr/maison_des_quartiers%20(2).aspx'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        site_web: [Url('http://www.ville-leguevin.fr/maison_des_quartiers%20%282%29.aspx')]
+      })
+    );
+  });
+
+  it('should fix assurance retraite phone with space', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        Téléphone: '39 60'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        telephone: '+33971103960'
+      })
+    );
+  });
+
+  it('should test if there is a phone and empty string as courriel', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        Téléphone: '39 60',
+        [EMAIL_FIELD]: ''
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        telephone: '+33971103960'
+      })
+    );
+  });
 });

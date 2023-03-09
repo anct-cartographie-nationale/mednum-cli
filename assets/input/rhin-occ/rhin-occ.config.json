@@ -1,0 +1,197 @@
+{
+  "nom": {
+    "colonne": "nom"
+  },
+  "commune": {
+    "colonne": "ville"
+  },
+  "structure_parente": {
+    "colonne": "structure_porteuse"
+  },
+  "code_postal": {
+    "colonne": "code_postal"
+  },
+  "adresse": {
+    "colonne": "adresse_full"
+  },
+  "latitude": {
+    "colonne": "lat"
+  },
+  "longitude": {
+    "colonne": "lon"
+  },
+  "telephone": {
+    "colonne": "tel_structure"
+  },
+  "courriel": {
+    "colonne": "email_structure"
+  },
+  "site_web": {
+    "colonne": "site_internet"
+  },
+  "date_maj": {
+    "colonne": "date_maj"
+  },
+  "labels_nationaux": [
+    {
+      "colonnes": ["code_label"],
+      "termes": ["aptic"],
+      "cible": "APTIC"
+    },
+    {
+      "colonnes": ["code_label"],
+      "termes": ["mfs"],
+      "cible": "France Services"
+    }
+  ],
+  "conditions_acces": [
+    {
+      "colonnes": ["conditions_acces_toutes_actions"],
+      "termes": ["gratuit"],
+      "cible": "Gratuit : Je peux accéder gratuitement au lieu et à ses services"
+    },
+    {
+      "colonnes": ["conditions_acces_toutes_actions"],
+      "termes": ["adhésion"],
+      "cible": "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"
+    },
+    {
+      "colonnes": ["conditions_acces_toutes_actions"],
+      "termes": ["payant", "euros", "€"],
+      "cible": "Payant : L'accès au lieu et/ou à ses services est payant"
+    }
+  ],
+  "publics_accueillis": [
+    {
+      "colonnes": ["codes_publics", "public_toutes_actions"],
+      "termes": ["tp", "j"],
+      "cible": "Jeunes (16-26 ans)"
+    },
+    {
+      "colonnes": ["codes_publics"],
+      "termes": ["tp"],
+      "cible": "Familles/enfants"
+    },
+    {
+      "colonnes": ["codes_publics"],
+      "termes": ["tp"],
+      "cible": "Adultes"
+    },
+    {
+      "colonnes": ["codes_publics", "public_si_different_1", "public_si_different_2"],
+      "termes": ["tp", "sen"],
+      "cible": "Seniors (+ 65 ans)"
+    },
+    {
+      "colonnes": ["public_toutes_actions", "public_si_different_1", "public_si_different_2"],
+      "termes": ["etranger", "etr"],
+      "cible": "Public langues étrangères"
+    },
+    {
+      "colonnes": ["public_si_different_1", "public_si_different_2"],
+      "termes": ["femme"],
+      "cible": "Uniquement femmes"
+    }
+  ],
+  "modalites_accompagnement": [
+    {
+      "colonnes": ["type_mediation_1", "type_mediation_2", "type_mediation_3", "type_mediation_4", "type_mediation_5"],
+      "termes": ["ent", "comp"],
+      "cible": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
+    },
+    {
+      "colonnes": ["type_mediation_1", "type_mediation_2", "type_mediation_3", "type_mediation_4", "type_mediation_5"],
+      "termes": ["accda", "accds", "accn", "ordm"],
+      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+    }
+  ],
+  "services": [
+    {
+      "colonnes": ["wifi"],
+      "termes": ["oui"],
+      "cible": "Accéder à une connexion internet"
+    },
+    {
+      "colonnes": ["type_mediation_1", "type_mediation_2", "type_mediation_3", "type_mediation_4", "type_mediation_5"],
+      "termes": ["ord", "ordm"],
+      "cible": "Prendre en main un ordinateur"
+    },
+    {
+      "colonnes": ["type_mediation_1", "type_mediation_2", "type_mediation_3", "type_mediation_4", "type_mediation_5"],
+      "termes": ["ord", "ordm"],
+      "cible": "Accéder à du matériel"
+    },
+    {
+      "colonnes": ["type_mediation_1", "type_mediation_2", "type_mediation_3", "type_mediation_4", "type_mediation_5"],
+      "termes": ["accda", "accds"],
+      "cible": "Devenir autonome dans les démarches administratives"
+    },
+    {
+      "colonnes": ["type_mediation_1", "type_mediation_2", "type_mediation_3", "type_mediation_4", "type_mediation_5"],
+      "termes": ["accda", "accds"],
+      "cible": "Réaliser des démarches administratives avec un accompagnement"
+    },
+    {
+      "colonnes": ["type_mediation_1", "type_mediation_2", "type_mediation_3", "type_mediation_4", "type_mediation_5"],
+      "termes": ["accn", "comp", "sens"],
+      "cible": "Approfondir ma culture numérique"
+    },
+    {
+      "colonnes": ["type_mediation_1", "type_mediation_2", "type_mediation_3", "type_mediation_4", "type_mediation_5"],
+      "termes": ["accn", "comp"],
+      "cible": "Créer avec le numérique"
+    },
+    {
+      "colonnes": ["type_mediation_1", "type_mediation_2", "type_mediation_3", "type_mediation_4", "type_mediation_5"],
+      "termes": ["accn", "comp", "sens"],
+      "cible": "Promouvoir la citoyenneté numérique"
+    },
+    {
+      "colonnes": ["type_mediation_1", "type_mediation_2", "type_mediation_3", "type_mediation_4", "type_mediation_5"],
+      "termes": ["accn", "comp"],
+      "cible": "Utiliser le numérique au quotidien"
+    },
+    {
+      "colonnes": ["type_mediation_1", "type_mediation_2", "type_mediation_3", "type_mediation_4", "type_mediation_5"],
+      "termes": ["pro"],
+      "cible": "Favoriser mon insertion professionnelle"
+    },
+    {
+      "colonnes": ["type_mediation_1", "type_mediation_2", "type_mediation_3", "type_mediation_4", "type_mediation_5"],
+      "termes": ["pro"],
+      "cible": "Soutenir la parentalité et l'éducation avec le numérique"
+    }
+  ],
+  "horaires": {
+    "jours": [
+      {
+        "colonne": "lundi",
+        "osm": "Mo"
+      },
+      {
+        "colonne": "mardi",
+        "osm": "Tu"
+      },
+      {
+        "colonne": "mercredi",
+        "osm": "We"
+      },
+      {
+        "colonne": "jeudi",
+        "osm": "Th"
+      },
+      {
+        "colonne": "vendredi",
+        "osm": "Fr"
+      },
+      {
+        "colonne": "samedi",
+        "osm": "Sa"
+      },
+      {
+        "colonne": "dimanche",
+        "osm": "Su"
+      }
+    ]
+  }
+}

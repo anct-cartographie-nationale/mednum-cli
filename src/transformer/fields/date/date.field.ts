@@ -8,12 +8,6 @@ type RegexResult = {
   timestamp: string;
 };
 
-export class DateCannotBeEmptyError extends Error {
-  constructor() {
-    super('Date cannot be empty');
-  }
-}
-
 const STANDARD_DATE_REG_EXP: RegExp = /^(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})$/u;
 
 const STANDARD_DATE_TIME_REG_EXP: RegExp = /^(?<year>\d{4})[-/](?<month>\d{2})[-/](?<day>\d{2}) (?<time>\d{2}:\d{2}:\d{2})$/u;

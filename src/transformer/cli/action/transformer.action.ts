@@ -6,7 +6,8 @@ import { toLieuxMediationNumerique, validValuesOnly } from '../../input';
 import { writeOutputFiles } from '../../output';
 import { TransformerOptions } from '../transformer-options';
 import axios, { AxiosResponse } from 'axios';
-/* eslint-disable max-lines-per-function */
+
+/* eslint-disable max-lines-per-function, max-statements, @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/typedef, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
 const iconv = require('iconv-lite');
 
@@ -32,13 +33,23 @@ const getDataFromAPI = async (
   const chunks: Uint8Array[] = [];
 
   response.data.on('data', (chunk: Uint8Array): number => chunks.push(chunk));
+
+  let notJson: boolean = false;
+  try {
+    JSON.parse(Buffer.concat(chunks).toString());
+  } catch (_) {
+    notJson = true;
+    notJson = response.headers['content-type']?.includes('application/geo+json') ? false : notJson;
+    notJson = response.headers['content-type']?.includes('application/json') ? false : notJson;
+  }
+
   return new Promise<string>(
     (resolve: (promesseValue: PromiseLike<string> | string) => void, reject: (reason?: Error) => void): void => {
       response.data.on('end', async (): Promise<void> => {
         const decodedBody: Record<string, unknown> = iconv.decode(Buffer.concat(chunks), fromEncoding);
         resolve(
           JSON.stringify(
-            response.headers['content-type'] === 'text/csv'
+            response.headers['content-type'] === 'text/csv' || notJson
               ? await csv({ delimiter: fromDelimiter }).fromString(decodedBody as unknown as string)
               : fromJson(JSON.parse(Buffer.concat(chunks).toString()), key)
           )

@@ -23,7 +23,8 @@ jobs:
             mulhouse,
             data-inclusion,
             paca,
-            loire-atlantique
+            loire-atlantique,
+            rhin-occ
           ]
     runs-on: ubuntu-latest
     environment: production
