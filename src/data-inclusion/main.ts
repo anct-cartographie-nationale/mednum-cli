@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-restricted-imports,max-lines-per-function,@typescript-eslint/naming-convention, camelcase,  max-lines */
+/* eslint-disable @typescript-eslint/no-restricted-imports,max-lines-per-function,@typescript-eslint/naming-convention, camelcase,  max-lines, @typescript-eslint/no-floating-promises */
 
 import * as fs from 'fs';
-import ErrnoException = NodeJS.ErrnoException;
 import {
   CommuneError,
   MandatorySiretOrRnaError,
@@ -13,16 +12,13 @@ import {
   VoieError
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { DataInclusionMerged, mergeServicesInStructure } from './merge-services-in-structure';
+import axios, { AxiosResponse } from 'axios';
 
 type SchemaStructureDataInclusionWithServices = SchemaStructureDataInclusion & {
   services: string;
   labels_nat: string;
   labels_autre: string;
 };
-
-const SOURCE_PATH: string = './assets/input/';
-const DATA_INCLUSION_STRUCTURES_FILE: string = 'data-inclusion-structures.json';
-const DATA_INCLUSION_SERVICES_FILE: string = 'data-inclusion-services.json';
 
 const NAME: string = 'data-inclusion';
 
@@ -152,24 +148,20 @@ const toMergeDataInclusionWithServices =
     }
   };
 
-fs.readFile(
-  `${SOURCE_PATH}${DATA_INCLUSION_STRUCTURES_FILE}`,
-  'utf8',
-  (_0: ErrnoException | null, dataInclusionStructuresString: string): void => {
-    fs.readFile(
-      `${SOURCE_PATH}${DATA_INCLUSION_SERVICES_FILE}`,
-      'utf8',
-      (_1: ErrnoException | null, dataInclusionServicesString: string): void => {
-        const dataInclusionStructures: SchemaStructureDataInclusion[] = JSON.parse(dataInclusionStructuresString);
-        const dataInclusionServices: SchemaServiceDataInclusion[] = JSON.parse(dataInclusionServicesString);
+const dataInclusionFetch = async (): Promise<void> => {
+  const responseStructures: AxiosResponse = await axios.get(
+    'https://www.data.gouv.fr/fr/datasets/r/4fc64287-e869-4550-8fb9-b1e0b7809ffa'
+  );
+  const dataInclusionStructures: SchemaStructureDataInclusion[] = responseStructures.data;
+  const responseServices: AxiosResponse = await axios.get(
+    'https://www.data.gouv.fr/fr/datasets/r/0eac1faa-66f9-4e49-8fb3-f0721027d89f'
+  );
+  const dataInclusionServices: SchemaServiceDataInclusion[] = responseServices.data;
+  const schemaDataInclusionWithServices: SchemaStructureDataInclusionWithServices[] = dataInclusionStructures
+    .map(toMergeDataInclusionWithServices(dataInclusionServices))
+    .filter(onlyDefindedSchemaStructureDataInclusion)
+    .filter(onlyWithServices);
 
-        const schemaDataInclusionWithServices: SchemaStructureDataInclusionWithServices[] = dataInclusionStructures
-          .map(toMergeDataInclusionWithServices(dataInclusionServices))
-          .filter(onlyDefindedSchemaStructureDataInclusion)
-          .filter(onlyWithServices);
-
-        fs.writeFileSync(`./assets/output/${NAME}.json`, JSON.stringify(schemaDataInclusionWithServices), 'utf8');
-      }
-    );
-  }
-);
+  fs.writeFileSync(`./assets/input/${NAME}/${NAME}.json`, JSON.stringify(schemaDataInclusionWithServices), 'utf8');
+};
+dataInclusionFetch();
