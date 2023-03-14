@@ -68,7 +68,8 @@ jobs:
             paca,
             loire-atlantique,
             rhin-occ,
-            res-in
+            res-in,
+            les-landes
           ]
     runs-on: ubuntu-latest
     environment: demo

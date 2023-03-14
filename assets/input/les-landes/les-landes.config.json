@@ -1,0 +1,210 @@
+{
+  "id": {
+    "colonne": "ID"
+  },
+  "nom": {
+    "colonne": "name"
+  },
+  "code_postal": {
+    "colonne": "adresse_code_postal"
+  },
+  "code_insee": {
+    "colonne": "adresse_code_insee"
+  },
+  "commune": {
+    "colonne": "adresse_commune"
+  },
+  "adresse": {
+    "joindre": {
+      "colonnes": ["adresse_numero", "adresse_rue"],
+      "séparateur": " "
+    }
+  },
+  "latitude": {
+    "dissocier": {
+      "colonne": ["geometry"],
+      "séparateur": " ",
+      "partie": 1
+    }
+  },
+  "longitude": {
+    "dissocier": {
+      "colonne": ["geometry"],
+      "séparateur": " ",
+      "partie": 0
+    }
+  },
+  "date_maj": {
+    "colonne": [""]
+  },
+  "telephone": {
+    "colonne": "contact_telephone"
+  },
+  "courriel": {
+    "colonne": "contact_email"
+  },
+  "site_web": {
+    "colonne": "contact_web"
+  },
+  "presentation_detail": {
+    "colonne": "description"
+  },
+  "labels_nationaux": [
+    {
+      "colonnes": ["labels"],
+      "termes": ["cnfs"],
+      "cible": "CNFS"
+    },
+    {
+      "colonnes": ["labels"],
+      "termes": ["aidants connect"],
+      "cible": "Aidants Connect"
+    },
+    {
+      "colonnes": ["labels"],
+      "termes": ["france-services"],
+      "cible": "France Services"
+    },
+    {
+      "colonnes": ["labels"],
+      "termes": ["aptic"],
+      "cible": "APTIC"
+    }
+  ],
+  "publics_accueillis": [
+    {
+      "colonnes": ["public_cible"],
+      "termes": ["tout public", "tous les publics", "tous publics", "etudiants", "jeunes", "16/29 ans", "16-25 ans"],
+      "cible": "Jeunes (16-26 ans)"
+    },
+    {
+      "colonnes": ["public_cible"],
+      "termes": ["tout public", "tous les publics", "tous publics"],
+      "cible": "Familles/enfants"
+    },
+    {
+      "colonnes": ["public_cible"],
+      "termes": ["tout public", "tous les publics", "tous publics", "adultes"],
+      "cible": "Adultes"
+    },
+    {
+      "colonnes": ["public_cible"],
+      "termes": ["tout public", "séniors", "tous les publics", "tous publics"],
+      "cible": "Seniors (+ 65 ans)"
+    },
+    {
+      "colonnes": ["public_cible"],
+      "termes": ["handicap psychique"],
+      "cible": "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales"
+    },
+    {
+      "colonnes": ["public_cible"],
+      "termes": ["illétrés"],
+      "cible": "Personnes en situation d'illettrisme"
+    },
+    {
+      "colonnes": ["public_cible"],
+      "termes": ["migrants"],
+      "cible": "Public langues étrangères"
+    },
+    {
+      "colonnes": ["public_cible"],
+      "termes": ["personnes avec handicap"],
+      "cible": "Surdité"
+    },
+    {
+      "colonnes": ["public_cible"],
+      "termes": ["personnes avec handicap"],
+      "cible": "Handicaps mentaux : déficiences limitant les activités d'une personne"
+    },
+    {
+      "colonnes": ["public_cible"],
+      "termes": ["personnes avec handicap"],
+      "cible": "Déficience visuelle"
+    }
+  ],
+  "modalites_accompagnement": [
+    {
+      "colonnes": ["modalites_accompagnement"],
+      "termes": ["individuel"],
+      "cible": "Seul : j'ai accès à du matériel et une connexion"
+    },
+    {
+      "colonnes": ["modalites_accompagnement"],
+      "termes": ["collectif"],
+      "cible": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["accompagnement"],
+      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+    }
+  ],
+  "conditions_acces": [
+    {
+      "colonnes": ["tarifs"],
+      "termes": ["gratuit"],
+      "cible": "Gratuit : Je peux accéder gratuitement au lieu et à ses services"
+    },
+    {
+      "colonnes": ["modalites_acces", "public_cible"],
+      "termes": ["adhésion", "adhérents"],
+      "cible": "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"
+    },
+    {
+      "colonnes": ["tarifs"],
+      "termes": ["€"],
+      "cible": "Payant : L'accès au lieu et/ou à ses services est payant"
+    }
+  ],
+  "services": [
+    {
+      "colonnes": ["description"],
+      "termes": ["connexion internet", "wifi"],
+      "cible": "Accéder à une connexion internet"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["mise à disposition de matériel informatique"],
+      "cible": "Accéder à du matériel"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["acquisition de compétences numériques", "evaluation des compétences numériques"],
+      "cible": "Approfondir ma culture numérique"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["acquisition de compétences numériques", "evaluation des compétences numériques"],
+      "cible": "Utiliser le numérique au quotidien"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["acquisition de compétences numériques", "evaluation des compétences numériques"],
+      "cible": "Promouvoir la citoyenneté numérique"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["accompagnement aux démarches administratives"],
+      "cible": "Réaliser des démarches administratives avec un accompagnement"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["accompagnement aux démarches administratives"],
+      "cible": "Accompagner les démarches de santé"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["accompagnement aux démarches administratives"],
+      "cible": "Devenir autonome dans les démarches administratives"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["formation certifiante"],
+      "cible": "Favoriser mon insertion professionnelle"
+    }
+  ],
+  "horaires": {
+    "semaine": "horaires_ouverture_brut"
+  }
+}

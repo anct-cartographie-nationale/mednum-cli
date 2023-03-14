@@ -5,7 +5,10 @@ const isColonne = (colonneToTest: Partial<Colonne> & Partial<Dissociation>): col
   colonneToTest.colonne != null;
 
 const dissocier = (source: DataSource, coordonnee: Dissociation & Partial<Colonne>): string | undefined =>
-  source[coordonnee.dissocier.colonne]?.split(coordonnee.dissocier.séparateur)[coordonnee.dissocier.partie];
+  source[coordonnee.dissocier.colonne]
+    ?.replace(/[^\d.\s,-]+/gu, '')
+    ?.split(coordonnee.dissocier.séparateur)
+    .filter((coord: string): boolean => coord !== '')[coordonnee.dissocier.partie];
 
 const latitudeField = (source: DataSource, latitude: Dissociation & Partial<Colonne>): string | undefined =>
   (isColonne(latitude) ? source[latitude.colonne] : dissocier(source, latitude))?.toString().replace(',', '.');
