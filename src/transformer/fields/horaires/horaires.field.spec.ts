@@ -688,4 +688,59 @@ describe('horaires field', (): void => {
 
     expect(openingHours).toBe('Tu,Th 14:00-18:30; We,Fr 10:00-18:30; Sa 10:00-18:00');
   });
+
+  it('should replace unexpected charactere like + and newline by single comma', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(Report().entry(0))(
+      {
+        'Horaires ouverture': 'Lundi : 08:30 - 12:30 - 13:30 - 17:30 \n + Mardi : 09:30 - 13:30 / 14:30 - 18:30'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('Mo 08:30-12:30,13:30-17:30; Tu 09:30-13:30,14:30-18:30');
+  });
+
+  it('should replace unexpected charactere with more complexity syntaxe', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(Report().entry(0))(
+      {
+        'Horaires ouverture':
+          'Lundi : 08:30 - 12:30 - 13:30 - 17:30 \n' +
+          ' + Mardi : 08:30 - 12:30 / 13:30 - 17:30 \n' +
+          ' + Mercredi : 08:30 - 12:30 / 13:30 - 17:30 \n' +
+          ' + Jeudi : 08:30 - 12:30 / 13:30 - 17:30 Vendredi : 08:30 - 12:30 / 13:30 - 17:30 Samedi : 14:00 -15:00'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('Mo-Fr 08:30-12:30,13:30-17:30; Sa 14:00-15:00');
+  });
+
+  it('should replace / by : only when format is XX/XX', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(Report().entry(0))(
+      {
+        'Horaires ouverture':
+          'Lundi : 08:30 - 12:30 - 13:30 - 16:30 \n' +
+          'Mardi : 08:30 - 12:30 / 13:30 - 16:30 Mercredi : 08:30 - 12:30 / 13:30 - 16:30 \n' +
+          'Jeudi : 08:30 - 12:30 / 13/30 - 16:30 Vendredi : 08:30 - 12:30 / 13:30 – 16:30'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('Mo-Fr 08:30-12:30,13:30-16:30');
+  });
+
+  it('should replace unexpected charactere with more complexity syntaxe but different than before', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(Report().entry(0))(
+      {
+        'Horaires ouverture':
+          'Mardi : 9h - 12h / 14h - 18h\n' +
+          'Mercredi : 9h - 12h / 14h - 18h\n' +
+          'Jeudi : 9h - 12h / 14h - 18h\n' +
+          'Vendredi : 9h - 13h'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('Tu-Th 09:00-12:00,14:00-18:00; Fr 09:00-13:00');
+  });
 });
