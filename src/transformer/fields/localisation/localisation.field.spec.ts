@@ -30,6 +30,23 @@ const JOINED_LATITUDE_AND_LONGITUDE_MATCHING: LieuxMediationNumeriqueMatching = 
   }
 } as LieuxMediationNumeriqueMatching;
 
+const JOINED_LATITUDE_AND_LONGITUDE_MATCHING_DIFFERENT_SEPARATOR: LieuxMediationNumeriqueMatching = {
+  latitude: {
+    dissocier: {
+      colonne: 'Geo Point',
+      séparateur: ' ',
+      partie: 1
+    }
+  },
+  longitude: {
+    dissocier: {
+      colonne: 'Geo Point',
+      séparateur: ' ',
+      partie: 0
+    }
+  }
+} as LieuxMediationNumeriqueMatching;
+
 describe('localisation field', (): void => {
   it('should process localisation form source', (): void => {
     const source: DataSource = {
@@ -74,6 +91,21 @@ describe('localisation field', (): void => {
       Localisation({
         latitude: 47.29212184845607,
         longitude: 0.02176010906045345
+      })
+    );
+  });
+
+  it('should process localisation form source with associated latitude and longitude and others charactere in it', (): void => {
+    const source: DataSource = {
+      'Geo Point': 'POINT (-0.49316 43.89695)'
+    };
+
+    const localisation: Localisation = processLocalisation(source, JOINED_LATITUDE_AND_LONGITUDE_MATCHING_DIFFERENT_SEPARATOR);
+
+    expect(localisation).toStrictEqual<Localisation>(
+      Localisation({
+        latitude: 43.89695,
+        longitude: -0.49316
       })
     );
   });
