@@ -66,12 +66,7 @@ export const processHoraires =
       const osmOpeningHours: OsmOpeningHoursString = openingHoursFromDays(matching, recorder, source);
 
       return osmOpeningHours === NO_OSM_OPENING_HOURS && matching.horaires?.semaine != null
-        ? openingHoursFromWeek(
-            source[matching.horaires.semaine]
-              ?.replace(/[\n+'"]/gu, ' ')
-              .replace(/(?<=\d)\s*\b\p{L}+\b\s*(?=:)/gu, ',$&')
-              .replace(/(?<![0-9a-zA-Z-])\d{2}\/\d{2}(?![0-9a-zA-Z-])/gu, (match: string): string => match.replace('/', ':'))
-          )
+        ? openingHoursFromWeek(source[matching.horaires.semaine])
         : osmOpeningHours;
     } catch (error: unknown) {
       if (error instanceof InvalidHoursError) return NO_OSM_OPENING_HOURS;

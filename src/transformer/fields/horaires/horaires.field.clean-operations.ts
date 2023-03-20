@@ -91,6 +91,21 @@ const INSERT_DAYS_SEPARATOR_BETWEEN_HOURS_AND_DAY: HorairesFieldCleanOperation =
   fix: (_: string, before: string, day: string): string => `${before} / ${day}`
 };
 
+const CLEAN_UNICODE_AND_USELESS_CHAR: HorairesFieldCleanOperation = {
+  selector: /[\n+'"]/gu,
+  fix: (): string => ' '
+};
+
+const INSERT_COMMA_BETWEEN_DAYS: HorairesFieldCleanOperation = {
+  selector: /(?<=\d)\s*\b\p{L}+\b\s*(?=:)/gu,
+  fix: (day: string): string => `,${day}`
+};
+
+const REPLACE_DASH_BY_DOUBLE_DOT_ONLY_IF_IT_IS_TIME: HorairesFieldCleanOperation = {
+  selector: /(?<![0-9a-zA-Z-])\d{2}\/\d{2}(?![0-9a-zA-Z-])/gu,
+  fix: (time: string): string => time.replace('/', ':')
+};
+
 export const REPLACE_SHORT_DAYS: HorairesFieldCleanOperation[] = [
   REPLACE_SHORT_LUNDI,
   REPLACE_SHORT_MARDI,
@@ -103,6 +118,9 @@ export const REPLACE_SHORT_DAYS: HorairesFieldCleanOperation[] = [
 
 export const HORAIRES_FIELD_CLEAN_OPERATIONS: HorairesFieldCleanOperation[] = [
   ...REPLACE_SHORT_DAYS,
+  CLEAN_UNICODE_AND_USELESS_CHAR,
+  INSERT_COMMA_BETWEEN_DAYS,
+  REPLACE_DASH_BY_DOUBLE_DOT_ONLY_IF_IT_IS_TIME,
   REPLACE_HYPHEN_DAYS_RANGE_WITH_AU,
   REPLACE_ANY_DAYS_SEPARATOR_WITH_SLASH,
   REPLACE_SLASH_TIME_SEPARATOR_WITH_HYPHEN,
