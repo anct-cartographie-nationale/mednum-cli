@@ -26,7 +26,8 @@ jobs:
             loire-atlantique,
             rhin-occ,
             res-in,
-            les-landes
+            les-landes,
+            la-creuse
           ]
     runs-on: ubuntu-latest
     environment: production

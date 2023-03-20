@@ -1,0 +1,47 @@
+{
+  "id": {
+    "colonne": "id"
+  },
+  "nom": {
+    "colonne": "nom"
+  },
+  "code_postal": {
+    "colonne": "code_postal"
+  },
+  "commune": {
+    "colonne": "commune"
+  },
+  "adresse": {
+    "colonne": "adresse"
+  },
+  "latitude": {
+    "colonne": "latitude"
+  },
+  "longitude": {
+    "colonne": "longitude"
+  },
+  "telephone": {
+    "colonne": "téléphone"
+  },
+  "presentation_detail": {
+    "colonne": "description"
+  },
+  "date_maj": {
+    "colonne": ""
+  },
+  "modalites_accompagnement": [
+    {
+      "colonnes": ["modalites_accompagnement"],
+      "cible": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
+    }
+  ],
+  "services": [
+    {
+      "colonnes": ["services"],
+      "cible": "Utiliser le numérique au quotidien"
+    }
+  ],
+  "horaires": {
+    "semaine": "horaires"
+  }
+}
