@@ -1,13 +1,13 @@
-/* eslint-disable-next-line @typescript-eslint/no-restricted-imports, @typescript-eslint/naming-convention */
+/* eslint-disable-next-line @typescript-eslint/no-restricted-imports, @typescript-eslint/naming-convention  */
 import * as fs from 'fs';
 import { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Report } from '../../report';
-import { toLieuxMediationNumerique, validValuesOnly } from '../../input';
+import { DataSource, toLieuxMediationNumerique, validValuesOnly } from '../../input';
 import { writeOutputFiles } from '../../output';
 import { TransformerOptions } from '../transformer-options';
 import axios, { AxiosResponse } from 'axios';
 
-/* eslint-disable max-lines-per-function, max-statements, @typescript-eslint/strict-boolean-expressions */
+/* eslint-disable max-lines-per-function, max-statements, @typescript-eslint/strict-boolean-expressions, no-await-in-loop, @typescript-eslint/no-explicit-any */
 /* eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/typedef, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
 const iconv = require('iconv-lite');
 
@@ -67,7 +67,7 @@ const readFrom = async ([source, key]: string[]): Promise<string> =>
   JSON.stringify(fromJson(JSON.parse(await fs.promises.readFile(source ?? '', 'utf-8')), key));
 
 export const transformerAction = async (transformerOptions: TransformerOptions): Promise<void> => {
-  await Promise.all([
+  const [input, matching]: [string, string] = await Promise.all([
     transformerOptions.source.startsWith('http')
       ? await fetchFrom(
           transformerOptions.source.split('@'),
@@ -76,16 +76,43 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
         )
       : await readFrom(transformerOptions.source.split('@')),
     fs.promises.readFile(transformerOptions.configFile, 'utf-8')
-  ]).then(([input, matching]: [string, string]): void => {
-    const lieuxDeMediationNumerique: LieuMediationNumerique[] = JSON.parse(input)
-      .map(flatten)
-      .map(toLieuxMediationNumerique(matching, transformerOptions.sourceName, REPORT))
-      .filter(validValuesOnly);
+  ]);
 
-    writeOutputFiles({
-      path: transformerOptions.outputDirectory,
-      name: transformerOptions.sourceName,
-      territoire: transformerOptions.territory
-    })(lieuxDeMediationNumerique);
-  });
+  const batchSize: number = 20;
+  const waitTime: number = 2000;
+
+  const jsonData: DataSource[] = JSON.parse(input).map(flatten);
+  const totalBatches: number = Math.ceil(jsonData.length / batchSize);
+  let batchIndex: number = 0;
+
+  const lieuxDeMediationNumerique: LieuMediationNumerique[] = [];
+
+  while (batchIndex < totalBatches) {
+    const start: number = batchIndex * batchSize;
+    const end: number = Math.min(start + batchSize, jsonData.length);
+    const batchData: DataSource[] = jsonData.slice(start, end);
+
+    const batchResults: any = await Promise.all(
+      batchData.map(async (dataSource: DataSource, index: number): Promise<LieuMediationNumerique | undefined> => {
+        const lieuMediationNumerique: LieuMediationNumerique | undefined = await toLieuxMediationNumerique(
+          matching,
+          transformerOptions.sourceName,
+          REPORT
+        )(dataSource, index);
+        await new Promise<void>((resolve: () => void): void => {
+          setTimeout(resolve, waitTime);
+        });
+        return lieuMediationNumerique;
+      })
+    );
+
+    lieuxDeMediationNumerique.push(...batchResults.filter(validValuesOnly));
+    batchIndex += 1;
+  }
+
+  writeOutputFiles({
+    path: transformerOptions.outputDirectory,
+    name: transformerOptions.sourceName,
+    territoire: transformerOptions.territory
+  })(lieuxDeMediationNumerique);
 };

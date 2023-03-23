@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import { ModaliteAccompagnement, ModalitesAccompagnement, Service, Services } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Choice, LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { processModalitesAccompagnement } from '../modalites-accompagnement/modalites-accompagnement.field';
@@ -19,7 +20,7 @@ const isTermFound =
   ) =>
   (found: boolean, term: string): boolean =>
     found ||
-    (sourceValue.includes(term.toLowerCase()) &&
+    (sourceValue?.includes(term.toLowerCase()) &&
       isAllowedTerm(choice, sourceValue) &&
       isMatchingModaliteAccompagnement(choice, modalitesAccompagnement));
 
@@ -30,7 +31,7 @@ const containsOneOfTheTerms = (
 ): boolean =>
   choice.termes == null
     ? sourceValue !== ''
-    : choice.termes.reduce(isTermFound(choice, modalitesAccompagnement, sourceValue.toLowerCase()), false);
+    : choice.termes.reduce(isTermFound(choice, modalitesAccompagnement, sourceValue?.toLowerCase()), false);
 
 const appendService = (services: Service[], service?: Service): Service[] => [
   ...services,

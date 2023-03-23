@@ -55,19 +55,19 @@ const modalitesAccompagnementIfAny = (
 ): { modalites_accompagnement?: ModalitesAccompagnement } =>
   modaliteAccompagnement.length === 0 ? {} : { modalites_accompagnement: modaliteAccompagnement };
 
-const lieuDeMediationNumerique = (
+const lieuDeMediationNumerique = async (
   index: number,
   dataSource: DataSource,
   sourceName: string,
   matching: LieuxMediationNumeriqueMatching,
   recorder: Recorder
-): LieuMediationNumerique => {
+): Promise<LieuMediationNumerique> => {
   const lieuMediationNumerique: LieuMediationNumerique = {
     id: processId(dataSource, matching, index),
     nom: processNom(dataSource, matching),
     pivot: processPivot(dataSource, matching),
     adresse: processAdresse(recorder)(dataSource, matching),
-    localisation: processLocalisation(dataSource, matching),
+    localisation: await processLocalisation(dataSource, matching),
     contact: processContact(recorder)(dataSource, matching),
     ...conditionsAccesIfAny(processConditionsAcces(dataSource, matching)),
     ...modalitesAccompagnementIfAny(processModalitesAccompagnement(dataSource, matching)),
@@ -90,9 +90,9 @@ export const validValuesOnly = (lieuDeMediationNumeriqueToValidate?: LieuMediati
 
 export const toLieuxMediationNumerique =
   (matching: string, sourceName: string, report: Report) =>
-  (dataSource: DataSource, index: number): LieuMediationNumerique | undefined => {
+  async (dataSource: DataSource, index: number): Promise<LieuMediationNumerique | undefined> => {
     try {
-      return lieuDeMediationNumerique(index, dataSource, sourceName, JSON.parse(matching), report.entry(index));
+      return await lieuDeMediationNumerique(index, dataSource, sourceName, JSON.parse(matching), report.entry(index));
     } catch (error: unknown) {
       if (error instanceof ServicesError) return undefined;
       if (error instanceof VoieError) return undefined;
