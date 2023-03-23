@@ -19,7 +19,7 @@ const latitudeField = async (
   commune: Colonne,
   codePostal: Colonne
 ): Promise<string> => {
-  let finalLatitude: string = '';
+  let finalLatitude: string | undefined = '';
   if (isColonne(latitude) && source[latitude.colonne] !== '') finalLatitude = source[latitude.colonne];
   if (isColonne(latitude) && source[latitude.colonne] === '') {
     const coordinates: { latitude: number; longitude: number } = await geocodeAddress(source, adresse, commune, codePostal);
@@ -35,7 +35,7 @@ const longitudeField = async (
   commune: Colonne,
   codePostal: Colonne
 ): Promise<string> => {
-  let finalLongitude: string = '';
+  let finalLongitude: string | undefined = '';
   if (isColonne(longitude) && source[longitude.colonne] !== '') finalLongitude = source[longitude.colonne];
   if (isColonne(longitude) && source[longitude.colonne] === '') {
     const coordinates: { latitude: number; longitude: number } = await geocodeAddress(source, adresse, commune, codePostal);
@@ -50,10 +50,10 @@ async function geocodeAddress(
   commune: Colonne,
   codePostal: Colonne
 ): Promise<{ latitude: number; longitude: number }> {
-  let adresse: string = '';
-  let codePost: string = '';
+  let adresse: string | undefined = '';
+  let codePost: string | undefined = '';
   if (isColonne(address) && isColonne(codePostal) && isColonne(commune)) {
-    adresse = source[address.colonne].toString();
+    adresse = source[address.colonne]?.toString() ?? '';
     codePost = source[codePostal.colonne];
   }
 
@@ -72,8 +72,8 @@ async function geocodeAddress(
     baseAdresseReponse = response.data.features[0].geometry?.coordinates;
   }
   return {
-    latitude: parseFloat(baseAdresseReponse[1]),
-    longitude: parseFloat(baseAdresseReponse[0])
+    latitude: parseFloat(baseAdresseReponse[1] ?? ''),
+    longitude: parseFloat(baseAdresseReponse[0] ?? '')
   };
 }
 
