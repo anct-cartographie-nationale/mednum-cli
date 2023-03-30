@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition  */
 import { OsmDaysOfWeek, OsmOpeningHours, toOsmOpeningHours } from '@gouvfr-anct/timetable-to-osm-opening-hours';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { toOsmHours } from '../../to-osm-hours/to-osm-hours';
@@ -17,8 +18,8 @@ const checkOsmOpeningHoursFormat = (osmHours: string, day: OsmDaysOfWeek, hours:
 
 const toSingleOsmOpeningHours =
   (recorder: Recorder) =>
-  (day: OsmDaysOfWeek, hours: string, dayField: string): OsmOpeningHours => {
-    recorder.record(dayField, `Format ${hours} to osm hours`);
+  (day: OsmDaysOfWeek, hours: string, dayField: string, lieuName?: string): OsmOpeningHours => {
+    recorder.record(dayField, `Format ${hours} to osm hours`, lieuName ?? '');
 
     const fixed: OsmOpeningHours = checkOsmOpeningHoursFormat(toOsmHours(hours), day, hours);
 
@@ -32,8 +33,8 @@ const wrapInArray = (osmOpeningHours: OsmOpeningHours): [] | [OsmOpeningHours] =
 
 const processDay =
   (recorder: Recorder) =>
-  (day: OsmDaysOfWeek, dayField: string, hours?: string): [] | [OsmOpeningHours] =>
-    hours == null || hours === '' ? [] : wrapInArray(toSingleOsmOpeningHours(recorder)(day, hours, dayField));
+  (day: OsmDaysOfWeek, dayField: string, hours?: string, lieuName?: string): [] | [OsmOpeningHours] =>
+    hours == null || hours === '' ? [] : wrapInArray(toSingleOsmOpeningHours(recorder)(day, hours, dayField, lieuName));
 
 const alreadyHaveOsmOpeningHours = (matching: LieuxMediationNumeriqueMatching, source: DataSource): boolean =>
   matching.horaires?.osm != null && source[matching.horaires.osm] != null;
@@ -48,7 +49,12 @@ const openingHoursFromDays = (
       ...(matching.horaires?.jours?.reduce(
         (processedDay: OsmOpeningHours[], currentValue: { colonne: string; osm: OsmDaysOfWeek }): OsmOpeningHours[] => [
           ...processedDay,
-          ...processDay(recorder)(currentValue.osm, currentValue.colonne, source[currentValue.colonne])
+          ...processDay(recorder)(
+            currentValue.osm,
+            currentValue.colonne,
+            source[currentValue.colonne],
+            source[matching.nom?.colonne]
+          )
         ],
         []
       ) ?? [])
@@ -62,9 +68,7 @@ export const processHoraires =
       if (alreadyHaveOsmOpeningHours(matching, source)) {
         return source[matching.horaires?.osm ?? ''];
       }
-
       const osmOpeningHours: OsmOpeningHoursString = openingHoursFromDays(matching, recorder, source);
-
       return osmOpeningHours === NO_OSM_OPENING_HOURS && matching.horaires?.semaine != null
         ? openingHoursFromWeek(source[matching.horaires.semaine])
         : osmOpeningHours;

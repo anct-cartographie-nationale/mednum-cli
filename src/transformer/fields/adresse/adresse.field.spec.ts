@@ -6,6 +6,9 @@ import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { processAdresse } from './adresse.field';
 
 const STANDARD_MATCHING: LieuxMediationNumeriqueMatching = {
+  nom: {
+    colonne: 'nom'
+  },
   code_postal: {
     colonne: 'Code postal'
   },
@@ -95,7 +98,8 @@ describe('adresse field', (): void => {
     const source: DataSource = {
       'Code postal': '',
       'Ville *': '',
-      'Adresse postale *': ''
+      'Adresse postale *': '',
+      nom: 'test'
     };
 
     expect((): void => {
@@ -188,6 +192,7 @@ describe('adresse field', (): void => {
     const recorder: Recorder = report.entry(0);
 
     const source: DataSource = {
+      nom: 'testLieu',
       'Adresse postale *': '3 rue de la mairie',
       'Code postal': '',
       'Ville *': 'Bessenay'
@@ -210,7 +215,25 @@ describe('adresse field', (): void => {
                 apply: 'missing code postal',
                 after: '69690'
               }
-            ]
+            ],
+            entryName: 'testLieu'
+          }
+        ]
+      },
+      {
+        index: 0,
+        errors: [
+          {
+            field: 'code_postal',
+            message: "Le code postal  n'est pas valide",
+            fixes: [
+              {
+                before: '',
+                apply: 'missing code postal',
+                after: '69690'
+              }
+            ],
+            entryName: 'testLieu'
           }
         ]
       }

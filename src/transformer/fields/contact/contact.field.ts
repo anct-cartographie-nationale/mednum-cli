@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/naming-convention, camelcase */
+/* eslint-disable @typescript-eslint/naming-convention, camelcase, @typescript-eslint/no-unnecessary-condition */
 
 import { Contact, ModelError, Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
@@ -112,7 +112,8 @@ export const processContact =
     try {
       return toLieuxMediationNumeriqueContact(source, matching);
     } catch (error: unknown) {
-      error instanceof ModelError && recorder.record(error.key, error.message);
+      if (source[matching.nom?.colonne] !== undefined)
+        error instanceof ModelError && recorder.record(error.key, error.message, source[matching.nom.colonne] ?? '').commit();
       return fixAndRetry(recorder)(source, matching, error);
     }
   };

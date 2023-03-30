@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Report } from '../../report';
 import { toLieuxMediationNumerique, validValuesOnly } from '../../input';
-import { writeOutputFiles } from '../../output';
+import { writeErrorsOutputFiles, writeOutputFiles } from '../../output';
 import { TransformerOptions } from '../transformer-options';
 import axios, { AxiosResponse } from 'axios';
 
@@ -81,6 +81,12 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
       .map(flatten)
       .map(toLieuxMediationNumerique(matching, transformerOptions.sourceName, REPORT))
       .filter(validValuesOnly);
+
+    writeErrorsOutputFiles({
+      path: transformerOptions.outputDirectory,
+      name: transformerOptions.sourceName,
+      territoire: transformerOptions.territory
+    })(REPORT);
 
     writeOutputFiles({
       path: transformerOptions.outputDirectory,

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/naming-convention, camelcase */
+/* eslint-disable @typescript-eslint/naming-convention, camelcase, @typescript-eslint/no-unnecessary-condition */
 
 import { Adresse, CodeInseeError, CommuneError, ModelError } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching, DataSource, Colonne, Jonction } from '../../input';
@@ -106,7 +106,8 @@ export const processAdresse =
     try {
       return toLieuxMediationNumeriqueAdresse(source, matching);
     } catch (error: unknown) {
-      error instanceof ModelError && recorder.record(error.key, error.message);
+      if (source[matching.nom?.colonne] !== undefined)
+        error instanceof ModelError && recorder.record(error.key, error.message, source[matching.nom.colonne] ?? '').commit();
       if (source[matching.commune.colonne] === '') throw new CommuneError('');
       if (error instanceof CodeInseeError) {
         const { [matching.code_insee?.colonne ?? '']: _, ...sourceWithoutCodeInsee }: DataSource = source;

@@ -94,9 +94,14 @@ export const toLieuxMediationNumerique =
     try {
       return lieuDeMediationNumerique(index, dataSource, sourceName, JSON.parse(matching), report.entry(index));
     } catch (error: unknown) {
-      if (error instanceof ServicesError) return undefined;
+      if (error instanceof ServicesError || error instanceof CommuneError) {
+        report
+          .entry(index)
+          .record(error.key, error.message, dataSource['nom'] ?? '')
+          .commit();
+        return undefined;
+      }
       if (error instanceof VoieError) return undefined;
-      if (error instanceof CommuneError) return undefined;
       if (error instanceof CodePostalError) return undefined;
       throw error;
     }

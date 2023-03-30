@@ -151,6 +151,7 @@ describe('horaires field', (): void => {
       {
         errors: [
           {
+            entryName: '',
             field: 'Lundi',
             fixes: [
               {

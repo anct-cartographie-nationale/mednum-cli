@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-restricted-imports */
+/* eslint-disable @typescript-eslint/no-restricted-imports, max-lines */
 
 import * as fs from 'fs';
 import {
@@ -11,11 +11,20 @@ import {
 import { dataInclusionFileName, mediationNumeriqueFileName } from './file-name/file-name';
 import { toLieuxMediationNumeriqueCsv } from './to-lieux-mediation-numerique-csv/to-lieux-mediation-numerique-csv';
 import { generatePublishMetadata } from './publish-metadata/publish-metadata';
+import { Record, Report } from '../report';
+import { toReportErrorsCsv } from './to-report-errors-csv/to-report-errors-csv';
 
 export type Output = {
   path: string;
   name: string;
   territoire: string;
+};
+
+export type ErrorOutput = {
+  index: number;
+  field: number | string | symbol;
+  message: string;
+  entryName: string;
 };
 
 const throwWriteFileError = (writeFileError: unknown): void => {
@@ -64,6 +73,34 @@ const writeMediationNumeriqueCsvOutput = (
   );
 };
 
+const writeReportErrorsCsvOutput = (producer: Output, listErrors: ErrorOutput[], report: boolean): void => {
+  fs.writeFile(
+    `${createFolderIfNotExist(producer.path)}/${mediationNumeriqueFileName(
+      new Date(),
+      producer.name,
+      producer.territoire,
+      'csv',
+      report
+    )}`,
+    toReportErrorsCsv(listErrors),
+    throwWriteFileError
+  );
+};
+
+const writeReportErrorsJsonOutput = (producer: Output, listErrors: ErrorOutput[], report: boolean): void => {
+  fs.writeFile(
+    `${createFolderIfNotExist(producer.path)}/${mediationNumeriqueFileName(
+      new Date(),
+      producer.name,
+      producer.territoire,
+      'json',
+      report
+    )}`,
+    JSON.stringify(listErrors, noEmptyCell),
+    throwWriteFileError
+  );
+};
+
 const writeStructuresDataInclusionJsonOutput = (
   producer: Output,
   lieuxDeMediationNumerique: LieuMediationNumerique[]
@@ -90,6 +127,26 @@ const writePublierMetadataOutput = (producer: Output, lieuxDeMediationNumerique:
     throwWriteFileError
   );
 };
+
+export const writeErrorsOutputFiles =
+  (producer: Output) =>
+  (reports: Report): void => {
+    const report: boolean = true;
+    const listErrors: ErrorOutput[] = [];
+
+    reports.records().forEach((reportEntry: Record): void => {
+      const typedError: ErrorOutput = {
+        index: reportEntry.index,
+        field: reportEntry.errors[0] === undefined ? '' : reportEntry.errors[0].field,
+        message: reportEntry.errors[0] === undefined ? '' : reportEntry.errors[0].message,
+        entryName: reportEntry.errors[0] === undefined ? '' : reportEntry.errors[0].entryName
+      };
+      listErrors.push(typedError);
+    });
+
+    writeReportErrorsJsonOutput(producer, listErrors, report);
+    writeReportErrorsCsvOutput(producer, listErrors, report);
+  };
 
 export const writeOutputFiles =
   (producer: Output) =>

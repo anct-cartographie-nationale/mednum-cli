@@ -20,6 +20,9 @@ const matching: LieuxMediationNumeriqueMatching = {
   },
   site_web: {
     colonne: 'Site Web'
+  },
+  nom: {
+    colonne: 'nom'
   }
 } as LieuxMediationNumeriqueMatching;
 
@@ -879,7 +882,8 @@ describe('contact field', (): void => {
 
     processContact(recorder)(
       {
-        [EMAIL_FIELD]: 'dupond[a]conseiller-numerique.fr'
+        [EMAIL_FIELD]: 'dupond[a]conseiller-numerique.fr',
+        nom: 'lieuName'
       } as DataSource,
       matching
     );
@@ -891,6 +895,24 @@ describe('contact field', (): void => {
         index: 0,
         errors: [
           {
+            entryName: 'lieuName',
+            field: 'courriel',
+            message: "Le courriel dupond[a]conseiller-numerique.fr n'est pas valide",
+            fixes: [
+              {
+                before: 'dupond[a]conseiller-numerique.fr',
+                apply: 'obfuscated @ in email',
+                after: 'dupond@conseiller-numerique.fr'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        index: 0,
+        errors: [
+          {
+            entryName: 'lieuName',
             field: 'courriel',
             message: "Le courriel dupond[a]conseiller-numerique.fr n'est pas valide",
             fixes: [
@@ -912,7 +934,8 @@ describe('contact field', (): void => {
 
     processContact(recorder)(
       {
-        [EMAIL_FIELD]: 'dupond@conseiller-numerique.'
+        [EMAIL_FIELD]: 'dupond@conseiller-numerique.',
+        nom: 'lieuName'
       } as DataSource,
       matching
     );
@@ -924,6 +947,23 @@ describe('contact field', (): void => {
         index: 0,
         errors: [
           {
+            entryName: 'lieuName',
+            field: 'courriel',
+            message: "Le courriel dupond@conseiller-numerique. n'est pas valide",
+            fixes: [
+              {
+                before: 'dupond@conseiller-numerique.',
+                apply: 'missing dot suffix in email'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        index: 0,
+        errors: [
+          {
+            entryName: 'lieuName',
             field: 'courriel',
             message: "Le courriel dupond@conseiller-numerique. n'est pas valide",
             fixes: [
