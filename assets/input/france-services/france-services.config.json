@@ -53,15 +53,15 @@
       "cible": "Jeunes (16-26 ans)"
     },
     {
+      "cible": "Familles/enfants"
+    },
+    {
       "cible": "Seniors (+ 65 ans)"
     }
   ],
   "services": [
     {
       "cible": "Réaliser des démarches administratives avec un accompagnement"
-    },
-    {
-      "cible": "Accompagner les démarches de santé"
     },
     {
       "cible": "Favoriser mon insertion professionnelle"
@@ -96,5 +96,3 @@
     ]
   }
 }
-
-
