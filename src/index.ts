@@ -2,6 +2,7 @@ import * as dotenv from 'dotenv';
 import { Command } from 'commander';
 import { addPublierCommandTo } from './publier';
 import { addTransformerCommandTo } from './transformer';
+import { addExtractCommandTo } from './extract';
 
 dotenv.config();
 
@@ -13,5 +14,6 @@ PROGRAM.name('mednum')
 
 addTransformerCommandTo(PROGRAM);
 addPublierCommandTo(PROGRAM);
+addExtractCommandTo(PROGRAM);
 
 PROGRAM.parse();
