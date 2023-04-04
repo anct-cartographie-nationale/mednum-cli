@@ -24,7 +24,7 @@ const throwWriteFileError = (writeFileError: unknown): void => {
   }
 };
 
-const createFolderIfNotExist = (folderPath: string): string => {
+export const createFolderIfNotExist = (folderPath: string): string => {
   !fs.existsSync(folderPath) && fs.mkdirSync(folderPath, { recursive: true });
 
   return folderPath;
