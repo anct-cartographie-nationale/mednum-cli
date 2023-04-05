@@ -92,7 +92,10 @@ export const toLieuxMediationNumerique =
       return lieuDeMediationNumerique(index, dataSource, sourceName, JSON.parse(matching), report.entry(index));
     } catch (error: unknown) {
       if (error instanceof ModelError) {
-        report.entry(index).record(error.key, error.message, dataSource[JSON.parse(matching).nom.colonne]).commit();
+        report
+          .entry(index)
+          .record(error.key, error.message, dataSource[JSON.parse(matching).nom.colonne] || '')
+          .commit();
         return undefined;
       }
       throw error;
