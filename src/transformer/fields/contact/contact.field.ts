@@ -100,7 +100,11 @@ const retryOrThrow =
 const fixAndRetry =
   (recorder: Recorder) =>
   (source: DataSource, matching: LieuxMediationNumeriqueMatching, error: unknown): Contact =>
-    retryOrThrow(recorder)(cleanOperations(matching).reduce(toFixedContact(recorder)(source), undefined), matching, error);
+    retryOrThrow(recorder)(
+      cleanOperations(matching, source[matching.code_postal.colonne]).reduce(toFixedContact(recorder)(source), undefined),
+      matching,
+      error
+    );
 
 export const processContact =
   (recorder: Recorder) =>

@@ -10,6 +10,21 @@ export type CleanOperation = {
   fix?: (toFix: string) => string;
 };
 
+const setPhoneCodeWhenDomTom = (codePostal?: string): string => {
+  switch (codePostal?.slice(0, 3)) {
+    case '971':
+      return '+590';
+    case '972':
+      return '+596';
+    case '973':
+      return '+594';
+    case '974':
+      return '+262';
+    default:
+      return '+33';
+  }
+};
+
 const removeHttpOnlyWebsites = (field: string): CleanOperation => ({
   name: 'http only websites',
   selector: /^http:\/\/$/u,
@@ -139,11 +154,11 @@ const fixUnexpectedPhoneList = (field: string): CleanOperation => ({
   fix: (toFix: string): string => toFix.split('/')[0] ?? ''
 });
 
-const fixPhoneWithoutStarting0 = (field: string): CleanOperation => ({
+const fixPhoneWithoutStarting0 = (field: string, codePostal?: string): CleanOperation => ({
   name: 'phone without starting 0',
   selector: /^[1-9]\d{8}$/u,
   field,
-  fix: (toFix: string): string => `+33${toFix}`
+  fix: (toFix: string): string => setPhoneCodeWhenDomTom(codePostal) + toFix
 });
 
 const fixShortCafPhone = (field: string): CleanOperation => ({
@@ -263,10 +278,16 @@ const removeDashEmail = (field: string): CleanOperation => ({
   field
 });
 
-const cleanOperationIfAny = (cleanOperator: (colonne: string) => CleanOperation, colonne?: string): CleanOperation[] =>
-  colonne == null ? [] : [cleanOperator(colonne)];
+const cleanOperationIfAny = (
+  cleanOperator: (colonne: string, codePostal?: string) => CleanOperation,
+  colonne?: string,
+  codePostal?: string
+): CleanOperation[] => (colonne == null ? [] : [cleanOperator(colonne, codePostal)]);
 
-export const cleanOperations = (matching: LieuxMediationNumeriqueMatching): CleanOperation[] => [
+export const cleanOperations = (
+  matching: LieuxMediationNumeriqueMatching,
+  codePostal: string | undefined
+): CleanOperation[] => [
   ...cleanOperationIfAny(removeDashEmail, matching.courriel?.colonne),
   ...cleanOperationIfAny(fixDuplicateHttpWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixMultipleWebsitesSeparator, matching.site_web?.colonne),
@@ -289,7 +310,7 @@ export const cleanOperations = (matching: LieuxMediationNumeriqueMatching): Clea
   ...cleanOperationIfAny(fixHeadingDetailsInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(fixTrailingDetailsInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(fixWrongCharsInPhone, matching.telephone?.colonne),
-  ...cleanOperationIfAny(fixPhoneWithoutStarting0, matching.telephone?.colonne),
+  ...cleanOperationIfAny(fixPhoneWithoutStarting0, matching.telephone?.colonne, codePostal),
   ...cleanOperationIfAny(fixShortCafPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(fixShortAssuranceRetraitePhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(removeTooFewDigitsInPhone, matching.telephone?.colonne),
