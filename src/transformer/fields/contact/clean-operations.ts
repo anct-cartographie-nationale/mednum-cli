@@ -11,7 +11,8 @@ export type CleanOperation = {
 };
 
 const setPhoneCodeWhenDomTom = (codePostal?: string): string => {
-  switch (codePostal?.slice(0, 3)) {
+  const codePost: string = codePostal?.toString()?.slice(0, 3) ?? '';
+  switch (codePost) {
     case '971':
       return '+590';
     case '972':
