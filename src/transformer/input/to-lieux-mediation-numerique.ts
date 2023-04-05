@@ -94,7 +94,7 @@ export const toLieuxMediationNumerique =
       if (error instanceof ModelError) {
         report
           .entry(index)
-          .record(error.key, error.message, dataSource[JSON.parse(matching).nom.colonne] || '')
+          .record(error.key, error.message, dataSource[JSON.parse(matching).nom.colonne] ?? '')
           .commit();
         return undefined;
       }
