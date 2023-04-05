@@ -2,7 +2,7 @@
 
 import { Contact, Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
-import { Recorder, Report } from '../../report';
+import { Report } from '../../report';
 import { processContact } from './contact.field';
 
 const EMAIL_FIELD: string =
@@ -20,9 +20,6 @@ const matching: LieuxMediationNumeriqueMatching = {
   },
   site_web: {
     colonne: 'Site Web'
-  },
-  nom: {
-    colonne: 'nom'
   }
 } as LieuxMediationNumeriqueMatching;
 
@@ -874,108 +871,6 @@ describe('contact field', (): void => {
         telephone: '+33971103960'
       })
     );
-  });
-
-  it('should get invalid email record in report with an update fix', (): void => {
-    const report: Report = Report();
-    const recorder: Recorder = report.entry(0);
-
-    processContact(recorder)(
-      {
-        [EMAIL_FIELD]: 'dupond[a]conseiller-numerique.fr',
-        nom: 'lieuName'
-      } as DataSource,
-      matching
-    );
-
-    recorder.commit();
-
-    expect(report.records()).toStrictEqual([
-      {
-        index: 0,
-        errors: [
-          {
-            entryName: 'lieuName',
-            field: 'courriel',
-            message: "Le courriel dupond[a]conseiller-numerique.fr n'est pas valide",
-            fixes: [
-              {
-                before: 'dupond[a]conseiller-numerique.fr',
-                apply: 'obfuscated @ in email',
-                after: 'dupond@conseiller-numerique.fr'
-              }
-            ]
-          }
-        ]
-      },
-      {
-        index: 0,
-        errors: [
-          {
-            entryName: 'lieuName',
-            field: 'courriel',
-            message: "Le courriel dupond[a]conseiller-numerique.fr n'est pas valide",
-            fixes: [
-              {
-                before: 'dupond[a]conseiller-numerique.fr',
-                apply: 'obfuscated @ in email',
-                after: 'dupond@conseiller-numerique.fr'
-              }
-            ]
-          }
-        ]
-      }
-    ]);
-  });
-
-  it('should get invalid email record in report with a delete fix', (): void => {
-    const report: Report = Report();
-    const recorder: Recorder = report.entry(0);
-
-    processContact(recorder)(
-      {
-        [EMAIL_FIELD]: 'dupond@conseiller-numerique.',
-        nom: 'lieuName'
-      } as DataSource,
-      matching
-    );
-
-    recorder.commit();
-
-    expect(report.records()).toStrictEqual([
-      {
-        index: 0,
-        errors: [
-          {
-            entryName: 'lieuName',
-            field: 'courriel',
-            message: "Le courriel dupond@conseiller-numerique. n'est pas valide",
-            fixes: [
-              {
-                before: 'dupond@conseiller-numerique.',
-                apply: 'missing dot suffix in email'
-              }
-            ]
-          }
-        ]
-      },
-      {
-        index: 0,
-        errors: [
-          {
-            entryName: 'lieuName',
-            field: 'courriel',
-            message: "Le courriel dupond@conseiller-numerique. n'est pas valide",
-            fixes: [
-              {
-                before: 'dupond@conseiller-numerique.',
-                apply: 'missing dot suffix in email'
-              }
-            ]
-          }
-        ]
-      }
-    ]);
   });
 
   it('should add : if missing with https', (): void => {
