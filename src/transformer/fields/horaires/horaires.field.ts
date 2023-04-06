@@ -8,6 +8,9 @@ import { openingHoursFromWeek } from './opening-hours-from-week';
 
 const OPENING_HOURS_REGEXP: RegExp = /^\d{2}:\d{2}-\d{2}:\d{2}(?:,\d{2}:\d{2}-\d{2}:\d{2})?$/u;
 
+const OSM_OPENING_HOURS_TRIVIAL_REGEXP: RegExp =
+  /^(?:(?:Mo|Tu|We|Th|Fr|Sa|Su)(?:[-,](?:Mo|Tu|We|Th|Fr|Sa|Su))?\s)?(?:[0-1]\d|2[0-3]):[0-5]\d-(?:[0-1]\d|2[0-3]):[0-5]\d.*/u;
+
 const throwInvalidHours = (osmHours: string, day: OsmDaysOfWeek, hours: string): OsmOpeningHours => {
   throw new InvalidHoursError(osmHours, hours, day);
 };
@@ -25,7 +28,9 @@ const processDay = (day: OsmDaysOfWeek, hours?: string): [] | [OsmOpeningHours] 
   hours == null || hours === '' ? [] : wrapInArray(toSingleOsmOpeningHours(day, hours));
 
 const alreadyHaveOsmOpeningHours = (matching: LieuxMediationNumeriqueMatching, source: DataSource): boolean =>
-  matching.horaires?.osm != null && source[matching.horaires.osm] != null;
+  matching.horaires?.osm != null &&
+  source[matching.horaires.osm] != null &&
+  OSM_OPENING_HOURS_TRIVIAL_REGEXP.test(source[matching.horaires.osm] ?? '');
 
 const openingHoursFromDays = (matching: LieuxMediationNumeriqueMatching, source: DataSource): OsmOpeningHoursString =>
   osmOpeningHoursString(

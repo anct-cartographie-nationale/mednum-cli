@@ -245,6 +245,6 @@
     }
   ],
   "horaires": {
-    "osm": "horaires_ouverture"
+    "semaine": "horaires_ouverture"
   }
 }
