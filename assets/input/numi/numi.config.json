@@ -3,7 +3,7 @@
     "colonne": "id"
   },
   "pivot": {
-    "colonne": "rna"
+    "colonne": "pivot"
   },
   "nom": {
     "colonne": "nom"
@@ -46,205 +46,191 @@
   },
   "labels_nationaux": [
     {
-      "colonnes": ["labels_nat"],
-      "termes": ["conseiller-numerique"],
+      "colonnes": ["labels_nationaux"],
+      "termes": ["CNFS"],
       "cible": "CNFS"
     },
     {
-      "colonnes": ["labels_nat"],
-      "termes": ["france-service"],
+      "colonnes": ["labels_nationaux"],
+      "termes": ["France Services"],
       "cible": "France Services"
-    },
-    {
-      "colonnes": ["labels_nat"],
-      "termes": ["aidants-connect"],
-      "cible": "Aidants Connect"
     }
   ],
   "conditions_acces": [
     {
       "colonnes": ["conditions_acces"],
-      "termes": ["gratuit"],
+      "termes": ["Gratuit : Je peux accéder gratuitement au lieu et à ses services"],
       "cible": "Gratuit : Je peux accéder gratuitement au lieu et à ses services"
     },
-    {
-      "colonnes": ["conditionAcces"],
-      "termes": ["gratuit-sous-conditions"],
-      "cible": "Gratuit sous condition : La gratuité est conditionnée à des critères (situation familiale, convention avec un organisme social...)"
-    },
+
     {
       "colonnes": ["conditions_acces"],
-      "termes": ["adhesion"],
+      "termes": ["Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"],
       "cible": "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"
     },
     {
       "colonnes": ["conditions_acces"],
-      "termes": ["payant"],
+      "termes": ["Payant : L'accès au lieu et/ou à ses services est payant"],
       "cible": "Payant : L'accès au lieu et/ou à ses services est payant"
     },
     {
       "colonnes": ["conditions_acces"],
-      "termes": ["pass-numerique"],
+      "termes": ["Accepte le Pass numérique : Il est possible d'utiliser un Pass numérique pour accéder au lieu"],
       "cible": "Accepte le Pass numérique : Il est possible d'utiliser un Pass numérique pour accéder au lieu"
     }
   ],
   "modalites_accompagnement": [
     {
       "colonnes": ["modalites_accompagnement"],
-      "termes": ["atelier"],
+      "termes": ["Dans un atelier : j'apprends collectivement à utiliser le numérique"],
       "cible": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
     },
     {
       "colonnes": ["modalites_accompagnement"],
-      "termes": ["delegation"],
+      "termes": ["A ma place : une personne habilitée fait les démarches à ma place"],
       "cible": "A ma place : une personne habilitée fait les démarches à ma place"
     },
     {
       "colonnes": ["modalites_accompagnement"],
-      "termes": ["accompagnement"],
+      "termes": ["Avec de l'aide : je suis accompagné seul dans l'usage du numérique"],
       "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
     },
     {
       "colonnes": ["modalites_accompagnement"],
-      "termes": ["autonomie"],
+      "termes": ["Seul : j'ai accès à du matériel et une connexion"],
       "cible": "Seul : j'ai accès à du matériel et une connexion"
     }
   ],
   "publics_accueillis": [
     {
       "colonnes": ["publics_accueillis"],
-      "termes": ["adultes"],
+      "termes": ["Adultes"],
       "cible": "Adultes"
     },
     {
       "colonnes": ["publics_accueillis"],
-      "termes": ["familles-enfants"],
+      "termes": ["Familles/enfants"],
       "cible": "Familles/enfants"
     },
     {
       "colonnes": ["publics_accueillis"],
-      "termes": ["jeunes-16-26"],
+      "termes": ["Jeunes (16-26 ans)"],
       "cible": "Jeunes (16-26 ans)"
     },
     {
       "colonnes": ["publics_accueillis"],
-      "termes": ["seniors-65"],
+      "termes": ["Seniors (+ 65 ans)"],
       "cible": "Seniors (+ 65 ans)"
     },
     {
       "colonnes": ["publics_accueillis"],
-      "termes": ["surdite"],
+      "termes": ["Surdité"],
       "cible": "Surdité"
     },
     {
       "colonnes": ["publics_accueillis"],
-      "termes": ["handicaps-mentaux"],
+      "termes": ["Handicaps mentaux : déficiences limitant les activités d'une personne"],
       "cible": "Handicaps mentaux : déficiences limitant les activités d'une personne"
     },
     {
       "colonnes": ["publics_accueillis"],
-      "termes": ["personnes-en-situation-illettrisme"],
+      "termes": ["Personnes en situation d'illettrisme"],
       "cible": "Personnes en situation d'illettrisme"
     },
     {
       "colonnes": ["publics_accueillis"],
-      "termes": ["public-langues-etrangeres"],
+      "termes": ["Public langues étrangères"],
       "cible": "Public langues étrangères"
     },
     {
       "colonnes": ["publics_accueillis"],
-      "termes": ["femmes"],
-      "cible": "Uniquement femmes"
-    },
-    {
-      "colonnes": ["publics_accueillis"],
-      "termes": ["handicaps-psychiques"],
+      "termes": ["Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales"],
       "cible": "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales"
     },
     {
       "colonnes": ["publics_accueillis"],
-      "termes": ["deficience-visuelle"],
+      "termes": ["Déficience visuelle"],
       "cible": "Déficience visuelle"
     }
   ],
   "services": [
     {
       "colonnes": ["services"],
-      "termes": ["numerique--devenir-autonome-dans-les-demarches-administratives"],
+      "termes": ["Devenir autonome dans les démarches administratives"],
       "cible": "Devenir autonome dans les démarches administratives"
     },
     {
       "colonnes": ["services"],
-      "termes": ["numerique--realiser-des-demarches-administratives-avec-un-accompagnement"],
+      "termes": ["Réaliser des démarches administratives avec un accompagnement"],
       "cible": "Réaliser des démarches administratives avec un accompagnement"
     },
     {
       "colonnes": ["services"],
-      "termes": ["numerique--prendre-en-main-un-smartphone-ou-une-tablette"],
+      "termes": ["Prendre en main un smartphone ou une tablette"],
       "cible": "Prendre en main un smartphone ou une tablette"
     },
     {
       "colonnes": ["services"],
-      "termes": ["numerique--prendre-en-main-un-ordinateur"],
+      "termes": ["Prendre en main un ordinateur"],
       "cible": "Prendre en main un ordinateur"
     },
     {
       "colonnes": ["services"],
-      "termes": ["numerique--utiliser-le-numerique-au-quotidien"],
+      "termes": ["Utiliser le numérique au quotidien"],
       "cible": "Utiliser le numérique au quotidien"
     },
     {
       "colonnes": ["services"],
-      "termes": ["numerique--approfondir-ma-culture-numerique"],
+      "termes": ["Approfondir ma culture numérique"],
       "cible": "Approfondir ma culture numérique"
     },
     {
       "colonnes": ["services"],
-      "termes": ["numerique--favoriser-mon-insertion-professionnelle"],
+      "termes": ["Favoriser mon insertion professionnelle"],
       "cible": "Favoriser mon insertion professionnelle"
     },
     {
       "colonnes": ["services"],
-      "termes": ["numerique--acceder-a-une-connexion-internet"],
+      "termes": ["Accéder à une connexion internet"],
       "cible": "Accéder à une connexion internet"
     },
     {
       "colonnes": ["services"],
-      "termes": ["numerique--acceder-a-du-materiel"],
+      "termes": ["Accéder à du matériel"],
       "cible": "Accéder à du matériel"
     },
     {
       "colonnes": ["services"],
-      "termes": ["numerique--s-equiper-en-materiel-informatique"],
+      "termes": ["S'équiper en matériel informatique"],
       "cible": "S'équiper en matériel informatique"
     },
     {
       "colonnes": ["services"],
-      "termes": ["numerique--creer-et-developper-mon-entreprise"],
+      "termes": ["Créer et développer mon entreprise"],
       "cible": "Créer et développer mon entreprise"
     },
     {
       "colonnes": ["services"],
-      "termes": ["numerique--creer-avec-le-numerique"],
+      "termes": ["Créer avec le numérique"],
       "cible": "Créer avec le numérique"
     },
     {
       "colonnes": ["services"],
-      "termes": ["numerique--accompagner-les-demarches-de-sante"],
+      "termes": ["Accompagner les démarches de santé"],
       "cible": "Accompagner les démarches de santé"
     },
     {
       "colonnes": ["services"],
-      "termes": ["numerique--promouvoir-la-citoyennete-numerique"],
+      "termes": ["Promouvoir la citoyenneté numérique"],
       "cible": "Promouvoir la citoyenneté numérique"
     },
     {
       "colonnes": ["services"],
-      "termes": ["numerique--soutenir-la-parentalite-et-l-education-avec-le-numerique"],
+      "termes": ["Soutenir la parentalité et l'éducation avec le numérique"],
       "cible": "Soutenir la parentalité et l'éducation avec le numérique"
     }
   ],
   "horaires": {
-    "semaine": "horaires_ouverture"
+    "semaine": "horaires"
   }
 }

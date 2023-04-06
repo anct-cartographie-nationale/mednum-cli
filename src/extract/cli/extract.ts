@@ -6,7 +6,7 @@ import { extractAction } from './action';
 const promptAndRun = async (extractOptions: ExtractOptions): Promise<void> =>
   inquirer
     .prompt(extractOptionsQuestions(extractOptions))
-    .then((mednumAnswers: Answers): void => extractAction({ ...extractOptions, ...mednumAnswers }))
+    .then(async (mednumAnswers: Answers): Promise<void> => extractAction({ ...extractOptions, ...mednumAnswers }))
     .catch((error: Error): void => {
       /* eslint-disable-next-line no-console */
       console.error(error.message);

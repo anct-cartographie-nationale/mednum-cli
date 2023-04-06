@@ -1,9 +1,8 @@
 /* eslint-disable-next-line @typescript-eslint/no-restricted-imports */
 import * as fs from 'fs';
-import ErrnoException = NodeJS.ErrnoException;
 import { ExtractOptions } from '../extract-options';
 import { SchemaStructureDataInclusionWithServices } from '../../../data-inclusion/main';
-import { createFolderIfNotExist } from '../../../transformer/output/write-output-files';
+import axios, { AxiosResponse } from 'axios';
 
 const filterDataByDepartement = (
   lieuxMediationNumerique: SchemaStructureDataInclusionWithServices[],
@@ -15,18 +14,17 @@ const filterDataByDepartement = (
     return arrayDepartements.includes(codePostalDepartement);
   });
 
-export const extractAction = (extractOptions: ExtractOptions): void => {
-  const filePath: string = './assets/input/data-inclusion/data-inclusion.json';
-  fs.readFile(filePath, 'utf8', (_: ErrnoException | null, data: string): void => {
-    const allLieuxFromDataInclusion: SchemaStructureDataInclusionWithServices[] = JSON.parse(data);
-    const filteredLieuxForExtraction: SchemaStructureDataInclusionWithServices[] = filterDataByDepartement(
-      allLieuxFromDataInclusion,
-      extractOptions.departements
-    );
-    fs.writeFileSync(
-      `${createFolderIfNotExist(extractOptions.outputDirectory)}/${extractOptions.sourceName}.json`,
-      JSON.stringify(filteredLieuxForExtraction),
-      'utf8'
-    );
-  });
+export const extractAction = async (extractOptions: ExtractOptions): Promise<void> => {
+  const fetchLieuxFromDataInclusion: AxiosResponse = await axios.get(
+    'https://www.data.gouv.fr/fr/datasets/r/b5e5a1e1-122e-4f87-b6cf-d1ce342671be'
+  );
+  const filteredLieuxForExtraction: SchemaStructureDataInclusionWithServices[] = filterDataByDepartement(
+    fetchLieuxFromDataInclusion.data,
+    extractOptions.departements
+  );
+  fs.writeFileSync(
+    `./assets/input/${extractOptions.sourceName}/${extractOptions.sourceName}.json`,
+    JSON.stringify(filteredLieuxForExtraction),
+    'utf8'
+  );
 };
