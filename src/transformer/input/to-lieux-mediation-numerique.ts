@@ -1,13 +1,16 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase, max-lines-per-function */
 
 import {
+  CodePostalError,
+  CommuneError,
   ConditionsAcces,
   LabelsNationaux,
   LieuMediationNumerique,
   ModalitesAccompagnement,
-  ModelError,
   PublicsAccueillis,
-  Url
+  ServicesError,
+  Url,
+  VoieError
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Recorder, Report } from '../report';
 import {
@@ -91,7 +94,12 @@ export const toLieuxMediationNumerique =
     try {
       return lieuDeMediationNumerique(index, dataSource, sourceName, JSON.parse(matching), report.entry(index));
     } catch (error: unknown) {
-      if (error instanceof ModelError) {
+      if (
+        error instanceof ServicesError ||
+        error instanceof VoieError ||
+        error instanceof CommuneError ||
+        error instanceof CodePostalError
+      ) {
         report
           .entry(index)
           .record(error.key, error.message, dataSource[JSON.parse(matching).nom.colonne] ?? '')
