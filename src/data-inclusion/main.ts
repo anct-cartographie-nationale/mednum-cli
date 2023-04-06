@@ -14,7 +14,7 @@ import {
 import { DataInclusionMerged, mergeServicesInStructure } from './merge-services-in-structure';
 import axios, { AxiosResponse } from 'axios';
 
-type SchemaStructureDataInclusionWithServices = SchemaStructureDataInclusion & {
+export type SchemaStructureDataInclusionWithServices = SchemaStructureDataInclusion & {
   services: string;
   labels_nat: string;
   labels_autre: string;

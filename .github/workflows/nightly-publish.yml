@@ -27,7 +27,8 @@ jobs:
             rhin-occ,
             res-in,
             les-landes,
-            la-creuse
+            la-creuse,
+            numi
           ]
     runs-on: ubuntu-latest
     environment: production
