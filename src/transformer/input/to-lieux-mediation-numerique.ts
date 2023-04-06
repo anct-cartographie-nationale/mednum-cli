@@ -78,7 +78,7 @@ const lieuDeMediationNumerique = (
     presentation: processPresentation(dataSource, matching),
     services: processServices(dataSource, matching),
     source: processSource(dataSource, matching, sourceName),
-    ...horairesIfAny(processHoraires(recorder)(dataSource, matching)),
+    ...horairesIfAny(processHoraires(dataSource, matching)),
     ...priseRdvIfAny(processPriseRdv(dataSource, matching))
   };
   recorder.commit();
