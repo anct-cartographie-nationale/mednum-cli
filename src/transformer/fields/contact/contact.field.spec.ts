@@ -9,6 +9,9 @@ const EMAIL_FIELD: string =
   "Email (éviter les emails nominatifs - en cas d'email nominitatif seule la personne concernée est autorisé à l'ajouter)";
 
 const matching: LieuxMediationNumeriqueMatching = {
+  code_postal: {
+    colonne: 'code_postal'
+  },
   telephone: {
     colonne: 'Téléphone'
   },
@@ -306,6 +309,70 @@ describe('contact field', (): void => {
       Contact({
         site_web: [Url('http://epn.adeaformation.fr')],
         telephone: '+33475582913'
+      })
+    );
+  });
+
+  it('should set good indicatif when phone is from Guadeloupe', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        code_postal: '97156',
+        Téléphone: 475582913 as unknown as string
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        telephone: '+590475582913'
+      })
+    );
+  });
+
+  it('should set good indicatif when phone is from Martinique', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        code_postal: '97250',
+        Téléphone: 475582913 as unknown as string
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        telephone: '+596475582913'
+      })
+    );
+  });
+
+  it('should set good indicatif when phone is from Guyane', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        code_postal: '97350',
+        Téléphone: 475582913 as unknown as string
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        telephone: '+594475582913'
+      })
+    );
+  });
+
+  it('should set good indicatif when phone is from La Reunion', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        code_postal: '97450',
+        Téléphone: 475582913 as unknown as string
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        telephone: '+262475582913'
       })
     );
   });
