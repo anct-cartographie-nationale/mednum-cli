@@ -68,7 +68,7 @@ const fieldsArrayFrom = (lieuMediationNumerique: SchemaLieuMediationNumerique): 
   lieuMediationNumerique.prise_rdv
 ];
 
-const csvLineFrom = (cells: (string | undefined)[]): string => cells.map(toDoubleQuoted).join(',');
+export const csvLineFrom = (cells: (string | undefined)[]): string => cells.map(toDoubleQuoted).join(',');
 
 const toLieuMediationNumeriqueCsvLine = (lieuMediationNumerique: SchemaLieuMediationNumerique): string =>
   csvLineFrom(fieldsArrayFrom(lieuMediationNumerique));

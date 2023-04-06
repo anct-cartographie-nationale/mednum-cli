@@ -10,7 +10,7 @@ describe('report', (): void => {
   it('should add a record with one fix', (): void => {
     const report: Report = Report()
       .entry(0)
-      .record('email', "Le courriel dupond[a]conseiller-numerique.fr n'est pas une valeur admise")
+      .record('email', "Le courriel dupond[a]conseiller-numerique.fr n'est pas une valeur admise", 'nomLieu')
       .fix({
         before: 'dupond[a]conseiller-numerique.fr',
         apply: 'missing @ in email',
@@ -31,7 +31,8 @@ describe('report', (): void => {
                 apply: 'missing @ in email',
                 after: 'dupond@conseiller-numerique.fr'
               }
-            ]
+            ],
+            entryName: 'nomLieu'
           }
         ]
       }
@@ -43,7 +44,8 @@ describe('report', (): void => {
       .entry(0)
       .record(
         'email',
-        "Le courriel dupond[a]conseiller-numerique.fr / durand[a]conseiller-numerique.fr n'est pas une valeur admise"
+        "Le courriel dupond[a]conseiller-numerique.fr / durand[a]conseiller-numerique.fr n'est pas une valeur admise",
+        'nomLieu'
       )
       .fix({
         before: 'dupond[a]conseiller-numerique.fr / durand[a]conseiller-numerique.fr',
@@ -76,7 +78,8 @@ describe('report', (): void => {
                 apply: 'missing @ in email',
                 after: 'dupond@conseiller-numerique.fr'
               }
-            ]
+            ],
+            entryName: 'nomLieu'
           }
         ]
       }
@@ -86,13 +89,13 @@ describe('report', (): void => {
   it('should add two records with one fix for each of them', (): void => {
     const report: Report = Report()
       .entry(0)
-      .record('email', "Le courriel dupond[a]conseiller-numerique.fr n'est pas une valeur admise")
+      .record('email', "Le courriel dupond[a]conseiller-numerique.fr n'est pas une valeur admise", 'nomLieu')
       .fix({
         before: 'dupond[a]conseiller-numerique.fr',
         apply: 'missing @ in email',
         after: 'dupond@conseiller-numerique.fr'
       })
-      .record('phone', "Le téléphone 425896314 n'est pas une valeur admise")
+      .record('phone', "Le téléphone 425896314 n'est pas une valeur admise", 'nomLieu')
       .fix({
         before: '425896314',
         apply: 'missing leading 0 in phone',
@@ -113,7 +116,8 @@ describe('report', (): void => {
                 apply: 'missing @ in email',
                 after: 'dupond@conseiller-numerique.fr'
               }
-            ]
+            ],
+            entryName: 'nomLieu'
           },
           {
             field: 'phone',
@@ -124,7 +128,8 @@ describe('report', (): void => {
                 apply: 'missing leading 0 in phone',
                 after: '+33425896314'
               }
-            ]
+            ],
+            entryName: 'nomLieu'
           }
         ]
       }
@@ -134,7 +139,7 @@ describe('report', (): void => {
   it('should add two entries with one record and one fix for each of them', (): void => {
     const report: Report = Report()
       .entry(0)
-      .record('email', "Le courriel dupond[a]conseiller-numerique.fr n'est pas une valeur admise")
+      .record('email', "Le courriel dupond[a]conseiller-numerique.fr n'est pas une valeur admise", 'nomLieu')
       .fix({
         before: 'dupond[a]conseiller-numerique.fr',
         apply: 'missing @ in email',
@@ -142,7 +147,7 @@ describe('report', (): void => {
       })
       .commit()
       .entry(1)
-      .record('phone', "Le téléphone 425896314 n'est pas une valeur admise")
+      .record('phone', "Le téléphone 425896314 n'est pas une valeur admise", 'nomLieu')
       .fix({
         before: '425896314',
         apply: 'missing leading 0 in phone',
@@ -163,7 +168,8 @@ describe('report', (): void => {
                 apply: 'missing @ in email',
                 after: 'dupond@conseiller-numerique.fr'
               }
-            ]
+            ],
+            entryName: 'nomLieu'
           }
         ]
       },
@@ -179,7 +185,8 @@ describe('report', (): void => {
                 apply: 'missing leading 0 in phone',
                 after: '+33425896314'
               }
-            ]
+            ],
+            entryName: 'nomLieu'
           }
         ]
       }
@@ -193,7 +200,8 @@ describe('report', (): void => {
 
     const needFixForEntry0: Recorder = recorderForEntry0.record(
       'email',
-      "Le courriel dupond[a]conseiller-numerique.fr n'est pas une valeur admise"
+      "Le courriel dupond[a]conseiller-numerique.fr n'est pas une valeur admise",
+      'nomLieu'
     );
 
     const endFixForEntry0: Recorder = needFixForEntry0.fix({
@@ -206,7 +214,11 @@ describe('report', (): void => {
 
     const recorderForEntry1: Recorder = report.entry(1);
 
-    const needFixForEntry1: Recorder = recorderForEntry1.record('phone', "Le téléphone 425896314 n'est pas une valeur admise");
+    const needFixForEntry1: Recorder = recorderForEntry1.record(
+      'phone',
+      "Le téléphone 425896314 n'est pas une valeur admise",
+      'nomLieu'
+    );
 
     const endFixForEntry1: Recorder = needFixForEntry1.fix({
       before: '425896314',
@@ -229,7 +241,8 @@ describe('report', (): void => {
                 apply: 'missing @ in email',
                 after: 'dupond@conseiller-numerique.fr'
               }
-            ]
+            ],
+            entryName: 'nomLieu'
           }
         ]
       },
@@ -245,7 +258,8 @@ describe('report', (): void => {
                 apply: 'missing leading 0 in phone',
                 after: '+33425896314'
               }
-            ]
+            ],
+            entryName: 'nomLieu'
           }
         ]
       }

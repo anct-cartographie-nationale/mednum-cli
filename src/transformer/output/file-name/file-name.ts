@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+
 const fileNameDate = (date: Date): string => `${date.toISOString().split('T')[0]?.replace(/-/gu, '')}`;
 
 const formatForFileName = (fileName: string): string =>
@@ -12,11 +14,12 @@ export const mediationNumeriqueFileName = (
   date: Date,
   idProducteur: string,
   territoire: string,
-  extension: 'csv' | 'json'
+  extension: 'csv' | 'json',
+  report?: boolean | undefined
 ): string =>
-  `${fileNameDate(date)}-${formatForFileName(idProducteur)}-lieux-de-mediation-numeriques-${formatForFileName(
-    territoire
-  )}.${extension}`;
+  `${fileNameDate(date)}-${formatForFileName(idProducteur)}-lieux-de-mediation-numeriques-${formatForFileName(territoire)}${
+    report ? '-reports' : ''
+  }.${extension}`;
 
 export const dataInclusionFileName = (
   date: Date,

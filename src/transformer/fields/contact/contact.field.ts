@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
-import { Contact, ModelError, Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { Contact, Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { Recorder } from '../../report/report';
 import { cleanOperations, CleanOperation } from './clean-operations';
@@ -112,7 +112,6 @@ export const processContact =
     try {
       return toLieuxMediationNumeriqueContact(source, matching);
     } catch (error: unknown) {
-      error instanceof ModelError && recorder.record(error.key, error.message);
       return fixAndRetry(recorder)(source, matching, error);
     }
   };

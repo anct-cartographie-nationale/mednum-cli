@@ -7,6 +7,7 @@ export type Fix = {
 export type RecordError = {
   field: number | string | symbol;
   message: string;
+  entryName: string;
   fixes: Fix[];
 };
 
@@ -18,7 +19,7 @@ export type Record = {
 export type Recorder = {
   fix: (fix: Fix) => Recorder;
   commit: () => Report;
-  record: (field: number | string | symbol, message: string) => Recorder;
+  record: (field: number | string | symbol, message: string, entryName: string) => Recorder;
 };
 
 export type Report = {
@@ -30,8 +31,8 @@ const lastValueOf = <T>(array: T[]): T | undefined => array[array.length - 1];
 
 /* eslint-disable-next-line @typescript-eslint/naming-convention */
 const Recorder = (index: number, records: Record[], errors: RecordError[] = []): Recorder => ({
-  record: (field: number | string | symbol, message: string): Recorder => {
-    errors.push({ field, message, fixes: [] });
+  record: (field: number | string | symbol, message: string, entryName: string): Recorder => {
+    errors.push({ field, message, entryName, fixes: [] });
     return Recorder(index, records, errors);
   },
   fix: (fix: Fix): Recorder => {

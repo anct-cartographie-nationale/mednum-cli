@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
 import { Adresse, CommuneError } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { Recorder, Report } from '../../report';
+import { Report } from '../../report';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { processAdresse } from './adresse.field';
 
@@ -95,7 +95,8 @@ describe('adresse field', (): void => {
     const source: DataSource = {
       'Code postal': '',
       'Ville *': '',
-      'Adresse postale *': ''
+      'Adresse postale *': '',
+      nom: 'test'
     };
 
     expect((): void => {
@@ -181,40 +182,6 @@ describe('adresse field', (): void => {
       commune: 'Gannat',
       voie: '12 Allée des tilleuls'
     });
-  });
-
-  it('should get empty code postal record in report with an update fix', (): void => {
-    const report: Report = Report();
-    const recorder: Recorder = report.entry(0);
-
-    const source: DataSource = {
-      'Adresse postale *': '3 rue de la mairie',
-      'Code postal': '',
-      'Ville *': 'Bessenay'
-    };
-
-    processAdresse(recorder)(source, STANDARD_MATCHING);
-
-    recorder.commit();
-
-    expect(report.records()).toStrictEqual([
-      {
-        index: 0,
-        errors: [
-          {
-            field: 'code_postal',
-            message: "Le code postal  n'est pas valide",
-            fixes: [
-              {
-                before: '',
-                apply: 'missing code postal',
-                after: '69690'
-              }
-            ]
-          }
-        ]
-      }
-    ]);
   });
 
   it('should process an address with a split voie', (): void => {

@@ -78,7 +78,7 @@ const lieuDeMediationNumerique = (
     presentation: processPresentation(dataSource, matching),
     services: processServices(dataSource, matching),
     source: processSource(dataSource, matching, sourceName),
-    ...horairesIfAny(processHoraires(recorder)(dataSource, matching)),
+    ...horairesIfAny(processHoraires(dataSource, matching)),
     ...priseRdvIfAny(processPriseRdv(dataSource, matching))
   };
   recorder.commit();
@@ -94,10 +94,18 @@ export const toLieuxMediationNumerique =
     try {
       return lieuDeMediationNumerique(index, dataSource, sourceName, JSON.parse(matching), report.entry(index));
     } catch (error: unknown) {
-      if (error instanceof ServicesError) return undefined;
-      if (error instanceof VoieError) return undefined;
-      if (error instanceof CommuneError) return undefined;
-      if (error instanceof CodePostalError) return undefined;
+      if (
+        error instanceof ServicesError ||
+        error instanceof VoieError ||
+        error instanceof CommuneError ||
+        error instanceof CodePostalError
+      ) {
+        report
+          .entry(index)
+          .record(error.key, error.message, dataSource[JSON.parse(matching).nom.colonne] ?? '')
+          .commit();
+        return undefined;
+      }
       throw error;
     }
   };
