@@ -28,7 +28,8 @@ jobs:
             res-in,
             les-landes,
             la-creuse,
-            numi
+            numi,
+            ultra-num
           ]
     runs-on: ubuntu-latest
     environment: production

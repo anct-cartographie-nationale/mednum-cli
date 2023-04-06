@@ -66,6 +66,7 @@
     "transformer.loire-atlantique": "ts-node src/index.ts transformer -n \"Loire Atlantique\" -t \"Loire-Atlantique\" -s \"https://www.data.gouv.fr/fr/datasets/r/95824460-e707-4db1-a67b-46b4e540d8ac\" -c \"./assets/input/loire-atlantique/loire-atlantique.config.json\" -o \"./assets/output/loire-atlantique\"",
     "transformer.rhin-occ": "ts-node src/index.ts transformer -n \"RhinOcc\" -t \"Occitanie\" -s \"https://raw.githubusercontent.com/multi-coop/data-rhinocc-inclusion/main/csv/rhinocc-inclusion-dataset.csv\" -c \"./assets/input/rhin-occ/rhin-occ.config.json\" -o \"./assets/output/rhin-occ\"",
     "transformer.res-in": "ts-node src/index.ts transformer -n \"Res-in\" -t \"Lyon\" -s \"https://resin.grandlyon.com/api/structures\" -c \"./assets/input/res-in/res-in.config.json\" -o \"./assets/output/resin\"",
+    "transformer.ultra-num": "ts-node src/index.ts transformer -n \"Ultra-numerique\" -t \"La Reunion\" -s \"./assets/input/ultra-num/ultra-num.json\" -c \"./assets/input/ultra-num/ultra-num.config.json\" -o \"./assets/output/ultra-num\"",
     "publier.angers": "ts-node src/index.ts publier -z \"fr:commune:49007\" -m \"./assets/output/angers/publier.json\"",
     "publier.conseiller-numerique": "ts-node src/index.ts publier -z \"country:fr\" -m \"./assets/output/conseiller-numerique/publier.json\"",
     "publier.data-inclusion": "ts-node src/index.ts publier -z \"country:fr\" -m \"./assets/output/data-inclusion/publier.json\"",
@@ -83,7 +84,8 @@
     "publier.paca": "ts-node src/index.ts publier -z \"fr:region:93\" -m \"./assets/output/paca/publier.json\"",
     "publier.loire-atlantique": "ts-node src/index.ts publier -z \"fr:departement:44\" -m \"./assets/output/loire-atlantique/publier.json\"",
     "publier.rhin-occ": "ts-node src/index.ts publier -z \"fr:region:76\" -m \"./assets/output/rhin-occ/publier.json\"",
-    "publier.res-in": "ts-node src/index.ts publier -z \"fr:commune:69123\" -m \"./assets/output/resin/publier.json\""
+    "publier.res-in": "ts-node src/index.ts publier -z \"fr:commune:69123\" -m \"./assets/output/resin/publier.json\"",
+    "publier.ultra-num": "ts-node src/index.ts publier -z \"fr:region:04\" -m \"./assets/output/ultra-num/publier.json\""
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
