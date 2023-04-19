@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
 
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
+import { isColonne } from './adresse.field';
 
 const communes: Commune[] = require('../../../data/communes.json');
 
@@ -45,10 +46,10 @@ const findCodePostal = (matchingCommuneName: string): string =>
 
 const codePostalFromCommune = (commune: string): string => formatCodePostal(findCodePostal(commune));
 
-const processCodePostal = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
-  (source[matching.code_postal.colonne] ?? '') === ''
-    ? codePostalFromCommune(source[matching.commune.colonne] ?? '')
-    : source[matching.code_postal.colonne] ?? '';
+const processCodePostal = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string => {
+  const codePostalInAdresse = !isColonne(matching.adresse) ? '' : source[matching.adresse.colonne].match(/\b\d{5}\b/u)?.[0];
+  return codePostalInAdresse === '' ? codePostalFromCommune(source[matching.commune.colonne] ?? '') : codePostalInAdresse ?? '';
+};
 
 const throwMissingFixRequiredDataError = (): string => {
   throw new Error('Missing fix required data');
