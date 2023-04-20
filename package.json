@@ -47,6 +47,7 @@
     "start.data-inclusion": "ts-node src/data-inclusion/main.ts",
     "mednum": "ts-node src/index.ts",
     "extract.numi": "ts-node src/index.ts extract -n \"numi\" -o \"./assets/output-extraction/numi\" -d \"76,61,50,27,14\"",
+    "extract.mednum-hub-antilles": "ts-node src/index.ts extract -n \"mednum-hub-antilles\" -o \"./assets/output-extraction/mednum-hub-antilles\" -d \"972\"",
     "transformer.angers": "ts-node src/index.ts transformer -n \"Angers\" -t \"Maine-et-Loire\" -s \"./assets/input/angers/angers.json\" -c \"./assets/input/angers/angers.config.json\" -o \"./assets/output/angers\"",
     "fetch.france-tiers-lieux": "curl --request POST --url https://cartographie.francetierslieux.fr/co2/search/globalautocomplete --header 'Content-Type: application/x-www-form-urlencoded' --data 'searchType[]=organizations' --data indexStep= --data costumSlug=franceTierslieux > assets/input/france-tiers-lieux/france-tiers-lieux.json",
     "transformer.conseiller-numerique": "ts-node src/index.ts transformer -n \"Conseiller Numerique\" -t \"National\" -s \"https://api.conseiller-numerique.gouv.fr/permanences\" -c \"./assets/input/conseiller-numerique/conseiller-numerique.config.json\" -o \"./assets/output/conseiller-numerique\"",
