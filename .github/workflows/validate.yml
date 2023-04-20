@@ -71,7 +71,8 @@ jobs:
             les-landes,
             la-creuse,
             numi,
-            ultra-num
+            ultra-num,
+            haute-vienne
           ]
     runs-on: ubuntu-latest
     environment: demo
