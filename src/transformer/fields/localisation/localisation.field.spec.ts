@@ -2,7 +2,7 @@
 
 import { Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
-import { processLocalisation } from './localisation.field';
+import { NO_LOCALISATION, processLocalisation } from './localisation.field';
 
 const STANDARD_MATCHING: LieuxMediationNumeriqueMatching = {
   latitude: {
@@ -108,5 +108,22 @@ describe('localisation field', (): void => {
         longitude: -0.49316
       })
     );
+  });
+
+  it('should return null when coordinates is not validate', (): void => {
+    const source: DataSource = {
+      bf_latitude: '6789183.34',
+      bf_longitude: '0021760109.06045345'
+    };
+    const localisation: Localisation = processLocalisation(source, STANDARD_MATCHING);
+
+    expect(localisation).toStrictEqual<Localisation>(NO_LOCALISATION);
+  });
+
+  it('should return null when there is no latitude or longitude colonnes', (): void => {
+    const source: DataSource = {};
+    const localisation: Localisation = processLocalisation(source, STANDARD_MATCHING);
+
+    expect(localisation).toStrictEqual<Localisation>(NO_LOCALISATION);
   });
 });

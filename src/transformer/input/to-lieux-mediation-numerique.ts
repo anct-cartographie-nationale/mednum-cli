@@ -6,6 +6,7 @@ import {
   ConditionsAcces,
   LabelsNationaux,
   LieuMediationNumerique,
+  Localisation,
   ModalitesAccompagnement,
   PublicsAccueillis,
   ServicesError,
@@ -55,6 +56,9 @@ const modalitesAccompagnementIfAny = (
 ): { modalites_accompagnement?: ModalitesAccompagnement } =>
   modaliteAccompagnement.length === 0 ? {} : { modalites_accompagnement: modaliteAccompagnement };
 
+const localisationIfAny = (localisation?: Localisation): { localisation?: Localisation } =>
+  localisation == null ? {} : { localisation };
+
 const lieuDeMediationNumerique = (
   index: number,
   dataSource: DataSource,
@@ -67,7 +71,7 @@ const lieuDeMediationNumerique = (
     nom: processNom(dataSource, matching),
     pivot: processPivot(dataSource, matching),
     adresse: processAdresse(recorder)(dataSource, matching),
-    localisation: processLocalisation(dataSource, matching),
+    ...localisationIfAny(processLocalisation(dataSource, matching)),
     contact: processContact(recorder)(dataSource, matching),
     ...conditionsAccesIfAny(processConditionsAcces(dataSource, matching)),
     ...modalitesAccompagnementIfAny(processModalitesAccompagnement(dataSource, matching)),
