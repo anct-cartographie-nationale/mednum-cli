@@ -9,15 +9,14 @@ jobs:
   publish-to-data-gouv:
     strategy:
       matrix:
-        source:
-          [
+        source: [
             hinaura,
             maine-et-loire,
             les-assembleurs,
             france-services,
             france-tiers-lieux,
             conseiller-numerique,
-            francil-in,
+            # francil-in,
             angers,
             hub-lo,
             mulhouse,
