@@ -1,0 +1,198 @@
+{
+  "id": {
+    "colonne": "objectid"
+  },
+  "nom": {
+    "colonne": "nom_org"
+  },
+  "commune": {
+    "colonne": "commune"
+  },
+  "adresse": {
+    "colonne": "adresse"
+  },
+  "code_postal": {
+    "colonne": "code_postal"
+  },
+  "telephone": {
+    "colonne": "tel_fixe"
+  },
+  "courriel": {
+    "colonne": "mail"
+  },
+  "site_web": {
+    "colonne": "site"
+  },
+  "latitude": {
+    "colonne": "latitude"
+  },
+  "longitude": {
+    "colonne": "longitude"
+  },
+  "date_maj": {
+    "colonne": ""
+  },
+  "presentation_detail": {
+    "colonne": "commentaires"
+  },
+  "labels_nationaux": [
+    {
+      "colonnes": ["label"],
+      "termes": ["France Services"],
+      "cible": "France Services"
+    },
+    {
+      "colonnes": ["cheque"],
+      "termes": ["oui"],
+      "cible": "APTIC"
+    }
+  ],
+  "conditions_acces": [
+    {
+      "colonnes": ["condition", "commentaires"],
+      "termes": ["accès libre", "gratuite", "gratuit"],
+      "cible": "Gratuit : Je peux accéder gratuitement au lieu et à ses services"
+    },
+    {
+      "colonnes": ["commentaires"],
+      "termes": ["payantes"],
+      "cible": "Payant : L'accès au lieu et/ou à ses services est payant"
+    },
+    {
+      "colonnes": ["commentaires", "public"],
+      "termes": ["adhésion", "adhérent"],
+      "cible": "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"
+    },
+    {
+      "colonnes": ["cheque"],
+      "termes": ["oui"],
+      "cible": "Accepte le Pass numérique : Il est possible d'utiliser un Pass numérique pour accéder au lieu"
+    }
+  ],
+  "modalites_accompagnement": [
+    {
+      "colonnes": ["assistance"],
+      "termes": ["non"],
+      "cible": "Seul : j'ai accès à du matériel et une connexion"
+    },
+    {
+      "colonnes": ["commentaires"],
+      "termes": ["ateliers"],
+      "cible": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
+    },
+    {
+      "colonnes": ["assistance"],
+      "termes": ["oui"],
+      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+    }
+  ],
+  "publics_accueillis": [
+    {
+      "colonnes": ["public"],
+      "termes": ["tout public", "tous publics", "demandeurs d'emploi", "recherche d'emploi", "tout public", "jeunes"],
+      "cible": "Jeunes (16-26 ans)"
+    },
+    {
+      "colonnes": ["public"],
+      "termes": ["tout public", "tous publics", "tout public"],
+      "cible": "Familles/enfants"
+    },
+    {
+      "colonnes": ["public"],
+      "termes": ["tout public", "tous publics", "demandeurs d'emploi", "recherche d'emploi", "tout public", "adulte"],
+      "cible": "Adultes"
+    },
+    {
+      "colonnes": ["public"],
+      "termes": ["tout public", "tous publics", "public senior", "tout public"],
+      "cible": "Seniors (+ 65 ans)"
+    },
+    {
+      "colonnes": ["public"],
+      "termes": ["situation de handicap"],
+      "cible": "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales"
+    },
+    {
+      "colonnes": ["public"],
+      "termes": ["situation de handicap"],
+      "cible": "Personnes en situation d'illettrisme"
+    },
+    {
+      "colonnes": ["public"],
+      "termes": ["situation de handicap"],
+      "cible": "Surdité"
+    },
+    {
+      "colonnes": ["public"],
+      "termes": ["situation de handicap"],
+      "cible": "Handicaps mentaux : déficiences limitant les activités d'une personne"
+    },
+    {
+      "colonnes": ["public"],
+      "termes": ["situation de handicap"],
+      "cible": "Déficience visuelle"
+    }
+  ],
+  "services": [
+    {
+      "colonnes": ["service"],
+      "termes": ["Accès à Internet"],
+      "cible": "Accéder à une connexion internet"
+    },
+    {
+      "colonnes": ["service"],
+      "termes": ["Accès à du matériel (PC, tablettes, smartphones…)", "Accès à une imprimante / scanner"],
+      "cible": "Accéder à du matériel"
+    },
+    {
+      "colonnes": ["service"],
+      "termes": [
+        "Compétences numérique avancées (développement, communication…)",
+        "Découverte des logiciels bureautiques  ( l'ordinateur/tablettes, traitement de texte, tableur…)"
+      ],
+      "cible": "Créer avec le numérique"
+    },
+    {
+      "colonnes": ["service"],
+      "termes": [
+        "Découverte d'internet, des réseaux sociaux et de l'usage de la messagerie   (sites grand public, réseaux sociaux, messagerie)",
+        "Dépannage, conseils",
+        "Pratiques d'activités numériques récréatives"
+      ],
+      "cible": "Utiliser le numérique au quotidien"
+    },
+    {
+      "colonnes": ["service"],
+      "termes": ["Aide aux démarches administratives dématérialisées et accès aux droits ( impôts, caf, …)"],
+      "cible": "Réaliser des démarches administratives avec un accompagnement"
+    },
+    {
+      "colonnes": ["service"],
+      "termes": ["Aide à la recherche d'emploi"],
+      "cible": "Favoriser mon insertion professionnelle"
+    },
+    {
+      "colonnes": ["service"],
+      "termes": ["Découverte de l'ordinateur-tablette- smartphone"],
+      "cible": "Prendre en main un ordinateur"
+    },
+    {
+      "colonnes": ["service"],
+      "termes": ["Découverte de l'ordinateur-tablette- smartphone"],
+      "cible": "Prendre en main un smartphone ou une tablette"
+    },
+    {
+      "colonnes": ["service"],
+      "termes": ["Don, prêt matériel"],
+      "cible": "S'équiper en matériel informatique"
+    },
+    {
+      "colonnes": ["service"],
+      "termes": ["Initiation à la culture numérique (ex. protection des données, détection des fake news, etc.)"],
+      "cible": "Approfondir ma culture numérique"
+    }
+  ],
+  "horaires": {
+    "semaine": "horaires"
+  }
+}

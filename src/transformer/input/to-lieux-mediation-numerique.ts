@@ -8,6 +8,7 @@ import {
   LieuMediationNumerique,
   Localisation,
   ModalitesAccompagnement,
+  NomError,
   PublicsAccueillis,
   ServicesError,
   Url,
@@ -102,7 +103,8 @@ export const toLieuxMediationNumerique =
         error instanceof ServicesError ||
         error instanceof VoieError ||
         error instanceof CommuneError ||
-        error instanceof CodePostalError
+        error instanceof CodePostalError ||
+        error instanceof NomError
       ) {
         report
           .entry(index)
