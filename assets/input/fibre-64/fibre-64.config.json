@@ -1,0 +1,178 @@
+{
+  "nom": {
+    "colonne": "Nomdelastructure"
+  },
+  "commune": {
+    "colonne": "Ville"
+  },
+  "code_postal": {
+    "colonne": "Codepostal"
+  },
+  "adresse": {
+    "colonne": "Adressenumeronomdelavoie"
+  },
+  "latitude": {
+    "colonne": "latitude"
+  },
+  "longitude": {
+    "colonne": "longitude"
+  },
+  "telephone": {
+    "colonne": "Telephone"
+  },
+  "courriel": {
+    "colonne": "Adressemail"
+  },
+  "site_web": {
+    "colonne": "SiteWeb"
+  },
+  "date_maj": {
+    "colonne": ""
+  },
+  "presentation_detail": {
+    "colonne": "Jedecrislesactionsdinclusionnumeriquedemastructureenquelquesmots"
+  },
+  "conditions_acces": [
+    {
+      "colonnes": ["Lestarifsdemastructure"],
+      "termes": ["gratuit", "gratuite", "0euro", "gratuits", "aucun", "gratuites"],
+      "cible": "Gratuit : Je peux accéder gratuitement au lieu et à ses services"
+    },
+    {
+      "colonnes": ["Lestarifsdemastructure"],
+      "termes": ["gratuite sous conditions", "100% finance", "selon public et prestation", "en fonction"],
+      "cible": "Gratuit sous condition : La gratuité est conditionnée à des critères (situation familiale, convention avec un organisme social...)"
+    },
+    {
+      "colonnes": ["Lestarifsdemastructure"],
+      "termes": ["adhésion", "adhesion", "cotisation annuelle"],
+      "cible": "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"
+    },
+    {
+      "colonnes": ["Lestarifsdemastructure"],
+      "termes": ["payant", "euros", "adhésion", "adhesion", "euro", "tarifs"],
+      "sauf": ["non payant"],
+      "cible": "Payant : L'accès au lieu et/ou à ses services est payant"
+    }
+  ],
+  "publics_accueillis": [
+    {
+      "colonnes": ["Typedepublics", "Precisezsiaccueildepublicspecifique"],
+      "termes": ["tous les publics", "jeunes", "publics specifiques"],
+      "cible": "Jeunes (16-26 ans)"
+    },
+    {
+      "colonnes": ["Typedepublics"],
+      "termes": ["tous les publics"],
+      "cible": "Familles/enfants"
+    },
+    {
+      "colonnes": ["Typedepublics"],
+      "termes": ["tous les publics", "publics specifiques"],
+      "cible": "Adultes"
+    },
+    {
+      "colonnes": ["Typedepublics", "Precisezsiaccueildepublicspecifique"],
+      "termes": ["tous les publics", "seniors", "publics specifiques"],
+      "cible": "Seniors (+ 65 ans)"
+    },
+    {
+      "colonnes": ["Typedepublics"],
+      "termes": ["tous les publics"],
+      "cible": "Uniquement femmes"
+    },
+    {
+      "colonnes": ["Precisezsiaccueildepublicspecifique"],
+      "termes": ["situation de handicap"],
+      "cible": "Surdité"
+    },
+    {
+      "colonnes": ["Precisezsiaccueildepublicspecifique"],
+      "termes": ["situation de handicap"],
+      "cible": "Handicaps mentaux : déficiences limitant les activités d'une personne"
+    },
+    {
+      "colonnes": ["Precisezsiaccueildepublicspecifique"],
+      "termes": ["situation de handicap"],
+      "cible": "Personnes en situation d'illettrisme"
+    },
+
+    {
+      "colonnes": ["Precisezsiaccueildepublicspecifique"],
+      "termes": ["situation de handicap", "handicap psychique"],
+      "cible": "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales"
+    },
+    {
+      "colonnes": ["Precisezsiaccueildepublicspecifique"],
+      "termes": ["situation de handicap"],
+      "cible": "Déficience visuelle"
+    }
+  ],
+  "modalites_accompagnement": [
+    {
+      "colonnes": ["Accompagnementdeprofessionnels"],
+      "termes": ["pas du tout"],
+      "cible": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
+    },
+    {
+      "colonnes": ["Accompagnementdeprofessionnels"],
+      "termes": ["de temps en temps", "exceptionnellement", "souvent"],
+      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+    }
+  ],
+  "services": [
+    {
+      "colonnes": ["Accesadesequipementsetuneconnexioninternet"],
+      "termes": ["souvent", "exceptionnellement", "de temps en temps"],
+      "cible": "Accéder à une connexion internet"
+    },
+    {
+      "colonnes": ["InitiationaunumeriqueFormationApprentissagePerfectionnement"],
+      "termes": ["souvent", "de temps en temps", "exceptionnellement"],
+      "cible": "Prendre en main un ordinateur"
+    },
+    {
+      "colonnes": ["Accesadesequipementsetuneconnexioninternet"],
+      "termes": ["souvent", "exceptionnellement", "de temps en temps"],
+      "cible": "Accéder à du matériel"
+    },
+    {
+      "colonnes": ["Demarchesadministratives"],
+      "termes": ["souvent", "de temps en temps", "exceptionnellement"],
+      "cible": "Devenir autonome dans les démarches administratives"
+    },
+    {
+      "colonnes": ["Demarchesadministratives"],
+      "termes": ["souvent", "de temps en temps", "exceptionnellement"],
+      "cible": "Réaliser des démarches administratives avec un accompagnement"
+    },
+    {
+      "colonnes": ["InitiationaunumeriqueFormationApprentissagePerfectionnement"],
+      "termes": ["souvent", "de temps en temps", "exceptionnellement"],
+      "cible": "Approfondir ma culture numérique"
+    },
+    {
+      "colonnes": ["InitiationaunumeriqueFormationApprentissagePerfectionnement"],
+      "termes": ["souvent", "de temps en temps", "exceptionnellement"],
+      "cible": "Créer avec le numérique"
+    },
+    {
+      "colonnes": ["InitiationaunumeriqueFormationApprentissagePerfectionnement"],
+      "termes": ["souvent", "de temps en temps", "exceptionnellement"],
+      "cible": "Promouvoir la citoyenneté numérique"
+    },
+    {
+      "colonnes": ["InitiationaunumeriqueFormationApprentissagePerfectionnement"],
+      "termes": ["souvent", "de temps en temps", "exceptionnellement"],
+      "cible": "Utiliser le numérique au quotidien"
+    },
+    {
+      "colonnes": ["InitiationaunumeriqueFormationApprentissagePerfectionnement"],
+      "termes": ["souvent", "de temps en temps", "exceptionnellement"],
+      "cible": "Favoriser mon insertion professionnelle"
+    }
+  ],
+  "horaires": {
+    "semaine": "Leshorairesdemastructure"
+  }
+}

@@ -72,7 +72,8 @@ jobs:
             la-creuse,
             numi,
             ultra-num,
-            haute-vienne
+            haute-vienne,
+            fibre-64
           ]
     runs-on: ubuntu-latest
     environment: demo
