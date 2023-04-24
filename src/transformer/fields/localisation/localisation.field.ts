@@ -1,7 +1,7 @@
 import { Localisation, LocalisationToValidate, isValidLocalisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Colonne, Dissociation, LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 
-type NoLocalisation = null & { noLocalisation: true };
+type NoLocalisation = { noLocalisation: true } & null;
 export const NO_LOCALISATION: Localisation = null as NoLocalisation;
 
 const NO_LOCALISATION_COLONNE: number = NaN;
@@ -19,7 +19,7 @@ const dissocier = (source: DataSource, localisation: Dissociation & Partial<Colo
 const localisationField = (source: DataSource, localisation: Dissociation & Partial<Colonne>): string | undefined =>
   (isColonne(localisation) ? source[localisation.colonne] : dissocier(source, localisation))?.toString().replace(',', '.');
 
-const validateLocalisationField = (localisationToValidate: LocalisationToValidate) =>
+const validateLocalisationField = (localisationToValidate: LocalisationToValidate): Localisation =>
   isValidLocalisation(localisationToValidate) ? localisationToValidate : NO_LOCALISATION;
 
 const localisationFromMatching = (source: DataSource, matching: LieuxMediationNumeriqueMatching): LocalisationToValidate => ({

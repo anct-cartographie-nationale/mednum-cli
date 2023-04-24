@@ -56,7 +56,7 @@ const modalitesAccompagnementIfAny = (
 ): { modalites_accompagnement?: ModalitesAccompagnement } =>
   modaliteAccompagnement.length === 0 ? {} : { modalites_accompagnement: modaliteAccompagnement };
 
-const localisationIfAny = (localisation: Localisation): { localisation?: Localisation } =>
+const localisationIfAny = (localisation?: Localisation): { localisation?: Localisation } =>
   localisation == null ? {} : { localisation };
 
 const lieuDeMediationNumerique = (
@@ -110,7 +110,6 @@ export const toLieuxMediationNumerique =
           .commit();
         return undefined;
       }
-      console.log(dataSource);
       throw error;
     }
   };
