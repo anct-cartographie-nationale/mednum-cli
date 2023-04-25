@@ -73,7 +73,8 @@ jobs:
             numi,
             ultra-num,
             haute-vienne,
-            fibre-64
+            fibre-64,
+            mednum-hub-antilles
           ]
     runs-on: ubuntu-latest
     environment: demo

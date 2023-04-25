@@ -10,7 +10,7 @@ const filterDataByDepartement = (
 ): SchemaStructureDataInclusionWithServices[] =>
   lieuxMediationNumerique.filter((lieu: SchemaStructureDataInclusionWithServices): boolean => {
     const arrayDepartements: string[] = departements.split(',');
-    const codePostalDepartement: string = lieu.code_postal.slice(0, 2);
+    const codePostalDepartement: string = lieu.code_postal.slice(0, arrayDepartements[0]?.length);
     return arrayDepartements.includes(codePostalDepartement);
   });
 
