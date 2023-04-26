@@ -24,14 +24,115 @@
     "colonne": "properties.site"
   },
   "latitude": {
-    "colonne": ""
+    "colonne": "geometry.coordinates.1"
   },
   "longitude": {
-    "colonne": ""
+    "colonne": "geometry.coordinates.0"
   },
   "date_maj": {
     "colonne": ""
   },
+  "presentation_detail": {
+    "colonne": "properties.commentaires"
+  },
+  "labels_nationaux": [
+    {
+      "colonnes": ["properties.label"],
+      "termes": ["France Services"],
+      "cible": "France Services"
+    },
+    {
+      "colonnes": ["properties.cheque"],
+      "termes": ["oui"],
+      "cible": "APTIC"
+    }
+  ],
+  "conditions_acces": [
+    {
+      "colonnes": ["properties.condition", "properties.commentaires"],
+      "termes": ["accès libre", "gratuite", "gratuit"],
+      "cible": "Gratuit : Je peux accéder gratuitement au lieu et à ses services"
+    },
+    {
+      "colonnes": ["properties.commentaires"],
+      "termes": ["payantes"],
+      "cible": "Payant : L'accès au lieu et/ou à ses services est payant"
+    },
+    {
+      "colonnes": ["properties.commentaires", "properties.public"],
+      "termes": ["adhésion", "adhérent"],
+      "cible": "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"
+    },
+    {
+      "colonnes": ["properties.cheque"],
+      "termes": ["oui"],
+      "cible": "Accepte le Pass numérique : Il est possible d'utiliser un Pass numérique pour accéder au lieu"
+    }
+  ],
+  "modalites_accompagnement": [
+    {
+      "colonnes": ["properties.assistance"],
+      "termes": ["non"],
+      "cible": "Seul : j'ai accès à du matériel et une connexion"
+    },
+    {
+      "colonnes": ["properties.commentaires"],
+      "termes": ["ateliers"],
+      "cible": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
+    },
+    {
+      "colonnes": ["properties.assistance"],
+      "termes": ["oui"],
+      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+    }
+  ],
+  "publics_accueillis": [
+    {
+      "colonnes": ["properties.public"],
+      "termes": ["tout public", "tous publics", "demandeurs d'emploi", "recherche d'emploi", "tout public", "jeunes"],
+      "cible": "Jeunes (16-26 ans)"
+    },
+    {
+      "colonnes": ["properties.public"],
+      "termes": ["tout public", "tous publics", "tout public"],
+      "cible": "Familles/enfants"
+    },
+    {
+      "colonnes": ["properties.public"],
+      "termes": ["tout public", "tous publics", "demandeurs d'emploi", "recherche d'emploi", "tout public", "adulte"],
+      "cible": "Adultes"
+    },
+    {
+      "colonnes": ["properties.public"],
+      "termes": ["tout public", "tous publics", "public senior", "tout public"],
+      "cible": "Seniors (+ 65 ans)"
+    },
+    {
+      "colonnes": ["properties.public"],
+      "termes": ["situation de handicap"],
+      "cible": "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales"
+    },
+    {
+      "colonnes": ["properties.public"],
+      "termes": ["situation de handicap"],
+      "cible": "Personnes en situation d'illettrisme"
+    },
+    {
+      "colonnes": ["properties.public"],
+      "termes": ["situation de handicap"],
+      "cible": "Surdité"
+    },
+    {
+      "colonnes": ["properties.public"],
+      "termes": ["situation de handicap"],
+      "cible": "Handicaps mentaux : déficiences limitant les activités d'une personne"
+    },
+    {
+      "colonnes": ["properties.public"],
+      "termes": ["situation de handicap"],
+      "cible": "Déficience visuelle"
+    }
+  ],
   "services": [
     {
       "colonnes": ["properties.service"],
@@ -90,5 +191,8 @@
       "termes": ["Initiation à la culture numérique (ex. protection des données, détection des fake news, etc.)"],
       "cible": "Approfondir ma culture numérique"
     }
-  ]
+  ],
+  "horaires": {
+    "semaine": "properties.horaires"
+  }
 }

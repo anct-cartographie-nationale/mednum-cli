@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition*/
 import { ModaliteAccompagnement, ModalitesAccompagnement } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Choice, LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 
@@ -7,10 +8,10 @@ const isAllowedTerm = (choice: Choice<ModaliteAccompagnement>, sourceValue: stri
 const isTermFound =
   (sourceValue: string, choice: Choice<ModaliteAccompagnement>) =>
   (found: boolean, term: string): boolean =>
-    found || (sourceValue.includes(term.toLowerCase()) && isAllowedTerm(choice, sourceValue));
+    found || (sourceValue?.includes(term.toLowerCase()) && isAllowedTerm(choice, sourceValue));
 
 const containsOneOfTheTerms = (choice: Choice<ModaliteAccompagnement>, sourceValue: string = ''): boolean =>
-  choice.termes == null ? sourceValue !== '' : choice.termes.reduce(isTermFound(sourceValue.toLowerCase(), choice), false);
+  choice.termes == null ? sourceValue !== '' : choice.termes.reduce(isTermFound(sourceValue?.toLowerCase(), choice), false);
 
 const appendModaliteAccompagnement = (
   modalitesAccompagnement: ModaliteAccompagnement[],

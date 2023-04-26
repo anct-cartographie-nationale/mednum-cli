@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/naming-convention, camelcase */
+/* eslint-disable @typescript-eslint/naming-convention, camelcase, max-statements,max-depth, no-param-reassign  */
 
 import { Adresse, CodeInseeError, CodePostalError, CommuneError } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching, DataSource, Colonne, Jonction } from '../../input';
@@ -17,7 +17,7 @@ const formatVoie = (adressePostale: string): string =>
     .replace(/\s+/gu, ' ')
     .trim();
 
-export const isColonne = (colonneToTest: (Partial<Colonne> & Partial<Jonction>) | Colonne): colonneToTest is Colonne =>
+export const isColonne = (colonneToTest: Colonne | (Partial<Colonne> & Partial<Jonction>)): colonneToTest is Colonne =>
   colonneToTest.colonne != null;
 
 const voieField = (source: DataSource, voie: Jonction & Partial<Colonne>): string =>
@@ -109,7 +109,7 @@ export const processAdresse =
       if (source[matching.commune.colonne] === '') throw new CommuneError('');
       if (error instanceof CodePostalError) {
         if (matching.code_postal.colonne === 'inAdresse') {
-          source.code_postal = '';
+          source['code_postal'] = '';
           matching.code_postal.colonne = 'code_postal';
         }
       }

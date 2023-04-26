@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition*/
 import { LabelNational, LabelsNationaux } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Choice, LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 
@@ -7,10 +8,10 @@ const isAllowedTerm = (choice: Choice<LabelNational>, sourceValue: string): bool
 const isTermFound =
   (sourceValue: string, choice: Choice<LabelNational>) =>
   (found: boolean, term: string): boolean =>
-    found || (sourceValue.includes(term.toLowerCase()) && isAllowedTerm(choice, sourceValue));
+    found || (sourceValue?.includes(term.toLowerCase()) && isAllowedTerm(choice, sourceValue));
 
 const containsOneOfTheTerms = (choice: Choice<LabelNational>, sourceValue: string = ''): boolean =>
-  choice.termes == null ? sourceValue !== '' : choice.termes.reduce(isTermFound(sourceValue.toLowerCase(), choice), false);
+  choice.termes == null ? sourceValue !== '' : choice.termes.reduce(isTermFound(sourceValue?.toLowerCase(), choice), false);
 
 const appendLabelNational = (labelsNationaux: LabelNational[], labelNational?: LabelNational): LabelNational[] => [
   ...labelsNationaux,

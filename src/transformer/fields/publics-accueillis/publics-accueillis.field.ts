@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition*/
 import { PublicAccueilli, PublicsAccueillis } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Choice, LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 
@@ -7,12 +8,12 @@ const isAllowedTerm = (choice: Choice<PublicAccueilli>, sourceValue: string): bo
 const isTermFound =
   (sourceValue: string, choice: Choice<PublicAccueilli>) =>
   (found: boolean, term: string): boolean =>
-    found || (sourceValue.includes(term.toLowerCase()) && isAllowedTerm(choice, sourceValue));
+    found || (sourceValue?.includes(term.toLowerCase()) && isAllowedTerm(choice, sourceValue));
 
 const containsOneOfTheTerms = (choice: Choice<PublicAccueilli>, sourceValue: string = ''): boolean =>
   choice.termes == null
     ? sourceValue !== ''
-    : choice.termes.reduce(isTermFound(sourceValue.toString().toLowerCase(), choice), false);
+    : choice.termes.reduce(isTermFound(sourceValue?.toString().toLowerCase(), choice), false);
 
 const appendPublicAccueilli = (publicsAccueilli: PublicAccueilli[], publicAccueilli?: PublicAccueilli): PublicAccueilli[] => [
   ...publicsAccueilli,

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/naming-convention, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/naming-convention, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires, no-nested-ternary */
 
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { isColonne } from './adresse.field';
@@ -46,10 +46,17 @@ const findCodePostal = (matchingCommuneName: string): string =>
 
 const codePostalFromCommune = (commune: string): string => formatCodePostal(findCodePostal(commune));
 
-const processCodePostal = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string => {
-  const codePostalInAdresse = !isColonne(matching.adresse) ? '' : source[matching.adresse.colonne].match(/\b\d{5}\b/u)?.[0];
-  return codePostalInAdresse === '' ? codePostalFromCommune(source[matching.commune.colonne] ?? '') : codePostalInAdresse ?? '';
+const codePostalFromVoie = (voie: string, commune: string): string => {
+  const codePostalInAdresse: string = /\b\d{5}\b/u.exec(voie)?.[0] ?? '';
+  return codePostalInAdresse === '' ? codePostalFromCommune(commune) : codePostalInAdresse;
 };
+
+const processCodePostal = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
+  (source[matching.code_postal.colonne] ?? '') === ''
+    ? isColonne(matching.adresse)
+      ? codePostalFromVoie(source[matching.adresse.colonne] ?? '', source[matching.commune.colonne] ?? '')
+      : ''
+    : source[matching.code_postal.colonne] ?? '';
 
 const throwMissingFixRequiredDataError = (): string => {
   throw new Error('Missing fix required data');
