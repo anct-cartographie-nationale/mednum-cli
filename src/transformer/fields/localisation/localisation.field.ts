@@ -21,7 +21,7 @@ const dissocier = (source: DataSource, localisation: Dissociation & Partial<Colo
     .filter((coord: string): boolean => coord !== '')[localisation.dissocier.partie];
 
 const checkFormatLocalisation = (localisation: LocalisationToValidate): Localisation => {
-  if (localisation === NO_LOCALISATION || (Number.isNaN(localisation.latitude) && Number.isNaN(localisation.longitude)))
+  if (localisation === NO_LOCALISATION || Number.isNaN(localisation.latitude) || Number.isNaN(localisation.longitude))
     return NO_LOCALISATION;
   proj4.defs(
     'EPSG:9793',
