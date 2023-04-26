@@ -1,130 +1,134 @@
 {
   "id": {
-    "colonne": "ID"
+    "colonne": "id_lieumed"
   },
   "nom": {
-    "colonne": "Nom"
+    "colonne": "jt_nom_str"
   },
   "code_postal": {
-    "colonne": "CP"
+    "colonne": "jt_cp"
   },
   "commune": {
-    "colonne": "Commune"
+    "colonne": "jt_commune"
   },
   "adresse": {
     "joindre": {
-      "colonnes" : ["Numéro", "Adresse"],
+      "colonnes": ["jt_ndeg", "jt_adresse"],
       "séparateur": " "
     }
   },
   "latitude": {
-    "dissocier": {
-      "colonne" : ["Geo Point"],
-      "séparateur": ",",
-      "partie": 0
-    }
+    "colonne": "geo_point_2d.lat"
   },
   "longitude": {
-    "dissocier": {
-      "colonne" : ["Geo Point"],
-      "séparateur": ",",
-      "partie": 1
-    }
+    "colonne": "geo_point_2d.lon"
   },
   "telephone": {
-    "colonne": "Téléphone"
+    "colonne": "jt_num_tel"
   },
   "courriel": {
-    "colonne": "Courriel"
+    "colonne": "jt_mail_st"
   },
   "site_web": {
-    "colonne": "Site web"
+    "colonne": "jt_site_we"
   },
   "conditions_acces": [
     {
-      "colonnes": ["JT_PBC_Adh"],
+      "colonnes": ["jt_pbc_adh"],
       "cible": "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"
     }
   ],
   "date_maj": {
-    "colonne": "Date_maj"
+    "colonne": "jt_dat_maj"
   },
   "publics_accueillis": [
     {
-      "colonnes": ["JT_PBC_Tou", "JT_PBC_Adu"],
+      "colonnes": ["jt_pbc_tou", "jt_pbc_adu"],
       "cible": "Adultes"
     },
     {
-      "colonnes": ["JT_PBC_Tou"],
+      "colonnes": ["jt_pbc_tou"],
       "cible": "Familles/enfants"
     },
     {
-      "colonnes": ["JT_PBC_Tou", "JT_PBC_Jeu"],
+      "colonnes": ["jt_pbc_tou", "jt_pbc_jeu"],
       "cible": "Jeunes (16-26 ans)"
     },
     {
-      "colonnes": ["JT_PBC_Tou", "JT_PBC_Sen"],
+      "colonnes": ["jt_pbc_tou", "jt_pbc_sen"],
       "cible": "Seniors (+ 65 ans)"
     },
     {
-      "colonnes": ["JT_PBC_Tou"],
+      "colonnes": ["jt_pbc_tou"],
       "cible": "Surdité"
     },
     {
-      "colonnes": ["JT_PBC_Tou"],
+      "colonnes": ["jt_pbc_tou"],
       "cible": "Handicaps mentaux : déficiences limitant les activités d'une personne"
     },
     {
-      "colonnes": ["JT_PBC_Tou"],
+      "colonnes": ["jt_pbc_tou"],
       "cible": "Personnes en situation d'illettrisme"
     },
     {
-      "colonnes": ["JT_PBC_Tou"],
+      "colonnes": ["jt_pbc_tou"],
       "cible": "Public langues étrangères"
     },
     {
-      "colonnes": ["JT_PBC_Tou"],
+      "colonnes": ["jt_pbc_tou"],
       "cible": "Uniquement femmes"
     },
     {
-      "colonnes": ["JT_PBC_Tou"],
+      "colonnes": ["jt_pbc_tou"],
       "cible": "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales"
     },
     {
-      "colonnes": ["JT_PBC_Tou"],
+      "colonnes": ["jt_pbc_tou"],
       "cible": "Déficience visuelle"
+    }
+  ],
+  "modalites_accompagnement": [
+    {
+      "colonnes": ["jt_accueil"],
+      "termes": ["oui"],
+      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+    }
+  ],
+  "labels_nationaux": [
+    {
+      "colonnes": ["jt_ss_cat"],
+      "termes": ["France Services"],
+      "cible": "France Services"
     }
   ],
   "services": [
     {
-      "colonnes": ["Accès internet"],
+      "colonnes": ["jt_interne"],
       "cible": "Accéder à une connexion internet"
     },
     {
-      "colonnes": ["JT_MAT_Wif"],
+      "colonnes": ["jt_mat_wif"],
       "cible": "Accéder à une connexion internet"
     },
     {
-      "colonnes": ["JT_MAT_Imp", "JT_MAT_Sca", "JT_MAT_Bor", "JT_MAT_3D", "JT_MAT_Con", "JT_MAT_Vid"],
+      "colonnes": ["jt_mat_imp", "jt_mat_sca", "jt_mat_bor", "jt_mat_3d", "jt_mat_con", "jt_mat_vid"],
       "cible": "Accéder à du matériel"
     },
     {
-      "colonnes": ["Initiation aux outils numériques"],
+      "colonnes": ["jt_initiat"],
       "cible": "Prendre en main un ordinateur"
     },
     {
-      "colonnes": ["Initiation aux outils numériques"],
+      "colonnes": ["jt_initiat"],
       "cible": "Prendre en main un smartphone ou une tablette"
     },
     {
-      "colonnes": ["Démarches générales"],
+      "colonnes": ["jt_dem_gen", "jt_dem_spe"],
       "cible": "Devenir autonome dans les démarches administratives"
     },
     {
-      "colonnes": ["Démarches spécifiques"],
+      "colonnes": ["jt_dem_gen", "jt_dem_spe"],
       "cible": "Réaliser des démarches administratives avec un accompagnement"
     }
   ]
 }
-
-
