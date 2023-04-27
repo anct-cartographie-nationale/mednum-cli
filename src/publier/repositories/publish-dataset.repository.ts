@@ -50,7 +50,7 @@ const updateRessourceFor =
     formData.append('file', fs.readFileSync(`${ressource.source}`), extractNameFromPath(ressource.source.split('/')));
 
     await axios.post<Ressource>(`${api.url}/datasets/${dataset.id}/resources/${ressourceId}/upload`, formData.getBuffer(), {
-      headers: headers(formData.getHeaders(authHeader(api.key))) as unknown as AxiosHeaders,
+      ...headers(formData.getHeaders(authHeader(api.key))),
       maxContentLength: 50 * 1024 * 1024
     });
 
@@ -61,7 +61,7 @@ const updateRessourceFor =
         description: ressource.description
       },
       {
-        headers: headers(authHeader(api.key)) as unknown as AxiosHeaders,
+        ...headers(authHeader(api.key)),
         maxContentLength: 50 * 1024 * 1024
       }
     );
