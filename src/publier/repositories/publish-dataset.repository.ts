@@ -49,10 +49,11 @@ const updateRessourceFor =
     const formData: typeof FormData = new FormData();
     formData.append('file', fs.readFileSync(`${ressource.source}`), extractNameFromPath(ressource.source.split('/')));
 
-    await axios.post<Ressource>(`${api.url}/datasets/${dataset.id}/resources/${ressourceId}/upload`, formData.getBuffer(), {
-      ...headers(formData.getHeaders(authHeader(api.key))),
-      maxContentLength: 209715200
-    });
+    await axios.post<Ressource>(
+      `${api.url}/datasets/${dataset.id}/resources/${ressourceId}/upload`,
+      formData.getBuffer(),
+      headers(formData.getHeaders(authHeader(api.key)))
+    );
 
     await axios.put<Ressource>(
       `${api.url}/datasets/${dataset.id}/resources/${ressourceId}`,
@@ -60,10 +61,7 @@ const updateRessourceFor =
         schema: { name: ressource.schema },
         description: ressource.description
       },
-      {
-        ...headers(authHeader(api.key)),
-        maxContentLength: 209715200
-      }
+      headers(authHeader(api.key))
     );
   };
 
