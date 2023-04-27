@@ -51,7 +51,7 @@ const updateRessourceFor =
 
     await axios.post<Ressource>(`${api.url}/datasets/${dataset.id}/resources/${ressourceId}/upload`, formData.getBuffer(), {
       ...headers(formData.getHeaders(authHeader(api.key))),
-      maxContentLength: 104857600
+      maxContentLength: 209715200
     });
 
     await axios.put<Ressource>(
@@ -62,7 +62,7 @@ const updateRessourceFor =
       },
       {
         ...headers(authHeader(api.key)),
-        maxContentLength: 104857600
+        maxContentLength: 209715200
       }
     );
   };
