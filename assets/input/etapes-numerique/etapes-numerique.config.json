@@ -1,0 +1,42 @@
+{
+  "id": {
+    "colonne": "Département"
+  },
+  "nom": {
+    "colonne": "Site"
+  },
+  "commune": {
+    "colonne": "commune"
+  },
+  "adresse": {
+    "colonne": "Adresse"
+  },
+  "code_postal": {
+    "colonne": "result_postcode"
+  },
+  "latitude": {
+    "colonne": "latitude"
+  },
+  "longitude": {
+    "colonne": "longitude"
+  },
+  "date_maj": {
+    "colonne": ""
+  },
+  "modalites_accompagnement": [
+    {
+      "colonnes": ["Présence d’un CN"],
+      "termes": ["oui"],
+      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+    }
+  ],
+
+  "services": [
+    {
+      "cible": "Accéder à une connexion internet"
+    },
+    {
+      "cible": "Accéder à du matériel"
+    }
+  ]
+}
