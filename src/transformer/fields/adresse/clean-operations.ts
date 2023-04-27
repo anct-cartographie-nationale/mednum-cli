@@ -1,6 +1,7 @@
-/* eslint-disable @typescript-eslint/naming-convention, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/naming-convention, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires, no-nested-ternary */
 
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
+import { isColonne } from './adresse.field';
 
 const communes: Commune[] = require('../../../data/communes.json');
 
@@ -31,7 +32,13 @@ const FIX_MULTILINES_IN_VOIE = (matching: LieuxMediationNumeriqueMatching): Clea
 const toCommuneName = (commune: Commune): string => commune.Nom_commune.toLowerCase();
 
 const formatToCommuneNameData = (commune: string): string =>
-  commune.toLowerCase().replace('saint', 'st').replace(/['-]/gu, ' ').replace(/\s+$/u, '');
+  commune
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/gu, '')
+    .toLowerCase()
+    .replace('saint', 'st')
+    .replace(/['-]/gu, ' ')
+    .replace(/\s+$/u, '');
 
 const formatCodePostal = (codePostal: string): string => (codePostal.length === 4 ? `0${codePostal}` : codePostal);
 
@@ -45,9 +52,16 @@ const findCodePostal = (matchingCommuneName: string): string =>
 
 const codePostalFromCommune = (commune: string): string => formatCodePostal(findCodePostal(commune));
 
+const codePostalFromVoie = (voie: string, commune: string): string => {
+  const codePostalInAdresse: string = /\b\d{5}\b/u.exec(voie)?.[0] ?? '';
+  return codePostalInAdresse === '' ? codePostalFromCommune(commune) : codePostalInAdresse;
+};
+
 const processCodePostal = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
   (source[matching.code_postal.colonne] ?? '') === ''
-    ? codePostalFromCommune(source[matching.commune.colonne] ?? '')
+    ? isColonne(matching.adresse)
+      ? codePostalFromVoie(source[matching.adresse.colonne] ?? '', source[matching.commune.colonne] ?? '')
+      : ''
     : source[matching.code_postal.colonne] ?? '';
 
 const throwMissingFixRequiredDataError = (): string => {

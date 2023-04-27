@@ -39,6 +39,13 @@ const removeHttpOnlyWebsites = (field: string): CleanOperation => ({
   field
 });
 
+const removeInvalideWebSites = (field: string): CleanOperation => ({
+  name: 'remove invalide url',
+  selector:
+    /^(?!^[A-Za-z]{3,9}:(?:\/\/)?(?:[;:&=+$,\w-]+@)?[A-Za-z0-9.-]+(?:(?:\/[+~,%.\w_-]*)?\??[-+=&;%@.\w_]*#?[.!\\\w]*)?$).*/gu,
+  field
+});
+
 const removeWebsitesWithAccentedCharacters = (field: string): CleanOperation => ({
   name: 'websites with accented characters',
   selector: /[^\x00-\x7F]+/gu,
@@ -225,6 +232,13 @@ const removeEmailStartingWithAt = (field: string): CleanOperation => ({
   field
 });
 
+const fixEmailWithTwoArobase = (field: string): CleanOperation => ({
+  name: 'email with two @',
+  selector: /@@/u,
+  field,
+  fix: (toFix: string): string => toFix.replace(/@@/u, '@')
+});
+
 const trimEmail = (field: string): CleanOperation => ({
   name: 'email starts with mailto:',
   selector: /^\s+|\s+$/u,
@@ -325,9 +339,11 @@ export const cleanOperations = (
   ...cleanOperationIfAny(removeTooFewDigitsInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(removeTooManyDigitsInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(removeOnly0ValueInPhone, matching.telephone?.colonne),
+  ...cleanOperationIfAny(removeInvalideWebSites, matching.site_web?.colonne),
   ...cleanOperationIfAny(removeEmailStartingWithWww, matching.courriel?.colonne),
   ...cleanOperationIfAny(removeEmailStartingWithAt, matching.courriel?.colonne),
   ...cleanOperationIfAny(trimEmail, matching.courriel?.colonne),
+  ...cleanOperationIfAny(fixEmailWithTwoArobase, matching.courriel?.colonne),
   ...cleanOperationIfAny(fixStartingWithDotEmail, matching.courriel?.colonne),
   ...cleanOperationIfAny(fixEmailStartingWithMailTo, matching.courriel?.colonne),
   ...cleanOperationIfAny(fixUnexpectedEmailLabel, matching.courriel?.colonne),

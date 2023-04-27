@@ -31,7 +31,8 @@ jobs:
             ultra-num,
             haute-vienne,
             fibre-64,
-            mednum-hub-antilles
+            mednum-hub-antilles,
+            gironde
           ]
     runs-on: ubuntu-latest
     environment: production

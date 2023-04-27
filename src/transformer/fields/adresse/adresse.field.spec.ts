@@ -126,7 +126,7 @@ describe('adresse field', (): void => {
     const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
-      code_postal: '38100',
+      code_postal: '38000',
       commune: 'Grenoble',
       voie: '5 rue Malakoff'
     });
@@ -143,7 +143,7 @@ describe('adresse field', (): void => {
 
     expect(adresse).toStrictEqual({
       code_postal: '26130',
-      commune: 'SAINT PAUL TROIS CHÂTEAUX',
+      commune: 'SAINT PAUL TROIS CHATEAUX',
       voie: '10 rue du Serre Blanc'
     });
   });
@@ -159,7 +159,7 @@ describe('adresse field', (): void => {
 
     expect(adresse).toStrictEqual({
       code_postal: '68100',
-      commune: 'SAINT PAUL TROIS CHÂTEAUX',
+      commune: 'SAINT PAUL TROIS CHATEAUX',
       voie: '10 rue du Serre Blanc'
     });
   });
@@ -242,7 +242,7 @@ describe('adresse field', (): void => {
 
     expect(adresse).toStrictEqual({
       code_postal: '02800',
-      commune: 'La Fère',
+      commune: 'La Fere',
       voie: '17 rue Henri Martin'
     });
   });
@@ -359,6 +359,22 @@ describe('adresse field', (): void => {
       code_postal: '78000',
       commune: 'Versailles',
       voie: "52 Route des Ducs d'Anjou"
+    });
+  });
+
+  it('should test', (): void => {
+    const source: DataSource = {
+      'Code postal': '',
+      'Ville *': 'Bègles',
+      'Adresse postale *': '1 avenue Pasteur'
+    };
+
+    const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
+
+    expect(adresse).toStrictEqual({
+      code_postal: '33130',
+      commune: 'Begles',
+      voie: '1 avenue Pasteur'
     });
   });
 });

@@ -1,0 +1,148 @@
+{
+  "nom": {
+    "colonne": "Lieu"
+  },
+  "commune": {
+    "colonne": "Commune"
+  },
+  "adresse": {
+    "colonne": "Adresse postale"
+  },
+  "code_postal": {
+    "colonne": "inAdresse"
+  },
+  "telephone": {
+    "colonne": "Téléphone"
+  },
+  "courriel": {
+    "colonne": "Email"
+  },
+  "site_web": {
+    "colonne": "Site internet"
+  },
+  "latitude": {
+    "colonne": "Coord. X"
+  },
+  "longitude": {
+    "colonne": "Coord. Y"
+  },
+  "date_maj": {
+    "colonne": "Dernière MAJ"
+  },
+  "presentation_detail": {
+    "colonne": "Description"
+  },
+  "labels_nationaux": [
+    {
+      "colonnes": ["Description"],
+      "termes": ["aptic"],
+      "cible": "APTIC"
+    }
+  ],
+  "conditions_acces": [
+    {
+      "colonnes": ["Description"],
+      "termes": ["gratuit"],
+      "cible": "Gratuit : Je peux accéder gratuitement au lieu et à ses services"
+    },
+    {
+      "colonnes": ["Description"],
+      "termes": ["payant"],
+      "cible": "Payant : L'accès au lieu et/ou à ses services est payant"
+    },
+    {
+      "colonnes": ["Description"],
+      "termes": ["adhésion"],
+      "cible": "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"
+    },
+    {
+      "colonnes": ["Description"],
+      "termes": ["pass numérique", "aptic"],
+      "cible": "Accepte le Pass numérique : Il est possible d'utiliser un Pass numérique pour accéder au lieu"
+    }
+  ],
+  "modalites_accompagnement": [
+    {
+      "colonnes": ["Présence d'un médiateur"],
+      "termes": ["oui"],
+      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+    }
+  ],
+  "publics_accueillis": [
+    {
+      "colonnes": ["Description"],
+      "termes": ["tout public", "tous les publics"],
+      "cible": "Jeunes (16-26 ans)"
+    },
+    {
+      "colonnes": ["Description"],
+      "termes": ["tout public", "tous les publics"],
+      "cible": "Familles/enfants"
+    },
+    {
+      "colonnes": ["Description"],
+      "termes": ["tout public", "tous les publics"],
+      "cible": "Adultes"
+    },
+    {
+      "colonnes": ["Description"],
+      "termes": ["tout public", "tous les publics"],
+      "cible": "Seniors (+ 65 ans)"
+    }
+  ],
+  "services": [
+    {
+      "colonnes": ["equipements"],
+      "termes": ["accès internet", "wifi"],
+      "cible": "Accéder à une connexion internet"
+    },
+    {
+      "colonnes": ["equipements"],
+      "termes": ["imprimante", "ordinateur", "scanner", "photocopieuse", "vidéo-projecteur"],
+      "cible": "Accéder à du matériel"
+    },
+    {
+      "colonnes": ["equipements"],
+      "termes": ["smartphone", "tablette"],
+      "cible": "Prendre en main un smartphone ou une tablette"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["etre accompagné dans ses démarches administratives"],
+      "cible": "Réaliser des démarches administratives avec un accompagnement"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["etre accompagné dans ses démarches administratives"],
+      "cible": "Devenir autonome dans les démarches administratives"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["pratiquer des activités récréatives numériques"],
+      "cible": "Créer avec le numérique"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["pratiquer des activités récréatives numériques", "etre initié aux outils numériques"],
+      "cible": "Utiliser le numérique au quotidien"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["pratiquer des activités récréatives numériques", "etre initié aux outils numériques"],
+      "cible": "Approfondir ma culture numérique"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["pratiquer des activités récréatives numériques", "etre initié aux outils numériques"],
+      "cible": "Promouvoir la citoyenneté numérique"
+    },
+    {
+      "colonnes": ["services", "equipements"],
+      "termes": ["accès à Internet en autonomie", "ordinateur"],
+      "cible": "Prendre en main un ordinateur"
+    }
+  ],
+  "horaires": {
+    "semaine": "horaires"
+  }
+}
