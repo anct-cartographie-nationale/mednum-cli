@@ -1,5 +1,5 @@
 import { Dataset, PublishDataset, PublishRessource, Reference, Ressource } from '../models';
-import axios, { AxiosHeaders } from 'axios';
+import axios from 'axios';
 /* eslint-disable-next-line @typescript-eslint/no-restricted-imports */
 import * as fs from 'fs';
 /* eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/naming-convention, @typescript-eslint/typedef, @typescript-eslint/no-shadow, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
@@ -51,7 +51,7 @@ const updateRessourceFor =
 
     await axios.post<Ressource>(`${api.url}/datasets/${dataset.id}/resources/${ressourceId}/upload`, formData.getBuffer(), {
       ...headers(formData.getHeaders(authHeader(api.key))),
-      maxContentLength: 50 * 1024 * 1024
+      maxContentLength: 104857600
     });
 
     await axios.put<Ressource>(
@@ -62,7 +62,7 @@ const updateRessourceFor =
       },
       {
         ...headers(authHeader(api.key)),
-        maxContentLength: 50 * 1024 * 1024
+        maxContentLength: 104857600
       }
     );
   };
