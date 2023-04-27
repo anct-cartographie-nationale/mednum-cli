@@ -1,5 +1,5 @@
 import { Dataset, PublishDataset, PublishRessource, Reference, Ressource } from '../models';
-import axios from 'axios';
+import axios, { AxiosHeaders } from 'axios';
 /* eslint-disable-next-line @typescript-eslint/no-restricted-imports */
 import * as fs from 'fs';
 /* eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/naming-convention, @typescript-eslint/typedef, @typescript-eslint/no-shadow, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
@@ -49,11 +49,10 @@ const updateRessourceFor =
     const formData: typeof FormData = new FormData();
     formData.append('file', fs.readFileSync(`${ressource.source}`), extractNameFromPath(ressource.source.split('/')));
 
-    await axios.post<Ressource>(
-      `${api.url}/datasets/${dataset.id}/resources/${ressourceId}/upload`,
-      formData.getBuffer(),
-      headers(formData.getHeaders(authHeader(api.key)))
-    );
+    await axios.post<Ressource>(`${api.url}/datasets/${dataset.id}/resources/${ressourceId}/upload`, formData.getBuffer(), {
+      headers: headers(formData.getHeaders(authHeader(api.key))) as unknown as AxiosHeaders,
+      maxContentLength: 50 * 1024 * 1024
+    });
 
     await axios.put<Ressource>(
       `${api.url}/datasets/${dataset.id}/resources/${ressourceId}`,
@@ -61,7 +60,10 @@ const updateRessourceFor =
         schema: { name: ressource.schema },
         description: ressource.description
       },
-      headers(authHeader(api.key))
+      {
+        headers: headers(authHeader(api.key)) as unknown as AxiosHeaders,
+        maxContentLength: 50 * 1024 * 1024
+      }
     );
   };
 
