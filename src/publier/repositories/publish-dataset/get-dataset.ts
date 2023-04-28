@@ -56,4 +56,4 @@ const idQueryParams = (reference: Reference): string =>
 export const getDataset =
   (api: Api) =>
   async (reference: Reference): Promise<Dataset[]> =>
-    (await axios.get(`${api.url}/datasets/${idQueryParams(reference)}`, headers())).data.data.map(toDataset);
+    (await axios.get(`${api.url}/datasets/${idQueryParams(reference)}&page_size=10000`, headers())).data.data.map(toDataset);
