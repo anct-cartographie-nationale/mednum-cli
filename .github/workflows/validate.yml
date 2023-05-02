@@ -52,8 +52,7 @@ jobs:
   publish-to-data-gouv:
     strategy:
       matrix:
-        source:
-          [
+        source: [
             hinaura,
             maine-et-loire,
             les-assembleurs,
@@ -68,7 +67,7 @@ jobs:
             loire-atlantique,
             rhin-occ,
             res-in,
-            les-landes,
+            # les-landes,
             la-creuse,
             numi,
             ultra-num,
