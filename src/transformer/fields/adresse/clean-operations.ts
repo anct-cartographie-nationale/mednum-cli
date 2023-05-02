@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
 
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
-// import { isColonne } from './adresse.field';
 
 const communes: Commune[] = require('../../../data/communes.json');
 
