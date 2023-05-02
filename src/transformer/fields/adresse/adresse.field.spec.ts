@@ -345,4 +345,20 @@ describe('adresse field', (): void => {
       voie: '3 Place Gay-Lussac 87400 Saint-Léonard-de-Noblat'
     });
   });
+
+  it('should replace unicode apostrophe by correct one', (): void => {
+    const source: DataSource = {
+      'Code postal': '78000',
+      'Ville *': 'Versailles',
+      'Adresse postale *': '52 Route des Ducs dAnjou'
+    };
+
+    const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
+
+    expect(adresse).toStrictEqual({
+      code_postal: '78000',
+      commune: 'Versailles',
+      voie: "52 Route des Ducs d'Anjou"
+    });
+  });
 });
