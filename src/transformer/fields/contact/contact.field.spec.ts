@@ -952,11 +952,16 @@ describe('contact field', (): void => {
   it('should replace : by . after www', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
-        'Site Web': 'http://www:senios.connexion.free.fr'} as DataSource,
-        matching
-      );
-      
-      expect(contact).toStrictEqual<Contact>(Contact({site_web: [Url('http://www.senios.connexion.free.fr')]}));
+        'Site Web': 'http://www:senios.connexion.free.fr'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        site_web: [Url('http://www.senios.connexion.free.fr')]
+      })
+    );
   });
 
   it('should remove no valid website', (): void => {
