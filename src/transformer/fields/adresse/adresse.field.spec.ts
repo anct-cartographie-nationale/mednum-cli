@@ -126,7 +126,7 @@ describe('adresse field', (): void => {
     const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
-      code_postal: '38000',
+      code_postal: '38100',
       commune: 'Grenoble',
       voie: '5 rue Malakoff'
     });
@@ -143,7 +143,7 @@ describe('adresse field', (): void => {
 
     expect(adresse).toStrictEqual({
       code_postal: '26130',
-      commune: 'SAINT PAUL TROIS CHATEAUX',
+      commune: 'SAINT PAUL TROIS CHÂTEAUX',
       voie: '10 rue du Serre Blanc'
     });
   });
@@ -159,7 +159,7 @@ describe('adresse field', (): void => {
 
     expect(adresse).toStrictEqual({
       code_postal: '68100',
-      commune: 'SAINT PAUL TROIS CHATEAUX',
+      commune: 'SAINT PAUL TROIS CHÂTEAUX',
       voie: '10 rue du Serre Blanc'
     });
   });
@@ -242,7 +242,7 @@ describe('adresse field', (): void => {
 
     expect(adresse).toStrictEqual({
       code_postal: '02800',
-      commune: 'La Fere',
+      commune: 'La Fère',
       voie: '17 rue Henri Martin'
     });
   });
@@ -362,7 +362,7 @@ describe('adresse field', (): void => {
     });
   });
 
-  it('should test', (): void => {
+  it('should retrieve code postal even with accent on commune', (): void => {
     const source: DataSource = {
       'Code postal': '',
       'Ville *': 'Bègles',
@@ -373,7 +373,7 @@ describe('adresse field', (): void => {
 
     expect(adresse).toStrictEqual({
       code_postal: '33130',
-      commune: 'Begles',
+      commune: 'Bègles',
       voie: '1 avenue Pasteur'
     });
   });

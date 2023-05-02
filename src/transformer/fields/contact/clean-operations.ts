@@ -39,10 +39,9 @@ const removeHttpOnlyWebsites = (field: string): CleanOperation => ({
   field
 });
 
-const removeInvalideWebSites = (field: string): CleanOperation => ({
-  name: 'remove invalide url',
-  selector:
-    /^(?!^[A-Za-z]{3,9}:(?:\/\/)?(?:[;:&=+$,\w-]+@)?[A-Za-z0-9.-]+(?:(?:\/[+~,%.\w_-]*)?\??[-+=&;%@.\w_]*#?[.!\\\w]*)?$).*/gu,
+const removeWebsitesStartingWithAt = (field: string): CleanOperation => ({
+  name: 'remove url starting by at',
+  selector: /^@/u,
   field
 });
 
@@ -312,6 +311,7 @@ export const cleanOperations = (
 ): CleanOperation[] => [
   ...cleanOperationIfAny(replaceDoubleDotBySingleDotInWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(removeDashEmail, matching.courriel?.colonne),
+  ...cleanOperationIfAny(removeWebsitesStartingWithAt, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixDuplicateHttpWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixMultipleWebsitesSeparator, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixUppercaseWebsites, matching.site_web?.colonne),
@@ -339,7 +339,6 @@ export const cleanOperations = (
   ...cleanOperationIfAny(removeTooFewDigitsInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(removeTooManyDigitsInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(removeOnly0ValueInPhone, matching.telephone?.colonne),
-  ...cleanOperationIfAny(removeInvalideWebSites, matching.site_web?.colonne),
   ...cleanOperationIfAny(removeEmailStartingWithWww, matching.courriel?.colonne),
   ...cleanOperationIfAny(removeEmailStartingWithAt, matching.courriel?.colonne),
   ...cleanOperationIfAny(trimEmail, matching.courriel?.colonne),
