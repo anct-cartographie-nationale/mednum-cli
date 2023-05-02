@@ -26,6 +26,13 @@ const setPhoneCodeWhenDomTom = (codePostal?: string): string => {
   }
 };
 
+const replaceDoubleDotBySingleDotInWebsites = (field: string): CleanOperation => ({
+  name: ': instead of . after www',
+  selector: /www:/gu,
+  field,
+  fix: (toFix: string): string => toFix.replace(/www:/gu, 'www.')
+});
+
 const removeHttpOnlyWebsites = (field: string): CleanOperation => ({
   name: 'http only websites',
   selector: /^http:\/\/$/u,
@@ -289,6 +296,7 @@ export const cleanOperations = (
   matching: LieuxMediationNumeriqueMatching,
   codePostal: string | undefined
 ): CleanOperation[] => [
+  ...cleanOperationIfAny(replaceDoubleDotBySingleDotInWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(removeDashEmail, matching.courriel?.colonne),
   ...cleanOperationIfAny(fixDuplicateHttpWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixMultipleWebsitesSeparator, matching.site_web?.colonne),
