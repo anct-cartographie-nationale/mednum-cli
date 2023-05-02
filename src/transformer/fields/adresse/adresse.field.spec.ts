@@ -38,6 +38,18 @@ const SPLIT_VOIE_MATCHING: LieuxMediationNumeriqueMatching = {
   }
 } as LieuxMediationNumeriqueMatching;
 
+const CODE_POSTAL_IS_IN_ADRESSE_MATCHING: LieuxMediationNumeriqueMatching = {
+  code_postal: {
+    colonne: 'inAdresse'
+  },
+  commune: {
+    colonne: 'commune'
+  },
+  adresse: {
+    colonne: 'adresse'
+  }
+} as LieuxMediationNumeriqueMatching;
+
 describe('adresse field', (): void => {
   it('should process a valid address', (): void => {
     const source: DataSource = {
@@ -301,6 +313,36 @@ describe('adresse field', (): void => {
       commune: 'Versailles',
       voie: '13 rue Saint Louis',
       complement_adresse: 'Allée 5'
+    });
+  });
+
+  it('should get code postal from Avenue François Mitterrand , 87230 Châlus', (): void => {
+    const source: DataSource = {
+      adresse: '28   Avenue François Mitterrand, 87230 Châlus',
+      commune: 'Châlus'
+    };
+
+    const adresse: Adresse = processAdresse(Report().entry(0))(source, CODE_POSTAL_IS_IN_ADRESSE_MATCHING);
+
+    expect(adresse).toStrictEqual({
+      code_postal: '87230',
+      commune: 'Châlus',
+      voie: '28 Avenue François Mitterrand 87230 Châlus'
+    });
+  });
+
+  it('should get code postal from Place Gay-Lussac, 87400 Saint-Léonard-de-Noblat', (): void => {
+    const source: DataSource = {
+      adresse: '3   Place Gay-Lussac, 87400 Saint-Léonard-de-Noblat',
+      commune: 'Saint-Léonard-de-Noblat'
+    };
+
+    const adresse: Adresse = processAdresse(Report().entry(0))(source, CODE_POSTAL_IS_IN_ADRESSE_MATCHING);
+
+    expect(adresse).toStrictEqual({
+      code_postal: '87400',
+      commune: 'Saint-Léonard-de-Noblat',
+      voie: '3 Place Gay-Lussac 87400 Saint-Léonard-de-Noblat'
     });
   });
 });

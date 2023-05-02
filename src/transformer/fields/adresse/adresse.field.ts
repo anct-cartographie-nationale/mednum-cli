@@ -17,7 +17,7 @@ const formatVoie = (adressePostale: string): string =>
     .replace(/\s+/gu, ' ')
     .trim();
 
-const isColonne = (colonneToTest: Partial<Colonne> & Partial<Jonction>): colonneToTest is Colonne =>
+export const isColonne = (colonneToTest: Colonne | (Partial<Colonne> & Partial<Jonction>)): colonneToTest is Colonne =>
   colonneToTest.colonne != null;
 
 const voieField = (source: DataSource, voie: Jonction & Partial<Colonne>): string =>
@@ -32,9 +32,14 @@ const complementAdresseIfAny = (complementAdresse?: string): { complement_adress
 
 const codeInseeIfAny = (codeInsee?: string): { code_insee?: string } => (codeInsee == null ? {} : { code_insee: codeInsee });
 
+const codePostalFromVoie = (voie: string): string => /\b\d{5}\b/u.exec(voie)?.[0] ?? '';
+
 const toLieuxMediationNumeriqueAdresse = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Adresse =>
   Adresse({
-    code_postal: source[matching.code_postal.colonne]?.toString() ?? '',
+    code_postal:
+      matching.code_postal.colonne === 'inAdresse'
+        ? codePostalFromVoie(voieField(source, matching.adresse))
+        : source[matching.code_postal.colonne]?.toString() ?? '',
     commune: formatCommune(source[matching.commune.colonne] ?? ''),
     voie: formatVoie(voieField(source, matching.adresse)),
     ...complementAdresseIfAny(source[matching.complement_adresse?.colonne ?? '']),
@@ -112,7 +117,6 @@ export const processAdresse =
         const { [matching.code_insee?.colonne ?? '']: _, ...sourceWithoutCodeInsee }: DataSource = source;
         return toLieuxMediationNumeriqueAdresse(sourceWithoutCodeInsee, matching);
       }
-
       return fixAndRetry(recorder)(source, matching, error);
     }
   };
