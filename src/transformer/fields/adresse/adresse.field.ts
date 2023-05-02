@@ -12,6 +12,7 @@ const formatCommune = (commune: string): string =>
 
 const formatVoie = (adressePostale: string): string =>
   (adressePostale.includes('\n') ? adressePostale.substring(0, adressePostale.indexOf('\n')) : adressePostale)
+    .replace(//gu, "'")
     .replace(/,/gu, '')
     .replace(/"/gu, '')
     .replace(/\s+/gu, ' ')
