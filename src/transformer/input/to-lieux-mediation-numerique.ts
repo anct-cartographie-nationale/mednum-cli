@@ -112,8 +112,6 @@ export const toLieuxMediationNumerique =
           .commit();
         return undefined;
       }
-      console.log(dataSource);
-      console.log(error);
       throw error;
     }
   };
