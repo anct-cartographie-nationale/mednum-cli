@@ -38,6 +38,18 @@ const SPLIT_VOIE_MATCHING: LieuxMediationNumeriqueMatching = {
   }
 } as LieuxMediationNumeriqueMatching;
 
+const CODE_POSTAL_IS_IN_ADRESSE_MATCHING: LieuxMediationNumeriqueMatching = {
+  code_postal: {
+    colonne: 'inAdresse'
+  },
+  commune: {
+    colonne: 'commune'
+  },
+  adresse: {
+    colonne: 'adresse'
+  }
+} as LieuxMediationNumeriqueMatching;
+
 describe('adresse field', (): void => {
   it('should process a valid address', (): void => {
     const source: DataSource = {
@@ -114,7 +126,7 @@ describe('adresse field', (): void => {
     const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
-      code_postal: '38000',
+      code_postal: '38100',
       commune: 'Grenoble',
       voie: '5 rue Malakoff'
     });
@@ -306,12 +318,11 @@ describe('adresse field', (): void => {
 
   it('should get code postal from Avenue François Mitterrand , 87230 Châlus', (): void => {
     const source: DataSource = {
-      'Adresse postale *': '28   Avenue François Mitterrand, 87230 Châlus',
-      'Code postal': '',
-      'Ville *': 'Châlus'
+      adresse: '28   Avenue François Mitterrand, 87230 Châlus',
+      commune: 'Châlus'
     };
 
-    const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
+    const adresse: Adresse = processAdresse(Report().entry(0))(source, CODE_POSTAL_IS_IN_ADRESSE_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_postal: '87230',
@@ -322,12 +333,11 @@ describe('adresse field', (): void => {
 
   it('should get code postal from Place Gay-Lussac, 87400 Saint-Léonard-de-Noblat', (): void => {
     const source: DataSource = {
-      'Adresse postale *': '3   Place Gay-Lussac, 87400 Saint-Léonard-de-Noblat',
-      'Code postal': '',
-      'Ville *': 'Saint-Léonard-de-Noblat'
+      adresse: '3   Place Gay-Lussac, 87400 Saint-Léonard-de-Noblat',
+      commune: 'Saint-Léonard-de-Noblat'
     };
 
-    const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
+    const adresse: Adresse = processAdresse(Report().entry(0))(source, CODE_POSTAL_IS_IN_ADRESSE_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_postal: '87400',

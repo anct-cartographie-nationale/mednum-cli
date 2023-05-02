@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/naming-convention, camelcase, max-statements,max-depth, no-param-reassign  */
+/* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
-import { Adresse, CodeInseeError, CodePostalError, CommuneError } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { Adresse, CodeInseeError, CommuneError, VoieError } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching, DataSource, Colonne, Jonction } from '../../input';
 import { Recorder } from '../../report';
 import { CLEAN_OPERATIONS, CleanOperation } from './clean-operations';
@@ -32,9 +32,14 @@ const complementAdresseIfAny = (complementAdresse?: string): { complement_adress
 
 const codeInseeIfAny = (codeInsee?: string): { code_insee?: string } => (codeInsee == null ? {} : { code_insee: codeInsee });
 
+const codePostalFromVoie = (voie: string): string => /\b\d{5}\b/u.exec(voie)?.[0] ?? '';
+
 const toLieuxMediationNumeriqueAdresse = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Adresse =>
   Adresse({
-    code_postal: source[matching.code_postal.colonne]?.toString() ?? '',
+    code_postal:
+      matching.code_postal.colonne === 'inAdresse'
+        ? codePostalFromVoie(voieField(source, matching.adresse))
+        : source[matching.code_postal.colonne]?.toString() ?? '',
     commune: formatCommune(source[matching.commune.colonne] ?? ''),
     voie: formatVoie(voieField(source, matching.adresse)),
     ...complementAdresseIfAny(source[matching.complement_adresse?.colonne ?? '']),
@@ -107,17 +112,11 @@ export const processAdresse =
       return toLieuxMediationNumeriqueAdresse(source, matching);
     } catch (error: unknown) {
       if (source[matching.commune.colonne] === '') throw new CommuneError('');
-      if (error instanceof CodePostalError) {
-        if (matching.code_postal.colonne === 'inAdresse') {
-          source['code_postal'] = '';
-          matching.code_postal.colonne = 'code_postal';
-        }
-      }
+      if (isColonne(matching.adresse) && source[matching.adresse.colonne] === '') throw new VoieError('');
       if (error instanceof CodeInseeError) {
         const { [matching.code_insee?.colonne ?? '']: _, ...sourceWithoutCodeInsee }: DataSource = source;
         return toLieuxMediationNumeriqueAdresse(sourceWithoutCodeInsee, matching);
       }
-
       return fixAndRetry(recorder)(source, matching, error);
     }
   };

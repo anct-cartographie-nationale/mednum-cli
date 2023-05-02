@@ -66,6 +66,12 @@ const fetchFrom = async ([source, key]: string[], encoding?: string, delimiter?:
 const readFrom = async ([source, key]: string[]): Promise<string> =>
   JSON.stringify(fromJson(JSON.parse(await fs.promises.readFile(source ?? '', 'utf-8')), key));
 
+const replaceNullWithEmptyString = (jsonString: string): string => {
+  const jsonObj: Record<string, string> = JSON.parse(jsonString);
+  const replacer = (_: string, values?: string): string => values ?? '';
+  return JSON.stringify(jsonObj, replacer);
+};
+
 export const transformerAction = async (transformerOptions: TransformerOptions): Promise<void> => {
   await Promise.all([
     transformerOptions.source.startsWith('http')
@@ -77,7 +83,7 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
       : await readFrom(transformerOptions.source.split('@')),
     fs.promises.readFile(transformerOptions.configFile, 'utf-8')
   ]).then(([input, matching]: [string, string]): void => {
-    const lieuxDeMediationNumerique: LieuMediationNumerique[] = JSON.parse(input)
+    const lieuxDeMediationNumerique: LieuMediationNumerique[] = JSON.parse(replaceNullWithEmptyString(input))
       .map(flatten)
       .map(toLieuxMediationNumerique(matching, transformerOptions.sourceName, REPORT))
       .filter(validValuesOnly);
