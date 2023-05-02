@@ -110,7 +110,7 @@ describe('localisation field', (): void => {
     );
   });
 
-  it('should return null when coordinates is not validate', (): void => {
+  it('should convert coordindates geographique projection legal to validate coordinates', (): void => {
     const source: DataSource = {
       bf_latitude: '6789183.34',
       bf_longitude: '352113.49'
@@ -127,6 +127,16 @@ describe('localisation field', (): void => {
 
   it('should return null when there is no latitude or longitude colonnes', (): void => {
     const source: DataSource = {};
+    const localisation: Localisation = processLocalisation(source, STANDARD_MATCHING);
+
+    expect(localisation).toStrictEqual<Localisation>(NO_LOCALISATION);
+  });
+
+  it('should return null when its not validate coordinates', (): void => {
+    const source: DataSource = {
+      bf_latitude: '8.8888888.8',
+      bf_longitude: '9.99999999.999'
+    };
     const localisation: Localisation = processLocalisation(source, STANDARD_MATCHING);
 
     expect(localisation).toStrictEqual<Localisation>(NO_LOCALISATION);
