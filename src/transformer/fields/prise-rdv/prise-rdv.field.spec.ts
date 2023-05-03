@@ -33,4 +33,19 @@ describe('prise rdv field', (): void => {
 
     expect(priseRdv).toBeUndefined();
   });
+
+  it('should ignore empty strings', (): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      prise_rdv: {
+        colonne: 'PriseRdv'
+      }
+    } as LieuxMediationNumeriqueMatching;
+
+    const source: DataSource = {
+      PriseRdv: ''
+    };
+    const priseRdv: string | undefined = processPriseRdv(source, matching);
+
+    expect(priseRdv).toBeUndefined();
+  });
 });
