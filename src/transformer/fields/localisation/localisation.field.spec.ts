@@ -132,10 +132,10 @@ describe('localisation field', (): void => {
     expect(localisation).toStrictEqual<Localisation>(NO_LOCALISATION);
   });
 
-  it('should return null when its not validate coordinates', (): void => {
+  it('should return null when coordinates are empty string', (): void => {
     const source: DataSource = {
-      bf_latitude: '8.8888888.8',
-      bf_longitude: '9.99999999.999'
+      bf_latitude: '',
+      bf_longitude: ''
     };
     const localisation: Localisation = processLocalisation(source, STANDARD_MATCHING);
 
