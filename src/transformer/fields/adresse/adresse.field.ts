@@ -113,8 +113,12 @@ export const processAdresse =
       return toLieuxMediationNumeriqueAdresse(source, matching);
     } catch (error: unknown) {
       if (error instanceof CodePostalError && matching.code_postal.colonne === '') {
-        source['code_postal'] = '';
-        matching.code_postal.colonne = 'code_postal';
+        const sourceWithCodePostalMissing: DataSource = { ...source, code_postal: '' };
+        const matchingWithCodePostalMissing: LieuxMediationNumeriqueMatching = {
+          ...matching,
+          code_postal: { colonne: 'code_postal' }
+        };
+        return fixAndRetry(recorder)(sourceWithCodePostalMissing, matchingWithCodePostalMissing, error);
       }
       if (source[matching.commune.colonne] === '') throw new CommuneError('');
       if (isColonne(matching.adresse) && source[matching.adresse.colonne] === '') throw new VoieError('');
