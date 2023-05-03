@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/naming-convention, camelcase, no-param-reassign, max-statements, complexity */
+/* eslint-disable @typescript-eslint/naming-convention, camelcase, max-statements, complexity */
 
 import { Adresse, CodeInseeError, CodePostalError, CommuneError, VoieError } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching, DataSource, Colonne, Jonction } from '../../input';
