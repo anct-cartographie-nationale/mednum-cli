@@ -1,19 +1,104 @@
-import { SchemaServiceDataInclusion, SchemaStructureDataInclusion } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import {
+  SchemaServiceDataInclusion,
+  SchemaStructureDataInclusion,
+  SchemaStructureDataInclusionAdresseFields,
+  SchemaStructureDataInclusionLocalisationFields,
+  isServiceWithAdresse,
+  toStructureDataInclusion,
+  SchemaServiceDataInclusionWithAdresse,
+  mergeServices
+} from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { DataInclusionMerged, mergeStructureAndService } from './data-inclusion-merged';
 
-export type DataInclusionMerged = {
+export type DataInclusionStructureAndServices = {
   structure: SchemaStructureDataInclusion;
   services: SchemaServiceDataInclusion[];
 };
 
-const onlyMatchingStructureId =
-  (structureId: string) =>
-  (service: SchemaServiceDataInclusion): boolean =>
-    service.structure_id === structureId;
+const onlyWithNumeriqueServices = (service: SchemaServiceDataInclusion): boolean =>
+  service.thematiques?.some((thematique: string): boolean => thematique.includes('numerique')) ?? false;
 
-export const mergeServicesInStructure = (
-  services: SchemaServiceDataInclusion[],
+const matchingService =
+  (service: SchemaServiceDataInclusion) =>
+  (structure: SchemaStructureDataInclusion): boolean =>
+    structure.id === service.structure_id;
+
+const toDataInclusionMerged = (dataInclusionStructureAndServices: DataInclusionStructureAndServices): DataInclusionMerged =>
+  mergeStructureAndService(
+    dataInclusionStructureAndServices.structure,
+    mergeServices(dataInclusionStructureAndServices.services, dataInclusionStructureAndServices.structure)
+  );
+
+const onlyWithSameIdAs =
+  (structure?: SchemaStructureDataInclusion) =>
+  (dataInclusionStructureAndServices: DataInclusionStructureAndServices): boolean =>
+    dataInclusionStructureAndServices.structure.id === structure?.id;
+
+const toDataInclusionStructuresWithNewService =
+  (service: SchemaServiceDataInclusion, structure: SchemaStructureDataInclusion) =>
+  (dataInclusionStructureAndServices: DataInclusionStructureAndServices): DataInclusionStructureAndServices =>
+    dataInclusionStructureAndServices.structure.id === structure.id
+      ? {
+          structure: dataInclusionStructureAndServices.structure,
+          services: [...dataInclusionStructureAndServices.services, service]
+        }
+      : dataInclusionStructureAndServices;
+
+const appendService = (
+  dataInclusionStructureAndServices: DataInclusionStructureAndServices[],
+  service: SchemaServiceDataInclusion,
   structure: SchemaStructureDataInclusion
-): DataInclusionMerged => ({
-  services: services.filter(onlyMatchingStructureId(structure.id)),
-  structure
-});
+): DataInclusionStructureAndServices[] =>
+  dataInclusionStructureAndServices.find(onlyWithSameIdAs(structure)) == null
+    ? [...dataInclusionStructureAndServices, { services: [service], structure }]
+    : dataInclusionStructureAndServices.map(toDataInclusionStructuresWithNewService(service, structure));
+
+const serviceAsStructure = (
+  dataInclusionStructureAndServices: DataInclusionStructureAndServices[],
+  service: SchemaServiceDataInclusion,
+  structure: SchemaStructureDataInclusion
+): DataInclusionStructureAndServices[] => [
+  ...dataInclusionStructureAndServices,
+  { structure: toStructureDataInclusion(service as SchemaServiceDataInclusionWithAdresse, structure), services: [service] }
+];
+
+const updateDataInclusionStructuresAndServices = (
+  service: SchemaServiceDataInclusion,
+  dataInclusionStructureAndServices: DataInclusionStructureAndServices[],
+  structure: SchemaStructureDataInclusion
+): DataInclusionStructureAndServices[] =>
+  isServiceWithAdresse(service)
+    ? serviceAsStructure(dataInclusionStructureAndServices, service, structure)
+    : appendService(dataInclusionStructureAndServices, service, structure);
+
+const processStructureAndServices = (
+  service: SchemaServiceDataInclusion,
+  structure: SchemaStructureDataInclusion | undefined,
+  dataInclusionStructureAndServices: DataInclusionStructureAndServices[]
+): DataInclusionStructureAndServices[] =>
+  structure == null
+    ? dataInclusionStructureAndServices
+    : updateDataInclusionStructuresAndServices(service, dataInclusionStructureAndServices, structure);
+
+const toDataInclusionStructureAndServices =
+  (dataInclusionStructures: SchemaStructureDataInclusion[]) =>
+  (
+    dataInclusionStructureAndServices: DataInclusionStructureAndServices[],
+    service: Partial<SchemaStructureDataInclusionAdresseFields> &
+      SchemaServiceDataInclusion &
+      SchemaStructureDataInclusionLocalisationFields
+  ): DataInclusionStructureAndServices[] =>
+    processStructureAndServices(
+      service,
+      dataInclusionStructures.find(matchingService(service)),
+      dataInclusionStructureAndServices
+    );
+
+export const structuresWithServicesNumeriques = (
+  dataInclusionStructures: SchemaStructureDataInclusion[],
+  dataInclusionServices: SchemaServiceDataInclusion[]
+): DataInclusionMerged[] =>
+  dataInclusionServices
+    .filter(onlyWithNumeriqueServices)
+    .reduce(toDataInclusionStructureAndServices(dataInclusionStructures), [])
+    .map(toDataInclusionMerged);
