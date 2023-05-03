@@ -3,7 +3,6 @@
 import * as fs from 'fs';
 import axios, { AxiosResponse } from 'axios';
 import { structuresWithServicesNumeriques } from './merge-services-in-structure';
-import { SchemaServiceDataInclusion, SchemaStructureDataInclusion } from '@gouvfr-anct/lieux-de-mediation-numerique';
 
 const NAME: 'data-inclusion' = 'data-inclusion' as const;
 
