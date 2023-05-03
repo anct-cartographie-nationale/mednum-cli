@@ -88,6 +88,13 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
       .map(toLieuxMediationNumerique(matching, transformerOptions.sourceName, REPORT))
       .filter(validValuesOnly);
 
+    const lieuxDeMediationNumeriqueFiltered = lieuxDeMediationNumerique.reduce(
+      (acc: { [id: string]: LieuMediationNumerique }, lieu: LieuMediationNumerique) => ((acc[lieu.id] = lieu), acc),
+      {}
+    );
+
+    const lieuxDeMediationNumeriqueWithSingleIds: LieuMediationNumerique[] = Object.values(lieuxDeMediationNumeriqueFiltered);
+
     writeErrorsOutputFiles({
       path: transformerOptions.outputDirectory,
       name: transformerOptions.sourceName,
@@ -98,6 +105,6 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
       path: transformerOptions.outputDirectory,
       name: transformerOptions.sourceName,
       territoire: transformerOptions.territory
-    })(lieuxDeMediationNumerique);
+    })(lieuxDeMediationNumeriqueWithSingleIds);
   });
 };
