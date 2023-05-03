@@ -38,7 +38,7 @@ const codePostalFromVoie = (voie: string): string => /\b\d{5}\b/u.exec(voie)?.[0
 const toLieuxMediationNumeriqueAdresse = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Adresse =>
   Adresse({
     code_postal:
-      matching.code_postal.colonne === 'inAdresse'
+      matching.code_postal.colonne === ''
         ? codePostalFromVoie(voieField(source, matching.adresse))
         : source[matching.code_postal.colonne]?.toString() ?? '',
     commune: formatCommune(source[matching.commune.colonne] ?? ''),
@@ -112,7 +112,7 @@ export const processAdresse =
     try {
       return toLieuxMediationNumeriqueAdresse(source, matching);
     } catch (error: unknown) {
-      if (error instanceof CodePostalError && matching.code_postal.colonne === 'inAdresse') {
+      if (error instanceof CodePostalError && matching.code_postal.colonne === '') {
         source['code_postal'] = '';
         matching.code_postal.colonne = 'code_postal';
       }

@@ -9,7 +9,7 @@
     "colonne": "Adresse postale"
   },
   "code_postal": {
-    "colonne": "inAdresse"
+    "colonne": ""
   },
   "telephone": {
     "colonne": "Téléphone"
