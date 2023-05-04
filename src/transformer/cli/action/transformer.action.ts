@@ -19,6 +19,8 @@ const flatten = require('flat');
 
 const REPORT: Report = Report();
 
+type LieuMediationNumeriqueById = Record<string, LieuMediationNumerique>;
+
 const fromJson = <T>(response: Record<string, T>, key?: string): T[] =>
   key == null ? Object.values(response) : Object.values(response[key] ?? {});
 
@@ -88,6 +90,16 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
       .map(toLieuxMediationNumerique(matching, transformerOptions.sourceName, REPORT))
       .filter(validValuesOnly);
 
+    const lieuxDeMediationNumeriqueFiltered: LieuMediationNumeriqueById = lieuxDeMediationNumerique.reduce(
+      (acc: LieuMediationNumeriqueById, lieu: LieuMediationNumerique): LieuMediationNumeriqueById => ({
+        ...acc,
+        [lieu.id]: lieu
+      }),
+      {}
+    );
+
+    const lieuxDeMediationNumeriqueWithSingleIds: LieuMediationNumerique[] = Object.values(lieuxDeMediationNumeriqueFiltered);
+
     writeErrorsOutputFiles({
       path: transformerOptions.outputDirectory,
       name: transformerOptions.sourceName,
@@ -98,6 +110,6 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
       path: transformerOptions.outputDirectory,
       name: transformerOptions.sourceName,
       territoire: transformerOptions.territory
-    })(lieuxDeMediationNumerique);
+    })(lieuxDeMediationNumeriqueWithSingleIds);
   });
 };
