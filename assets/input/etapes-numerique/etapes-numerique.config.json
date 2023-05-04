@@ -6,7 +6,7 @@
     "colonne": "Site"
   },
   "commune": {
-    "colonne": "commune"
+    "colonne": "result_city"
   },
   "adresse": {
     "colonne": "Adresse"
