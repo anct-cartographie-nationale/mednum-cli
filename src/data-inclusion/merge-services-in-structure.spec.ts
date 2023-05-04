@@ -43,7 +43,7 @@ describe('merge services in structure', (): void => {
         nom: 'Médiation république',
         pivot: '43493312300029',
         thematiques: 'numerique--devenir-autonome-dans-les-demarches-administratives',
-        source: 'mediation-numerique-cnfs'
+        source: 'cnfs'
       }
     ]);
   });
@@ -141,7 +141,7 @@ describe('merge services in structure', (): void => {
           'Notre parcours d’initiation permet l’acquisition de compétences numériques de base. Nous proposons également un accompagnement à destination des personnes déjà initiées qui souhaiteraient approfondir leurs connaissances. Du matériel informatique est en libre accès pour nos adhérents tous les après-midis. En plus de d’accueillir les personnes dans notre lieu en semaine (sur rendez-vous), nous assurons une permanence le samedi matin dans la médiathèque XX.',
         presentation_resume:
           'Notre association propose des formations aux outils numériques à destination des personnes âgées.',
-        source: 'mediation-numerique-Hubik',
+        source: 'Hubik',
         structure_parente: 'Pôle emploi',
         horaires: 'Mo-Fr 09:00-12:00,14:00-18:30; Sa 08:30-12:00',
         accessibilite:
@@ -266,7 +266,7 @@ describe('merge services in structure', (): void => {
         longitude: 1.222764,
         nom: 'ALSEA Service INTERVAL',
         pivot: '',
-        source: 'mediation-numerique-cd87',
+        source: 'cd87',
         labels_nationaux: 'aptic',
         thematiques: 'numerique,numerique--acceder-a-une-connexion-internet'
       },
@@ -280,7 +280,7 @@ describe('merge services in structure', (): void => {
         longitude: -0.5578638,
         nom: "Centre d'Information et d'Orientation d'Angers - Segré",
         pivot: '',
-        source: 'mediation-numerique-angers',
+        source: 'angers',
         profils: 'jeunes-16-26,familles-enfants,adultes,seniors-65',
         frais: 'pass-numerique',
         types: 'accompagnement',
@@ -328,7 +328,7 @@ describe('merge services in structure', (): void => {
         id: 'Hubik-1',
         nom: 'Médiation république',
         pivot: '43493312300029',
-        source: 'mediation-numerique-Hubik',
+        source: 'Hubik',
         thematiques:
           'numerique--devenir-autonome-dans-les-demarches-administratives,numerique--prendre-en-main-un-smartphone-ou-une-tablette'
       }
@@ -381,7 +381,7 @@ describe('merge services in structure', (): void => {
         id: 'Hubik-structure-1',
         nom: 'Médiation république',
         pivot: '43493312300029',
-        source: 'mediation-numerique-Hubik',
+        source: 'Hubik',
         thematiques: 'numerique--devenir-autonome-dans-les-demarches-administratives'
       },
       {
@@ -394,7 +394,7 @@ describe('merge services in structure', (): void => {
         id: 'Hubik-service-2',
         nom: 'Médiation numérique',
         pivot: '43493312300029',
-        source: 'mediation-numerique-Hubik',
+        source: 'Hubik',
         structure_parente: 'structure-1',
         thematiques: 'numerique--prendre-en-main-un-smartphone-ou-une-tablette'
       }
