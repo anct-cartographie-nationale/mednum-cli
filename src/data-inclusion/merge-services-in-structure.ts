@@ -21,7 +21,7 @@ const onlyWithNumeriqueServices = (service: SchemaServiceDataInclusion): boolean
 const matchingService =
   (service: SchemaServiceDataInclusion) =>
   (structure: SchemaStructureDataInclusion): boolean =>
-    structure.id === service.structure_id;
+    structure.id === service.structure_id && structure.source === service.source;
 
 const toDataInclusionMerged = (dataInclusionStructureAndServices: DataInclusionStructureAndServices): DataInclusionMerged =>
   mergeStructureAndService(
@@ -32,7 +32,8 @@ const toDataInclusionMerged = (dataInclusionStructureAndServices: DataInclusionS
 const onlyWithSameIdAs =
   (structure?: SchemaStructureDataInclusion) =>
   (dataInclusionStructureAndServices: DataInclusionStructureAndServices): boolean =>
-    dataInclusionStructureAndServices.structure.id === structure?.id;
+    dataInclusionStructureAndServices.structure.id === structure?.id &&
+    dataInclusionStructureAndServices.structure.source === structure.source;
 
 const toDataInclusionStructuresWithNewService =
   (service: SchemaServiceDataInclusion, structure: SchemaStructureDataInclusion) =>
