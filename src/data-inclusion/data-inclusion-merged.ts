@@ -67,7 +67,7 @@ const dataInclusionMergedGeneral = (
   structure: SchemaStructureDataInclusion,
   service: SchemaServiceDataInclusion
 ): DataInclusionMergedGeneral => ({
-  id: structure.id,
+  id: `${structure.source}-${structure.id}`,
   nom: structure.nom,
   pivot: structure.siret ?? '',
   ...(structure.structure_parente == null ? {} : { structure_parente: structure.structure_parente }),
@@ -101,7 +101,7 @@ const dataInclusionMergedContact = (
 
 const dataInclusionMergedCollecte = (structure: SchemaStructureDataInclusion): DataInclusionMergedCollecte => ({
   date_maj: new Date(structure.date_maj).toISOString(),
-  source: 'Hubik'
+  source: structure.source ?? ''
 });
 
 const dataInclusionMergedPresentation = (structure: SchemaStructureDataInclusion): DataInclusionMergedPresentation => ({

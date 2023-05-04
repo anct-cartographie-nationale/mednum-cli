@@ -20,13 +20,13 @@ describe('merge services in structure', (): void => {
       id: 'structure-1',
       nom: 'Médiation république',
       siret: '43493312300029',
-      source: 'Hubik'
+      source: 'cnfs'
     };
 
     const service: SchemaServiceDataInclusion = {
       id: 'structure-1-mediation-numerique',
       nom: 'Médiation numérique',
-      source: 'Hubik',
+      source: 'cnfs',
       structure_id: 'structure-1',
       thematiques: ['numerique--devenir-autonome-dans-les-demarches-administratives']
     };
@@ -39,11 +39,11 @@ describe('merge services in structure', (): void => {
         commune: 'Paris',
         adresse: '51 rue de la république',
         date_maj: '2022-11-07T00:00:00.000Z',
-        id: 'structure-1',
+        id: 'cnfs-structure-1',
         nom: 'Médiation république',
         pivot: '43493312300029',
         thematiques: 'numerique--devenir-autonome-dans-les-demarches-administratives',
-        source: 'Hubik'
+        source: 'cnfs'
       }
     ]);
   });
@@ -132,7 +132,7 @@ describe('merge services in structure', (): void => {
         telephone: '+33180059880',
         site_web: 'https://www.laquincaillerie.tl/;https://m.facebook.com/laquincaillerienumerique/',
         date_maj: '2022-10-10T00:00:00.000Z',
-        id: 'structure-1',
+        id: 'Hubik-structure-1',
         nom: 'Anonymal',
         pivot: '43493312300029',
         thematiques:
@@ -205,22 +205,107 @@ describe('merge services in structure', (): void => {
     expect(dataInclusionMerged).toStrictEqual<DataInclusionMerged[]>([]);
   });
 
+  it('should not merge when the id are the same but the sources are different', (): void => {
+    const structure1: SchemaStructureDataInclusion = {
+      id: '3',
+      source: 'mediation-numerique-cd87',
+      longitude: 1.222764,
+      latitude: 45.829986,
+      labels_nationaux: ['aptic'],
+      nom: 'ALSEA Service INTERVAL',
+      commune: 'Limoges',
+      adresse: '1 bis Rue du Maréchal Juin 87100 Limoges',
+      code_postal: '87100',
+      date_maj: '2022-11-07'
+    };
+
+    const structure2: SchemaStructureDataInclusion = {
+      id: '3',
+      source: 'mediation-numerique-angers',
+      longitude: -0.5578638,
+      latitude: 47.4681383,
+      date_maj: '2023-02-12',
+      nom: "Centre d'Information et d'Orientation d'Angers - Segré",
+      commune: 'Angers',
+      adresse: '12 boulevard du Roi René',
+      code_postal: '49000'
+    };
+
+    const service1: SchemaServiceDataInclusion = {
+      id: '3-mediation-numerique',
+      source: 'mediation-numerique-cd87',
+      nom: 'Médiation numérique',
+      structure_id: '3',
+      thematiques: ['numerique', 'numerique--acceder-a-une-connexion-internet']
+    };
+
+    const service2: SchemaServiceDataInclusion = {
+      id: '3-mediation-numerique',
+      source: 'mediation-numerique-angers',
+      nom: 'Médiation numérique',
+      types: ['accompagnement'],
+      frais: ['pass-numerique'],
+      profils: ['jeunes-16-26', 'familles-enfants', 'adultes', 'seniors-65'],
+      structure_id: '3',
+      thematiques: ['numerique', 'numerique--utiliser-le-numerique-au-quotidien']
+    };
+
+    const dataInclusionMerged: DataInclusionMerged[] = structuresWithServicesNumeriques(
+      [structure1, structure2],
+      [service1, service2]
+    );
+
+    expect(dataInclusionMerged).toStrictEqual<DataInclusionMerged[]>([
+      {
+        adresse: '1 bis Rue du Maréchal Juin 87100 Limoges',
+        code_postal: '87100',
+        commune: 'Limoges',
+        date_maj: '2022-11-07T00:00:00.000Z',
+        id: 'mediation-numerique-cd87-3',
+        latitude: 45.829986,
+        longitude: 1.222764,
+        nom: 'ALSEA Service INTERVAL',
+        pivot: '',
+        source: 'mediation-numerique-cd87',
+        labels_nationaux: 'aptic',
+        thematiques: 'numerique,numerique--acceder-a-une-connexion-internet'
+      },
+      {
+        adresse: '12 boulevard du Roi René',
+        code_postal: '49000',
+        commune: 'Angers',
+        date_maj: '2023-02-12T00:00:00.000Z',
+        id: 'mediation-numerique-angers-3',
+        latitude: 47.4681383,
+        longitude: -0.5578638,
+        nom: "Centre d'Information et d'Orientation d'Angers - Segré",
+        pivot: '',
+        source: 'mediation-numerique-angers',
+        profils: 'jeunes-16-26,familles-enfants,adultes,seniors-65',
+        frais: 'pass-numerique',
+        types: 'accompagnement',
+        thematiques: 'numerique,numerique--utiliser-le-numerique-au-quotidien'
+      }
+    ]);
+  });
+
   it('should merge two services with the same structure id', (): void => {
     const structure: SchemaStructureDataInclusion = {
       adresse: '51 rue de la république',
       code_postal: '75013',
       commune: 'Paris',
       date_maj: '2022-11-07',
-      id: 'structure-1',
+      id: '1',
       nom: 'Médiation république',
-      siret: '43493312300029'
+      siret: '43493312300029',
+      source: 'Hubik'
     };
 
     const service1: SchemaServiceDataInclusion = {
       id: 'structure-1-mediation-numerique',
       nom: 'Médiation numérique',
       source: 'Hubik',
-      structure_id: 'structure-1',
+      structure_id: '1',
       thematiques: ['numerique--devenir-autonome-dans-les-demarches-administratives']
     };
 
@@ -228,7 +313,7 @@ describe('merge services in structure', (): void => {
       id: 'structure-1-mediation-numerique',
       nom: 'Médiation numérique',
       source: 'Hubik',
-      structure_id: 'structure-1',
+      structure_id: '1',
       thematiques: ['numerique--prendre-en-main-un-smartphone-ou-une-tablette']
     };
 
@@ -240,7 +325,7 @@ describe('merge services in structure', (): void => {
         commune: 'Paris',
         adresse: '51 rue de la république',
         date_maj: '2022-11-07T00:00:00.000Z',
-        id: 'structure-1',
+        id: 'Hubik-1',
         nom: 'Médiation république',
         pivot: '43493312300029',
         source: 'Hubik',
@@ -258,11 +343,12 @@ describe('merge services in structure', (): void => {
       date_maj: '2022-11-07',
       id: 'structure-1',
       nom: 'Médiation république',
-      siret: '43493312300029'
+      siret: '43493312300029',
+      source: 'Hubik'
     };
 
     const service1: SchemaServiceDataInclusion = {
-      id: 'structure-1-mediation-numerique',
+      id: 'service-1',
       nom: 'Médiation numérique',
       source: 'Hubik',
       structure_id: 'structure-1',
@@ -272,7 +358,7 @@ describe('merge services in structure', (): void => {
     const service2: Partial<SchemaStructureDataInclusionAdresseFields> &
       SchemaServiceDataInclusion &
       SchemaStructureDataInclusionLocalisationFields = {
-      id: 'structure-1-mediation-numerique',
+      id: 'service-2',
       nom: 'Médiation numérique',
       source: 'Hubik',
       structure_id: 'structure-1',
@@ -292,7 +378,7 @@ describe('merge services in structure', (): void => {
         commune: 'Paris',
         adresse: '51 rue de la république',
         date_maj: '2022-11-07T00:00:00.000Z',
-        id: 'structure-1',
+        id: 'Hubik-structure-1',
         nom: 'Médiation république',
         pivot: '43493312300029',
         source: 'Hubik',
@@ -305,7 +391,7 @@ describe('merge services in structure', (): void => {
         latitude: 4.8375548,
         longitude: 45.7665478,
         date_maj: '2022-11-07T00:00:00.000Z',
-        id: 'structure-1-mediation-numerique',
+        id: 'Hubik-service-2',
         nom: 'Médiation numérique',
         pivot: '43493312300029',
         source: 'Hubik',
