@@ -40,7 +40,7 @@ const SPLIT_VOIE_MATCHING: LieuxMediationNumeriqueMatching = {
 
 const CODE_POSTAL_IS_IN_ADRESSE_MATCHING: LieuxMediationNumeriqueMatching = {
   code_postal: {
-    colonne: 'inAdresse'
+    colonne: ''
   },
   commune: {
     colonne: 'commune'
@@ -359,6 +359,21 @@ describe('adresse field', (): void => {
       code_postal: '78000',
       commune: 'Versailles',
       voie: "52 Route des Ducs d'Anjou"
+    });
+  });
+
+  it('should retrieve code postal even with accent on commune', (): void => {
+    const source: DataSource = {
+      commune: 'Bègles',
+      adresse: '1 avenue Pasteur'
+    };
+
+    const adresse: Adresse = processAdresse(Report().entry(0))(source, CODE_POSTAL_IS_IN_ADRESSE_MATCHING);
+
+    expect(adresse).toStrictEqual({
+      code_postal: '33130',
+      commune: 'Bègles',
+      voie: '1 avenue Pasteur'
     });
   });
 });

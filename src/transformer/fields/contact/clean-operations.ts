@@ -39,6 +39,12 @@ const removeHttpOnlyWebsites = (field: string): CleanOperation => ({
   field
 });
 
+const removeWebsitesStartingWithAt = (field: string): CleanOperation => ({
+  name: 'remove url starting by at',
+  selector: /^@/u,
+  field
+});
+
 const removeWebsitesWithAccentedCharacters = (field: string): CleanOperation => ({
   name: 'websites with accented characters',
   selector: /[^\x00-\x7F]+/gu,
@@ -225,6 +231,13 @@ const removeEmailStartingWithAt = (field: string): CleanOperation => ({
   field
 });
 
+const fixEmailWithTwoArobase = (field: string): CleanOperation => ({
+  name: 'email with two @',
+  selector: /@@/u,
+  field,
+  fix: (toFix: string): string => toFix.replace(/@@/u, '@')
+});
+
 const trimEmail = (field: string): CleanOperation => ({
   name: 'email starts with mailto:',
   selector: /^\s+|\s+$/u,
@@ -298,6 +311,7 @@ export const cleanOperations = (
 ): CleanOperation[] => [
   ...cleanOperationIfAny(replaceDoubleDotBySingleDotInWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(removeDashEmail, matching.courriel?.colonne),
+  ...cleanOperationIfAny(removeWebsitesStartingWithAt, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixDuplicateHttpWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixMultipleWebsitesSeparator, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixUppercaseWebsites, matching.site_web?.colonne),
@@ -328,6 +342,7 @@ export const cleanOperations = (
   ...cleanOperationIfAny(removeEmailStartingWithWww, matching.courriel?.colonne),
   ...cleanOperationIfAny(removeEmailStartingWithAt, matching.courriel?.colonne),
   ...cleanOperationIfAny(trimEmail, matching.courriel?.colonne),
+  ...cleanOperationIfAny(fixEmailWithTwoArobase, matching.courriel?.colonne),
   ...cleanOperationIfAny(fixStartingWithDotEmail, matching.courriel?.colonne),
   ...cleanOperationIfAny(fixEmailStartingWithMailTo, matching.courriel?.colonne),
   ...cleanOperationIfAny(fixUnexpectedEmailLabel, matching.courriel?.colonne),

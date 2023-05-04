@@ -41,7 +41,11 @@ const ofMatchingCommuneName =
     communeName === formatToCommuneNameData(matchingCommuneName);
 
 const findCodePostal = (matchingCommuneName: string): string =>
-  communes[communes.map(toCommuneName).findIndex(ofMatchingCommuneName(matchingCommuneName))]?.Code_postal.toString() ?? '';
+  communes[
+    communes
+      .map(toCommuneName)
+      .findIndex(ofMatchingCommuneName(matchingCommuneName.normalize('NFD').replace(/[\u0300-\u036f]/gu, '')))
+  ]?.Code_postal.toString() ?? '';
 
 const codePostalFromCommune = (commune: string): string => formatCodePostal(findCodePostal(commune));
 

@@ -12,7 +12,7 @@
     "colonne": "properties.adresse"
   },
   "code_postal": {
-    "colonne": "inAdresse"
+    "colonne": ""
   },
   "telephone": {
     "colonne": "properties.tel_fixe"

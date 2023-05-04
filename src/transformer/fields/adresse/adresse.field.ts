@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
-import { Adresse, CodeInseeError, CommuneError, VoieError } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { Adresse, CodeInseeError, CodePostalError, CommuneError, VoieError } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching, DataSource, Colonne, Jonction } from '../../input';
 import { Recorder } from '../../report';
 import { CLEAN_OPERATIONS, CleanOperation } from './clean-operations';
@@ -18,7 +18,7 @@ const formatVoie = (adressePostale: string): string =>
     .replace(/\s+/gu, ' ')
     .trim();
 
-export const isColonne = (colonneToTest: Colonne | (Partial<Colonne> & Partial<Jonction>)): colonneToTest is Colonne =>
+const isColonne = (colonneToTest: Partial<Colonne> & Partial<Jonction>): colonneToTest is Colonne =>
   colonneToTest.colonne != null;
 
 const voieField = (source: DataSource, voie: Jonction & Partial<Colonne>): string =>
@@ -38,7 +38,7 @@ const codePostalFromVoie = (voie: string): string => /\b\d{5}\b/u.exec(voie)?.[0
 const toLieuxMediationNumeriqueAdresse = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Adresse =>
   Adresse({
     code_postal:
-      matching.code_postal.colonne === 'inAdresse'
+      matching.code_postal.colonne === ''
         ? codePostalFromVoie(voieField(source, matching.adresse))
         : source[matching.code_postal.colonne]?.toString() ?? '',
     commune: formatCommune(source[matching.commune.colonne] ?? ''),
@@ -106,14 +106,34 @@ const fixAndRetry =
   (source: DataSource, matching: LieuxMediationNumeriqueMatching, error: unknown): Adresse =>
     retryOrThrow(recorder)(CLEAN_OPERATIONS(matching).reduce(toFixedAdresse(recorder)(source), undefined), matching, error);
 
+const handleMissingCodePostalInMatching =
+  (recorder: Recorder) =>
+  (source: DataSource, matching: LieuxMediationNumeriqueMatching, error: CodePostalError): Adresse => {
+    const sourceWithCodePostalMissing: DataSource = { ...source, code_postal: '' };
+    const matchingWithCodePostalMissing: LieuxMediationNumeriqueMatching = {
+      ...matching,
+      code_postal: { colonne: 'code_postal' }
+    };
+    return fixAndRetry(recorder)(sourceWithCodePostalMissing, matchingWithCodePostalMissing, error);
+  };
+
+const throwCommuneOrAdresseErrors = (source: DataSource, matching: LieuxMediationNumeriqueMatching): void => {
+  if (source[matching.commune.colonne] === '') throw new CommuneError('');
+  else if (isColonne(matching.adresse) && source[matching.adresse.colonne] === '') throw new VoieError('');
+};
+
+const checkCommuneAndVoieMissingMatch = (source: DataSource, matching: LieuxMediationNumeriqueMatching): boolean =>
+  source[matching.commune.colonne] === '' || (isColonne(matching.adresse) && source[matching.adresse.colonne] === '');
+
 export const processAdresse =
   (recorder: Recorder) =>
   (source: DataSource, matching: LieuxMediationNumeriqueMatching): Adresse => {
     try {
       return toLieuxMediationNumeriqueAdresse(source, matching);
     } catch (error: unknown) {
-      if (source[matching.commune.colonne] === '') throw new CommuneError('');
-      if (isColonne(matching.adresse) && source[matching.adresse.colonne] === '') throw new VoieError('');
+      if (error instanceof CodePostalError && matching.code_postal.colonne === '')
+        return handleMissingCodePostalInMatching(recorder)(source, matching, error);
+      if (checkCommuneAndVoieMissingMatch(source, matching)) throwCommuneOrAdresseErrors(source, matching);
       if (error instanceof CodeInseeError) {
         const { [matching.code_insee?.colonne ?? '']: _, ...sourceWithoutCodeInsee }: DataSource = source;
         return toLieuxMediationNumeriqueAdresse(sourceWithoutCodeInsee, matching);
