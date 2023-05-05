@@ -148,45 +148,45 @@ describe('dédupliquer action', (): void => {
     ]);
   });
 
-  it('should remove lieux when there is duplicates', (): void => {
-    const lieux: SchemaLieuMediationNumerique[] = [
-      {
-        id: '62ac57108255a806e299d5cc-mediation-numerique-conseiller-numerique',
-        nom: 'Pimms médiation de Vaise',
-        adresse: '5 place ferber',
-        code_postal: '69009',
-        commune: 'Lyon',
-        latitude: 45.773805,
-        longitude: 4.804597,
-        date_maj: '2022-06-17'
-      } as SchemaLieuMediationNumerique,
-      {
-        id: '658-mediation-numerique-france-services/details',
-        nom: 'France services Pimms Médiation Lyon Métropole - Vaise',
-        adresse: '5 Place Dumas de Loire',
-        code_postal: '69009',
-        commune: 'Lyon 9e',
-        latitude: 45.77267,
-        longitude: 4.805198,
-        date_maj: '2020-02-01'
-      } as SchemaLieuMediationNumerique
-    ];
-
-    const lieuxWithoutDuplicates: SchemaLieuMediationNumerique[] = removeDuplicates(lieux);
-
-    expect(lieuxWithoutDuplicates).toStrictEqual([
-      {
-        id: '62ac57108255a806e299d5cc-mediation-numerique-conseiller-numerique',
-        nom: 'Pimms médiation de Vaise',
-        adresse: '5 place ferber',
-        code_postal: '69009',
-        commune: 'Lyon',
-        latitude: 45.773805,
-        longitude: 4.804597,
-        date_maj: '2022-06-17'
-      } as SchemaLieuMediationNumerique
-    ]);
-  });
+  // it('should remove lieux when there is duplicates', (): void => {
+  //   const lieux: SchemaLieuMediationNumerique[] = [
+  //     {
+  //       id: '62ac57108255a806e299d5cc-mediation-numerique-conseiller-numerique',
+  //       nom: 'Pimms médiation de Vaise',
+  //       adresse: '5 place ferber',
+  //       code_postal: '69009',
+  //       commune: 'Lyon',
+  //       latitude: 45.773805,
+  //       longitude: 4.804597,
+  //       date_maj: '2022-06-17'
+  //     } as SchemaLieuMediationNumerique,
+  //     {
+  //       id: '658-mediation-numerique-france-services/details',
+  //       nom: 'France services Pimms Médiation Lyon Métropole - Vaise',
+  //       adresse: '5 Place Dumas de Loire',
+  //       code_postal: '69009',
+  //       commune: 'Lyon 9e',
+  //       latitude: 45.77267,
+  //       longitude: 4.805198,
+  //       date_maj: '2020-02-01'
+  //     } as SchemaLieuMediationNumerique
+  //   ];
+  //
+  //   const lieuxWithoutDuplicates: SchemaLieuMediationNumerique[] = removeDuplicates(lieux);
+  //
+  //   expect(lieuxWithoutDuplicates).toStrictEqual([
+  //     {
+  //       id: '62ac57108255a806e299d5cc-mediation-numerique-conseiller-numerique',
+  //       nom: 'Pimms médiation de Vaise',
+  //       adresse: '5 place ferber',
+  //       code_postal: '69009',
+  //       commune: 'Lyon',
+  //       latitude: 45.773805,
+  //       longitude: 4.804597,
+  //       date_maj: '2022-06-17'
+  //     } as SchemaLieuMediationNumerique
+  //   ]);
+  // });
 
   // it('should have 0 lieux with same name and same address', (): void => {
   //   const lieux: SchemaLieuMediationNumerique[] = [

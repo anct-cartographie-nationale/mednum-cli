@@ -1,7 +1,9 @@
 import axios, { AxiosResponse } from 'axios';
-import { DedupliquerOptions } from '../dedupliquer-options';
-import { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import fs from 'fs';
 const fuzz = require('fuzzball');
+import { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { DedupliquerOptions } from '../dedupliquer-options';
+import { duplicationComparisons, formatToCSV } from './duplication-comparisons';
 
 export type Duplicate = {
   id: string;
@@ -18,6 +20,19 @@ export type LieuDuplications = {
 export type CommuneDuplications = {
   codePostal: string;
   lieux: LieuDuplications[];
+};
+
+export type DuplicationComparison = {
+  score: number;
+  adresseScore: number;
+  adresse1: string;
+  adresse2: string;
+  nomScore: number;
+  nom1: string;
+  nom2: string;
+  distanceScore: number;
+  localisation1: string;
+  localisation2: string;
 };
 
 const hasDefinedCoordinates = (
@@ -95,7 +110,6 @@ const toCommunesDuplications = (
   );
 
 export const removeDuplicates = (lieux: SchemaLieuMediationNumerique[]): SchemaLieuMediationNumerique[] => {
-  console.log(findDuplicates(lieux)[0]?.lieux[1]?.duplicates);
   return lieux;
 };
 
@@ -105,5 +119,12 @@ export const findDuplicates = (lieux: SchemaLieuMediationNumerique[]): CommuneDu
 export const DedupliquerAction = async (dedupliquerOptions: DedupliquerOptions): Promise<void> => {
   const lieuxFromDataInclusion: AxiosResponse<SchemaLieuMediationNumerique[]> = await axios.get(dedupliquerOptions.source);
 
-  console.log(findDuplicates(lieuxFromDataInclusion.data));
+  // const duplicates: CommuneDuplications[] = findDuplicates(lieuxFromDataInclusion.data);
+  // console.log(duplicates.length);
+
+  fs.writeFileSync(
+    `./assets/output/dedupliquer/dedupliquer.csv`,
+    formatToCSV(duplicationComparisons(lieuxFromDataInclusion.data)),
+    'utf8'
+  );
 };
