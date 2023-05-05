@@ -42,6 +42,6 @@
     }
   ],
   "horaires": {
-    "semaine": "horaires"
+    "osm": "horaires"
   }
 }
