@@ -50,7 +50,8 @@ const cartesianDistanceBetween = (lieu: SchemaLieuMediationNumerique, curentLieu
     ? Math.sqrt(Math.pow(lieu.latitude - curentLieu.latitude, 2) + Math.pow(lieu.longitude - curentLieu.longitude, 2))
     : NaN;
 
-const distanceScore = (cartesianDistance: number): number => Math.trunc(cartesianDistance < 0.01 ? 100 : 1 / cartesianDistance);
+const distanceScore = (cartesianDistance: number): number =>
+  Math.trunc(cartesianDistance < 0.0004 ? 100 : 100 / (cartesianDistance * 1000 + 1));
 
 const duplicatesWithScores = (lieux: SchemaLieuMediationNumerique[], curentLieu: SchemaLieuMediationNumerique): Duplicate[] =>
   lieux.filter(onlyDifferentLieuxInSameComuneOf(curentLieu)).map(
