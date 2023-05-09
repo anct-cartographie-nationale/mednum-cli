@@ -75,7 +75,8 @@ jobs:
             haute-vienne,
             fibre-64,
             mednum-hub-antilles,
-            gironde
+            gironde,
+            etapes-numerique
           ]
     runs-on: ubuntu-latest
     environment: demo
