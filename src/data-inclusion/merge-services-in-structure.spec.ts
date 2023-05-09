@@ -208,7 +208,7 @@ describe('merge services in structure', (): void => {
   it('should not merge when the id are the same but the sources are different', (): void => {
     const structure1: SchemaStructureDataInclusion = {
       id: '3',
-      source: 'mediation-numerique-cd87',
+      source: 'cd87',
       longitude: 1.222764,
       latitude: 45.829986,
       labels_nationaux: ['aptic'],
@@ -221,7 +221,7 @@ describe('merge services in structure', (): void => {
 
     const structure2: SchemaStructureDataInclusion = {
       id: '3',
-      source: 'mediation-numerique-angers',
+      source: 'angers',
       longitude: -0.5578638,
       latitude: 47.4681383,
       date_maj: '2023-02-12',
@@ -233,7 +233,7 @@ describe('merge services in structure', (): void => {
 
     const service1: SchemaServiceDataInclusion = {
       id: '3-mediation-numerique',
-      source: 'mediation-numerique-cd87',
+      source: 'cd87',
       nom: 'Médiation numérique',
       structure_id: '3',
       thematiques: ['numerique', 'numerique--acceder-a-une-connexion-internet']
@@ -241,7 +241,7 @@ describe('merge services in structure', (): void => {
 
     const service2: SchemaServiceDataInclusion = {
       id: '3-mediation-numerique',
-      source: 'mediation-numerique-angers',
+      source: 'angers',
       nom: 'Médiation numérique',
       types: ['accompagnement'],
       frais: ['pass-numerique'],
@@ -261,12 +261,12 @@ describe('merge services in structure', (): void => {
         code_postal: '87100',
         commune: 'Limoges',
         date_maj: '2022-11-07T00:00:00.000Z',
-        id: 'mediation-numerique-cd87-3',
+        id: 'cd87-3',
         latitude: 45.829986,
         longitude: 1.222764,
         nom: 'ALSEA Service INTERVAL',
         pivot: '',
-        source: 'mediation-numerique-cd87',
+        source: 'cd87',
         labels_nationaux: 'aptic',
         thematiques: 'numerique,numerique--acceder-a-une-connexion-internet'
       },
@@ -275,12 +275,12 @@ describe('merge services in structure', (): void => {
         code_postal: '49000',
         commune: 'Angers',
         date_maj: '2023-02-12T00:00:00.000Z',
-        id: 'mediation-numerique-angers-3',
+        id: 'angers-3',
         latitude: 47.4681383,
         longitude: -0.5578638,
         nom: "Centre d'Information et d'Orientation d'Angers - Segré",
         pivot: '',
-        source: 'mediation-numerique-angers',
+        source: 'angers',
         profils: 'jeunes-16-26,familles-enfants,adultes,seniors-65',
         frais: 'pass-numerique',
         types: 'accompagnement',

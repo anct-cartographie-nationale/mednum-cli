@@ -101,7 +101,7 @@ const dataInclusionMergedContact = (
 
 const dataInclusionMergedCollecte = (structure: SchemaStructureDataInclusion): DataInclusionMergedCollecte => ({
   date_maj: new Date(structure.date_maj).toISOString(),
-  source: structure.source ?? ''
+  source: structure.source?.replace('mediation-numerique-', '') ?? ''
 });
 
 const dataInclusionMergedPresentation = (structure: SchemaStructureDataInclusion): DataInclusionMergedPresentation => ({
