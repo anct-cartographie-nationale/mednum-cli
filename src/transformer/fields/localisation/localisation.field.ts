@@ -8,6 +8,7 @@ type NoLocalisation = { noLocalisation: true } & null;
 export const NO_LOCALISATION: Localisation = null as NoLocalisation;
 
 const NO_LOCALISATION_COLONNE: string = '';
+const LOCALISATION_IS_ZERO_VALUES: number = NaN;
 const INVALID_NUMBERS_CHARS: RegExp = /[^\d.\s,-]+/gu;
 
 const isColonne = (colonneToTest: Partial<Colonne> & Partial<Dissociation>): colonneToTest is Colonne =>
@@ -33,8 +34,15 @@ const checkFormatLocalisation = (localisation: LocalisationToValidate): Localisa
 const localisationField = (source: DataSource, localisation: Dissociation & Partial<Colonne>): string | undefined =>
   (isColonne(localisation) ? source[localisation.colonne] : dissocier(source, localisation))?.toString().replace(',', '.');
 
-const validateLocalisationField = (localisationToValidate: LocalisationToValidate): Localisation =>
-  isValidLocalisation(localisationToValidate) ? localisationToValidate : checkFormatLocalisation(localisationToValidate);
+const validateLocalisationField = (localisationToValidate: LocalisationToValidate): Localisation => {
+  const localisationToValidateProbablyFalse: LocalisationToValidate =
+    localisationToValidate.latitude === 0 || localisationToValidate.longitude === 0
+      ? { latitude: LOCALISATION_IS_ZERO_VALUES, longitude: LOCALISATION_IS_ZERO_VALUES }
+      : localisationToValidate;
+  return isValidLocalisation(localisationToValidateProbablyFalse)
+    ? localisationToValidateProbablyFalse
+    : checkFormatLocalisation(localisationToValidateProbablyFalse);
+};
 
 const localisationFromMatching = (source: DataSource, matching: LieuxMediationNumeriqueMatching): LocalisationToValidate => ({
   latitude: parseFloat(localisationField(source, matching.latitude) ?? NO_LOCALISATION_COLONNE),
