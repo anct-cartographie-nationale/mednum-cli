@@ -141,4 +141,14 @@ describe('localisation field', (): void => {
 
     expect(localisation).toStrictEqual<Localisation>(NO_LOCALISATION);
   });
+
+  it('should return null when coordinates have 0 as value', (): void => {
+    const source: DataSource = {
+      bf_latitude: '0',
+      bf_longitude: '0'
+    };
+    const localisation: Localisation = processLocalisation(source, STANDARD_MATCHING);
+
+    expect(localisation).toStrictEqual<Localisation>(NO_LOCALISATION);
+  });
 });
