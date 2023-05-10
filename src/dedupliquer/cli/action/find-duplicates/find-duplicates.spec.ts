@@ -1,7 +1,9 @@
-import { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { CommuneDuplications, findDuplicates, removeDuplicates } from './dedupliquer.action';
+/* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
-describe('dédupliquer action', (): void => {
+import { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { CommuneDuplications, findDuplicates } from './find-duplicates';
+
+describe('find duplicates', (): void => {
   it('should not need to deduplicate when there is only one lieu', (): void => {
     const lieux: SchemaLieuMediationNumerique[] = [
       {
@@ -15,7 +17,7 @@ describe('dédupliquer action', (): void => {
       } as SchemaLieuMediationNumerique
     ];
 
-    const duplicates: any = findDuplicates(lieux);
+    const duplicates: CommuneDuplications[] = findDuplicates(lieux);
 
     expect(duplicates).toStrictEqual([]);
   });
@@ -42,7 +44,7 @@ describe('dédupliquer action', (): void => {
       } as SchemaLieuMediationNumerique
     ];
 
-    const duplicates: any = findDuplicates(lieux);
+    const duplicates: CommuneDuplications[] = findDuplicates(lieux);
 
     expect(duplicates).toStrictEqual([]);
   });
@@ -69,7 +71,7 @@ describe('dédupliquer action', (): void => {
       } as SchemaLieuMediationNumerique
     ];
 
-    const duplicates: any = findDuplicates(lieux);
+    const duplicates: CommuneDuplications[] = findDuplicates(lieux);
 
     expect(duplicates).toStrictEqual<CommuneDuplications[]>([
       {
@@ -124,7 +126,7 @@ describe('dédupliquer action', (): void => {
       } as SchemaLieuMediationNumerique
     ];
 
-    const duplicates: any = findDuplicates(lieux);
+    const duplicates: CommuneDuplications[] = findDuplicates(lieux);
 
     expect(duplicates).toStrictEqual<CommuneDuplications[]>([
       {
@@ -179,7 +181,7 @@ describe('dédupliquer action', (): void => {
       } as SchemaLieuMediationNumerique
     ];
 
-    const duplicates: any = findDuplicates(lieux);
+    const duplicates: CommuneDuplications[] = findDuplicates(lieux);
 
     expect(duplicates).toStrictEqual<CommuneDuplications[]>([
       {
@@ -209,52 +211,6 @@ describe('dédupliquer action', (): void => {
           }
         ]
       }
-    ]);
-  });
-
-  it('should not remove lieux when there is no duplicates', (): void => {
-    const lieux: SchemaLieuMediationNumerique[] = [
-      {
-        id: '574-mediation-numerique-hinaura',
-        nom: 'Numerinaute',
-        adresse: '12 Rue Joseph Rey (chez Aconit)',
-        code_postal: '38000',
-        commune: 'Grenoble',
-        latitude: 45.186115,
-        longitude: 5.716962
-      } as SchemaLieuMediationNumerique,
-      {
-        id: '537-mediation-numerique-hinaura',
-        nom: 'La Turbine.Coop',
-        adresse: '5 esplanade Andry Farcy 38000 Grenoble',
-        code_postal: '38000',
-        commune: 'Grenoble',
-        latitude: 45.187654,
-        longitude: 5.704953
-      } as SchemaLieuMediationNumerique
-    ];
-
-    const lieuxWithoutDuplicates: SchemaLieuMediationNumerique[] = removeDuplicates(lieux);
-
-    expect(lieuxWithoutDuplicates).toStrictEqual([
-      {
-        id: '574-mediation-numerique-hinaura',
-        nom: 'Numerinaute',
-        adresse: '12 Rue Joseph Rey (chez Aconit)',
-        code_postal: '38000',
-        commune: 'Grenoble',
-        latitude: 45.186115,
-        longitude: 5.716962
-      } as SchemaLieuMediationNumerique,
-      {
-        id: '537-mediation-numerique-hinaura',
-        nom: 'La Turbine.Coop',
-        adresse: '5 esplanade Andry Farcy 38000 Grenoble',
-        code_postal: '38000',
-        commune: 'Grenoble',
-        latitude: 45.187654,
-        longitude: 5.704953
-      } as SchemaLieuMediationNumerique
     ]);
   });
 });

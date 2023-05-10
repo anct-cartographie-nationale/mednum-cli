@@ -1,5 +1,20 @@
 import { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { CommuneDuplications, Duplicate, DuplicationComparison, findDuplicates, LieuDuplications } from './dedupliquer.action';
+import { CommuneDuplications, Duplicate, findDuplicates, LieuDuplications } from '../find-duplicates';
+
+export type DuplicationComparison = {
+  id1: string;
+  id2: string;
+  score: number;
+  adresseScore: number;
+  adresse1: string;
+  adresse2: string;
+  nomScore: number;
+  nom1: string;
+  nom2: string;
+  distanceScore: number;
+  localisation1: string;
+  localisation2: string;
+};
 
 type ReadyToProcessDuplicationComparison = {
   lieu1: SchemaLieuMediationNumerique;
@@ -8,6 +23,8 @@ type ReadyToProcessDuplicationComparison = {
 };
 
 const toDuplicationComparison = ({ lieu1, lieu2, duplicate }: ReadyToProcessDuplicationComparison): DuplicationComparison => ({
+  id1: lieu1.id,
+  id2: lieu2.id,
   score: Math.trunc((duplicate.voieFuzzyScore + duplicate.nomFuzzyScore + duplicate.distanceScore) / 3),
   adresseScore: duplicate.voieFuzzyScore,
   adresse1: `${lieu1.adresse} ${lieu1.code_postal} ${lieu1.commune}`,
@@ -20,6 +37,10 @@ const toDuplicationComparison = ({ lieu1, lieu2, duplicate }: ReadyToProcessDupl
   localisation2: `${lieu2.latitude} : ${lieu2.longitude}`
 });
 
+const onlyValidScore = (duplication: DuplicationComparison): boolean => !isNaN(duplication.score);
+
+const byScore = ({ score: scoreA }: DuplicationComparison, { score: scoreB }: DuplicationComparison): number => scoreB - scoreA;
+
 const lieuFor =
   (duplicate: { id: string }) =>
   (lieu: SchemaLieuMediationNumerique): boolean =>
@@ -28,10 +49,11 @@ const lieuFor =
 const isAlreadyProcessed = (
   lieu1: SchemaLieuMediationNumerique,
   lieu2: SchemaLieuMediationNumerique,
-  duplicationComparisons: ReadyToProcessDuplicationComparison[]
+  readyToProcessDuplicationComparison: ReadyToProcessDuplicationComparison[]
 ): boolean =>
-  duplicationComparisons.some(
-    (value: ReadyToProcessDuplicationComparison) => value.lieu1.id === lieu2.id && value.lieu2.id === lieu1.id
+  readyToProcessDuplicationComparison.some(
+    ({ lieu1: duplicationForlieu1, lieu2: duplicationForlieu2 }: ReadyToProcessDuplicationComparison): boolean =>
+      duplicationForlieu1.id === lieu2.id && duplicationForlieu2.id === lieu1.id
   );
 
 const toDuplicationsForLieu =
@@ -53,7 +75,7 @@ const toDuplicationsForLieu =
 
 const getReadyProcessDuplicationComparison = (lieux: SchemaLieuMediationNumerique[]): ReadyToProcessDuplicationComparison[] =>
   findDuplicates(lieux)
-    .flatMap((communeDuplications: CommuneDuplications) => communeDuplications.lieux)
+    .flatMap((communeDuplications: CommuneDuplications): LieuDuplications[] => communeDuplications.lieux)
     .reduce(
       (
         readyToProcessDuplicationComparisons: ReadyToProcessDuplicationComparison[],
@@ -69,39 +91,4 @@ const getReadyProcessDuplicationComparison = (lieux: SchemaLieuMediationNumeriqu
     );
 
 export const duplicationComparisons = (lieux: SchemaLieuMediationNumerique[]): DuplicationComparison[] =>
-  getReadyProcessDuplicationComparison(lieux).map(toDuplicationComparison);
-
-const DUPLICATION_COMPARISON_HEADINGS: string = [
-  'Score',
-  'Score Nom',
-  'Nom 1',
-  'Nom 2',
-  'Score Adresse',
-  'Adresse 1',
-  'Adresse 2',
-  'Score Distance',
-  'Localisation 1',
-  'Localisation 2'
-].join(';');
-
-const duplicationComparisonLineFor = (duplicationComparison: DuplicationComparison): string =>
-  [
-    duplicationComparison.score,
-    duplicationComparison.nomScore,
-    duplicationComparison.nom1.replace(';', ''),
-    duplicationComparison.nom2.replace(';', ''),
-    duplicationComparison.adresseScore,
-    duplicationComparison.adresse1.replace(';', ''),
-    duplicationComparison.adresse2.replace(';', ''),
-    duplicationComparison.distanceScore,
-    duplicationComparison.localisation1,
-    duplicationComparison.localisation2
-  ].join(';');
-
-export const formatToCSV = (duplicationComparisons: DuplicationComparison[]): string =>
-  [
-    DUPLICATION_COMPARISON_HEADINGS,
-    ...duplicationComparisons.map((duplicationComparison: DuplicationComparison): string =>
-      duplicationComparisonLineFor(duplicationComparison)
-    )
-  ].join('\n');
+  getReadyProcessDuplicationComparison(lieux).map(toDuplicationComparison).filter(onlyValidScore).sort(byScore);

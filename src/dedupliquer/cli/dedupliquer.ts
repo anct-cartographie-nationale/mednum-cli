@@ -1,12 +1,12 @@
 import { Command } from 'commander';
 import inquirer, { Answers } from 'inquirer';
 import { DEDUPLIQUER_OPTIONS, DedupliquerOptions, dedupliquerOptionsQuestions } from './dedupliquer-options';
-import { DedupliquerAction } from './action';
+import { dedupliquerAction } from './action';
 
 const promptAndRun = async (dedupliquerOptions: DedupliquerOptions): Promise<void> =>
   inquirer
     .prompt(dedupliquerOptionsQuestions(dedupliquerOptions))
-    .then(async (mednumAnswers: Answers): Promise<void> => DedupliquerAction({ ...dedupliquerOptions, ...mednumAnswers }))
+    .then(async (mednumAnswers: Answers): Promise<void> => dedupliquerAction({ ...dedupliquerOptions, ...mednumAnswers }))
     .catch((error: Error): void => {
       /* eslint-disable-next-line no-console */
       console.error(error.message);
