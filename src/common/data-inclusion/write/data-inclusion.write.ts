@@ -10,10 +10,17 @@ import { dataInclusionFileName } from '../file-name/data-inclusion.file-name';
 
 export const writeStructuresDataInclusionJsonOutput = (
   producer: Output,
-  lieuxDeMediationNumerique: LieuMediationNumerique[]
+  lieuxDeMediationNumerique: LieuMediationNumerique[],
+  suffix?: string
 ): void => {
   fs.writeFile(
-    `${createFolderIfNotExist(producer.path)}/${dataInclusionFileName(new Date(), producer.name, 'structures', 'json')}`,
+    `${createFolderIfNotExist(producer.path)}/${dataInclusionFileName(
+      new Date(),
+      producer.name,
+      'structures',
+      'json',
+      suffix
+    )}`,
     JSON.stringify(toSchemaStructuresDataInclusion(lieuxDeMediationNumerique), noEmptyCell),
     throwWriteFileError
   );
@@ -21,10 +28,11 @@ export const writeStructuresDataInclusionJsonOutput = (
 
 export const writeServicesDataInclusionJsonOutput = (
   producer: Output,
-  lieuxDeMediationNumerique: LieuMediationNumerique[]
+  lieuxDeMediationNumerique: LieuMediationNumerique[],
+  suffix?: string
 ): void => {
   fs.writeFile(
-    `${createFolderIfNotExist(producer.path)}/${dataInclusionFileName(new Date(), producer.name, 'services', 'json')}`,
+    `${createFolderIfNotExist(producer.path)}/${dataInclusionFileName(new Date(), producer.name, 'services', 'json', suffix)}`,
     JSON.stringify(toSchemaServicesDataInclusion(lieuxDeMediationNumerique), noEmptyCell),
     throwWriteFileError
   );

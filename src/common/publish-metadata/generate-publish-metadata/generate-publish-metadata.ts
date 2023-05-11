@@ -25,36 +25,50 @@ const DATASET_TAGS: string[] = [
   'lieux-de-mediation-numerique'
 ];
 
-const mendumJsonRessource = (output: Output, date: Date): PublishRessource => ({
+const mendumJsonRessource = (output: Output, date: Date, suffix?: string): PublishRessource => ({
   source: `${output.path}/${mediationNumeriqueFileName(
     date,
     output.name.toLowerCase().replace(/\s/gu, '-'),
     output.territoire.toLowerCase().replace(/\s/gu, '-'),
-    'csv'
+    'csv',
+    suffix
   )}`,
   schema: 'LaMednum/standard-mediation-num',
   description: `Lieux de médiation numérique sur le territoire ${output.territoire} fournis par ${output.name} au format CSV.`
 });
 
-const mendumCsvRessource = (output: Output, date: Date): PublishRessource => ({
+const mendumCsvRessource = (output: Output, date: Date, suffix?: string): PublishRessource => ({
   source: `${output.path}/${mediationNumeriqueFileName(
     date,
     output.name.toLowerCase().replace(/\s/gu, '-'),
     output.territoire.toLowerCase().replace(/\s/gu, '-'),
-    'json'
+    'json',
+    suffix
   )}`,
   schema: 'LaMednum/standard-mediation-num',
   description: `Lieux de médiation numérique sur le territoire ${output.territoire} fournis par ${output.name} au format JSON.\nVous pouvez utiliser l’url stable associé à cette ressource pour alimenter une version locale de la cartographie des lieux de médiation numérique.`
 });
 
-const dataInclusionServicesRessource = (output: Output, date: Date): PublishRessource => ({
-  source: `${output.path}/${dataInclusionFileName(date, output.name.toLowerCase().replace(/\s/gu, '-'), 'services', 'json')}`,
+const dataInclusionServicesRessource = (output: Output, date: Date, suffix?: string): PublishRessource => ({
+  source: `${output.path}/${dataInclusionFileName(
+    date,
+    output.name.toLowerCase().replace(/\s/gu, '-'),
+    'services',
+    'json',
+    suffix
+  )}`,
   schema: 'betagouv/data-inclusion-schema',
   description: `Services de médiation numérique rattachés à une structure de l'inclusion fournis par ${output.name} sur le territoire ${output.territoire}`
 });
 
-const dataInclusionStructuresRessource = (output: Output, date: Date): PublishRessource => ({
-  source: `${output.path}/${dataInclusionFileName(date, output.name.toLowerCase().replace(/\s/gu, '-'), 'structures', 'json')}`,
+const dataInclusionStructuresRessource = (output: Output, date: Date, suffix?: string): PublishRessource => ({
+  source: `${output.path}/${dataInclusionFileName(
+    date,
+    output.name.toLowerCase().replace(/\s/gu, '-'),
+    'structures',
+    'json',
+    suffix
+  )}`,
   schema: 'betagouv/data-inclusion-schema',
   description: `Structures de l'inclusion qui proposent des services de médiation numérique fournis par ${output.name} sur le territoire ${output.territoire}`
 });
@@ -74,7 +88,8 @@ const formatDate = (date: Date | undefined): string => date?.toISOString().split
 export const generatePublishMetadata = (
   output: Output,
   lieuxDeMediationNumerique: LieuMediationNumerique[],
-  date: Date
+  date: Date,
+  suffix?: string
 ): PublishMetadata => ({
   title: `Lieux de médiation numérique sur le territoire ${output.territoire} fournis par ${output.name}`,
   description: `Lieux de médiation numérique proposant un accompagnement au public fournis par ${output.name} sur le territoire ${output.territoire}.\nCe jeu de données répond aux spécifications du schéma "Lieux de médiation numérique" disponible sur le site [schema.data.gouv.fr](https://schema.data.gouv.fr/LaMednum/standard-mediation-num)`,
@@ -85,9 +100,9 @@ export const generatePublishMetadata = (
   start: formatDate(lieuxDeMediationNumerique.sort(byDateMajAsc).at(0)?.date_maj),
   end: formatDate(lieuxDeMediationNumerique.sort(byDateMajDesc).at(0)?.date_maj),
   ressources: [
-    mendumJsonRessource(output, date),
-    mendumCsvRessource(output, date),
-    dataInclusionServicesRessource(output, date),
-    dataInclusionStructuresRessource(output, date)
+    mendumJsonRessource(output, date, suffix),
+    mendumCsvRessource(output, date, suffix),
+    dataInclusionServicesRessource(output, date, suffix),
+    dataInclusionStructuresRessource(output, date, suffix)
   ]
 });

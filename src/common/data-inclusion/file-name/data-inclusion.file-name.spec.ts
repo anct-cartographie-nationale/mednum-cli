@@ -6,4 +6,10 @@ describe('data inclusion file name', (): void => {
 
     expect(jsonFileName).toBe('services-inclusion-20221107-213502387.json');
   });
+
+  it('should generate data inclusion file name with suffix', (): void => {
+    const jsonFileName: string = dataInclusionFileName(new Date('2022-11-07'), '213502387', 'services', 'json', 'suffix');
+
+    expect(jsonFileName).toBe('services-inclusion-20221107-213502387-suffix.json');
+  });
 });

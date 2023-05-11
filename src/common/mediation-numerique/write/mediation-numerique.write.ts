@@ -7,14 +7,16 @@ import { mediationNumeriqueToCsv } from '../to-csv/mediation-numerique.to-csv';
 
 export const writeMediationNumeriqueJsonOutput = (
   producer: Output,
-  schemaLieuxDeMediationNumerique: SchemaLieuMediationNumerique[]
+  schemaLieuxDeMediationNumerique: SchemaLieuMediationNumerique[],
+  suffix?: string
 ): void => {
   fs.writeFile(
     `${createFolderIfNotExist(producer.path)}/${mediationNumeriqueFileName(
       new Date(),
       producer.name,
       producer.territoire,
-      'json'
+      'json',
+      suffix
     )}`,
     JSON.stringify(schemaLieuxDeMediationNumerique, noEmptyCell),
     throwWriteFileError
@@ -23,14 +25,16 @@ export const writeMediationNumeriqueJsonOutput = (
 
 export const writeMediationNumeriqueCsvOutput = (
   producer: Output,
-  schemaLieuxDeMediationNumerique: SchemaLieuMediationNumerique[]
+  schemaLieuxDeMediationNumerique: SchemaLieuMediationNumerique[],
+  suffix?: string
 ): void => {
   fs.writeFile(
     `${createFolderIfNotExist(producer.path)}/${mediationNumeriqueFileName(
       new Date(),
       producer.name,
       producer.territoire,
-      'csv'
+      'csv',
+      suffix
     )}`,
     mediationNumeriqueToCsv(schemaLieuxDeMediationNumerique),
     throwWriteFileError

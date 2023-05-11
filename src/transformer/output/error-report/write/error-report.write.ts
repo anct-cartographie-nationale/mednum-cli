@@ -10,28 +10,28 @@ import {
 import { Record, Report } from '../../../report';
 import { ErrorOutput, errorReportToCsv } from '../to-csv/error-report.to-csv';
 
-const writeReportErrorsCsvOutput = (producer: Output, listErrors: ErrorOutput[], report: boolean): void => {
+const writeReportErrorsCsvOutput = (producer: Output, listErrors: ErrorOutput[]): void => {
   fs.writeFile(
     `${createFolderIfNotExist(producer.path)}/${mediationNumeriqueFileName(
       new Date(),
       producer.name,
       producer.territoire,
       'csv',
-      report
+      'report'
     )}`,
     errorReportToCsv(listErrors),
     throwWriteFileError
   );
 };
 
-const writeReportErrorsJsonOutput = (producer: Output, listErrors: ErrorOutput[], report: boolean): void => {
+const writeReportErrorsJsonOutput = (producer: Output, listErrors: ErrorOutput[]): void => {
   fs.writeFile(
     `${createFolderIfNotExist(producer.path)}/${mediationNumeriqueFileName(
       new Date(),
       producer.name,
       producer.territoire,
       'json',
-      report
+      'report'
     )}`,
     JSON.stringify(listErrors, noEmptyCell),
     throwWriteFileError
@@ -41,7 +41,6 @@ const writeReportErrorsJsonOutput = (producer: Output, listErrors: ErrorOutput[]
 export const writeErrorsOutputFiles =
   (producer: Output) =>
   (reports: Report): void => {
-    const report: boolean = true;
     const listErrors: ErrorOutput[] = [];
 
     reports.records().forEach((reportEntry: Record): void => {
@@ -54,6 +53,6 @@ export const writeErrorsOutputFiles =
       listErrors.push(typedError);
     });
 
-    writeReportErrorsJsonOutput(producer, listErrors, report);
-    writeReportErrorsCsvOutput(producer, listErrors, report);
+    writeReportErrorsJsonOutput(producer, listErrors);
+    writeReportErrorsCsvOutput(producer, listErrors);
   };

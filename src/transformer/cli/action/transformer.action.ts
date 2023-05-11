@@ -1,11 +1,11 @@
 /* eslint-disable-next-line @typescript-eslint/no-restricted-imports, @typescript-eslint/naming-convention */
 import * as fs from 'fs';
+import axios, { AxiosResponse } from 'axios';
 import { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Report } from '../../report';
 import { toLieuxMediationNumerique, validValuesOnly } from '../../input';
 import { writeErrorsOutputFiles, writeOutputFiles } from '../../output';
 import { TransformerOptions } from '../transformer-options';
-import axios, { AxiosResponse } from 'axios';
 
 /* eslint-disable max-lines-per-function, max-statements, @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/typedef, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
@@ -91,8 +91,8 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
       .filter(validValuesOnly);
 
     const lieuxDeMediationNumeriqueFiltered: LieuMediationNumeriqueById = lieuxDeMediationNumerique.reduce(
-      (acc: LieuMediationNumeriqueById, lieu: LieuMediationNumerique): LieuMediationNumeriqueById => ({
-        ...acc,
+      (lieuxById: LieuMediationNumeriqueById, lieu: LieuMediationNumerique): LieuMediationNumeriqueById => ({
+        ...lieuxById,
         [lieu.id]: lieu
       }),
       {}

@@ -5,8 +5,8 @@ export const mediationNumeriqueFileName = (
   idProducteur: string,
   territoire: string,
   extension: 'csv' | 'json',
-  report?: boolean | undefined
+  suffix?: string
 ): string =>
   `${fileNameDate(date)}-${formatForFileName(idProducteur)}-lieux-de-mediation-numeriques-${formatForFileName(territoire)}${
-    report == null ? '' : '-reports'
+    suffix == null ? '' : `-${suffix}`
   }.${extension}`;
