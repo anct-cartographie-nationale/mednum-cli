@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
-import { toReportErrorsCsv } from './to-report-errors-csv';
+import { errorReportToCsv } from './error-report.to-csv';
 
 describe('output', (): void => {
   it('should convert empty report errors data to CSV with headers only', (): void => {
-    const csv: string = toReportErrorsCsv([]);
+    const csv: string = errorReportToCsv([]);
 
     expect(csv).toBe('"index","field","message","entryName"\n');
   });
 
   it('should convert report errors data to CSV with headers and one line', (): void => {
-    const csv: string = toReportErrorsCsv([
+    const csv: string = errorReportToCsv([
       {
         index: 35,
         field: 'voie',
@@ -25,7 +25,7 @@ describe('output', (): void => {
   });
 
   it('should convert report errors data to CSV with headers and two lines', (): void => {
-    const csv: string = toReportErrorsCsv([
+    const csv: string = errorReportToCsv([
       {
         index: 35,
         field: 'voie',

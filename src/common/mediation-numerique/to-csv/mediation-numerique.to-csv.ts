@@ -73,5 +73,5 @@ export const csvLineFrom = (cells: (string | undefined)[]): string => cells.map(
 const toLieuMediationNumeriqueCsvLine = (lieuMediationNumerique: SchemaLieuMediationNumerique): string =>
   csvLineFrom(fieldsArrayFrom(lieuMediationNumerique));
 
-export const toLieuxMediationNumeriqueCsv = (lieuxMediationNumerique: SchemaLieuMediationNumerique[]): string =>
+export const mediationNumeriqueToCsv = (lieuxMediationNumerique: SchemaLieuMediationNumerique[]): string =>
   `${csvLineFrom(HEADERS)}\n${lieuxMediationNumerique.map(toLieuMediationNumeriqueCsvLine).join('\n')}`;

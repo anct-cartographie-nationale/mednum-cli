@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
-import { toLieuxMediationNumeriqueCsv } from './to-lieux-mediation-numerique-csv';
+import { mediationNumeriqueToCsv } from './mediation-numerique.to-csv';
 
 describe('output', (): void => {
   it('should convert empty schema de la médiation numérique data to CSV with headers only', (): void => {
-    const csv: string = toLieuxMediationNumeriqueCsv([]);
+    const csv: string = mediationNumeriqueToCsv([]);
 
     expect(csv).toBe(
       '"id","pivot","nom","commune","code_postal","code_insee","adresse","complement_adresse","latitude","longitude","cle_ban","typologie","telephone","courriel","site_web","horaires","presentation_resume","presentation_detail","source","structure_parente","date_maj","services","publics_accueillis","conditions_acces","labels_nationaux","labels_autres","modalites_accompagnement","accessibilite","prise_rdv"\n'
@@ -12,7 +12,7 @@ describe('output', (): void => {
   });
 
   it('should convert schema de la médiation numérique single data to CSV with headers and one line', (): void => {
-    const csv: string = toLieuxMediationNumeriqueCsv([
+    const csv: string = mediationNumeriqueToCsv([
       {
         accessibilite:
           'https://acceslibre.beta.gouv.fr/app/29-lampaul-plouarzel/a/bibliotheque-mediatheque/erp/mediatheque-13/',
@@ -59,7 +59,7 @@ describe('output', (): void => {
   });
 
   it('should convert schema de la médiation numérique single data to CSV with headers and two lines', (): void => {
-    const csv: string = toLieuxMediationNumeriqueCsv([
+    const csv: string = mediationNumeriqueToCsv([
       {
         accessibilite:
           'https://acceslibre.beta.gouv.fr/app/29-lampaul-plouarzel/a/bibliotheque-mediatheque/erp/mediatheque-13/',
@@ -118,7 +118,7 @@ describe('output', (): void => {
   });
 
   it('should convert schema de la médiation numérique single data to CSV with headers and a name containing forbidden "', (): void => {
-    const csv: string = toLieuxMediationNumeriqueCsv([
+    const csv: string = mediationNumeriqueToCsv([
       {
         adresse: '51 rue de la république',
         code_postal: '75013',

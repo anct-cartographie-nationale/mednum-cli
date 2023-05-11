@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
-import { generatePublishMetadata, PublishMetadata } from './publish-metadata';
-import { Output } from '../write-output-files';
 import { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { Output } from '../../output-file';
+import { generatePublishMetadata, PublishMetadata } from './generate-publish-metadata';
 
 describe('publish metadata', (): void => {
   it('should generate publish metadata file content for Hinaura Auvergne-Rhône-Alpes', (): void => {

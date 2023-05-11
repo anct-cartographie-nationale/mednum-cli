@@ -1,7 +1,8 @@
-import { Output } from '../write-output-files';
-import { dataInclusionFileName, mediationNumeriqueFileName } from '../file-name/file-name';
-import { PublishRessource } from '../../../publier/models';
 import { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { Output } from '../../output-file';
+import { PublishRessource } from '../../../publier/models';
+import { dataInclusionFileName } from '../../data-inclusion';
+import { mediationNumeriqueFileName } from '../../mediation-numerique';
 
 export type PublishMetadata = {
   title: string;

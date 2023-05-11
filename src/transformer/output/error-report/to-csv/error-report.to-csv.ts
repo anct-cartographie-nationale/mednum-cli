@@ -1,4 +1,9 @@
-import { ErrorOutput } from '../write-output-files';
+export type ErrorOutput = {
+  index: number;
+  field: number | string | symbol;
+  message: string;
+  entryName: string;
+};
 
 const HEADERS: (keyof ErrorOutput)[] = ['index', 'field', 'message', 'entryName'];
 
@@ -15,5 +20,5 @@ export const csvLineFrom = (cells: string[]): string => cells.map(toDoubleQuoted
 
 const toReportErrorsCsvLine = (listError: ErrorOutput): string => csvLineFrom(fieldsArrayFrom(listError));
 
-export const toReportErrorsCsv = (listErrors: ErrorOutput[]): string =>
+export const errorReportToCsv = (listErrors: ErrorOutput[]): string =>
   `${csvLineFrom(HEADERS)}\n${listErrors.map(toReportErrorsCsvLine).join('\n')}`;
