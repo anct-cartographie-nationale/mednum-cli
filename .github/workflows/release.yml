@@ -111,7 +111,7 @@ jobs:
   deduplicate:
     name: Publish data-inclusion without duplicates
     runs-on: ubuntu-latest
-    environment: demo
+    environment: production
     needs:
       - publish-to-data-gouv
 
