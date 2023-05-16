@@ -2,6 +2,46 @@
   "nom": {
     "colonne": "bf_titre"
   },
+  "pivot": {
+    "colonne": "bf_siret"
+  },
+  "typologies": [
+    {
+      "colonnes": ["checkboxListeTypelieu"],
+      "termes": ["5"],
+      "cible": "BIB"
+    },
+    {
+      "colonnes": ["checkboxListeTypelieu"],
+      "termes": ["6"],
+      "cible": "PIJ_BIJ"
+    },
+    {
+      "colonnes": ["checkboxListeTypelieu"],
+      "termes": ["7"],
+      "cible": "CCAS"
+    },
+    {
+      "colonnes": ["checkboxListeTypelieu"],
+      "termes": ["8"],
+      "cible": "CS"
+    },
+    {
+      "colonnes": ["checkboxListeTypelieu"],
+      "termes": ["9"],
+      "cible": "MQ"
+    },
+    {
+      "colonnes": ["checkboxListeTypelieu"],
+      "termes": ["10"],
+      "cible": "ASSO"
+    },
+    {
+      "colonnes": ["checkboxListeTypelieu"],
+      "termes": ["12", "13"],
+      "cible": "TIERS_LIEUX"
+    }
+  ],
   "code_postal": {
     "colonne": "bf_code_postal"
   },
@@ -23,6 +63,43 @@
   "courriel": {
     "colonne": "bf_mail"
   },
+  "site_web": {
+    "colonne": "bf_site_internet"
+  },
+  "prise_rdv": {
+    "colonne": "bf_prisrdv"
+  },
+  "accessibilite": {
+    "colonne": "bf_accessibilit_"
+  },
+  "presentation_detail": {
+    "colonne": "bf_info_div"
+  },
+  "presentation_resume": {
+    "colonne": "bf_resume"
+  },
+  "labels_nationaux": [
+    {
+      "colonnes": ["radioListeOuiNon "],
+      "termes": ["1"],
+      "cible": "CNFS"
+    },
+    {
+      "colonnes": ["checkboxListeTypeaccompagnement"],
+      "termes": ["9"],
+      "cible": "Aidants Connect"
+    },
+    {
+      "colonnes": ["checkboxListeTypelieu"],
+      "termes": ["4"],
+      "cible": "France Services"
+    },
+    {
+      "colonnes": ["checkboxListeTarifs"],
+      "termes": ["6"],
+      "cible": "APTIC"
+    }
+  ],
   "conditions_acces": [
     {
       "colonnes": ["checkboxListeTarifs"],
@@ -62,12 +139,12 @@
       "cible": "A ma place : une personne habilitée fait les démarches à ma place"
     },
     {
-      "colonnes": ["Types d'accompagnement proposés"],
+      "colonnes": ["checkboxListeTypeaccompagnement"],
       "termes": ["1", "2", "5"],
       "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
     },
     {
-      "colonnes": ["Types d'accompagnement proposés"],
+      "colonnes": ["checkboxListeTypeaccompagnement"],
       "termes": ["5"],
       "cible": "Seul : j'ai accès à du matériel et une connexion"
     }
