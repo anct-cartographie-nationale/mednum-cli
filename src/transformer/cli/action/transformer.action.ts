@@ -24,6 +24,12 @@ type LieuMediationNumeriqueById = Record<string, LieuMediationNumerique>;
 const fromJson = <T>(response: Record<string, T>, key?: string): T[] =>
   key == null ? Object.values(response) : Object.values(response[key] ?? {});
 
+const inputIsJson = (response: AxiosResponse): boolean =>
+  response.config.url?.includes('geojson') ??
+  response.headers['content-type']?.includes('application/geo+json') ??
+  response.headers['content-type']?.includes('application/json') ??
+  false;
+
 const getDataFromAPI = async (
   response: AxiosResponse,
   key?: string,
@@ -40,10 +46,7 @@ const getDataFromAPI = async (
   try {
     JSON.parse(Buffer.concat(chunks).toString());
   } catch (_) {
-    notJson = true;
-    notJson = response.config.url?.includes('geojson') ? false : notJson;
-    notJson = response.headers['content-type']?.includes('application/geo+json') ? false : notJson;
-    notJson = response.headers['content-type']?.includes('application/json') ? false : notJson;
+    notJson = !inputIsJson(response);
   }
 
   return new Promise<string>(

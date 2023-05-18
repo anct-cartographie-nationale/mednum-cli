@@ -93,6 +93,11 @@ const lieuDeMediationNumerique = (
 export const validValuesOnly = (lieuDeMediationNumeriqueToValidate?: LieuMediationNumerique): boolean =>
   lieuDeMediationNumeriqueToValidate != null;
 
+const entryIdentification = (dataSource: DataSource, matching: string): string =>
+  (dataSource[JSON.parse(matching).nom.colonne] === ''
+    ? dataSource[JSON.parse(matching).id.colonne]
+    : dataSource[JSON.parse(matching).nom.colonne]) ?? '';
+
 export const toLieuxMediationNumerique =
   (matching: string, sourceName: string, report: Report) =>
   (dataSource: DataSource, index: number): LieuMediationNumerique | undefined => {
@@ -106,14 +111,7 @@ export const toLieuxMediationNumerique =
         error instanceof CodePostalError ||
         error instanceof NomError
       ) {
-        report
-          .entry(index)
-          .record(
-            error.key,
-            error.message,
-            (dataSource[JSON.parse(matching).nom.colonne] || dataSource[JSON.parse(matching).id.colonne]) ?? ''
-          )
-          .commit();
+        report.entry(index).record(error.key, error.message, entryIdentification(dataSource, matching)).commit();
         return undefined;
       }
       throw error;
