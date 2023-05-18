@@ -1,0 +1,204 @@
+{
+  "id": {
+    "colonne": "properties.id"
+  },
+  "nom": {
+    "colonne": "properties.nom"
+  },
+  "pivot": {
+    "colonne": "properties.pivot"
+  },
+  "commune": {
+    "colonne": "properties.commune"
+  },
+  "adresse": {
+    "colonne": "properties.adresse"
+  },
+  "code_postal": {
+    "colonne": "properties.code_postal"
+  },
+  "telephone": {
+    "colonne": "properties.telephone"
+  },
+  "courriel": {
+    "colonne": "properties.courriel"
+  },
+  "site_web": {
+    "colonne": "properties.site_web"
+  },
+  "latitude": {
+    "colonne": "properties.latitude"
+  },
+  "longitude": {
+    "colonne": "properties.longitude"
+  },
+  "date_maj": {
+    "colonne": "properties.date_maj"
+  },
+  "source": {
+    "colonne": "properties.source"
+  },
+  "presentation_detail": {
+    "colonne": "properties.presentation_detail"
+  },
+  "presentation_resume": {
+    "colonne": "properties.presentation_resume"
+  },
+  "prise_rdv": {
+    "colonne": "properties.prise_rdv"
+  },
+  "accessibilite": {
+    "colonne": "properties.accessibilite"
+  },
+  "labels_nationaux": [
+    {
+      "colonnes": ["properties.labels_nationaux"],
+      "termes": ["CNFS"],
+      "cible": "CNFS"
+    },
+    {
+      "colonnes": ["properties.labels_nationaux"],
+      "termes": ["Aidants Connect"],
+      "cible": "Aidants Connect"
+    },
+    {
+      "colonnes": ["properties.labels_nationaux"],
+      "termes": ["France Services"],
+      "cible": "France Services"
+    },
+    {
+      "colonnes": ["properties.labels_nationaux"],
+      "termes": ["APTIC"],
+      "cible": "APTIC"
+    }
+  ],
+  "conditions_acces": [
+    {
+      "colonnes": ["properties.conditions_acces"],
+      "termes": ["Gratuit"],
+      "cible": "Gratuit : Je peux accéder gratuitement au lieu et à ses services"
+    },
+    {
+      "colonnes": ["properties.conditions_acces"],
+      "termes": ["adhésion"],
+      "cible": "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"
+    },
+    {
+      "colonnes": ["properties.conditions_acces"],
+      "termes": ["Accepte le Pass numérique"],
+      "cible": "Accepte le Pass numérique : Il est possible d'utiliser un Pass numérique pour accéder au lieu"
+    }
+  ],
+  "modalites_accompagnement": [
+    {
+      "colonnes": ["properties.modalites_accompagnement"],
+      "termes": ["Seul"],
+      "cible": "Seul : j'ai accès à du matériel et une connexion"
+    },
+    {
+      "colonnes": ["properties.modalites_accompagnement"],
+      "termes": ["Dans un atelier"],
+      "cible": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
+    },
+    {
+      "colonnes": ["properties.modalites_accompagnement"],
+      "termes": ["Avec de l'aide"],
+      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+    }
+  ],
+  "publics_accueillis": [
+    {
+      "colonnes": ["properties.publics_accueillis"],
+      "termes": ["Tout public", "Jeunes (16-26 ans)"],
+      "cible": "Jeunes (16-26 ans)"
+    },
+    {
+      "colonnes": ["properties.publics_accueillis"],
+      "termes": ["Tout public"],
+      "cible": "Familles/enfants"
+    },
+    {
+      "colonnes": ["properties.publics_accueillis"],
+      "termes": ["Tout public", "Bénéficiaires du RSA", "Personnes en recherche d'emploi"],
+      "cible": "Adultes"
+    },
+    {
+      "colonnes": ["properties.publics_accueillis"],
+      "termes": ["Tout public", "Seniors (+ 65 ans)"],
+      "cible": "Seniors (+ 65 ans)"
+    },
+    {
+      "colonnes": ["properties.publics_accueillis"],
+      "termes": ["Tout public", "Public langues étrangères"],
+      "cible": "Public langues étrangères"
+    },
+    {
+      "colonnes": ["properties.publics_accueillis"],
+      "termes": ["Tout public"],
+      "cible": "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales"
+    },
+    {
+      "colonnes": ["properties.publics_accueillis"],
+      "termes": ["Tout public"],
+      "cible": "Personnes en situation d'illettrisme"
+    },
+    {
+      "colonnes": ["properties.publics_accueillis"],
+      "termes": ["Tout public"],
+      "cible": "Surdité"
+    },
+    {
+      "colonnes": ["properties.publics_accueillis"],
+      "termes": ["Tout public"],
+      "cible": "Handicaps mentaux : déficiences limitant les activités d'une personne"
+    },
+    {
+      "colonnes": ["properties.publics_accueillis"],
+      "termes": ["Tout public"],
+      "cible": "Déficience visuelle"
+    }
+  ],
+  "services": [
+    {
+      "colonnes": ["properties.services"],
+      "termes": ["Accéder à une connexion internet"],
+      "cible": "Accéder à une connexion internet"
+    },
+    {
+      "colonnes": ["properties.services"],
+      "termes": ["Accéder à du matériel"],
+      "cible": "Accéder à du matériel"
+    },
+    {
+      "colonnes": ["properties.services"],
+      "termes": ["Utiliser le numérique au quotidien", "Accès aux droits et a l information"],
+      "cible": "Utiliser le numérique au quotidien"
+    },
+    {
+      "colonnes": ["properties.services"],
+      "termes": ["Réaliser des démarches administratives avec un accompagnement"],
+      "cible": "Réaliser des démarches administratives avec un accompagnement"
+    },
+
+    {
+      "colonnes": ["properties.services"],
+      "termes": ["Prendre en main un ordinateur"],
+      "cible": "Prendre en main un ordinateur"
+    },
+    {
+      "colonnes": ["properties.services"],
+      "termes": ["Prendre en main un smartphone ou une tablette"],
+      "cible": "Prendre en main un smartphone ou une tablette"
+    },
+    {
+      "colonnes": ["properties.services"],
+      "termes": ["Soutenir la parentalité et l'éducation avec le numérique"],
+      "cible": "Soutenir la parentalité et l'éducation avec le numérique"
+    },
+    {
+      "colonnes": ["properties.services"],
+      "termes": ["Favoriser mon insertion professionnelle"],
+      "cible": "Favoriser mon insertion professionnelle"
+    }
+  ]
+}

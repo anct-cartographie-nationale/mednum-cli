@@ -108,7 +108,11 @@ export const toLieuxMediationNumerique =
       ) {
         report
           .entry(index)
-          .record(error.key, error.message, dataSource[JSON.parse(matching).nom.colonne] ?? '')
+          .record(
+            error.key,
+            error.message,
+            (dataSource[JSON.parse(matching).nom.colonne] || dataSource[JSON.parse(matching).id.colonne]) ?? ''
+          )
           .commit();
         return undefined;
       }

@@ -76,7 +76,8 @@ jobs:
             fibre-64,
             mednum-hub-antilles,
             gironde,
-            etapes-numerique
+            etapes-numerique,
+            charente-maritime
           ]
     runs-on: ubuntu-latest
     environment: demo

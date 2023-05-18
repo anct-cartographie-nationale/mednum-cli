@@ -41,6 +41,7 @@ const getDataFromAPI = async (
     JSON.parse(Buffer.concat(chunks).toString());
   } catch (_) {
     notJson = true;
+    notJson = response.config.url?.includes('geojson') ? false : notJson;
     notJson = response.headers['content-type']?.includes('application/geo+json') ? false : notJson;
     notJson = response.headers['content-type']?.includes('application/json') ? false : notJson;
   }
