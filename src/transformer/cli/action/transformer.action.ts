@@ -1,4 +1,4 @@
-/* eslint-disable-next-line @typescript-eslint/no-restricted-imports, @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/no-restricted-imports, @typescript-eslint/naming-convention, @typescript-eslint/prefer-nullish-coalescing */
 import * as fs from 'fs';
 import axios, { AxiosResponse } from 'axios';
 import { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
@@ -25,9 +25,9 @@ const fromJson = <T>(response: Record<string, T>, key?: string): T[] =>
   key == null ? Object.values(response) : Object.values(response[key] ?? {});
 
 const inputIsJson = (response: AxiosResponse): boolean =>
-  response.config.url?.includes('geojson') ??
-  response.headers['content-type']?.includes('application/geo+json') ??
-  response.headers['content-type']?.includes('application/json') ??
+  (response.config.url?.includes('geojson') ||
+    response.headers['content-type']?.includes('application/geo+json') ||
+    response.headers['content-type']?.includes('application/json')) ??
   false;
 
 const getDataFromAPI = async (
