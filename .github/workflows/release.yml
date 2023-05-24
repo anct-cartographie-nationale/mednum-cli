@@ -39,7 +39,8 @@ jobs:
             fibre-64,
             mednum-hub-antilles,
             gironde,
-            etapes-numerique
+            etapes-numerique,
+            charente-maritime
           ]
     runs-on: ubuntu-latest
     environment: production
@@ -106,7 +107,6 @@ jobs:
           ln -s .tooling/.semantic-release/.semantic-release.config.cjs release.config.cjs
           ln -s .tooling/.semantic-release/.npmignore .npmignore
           npx semantic-release
-
 
   deduplicate:
     name: Publish data-inclusion without duplicates
