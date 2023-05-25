@@ -1,0 +1,132 @@
+{
+    "id": {
+      "colonne": "TYPO_UID"
+    },
+    "nom": {
+      "colonne": "USER_NOM"
+    },
+    "code_postal": {
+      "colonne": "code_postal"
+    },
+    "commune": {
+      "colonne": "commune"
+    },
+    "adresse": {
+      "colonne": "USER_ADRES"
+    },
+    "latitude": {
+      "colonne": "LAT"
+    },
+    "longitude": {
+      "colonne": "LNG"
+    },
+    "telephone": {
+      "colonne": "TELEPHONE"
+    },
+    "courriel": {
+      "colonne": "MAIL"
+    },
+    "site_web": {
+      "colonne": "SITE_INTER"
+    },
+    "conditions_acces": [
+      {
+        "colonnes": ["PBC_Adh"],
+        "cible": "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"
+      }
+    ],
+    "date_maj": {
+      "colonne": "DATE_MAJ"
+    },
+    "publics_accueillis": [
+      {
+        "colonnes": ["PUBLIC_"],
+        "termes": ["professionnel", "adultes", "entrepreneur", "demandeur d'emploi", "public majeur"],
+        "cible": "Adultes"
+      },
+      {
+        "colonnes": ["PUBLIC_"],
+        "termes": ["tous"],
+        "cible": "Familles/enfants"
+      },
+      {
+        "colonnes": ["PUBLIC_"],
+        "termes": ["etudiant", "jeune"],
+        "cible": "Jeunes (16-26 ans)"
+      },
+      {
+        "colonnes": ["PUBLIC_"],
+        "termes": ["senior", "entrepreneur"],
+        "cible": "Seniors (+ 65 ans)"
+      },
+      
+      {
+        "colonnes": ["PUBLIC_"],
+        "termes": ["etranger", "réfugié"],
+        "cible": "Public langues étrangères"
+      }
+    ],
+    "modalites_accompagnement": [
+      {
+        "colonnes": ["AIDE_DEMAT"],
+        "termes": ["aide"],
+        "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+      }
+    ],
+    "services": [
+      {
+        "colonnes": ["WIFI"],
+        "termes": ["wifi"],
+        "cible": "Accéder à une connexion internet"
+      },
+      {
+        "colonnes": ["PRET_MAT", "QUALIF3", "QUALIF4"],
+        "termes": ["matériel", "imprimante", "scanner"],
+        "cible": "Accéder à du matériel"
+      },
+      {
+        "colonnes": ["PRET_MAT"],
+        "termes": ["matériel"],
+        "cible": "S'équiper en matériel informatique"
+      },
+      {
+        "colonnes": ["QUALIF1", "FORM_PERF", "AVIS_NUM"],
+        "termes": ["initiation", "perfectionnement", "avis éclairé"],
+        "cible": "Approfondir ma culture numérique"
+      },
+      {
+        "colonnes": ["QUALIF1", "FORM_PERF"],
+        "termes": ["initiation", "perfectionnement"],
+        "cible": "Utiliser le numérique au quotidien"
+      },
+      {
+        "colonnes": ["SENS_INTER"],
+        "termes": ["sensibilisation"],
+        "cible": "Promouvoir la citoyenneté numérique"
+      },
+      {
+        "colonnes": ["ACCES_ORDI"],
+        "termes": ["ordinateur"],
+        "cible": "Prendre en main un ordinateur"
+      },
+      {
+        "colonnes": ["ACCES_ORDI"],
+        "termes": ["tablette"],
+        "cible": "Prendre en main un smartphone ou une tablette"
+      },
+      {
+        "colonnes": ["QUALIF2", "AIDE_DEMAT"],
+        "termes": ["démarches"],
+        "cible": "Devenir autonome dans les démarches administratives"
+      },
+      {
+        "colonnes": ["QUALIF2", "AIDE_DEMAT"],
+        "termes": ["démarches"],
+        "cible": "Réaliser des démarches administratives avec un accompagnement"
+      }
+    ],
+    "horaires": {
+        "semaine": "HORAIRE"
+      }
+  }
+  

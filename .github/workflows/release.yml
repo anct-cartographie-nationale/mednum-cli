@@ -41,7 +41,8 @@ jobs:
             gironde,
             etapes-numerique,
             charente-maritime,
-            eure-et-loir
+            eure-et-loir,
+            conumm
           ]
     runs-on: ubuntu-latest
     environment: production
