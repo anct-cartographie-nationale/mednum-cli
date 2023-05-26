@@ -34,7 +34,8 @@ jobs:
             mednum-hub-antilles,
             gironde,
             etapes-numerique,
-            charente-maritime
+            charente-maritime,
+            eure-et-loir
           ]
     runs-on: ubuntu-latest
     environment: production
