@@ -26,7 +26,7 @@ describe('remove duplicates', (): void => {
       } as SchemaLieuMediationNumerique
     ];
 
-    const lieuxWithoutDuplicates: SchemaLieuMediationNumerique[] = removeDuplicates(lieux);
+    const lieuxWithoutDuplicates: SchemaLieuMediationNumerique[] = removeDuplicates(new Date('2023-05-30'))(lieux);
 
     expect(lieuxWithoutDuplicates).toStrictEqual([
       {
@@ -74,7 +74,7 @@ describe('remove duplicates', (): void => {
       } as SchemaLieuMediationNumerique
     ];
 
-    const lieuxWithoutDuplicates: SchemaLieuMediationNumerique[] = removeDuplicates(lieux);
+    const lieuxWithoutDuplicates: SchemaLieuMediationNumerique[] = removeDuplicates(new Date('2023-05-30'))(lieux);
 
     expect(lieuxWithoutDuplicates).toStrictEqual([
       {
@@ -86,6 +86,432 @@ describe('remove duplicates', (): void => {
         latitude: 47.6699154795,
         longitude: -0.2551539846,
         date_maj: '2023-05-03'
+      } as SchemaLieuMediationNumerique
+    ]);
+  });
+
+  it('should keep CnFS lieu 1 when there is two duplicate even if it is the oldest lieu', (): void => {
+    const lieux: SchemaLieuMediationNumerique[] = [
+      {
+        id: '1',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'DURTAL',
+        latitude: 47.671271,
+        longitude: -0.256457,
+        date_maj: '2019-08-01',
+        source: 'conseiller-numerique'
+      } as SchemaLieuMediationNumerique,
+      {
+        id: '2',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'Durtal',
+        latitude: 47.6699154795,
+        longitude: -0.2551539846,
+        date_maj: '2023-05-03',
+        source: 'hinaura'
+      } as SchemaLieuMediationNumerique
+    ];
+
+    const lieuxWithoutDuplicates: SchemaLieuMediationNumerique[] = removeDuplicates(new Date('2023-05-30'))(lieux);
+
+    expect(lieuxWithoutDuplicates).toStrictEqual([
+      {
+        id: '1',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'DURTAL',
+        latitude: 47.671271,
+        longitude: -0.256457,
+        date_maj: '2019-08-01',
+        source: 'conseiller-numerique'
+      } as SchemaLieuMediationNumerique
+    ]);
+  });
+
+  it('should keep CnFS lieu 2 when there is two duplicate even if it is the oldest lieu', (): void => {
+    const lieux: SchemaLieuMediationNumerique[] = [
+      {
+        id: '1',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'Durtal',
+        latitude: 47.6699154795,
+        longitude: -0.2551539846,
+        date_maj: '2023-05-03',
+        source: 'hinaura'
+      } as SchemaLieuMediationNumerique,
+      {
+        id: '2',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'DURTAL',
+        latitude: 47.671271,
+        longitude: -0.256457,
+        date_maj: '2019-08-01',
+        source: 'conseiller-numerique'
+      } as SchemaLieuMediationNumerique
+    ];
+
+    const lieuxWithoutDuplicates: SchemaLieuMediationNumerique[] = removeDuplicates(new Date('2023-05-30'))(lieux);
+
+    expect(lieuxWithoutDuplicates).toStrictEqual([
+      {
+        id: '2',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'DURTAL',
+        latitude: 47.671271,
+        longitude: -0.256457,
+        date_maj: '2019-08-01',
+        source: 'conseiller-numerique'
+      } as SchemaLieuMediationNumerique
+    ]);
+  });
+
+  it('should merge extra field from lieu 2 duplicate', (): void => {
+    const lieux: SchemaLieuMediationNumerique[] = [
+      {
+        id: '1',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'Durtal',
+        latitude: 47.6699154795,
+        longitude: -0.2551539846,
+        date_maj: '2023-05-03'
+      } as SchemaLieuMediationNumerique,
+      {
+        id: '2',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'DURTAL',
+        latitude: 47.671271,
+        longitude: -0.256457,
+        date_maj: '2023-01-16',
+        courriel: 'commune-de-durtal@france-services.fr'
+      } as SchemaLieuMediationNumerique
+    ];
+
+    const lieuxWithoutDuplicates: SchemaLieuMediationNumerique[] = removeDuplicates(new Date('2023-05-30'))(lieux);
+
+    expect(lieuxWithoutDuplicates).toStrictEqual([
+      {
+        id: '1',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'Durtal',
+        latitude: 47.6699154795,
+        longitude: -0.2551539846,
+        date_maj: '2023-05-03',
+        courriel: 'commune-de-durtal@france-services.fr'
+      } as SchemaLieuMediationNumerique
+    ]);
+  });
+
+  it('should merge extra field from lieu 1 duplicate', (): void => {
+    const lieux: SchemaLieuMediationNumerique[] = [
+      {
+        id: '1',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'Durtal',
+        latitude: 47.6699154795,
+        longitude: -0.2551539846,
+        date_maj: '2023-01-16',
+        courriel: 'commune-de-durtal@france-services.fr'
+      } as SchemaLieuMediationNumerique,
+      {
+        id: '2',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'DURTAL',
+        latitude: 47.671271,
+        longitude: -0.256457,
+        date_maj: '2023-05-03'
+      } as SchemaLieuMediationNumerique
+    ];
+
+    const lieuxWithoutDuplicates: SchemaLieuMediationNumerique[] = removeDuplicates(new Date('2023-05-30'))(lieux);
+
+    expect(lieuxWithoutDuplicates).toStrictEqual([
+      {
+        id: '2',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'DURTAL',
+        latitude: 47.671271,
+        longitude: -0.256457,
+        date_maj: '2023-05-03',
+        courriel: 'commune-de-durtal@france-services.fr'
+      } as SchemaLieuMediationNumerique
+    ]);
+  });
+
+  it('should merge extra field from lieu 2 duplicate which source that is not conseiller numerique', (): void => {
+    const lieux: SchemaLieuMediationNumerique[] = [
+      {
+        id: '1',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'Durtal',
+        latitude: 47.6699154795,
+        longitude: -0.2551539846,
+        date_maj: '2023-05-03',
+        source: 'conseiller-numerique'
+      } as SchemaLieuMediationNumerique,
+      {
+        id: '2',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'DURTAL',
+        latitude: 47.671271,
+        longitude: -0.256457,
+        date_maj: '2023-01-16',
+        courriel: 'commune-de-durtal@france-services.fr'
+      } as SchemaLieuMediationNumerique
+    ];
+
+    const lieuxWithoutDuplicates: SchemaLieuMediationNumerique[] = removeDuplicates(new Date('2023-05-30'))(lieux);
+
+    expect(lieuxWithoutDuplicates).toStrictEqual([
+      {
+        id: '1',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'Durtal',
+        latitude: 47.6699154795,
+        longitude: -0.2551539846,
+        date_maj: '2023-05-03',
+        source: 'conseiller-numerique',
+        courriel: 'commune-de-durtal@france-services.fr'
+      } as SchemaLieuMediationNumerique
+    ]);
+  });
+
+  it('should merge extra field from lieu 1 duplicate which source that is not conseiller numerique', (): void => {
+    const lieux: SchemaLieuMediationNumerique[] = [
+      {
+        id: '1',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'Durtal',
+        latitude: 47.6699154795,
+        longitude: -0.2551539846,
+        date_maj: '2023-05-03',
+        courriel: 'commune-de-durtal@france-services.fr'
+      } as SchemaLieuMediationNumerique,
+      {
+        id: '2',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'DURTAL',
+        latitude: 47.671271,
+        longitude: -0.256457,
+        date_maj: '2023-01-16',
+        source: 'conseiller-numerique'
+      } as SchemaLieuMediationNumerique
+    ];
+
+    const lieuxWithoutDuplicates: SchemaLieuMediationNumerique[] = removeDuplicates(new Date('2023-05-30'))(lieux);
+
+    expect(lieuxWithoutDuplicates).toStrictEqual([
+      {
+        id: '2',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'DURTAL',
+        latitude: 47.671271,
+        longitude: -0.256457,
+        date_maj: '2023-01-16',
+        source: 'conseiller-numerique',
+        courriel: 'commune-de-durtal@france-services.fr'
+      } as SchemaLieuMediationNumerique
+    ]);
+  });
+
+  it('should not merge extra field from lieu 2 duplicate when duplicate is too old', (): void => {
+    const lieux: SchemaLieuMediationNumerique[] = [
+      {
+        id: '1',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'Durtal',
+        latitude: 47.6699154795,
+        longitude: -0.2551539846,
+        date_maj: '2023-05-03'
+      } as SchemaLieuMediationNumerique,
+      {
+        id: '2',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'DURTAL',
+        latitude: 47.671271,
+        longitude: -0.256457,
+        date_maj: '2019-01-16',
+        courriel: 'commune-de-durtal@france-services.fr'
+      } as SchemaLieuMediationNumerique
+    ];
+
+    const lieuxWithoutDuplicates: SchemaLieuMediationNumerique[] = removeDuplicates(new Date('2023-05-30'))(lieux);
+
+    expect(lieuxWithoutDuplicates).toStrictEqual([
+      {
+        id: '1',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'Durtal',
+        latitude: 47.6699154795,
+        longitude: -0.2551539846,
+        date_maj: '2023-05-03'
+      } as SchemaLieuMediationNumerique
+    ]);
+  });
+
+  it('should not merge extra field from lieu 1 duplicate when duplicate is too old', (): void => {
+    const lieux: SchemaLieuMediationNumerique[] = [
+      {
+        id: '1',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'Durtal',
+        latitude: 47.6699154795,
+        longitude: -0.2551539846,
+        date_maj: '2019-01-16',
+        courriel: 'commune-de-durtal@france-services.fr'
+      } as SchemaLieuMediationNumerique,
+      {
+        id: '2',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'DURTAL',
+        latitude: 47.671271,
+        longitude: -0.256457,
+        date_maj: '2023-05-03'
+      } as SchemaLieuMediationNumerique
+    ];
+
+    const lieuxWithoutDuplicates: SchemaLieuMediationNumerique[] = removeDuplicates(new Date('2023-05-30'))(lieux);
+
+    expect(lieuxWithoutDuplicates).toStrictEqual([
+      {
+        id: '2',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'DURTAL',
+        latitude: 47.671271,
+        longitude: -0.256457,
+        date_maj: '2023-05-03'
+      } as SchemaLieuMediationNumerique
+    ]);
+  });
+
+  it('should not merge extra field from lieu 2 duplicate with conseiller-numerique fields when duplicate is too old', (): void => {
+    const lieux: SchemaLieuMediationNumerique[] = [
+      {
+        id: '1',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'Durtal',
+        latitude: 47.6699154795,
+        longitude: -0.2551539846,
+        date_maj: '2023-05-03',
+        source: 'conseiller-numerique'
+      } as SchemaLieuMediationNumerique,
+      {
+        id: '2',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'DURTAL',
+        latitude: 47.671271,
+        longitude: -0.256457,
+        date_maj: '2019-01-16',
+        courriel: 'commune-de-durtal@france-services.fr'
+      } as SchemaLieuMediationNumerique
+    ];
+
+    const lieuxWithoutDuplicates: SchemaLieuMediationNumerique[] = removeDuplicates(new Date('2023-05-30'))(lieux);
+
+    expect(lieuxWithoutDuplicates).toStrictEqual([
+      {
+        id: '1',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'Durtal',
+        latitude: 47.6699154795,
+        longitude: -0.2551539846,
+        date_maj: '2023-05-03',
+        source: 'conseiller-numerique'
+      } as SchemaLieuMediationNumerique
+    ]);
+  });
+
+  it('should not merge extra field from lieu 1 duplicate with conseiller-numerique fields when duplicate is too old', (): void => {
+    const lieux: SchemaLieuMediationNumerique[] = [
+      {
+        id: '1',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'Durtal',
+        latitude: 47.6699154795,
+        longitude: -0.2551539846,
+        date_maj: '2019-01-16',
+        courriel: 'commune-de-durtal@france-services.fr'
+      } as SchemaLieuMediationNumerique,
+      {
+        id: '2',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'DURTAL',
+        latitude: 47.671271,
+        longitude: -0.256457,
+        date_maj: '2023-05-03',
+        source: 'conseiller-numerique'
+      } as SchemaLieuMediationNumerique
+    ];
+
+    const lieuxWithoutDuplicates: SchemaLieuMediationNumerique[] = removeDuplicates(new Date('2023-05-30'))(lieux);
+
+    expect(lieuxWithoutDuplicates).toStrictEqual([
+      {
+        id: '2',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'DURTAL',
+        latitude: 47.671271,
+        longitude: -0.256457,
+        date_maj: '2023-05-03',
+        source: 'conseiller-numerique'
       } as SchemaLieuMediationNumerique
     ]);
   });

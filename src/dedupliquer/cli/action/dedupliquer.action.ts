@@ -33,7 +33,7 @@ const writeOutputFiles = (
 
 export const dedupliquerAction = async (dedupliquerOptions: DedupliquerOptions): Promise<void> => {
   const lieuxFromDataInclusion: AxiosResponse<SchemaLieuMediationNumerique[]> = await axios.get(dedupliquerOptions.source);
-  const lieuxWithLessDuplicates: SchemaLieuMediationNumerique[] = removeDuplicates(lieuxFromDataInclusion.data);
+  const lieuxWithLessDuplicates: SchemaLieuMediationNumerique[] = removeDuplicates(new Date())(lieuxFromDataInclusion.data);
   const lieuxDeMediationNumerique: LieuMediationNumerique[] = fromSchemaLieuxDeMediationNumerique(lieuxWithLessDuplicates);
 
   writeOutputFiles(
