@@ -10,7 +10,9 @@ const DUPLICATION_COMPARISON_HEADINGS: string = [
   'Adresse 2',
   'Score Distance',
   'Localisation 1',
-  'Localisation 2'
+  'Localisation 2',
+  'Source 1',
+  'Source 2'
 ].join(';');
 
 const duplicationComparisonLineFor = (duplicationComparison: DuplicationComparison): string =>
@@ -24,7 +26,9 @@ const duplicationComparisonLineFor = (duplicationComparison: DuplicationComparis
     duplicationComparison.adresse2.replace(';', ''),
     duplicationComparison.distanceScore,
     duplicationComparison.localisation1,
-    duplicationComparison.localisation2
+    duplicationComparison.localisation2,
+    duplicationComparison.source1,
+    duplicationComparison.source2
   ].join(';');
 
 export const formatToCSV = (duplicationComparisons: DuplicationComparison[]): string =>

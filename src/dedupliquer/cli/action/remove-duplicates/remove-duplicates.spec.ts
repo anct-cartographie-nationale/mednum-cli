@@ -60,7 +60,8 @@ describe('remove duplicates', (): void => {
         commune: 'Durtal',
         latitude: 47.6699154795,
         longitude: -0.2551539846,
-        date_maj: '2023-05-03'
+        date_maj: '2023-05-03',
+        source: 'hinaura'
       } as SchemaLieuMediationNumerique,
       {
         id: '2',
@@ -70,7 +71,8 @@ describe('remove duplicates', (): void => {
         commune: 'DURTAL',
         latitude: 47.671271,
         longitude: -0.256457,
-        date_maj: '2019-08-01'
+        date_maj: '2019-08-01',
+        source: 'francil-in'
       } as SchemaLieuMediationNumerique
     ];
 
@@ -85,7 +87,8 @@ describe('remove duplicates', (): void => {
         commune: 'Durtal',
         latitude: 47.6699154795,
         longitude: -0.2551539846,
-        date_maj: '2023-05-03'
+        date_maj: '2023-05-03',
+        source: 'hinaura'
       } as SchemaLieuMediationNumerique
     ]);
   });
@@ -186,7 +189,8 @@ describe('remove duplicates', (): void => {
         commune: 'Durtal',
         latitude: 47.6699154795,
         longitude: -0.2551539846,
-        date_maj: '2023-05-03'
+        date_maj: '2023-05-03',
+        source: 'hinaura'
       } as SchemaLieuMediationNumerique,
       {
         id: '2',
@@ -197,7 +201,8 @@ describe('remove duplicates', (): void => {
         latitude: 47.671271,
         longitude: -0.256457,
         date_maj: '2023-01-16',
-        courriel: 'commune-de-durtal@france-services.fr'
+        courriel: 'commune-de-durtal@france-services.fr',
+        source: 'francil-in'
       } as SchemaLieuMediationNumerique
     ];
 
@@ -213,7 +218,8 @@ describe('remove duplicates', (): void => {
         latitude: 47.6699154795,
         longitude: -0.2551539846,
         date_maj: '2023-05-03',
-        courriel: 'commune-de-durtal@france-services.fr'
+        courriel: 'commune-de-durtal@france-services.fr',
+        source: 'hinaura'
       } as SchemaLieuMediationNumerique
     ]);
   });
@@ -229,7 +235,8 @@ describe('remove duplicates', (): void => {
         latitude: 47.6699154795,
         longitude: -0.2551539846,
         date_maj: '2023-01-16',
-        courriel: 'commune-de-durtal@france-services.fr'
+        courriel: 'commune-de-durtal@france-services.fr',
+        source: 'hinaura'
       } as SchemaLieuMediationNumerique,
       {
         id: '2',
@@ -239,7 +246,8 @@ describe('remove duplicates', (): void => {
         commune: 'DURTAL',
         latitude: 47.671271,
         longitude: -0.256457,
-        date_maj: '2023-05-03'
+        date_maj: '2023-05-03',
+        source: 'francil-in'
       } as SchemaLieuMediationNumerique
     ];
 
@@ -255,7 +263,8 @@ describe('remove duplicates', (): void => {
         latitude: 47.671271,
         longitude: -0.256457,
         date_maj: '2023-05-03',
-        courriel: 'commune-de-durtal@france-services.fr'
+        courriel: 'commune-de-durtal@france-services.fr',
+        source: 'francil-in'
       } as SchemaLieuMediationNumerique
     ]);
   });
@@ -358,7 +367,8 @@ describe('remove duplicates', (): void => {
         commune: 'Durtal',
         latitude: 47.6699154795,
         longitude: -0.2551539846,
-        date_maj: '2023-05-03'
+        date_maj: '2023-05-03',
+        source: 'hinaura'
       } as SchemaLieuMediationNumerique,
       {
         id: '2',
@@ -369,7 +379,8 @@ describe('remove duplicates', (): void => {
         latitude: 47.671271,
         longitude: -0.256457,
         date_maj: '2019-01-16',
-        courriel: 'commune-de-durtal@france-services.fr'
+        courriel: 'commune-de-durtal@france-services.fr',
+        source: 'francil-in'
       } as SchemaLieuMediationNumerique
     ];
 
@@ -384,7 +395,8 @@ describe('remove duplicates', (): void => {
         commune: 'Durtal',
         latitude: 47.6699154795,
         longitude: -0.2551539846,
-        date_maj: '2023-05-03'
+        date_maj: '2023-05-03',
+        source: 'hinaura'
       } as SchemaLieuMediationNumerique
     ]);
   });
@@ -400,7 +412,8 @@ describe('remove duplicates', (): void => {
         latitude: 47.6699154795,
         longitude: -0.2551539846,
         date_maj: '2019-01-16',
-        courriel: 'commune-de-durtal@france-services.fr'
+        courriel: 'commune-de-durtal@france-services.fr',
+        source: 'hinaura'
       } as SchemaLieuMediationNumerique,
       {
         id: '2',
@@ -410,7 +423,8 @@ describe('remove duplicates', (): void => {
         commune: 'DURTAL',
         latitude: 47.671271,
         longitude: -0.256457,
-        date_maj: '2023-05-03'
+        date_maj: '2023-05-03',
+        source: 'francil-in'
       } as SchemaLieuMediationNumerique
     ];
 
@@ -425,7 +439,8 @@ describe('remove duplicates', (): void => {
         commune: 'DURTAL',
         latitude: 47.671271,
         longitude: -0.256457,
-        date_maj: '2023-05-03'
+        date_maj: '2023-05-03',
+        source: 'francil-in'
       } as SchemaLieuMediationNumerique
     ]);
   });
