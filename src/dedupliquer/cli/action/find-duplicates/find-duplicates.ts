@@ -18,10 +18,10 @@ export type CommuneDuplications = {
   lieux: LieuDuplications[];
 };
 
-const onlyDifferentLieuxInSameCommuneOf =
+const onlyPotentialDuplicates =
   (curentLieu: SchemaLieuMediationNumerique) =>
   (lieu: SchemaLieuMediationNumerique): boolean =>
-    lieu.code_postal === curentLieu.code_postal && lieu.id !== curentLieu.id;
+    lieu.code_postal === curentLieu.code_postal && lieu.id !== curentLieu.id && lieu.source !== curentLieu.source;
 
 const MINIMAL_CARTESIAN_DISTANCE: 0.0004 = 0.0004 as const;
 
@@ -45,7 +45,7 @@ const cartesianDistanceBetween = (lieu: SchemaLieuMediationNumerique, curentLieu
     : NaN;
 
 const duplicatesWithScores = (lieux: SchemaLieuMediationNumerique[], curentLieu: SchemaLieuMediationNumerique): Duplicate[] =>
-  lieux.filter(onlyDifferentLieuxInSameCommuneOf(curentLieu)).map(
+  lieux.filter(onlyPotentialDuplicates(curentLieu)).map(
     (lieu: SchemaLieuMediationNumerique): Duplicate => ({
       id: lieu.id,
       distanceScore: distanceScore(cartesianDistanceBetween(lieu, curentLieu)),

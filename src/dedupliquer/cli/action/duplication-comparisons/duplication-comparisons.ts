@@ -14,6 +14,8 @@ export type DuplicationComparison = {
   distanceScore: number;
   localisation1: string;
   localisation2: string;
+  source1: string | undefined;
+  source2: string | undefined;
 };
 
 type ReadyToProcessDuplicationComparison = {
@@ -34,7 +36,9 @@ const toDuplicationComparison = ({ lieu1, lieu2, duplicate }: ReadyToProcessDupl
   nom2: lieu2.nom,
   distanceScore: duplicate.distanceScore,
   localisation1: `${lieu1.latitude} : ${lieu1.longitude}`,
-  localisation2: `${lieu2.latitude} : ${lieu2.longitude}`
+  localisation2: `${lieu2.latitude} : ${lieu2.longitude}`,
+  source1: lieu1.source,
+  source2: lieu2.source
 });
 
 const onlyValidScore = (duplication: DuplicationComparison): boolean => !isNaN(duplication.score);

@@ -22,7 +22,7 @@ describe('find duplicates', (): void => {
     expect(duplicates).toStrictEqual([]);
   });
 
-  it('should not need to deduplicate when lieux are in  different communes', (): void => {
+  it('should not need to deduplicate when lieux are in different communes', (): void => {
     const lieux: SchemaLieuMediationNumerique[] = [
       {
         id: '574-mediation-numerique-hinaura',
@@ -49,6 +49,35 @@ describe('find duplicates', (): void => {
     expect(duplicates).toStrictEqual([]);
   });
 
+  it('should not need to deduplicate when lieux have the same source', (): void => {
+    const lieux: SchemaLieuMediationNumerique[] = [
+      {
+        id: '574-mediation-numerique-hinaura',
+        nom: 'Numerinaute',
+        adresse: '12 Rue Joseph Rey (chez Aconit)',
+        code_postal: '38000',
+        commune: 'Grenoble',
+        latitude: 45.186115,
+        longitude: 5.716962,
+        source: 'hinaura'
+      } as SchemaLieuMediationNumerique,
+      {
+        id: '2848-mediation-numerique-france-services',
+        nom: "France services d'Etrechy",
+        adresse: '26 rue Jean Moulin',
+        code_postal: '38000',
+        commune: 'Grenoble',
+        latitude: 48.487691,
+        longitude: 2.186761,
+        source: 'hinaura'
+      } as SchemaLieuMediationNumerique
+    ];
+
+    const duplicates: CommuneDuplications[] = findDuplicates(lieux);
+
+    expect(duplicates).toStrictEqual([]);
+  });
+
   it('should get deduplication data for two lieux in same commune', (): void => {
     const lieux: SchemaLieuMediationNumerique[] = [
       {
@@ -58,7 +87,8 @@ describe('find duplicates', (): void => {
         code_postal: '38000',
         commune: 'Grenoble',
         latitude: 45.186115,
-        longitude: 5.716962
+        longitude: 5.716962,
+        source: 'hinaura'
       } as SchemaLieuMediationNumerique,
       {
         id: '537-mediation-numerique-hinaura',
@@ -67,7 +97,8 @@ describe('find duplicates', (): void => {
         code_postal: '38000',
         commune: 'Grenoble',
         latitude: 45.187654,
-        longitude: 5.704953
+        longitude: 5.704953,
+        source: 'francil-in'
       } as SchemaLieuMediationNumerique
     ];
 
@@ -113,7 +144,8 @@ describe('find duplicates', (): void => {
         code_postal: '88000',
         commune: 'EPINAL',
         latitude: 48.176748,
-        longitude: 6.444835
+        longitude: 6.444835,
+        source: 'hinaura'
       } as SchemaLieuMediationNumerique,
       {
         id: '2',
@@ -122,7 +154,8 @@ describe('find duplicates', (): void => {
         code_postal: '88000',
         commune: 'EPINAL',
         latitude: 48.183401,
-        longitude: 6.45588
+        longitude: 6.45588,
+        source: 'francil-in'
       } as SchemaLieuMediationNumerique
     ];
 
@@ -168,7 +201,8 @@ describe('find duplicates', (): void => {
         code_postal: '59270',
         commune: 'Bailleul',
         latitude: 50.740045,
-        longitude: 2.737217
+        longitude: 2.737217,
+        source: 'hinaura'
       } as SchemaLieuMediationNumerique,
       {
         id: '2',
@@ -177,7 +211,8 @@ describe('find duplicates', (): void => {
         code_postal: '59270',
         commune: 'Bailleul',
         latitude: 50.740407,
-        longitude: 2.737429
+        longitude: 2.737429,
+        source: 'francil-in'
       } as SchemaLieuMediationNumerique
     ];
 

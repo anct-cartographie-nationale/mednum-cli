@@ -13,7 +13,8 @@ describe('deduplication comparison', (): void => {
         code_postal: '38000',
         commune: 'Grenoble',
         latitude: 45.186115,
-        longitude: 5.716962
+        longitude: 5.716962,
+        source: 'hinaura'
       } as SchemaLieuMediationNumerique,
       {
         id: '537-mediation-numerique-hinaura',
@@ -22,7 +23,8 @@ describe('deduplication comparison', (): void => {
         code_postal: '38000',
         commune: 'Grenoble',
         latitude: 45.187654,
-        longitude: 5.704953
+        longitude: 5.704953,
+        source: 'res-in'
       } as SchemaLieuMediationNumerique
     ];
 
@@ -41,7 +43,9 @@ describe('deduplication comparison', (): void => {
         nom2: 'La Turbine.Coop',
         distanceScore: 7,
         localisation1: '45.186115 : 5.716962',
-        localisation2: '45.187654 : 5.704953'
+        localisation2: '45.187654 : 5.704953',
+        source1: 'hinaura',
+        source2: 'res-in'
       }
     ]);
   });
@@ -78,7 +82,8 @@ describe('deduplication comparison', (): void => {
         code_postal: '38100',
         adresse: '2 Rue du vieux temple',
         latitude: 45.193684,
-        longitude: 5.733633
+        longitude: 5.733633,
+        source: 'france-services'
       } as SchemaLieuMediationNumerique,
       {
         id: 'B',
@@ -87,7 +92,8 @@ describe('deduplication comparison', (): void => {
         code_postal: '38100',
         adresse: '70 BIS rue Joseph Bouchayer',
         latitude: 45.177784,
-        longitude: 5.707327
+        longitude: 5.707327,
+        source: 'conseiller-numerique'
       } as SchemaLieuMediationNumerique,
       {
         id: 'C',
@@ -96,7 +102,8 @@ describe('deduplication comparison', (): void => {
         code_postal: '38100',
         adresse: '68bis rue Anatole France',
         latitude: 45.172522,
-        longitude: 5.704961
+        longitude: 5.704961,
+        source: 'fibre64'
       } as SchemaLieuMediationNumerique,
       {
         id: 'D',
@@ -105,7 +112,8 @@ describe('deduplication comparison', (): void => {
         code_postal: '38100',
         adresse: '31 Place des Géants',
         latitude: 45.162266,
-        longitude: 5.738204
+        longitude: 5.738204,
+        source: 'hinaura'
       } as SchemaLieuMediationNumerique,
       {
         id: 'E',
@@ -114,7 +122,8 @@ describe('deduplication comparison', (): void => {
         code_postal: '38100',
         adresse: '7 Rue Henri Duhamel',
         latitude: 45.163403,
-        longitude: 5.727504
+        longitude: 5.727504,
+        source: 'francil-in'
       } as SchemaLieuMediationNumerique
     ];
 
@@ -133,7 +142,9 @@ describe('deduplication comparison', (): void => {
         nom1: 'Maison Des Habitants Centre-Ville',
         nom2: 'Maison Des Habitant.es Prémol',
         nomScore: 74,
-        score: 40
+        score: 40,
+        source1: 'france-services',
+        source2: 'francil-in'
       },
       {
         id1: 'C',
@@ -147,7 +158,9 @@ describe('deduplication comparison', (): void => {
         nom1: 'Maison des Habitant.es Anatole France',
         nom2: 'Maison Des Habitant.es Prémol',
         nomScore: 76,
-        score: 40
+        score: 40,
+        source1: 'fibre64',
+        source2: 'francil-in'
       },
       {
         id1: 'D',
@@ -161,7 +174,9 @@ describe('deduplication comparison', (): void => {
         nom1: 'Maison Des Habitant.es Les Baladins',
         nom2: 'Maison Des Habitant.es Prémol',
         nomScore: 75,
-        score: 38
+        score: 38,
+        source1: 'hinaura',
+        source2: 'francil-in'
       },
       {
         id1: 'A',
@@ -175,7 +190,9 @@ describe('deduplication comparison', (): void => {
         nom1: 'Maison Des Habitants Centre-Ville',
         nom2: 'Maison des Habitant.es Anatole France',
         nomScore: 74,
-        score: 37
+        score: 37,
+        source1: 'france-services',
+        source2: 'fibre64'
       },
       {
         id1: 'C',
@@ -189,7 +206,9 @@ describe('deduplication comparison', (): void => {
         nom1: 'Maison des Habitant.es Anatole France',
         nom2: 'Maison Des Habitant.es Les Baladins',
         nomScore: 78,
-        score: 37
+        score: 37,
+        source1: 'fibre64',
+        source2: 'hinaura'
       },
       {
         id1: 'A',
@@ -203,7 +222,9 @@ describe('deduplication comparison', (): void => {
         nom1: 'Maison Des Habitants Centre-Ville',
         nom2: 'Maison Des Habitant.es Les Baladins',
         nomScore: 71,
-        score: 36
+        score: 36,
+        source1: 'france-services',
+        source2: 'hinaura'
       },
       {
         id1: 'B',
@@ -217,7 +238,9 @@ describe('deduplication comparison', (): void => {
         nom1: 'Espace Personnes Agées Bouchayer',
         nom2: 'Maison des Habitant.es Anatole France',
         nomScore: 41,
-        score: 35
+        score: 35,
+        source1: 'conseiller-numerique',
+        source2: 'fibre64'
       },
       {
         id1: 'B',
@@ -231,7 +254,9 @@ describe('deduplication comparison', (): void => {
         nom1: 'Espace Personnes Agées Bouchayer',
         nom2: 'Maison Des Habitant.es Prémol',
         nomScore: 39,
-        score: 31
+        score: 31,
+        source1: 'conseiller-numerique',
+        source2: 'francil-in'
       },
       {
         id1: 'A',
@@ -245,7 +270,9 @@ describe('deduplication comparison', (): void => {
         nom1: 'Maison Des Habitants Centre-Ville',
         nom2: 'Espace Personnes Agées Bouchayer',
         nomScore: 40,
-        score: 25
+        score: 25,
+        source1: 'france-services',
+        source2: 'conseiller-numerique'
       },
       {
         id1: 'B',
@@ -259,7 +286,9 @@ describe('deduplication comparison', (): void => {
         nom1: 'Espace Personnes Agées Bouchayer',
         nom2: 'Maison Des Habitant.es Les Baladins',
         nomScore: 39,
-        score: 22
+        score: 22,
+        source1: 'conseiller-numerique',
+        source2: 'hinaura'
       }
     ]);
   });
