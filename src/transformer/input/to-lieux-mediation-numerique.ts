@@ -43,11 +43,9 @@ const horairesIfAny = (horaires?: string): { horaires?: string } => (horaires ==
 
 const priseRdvIfAny = (priseRdv?: Url): { prise_rdv?: Url } => (priseRdv == null ? {} : { prise_rdv: priseRdv });
 
-const accessibiliteIfAny = (accessibilite?: Url): { accessibilite?: Url } =>
-  accessibilite == null ? {} : { accessibilite };
+const accessibiliteIfAny = (accessibilite?: Url): { accessibilite?: Url } => (accessibilite == null ? {} : { accessibilite });
 
-const typologieIfAny = (typologies: Typologies): { typologies?: Typologies } =>
-  typologies.length === 0 ? {} : { typologies };
+const typologieIfAny = (typologies: Typologies): { typologies?: Typologies } => (typologies.length === 0 ? {} : { typologies });
 
 const labelsAutresIfAny = (labelsAutres: string[]): { labels_autres?: string[] } =>
   labelsAutres.length === 0 ? {} : { labels_autres: labelsAutres };
