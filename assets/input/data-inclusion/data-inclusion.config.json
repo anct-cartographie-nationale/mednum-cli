@@ -3,7 +3,7 @@
     "colonne": "id"
   },
   "pivot": {
-    "colonne": "rna"
+    "colonne": "pivot"
   },
   "nom": {
     "colonne": "nom"
