@@ -8,6 +8,11 @@
   "typologies": [
     {
       "colonnes": ["checkboxListeTypelieu"],
+      "termes": ["3", "4"],
+      "cible": "RFS"
+    },
+    {
+      "colonnes": ["checkboxListeTypelieu"],
       "termes": ["5"],
       "cible": "BIB"
     },
