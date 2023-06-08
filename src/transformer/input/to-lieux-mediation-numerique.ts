@@ -38,6 +38,7 @@ import {
   processTypologies
 } from '../fields';
 import { DataSource, LieuxMediationNumeriqueMatching } from './lieux-mediation-numerique-matching';
+import { Erp } from '../fields/accessibilite/accessibilite.field.presentation';
 
 const localisationIfAny = (localisation?: Localisation): { localisation?: Localisation } =>
   localisation == null ? {} : { localisation };
@@ -73,7 +74,8 @@ const lieuDeMediationNumerique = (
   dataSource: DataSource,
   sourceName: string,
   matching: LieuxMediationNumeriqueMatching,
-  recorder: Recorder
+  recorder: Recorder,
+  accesLibreData: Erp[]
 ): LieuMediationNumerique => {
   const lieuMediationNumerique: LieuMediationNumerique = {
     id: processId(dataSource, matching, index),
@@ -94,7 +96,9 @@ const lieuDeMediationNumerique = (
     ...horairesIfAny(processHoraires(dataSource, matching)),
     ...priseRdvIfAny(processPriseRdv(dataSource, matching)),
     ...typologiesIfAny(processTypologies(dataSource, matching)),
-    ...accessibiliteIfAny(processAccessibilite(dataSource, matching))
+    ...accessibiliteIfAny(
+      processAccessibilite(dataSource, matching, accesLibreData, processAdresse(recorder)(dataSource, matching))
+    )
   };
 
   recorder.commit();
@@ -110,10 +114,10 @@ const entryIdentification = (dataSource: DataSource, matching: string): string =
     : dataSource[JSON.parse(matching).nom.colonne]) ?? '';
 
 export const toLieuxMediationNumerique =
-  (matching: string, sourceName: string, report: Report) =>
+  (matching: string, sourceName: string, report: Report, accesLibreData: Erp[]) =>
   (dataSource: DataSource, index: number): LieuMediationNumerique | undefined => {
     try {
-      return lieuDeMediationNumerique(index, dataSource, sourceName, JSON.parse(matching), report.entry(index));
+      return lieuDeMediationNumerique(index, dataSource, sourceName, JSON.parse(matching), report.entry(index), accesLibreData);
     } catch (error: unknown) {
       if (
         error instanceof ServicesError ||
