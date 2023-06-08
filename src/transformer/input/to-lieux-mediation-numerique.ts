@@ -39,33 +39,34 @@ import {
 } from '../fields';
 import { DataSource, LieuxMediationNumeriqueMatching } from './lieux-mediation-numerique-matching';
 
-const horairesIfAny = (horaires?: string): { horaires?: string } => (horaires == null ? {} : { horaires });
-
-const priseRdvIfAny = (priseRdv?: Url): { prise_rdv?: Url } => (priseRdv == null ? {} : { prise_rdv: priseRdv });
-
-const accessibiliteIfAny = (accessibilite?: Url): { accessibilite?: Url } => (accessibilite == null ? {} : { accessibilite });
-
-const typologieIfAny = (typologies: Typologies): { typologies?: Typologies } => (typologies.length === 0 ? {} : { typologies });
-
-const labelsAutresIfAny = (labelsAutres: string[]): { labels_autres?: string[] } =>
-  labelsAutres.length === 0 ? {} : { labels_autres: labelsAutres };
-
-const labelsNationauxIfAny = (labelsNationaux: LabelsNationaux): { labels_nationaux?: LabelsNationaux } =>
-  labelsNationaux.length === 0 ? {} : { labels_nationaux: labelsNationaux };
-
-const publicsAccueillisIfAny = (publicsAccueillis: PublicsAccueillis): { publics_accueillis?: PublicsAccueillis } =>
-  publicsAccueillis.length === 0 ? {} : { publics_accueillis: publicsAccueillis };
+const localisationIfAny = (localisation?: Localisation): { localisation?: Localisation } =>
+  localisation == null ? {} : { localisation };
 
 const conditionsAccesIfAny = (conditionsAcces: ConditionsAcces): { conditions_acces?: ConditionsAcces } =>
   conditionsAcces.length === 0 ? {} : { conditions_acces: conditionsAcces };
+
+const accessibiliteIfAny = (accessibilite?: Url): { accessibilite?: Url } => (accessibilite == null ? {} : { accessibilite });
 
 const modalitesAccompagnementIfAny = (
   modaliteAccompagnement: ModalitesAccompagnement
 ): { modalites_accompagnement?: ModalitesAccompagnement } =>
   modaliteAccompagnement.length === 0 ? {} : { modalites_accompagnement: modaliteAccompagnement };
 
-const localisationIfAny = (localisation?: Localisation): { localisation?: Localisation } =>
-  localisation == null ? {} : { localisation };
+const typologiesIfAny = (typologies: Typologies): { typologies?: Typologies } =>
+  typologies.length === 0 ? {} : { typologies };
+
+const labelsNationauxIfAny = (labelsNationaux: LabelsNationaux): { labels_nationaux?: LabelsNationaux } =>
+  labelsNationaux.length === 0 ? {} : { labels_nationaux: labelsNationaux };
+
+const labelsAutresIfAny = (labelsAutres: string[]): { labels_autres?: string[] } =>
+  labelsAutres.length === 0 ? {} : { labels_autres: labelsAutres };
+
+const publicsAccueillisIfAny = (publicsAccueillis: PublicsAccueillis): { publics_accueillis?: PublicsAccueillis } =>
+  publicsAccueillis.length === 0 ? {} : { publics_accueillis: publicsAccueillis };
+
+const horairesIfAny = (horaires?: string): { horaires?: string } => (horaires == null ? {} : { horaires });
+
+const priseRdvIfAny = (priseRdv?: Url): { prise_rdv?: Url } => (priseRdv == null ? {} : { prise_rdv: priseRdv });
 
 const lieuDeMediationNumerique = (
   index: number,
@@ -92,9 +93,10 @@ const lieuDeMediationNumerique = (
     source: processSource(dataSource, matching, sourceName),
     ...horairesIfAny(processHoraires(dataSource, matching)),
     ...priseRdvIfAny(processPriseRdv(dataSource, matching)),
-    ...typologieIfAny(processTypologies(dataSource, matching)),
+    ...typologiesIfAny(processTypologies(dataSource, matching)),
     ...accessibiliteIfAny(processAccessibilite(dataSource, matching))
   };
+
   recorder.commit();
   return lieuMediationNumerique;
 };

@@ -2,6 +2,8 @@ import { DuplicationComparison } from '../duplication-comparisons';
 
 const DUPLICATION_COMPARISON_HEADINGS: string = [
   'Score',
+  'Typologie 1',
+  'Typologie 2',
   'Score Nom',
   'Nom 1',
   'Nom 2',
@@ -18,6 +20,8 @@ const DUPLICATION_COMPARISON_HEADINGS: string = [
 const duplicationComparisonLineFor = (duplicationComparison: DuplicationComparison): string =>
   [
     duplicationComparison.score,
+    duplicationComparison.typologie1,
+    duplicationComparison.typologie2,
     duplicationComparison.nomScore,
     duplicationComparison.nom1.replace(';', ''),
     duplicationComparison.nom2.replace(';', ''),
