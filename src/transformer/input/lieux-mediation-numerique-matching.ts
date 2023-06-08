@@ -5,7 +5,8 @@ import {
   LabelNational,
   ModaliteAccompagnement,
   PublicAccueilli,
-  Service
+  Service,
+  Typologie
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 
 export type DataSource = Record<string, string>;
@@ -40,6 +41,7 @@ export type LieuxMediationNumeriqueMatching = {
   id?: Colonne;
   nom: Colonne;
   pivot?: Colonne;
+  typologies?: Choice<Typologie>[];
   code_postal: Colonne;
   commune: Colonne;
   adresse: Jonction & Partial<Colonne>;
@@ -61,6 +63,7 @@ export type LieuxMediationNumeriqueMatching = {
   publics_accueillis?: Choice<PublicAccueilli>[];
   services: (Choice<Service> & { modalitesAccompagnement?: ModaliteAccompagnement })[];
   prise_rdv?: Colonne;
+  accessibilite?: Colonne;
   horaires?: {
     jours?: [
       {

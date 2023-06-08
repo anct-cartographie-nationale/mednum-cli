@@ -1,0 +1,40 @@
+import { Typologie, Typologies } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { Choice, LieuxMediationNumeriqueMatching, DataSource } from '../../input';
+
+const isAllowedTerm = (choice: Choice<Typologie>, sourceValue: string): boolean =>
+  choice.sauf?.every((forbidden: string): boolean => !sourceValue.includes(forbidden)) ?? true;
+
+const isTermFound =
+  (sourceValue: string, choice: Choice<Typologie>) =>
+  (found: boolean, term: string): boolean =>
+    found || (sourceValue.includes(term.toLowerCase()) && isAllowedTerm(choice, sourceValue));
+
+const containsOneOfTheTerms = (choice: Choice<Typologie>, sourceValue: string = ''): boolean =>
+  choice.termes == null ? sourceValue !== '' : choice.termes.reduce(isTermFound(sourceValue.toLowerCase(), choice), false);
+
+const appendTypologie = (typologies: Typologie[], typologie?: Typologie): Typologie[] => [
+  ...typologies,
+  ...(typologie == null ? [] : [typologie])
+];
+
+const isDefault = (choice: Choice<Typologie>): boolean => choice.colonnes == null;
+
+const findAndAppendTypologies =
+  (choice: Choice<Typologie>, source: DataSource) =>
+  (typologies: Typologie[], colonne: string): Typologie[] =>
+    containsOneOfTheTerms(choice, source[colonne]) ? appendTypologie(typologies, choice.cible) : typologies;
+
+const typologiesForTerms =
+  (choice: Choice<Typologie>, source: DataSource) =>
+  (typologies: Typologie[], colonne: string): Typologie[] =>
+    isDefault(choice)
+      ? appendTypologie(typologies, choice.cible)
+      : findAndAppendTypologies(choice, source)(typologies, colonne);
+
+const appendTypologies =
+  (source: DataSource) =>
+  (typologies: Typologie[], choice: Choice<Typologie>): Typologie[] =>
+    [...typologies, ...(choice.colonnes ?? [choice.cible]).reduce(typologiesForTerms(choice, source), [])];
+
+export const processTypologies = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Typologies =>
+  Typologies(Array.from(new Set(matching.typologies?.reduce(appendTypologies(source), []))));

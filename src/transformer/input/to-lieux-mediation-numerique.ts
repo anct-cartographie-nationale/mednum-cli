@@ -11,11 +11,13 @@ import {
   NomError,
   PublicsAccueillis,
   ServicesError,
+  Typologies,
   Url,
   VoieError
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Recorder, Report } from '../report';
 import {
+  processAccessibilite,
   processAdresse,
   processConditionsAcces,
   processContact,
@@ -32,13 +34,18 @@ import {
   processPriseRdv,
   processPublicsAccueillis,
   processServices,
-  processSource
+  processSource,
+  processTypologies
 } from '../fields';
 import { DataSource, LieuxMediationNumeriqueMatching } from './lieux-mediation-numerique-matching';
 
 const horairesIfAny = (horaires?: string): { horaires?: string } => (horaires == null ? {} : { horaires });
 
 const priseRdvIfAny = (priseRdv?: Url): { prise_rdv?: Url } => (priseRdv == null ? {} : { prise_rdv: priseRdv });
+
+const accessibiliteIfAny = (accessibilite?: Url): { accessibilite?: Url } => (accessibilite == null ? {} : { accessibilite });
+
+const typologieIfAny = (typologies: Typologies): { typologies?: Typologies } => (typologies.length === 0 ? {} : { typologies });
 
 const labelsAutresIfAny = (labelsAutres: string[]): { labels_autres?: string[] } =>
   labelsAutres.length === 0 ? {} : { labels_autres: labelsAutres };
@@ -84,7 +91,9 @@ const lieuDeMediationNumerique = (
     services: processServices(dataSource, matching),
     source: processSource(dataSource, matching, sourceName),
     ...horairesIfAny(processHoraires(dataSource, matching)),
-    ...priseRdvIfAny(processPriseRdv(dataSource, matching))
+    ...priseRdvIfAny(processPriseRdv(dataSource, matching)),
+    ...typologieIfAny(processTypologies(dataSource, matching)),
+    ...accessibiliteIfAny(processAccessibilite(dataSource, matching))
   };
   recorder.commit();
   return lieuMediationNumerique;

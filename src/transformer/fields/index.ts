@@ -15,3 +15,5 @@ export * from './prise-rdv/prise-rdv.field';
 export * from './publics-accueillis/publics-accueillis.field';
 export * from './services/services.field';
 export * from './source/source.field';
+export * from './typologies/typologies.field';
+export * from './accessibilite/accessibilite.field';
