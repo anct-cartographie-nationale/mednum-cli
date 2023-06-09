@@ -29,6 +29,11 @@
   "presentation_detail": {
     "colonne": "description"
   },
+  "typologies": [
+    {
+      "cible": "TIERS_LIEUX"
+    }
+  ],
   "services": [
     {
       "colonnes": ["description", "shortDescription", "tags"],

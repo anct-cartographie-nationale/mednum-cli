@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
-import { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { SchemaLieuMediationNumerique, Typologie } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { DuplicationComparison, duplicationComparisons } from './duplication-comparisons';
 
 describe('deduplication comparison', (): void => {
@@ -14,7 +14,8 @@ describe('deduplication comparison', (): void => {
         commune: 'Grenoble',
         latitude: 45.186115,
         longitude: 5.716962,
-        source: 'hinaura'
+        source: 'hinaura',
+        typologie: Typologie.TIERS_LIEUX
       } as SchemaLieuMediationNumerique,
       {
         id: '537-mediation-numerique-hinaura',
@@ -24,7 +25,8 @@ describe('deduplication comparison', (): void => {
         commune: 'Grenoble',
         latitude: 45.187654,
         longitude: 5.704953,
-        source: 'res-in'
+        source: 'res-in',
+        typologie: Typologie.ESS
       } as SchemaLieuMediationNumerique
     ];
 
@@ -45,7 +47,9 @@ describe('deduplication comparison', (): void => {
         localisation1: '45.186115 : 5.716962',
         localisation2: '45.187654 : 5.704953',
         source1: 'hinaura',
-        source2: 'res-in'
+        source2: 'res-in',
+        typologie1: 'TIERS_LIEUX',
+        typologie2: 'ESS'
       }
     ]);
   });
@@ -83,7 +87,8 @@ describe('deduplication comparison', (): void => {
         adresse: '2 Rue du vieux temple',
         latitude: 45.193684,
         longitude: 5.733633,
-        source: 'france-services'
+        source: 'france-services',
+        typologie: Typologie.TIERS_LIEUX
       } as SchemaLieuMediationNumerique,
       {
         id: 'B',
@@ -93,7 +98,8 @@ describe('deduplication comparison', (): void => {
         adresse: '70 BIS rue Joseph Bouchayer',
         latitude: 45.177784,
         longitude: 5.707327,
-        source: 'conseiller-numerique'
+        source: 'conseiller-numerique',
+        typologie: Typologie.TIERS_LIEUX
       } as SchemaLieuMediationNumerique,
       {
         id: 'C',
@@ -103,7 +109,8 @@ describe('deduplication comparison', (): void => {
         adresse: '68bis rue Anatole France',
         latitude: 45.172522,
         longitude: 5.704961,
-        source: 'fibre64'
+        source: 'fibre64',
+        typologie: Typologie.TIERS_LIEUX
       } as SchemaLieuMediationNumerique,
       {
         id: 'D',
@@ -113,7 +120,8 @@ describe('deduplication comparison', (): void => {
         adresse: '31 Place des Géants',
         latitude: 45.162266,
         longitude: 5.738204,
-        source: 'hinaura'
+        source: 'hinaura',
+        typologie: Typologie.TIERS_LIEUX
       } as SchemaLieuMediationNumerique,
       {
         id: 'E',
@@ -123,7 +131,8 @@ describe('deduplication comparison', (): void => {
         adresse: '7 Rue Henri Duhamel',
         latitude: 45.163403,
         longitude: 5.727504,
-        source: 'francil-in'
+        source: 'francil-in',
+        typologie: Typologie.TIERS_LIEUX
       } as SchemaLieuMediationNumerique
     ];
 
@@ -144,7 +153,9 @@ describe('deduplication comparison', (): void => {
         nomScore: 74,
         score: 40,
         source1: 'france-services',
-        source2: 'francil-in'
+        source2: 'francil-in',
+        typologie1: Typologie.TIERS_LIEUX,
+        typologie2: Typologie.TIERS_LIEUX
       },
       {
         id1: 'C',
@@ -160,7 +171,9 @@ describe('deduplication comparison', (): void => {
         nomScore: 76,
         score: 40,
         source1: 'fibre64',
-        source2: 'francil-in'
+        source2: 'francil-in',
+        typologie1: Typologie.TIERS_LIEUX,
+        typologie2: Typologie.TIERS_LIEUX
       },
       {
         id1: 'D',
@@ -176,7 +189,9 @@ describe('deduplication comparison', (): void => {
         nomScore: 75,
         score: 38,
         source1: 'hinaura',
-        source2: 'francil-in'
+        source2: 'francil-in',
+        typologie1: Typologie.TIERS_LIEUX,
+        typologie2: Typologie.TIERS_LIEUX
       },
       {
         id1: 'A',
@@ -192,7 +207,9 @@ describe('deduplication comparison', (): void => {
         nomScore: 74,
         score: 37,
         source1: 'france-services',
-        source2: 'fibre64'
+        source2: 'fibre64',
+        typologie1: Typologie.TIERS_LIEUX,
+        typologie2: Typologie.TIERS_LIEUX
       },
       {
         id1: 'C',
@@ -208,7 +225,9 @@ describe('deduplication comparison', (): void => {
         nomScore: 78,
         score: 37,
         source1: 'fibre64',
-        source2: 'hinaura'
+        source2: 'hinaura',
+        typologie1: Typologie.TIERS_LIEUX,
+        typologie2: Typologie.TIERS_LIEUX
       },
       {
         id1: 'A',
@@ -224,7 +243,9 @@ describe('deduplication comparison', (): void => {
         nomScore: 71,
         score: 36,
         source1: 'france-services',
-        source2: 'hinaura'
+        source2: 'hinaura',
+        typologie1: Typologie.TIERS_LIEUX,
+        typologie2: Typologie.TIERS_LIEUX
       },
       {
         id1: 'B',
@@ -240,7 +261,9 @@ describe('deduplication comparison', (): void => {
         nomScore: 41,
         score: 35,
         source1: 'conseiller-numerique',
-        source2: 'fibre64'
+        source2: 'fibre64',
+        typologie1: Typologie.TIERS_LIEUX,
+        typologie2: Typologie.TIERS_LIEUX
       },
       {
         id1: 'B',
@@ -256,7 +279,9 @@ describe('deduplication comparison', (): void => {
         nomScore: 39,
         score: 31,
         source1: 'conseiller-numerique',
-        source2: 'francil-in'
+        source2: 'francil-in',
+        typologie1: Typologie.TIERS_LIEUX,
+        typologie2: Typologie.TIERS_LIEUX
       },
       {
         id1: 'A',
@@ -272,7 +297,9 @@ describe('deduplication comparison', (): void => {
         nomScore: 40,
         score: 25,
         source1: 'france-services',
-        source2: 'conseiller-numerique'
+        source2: 'conseiller-numerique',
+        typologie1: Typologie.TIERS_LIEUX,
+        typologie2: Typologie.TIERS_LIEUX
       },
       {
         id1: 'B',
@@ -288,7 +315,9 @@ describe('deduplication comparison', (): void => {
         nomScore: 39,
         score: 22,
         source1: 'conseiller-numerique',
-        source2: 'hinaura'
+        source2: 'hinaura',
+        typologie1: Typologie.TIERS_LIEUX,
+        typologie2: Typologie.TIERS_LIEUX
       }
     ]);
   });

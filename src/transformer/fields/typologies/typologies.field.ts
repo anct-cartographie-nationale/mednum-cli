@@ -1,5 +1,12 @@
-import { Typologie, Typologies } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { Choice, LieuxMediationNumeriqueMatching, DataSource } from '../../input';
+import { LabelNational, Typologie, Typologies } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { Choice, DataSource, LieuxMediationNumeriqueMatching } from '../../input';
+import { TYPOLOGIE_MATCHERS } from './name-to-typologie';
+import { processLabelsNationaux } from '../labels-nationaux/labels-nationaux.field';
+
+export type TypologieMatcher = {
+  typologie: Typologie;
+  matchers: RegExp[];
+};
 
 const isAllowedTerm = (choice: Choice<Typologie>, sourceValue: string): boolean =>
   choice.sauf?.every((forbidden: string): boolean => !sourceValue.includes(forbidden)) ?? true;
@@ -36,5 +43,24 @@ const appendTypologies =
   (typologies: Typologie[], choice: Choice<Typologie>): Typologie[] =>
     [...typologies, ...(choice.colonnes ?? [choice.cible]).reduce(typologiesForTerms(choice, source), [])];
 
+const matchWithName =
+  (source: DataSource, matching: LieuxMediationNumeriqueMatching) =>
+  (hasMatch: boolean, regExp: RegExp): boolean =>
+    hasMatch || regExp.test(source[matching.nom.colonne] ?? '');
+
+const toTypologieMatchingName =
+  (source: DataSource, matching: LieuxMediationNumeriqueMatching) =>
+  (typologies: Typologies, typologieMatcher: TypologieMatcher): Typologies =>
+    typologieMatcher.matchers.reduce(matchWithName(source, matching), false)
+      ? Typologies([typologieMatcher.typologie])
+      : typologies;
+
+const inferTypologies = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Typologies =>
+  processLabelsNationaux(source, matching).includes(LabelNational.FranceServices)
+    ? Typologies([Typologie.RFS])
+    : TYPOLOGIE_MATCHERS.reduce(toTypologieMatchingName(source, matching), Typologies([]));
+
 export const processTypologies = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Typologies =>
-  Typologies(Array.from(new Set(matching.typologies?.reduce(appendTypologies(source), []))));
+  matching.typologies?.at(0)?.cible == null
+    ? inferTypologies(source, matching)
+    : Typologies(Array.from(new Set(matching.typologies.reduce(appendTypologies(source), []))));

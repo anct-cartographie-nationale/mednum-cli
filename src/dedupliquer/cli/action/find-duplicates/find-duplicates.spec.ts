@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
-import { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { SchemaLieuMediationNumerique, Typologie } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { CommuneDuplications, findDuplicates } from './find-duplicates';
 
 describe('find duplicates', (): void => {
@@ -76,6 +76,154 @@ describe('find duplicates', (): void => {
     const duplicates: CommuneDuplications[] = findDuplicates(lieux);
 
     expect(duplicates).toStrictEqual([]);
+  });
+
+  it('should not need to deduplicate when only lieu 1 has RFS typologie', (): void => {
+    const lieux: SchemaLieuMediationNumerique[] = [
+      {
+        id: '574-mediation-numerique-hinaura',
+        nom: 'Numerinaute',
+        adresse: '12 Rue Joseph Rey (chez Aconit)',
+        code_postal: '38000',
+        commune: 'Grenoble',
+        latitude: 45.186115,
+        longitude: 5.716962,
+        source: 'conseiller-numerique',
+        typologie: Typologie.RFS
+      } as SchemaLieuMediationNumerique,
+      {
+        id: '2848-mediation-numerique-france-services',
+        nom: "France services d'Etrechy",
+        adresse: '26 rue Jean Moulin',
+        code_postal: '38000',
+        commune: 'Grenoble',
+        latitude: 48.487691,
+        longitude: 2.186761,
+        source: 'hinaura'
+      } as SchemaLieuMediationNumerique
+    ];
+
+    const duplicates: CommuneDuplications[] = findDuplicates(lieux);
+
+    expect(duplicates).toStrictEqual([]);
+  });
+
+  it('should get deduplication data for lieu 1 with RFS typologie and lieu 2 with PIMMS typologie', (): void => {
+    const lieux: SchemaLieuMediationNumerique[] = [
+      {
+        id: '574-mediation-numerique-hinaura',
+        nom: 'Numerinaute',
+        adresse: '12 Rue Joseph Rey (chez Aconit)',
+        code_postal: '38000',
+        commune: 'Grenoble',
+        latitude: 45.186115,
+        longitude: 5.716962,
+        source: 'hinaura',
+        typologie: Typologie.PIMMS
+      } as SchemaLieuMediationNumerique,
+      {
+        id: '537-mediation-numerique-hinaura',
+        nom: 'La Turbine.Coop',
+        adresse: '5 esplanade Andry Farcy 38000 Grenoble',
+        code_postal: '38000',
+        commune: 'Grenoble',
+        latitude: 45.187654,
+        longitude: 5.704953,
+        source: 'francil-in',
+        typologie: Typologie.RFS
+      } as SchemaLieuMediationNumerique
+    ];
+
+    const duplicates: CommuneDuplications[] = findDuplicates(lieux);
+
+    expect(duplicates).toStrictEqual<CommuneDuplications[]>([
+      {
+        codePostal: '38000',
+        lieux: [
+          {
+            id: '574-mediation-numerique-hinaura',
+            duplicates: [
+              {
+                id: '537-mediation-numerique-hinaura',
+                distanceScore: 7,
+                nomFuzzyScore: 38,
+                voieFuzzyScore: 33
+              }
+            ]
+          },
+          {
+            id: '537-mediation-numerique-hinaura',
+            duplicates: [
+              {
+                id: '574-mediation-numerique-hinaura',
+                distanceScore: 7,
+                nomFuzzyScore: 38,
+                voieFuzzyScore: 33
+              }
+            ]
+          }
+        ]
+      }
+    ]);
+  });
+
+  it('should get deduplication data for two lieux with RFS typologie', (): void => {
+    const lieux: SchemaLieuMediationNumerique[] = [
+      {
+        id: '574-mediation-numerique-hinaura',
+        nom: 'Numerinaute',
+        adresse: '12 Rue Joseph Rey (chez Aconit)',
+        code_postal: '38000',
+        commune: 'Grenoble',
+        latitude: 45.186115,
+        longitude: 5.716962,
+        source: 'hinaura',
+        typologie: Typologie.RFS
+      } as SchemaLieuMediationNumerique,
+      {
+        id: '537-mediation-numerique-hinaura',
+        nom: 'La Turbine.Coop',
+        adresse: '5 esplanade Andry Farcy 38000 Grenoble',
+        code_postal: '38000',
+        commune: 'Grenoble',
+        latitude: 45.187654,
+        longitude: 5.704953,
+        source: 'francil-in',
+        typologie: Typologie.RFS
+      } as SchemaLieuMediationNumerique
+    ];
+
+    const duplicates: CommuneDuplications[] = findDuplicates(lieux);
+
+    expect(duplicates).toStrictEqual<CommuneDuplications[]>([
+      {
+        codePostal: '38000',
+        lieux: [
+          {
+            id: '574-mediation-numerique-hinaura',
+            duplicates: [
+              {
+                id: '537-mediation-numerique-hinaura',
+                distanceScore: 7,
+                nomFuzzyScore: 38,
+                voieFuzzyScore: 33
+              }
+            ]
+          },
+          {
+            id: '537-mediation-numerique-hinaura',
+            duplicates: [
+              {
+                id: '574-mediation-numerique-hinaura',
+                distanceScore: 7,
+                nomFuzzyScore: 38,
+                voieFuzzyScore: 33
+              }
+            ]
+          }
+        ]
+      }
+    ]);
   });
 
   it('should get deduplication data for two lieux in same commune', (): void => {
