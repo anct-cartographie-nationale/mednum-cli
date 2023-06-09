@@ -1,4 +1,4 @@
-import { Typologie, Typologies } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { LabelNational, Typologie, Typologies } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { processTypologies } from './typologies.field';
 import { DataSource, LieuxMediationNumeriqueMatching } from '../../input';
 
@@ -267,7 +267,7 @@ describe('typologie field', (): void => {
 
   it('should get CS as typologie when name contains centre social', (): void => {
     const source: DataSource = {
-      name: 'Centre Social Arras Ouest'
+      name: 'ASS CENTRE SOCIAL VIVARAIZE'
     };
 
     const matching: LieuxMediationNumeriqueMatching = {
@@ -307,9 +307,23 @@ describe('typologie field', (): void => {
     expect(typologie).toBe(Typologie.RFS);
   });
 
+  it('should get RFS as typologie when name contains EFS', (): void => {
+    const source: DataSource = {
+      name: 'EFS SAINT SYMPHORIEN'
+    };
+
+    const matching: LieuxMediationNumeriqueMatching = {
+      nom: { colonne: 'name' }
+    } as LieuxMediationNumeriqueMatching;
+
+    const [typologie]: Typologies = processTypologies(source, matching);
+
+    expect(typologie).toBe(Typologie.RFS);
+  });
+
   it('should get RFS as typologie when name contains france-services', (): void => {
     const source: DataSource = {
-      name: 'espace france-services'
+      name: 'FRANCE-SERVICES Bédarieux'
     };
 
     const matching: LieuxMediationNumeriqueMatching = {
@@ -356,6 +370,28 @@ describe('typologie field', (): void => {
 
     const matching: LieuxMediationNumeriqueMatching = {
       nom: { colonne: 'name' }
+    } as LieuxMediationNumeriqueMatching;
+
+    const [typologie]: Typologies = processTypologies(source, matching);
+
+    expect(typologie).toBe(Typologie.RFS);
+  });
+
+  it('should get RFS as typologie when France Services label is present', (): void => {
+    const source: DataSource = {
+      name: 'Mairie de meudon',
+      estFranceServices: 'OUI'
+    };
+
+    const matching: LieuxMediationNumeriqueMatching = {
+      nom: { colonne: 'name' },
+      labels_nationaux: [
+        {
+          colonnes: ['estFranceServices'],
+          termes: ['OUI'],
+          cible: LabelNational.FranceServices
+        }
+      ]
     } as LieuxMediationNumeriqueMatching;
 
     const [typologie]: Typologies = processTypologies(source, matching);

@@ -1,6 +1,7 @@
-import { Typologie, Typologies } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { LabelNational, Typologie, Typologies } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Choice, DataSource, LieuxMediationNumeriqueMatching } from '../../input';
 import { TYPOLOGIE_MATCHERS } from './name-to-typologie';
+import { processLabelsNationaux } from '../labels-nationaux/labels-nationaux.field';
 
 export type TypologieMatcher = {
   typologie: Typologie;
@@ -54,7 +55,12 @@ const toTypologieMatchingName =
       ? Typologies([typologieMatcher.typologie])
       : typologies;
 
+const inferTypologies = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Typologies =>
+  processLabelsNationaux(source, matching).includes(LabelNational.FranceServices)
+    ? Typologies([Typologie.RFS])
+    : TYPOLOGIE_MATCHERS.reduce(toTypologieMatchingName(source, matching), Typologies([]));
+
 export const processTypologies = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Typologies =>
   matching.typologies?.at(0)?.cible == null
-    ? TYPOLOGIE_MATCHERS.reduce(toTypologieMatchingName(source, matching), Typologies([]))
+    ? inferTypologies(source, matching)
     : Typologies(Array.from(new Set(matching.typologies.reduce(appendTypologies(source), []))));

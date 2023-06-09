@@ -13,10 +13,6 @@ export const TYPOLOGIE_MATCHERS: TypologieMatcher[] = [
     matchers: [/p[ôo]le emploi/iu]
   },
   {
-    typologie: Typologie.CS,
-    matchers: [/centre social/iu, /centres sociaux/iu]
-  },
-  {
     typologie: Typologie.BIB,
     matchers: [/m[ée]diath[èe]que/iu, /biblioth[èe]que/iu]
   },
@@ -77,6 +73,10 @@ export const TYPOLOGIE_MATCHERS: TypologieMatcher[] = [
     ]
   },
   {
+    typologie: Typologie.CS,
+    matchers: [/centre social/iu, /centres sociaux/iu]
+  },
+  {
     typologie: Typologie.PREF,
     matchers: [/sous[-\s]prefecture/iu]
   },
@@ -132,6 +132,7 @@ export const TYPOLOGIE_MATCHERS: TypologieMatcher[] = [
   {
     typologie: Typologie.RFS,
     matchers: [
+      /(?:^|\W)EFS(?:\W|$)/iu,
       /frances?[\s-]services?/iu,
       /Fixe Bruay-sur-l'Escaut\s{2}\( Département du Nord\)/iu,
       /Folschviller - Antenne de L'Hôpital/iu,
