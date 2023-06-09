@@ -1,4 +1,4 @@
-import { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { SchemaLieuMediationNumerique, Typologie } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { ratio } from 'fuzzball';
 
 export type Duplicate = {
@@ -18,10 +18,25 @@ export type CommuneDuplications = {
   lieux: LieuDuplications[];
 };
 
+const sameSource = (lieu: SchemaLieuMediationNumerique, curentLieu: SchemaLieuMediationNumerique): boolean =>
+  lieu.source === curentLieu.source;
+
+const sameId = (lieu: SchemaLieuMediationNumerique, curentLieu: SchemaLieuMediationNumerique): boolean =>
+  lieu.id === curentLieu.id;
+
+const sameCodePostal = (lieu: SchemaLieuMediationNumerique, curentLieu: SchemaLieuMediationNumerique): boolean =>
+  lieu.code_postal === curentLieu.code_postal;
+
+const compatibleTypologies = (lieu: SchemaLieuMediationNumerique, curentLieu: SchemaLieuMediationNumerique): boolean =>
+  lieu.typologie === Typologie.RFS || lieu.typologie === Typologie.PIMMS ? true : curentLieu.typologie !== Typologie.RFS;
+
 const onlyPotentialDuplicates =
   (curentLieu: SchemaLieuMediationNumerique) =>
   (lieu: SchemaLieuMediationNumerique): boolean =>
-    lieu.code_postal === curentLieu.code_postal && lieu.id !== curentLieu.id && lieu.source !== curentLieu.source;
+    sameCodePostal(lieu, curentLieu) &&
+    !sameId(lieu, curentLieu) &&
+    !sameSource(lieu, curentLieu) &&
+    compatibleTypologies(lieu, curentLieu);
 
 const MINIMAL_CARTESIAN_DISTANCE: 0.0004 = 0.0004 as const;
 

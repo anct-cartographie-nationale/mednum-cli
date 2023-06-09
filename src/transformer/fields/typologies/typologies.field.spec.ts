@@ -385,6 +385,7 @@ describe('typologie field', (): void => {
 
     const matching: LieuxMediationNumeriqueMatching = {
       nom: { colonne: 'name' },
+      /* eslint-disable-next-line @typescript-eslint/naming-convention, camelcase */
       labels_nationaux: [
         {
           colonnes: ['estFranceServices'],
