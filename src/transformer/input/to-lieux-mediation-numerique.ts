@@ -17,6 +17,7 @@ import {
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Recorder, Report } from '../report';
 import {
+  Erp,
   processAccessibilite,
   processAdresse,
   processConditionsAcces,
@@ -38,7 +39,6 @@ import {
   processTypologies
 } from '../fields';
 import { DataSource, LieuxMediationNumeriqueMatching } from './lieux-mediation-numerique-matching';
-import { Erp } from '../fields/accessibilite/accessibilite.field.presentation';
 
 const localisationIfAny = (localisation?: Localisation): { localisation?: Localisation } =>
   localisation == null ? {} : { localisation };

@@ -2,8 +2,7 @@
 
 import { Adresse } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
-import { processAccessibilite } from './accessibilite.field';
-import { Erp } from './accessibilite.field.presentation';
+import { Erp, processAccessibilite } from './accessibilite.field';
 
 describe('accessibilite field', (): void => {
   it('should get accessibilite url from data source using matching information', (): void => {
@@ -106,7 +105,6 @@ describe('accessibilite field', (): void => {
         web_url: 'https://acceslibre.beta.gouv.fr/app/49-allonnes/a/guichet-france-services/erp/france-services/',
         voie: 'jean gallart',
         numero: '31',
-        activite: 'Guichet france services',
         postal_code: '49650'
       }
     ];

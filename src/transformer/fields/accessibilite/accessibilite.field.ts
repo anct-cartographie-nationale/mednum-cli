@@ -1,7 +1,17 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+
 import { Adresse, Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching, DataSource, Colonne } from '../../input';
 import { ratio } from 'fuzzball';
-import { Erp, activiteMediationNumerique } from './accessibilite.field.presentation';
+
+export type Erp = {
+  name: string;
+  siret: string;
+  web_url: string;
+  voie: string;
+  numero: string;
+  postal_code: string;
+};
 
 const getAccessibiliteFromAccesLibre = (
   source: DataSource,
@@ -10,7 +20,6 @@ const getAccessibiliteFromAccesLibre = (
   adresseProcessed: Adresse
 ): Url | undefined => {
   const erpMatchWithScores: Erp[] = accesLibreData
-    .filter((entry: Erp): boolean => activiteMediationNumerique.includes(entry.activite))
     .filter((erp: Erp): boolean => erp.postal_code === adresseProcessed.code_postal)
     .filter(
       (erp: Erp): boolean =>

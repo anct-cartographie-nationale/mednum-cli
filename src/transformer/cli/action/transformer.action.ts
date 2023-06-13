@@ -6,7 +6,7 @@ import { Report } from '../../report';
 import { toLieuxMediationNumerique, validValuesOnly } from '../../input';
 import { writeErrorsOutputFiles, writeOutputFiles } from '../../output';
 import { TransformerOptions } from '../transformer-options';
-import { Erp } from '../../fields/accessibilite/accessibilite.field.presentation';
+import { Erp } from '../../fields';
 
 /* eslint-disable max-lines-per-function, max-statements, @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/typedef, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
@@ -81,11 +81,7 @@ const replaceNullWithEmptyString = (jsonString: string): string => {
 
 const fetchAccesLibreData = async (): Promise<string> =>
   JSON.stringify(
-    await csv().fromString(
-      (
-        await axios.get('https://www.data.gouv.fr/fr/datasets/r/93ae96a7-1db7-4cb4-a9f1-6d778370b640')
-      ).data
-    )
+    (await axios.get('https://anct-carto-client-feature-les-assembleurs.s3.eu-west-3.amazonaws.com/acceslibre.json')).data
   );
 
 export const transformerAction = async (transformerOptions: TransformerOptions): Promise<void> => {
