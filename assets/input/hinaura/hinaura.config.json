@@ -1,4 +1,7 @@
 {
+  "id":{
+    "colonne": "id_fiche"
+  },
   "nom": {
     "colonne": "bf_titre"
   },
@@ -33,17 +36,12 @@
     },
     {
       "colonnes": ["checkboxListeTypelieu"],
-      "termes": ["9"],
-      "cible": "MQ"
-    },
-    {
-      "colonnes": ["checkboxListeTypelieu"],
-      "termes": ["10"],
+      "termes": ["9","10"],
       "cible": "ASSO"
     },
     {
       "colonnes": ["checkboxListeTypelieu"],
-      "termes": ["12", "13"],
+      "termes": ["11","12", "13"],
       "cible": "TIERS_LIEUX"
     }
   ],
