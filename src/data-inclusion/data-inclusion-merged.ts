@@ -74,7 +74,7 @@ const dataInclusionMergedGeneral = (
   thematiques: service.thematiques?.join(',') ?? '',
   ...(structure.typologie == null ? {} : { typologie: structure.typologie }),
   ...(structure.accessibilite == null ? {} : { accessibilite: structure.accessibilite })
-})
+});
 
 const dataInclusionMergedAddress = (structure: SchemaStructureDataInclusion): DataInclusionMergedAddress => ({
   adresse: structure.adresse,
