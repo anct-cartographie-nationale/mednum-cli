@@ -67,14 +67,14 @@ const dataInclusionMergedGeneral = (
   structure: SchemaStructureDataInclusion,
   service: SchemaServiceDataInclusion
 ): DataInclusionMergedGeneral => ({
-  id: `${structure.source}-${structure.id}`,
+  id: structure.source !== 'dora' ? `${structure.source}-${structure.id}` : structure.id,
   nom: structure.nom,
   pivot: structure.siret ?? '',
   ...(structure.structure_parente == null ? {} : { structure_parente: structure.structure_parente }),
   thematiques: service.thematiques?.join(',') ?? '',
   ...(structure.typologie == null ? {} : { typologie: structure.typologie }),
   ...(structure.accessibilite == null ? {} : { accessibilite: structure.accessibilite })
-});
+})
 
 const dataInclusionMergedAddress = (structure: SchemaStructureDataInclusion): DataInclusionMergedAddress => ({
   adresse: structure.adresse,
