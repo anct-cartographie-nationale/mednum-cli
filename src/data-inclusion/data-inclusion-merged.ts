@@ -67,7 +67,7 @@ const dataInclusionMergedGeneral = (
   structure: SchemaStructureDataInclusion,
   service: SchemaServiceDataInclusion
 ): DataInclusionMergedGeneral => ({
-  id: structure.source !== 'dora' ? `${structure.source}-${structure.id}` : structure.id,
+  id: structure.source === 'dora' ? structure.id : `${structure.source}-${structure.id}`,
   nom: structure.nom,
   pivot: structure.siret ?? '',
   ...(structure.structure_parente == null ? {} : { structure_parente: structure.structure_parente }),
