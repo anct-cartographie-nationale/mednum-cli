@@ -271,5 +271,362 @@
   ],
   "horaires": {
     "osm": "horaires"
-  }
+  },
+  "typologies": [
+    {
+      "colonnes": "typologies",
+      "termes": "ACI",
+      "cible": "ACI"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "ACIPHC",
+      "cible": "ACIPHC"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "AFPA",
+      "cible": "AFPA"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "AI",
+      "cible": "AI"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "ASE",
+      "cible": "ASE"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "ASSO",
+      "cible": "ASSO"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "ASSO_CHOMEUR",
+      "cible": "ASSO_CHOMEUR"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "Autre",
+      "cible": "Autre"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "BIB",
+      "cible": "BIB"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "CAARUD",
+      "cible": "CAARUD"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "CADA",
+      "cible": "CADA"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "CAF",
+      "cible": "CAF"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "CAP_EMPLOI",
+      "cible": "CAP_EMPLOI"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "CAVA",
+      "cible": "CAVA"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "CC",
+      "cible": "CC"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "CCAS",
+      "cible": "CCAS"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "CCONS",
+      "cible": "CCONS"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "CD",
+      "cible": "CD"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "CHRS",
+      "cible": "CHRS"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "CHU",
+      "cible": "CHU"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "CIAS",
+      "cible": "CIAS"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "CIDFF",
+      "cible": "CIDFF"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "CITMET",
+      "cible": "CITMET"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "CPH",
+      "cible": "CPH"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "CS",
+      "cible": "CS"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "CSAPA",
+      "cible": "CSAPA"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "DEETS",
+      "cible": "DEETS"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "DEPT",
+      "cible": "DEPT"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "DIPLP",
+      "cible": "DIPLP"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "E2C",
+      "cible": "E2C"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "EA",
+      "cible": "EA"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "EATT",
+      "cible": "EATT"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "EI",
+      "cible": "EI"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "EITI",
+      "cible": "EITI"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "EPCI",
+      "cible": "EPCI"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "EPIDE",
+      "cible": "EPIDE"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "ESS",
+      "cible": "ESS"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "ETTI",
+      "cible": "ETTI"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "FAIS",
+      "cible": "FAIS"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "GEIQ",
+      "cible": "GEIQ"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "HUDA",
+      "cible": "HUDA"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "MDE",
+      "cible": "MDE"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "MDEF",
+      "cible": "MDEF"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "MDPH",
+      "cible": "MDPH"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "MDS",
+      "cible": "MDS"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "MJC",
+      "cible": "MJC"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "ML",
+      "cible": "ML"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "MQ",
+      "cible": "MQ"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "MSA",
+      "cible": "MSA"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "MUNI",
+      "cible": "MUNI"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "OACAS",
+      "cible": "OACAS"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "ODC",
+      "cible": "ODC"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "OF",
+      "cible": "OF"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "OIL",
+      "cible": "OIL"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "OPCS",
+      "cible": "OPCS"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "PAD",
+      "cible": "PAD"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "PE",
+      "cible": "PE"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "PENSION",
+      "cible": "PENSION"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "PIJ_BIJ",
+      "cible": "PIJ_BIJ"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "PIMMS",
+      "cible": "PIMMS"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "PJJ",
+      "cible": "PJJ"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "PLIE",
+      "cible": "PLIE"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "PREF",
+      "cible": "PREF"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "PREVENTION",
+      "cible": "PREVENTION"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "REG",
+      "cible": "REG"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "RFS",
+      "cible": "RFS"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "RS_FJT",
+      "cible": "RS_FJT"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "SCP",
+      "cible": "SCP"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "SPIP",
+      "cible": "SPIP"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "TIERS_LIEUX",
+      "cible": "TIERS_LIEUX"
+    },
+    {
+      "colonnes": "typologies",
+      "termes": "UDAF",
+      "cible": "UDAF"
+    }
+  ]
 }
