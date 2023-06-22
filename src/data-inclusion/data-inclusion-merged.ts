@@ -113,6 +113,7 @@ const dataInclusionMergedLabels = (structure: SchemaStructureDataInclusion): Dat
   ...(structure.labels_autres == null ? {} : { labels_autres: structure.labels_autres.join(',') }),
   ...(structure.labels_nationaux == null ? {} : { labels_nationaux: structure.labels_nationaux.join(',') })
 });
+
 const dataInclusionMergedAcces = (
   structure: SchemaStructureDataInclusion,
   service: SchemaServiceDataInclusion
