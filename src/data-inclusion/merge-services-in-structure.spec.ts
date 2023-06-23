@@ -392,7 +392,7 @@ describe('merge services in structure', (): void => {
         longitude: 45.7665478,
         date_maj: '2022-11-07T00:00:00.000Z',
         id: 'Hubik-service-2',
-        nom: 'Médiation numérique',
+        nom: 'Médiation république',
         pivot: '43493312300029',
         source: 'Hubik',
         structure_parente: 'structure-1',
