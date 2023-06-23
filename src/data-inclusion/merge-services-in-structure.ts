@@ -59,10 +59,16 @@ const serviceAsStructure = (
   service: SchemaServiceDataInclusion,
   structure: SchemaStructureDataInclusion
 ): DataInclusionStructureAndServices[] => {
-  service.nom = service.nom === 'Médiation numérique' ? structure.nom : service.nom;
+  const modifiedService: SchemaServiceDataInclusion = {
+    ...service,
+    nom: service.nom === 'Médiation numérique' ? structure.nom : service.nom
+  };
   return [
     ...dataInclusionStructureAndServices,
-    { structure: toStructureDataInclusion(service as SchemaServiceDataInclusionWithAdresse, structure), services: [service] }
+    {
+      structure: toStructureDataInclusion(modifiedService as SchemaServiceDataInclusionWithAdresse, structure),
+      services: [service]
+    }
   ];
 };
 
