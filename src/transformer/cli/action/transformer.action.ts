@@ -1,12 +1,20 @@
-/* eslint-disable @typescript-eslint/no-restricted-imports, @typescript-eslint/naming-convention, @typescript-eslint/prefer-nullish-coalescing */
+/* eslint-disable @typescript-eslint/no-restricted-imports, @typescript-eslint/naming-convention, @typescript-eslint/prefer-nullish-coalescing, camelcase, max-lines */
 import * as fs from 'fs';
 import axios, { AxiosResponse } from 'axios';
-import { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import {
+  ConditionsAcces,
+  LieuMediationNumerique,
+  ModalitesAccompagnement,
+  Pivot,
+  PublicsAccueillis,
+  Services
+} from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Report } from '../../report';
 import { toLieuxMediationNumerique, validValuesOnly } from '../../input';
 import { writeErrorsOutputFiles, writeOutputFiles } from '../../output';
 import { TransformerOptions } from '../transformer-options';
 import { Erp } from '../../fields';
+import { ratio } from 'fuzzball';
 
 /* eslint-disable max-lines-per-function, max-statements, @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/typedef, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
@@ -30,6 +38,49 @@ const inputIsJson = (response: AxiosResponse): boolean =>
     response.headers['content-type']?.includes('application/geo+json') ||
     response.headers['content-type']?.includes('application/json')) ??
   false;
+
+const mergeDoublonsInSameSource = (data: LieuMediationNumerique[]): LieuMediationNumerique[] => {
+  const uniqueEntries: LieuMediationNumerique[] = [];
+
+  data.forEach((entry: LieuMediationNumerique): void => {
+    const duplicateEntry: LieuMediationNumerique | undefined = uniqueEntries.find(
+      (item: LieuMediationNumerique): boolean =>
+        item.source === entry.source &&
+        (ratio(item.nom, entry.nom) > 90 ||
+          ratio(item.adresse.voie, entry.adresse.voie) > 90 ||
+          (item.localisation?.latitude === entry.localisation?.latitude &&
+            item.localisation?.longitude === entry.localisation?.longitude))
+    );
+
+    if (duplicateEntry) {
+      duplicateEntry.services = mergeFieldsValues(duplicateEntry.services, entry.services) as Services;
+      duplicateEntry.conditions_acces = mergeFieldsValues(
+        duplicateEntry.conditions_acces,
+        entry.conditions_acces
+      ) as ConditionsAcces;
+      duplicateEntry.modalites_accompagnement = mergeFieldsValues(
+        duplicateEntry.modalites_accompagnement,
+        entry.modalites_accompagnement
+      ) as ModalitesAccompagnement;
+      duplicateEntry.publics_accueillis = mergeFieldsValues(
+        duplicateEntry.publics_accueillis,
+        entry.publics_accueillis
+      ) as PublicsAccueillis;
+    }
+    if (entry.pivot !== '00000000000000' && duplicateEntry?.pivot === '00000000000000') {
+      duplicateEntry.pivot = entry.pivot as Pivot;
+    } else {
+      uniqueEntries.push({ ...entry });
+    }
+  });
+
+  return uniqueEntries;
+};
+
+const mergeFieldsValues = (existingArray: string[] | undefined, newArray: string[] | undefined): string[] => {
+  const mergedArray: string[] = Array.from(new Set(existingArray?.concat(newArray ?? [])));
+  return mergedArray;
+};
 
 const getDataFromAPI = async (
   response: AxiosResponse,
@@ -111,6 +162,11 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
     );
 
     const lieuxDeMediationNumeriqueWithSingleIds: LieuMediationNumerique[] = Object.values(lieuxDeMediationNumeriqueFiltered);
+
+    const lieuxMediationNumeriqueWithoutDuplicates: LieuMediationNumerique[] = mergeDoublonsInSameSource(
+      lieuxDeMediationNumeriqueWithSingleIds
+    );
+
     writeErrorsOutputFiles({
       path: transformerOptions.outputDirectory,
       name: transformerOptions.sourceName,
@@ -121,6 +177,6 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
       path: transformerOptions.outputDirectory,
       name: transformerOptions.sourceName,
       territoire: transformerOptions.territory
-    })(lieuxDeMediationNumeriqueWithSingleIds);
+    })(lieuxMediationNumeriqueWithoutDuplicates);
   });
 };
