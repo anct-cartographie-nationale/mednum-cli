@@ -12,31 +12,37 @@
     {
       "colonnes": ["checkboxListeTypelieu"],
       "termes": ["3", "4"],
+      "sauf": ["13", "14"],
       "cible": "RFS"
     },
     {
       "colonnes": ["checkboxListeTypelieu"],
       "termes": ["5"],
+      "sauf": ["15"],
       "cible": "BIB"
     },
     {
       "colonnes": ["checkboxListeTypelieu"],
       "termes": ["6"],
+      "sauf": ["16"],
       "cible": "PIJ_BIJ"
     },
     {
       "colonnes": ["checkboxListeTypelieu"],
       "termes": ["7"],
+      "sauf": ["17"],
       "cible": "CCAS"
     },
     {
       "colonnes": ["checkboxListeTypelieu"],
       "termes": ["8"],
+      "sauf": ["18"],
       "cible": "CS"
     },
     {
       "colonnes": ["checkboxListeTypelieu"],
       "termes": ["9","10"],
+      "sauf": ["19"],
       "cible": "ASSO"
     },
     {
@@ -83,7 +89,7 @@
   },
   "labels_nationaux": [
     {
-      "colonnes": ["radioListeOuiNon "],
+      "colonnes": ["radioListeOuiNon"],
       "termes": ["1"],
       "cible": "CNFS"
     },
@@ -194,11 +200,13 @@
     {
       "colonnes": ["checkboxListeTypepublicscecifiques"],
       "termes": ["1"],
+      "sauf": ["10", "11", "12"],
       "cible": "Personnes en situation d'illettrisme"
     },
     {
       "colonnes": ["checkboxListeTypepublicscecifiques"],
       "termes": ["2"],
+      "sauf": ["12"],
       "cible": "Public langues étrangères"
     },
     {
@@ -211,36 +219,43 @@
     {
       "colonnes": ["checkboxListeTypeacces"],
       "termes": ["1"],
+      "sauf": ["10", "11", "12"],
       "cible": "Accéder à une connexion internet"
     },
     {
       "colonnes": ["checkboxListeTypeacces"],
       "termes": ["2"],
+      "sauf": ["12"],
       "cible": "Accéder à du matériel"
     },
     {
       "colonnes": ["checkboxListeTypeformationcomp"],
       "termes": ["2"],
+      "sauf": ["12"],
       "cible": "Prendre en main un ordinateur"
     },
     {
       "colonnes": ["checkboxListeTypeformationcomp"],
       "termes": ["1", "2", "5", "6", "7", "8", "9", "10", "11"],
+      "sauf": ["12"],
       "cible": "Utiliser le numérique au quotidien"
     },
     {
       "colonnes": ["checkboxListeTypeformationcomp"],
       "termes": ["1", "2", "5", "6", "7", "8", "9", "10", "11"],
+      "sauf": ["12"],
       "cible": "Approfondir ma culture numérique"
     },
     {
       "colonnes": ["checkboxListeTypeculturenum"],
       "termes": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "sauf": ["10", "11", "12"],
       "cible": "Utiliser le numérique au quotidien"
     },
     {
       "colonnes": ["checkboxListeTypeculturenum"],
       "termes": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "sauf": ["10", "11", "12"],
       "cible": "Approfondir ma culture numérique"
     },
     {
@@ -251,6 +266,7 @@
     {
       "colonnes": ["checkboxListeTypeformdroits"],
       "termes": ["1", "2"],
+      "sauf": ["10", "11", "12"],
       "cible": "Promouvoir la citoyenneté numérique"
     },
     {
@@ -271,11 +287,13 @@
     {
       "colonnes": ["checkboxListeTypeformdroits"],
       "termes": ["1", "2", "3", "4", "5", "6", "7"],
+      "sauf": ["10", "11", "12"],
       "cible": "Devenir autonome dans les démarches administratives"
     },
     {
       "colonnes": ["checkboxListeTypeaccompagnementenligne"],
       "termes": ["1", "2", "3", "4", "5", "6", "7", "8"],
+      "sauf": ["10", "11", "12"],
       "cible": "Réaliser des démarches administratives avec un accompagnement"
     }
   ],
