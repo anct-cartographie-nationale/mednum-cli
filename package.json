@@ -49,7 +49,7 @@
     "extract.numi": "ts-node src/index.ts extract -n \"numi\" -o \"./assets/output-extraction/numi\" -d \"76,61,50,27,14\"",
     "extract.mednum-hub-antilles": "ts-node src/index.ts extract -n \"mednum-hub-antilles\" -o \"./assets/output-extraction/mednum-hub-antilles\" -d \"972\"",
     "extract.eure-et-loir": "ts-node src/index.ts extract -n \"eure-et-loir\" -o \"./assets/output-extraction/eure-et-loir\" -d \"28\"",
-    "extract.vendee": "ts-node src/index.ts extract -n \"vendee\" -o \"./assets/output-extraction/vendee\" -d \"85\"",
+    "extract.vendee": "ts-node src/index.ts extract -n \"vendee-extraction\" -o \"./assets/output-extraction/vendee\" -d \"85\"",
     "fetch.france-tiers-lieux": "curl --request POST --url https://cartographie.francetierslieux.fr/co2/search/globalautocomplete --header 'Content-Type: application/x-www-form-urlencoded' --data 'searchType[]=organizations' --data indexStep= --data costumSlug=franceTierslieux > assets/input/france-tiers-lieux/france-tiers-lieux.json",
     "transformer.angers": "ts-node src/index.ts transformer -n \"Angers\" -t \"Maine-et-Loire\" -s \"./assets/input/angers/angers.json\" -c \"./assets/input/angers/angers.config.json\" -o \"./assets/output/angers\"",
     "transformer.charente-maritime": "ts-node src/index.ts transformer -n \"Charente Maritime\" -t \"Nouvelle-Aquitaine\" -s \"http://opendata.charente-maritime.fr.cl90-vm02-cg17.site-internet.com/InclusionNumeriquev2/mednum_cd17.geojson@features\" -c \"./assets/input/charente-maritime/charente-maritime.config.json\" -o \"./assets/output/charente-maritime\"",
