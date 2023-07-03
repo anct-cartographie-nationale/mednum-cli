@@ -29,7 +29,7 @@
   "presentation_detail": {
     "colonne": "description"
   },
-  "typologies": [
+  "typologie": [
     {
       "cible": "TIERS_LIEUX"
     }

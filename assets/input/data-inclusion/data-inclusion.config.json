@@ -47,6 +47,12 @@
   "accessibilite": {
     "colonne": "accessibilite"
   },
+  "presentation_resume": {
+    "colonne": "presentation_resume"
+  },
+  "presentation_detail": {
+    "colonne": "presentation_detail"
+  },
   "labels_nationaux": [
     {
       "colonnes": ["labels_nationaux"],

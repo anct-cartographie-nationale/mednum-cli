@@ -16,7 +16,7 @@ describe('typologies field', (): void => {
   it('should get BIB typologie for Médiathèque', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
       nom: { colonne: 'name' },
-      typologies: [{ colonnes: ['checkboxListeTypelieu'], termes: ['5'], cible: Typologie.BIB }]
+      typologie: [{ colonnes: ['checkboxListeTypelieu'], termes: ['5'], cible: Typologie.BIB }]
     } as LieuxMediationNumeriqueMatching;
 
     const typologies: Typologies = processTypologies({ checkboxListeTypelieu: '5' }, matching);

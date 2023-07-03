@@ -8,7 +8,7 @@
   "pivot": {
     "colonne": "bf_siret"
   },
-  "typologies": [
+  "typologie": [
     {
       "colonnes": ["checkboxListeTypelieu"],
       "termes": ["3", "4"],
