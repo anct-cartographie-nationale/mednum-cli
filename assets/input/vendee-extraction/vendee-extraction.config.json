@@ -5,23 +5,6 @@
   "pivot": {
     "colonne": "pivot"
   },
-  "typologies": [
-    {
-      "colonnes": ["typologie"],
-      "termes": ["ASSO"],
-      "cible": "ASSO"
-    },
-    {
-      "colonnes": ["typologie"],
-      "termes": ["BIB"],
-      "cible": "BIB"
-    },
-    {
-      "colonnes": ["typologie"],
-      "termes": ["MUNI"],
-      "cible": "MUNI"
-    }
-  ],
   "nom": {
     "colonne": "nom"
   },
@@ -36,9 +19,6 @@
   },
   "adresse": {
     "colonne": "adresse"
-  },
-  "complement_adresse": {
-    "colonne": "complement_adresse"
   },
   "latitude": {
     "colonne": "latitude"
@@ -64,12 +44,41 @@
   "prise_rdv": {
     "colonne": "prise_rdv"
   },
-  "presentation_detail": {
-    "colonne": "presentation_detail"
-  },
-  "presentation_resume": {
-    "colonne": "presentation_resume"
-  },
+  "labels_nationaux": [
+    {
+      "colonnes": ["labels_nationaux"],
+      "termes": ["CNFS"],
+      "cible": "CNFS"
+    },
+    {
+      "colonnes": ["labels_nationaux"],
+      "termes": ["France Services"],
+      "cible": "France Services"
+    }
+  ],
+  "conditions_acces": [
+    {
+      "colonnes": ["conditions_acces"],
+      "termes": ["Gratuit : Je peux accéder gratuitement au lieu et à ses services"],
+      "cible": "Gratuit : Je peux accéder gratuitement au lieu et à ses services"
+    },
+
+    {
+      "colonnes": ["conditions_acces"],
+      "termes": ["Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"],
+      "cible": "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"
+    },
+    {
+      "colonnes": ["conditions_acces"],
+      "termes": ["Payant : L'accès au lieu et/ou à ses services est payant"],
+      "cible": "Payant : L'accès au lieu et/ou à ses services est payant"
+    },
+    {
+      "colonnes": ["conditions_acces"],
+      "termes": ["Accepte le Pass numérique : Il est possible d'utiliser un Pass numérique pour accéder au lieu"],
+      "cible": "Accepte le Pass numérique : Il est possible d'utiliser un Pass numérique pour accéder au lieu"
+    }
+  ],
   "modalites_accompagnement": [
     {
       "colonnes": ["modalites_accompagnement"],
@@ -90,6 +99,58 @@
       "colonnes": ["modalites_accompagnement"],
       "termes": ["Seul : j'ai accès à du matériel et une connexion"],
       "cible": "Seul : j'ai accès à du matériel et une connexion"
+    }
+  ],
+  "publics_accueillis": [
+    {
+      "colonnes": ["publics_accueillis"],
+      "termes": ["Adultes"],
+      "cible": "Adultes"
+    },
+    {
+      "colonnes": ["publics_accueillis"],
+      "termes": ["Familles/enfants"],
+      "cible": "Familles/enfants"
+    },
+    {
+      "colonnes": ["publics_accueillis"],
+      "termes": ["Jeunes (16-26 ans)"],
+      "cible": "Jeunes (16-26 ans)"
+    },
+    {
+      "colonnes": ["publics_accueillis"],
+      "termes": ["Seniors (+ 65 ans)"],
+      "cible": "Seniors (+ 65 ans)"
+    },
+    {
+      "colonnes": ["publics_accueillis"],
+      "termes": ["Surdité"],
+      "cible": "Surdité"
+    },
+    {
+      "colonnes": ["publics_accueillis"],
+      "termes": ["Handicaps mentaux : déficiences limitant les activités d'une personne"],
+      "cible": "Handicaps mentaux : déficiences limitant les activités d'une personne"
+    },
+    {
+      "colonnes": ["publics_accueillis"],
+      "termes": ["Personnes en situation d'illettrisme"],
+      "cible": "Personnes en situation d'illettrisme"
+    },
+    {
+      "colonnes": ["publics_accueillis"],
+      "termes": ["Public langues étrangères"],
+      "cible": "Public langues étrangères"
+    },
+    {
+      "colonnes": ["publics_accueillis"],
+      "termes": ["Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales"],
+      "cible": "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales"
+    },
+    {
+      "colonnes": ["publics_accueillis"],
+      "termes": ["Déficience visuelle"],
+      "cible": "Déficience visuelle"
     }
   ],
   "services": [
