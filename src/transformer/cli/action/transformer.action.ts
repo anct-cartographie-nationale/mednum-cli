@@ -6,6 +6,7 @@ import { Report } from '../../report';
 import { toLieuxMediationNumerique, validValuesOnly } from '../../input';
 import { writeErrorsOutputFiles, writeOutputFiles } from '../../output';
 import { TransformerOptions } from '../transformer-options';
+import { Erp } from '../../fields';
 
 /* eslint-disable max-lines-per-function, max-statements, @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/typedef, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
@@ -78,6 +79,11 @@ const replaceNullWithEmptyString = (jsonString: string): string => {
   return JSON.stringify(jsonObj, replacer);
 };
 
+const fetchAccesLibreData = async (): Promise<string> =>
+  JSON.stringify(
+    (await axios.get('https://anct-carto-client-feature-les-assembleurs.s3.eu-west-3.amazonaws.com/acceslibre.json')).data
+  );
+
 export const transformerAction = async (transformerOptions: TransformerOptions): Promise<void> => {
   await Promise.all([
     transformerOptions.source.startsWith('http')
@@ -87,11 +93,13 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
           transformerOptions.delimiter ?? ''
         )
       : await readFrom(transformerOptions.source.split('@')),
-    fs.promises.readFile(transformerOptions.configFile, 'utf-8')
-  ]).then(([input, matching]: [string, string]): void => {
+    fs.promises.readFile(transformerOptions.configFile, 'utf-8'),
+    await fetchAccesLibreData()
+  ]).then(([input, matching, accesLibreData]: [string, string, string]): void => {
+    const accesLibreErps: Erp[] = JSON.parse(accesLibreData);
     const lieuxDeMediationNumerique: LieuMediationNumerique[] = JSON.parse(replaceNullWithEmptyString(input))
       .map(flatten)
-      .map(toLieuxMediationNumerique(matching, transformerOptions.sourceName, REPORT))
+      .map(toLieuxMediationNumerique(matching, transformerOptions.sourceName, REPORT, accesLibreErps))
       .filter(validValuesOnly);
 
     const lieuxDeMediationNumeriqueFiltered: LieuMediationNumeriqueById = lieuxDeMediationNumerique.reduce(
@@ -103,7 +111,6 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
     );
 
     const lieuxDeMediationNumeriqueWithSingleIds: LieuMediationNumerique[] = Object.values(lieuxDeMediationNumeriqueFiltered);
-
     writeErrorsOutputFiles({
       path: transformerOptions.outputDirectory,
       name: transformerOptions.sourceName,
