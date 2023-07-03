@@ -41,7 +41,7 @@ export type LieuxMediationNumeriqueMatching = {
   id?: Colonne;
   nom: Colonne;
   pivot?: Colonne;
-  typologies?: Choice<Typologie>[];
+  typologie?: Choice<Typologie>[];
   code_postal: Colonne;
   commune: Colonne;
   adresse: Jonction & Partial<Colonne>;

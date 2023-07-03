@@ -19,7 +19,7 @@ describe('typologie field', (): void => {
 
   it('should always get RFS as typologie', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
-      typologies: [{ cible: Typologie.RFS }]
+      typologie: [{ cible: Typologie.RFS }]
     } as LieuxMediationNumeriqueMatching;
 
     const source: DataSource = {};
@@ -32,7 +32,7 @@ describe('typologie field', (): void => {
   it('should always get RFS as typologie even if name could match something else', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
       nom: { colonne: 'name' },
-      typologies: [{ cible: Typologie.RFS }]
+      typologie: [{ cible: Typologie.RFS }]
     } as LieuxMediationNumeriqueMatching;
 
     const source: DataSource = {
@@ -45,7 +45,7 @@ describe('typologie field', (): void => {
 
   it('should always get TIERS_LIEUX as typologie', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
-      typologies: [{ cible: Typologie.TIERS_LIEUX }]
+      typologie: [{ cible: Typologie.TIERS_LIEUX }]
     } as LieuxMediationNumeriqueMatching;
 
     const source: DataSource = {};
@@ -1181,5 +1181,21 @@ describe('typologie field', (): void => {
     const [typologie]: Typologies = processTypologies(source, matching);
 
     expect(typologie).toBe(Typologie.MDS);
+  });
+
+  it('should get TIERS_LIEUX when this typologie is already present', (): void => {
+    const source: DataSource = {
+      nom: 'Holywood Atelier Bois Partagé',
+      typologie: 'TIERS_LIEUX'
+    };
+
+    const matching: LieuxMediationNumeriqueMatching = {
+      nom: { colonne: 'nom' },
+      typologie: [{ colonnes: ['typologie'], termes: ['TIERS_LIEUX'], cible: Typologie.TIERS_LIEUX }]
+    } as LieuxMediationNumeriqueMatching;
+
+    const [typologie]: Typologies = processTypologies(source, matching);
+
+    expect(typologie).toBe(Typologie.TIERS_LIEUX);
   });
 });

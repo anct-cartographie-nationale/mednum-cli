@@ -61,6 +61,6 @@ const inferTypologies = (source: DataSource, matching: LieuxMediationNumeriqueMa
     : TYPOLOGIE_MATCHERS.reduce(toTypologieMatchingName(source, matching), Typologies([]));
 
 export const processTypologies = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Typologies =>
-  matching.typologies?.at(0)?.cible == null
+  matching.typologie?.at(0)?.cible == null
     ? inferTypologies(source, matching)
-    : Typologies(Array.from(new Set(matching.typologies.reduce(appendTypologies(source), []))));
+    : Typologies(Array.from(new Set(matching.typologie.reduce(appendTypologies(source), []))));
