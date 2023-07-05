@@ -10,6 +10,7 @@ jobs:
     strategy:
       matrix:
         source: [
+            aidants-connect,
             hinaura,
             maine-et-loire,
             les-assembleurs,

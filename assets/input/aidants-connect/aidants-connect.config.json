@@ -1,0 +1,51 @@
+{
+  "id": {
+    "colonne": "ID"
+  },
+  "nom": {
+    "colonne": "Name"
+  },
+  "pivot": {
+    "colonne": "Siret"
+  },
+  "code_postal": {
+    "colonne": "Zip Code"
+  },
+  "commune": {
+    "colonne": "result_city"
+  },
+  "adresse": {
+    "colonne": "Address"
+  },
+  "latitude": {
+    "colonne": "latitude"
+  },
+  "longitude": {
+    "colonne": "longitude"
+  },
+  "date_maj": {
+    "colonne": ""
+  },
+  "labels_nationaux": [
+    {
+      "cible": "Aidants Connect"
+    }
+  ],
+  "modalites_accompagnement": [
+    {
+      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+    }
+  ],
+  "services": [
+    {
+      "cible": "Accompagner les démarches de santé"
+    },
+
+    {
+      "cible": "Devenir autonome dans les démarches administratives"
+    },
+    {
+      "cible": "Réaliser des démarches administratives avec un accompagnement"
+    }
+  ]
+}
