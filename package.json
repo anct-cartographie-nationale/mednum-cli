@@ -81,6 +81,7 @@
     "transformer.rhin-occ": "ts-node src/index.ts transformer -n \"RhinOcc\" -t \"Occitanie\" -s \"https://raw.githubusercontent.com/multi-coop/data-rhinocc-inclusion/main/csv/rhinocc-inclusion-dataset.csv\" -c \"./assets/input/rhin-occ/rhin-occ.config.json\" -o \"./assets/output/rhin-occ\"",
     "transformer.res-in": "ts-node src/index.ts transformer -n \"Res-in\" -t \"Lyon\" -s \"https://resin.grandlyon.com/api/structures\" -c \"./assets/input/res-in/res-in.config.json\" -o \"./assets/output/res-in\"",
     "transformer.ultra-num": "ts-node src/index.ts transformer -n \"Ultra-numerique\" -t \"La Reunion\" -s \"./assets/input/ultra-num/ultra-num.json\" -c \"./assets/input/ultra-num/ultra-num.config.json\" -o \"./assets/output/ultra-num\"",
+    "publier.aidants-connect": "ts-node src/index.ts publier -z \"country:fr\" -m \"./assets/output/aidants-connect/publier.json\"",
     "publier.angers": "ts-node src/index.ts publier -z \"fr:commune:49007\" -m \"./assets/output/angers/publier.json\"",
     "publier.conumm": "ts-node src/index.ts publier -z \"fr:commune:49007\" -m \"./assets/output/conumm/publier.json\"",
     "publier.charente-maritime": "ts-node src/index.ts publier -z \"fr:departement:17\" -m \"./assets/output/charente-maritime/publier.json\"",
