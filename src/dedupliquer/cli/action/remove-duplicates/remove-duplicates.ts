@@ -85,12 +85,19 @@ const mergeSiteWeb = (siteWeb1?: string, siteWeb2?: string): { site_web?: string
 const mergeTypologie = (typologie1?: string, typologie2?: string): { typologie?: string } =>
   typologie1 == null || typologie2 == null ? {} : { typologie: mergeArrayStrings(typologie1, typologie2) };
 
+const mergeId = (lieu1: SchemaLieuMediationNumerique, lieu2: SchemaLieuMediationNumerique): string =>
+  [lieu1.id, lieu2.id]
+    .sort()
+    .join('|')
+    .replace(/-?mediation-numerique-?/gu, '');
+
 const mergeLieux = (lieu1: SchemaLieuMediationNumerique, lieu2?: SchemaLieuMediationNumerique): SchemaLieuMediationNumerique =>
   lieu2 == null
     ? lieu1
     : {
         ...lieu2,
         ...lieu1,
+        id: mergeId(lieu1, lieu2),
         ...ignoreDefaultPivot(lieu1, lieu2),
         ...mergeServices(lieu1, lieu2),
         ...mergeModalitesAccompagnement(lieu1.modalites_accompagnement, lieu2.modalites_accompagnement),
