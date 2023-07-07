@@ -93,6 +93,18 @@ describe('date field', (): void => {
     expect(date).toEqual(new Date('1970-01-01T00:00:00.000Z'));
   });
 
+  it('should not process default date', (): void => {
+    const defaultMtching: LieuxMediationNumeriqueMatching = {
+      date_maj: {
+        valeur: '2022-12-07'
+      }
+    } as LieuxMediationNumeriqueMatching;
+
+    const date: Date = processDate({ datetime_latest: '' }, defaultMtching);
+
+    expect(date).toEqual(new Date('2022-12-07T12:00:00.000Z'));
+  });
+
   it('should delete milliseconds in date', (): void => {
     const date: Date = processDate(
       {

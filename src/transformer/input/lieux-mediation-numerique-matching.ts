@@ -15,6 +15,10 @@ export type Colonne = {
   colonne: string;
 };
 
+export type Valeur = {
+  valeur: string;
+};
+
 export type Jonction = {
   joindre: {
     colonnes: string[];
@@ -56,7 +60,7 @@ export type LieuxMediationNumeriqueMatching = {
   presentation_detail?: Colonne;
   conditions_acces?: Choice<ConditionAcces>[];
   modalites_accompagnement?: Choice<ModaliteAccompagnement>[];
-  date_maj: Colonne;
+  date_maj: Partial<Colonne & Valeur>;
   source?: Colonne;
   labels_nationaux?: Choice<LabelNational>[];
   labels_autres?: Choice<string>[];

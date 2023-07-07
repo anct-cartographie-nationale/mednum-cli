@@ -43,15 +43,17 @@ const dateRegexpResultFrom = (dateRegexp: RegExp, sourceDate: string): Partial<R
 const formatDate = (dateRegexp: RegExp, sourceDate: string, date: Date): Date =>
   dateRegexp.test(sourceDate) ? toDate(dateRegexpResultFrom(dateRegexp, sourceDate)) : date;
 
-const dateFromRegExp =
+const toFormattedDate =
   (sourceDate: string) =>
   (date: Date, dateRegexp: RegExp): Date =>
     formatDate(dateRegexp, sourceDate, date);
 
 const removeInvalidChars = (sourceDate: string = ''): string => sourceDate.replace(/[A-Za-zÀ-ÖØ-öø-ÿœ]/gu, ' ').trim();
 
+const dateFromSource = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
+  matching.date_maj.colonne == null
+    ? matching.date_maj.valeur ?? ''
+    : source[matching.date_maj.colonne]?.toString().replace(/\.\d+/u, '') ?? '';
+
 export const processDate = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Date =>
-  DATE_REGEXP.reduce(
-    dateFromRegExp(removeInvalidChars(source[matching.date_maj.colonne]?.toString().replace(/\.\d+/u, ''))),
-    new Date(1970, 0, 1)
-  );
+  DATE_REGEXP.reduce(toFormattedDate(removeInvalidChars(dateFromSource(source, matching))), new Date(1970, 0, 1));
