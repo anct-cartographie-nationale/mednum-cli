@@ -7,7 +7,7 @@ describe('deduplication comparison', (): void => {
   it('should get duplication comparison', (): void => {
     const lieux: SchemaLieuMediationNumerique[] = [
       {
-        id: '574-mediation-numerique-hinaura',
+        id: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
         nom: 'Numerinaute',
         adresse: '12 Rue Joseph Rey (chez Aconit)',
         code_postal: '38000',
@@ -18,7 +18,7 @@ describe('deduplication comparison', (): void => {
         typologie: Typologie.TIERS_LIEUX
       } as SchemaLieuMediationNumerique,
       {
-        id: '537-mediation-numerique-hinaura',
+        id: 'mediation-numerique-hub-lo-436-mediation-numerique',
         nom: 'La Turbine.Coop',
         adresse: '5 esplanade Andry Farcy',
         code_postal: '38000',
@@ -34,8 +34,8 @@ describe('deduplication comparison', (): void => {
 
     expect(lieuxWithoutDuplicates).toStrictEqual<DuplicationComparison[]>([
       {
-        id1: '574-mediation-numerique-hinaura',
-        id2: '537-mediation-numerique-hinaura',
+        id1: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
+        id2: 'mediation-numerique-hub-lo-436-mediation-numerique',
         score: 27,
         adresseScore: 38,
         adresse1: '12 Rue Joseph Rey (chez Aconit) 38000 Grenoble',
@@ -57,14 +57,14 @@ describe('deduplication comparison', (): void => {
   it('should not get duplication comparison when score is NaN', (): void => {
     const lieux: SchemaLieuMediationNumerique[] = [
       {
-        id: '574-mediation-numerique-hinaura',
+        id: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
         nom: 'Numerinaute',
         adresse: '12 Rue Joseph Rey (chez Aconit)',
         code_postal: '38000',
         commune: 'Grenoble'
       } as SchemaLieuMediationNumerique,
       {
-        id: '537-mediation-numerique-hinaura',
+        id: 'mediation-numerique-hub-lo-436-mediation-numerique',
         nom: 'La Turbine.Coop',
         adresse: '5 esplanade Andry Farcy',
         code_postal: '38000',

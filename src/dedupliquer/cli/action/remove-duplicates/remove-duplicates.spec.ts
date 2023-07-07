@@ -15,7 +15,7 @@ describe('remove duplicates', (): void => {
   it('should not remove lieux when there is no duplicates', (): void => {
     const lieux: SchemaLieuMediationNumerique[] = [
       {
-        id: '574-mediation-numerique-hinaura',
+        id: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
         pivot: '00000000000000',
         nom: 'Numerinaute',
         adresse: '12 Rue Joseph Rey (chez Aconit)',
@@ -25,7 +25,7 @@ describe('remove duplicates', (): void => {
         longitude: 5.716962
       } as SchemaLieuMediationNumerique,
       {
-        id: '537-mediation-numerique-hinaura',
+        id: 'mediation-numerique-hub-lo-436-mediation-numerique',
         pivot: '00000000000000',
         nom: 'La Turbine.Coop',
         adresse: '5 esplanade Andry Farcy 38000 Grenoble',
@@ -40,7 +40,7 @@ describe('remove duplicates', (): void => {
 
     expect(lieuxWithoutDuplicates).toStrictEqual([
       {
-        id: '574-mediation-numerique-hinaura',
+        id: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
         pivot: '00000000000000',
         nom: 'Numerinaute',
         adresse: '12 Rue Joseph Rey (chez Aconit)',
@@ -50,7 +50,7 @@ describe('remove duplicates', (): void => {
         longitude: 5.716962
       } as SchemaLieuMediationNumerique,
       {
-        id: '537-mediation-numerique-hinaura',
+        id: 'mediation-numerique-hub-lo-436-mediation-numerique',
         pivot: '00000000000000',
         nom: 'La Turbine.Coop',
         adresse: '5 esplanade Andry Farcy 38000 Grenoble',
@@ -65,7 +65,7 @@ describe('remove duplicates', (): void => {
   it('should remove oldest lieux when there is two duplicate', (): void => {
     const lieux: SchemaLieuMediationNumerique[] = [
       {
-        id: '1',
+        id: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -77,7 +77,7 @@ describe('remove duplicates', (): void => {
         source: 'hinaura'
       } as SchemaLieuMediationNumerique,
       {
-        id: '2',
+        id: 'mediation-numerique-hub-lo-436-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -94,7 +94,7 @@ describe('remove duplicates', (): void => {
 
     expect(lieuxWithoutDuplicates).toStrictEqual([
       {
-        id: '1',
+        id: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -111,7 +111,7 @@ describe('remove duplicates', (): void => {
   it('should merge extra field from lieu 2 duplicate', (): void => {
     const lieux: SchemaLieuMediationNumerique[] = [
       {
-        id: '1',
+        id: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -124,7 +124,7 @@ describe('remove duplicates', (): void => {
         services: Service.RealiserDesDemarchesAdministratives
       } as SchemaLieuMediationNumerique,
       {
-        id: '2',
+        id: 'mediation-numerique-hub-lo-436-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -143,7 +143,7 @@ describe('remove duplicates', (): void => {
 
     expect(lieuxWithoutDuplicates).toStrictEqual([
       {
-        id: '1',
+        id: 'hinaura-MairiE2|hub-lo-436',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -162,7 +162,7 @@ describe('remove duplicates', (): void => {
   it('should merge but not override default pivot', (): void => {
     const lieux: SchemaLieuMediationNumerique[] = [
       {
-        id: '1',
+        id: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -176,7 +176,7 @@ describe('remove duplicates', (): void => {
         services: Service.RealiserDesDemarchesAdministratives
       } as SchemaLieuMediationNumerique,
       {
-        id: '2',
+        id: 'mediation-numerique-hub-lo-436-mediation-numerique',
         pivot: '43493312300029',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -194,7 +194,7 @@ describe('remove duplicates', (): void => {
 
     expect(lieuxWithoutDuplicates).toStrictEqual([
       {
-        id: '1',
+        id: 'hinaura-MairiE2|hub-lo-436',
         pivot: '43493312300029',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -213,7 +213,7 @@ describe('remove duplicates', (): void => {
   it('should merge lieux services', (): void => {
     const lieux: SchemaLieuMediationNumerique[] = [
       {
-        id: '1',
+        id: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -227,7 +227,7 @@ describe('remove duplicates', (): void => {
         services: `${Service.DevenirAutonomeDansLesDemarchesAdministratives};${Service.RealiserDesDemarchesAdministratives}`
       } as SchemaLieuMediationNumerique,
       {
-        id: '2',
+        id: 'mediation-numerique-hub-lo-436-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -245,7 +245,7 @@ describe('remove duplicates', (): void => {
 
     expect(lieuxWithoutDuplicates).toStrictEqual([
       {
-        id: '1',
+        id: 'hinaura-MairiE2|hub-lo-436',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -264,7 +264,7 @@ describe('remove duplicates', (): void => {
   it("should merge lieux Modalités d'accompagnement", (): void => {
     const lieux: SchemaLieuMediationNumerique[] = [
       {
-        id: '1',
+        id: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -279,7 +279,7 @@ describe('remove duplicates', (): void => {
         modalites_accompagnement: `${ModaliteAccompagnement.Seul};${ModaliteAccompagnement.AMaPlace};${ModaliteAccompagnement.DansUnAtelier}`
       } as SchemaLieuMediationNumerique,
       {
-        id: '2',
+        id: 'mediation-numerique-hub-lo-436-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -298,7 +298,7 @@ describe('remove duplicates', (): void => {
 
     expect(lieuxWithoutDuplicates).toStrictEqual([
       {
-        id: '1',
+        id: 'hinaura-MairiE2|hub-lo-436',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -318,7 +318,7 @@ describe('remove duplicates', (): void => {
   it("should merge lieux Conditions d'accès", (): void => {
     const lieux: SchemaLieuMediationNumerique[] = [
       {
-        id: '1',
+        id: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -333,7 +333,7 @@ describe('remove duplicates', (): void => {
         conditions_acces: `${ConditionAcces.GratuitSousCondition};${ConditionAcces.Payant};${ConditionAcces.AccepteLePassNumerique}`
       } as SchemaLieuMediationNumerique,
       {
-        id: '2',
+        id: 'mediation-numerique-hub-lo-436-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -352,7 +352,7 @@ describe('remove duplicates', (): void => {
 
     expect(lieuxWithoutDuplicates).toStrictEqual([
       {
-        id: '1',
+        id: 'hinaura-MairiE2|hub-lo-436',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -372,7 +372,7 @@ describe('remove duplicates', (): void => {
   it('should merge lieux Publics accueillis', (): void => {
     const lieux: SchemaLieuMediationNumerique[] = [
       {
-        id: '1',
+        id: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -387,7 +387,7 @@ describe('remove duplicates', (): void => {
         publics_accueillis: `${PublicAccueilli.Surdite};${PublicAccueilli.Adultes};${PublicAccueilli.Jeunes}`
       } as SchemaLieuMediationNumerique,
       {
-        id: '2',
+        id: 'mediation-numerique-hub-lo-436-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -406,7 +406,7 @@ describe('remove duplicates', (): void => {
 
     expect(lieuxWithoutDuplicates).toStrictEqual([
       {
-        id: '1',
+        id: 'hinaura-MairiE2|hub-lo-436',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -426,7 +426,7 @@ describe('remove duplicates', (): void => {
   it('should merge lieux Labels nationaux', (): void => {
     const lieux: SchemaLieuMediationNumerique[] = [
       {
-        id: '1',
+        id: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -441,7 +441,7 @@ describe('remove duplicates', (): void => {
         labels_nationaux: `${LabelNational.CNFS};${LabelNational.FranceServices};${LabelNational.APTIC}`
       } as SchemaLieuMediationNumerique,
       {
-        id: '2',
+        id: 'mediation-numerique-hub-lo-436-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -460,7 +460,7 @@ describe('remove duplicates', (): void => {
 
     expect(lieuxWithoutDuplicates).toStrictEqual([
       {
-        id: '1',
+        id: 'hinaura-MairiE2|hub-lo-436',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -480,7 +480,7 @@ describe('remove duplicates', (): void => {
   it('should merge lieux Autres labels', (): void => {
     const lieux: SchemaLieuMediationNumerique[] = [
       {
-        id: '1',
+        id: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -495,7 +495,7 @@ describe('remove duplicates', (): void => {
         labels_autres: "Ville de Paris;Francil'in;cooltech"
       } as SchemaLieuMediationNumerique,
       {
-        id: '2',
+        id: 'mediation-numerique-hub-lo-436-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -514,7 +514,7 @@ describe('remove duplicates', (): void => {
 
     expect(lieuxWithoutDuplicates).toStrictEqual([
       {
-        id: '1',
+        id: 'hinaura-MairiE2|hub-lo-436',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -534,7 +534,7 @@ describe('remove duplicates', (): void => {
   it('should merge lieux Site web', (): void => {
     const lieux: SchemaLieuMediationNumerique[] = [
       {
-        id: '1',
+        id: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -549,7 +549,7 @@ describe('remove duplicates', (): void => {
         site_web: 'https://www.ville-durtal.fr/;https://www.ccals.fr/profils/durtal/'
       } as SchemaLieuMediationNumerique,
       {
-        id: '2',
+        id: 'mediation-numerique-hub-lo-436-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -568,7 +568,7 @@ describe('remove duplicates', (): void => {
 
     expect(lieuxWithoutDuplicates).toStrictEqual([
       {
-        id: '1',
+        id: 'hinaura-MairiE2|hub-lo-436',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -588,7 +588,7 @@ describe('remove duplicates', (): void => {
   it('should merge lieux Typologie', (): void => {
     const lieux: SchemaLieuMediationNumerique[] = [
       {
-        id: '1',
+        id: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -603,7 +603,7 @@ describe('remove duplicates', (): void => {
         typologie: `${Typologie.RFS};${Typologie.ASSO}`
       } as SchemaLieuMediationNumerique,
       {
-        id: '2',
+        id: 'mediation-numerique-hub-lo-436-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -622,7 +622,7 @@ describe('remove duplicates', (): void => {
 
     expect(lieuxWithoutDuplicates).toStrictEqual([
       {
-        id: '1',
+        id: 'hinaura-MairiE2|hub-lo-436',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -642,7 +642,7 @@ describe('remove duplicates', (): void => {
   it('should merge extra field from lieu 1 duplicate', (): void => {
     const lieux: SchemaLieuMediationNumerique[] = [
       {
-        id: '1',
+        id: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -656,7 +656,7 @@ describe('remove duplicates', (): void => {
         services: Service.RealiserDesDemarchesAdministratives
       } as SchemaLieuMediationNumerique,
       {
-        id: '2',
+        id: 'mediation-numerique-hub-lo-436-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -674,7 +674,7 @@ describe('remove duplicates', (): void => {
 
     expect(lieuxWithoutDuplicates).toStrictEqual([
       {
-        id: '2',
+        id: 'hinaura-MairiE2|hub-lo-436',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -693,7 +693,7 @@ describe('remove duplicates', (): void => {
   it('should merge extra field from lieu 2 duplicate which source that is not conseiller numerique', (): void => {
     const lieux: SchemaLieuMediationNumerique[] = [
       {
-        id: '1',
+        id: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -706,7 +706,7 @@ describe('remove duplicates', (): void => {
         services: Service.RealiserDesDemarchesAdministratives
       } as SchemaLieuMediationNumerique,
       {
-        id: '2',
+        id: 'mediation-numerique-hub-lo-436-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -724,7 +724,7 @@ describe('remove duplicates', (): void => {
 
     expect(lieuxWithoutDuplicates).toStrictEqual([
       {
-        id: '1',
+        id: 'hinaura-MairiE2|hub-lo-436',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -743,7 +743,7 @@ describe('remove duplicates', (): void => {
   it('should not merge extra field from lieu 2 duplicate when duplicate is too old', (): void => {
     const lieux: SchemaLieuMediationNumerique[] = [
       {
-        id: '1',
+        id: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -755,7 +755,7 @@ describe('remove duplicates', (): void => {
         source: 'hinaura'
       } as SchemaLieuMediationNumerique,
       {
-        id: '2',
+        id: 'mediation-numerique-hub-lo-436-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -773,7 +773,7 @@ describe('remove duplicates', (): void => {
 
     expect(lieuxWithoutDuplicates).toStrictEqual([
       {
-        id: '1',
+        id: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -790,7 +790,7 @@ describe('remove duplicates', (): void => {
   it('should not merge extra field from lieu 1 duplicate when duplicate is too old', (): void => {
     const lieux: SchemaLieuMediationNumerique[] = [
       {
-        id: '1',
+        id: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -803,7 +803,7 @@ describe('remove duplicates', (): void => {
         source: 'hinaura'
       } as SchemaLieuMediationNumerique,
       {
-        id: '2',
+        id: 'mediation-numerique-hub-lo-436-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -820,7 +820,7 @@ describe('remove duplicates', (): void => {
 
     expect(lieuxWithoutDuplicates).toStrictEqual([
       {
-        id: '2',
+        id: 'mediation-numerique-hub-lo-436-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -837,7 +837,7 @@ describe('remove duplicates', (): void => {
   it('should not merge extra field from lieu 2 duplicate with conseiller-numerique fields when duplicate is too old', (): void => {
     const lieux: SchemaLieuMediationNumerique[] = [
       {
-        id: '1',
+        id: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -849,7 +849,7 @@ describe('remove duplicates', (): void => {
         source: 'conseiller-numerique'
       } as SchemaLieuMediationNumerique,
       {
-        id: '2',
+        id: 'mediation-numerique-hub-lo-436-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -866,7 +866,7 @@ describe('remove duplicates', (): void => {
 
     expect(lieuxWithoutDuplicates).toStrictEqual([
       {
-        id: '1',
+        id: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -883,7 +883,7 @@ describe('remove duplicates', (): void => {
   it('should not merge extra field from lieu 1 duplicate with conseiller-numerique fields when duplicate is too old', (): void => {
     const lieux: SchemaLieuMediationNumerique[] = [
       {
-        id: '1',
+        id: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -895,7 +895,7 @@ describe('remove duplicates', (): void => {
         courriel: 'commune-de-durtal@france-services.fr'
       } as SchemaLieuMediationNumerique,
       {
-        id: '2',
+        id: 'mediation-numerique-hub-lo-436-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -912,7 +912,7 @@ describe('remove duplicates', (): void => {
 
     expect(lieuxWithoutDuplicates).toStrictEqual([
       {
-        id: '2',
+        id: 'mediation-numerique-hub-lo-436-mediation-numerique',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
