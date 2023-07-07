@@ -376,20 +376,4 @@ describe('adresse field', (): void => {
       voie: '1 avenue Pasteur'
     });
   });
-
-  // it('should retrieve commune by code postal', (): void => {
-  //   const source: DataSource = {
-  //     'Code postal': '38000',
-  //     'Ville *': '',
-  //     'Adresse postale *': '5 rue Malakoff'
-  //   };
-
-  //   const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
-
-  //   expect(adresse).toStrictEqual({
-  //     code_postal: '38000',
-  //     commune: 'Grenoble',
-  //     voie: '5 rue Malakoff'
-  //   });
-  // });
 });

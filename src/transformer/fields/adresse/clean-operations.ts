@@ -29,7 +29,6 @@ const FIX_MULTILINES_IN_VOIE = (matching: LieuxMediationNumeriqueMatching): Clea
 });
 
 const toCommuneName = (commune: Commune): string => commune.Nom_commune.toLowerCase();
-// const toCodePostal = (commune: Commune): string => commune.Code_postal.toString();
 
 const formatToCommuneNameData = (commune: string): string =>
   commune.toLowerCase().replace('saint', 'st').replace(/['-]/gu, ' ').replace(/\s+$/u, '');
@@ -58,18 +57,6 @@ const processCodePostal = (source: DataSource, matching: LieuxMediationNumerique
 const throwMissingFixRequiredDataError = (): string => {
   throw new Error('Missing fix required data');
 };
-
-// const processCommuneMissing = (codePostalMatching: string): string =>
-//   communes[
-//     communes.map(toCodePostal).findIndex((codePostal) => codePostal === codePostalMatching.toString())
-//   ]?.Nom_commune.toLowerCase() ?? '';
-
-// const FIX_COMMUNE_MISSING = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
-//   name: 'missing commune',
-//   selector: /^$/u,
-//   field: matching.commune.colonne,
-//   fix: (_: string, source?: DataSource): string => processCommuneMissing(source?.[matching.code_postal.colonne] ?? '')
-// });
 
 const FIX_MISSING_CODE_POSTAL = (matching: LieuxMediationNumeriqueMatching): CleanOperation => ({
   name: 'missing code postal',
@@ -110,5 +97,4 @@ export const CLEAN_OPERATIONS = (matching: LieuxMediationNumeriqueMatching): Cle
   FIX_MISSING_0_IN_CODE_POSTAL(matching),
   FIX_CODE_POSTAL_EXTRA_CHAR(matching),
   FIX_MULTILINES_IN_VOIE(matching)
-  // FIX_COMMUNE_MISSING(matching)
 ];
