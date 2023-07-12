@@ -43,7 +43,7 @@ const CODE_POSTAL_IS_IN_ADRESSE_MATCHING: LieuxMediationNumeriqueMatching = {
     colonne: ''
   },
   commune: {
-    colonne: 'commune'
+    colonne: ''
   },
   adresse: {
     colonne: 'adresse'
@@ -376,4 +376,19 @@ describe('adresse field', (): void => {
       voie: '1 avenue Pasteur'
     });
   });
+
+  // it('should retrieve code postal and commune from voie', (): void => {
+  //   const source: DataSource = {
+  //     adresse: 'Mairie de Piobetta 20234 PIOBETTA',
+  //     commune: "test"
+  //   };
+
+  //   const adresse: Adresse = processAdresse(Report().entry(0))(source, CODE_POSTAL_IS_IN_ADRESSE_MATCHING);
+
+  //   expect(adresse).toStrictEqual({
+  //     code_postal: '20234',
+  //     commune: 'PIOBETTA',
+  //     voie: 'Mairie de Piobetta 20234 PIOBETTA'
+  //   });
+  // });
 });

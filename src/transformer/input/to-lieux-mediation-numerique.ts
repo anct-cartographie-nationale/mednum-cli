@@ -129,6 +129,7 @@ export const toLieuxMediationNumerique =
         report.entry(index).record(error.key, error.message, entryIdentification(dataSource, matching)).commit();
         return undefined;
       }
+      console.log(error);
       throw error;
     }
   };
