@@ -43,6 +43,18 @@ const CODE_POSTAL_IS_IN_ADRESSE_MATCHING: LieuxMediationNumeriqueMatching = {
     colonne: ''
   },
   commune: {
+    colonne: 'commune'
+  },
+  adresse: {
+    colonne: 'adresse'
+  }
+} as LieuxMediationNumeriqueMatching;
+
+const CODE_POSTAL_AND_COMMUNE_ARE_IN_ADRESSE_MATCHING: LieuxMediationNumeriqueMatching = {
+  code_postal: {
+    colonne: ''
+  },
+  commune: {
     colonne: ''
   },
   adresse: {
@@ -377,18 +389,17 @@ describe('adresse field', (): void => {
     });
   });
 
-  // it('should retrieve code postal and commune from voie', (): void => {
-  //   const source: DataSource = {
-  //     adresse: 'Mairie de Piobetta 20234 PIOBETTA',
-  //     commune: "test"
-  //   };
+  it('should retrieve code postal and commune from voie', (): void => {
+    const source: DataSource = {
+      adresse: 'Mairie de Piobetta 20234 PIOBETTA'
+    };
 
-  //   const adresse: Adresse = processAdresse(Report().entry(0))(source, CODE_POSTAL_IS_IN_ADRESSE_MATCHING);
+    const adresse: Adresse = processAdresse(Report().entry(0))(source, CODE_POSTAL_AND_COMMUNE_ARE_IN_ADRESSE_MATCHING);
 
-  //   expect(adresse).toStrictEqual({
-  //     code_postal: '20234',
-  //     commune: 'PIOBETTA',
-  //     voie: 'Mairie de Piobetta 20234 PIOBETTA'
-  //   });
-  // });
+    expect(adresse).toStrictEqual({
+      code_postal: '20234',
+      commune: 'PIOBETTA',
+      voie: 'Mairie de Piobetta 20234 PIOBETTA'
+    });
+  });
 });

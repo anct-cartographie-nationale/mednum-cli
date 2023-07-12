@@ -35,13 +35,19 @@ const codeInseeIfAny = (codeInsee?: string): { code_insee?: string } => (codeIns
 
 const codePostalFromVoie = (voie: string): string => /\b\d{5}\b/u.exec(voie)?.[0] ?? '';
 
+const getCommuneFromVoie = (voie: string): string =>
+  /\b\d{5}\b\s*(?<commune>\w+)/u.exec(voie)?.groups?.['commune'] ?? ('' as string);
+
 const toLieuxMediationNumeriqueAdresse = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Adresse =>
   Adresse({
     code_postal:
       matching.code_postal.colonne === ''
         ? codePostalFromVoie(voieField(source, matching.adresse))
         : source[matching.code_postal.colonne]?.toString() ?? '',
-    commune: formatCommune(source[matching.commune.colonne] ?? ''),
+    commune:
+      matching.commune.colonne === ''
+        ? getCommuneFromVoie(voieField(source, matching.adresse))
+        : formatCommune(source[matching.commune.colonne] ?? ''),
     voie: formatVoie(voieField(source, matching.adresse)),
     ...complementAdresseIfAny(source[matching.complement_adresse?.colonne ?? '']),
     ...codeInseeIfAny(source[matching.code_insee?.colonne ?? '']?.toString())

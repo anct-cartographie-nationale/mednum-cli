@@ -2449,22 +2449,6 @@
   },
   {
     "Type": "Mission locale",
-    "long": 9.17146,
-    "lat": 41.74919,
-    "Structure": "Permanence Zonza",
-    "Adresse": "CCAS Taglio-Rosso",
-    "Contact": null,
-    "N° de téléphone": "04 95 70 34 90",
-    "Adresse e-mail": null,
-    "Activités proposées": null,
-    "Matériel mis à disposition": null,
-    "Horaires": "Le troisième jeudi du mois de 9h00 à 12h30",
-    "Site internet": null,
-    "pointgeo": "41.74919,9.17146",
-    "Conseiller numérique": null
-  },
-  {
-    "Type": "Mission locale",
     "long": 9.15271,
     "lat": 42.30551,
     "Structure": "Mission locale rurale Haute-Corse",

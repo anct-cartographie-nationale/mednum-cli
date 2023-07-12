@@ -87,6 +87,7 @@
     "publier.conumm": "ts-node src/index.ts publier -z \"fr:commune:49007\" -m \"./assets/output/conumm/publier.json\"",
     "publier.charente-maritime": "ts-node src/index.ts publier -z \"fr:departement:17\" -m \"./assets/output/charente-maritime/publier.json\"",
     "publier.conseiller-numerique": "ts-node src/index.ts publier -z \"country:fr\" -m \"./assets/output/conseiller-numerique/publier.json\"",
+    "publier.corse": "ts-node src/index.ts publier -z \"fr:region:94\" -m \"./assets/output/corse/publier.json\"",
     "publier.data-inclusion": "ts-node src/index.ts publier -z \"country:fr\" -m \"./assets/output/data-inclusion/publier.json\"",
     "publier.etapes-numerique": "ts-node src/index.ts publier -z \"country:fr\" -m \"./assets/output/etapes-numerique/publier.json\"",
     "publier.fibre-64": "ts-node src/index.ts publier -z \"fr:departement:64\" -m \"./assets/output/fibre-64/publier.json\"",
