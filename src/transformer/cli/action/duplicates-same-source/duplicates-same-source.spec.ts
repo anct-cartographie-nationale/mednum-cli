@@ -1,164 +1,116 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 import { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { mergeDoublonsInSameSource } from './duplicates-same-source';
+import { keepOneEntryPerSource } from './duplicates-same-source';
 
 describe('merge same lieux with same sources', (): void => {
-  it('should merge same lieux with same coordonnee', (): void => {
+  it('should keep only one lieu if doublons', (): void => {
     const lieuxMediationNumerique: LieuMediationNumerique[] = [
       {
-        id: 'mediation-numerique-cd28-appui-territorial-mediation-numerique-conseiller-numerique-62b0233a8255a806e299df55-mediation-numerique-mediation-numerique',
-        nom: 'Maison des Solidarités et de la Citoyenneté',
-        services: 'Prendre en main un smartphone ou une tablette;Prendre en main un ordinateur',
+        id: 43,
+        nom: 'A.S.C Bellevue Naugeat ',
+        services: 'Accéder à une connexion internet',
         pivot: '00000000000000',
-        commune: 'DREUX',
-        code_postal: '28100',
-        adresse: '5 Rue Henri Dunant',
-        localisation: {
-          latitude: 48.736124,
-          longitude: 1.385011
-        },
-        conditions_acces: 'Gratuit : Je peux accéder gratuitement au lieu et à ses services',
+        commune: 'Limoges',
+        code_postal: '87000',
+        adresse: '1 Allée Rossini 87000 Limoges',
+        latitude: 45.8182020037582,
+        longitude: 1.247903624910087,
+        telephone: '+33555331259',
+        site_web: 'https://ascbellevue.fr/activites/insertion/',
+        presentation_detail: 'Accompagnement réalisé par un travailleur social',
+        conditions_acces:
+          "Gratuit : Je peux accéder gratuitement au lieu et à ses services;Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer;Accepte le Pass numérique : Il est possible d'utiliser un Pass numérique pour accéder au lieu",
         modalites_accompagnement: "Avec de l'aide : je suis accompagné seul dans l'usage du numérique",
-        source: 'cd28-appui-territorial',
-        date_maj: '2022-06-20'
+        labels_nationaux: 'APTIC',
+        source: 'Haute-Vienne',
+        date_maj: '1969-12-31'
       } as unknown as LieuMediationNumerique,
       {
-        id: 'mediation-numerique-cd29-appui-territorial-mediation-numerique-conseiller-numerique-62b0233a8255a806e299df55-mediation-numerique-mediation-numerique',
-        nom: 'Médiation Numérique',
-        services: 'Utiliser le numérique au quotidien;Approfondir ma culture numérique',
-        pivot: '12345678910111',
-        commune: 'DREUX',
-        code_postal: '28100',
-        adresse: '5 Rue Henri Dunant',
-        localisation: {
-          latitude: 48.736124,
-          longitude: 1.385011
-        },
-        conditions_acces: 'Gratuit : Je peux accéder gratuitement au lieu et à ses services',
-        modalites_accompagnement: "Seul : j'ai accès à du matériel et une connexion",
-        source: 'cd28-appui-territorial',
-        date_maj: '2022-06-20'
+        id: 44,
+        nom: 'A.S.C Bellevue Naugeat ',
+        services: 'Accéder à du matériel',
+        pivot: '00000000000000',
+        commune: 'Limoges',
+        code_postal: '87000',
+        adresse: '1 Allée Rossini 87000 Limoges',
+        latitude: 45.8182020037582,
+        longitude: 1.247903624910087,
+        telephone: '+33555331259',
+        site_web: 'https://ascbellevue.fr/activites/insertion/',
+        presentation_detail: 'Accompagnement réalisé par un travailleur social',
+        conditions_acces:
+          "Gratuit : Je peux accéder gratuitement au lieu et à ses services;Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer;Accepte le Pass numérique : Il est possible d'utiliser un Pass numérique pour accéder au lieu",
+        modalites_accompagnement: "Avec de l'aide : je suis accompagné seul dans l'usage du numérique",
+        labels_nationaux: 'APTIC',
+        source: 'Haute-Vienne',
+        date_maj: '1969-12-31'
+      } as unknown as LieuMediationNumerique,
+      {
+        id: 45,
+        nom: 'A.S.C Bellevue Naugeat ',
+        services: 'Favoriser mon insertion professionnelle',
+        pivot: '00000000000000',
+        commune: 'Limoges',
+        code_postal: '87000',
+        adresse: '1 Allée Rossini 87000 Limoges',
+        latitude: 45.8182020037582,
+        longitude: 1.247903624910087,
+        telephone: '+33555331259',
+        site_web: 'https://ascbellevue.fr/activites/insertion/',
+        presentation_detail:
+          "Aide à la recherche d'emploi, à la rédaction de CV et de lettres de motivation. Mise en relation avec d'autres structures de l'emploi et de l'insertion.",
+        publics_accueillis: 'Jeunes (16-26 ans);Familles/enfants;Adultes;Seniors (+ 65 ans)',
+        conditions_acces:
+          "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer;Accepte le Pass numérique : Il est possible d'utiliser un Pass numérique pour accéder au lieu",
+        modalites_accompagnement: "Avec de l'aide : je suis accompagné seul dans l'usage du numérique",
+        labels_nationaux: 'APTIC',
+        source: 'Haute-Vienne',
+        date_maj: '1969-12-31'
+      } as unknown as LieuMediationNumerique,
+      {
+        id: 46,
+        nom: 'A.S.C Bellevue Naugeat ',
+        services: 'Réaliser des démarches administratives avec un accompagnement',
+        pivot: '00000000000000',
+        commune: 'Limoges',
+        code_postal: '87000',
+        adresse: '1 Allée Rossini 87000 Limoges',
+        latitude: 45.8182020037582,
+        longitude: 1.247903624910087,
+        telephone: '+33555331259',
+        site_web: 'https://ascbellevue.fr/activites/insertion/',
+        publics_accueillis: 'Jeunes (16-26 ans);Familles/enfants;Adultes;Seniors (+ 65 ans)',
+        conditions_acces:
+          "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer;Accepte le Pass numérique : Il est possible d'utiliser un Pass numérique pour accéder au lieu",
+        modalites_accompagnement: "Avec de l'aide : je suis accompagné seul dans l'usage du numérique",
+        labels_nationaux: 'APTIC',
+        source: 'Haute-Vienne',
+        date_maj: '1969-12-31'
       } as unknown as LieuMediationNumerique
     ];
 
-    const mergedLieuMediationNumerique: LieuMediationNumerique[] = mergeDoublonsInSameSource(lieuxMediationNumerique);
+    const mergedLieuMediationNumerique: LieuMediationNumerique[] = keepOneEntryPerSource(lieuxMediationNumerique);
 
     expect(mergedLieuMediationNumerique).toStrictEqual([
       {
-        id: 'mediation-numerique-cd28-appui-territorial-mediation-numerique-conseiller-numerique-62b0233a8255a806e299df55-mediation-numerique-mediation-numerique',
-        nom: 'Maison des Solidarités et de la Citoyenneté',
-        services:
-          'Prendre en main un smartphone ou une tablette;Prendre en main un ordinateur;Utiliser le numérique au quotidien;Approfondir ma culture numérique',
-        pivot: '12345678910111',
-        commune: 'DREUX',
-        code_postal: '28100',
-        adresse: '5 Rue Henri Dunant',
-        localisation: {
-          latitude: 48.736124,
-          longitude: 1.385011
-        },
-        conditions_acces: 'Gratuit : Je peux accéder gratuitement au lieu et à ses services',
-        modalites_accompagnement:
-          "Avec de l'aide : je suis accompagné seul dans l'usage du numérique;Seul : j'ai accès à du matériel et une connexion",
-        source: 'cd28-appui-territorial',
-        date_maj: '2022-06-20'
-      }
-    ]);
-  });
-
-  it('should merge same lieux with same coordonnee and keep others lieux', (): void => {
-    const lieuxMediationNumerique: LieuMediationNumerique[] = [
-      {
-        id: 'mediation-numerique-cd28-appui-territorial-mediation-numerique-conseiller-numerique-62b0233a8255a806e299df55-mediation-numerique-mediation-numerique',
-        nom: 'Maison des Solidarités et de la Citoyenneté',
-        services: 'Prendre en main un smartphone ou une tablette;Prendre en main un ordinateur',
+        id: 43,
+        nom: 'A.S.C Bellevue Naugeat ',
+        services: 'Accéder à une connexion internet',
         pivot: '00000000000000',
-        commune: 'DREUX',
-        code_postal: '28100',
-        adresse: '5 Rue Henri Dunant',
-        localisation: {
-          latitude: 48.736124,
-          longitude: 1.385011
-        },
-        conditions_acces: 'Gratuit : Je peux accéder gratuitement au lieu et à ses services',
+        commune: 'Limoges',
+        code_postal: '87000',
+        adresse: '1 Allée Rossini 87000 Limoges',
+        latitude: 45.8182020037582,
+        longitude: 1.247903624910087,
+        telephone: '+33555331259',
+        site_web: 'https://ascbellevue.fr/activites/insertion/',
+        presentation_detail: 'Accompagnement réalisé par un travailleur social',
+        conditions_acces:
+          "Gratuit : Je peux accéder gratuitement au lieu et à ses services;Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer;Accepte le Pass numérique : Il est possible d'utiliser un Pass numérique pour accéder au lieu",
         modalites_accompagnement: "Avec de l'aide : je suis accompagné seul dans l'usage du numérique",
-        source: 'cd28-appui-territorial',
-        date_maj: '2022-06-20'
-      } as unknown as LieuMediationNumerique,
-      {
-        id: 'mediation-numerique-cd29-appui-territorial-mediation-numerique-conseiller-numerique-62b0233a8255a806e299df55-mediation-numerique-mediation-numerique',
-        nom: 'Médiation Numérique',
-        services: 'Utiliser le numérique au quotidien;Approfondir ma culture numérique',
-        pivot: '12345678910111',
-        commune: 'DREUX',
-        code_postal: '28100',
-        adresse: '5 Rue Henri Dunant',
-        localisation: {
-          latitude: 48.736124,
-          longitude: 1.385011
-        },
-        conditions_acces: 'Gratuit : Je peux accéder gratuitement au lieu et à ses services',
-        modalites_accompagnement: "Seul : j'ai accès à du matériel et une connexion",
-        source: 'cd28-appui-territorial',
-        date_maj: '2022-06-20'
-      } as unknown as LieuMediationNumerique,
-      {
-        id: 'mediation-numerique-cd30-appui-territorial-mediation-numerique-conseiller-numerique-62b0233a8255a806e299df55-mediation-numerique-mediation-numerique',
-        nom: 'Test',
-        services: 'Utiliser le numérique au quotidien;Approfondir ma culture numérique',
-        pivot: '00000000000000',
-        commune: 'DREUX',
-        code_postal: '28100',
-        adresse: '6 Rue du test',
-        localisation: {
-          latitude: 48.738957,
-          longitude: 1.66988
-        },
-        conditions_acces: 'Gratuit : Je peux accéder gratuitement au lieu et à ses services',
-        modalites_accompagnement: "Seul : j'ai accès à du matériel et une connexion",
-        source: 'cd28-appui-territorial',
-        date_maj: '2022-06-20'
-      } as unknown as LieuMediationNumerique
-    ];
-
-    const mergedLieuMediationNumerique: LieuMediationNumerique[] = mergeDoublonsInSameSource(lieuxMediationNumerique);
-
-    expect(mergedLieuMediationNumerique).toStrictEqual([
-      {
-        id: 'mediation-numerique-cd28-appui-territorial-mediation-numerique-conseiller-numerique-62b0233a8255a806e299df55-mediation-numerique-mediation-numerique',
-        nom: 'Maison des Solidarités et de la Citoyenneté',
-        services:
-          'Prendre en main un smartphone ou une tablette;Prendre en main un ordinateur;Utiliser le numérique au quotidien;Approfondir ma culture numérique',
-        pivot: '12345678910111',
-        commune: 'DREUX',
-        code_postal: '28100',
-        adresse: '5 Rue Henri Dunant',
-        localisation: {
-          latitude: 48.736124,
-          longitude: 1.385011
-        },
-        conditions_acces: 'Gratuit : Je peux accéder gratuitement au lieu et à ses services',
-        modalites_accompagnement:
-          "Avec de l'aide : je suis accompagné seul dans l'usage du numérique;Seul : j'ai accès à du matériel et une connexion",
-        source: 'cd28-appui-territorial',
-        date_maj: '2022-06-20'
-      },
-      {
-        id: 'mediation-numerique-cd30-appui-territorial-mediation-numerique-conseiller-numerique-62b0233a8255a806e299df55-mediation-numerique-mediation-numerique',
-        nom: 'Test',
-        services: 'Utiliser le numérique au quotidien;Approfondir ma culture numérique',
-        pivot: '00000000000000',
-        commune: 'DREUX',
-        code_postal: '28100',
-        adresse: '6 Rue du test',
-        localisation: {
-          latitude: 48.738957,
-          longitude: 1.66988
-        },
-        conditions_acces: 'Gratuit : Je peux accéder gratuitement au lieu et à ses services',
-        modalites_accompagnement: "Seul : j'ai accès à du matériel et une connexion",
-        source: 'cd28-appui-territorial',
-        date_maj: '2022-06-20'
+        labels_nationaux: 'APTIC',
+        source: 'Haute-Vienne',
+        date_maj: '1969-12-31'
       }
     ]);
   });
