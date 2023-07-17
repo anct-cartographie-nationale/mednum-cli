@@ -3,6 +3,7 @@ import { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-nu
 export type Duplication = {
   id?: string;
   mergeId?: string;
+  oldId?: string;
 };
 
 type DuplicationRule = (
@@ -12,7 +13,9 @@ type DuplicationRule = (
 const selectDuplication =
   (tooOld: Date) =>
   (lieuDuplication: SchemaLieuMediationNumerique, lieu: SchemaLieuMediationNumerique): Duplication =>
-    lieuDuplication.date_maj < tooOld.toISOString() ? { id: lieuDuplication.id } : { id: lieuDuplication.id, mergeId: lieu.id };
+    lieuDuplication.date_maj < tooOld.toISOString()
+      ? { id: lieuDuplication.id, oldId: lieu.id }
+      : { id: lieuDuplication.id, mergeId: lieu.id };
 
 const dateDuplicationRule =
   (tooOld: Date) =>
