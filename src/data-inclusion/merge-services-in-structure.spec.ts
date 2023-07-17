@@ -401,58 +401,58 @@ describe('merge services in structure', (): void => {
     ]);
   });
 
-  // it('should keep labels and contact info when merge a service with address', (): void => {
-  //   const structure: SchemaStructureDataInclusion = {
-  //     adresse: '51 rue de la république',
-  //     code_postal: '75013',
-  //     commune: 'Paris',
-  //     date_maj: '2022-11-07',
-  //     id: 'structure-1',
-  //     nom: 'Médiation république',
-  //     presentation_resume: 'Médiation république aides tous type de publics en difficulté avec le numérique',
-  //     presentation_detail: 'De nombreux Français ont du mal à utiliser le numérique dans leur quotidien...',
-  //     siret: '43493312300029',
-  //     source: 'cnfs',
-  //     labels_nationaux: ['france-service', 'aptic', 'conseiller-numerique'],
-  //     labels_autres: ['hinaura'],
-  //     telephone: '+33647892366',
-  //     courriel: 'contact@medrep.fr',
-  //     site_web: 'https://medrep.fr'
-  //   };
+  it('should keep labels and contact info when merge a service with address', (): void => {
+    const structure: SchemaStructureDataInclusion = {
+      adresse: '51 rue de la république',
+      code_postal: '75013',
+      commune: 'Paris',
+      date_maj: '2022-11-07',
+      id: 'structure-1',
+      nom: 'Médiation république',
+      presentation_resume: 'Médiation république aides tous type de publics en difficulté avec le numérique',
+      presentation_detail: 'De nombreux Français ont du mal à utiliser le numérique dans leur quotidien...',
+      siret: '43493312300029',
+      source: 'cnfs',
+      labels_nationaux: ['france-service', 'aptic', 'conseiller-numerique'],
+      labels_autres: ['hinaura'],
+      telephone: '+33647892366',
+      courriel: 'contact@medrep.fr',
+      site_web: 'https://medrep.fr'
+    };
 
-  //   const service: Partial<SchemaStructureDataInclusionAdresseFields> & SchemaServiceDataInclusion = {
-  //     id: 'structure-1-mediation-numerique',
-  //     nom: 'Médiation numérique',
-  //     source: 'cnfs',
-  //     structure_id: 'structure-1',
-  //     thematiques: ['numerique--devenir-autonome-dans-les-demarches-administratives'],
-  //     adresse: '51 rue de la république',
-  //     code_postal: '75013',
-  //     commune: 'Paris'
-  //   };
+    const service: Partial<SchemaStructureDataInclusionAdresseFields> & SchemaServiceDataInclusion = {
+      id: 'structure-1-mediation-numerique',
+      nom: 'Médiation numérique',
+      source: 'cnfs',
+      structure_id: 'structure-1',
+      thematiques: ['numerique--devenir-autonome-dans-les-demarches-administratives'],
+      adresse: '51 rue de la république',
+      code_postal: '75013',
+      commune: 'Paris'
+    };
 
-  //   const dataInclusionMerged: DataInclusionMerged[] = structuresWithServicesNumeriques([structure], [service]);
+    const dataInclusionMerged: DataInclusionMerged[] = structuresWithServicesNumeriques([structure], [service]);
 
-  //   expect(dataInclusionMerged).toStrictEqual<DataInclusionMerged[]>([
-  //     {
-  //       code_postal: '75013',
-  //       commune: 'Paris',
-  //       adresse: '51 rue de la république',
-  //       date_maj: '2022-11-07T00:00:00.000Z',
-  //       id: 'cnfs-structure-1-mediation-numerique',
-  //       structure_parente: 'structure-1',
-  //       nom: 'Médiation république',
-  //       pivot: '43493312300029',
-  //       thematiques: 'numerique--devenir-autonome-dans-les-demarches-administratives',
-  //       source: 'cnfs',
-  //       labels_nationaux: 'france-service,aptic,conseiller-numerique',
-  //       labels_autres: 'hinaura',
-  //       telephone: '+33647892366',
-  //       courriel: 'contact@medrep.fr',
-  //       site_web: 'https://medrep.fr',
-  //       presentation_resume: 'Médiation république aides tous type de publics en difficulté avec le numérique',
-  //       presentation_detail: 'De nombreux Français ont du mal à utiliser le numérique dans leur quotidien...'
-  //     }
-  //   ]);
-  // });
+    expect(dataInclusionMerged).toStrictEqual<DataInclusionMerged[]>([
+      {
+        code_postal: '75013',
+        commune: 'Paris',
+        adresse: '51 rue de la république',
+        date_maj: '2022-11-07T00:00:00.000Z',
+        id: 'cnfs-structure-1-mediation-numerique',
+        structure_parente: 'structure-1',
+        nom: 'Médiation république',
+        pivot: '43493312300029',
+        thematiques: 'numerique--devenir-autonome-dans-les-demarches-administratives',
+        source: 'cnfs',
+        labels_nationaux: 'france-service,aptic,conseiller-numerique',
+        labels_autres: 'hinaura',
+        telephone: '+33647892366',
+        courriel: 'contact@medrep.fr',
+        site_web: 'https://medrep.fr',
+        presentation_resume: 'Médiation république aides tous type de publics en difficulté avec le numérique',
+        presentation_detail: 'De nombreux Français ont du mal à utiliser le numérique dans leur quotidien...'
+      }
+    ]);
+  });
 });
