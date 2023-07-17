@@ -50,18 +50,6 @@ const CODE_POSTAL_IS_IN_ADRESSE_MATCHING: LieuxMediationNumeriqueMatching = {
   }
 } as LieuxMediationNumeriqueMatching;
 
-const CODE_POSTAL_AND_COMMUNE_ARE_IN_ADRESSE_MATCHING: LieuxMediationNumeriqueMatching = {
-  code_postal: {
-    colonne: ''
-  },
-  commune: {
-    colonne: ''
-  },
-  adresse: {
-    colonne: 'adresse'
-  }
-} as LieuxMediationNumeriqueMatching;
-
 describe('adresse field', (): void => {
   it('should process a valid address', (): void => {
     const source: DataSource = {
@@ -339,7 +327,7 @@ describe('adresse field', (): void => {
     expect(adresse).toStrictEqual({
       code_postal: '87230',
       commune: 'Châlus',
-      voie: '28 Avenue François Mitterrand 87230 Châlus'
+      voie: '28 Avenue François Mitterrand'
     });
   });
 
@@ -354,7 +342,7 @@ describe('adresse field', (): void => {
     expect(adresse).toStrictEqual({
       code_postal: '87400',
       commune: 'Saint-Léonard-de-Noblat',
-      voie: '3 Place Gay-Lussac 87400 Saint-Léonard-de-Noblat'
+      voie: '3 Place Gay-Lussac'
     });
   });
 
@@ -390,6 +378,18 @@ describe('adresse field', (): void => {
   });
 
   it('should retrieve code postal and commune from voie', (): void => {
+    const CODE_POSTAL_AND_COMMUNE_ARE_IN_ADRESSE_MATCHING: LieuxMediationNumeriqueMatching = {
+      code_postal: {
+        colonne: ''
+      },
+      commune: {
+        colonne: ''
+      },
+      adresse: {
+        colonne: 'adresse'
+      }
+    } as LieuxMediationNumeriqueMatching;
+
     const source: DataSource = {
       adresse: 'Mairie de Piobetta 20234 PIOBETTA'
     };
@@ -399,7 +399,7 @@ describe('adresse field', (): void => {
     expect(adresse).toStrictEqual({
       code_postal: '20234',
       commune: 'PIOBETTA',
-      voie: 'Mairie de Piobetta 20234 PIOBETTA'
+      voie: 'Mairie de Piobetta'
     });
   });
 });

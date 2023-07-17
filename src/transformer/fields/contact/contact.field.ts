@@ -9,23 +9,21 @@ type FixedContact = DataSource | undefined;
 
 const toInternationalFormat = (phone: string): string => (/^0\d{9}$/u.test(phone) ? `+33${phone.slice(1)}` : phone);
 
-const telephoneField = (telephone?: number | string): Pick<Contact, 'telephone'> => {
-  const singlePhoneNumber: string = telephone?.toString().split('\n')[0] ?? '';
-  return telephone == null
+const telephoneField = (telephone?: number | string): Pick<Contact, 'telephone'> =>
+  telephone == null
     ? {}
     : {
         telephone: toInternationalFormat(
-          singlePhoneNumber
+          telephone
             .toString()
             .replace(/[\s,.-]/gu, '')
             .replace('(0)', '')
             .trim()
         )
       };
-};
 
 const siteWebField = (siteWeb?: string): Pick<Contact, 'site_web'> =>
-  siteWeb == null ? {} : { site_web: siteWeb.replace(/\n/gu, '').split(';').map(Url) };
+  siteWeb == null ? {} : { site_web: siteWeb.split(';').map(Url) };
 
 const courrielField = (courriel?: string): Pick<Contact, 'courriel'> =>
   courriel == null || courriel === '' ? {} : { courriel };

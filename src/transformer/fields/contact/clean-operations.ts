@@ -26,6 +26,13 @@ const setPhoneCodeWhenDomTom = (codePostal?: string): string => {
   }
 };
 
+const replaceNewlineInWebsites = (field: string): CleanOperation => ({
+  name: 'replace newline in websites',
+  selector: /\n/u,
+  field,
+  fix: (toFix: string): string => toFix.replace(/\n/u, '')
+});
+
 const replaceDoubleDotBySingleDotInWebsites = (field: string): CleanOperation => ({
   name: ': instead of . after www',
   selector: /www:/gu,
@@ -219,6 +226,13 @@ const removeStartingByTwoZeroInPhone = (field: string): CleanOperation => ({
   field
 });
 
+const keepFirstNumberIfMultiple = (field: string): CleanOperation => ({
+  name: 'keep only the first phone number',
+  selector: /\n/u,
+  field,
+  fix: (toFix: string): string => /^(?<phone>[^\n]+)/u.exec(toFix)?.groups?.['phone'] ?? ''
+});
+
 const removeEmailStartingWithWww = (field: string): CleanOperation => ({
   name: 'email starts with www.',
   selector: /^www\./u,
@@ -309,6 +323,7 @@ export const cleanOperations = (
   matching: LieuxMediationNumeriqueMatching,
   codePostal: string | undefined
 ): CleanOperation[] => [
+  ...cleanOperationIfAny(replaceNewlineInWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(replaceDoubleDotBySingleDotInWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(removeDashEmail, matching.courriel?.colonne),
   ...cleanOperationIfAny(removeWebsitesStartingWithAt, matching.site_web?.colonne),
@@ -339,6 +354,7 @@ export const cleanOperations = (
   ...cleanOperationIfAny(removeTooFewDigitsInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(removeTooManyDigitsInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(removeOnly0ValueInPhone, matching.telephone?.colonne),
+  ...cleanOperationIfAny(keepFirstNumberIfMultiple, matching.telephone?.colonne),
   ...cleanOperationIfAny(removeEmailStartingWithWww, matching.courriel?.colonne),
   ...cleanOperationIfAny(removeEmailStartingWithAt, matching.courriel?.colonne),
   ...cleanOperationIfAny(trimEmail, matching.courriel?.colonne),
