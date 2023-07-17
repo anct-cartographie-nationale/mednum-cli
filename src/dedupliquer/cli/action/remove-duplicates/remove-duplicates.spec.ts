@@ -94,7 +94,7 @@ describe('remove duplicates', (): void => {
 
     expect(lieuxWithoutDuplicates).toStrictEqual([
       {
-        id: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
+        id: 'hinaura-MairiE2|hub-lo-436',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -773,7 +773,7 @@ describe('remove duplicates', (): void => {
 
     expect(lieuxWithoutDuplicates).toStrictEqual([
       {
-        id: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
+        id: 'hinaura-MairiE2|hub-lo-436',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -820,7 +820,7 @@ describe('remove duplicates', (): void => {
 
     expect(lieuxWithoutDuplicates).toStrictEqual([
       {
-        id: 'mediation-numerique-hub-lo-436-mediation-numerique',
+        id: 'hinaura-MairiE2|hub-lo-436',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -866,7 +866,7 @@ describe('remove duplicates', (): void => {
 
     expect(lieuxWithoutDuplicates).toStrictEqual([
       {
-        id: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
+        id: 'hinaura-MairiE2|hub-lo-436',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -912,7 +912,7 @@ describe('remove duplicates', (): void => {
 
     expect(lieuxWithoutDuplicates).toStrictEqual([
       {
-        id: 'mediation-numerique-hub-lo-436-mediation-numerique',
+        id: 'hinaura-MairiE2|hub-lo-436',
         pivot: '00000000000000',
         nom: 'France Services Durtal',
         adresse: '11 rue Joseph Cugnot',
@@ -922,6 +922,55 @@ describe('remove duplicates', (): void => {
         longitude: -0.256457,
         date_maj: '2023-05-03',
         source: 'conseiller-numerique'
+      } as SchemaLieuMediationNumerique
+    ]);
+  });
+
+  it('should keep label nationaux even if the lieu is too old', (): void => {
+    const lieux: SchemaLieuMediationNumerique[] = [
+      {
+        id: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
+        pivot: '00000000000000',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'Durtal',
+        latitude: 47.6699154795,
+        longitude: -0.2551539846,
+        date_maj: '2023-05-03',
+        source: 'conseiller-numerique',
+        labels_nationaux: LabelNational.FranceServices
+      } as SchemaLieuMediationNumerique,
+      {
+        id: 'mediation-numerique-hub-lo-436-mediation-numerique',
+        pivot: '00000000000000',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'DURTAL',
+        latitude: 47.671271,
+        longitude: -0.256457,
+        date_maj: '2019-01-16',
+        courriel: 'commune-de-durtal@france-services.fr',
+        labels_nationaux: `${LabelNational.CNFS};${LabelNational.APTIC}`
+      } as SchemaLieuMediationNumerique
+    ];
+
+    const lieuxWithoutDuplicates: SchemaLieuMediationNumerique[] = removeDuplicates(new Date('2023-05-30'))(lieux);
+
+    expect(lieuxWithoutDuplicates).toStrictEqual([
+      {
+        id: 'hinaura-MairiE2|hub-lo-436',
+        pivot: '00000000000000',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'Durtal',
+        latitude: 47.6699154795,
+        longitude: -0.2551539846,
+        date_maj: '2023-05-03',
+        source: 'conseiller-numerique',
+        labels_nationaux: `${LabelNational.FranceServices};${LabelNational.CNFS};${LabelNational.APTIC}`
       } as SchemaLieuMediationNumerique
     ]);
   });
