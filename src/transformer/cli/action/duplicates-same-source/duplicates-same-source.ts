@@ -2,7 +2,7 @@ import { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numeriqu
 import { ratio } from 'fuzzball';
 
 const isSameSource = (structure: LieuMediationNumerique, lieu: LieuMediationNumerique): boolean =>
-  structure.source === lieu.source;
+  structure.source !== '' && lieu.source !== '' && structure.source === lieu.source;
 
 const isSimilarNom = (structure: LieuMediationNumerique, lieu: LieuMediationNumerique): boolean =>
   ratio(structure.nom, lieu.nom) > 90;
