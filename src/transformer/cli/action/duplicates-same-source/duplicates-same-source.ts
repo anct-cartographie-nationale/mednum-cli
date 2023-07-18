@@ -8,9 +8,13 @@ const isSimilarNom = (structure: LieuMediationNumerique, lieu: LieuMediationNume
   ratio(structure.nom, lieu.nom) > 90;
 
 const isSimilarAdresse = (structure: LieuMediationNumerique, lieu: LieuMediationNumerique): boolean =>
+  structure.adresse != null &&
+  lieu.adresse != null &&
   ratio(structure.adresse as unknown as string, lieu.adresse as unknown as string) > 90;
 
 const isSameLocation = (structure: LieuMediationNumerique, lieu: LieuMediationNumerique): boolean =>
+  structure.localisation != null &&
+  lieu.localisation != null &&
   structure.localisation?.latitude === lieu.localisation?.latitude &&
   structure.localisation?.longitude === lieu.localisation?.longitude;
 
