@@ -7,6 +7,7 @@ import { toLieuxMediationNumerique, validValuesOnly } from '../../input';
 import { writeErrorsOutputFiles, writeOutputFiles } from '../../output';
 import { TransformerOptions } from '../transformer-options';
 import { Erp } from '../../fields';
+import { keepOneEntryPerSource } from './duplicates-same-source/duplicates-same-source';
 
 /* eslint-disable max-lines-per-function, max-statements, @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/typedef, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
@@ -111,6 +112,11 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
     );
 
     const lieuxDeMediationNumeriqueWithSingleIds: LieuMediationNumerique[] = Object.values(lieuxDeMediationNumeriqueFiltered);
+
+    const lieuxMediationNumeriqueWithoutDuplicates: LieuMediationNumerique[] = keepOneEntryPerSource(
+      lieuxDeMediationNumeriqueWithSingleIds
+    );
+
     writeErrorsOutputFiles({
       path: transformerOptions.outputDirectory,
       name: transformerOptions.sourceName,
@@ -121,6 +127,6 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
       path: transformerOptions.outputDirectory,
       name: transformerOptions.sourceName,
       territoire: transformerOptions.territory
-    })(lieuxDeMediationNumeriqueWithSingleIds);
+    })(lieuxMediationNumeriqueWithoutDuplicates);
   });
 };
