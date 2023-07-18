@@ -54,7 +54,8 @@ describe('presentation fields', (): void => {
 
     const source: DataSource = {
       presentation_detail: 'Courte description,\nOu il y a une,\nou plusieurs newlines',
-      presentation_resume: 'Ceci est une description\n avec plus de détails,\n\n ou il peut y avoir une ou plusieurs newlines\n\n\n'
+      presentation_resume:
+        'Ceci est une description\n avec plus de détails,\n\n ou il peut y avoir une ou plusieurs newlines\n\n\n'
     };
 
     const presentation: Presentation = processPresentation(source, matching);
