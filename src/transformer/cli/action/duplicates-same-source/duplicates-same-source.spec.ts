@@ -10,11 +10,15 @@ describe('merge same lieux with same sources', (): void => {
         nom: 'A.S.C Bellevue Naugeat ',
         services: 'Accéder à une connexion internet',
         pivot: '00000000000000',
-        commune: 'Limoges',
-        code_postal: '87000',
-        adresse: '1 Allée Rossini 87000 Limoges',
-        latitude: 45.8182020037582,
-        longitude: 1.247903624910087,
+        adresse: {
+          code_postal: '87000',
+          commune: 'Limoges',
+          voie: '1 Allée Rossini 87000 Limoges'
+        },
+        localisation: {
+          latitude: 45.8182020037582,
+          longitude: 1.247903624910087
+        },
         telephone: '+33555331259',
         site_web: 'https://ascbellevue.fr/activites/insertion/',
         presentation_detail: 'Accompagnement réalisé par un travailleur social',
@@ -30,11 +34,15 @@ describe('merge same lieux with same sources', (): void => {
         nom: 'A.S.C Bellevue Naugeat ',
         services: 'Accéder à du matériel',
         pivot: '00000000000000',
-        commune: 'Limoges',
-        code_postal: '87000',
-        adresse: '1 Allée Rossini 87000 Limoges',
-        latitude: 45.8182020037582,
-        longitude: 1.247903624910087,
+        adresse: {
+          code_postal: '87000',
+          commune: 'Limoges',
+          voie: '1 Allée Rossini 87000 Limoges'
+        },
+        localisation: {
+          latitude: 45.8182020037582,
+          longitude: 1.247903624910087
+        },
         telephone: '+33555331259',
         site_web: 'https://ascbellevue.fr/activites/insertion/',
         presentation_detail: 'Accompagnement réalisé par un travailleur social',
@@ -50,11 +58,15 @@ describe('merge same lieux with same sources', (): void => {
         nom: 'A.S.C Bellevue Naugeat ',
         services: 'Favoriser mon insertion professionnelle',
         pivot: '00000000000000',
-        commune: 'Limoges',
-        code_postal: '87000',
-        adresse: '1 Allée Rossini 87000 Limoges',
-        latitude: 45.8182020037582,
-        longitude: 1.247903624910087,
+        adresse: {
+          code_postal: '87000',
+          commune: 'Limoges',
+          voie: '1 Allée Rossini 87000 Limoges'
+        },
+        localisation: {
+          latitude: 45.8182020037582,
+          longitude: 1.247903624910087
+        },
         telephone: '+33555331259',
         site_web: 'https://ascbellevue.fr/activites/insertion/',
         presentation_detail:
@@ -72,11 +84,15 @@ describe('merge same lieux with same sources', (): void => {
         nom: 'A.S.C Bellevue Naugeat ',
         services: 'Réaliser des démarches administratives avec un accompagnement',
         pivot: '00000000000000',
-        commune: 'Limoges',
-        code_postal: '87000',
-        adresse: '1 Allée Rossini 87000 Limoges',
-        latitude: 45.8182020037582,
-        longitude: 1.247903624910087,
+        adresse: {
+          code_postal: '87000',
+          commune: 'Limoges',
+          voie: '1 Allée Rossini 87000 Limoges'
+        },
+        localisation: {
+          latitude: 45.8182020037582,
+          longitude: 1.247903624910087
+        },
         telephone: '+33555331259',
         site_web: 'https://ascbellevue.fr/activites/insertion/',
         publics_accueillis: 'Jeunes (16-26 ans);Familles/enfants;Adultes;Seniors (+ 65 ans)',
@@ -97,11 +113,15 @@ describe('merge same lieux with same sources', (): void => {
         nom: 'A.S.C Bellevue Naugeat ',
         services: 'Accéder à une connexion internet',
         pivot: '00000000000000',
-        commune: 'Limoges',
-        code_postal: '87000',
-        adresse: '1 Allée Rossini 87000 Limoges',
-        latitude: 45.8182020037582,
-        longitude: 1.247903624910087,
+        adresse: {
+          code_postal: '87000',
+          commune: 'Limoges',
+          voie: '1 Allée Rossini 87000 Limoges'
+        },
+        localisation: {
+          latitude: 45.8182020037582,
+          longitude: 1.247903624910087
+        },
         telephone: '+33555331259',
         site_web: 'https://ascbellevue.fr/activites/insertion/',
         presentation_detail: 'Accompagnement réalisé par un travailleur social',
