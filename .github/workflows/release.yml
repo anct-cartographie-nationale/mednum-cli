@@ -45,7 +45,8 @@ jobs:
             etapes-numerique,
             charente-maritime,
             eure-et-loir,
-            conumm
+            conumm,
+            corse
           ]
     runs-on: ubuntu-latest
     environment: production

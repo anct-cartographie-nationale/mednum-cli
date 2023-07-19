@@ -989,4 +989,34 @@ describe('contact field', (): void => {
       })
     );
   });
+
+  it('should fix multiple urls separated with newline', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        'Site Web': 'https://www.facebook.com/pam.falep/\nhttps://falep.corsica/\n'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        site_web: [Url('https://www.facebook.com/pam.falep/'), Url('https://falep.corsica/')]
+      })
+    );
+  });
+
+  it('should keep the first phone number when multiple', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        Téléphone: '04 95 22 35 34\n06 47 54 66 86'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        telephone: '+33495223534'
+      })
+    );
+  });
 });

@@ -1,0 +1,171 @@
+{
+  "nom": {
+    "colonne": "Structure"
+  },
+  "typologie": [
+    {
+      "colonnes": ["Type"],
+      "termes": ["France Services"],
+      "cible": "RFS"
+    },
+    {
+      "colonnes": ["Type"],
+      "termes": ["Association"],
+      "cible": "ASSO"
+    }
+  ],
+  "code_postal": {
+    "colonne": ""
+  },
+  "commune": {
+    "colonne": ""
+  },
+  "adresse": {
+    "colonne": "Adresse"
+  },
+  "latitude": {
+    "colonne": "lat"
+  },
+  "longitude": {
+    "colonne": "long"
+  },
+  "telephone": {
+    "colonne": "N° de téléphone"
+  },
+  "courriel": {
+    "colonne": "Adresse e-mail"
+  },
+  "site_web": {
+    "colonne": "Site internet"
+  },
+  "presentation_resume": {
+    "colonne": "Activités proposées"
+  },
+  "labels_nationaux": [
+    {
+      "colonnes": ["Type"],
+      "termes": ["Conseiller numérique"],
+      "cible": "CNFS"
+    },
+    {
+      "colonnes": ["Type"],
+      "termes": ["France Services"],
+      "cible": "France Services"
+    }
+  ],
+
+  "modalites_accompagnement": [
+    {
+      "colonnes": ["Activités proposées"],
+      "termes": ["Ateliers"],
+      "cible": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
+    },
+    {
+      "colonnes": ["Activités proposées"],
+      "termes": ["Accompagnement individuel"],
+      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+    }
+  ],
+  "date_maj": {
+    "colonne": ""
+  },
+  "conditions_acces": [
+    {
+      "colonnes": ["Type"],
+      "termes": ["France Services"],
+      "cible": "Gratuit : Je peux accéder gratuitement au lieu et à ses services"
+    }
+  ],
+  "publics_accueillis": [
+    {
+      "colonnes": ["Type"],
+      "termes": ["France Services"],
+      "cible": "Adultes"
+    },
+    {
+      "colonnes": ["Type"],
+      "termes": ["France Services"],
+      "cible": "Jeunes (16-26 ans)"
+    },
+    {
+      "colonnes": ["Type"],
+      "termes": ["France Services"],
+      "cible": "Familles/enfants"
+    },
+    {
+      "colonnes": ["Type"],
+      "termes": ["France Services"],
+      "cible": "Seniors (+ 65 ans)"
+    }
+  ],
+  "services": [
+    {
+      "colonnes": ["Matériel mis à disposition"],
+      "termes": ["Connexion Internet"],
+      "cible": "Accéder à une connexion internet"
+    },
+    {
+      "colonnes": ["Matériel mis à disposition"],
+      "termes": ["Photocopieuse", "Imprimante", "Scanner"],
+      "cible": "Accéder à du matériel"
+    },
+    {
+      "colonnes": ["Matériel mis à disposition"],
+      "termes": ["Ordinateur fixe", "Ordinateur"],
+      "cible": "Prendre en main un ordinateur"
+    },
+    {
+      "colonnes": ["Activités proposées"],
+      "termes": ["formation aux outils numériques", "initiation à l'informatique", "pratiques numériques"],
+      "cible": "Utiliser le numérique au quotidien"
+    },
+    {
+      "colonnes": ["Activités proposées"],
+      "termes": ["formation aux outils numériques", "initiation à l'informatique", "pratiques numériques"],
+      "cible": "Approfondir ma culture numérique"
+    },
+    {
+      "colonnes": ["Matériel mis à disposition"],
+      "termes": ["Tablette", "Smartphone"],
+      "cible": "Prendre en main un smartphone ou une tablette"
+    },
+    {
+      "colonnes": ["Activités proposées"],
+      "termes": ["pratiques numériques", "usages numériques", "Groupe de parole"],
+      "cible": "Promouvoir la citoyenneté numérique"
+    },
+    {
+      "colonnes": ["Activités proposées"],
+      "termes": ["l'accès aux droits", "CAF", "CPAM"],
+      "cible": "Accompagner les démarches de santé"
+    },
+    {
+      "colonnes": ["Activités proposées"],
+      "termes": ["l'accès aux droits", "services publics dématérialisés"],
+      "cible": "Devenir autonome dans les démarches administratives"
+    },
+    {
+      "colonnes": ["Activités proposées"],
+      "termes": ["l'accès aux droits", "services publics dématérialisés"],
+      "cible": "Réaliser des démarches administratives avec un accompagnement"
+    },
+    {
+      "colonnes": ["Type"],
+      "termes": ["France Services"],
+      "cible": "Réaliser des démarches administratives avec un accompagnement"
+    },
+    {
+      "colonnes": ["Type"],
+      "termes": ["France Services"],
+      "cible": "Favoriser mon insertion professionnelle"
+    },
+    {
+      "colonnes": ["Activités proposées"],
+      "termes": ["destination des parents", "l'E-parentalité"],
+      "cible": "Soutenir la parentalité et l'éducation avec le numérique"
+    }
+  ],
+  "horaires": {
+    "semaine": "Horaires"
+  }
+}

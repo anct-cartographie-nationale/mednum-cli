@@ -10,13 +10,15 @@ type FixedAdresse = DataSource | undefined;
 const formatCommune = (commune: string): string =>
   (commune.charAt(0).toUpperCase() + commune.slice(1)).replace(/\s+/gu, ' ').trim();
 
-const formatVoie = (adressePostale: string): string =>
-  (adressePostale.includes('\n') ? adressePostale.substring(0, adressePostale.indexOf('\n')) : adressePostale)
+const formatVoie = (adressePostale: string): string => {
+  const keepOnlyVoie: string = /^(?<voie>.*?)\s\d{5}\s\w+/u.exec(adressePostale)?.groups?.['voie'] ?? adressePostale;
+  return (keepOnlyVoie.includes('\n') ? keepOnlyVoie.substring(0, keepOnlyVoie.indexOf('\n')) : keepOnlyVoie)
     .replace(//gu, "'")
     .replace(/,/gu, '')
     .replace(/"/gu, '')
     .replace(/\s+/gu, ' ')
     .trim();
+};
 
 const isColonne = (colonneToTest: Partial<Colonne> & Partial<Jonction>): colonneToTest is Colonne =>
   colonneToTest.colonne != null;
@@ -35,13 +37,18 @@ const codeInseeIfAny = (codeInsee?: string): { code_insee?: string } => (codeIns
 
 const codePostalFromVoie = (voie: string): string => /\b\d{5}\b/u.exec(voie)?.[0] ?? '';
 
+const getCommuneFromVoie = (voie: string): string => /\b\d{5}\b\s*(?<commune>\w+)/u.exec(voie)?.groups?.['commune'] ?? '';
+
 const toLieuxMediationNumeriqueAdresse = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Adresse =>
   Adresse({
     code_postal:
       matching.code_postal.colonne === ''
         ? codePostalFromVoie(voieField(source, matching.adresse))
         : source[matching.code_postal.colonne]?.toString() ?? '',
-    commune: formatCommune(source[matching.commune.colonne] ?? ''),
+    commune:
+      matching.commune.colonne === ''
+        ? getCommuneFromVoie(voieField(source, matching.adresse))
+        : formatCommune(source[matching.commune.colonne] ?? ''),
     voie: formatVoie(voieField(source, matching.adresse)),
     ...complementAdresseIfAny(source[matching.complement_adresse?.colonne ?? '']),
     ...codeInseeIfAny(source[matching.code_insee?.colonne ?? '']?.toString())
