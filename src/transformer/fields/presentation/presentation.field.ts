@@ -1,6 +1,7 @@
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 
-const cleanPresentationFormat = (presentation: string): string => presentation.replace(/\n/gu, '');
+const cleanPresentationFormat = (presentation: string): string =>
+  presentation.replace(/\n/gu, '').replace(/\\/gu, '').replace(/\r/gu, '');
 
 const resumeIfAny = (source: DataSource, colonne?: string): { resume?: string } =>
   colonne == null ? {} : { resume: cleanPresentationFormat(source[colonne] ?? '') };
