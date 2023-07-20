@@ -6,7 +6,7 @@ import { TypologieMatcher } from './typologies.field';
 export const TYPOLOGIE_MATCHERS: TypologieMatcher[] = [
   {
     typologie: Typologie.MUNI,
-    matchers: [/mairie/iu, /commune/iu, /^ville d[eu]/iu, /hôtel de ville/iu]
+    matchers: [/mairie/iu, /commune/iu, /^ville d[eu]/iu, /h[oô]tel de ville/iu]
   },
   {
     typologie: Typologie.PE,
@@ -32,9 +32,9 @@ export const TYPOLOGIE_MATCHERS: TypologieMatcher[] = [
     typologie: Typologie.MDS,
     matchers: [
       /maison du d[ée]partement/iu,
-      /(?:maison|espace) départementale? des solidarités/iu,
-      /(?:maison|espace) départementale? de la solidarité/iu,
-      /(?:maison|espace) de la solidarité départementale/iu
+      /(?:maison|espace) d[eé]partementale? des solidarit[eé]s/iu,
+      /(?:maison|espace) d[eé]partementale? de la solidarit[ée]/iu,
+      /(?:maison|espace) de la solidarit[eé] d[eé]partementale/iu
     ]
   },
   {
@@ -63,7 +63,7 @@ export const TYPOLOGIE_MATCHERS: TypologieMatcher[] = [
       /(?:^|\W)ASS(?:\W|$)/iu,
       /(?:^|\W)ASSOC(?:\W|$)/iu,
       /association/iu,
-      /emmaüs/iu,
+      /emma[üu]s/iu,
       /secours populaire/iu,
       /croix[\s-]Rouge/iu,
       /secours catholique/iu,
@@ -78,11 +78,11 @@ export const TYPOLOGIE_MATCHERS: TypologieMatcher[] = [
   },
   {
     typologie: Typologie.PREF,
-    matchers: [/sous[-\s]prefecture/iu]
+    matchers: [/sous[-\s]pr[ée]fecture/iu]
   },
   {
     typologie: Typologie.CD,
-    matchers: [/conseil départemental/iu]
+    matchers: [/conseil d[eé]partemental/iu]
   },
   {
     typologie: Typologie.CC,
@@ -116,7 +116,7 @@ export const TYPOLOGIE_MATCHERS: TypologieMatcher[] = [
     typologie: Typologie.CCONS,
     matchers: [
       /chambre[\w\s']+agriculture/iu,
-      /chambre[\w\s']+metiers[\w\s']+artisanat/iu,
+      /chambre[\w\s']+m[ée]tiers[\w\s']+artisanat/iu,
       /chambre[\w\s']+commerce[\w\s']+industrie/iu,
       /(?:^|\W)CCI(?:\W|$)/iu
     ]
@@ -134,9 +134,9 @@ export const TYPOLOGIE_MATCHERS: TypologieMatcher[] = [
     matchers: [
       /(?:^|\W)EFS(?:\W|$)/iu,
       /frances?[\s-]services?/iu,
-      /Fixe Bruay-sur-l'Escaut\s{2}\( Département du Nord\)/iu,
-      /Folschviller - Antenne de L'Hôpital/iu,
-      /Communauté de communes Vaison Ventoux/iu
+      /Fixe Bruay-sur-l'Escaut\s{2}\( D[ée]partement du Nord\)/iu,
+      /Folschviller - Antenne de L'H[ôo]pital/iu,
+      /Communaut[eé] de communes Vaison Ventoux/iu
     ]
   },
   {
