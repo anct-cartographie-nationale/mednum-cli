@@ -14,7 +14,7 @@ export const TYPOLOGIE_MATCHERS: TypologieMatcher[] = [
   },
   {
     typologie: Typologie.BIB,
-    matchers: [/m[ée]diath[èe]que/iu, /biblioth[èe]que/iu]
+    matchers: [/m[ée]diath[èeé]que/iu, /biblioth[èeé]que/iu]
   },
   {
     typologie: Typologie.TIERS_LIEUX,
@@ -39,7 +39,7 @@ export const TYPOLOGIE_MATCHERS: TypologieMatcher[] = [
   },
   {
     typologie: Typologie.CHRS,
-    matchers: [/centre d'hébergement et de réinsertion sociale/iu]
+    matchers: [/centre d'h[eé]bergement et de r[eé]insertion sociale/iu]
   },
   {
     typologie: Typologie.CHU,

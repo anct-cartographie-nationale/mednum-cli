@@ -60,7 +60,15 @@ const inferTypologies = (source: DataSource, matching: LieuxMediationNumeriqueMa
     ? Typologies([Typologie.RFS])
     : TYPOLOGIE_MATCHERS.reduce(toTypologieMatchingName(source, matching), Typologies([]));
 
+const checkingTypologieSourceValues = (source: DataSource, matching: LieuxMediationNumeriqueMatching): boolean[] | undefined =>
+  matching?.typologie?.map(
+    (typo) => source[typo.colonnes as unknown as string] != null && source[typo.colonnes as unknown as string] !== ''
+  );
+
 export const processTypologies = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Typologies =>
+  (checkingTypologieSourceValues(source, matching)?.some((check) => !check) &&
+    matching.typologie?.at(0)?.cible !== Typologie.RFS &&
+    matching.typologie?.at(0)?.cible !== Typologie.TIERS_LIEUX) ||
   matching.typologie?.at(0)?.cible == null
     ? inferTypologies(source, matching)
-    : Typologies(Array.from(new Set(matching.typologie.reduce(appendTypologies(source), []))));
+    : Typologies(Array.from(new Set(matching?.typologie?.reduce(appendTypologies(source), []))));
