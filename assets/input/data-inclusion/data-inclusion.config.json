@@ -95,6 +95,11 @@
       "cible": "Grandes écoles du numérique"
     }
   ],
+  "labels_autres": [
+    {
+      "colonnes": ["labels_autres"]
+    }
+  ],
   "conditions_acces": [
     {
       "colonnes": ["frais"],

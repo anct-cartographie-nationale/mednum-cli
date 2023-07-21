@@ -1,4 +1,4 @@
-import { Choice, LieuxMediationNumeriqueMatching, DataSource } from '../../input';
+import { Choice, LieuxMediationNumeriqueMatching, DataSource, cibleAsDefault } from '../../input';
 
 const isAllowedTerm = (choice: Choice<string>, sourceValue: string): boolean =>
   choice.sauf?.every((forbidden: string): boolean => !sourceValue.includes(forbidden)) ?? true;
@@ -30,10 +30,27 @@ const labelsAutresForTerms =
       ? appendLabelAutre(labelsAutres, choice.cible)
       : findAndAppendLabelsAutres(choice, source)(labelsAutres, colonne);
 
+const toLabelAutreFrom =
+  (source: DataSource) =>
+  (columnName: string): string | undefined =>
+    source[columnName];
+
+const onlyDefined = (valueToBeDefined: string | undefined): valueToBeDefined is string => valueToBeDefined != null;
+
+const extractLabelsAutresFromSource = (source: DataSource, colonnes: string[] = []): string[] =>
+  colonnes.map(toLabelAutreFrom(source)).filter(onlyDefined);
+
+const labelsAutresCibleMatchingTerms = (labelsAutres: string[], choice: Choice<string>, source: DataSource): string[] => [
+  ...labelsAutres,
+  ...(choice.colonnes ?? cibleAsDefault(choice)).reduce(labelsAutresForTerms(choice, source), [])
+];
+
 const appendLabelsAutres =
   (source: DataSource) =>
   (labelsAutres: string[], choice: Choice<string>): string[] =>
-    [...labelsAutres, ...(choice.colonnes ?? [choice.cible]).reduce(labelsAutresForTerms(choice, source), [])];
+    choice.cible == null
+      ? extractLabelsAutresFromSource(source, choice.colonnes)
+      : labelsAutresCibleMatchingTerms(labelsAutres, choice, source);
 
 export const processLabelsAutres = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string[] =>
   Array.from(new Set(matching.labels_autres?.reduce(appendLabelsAutres(source), [])));

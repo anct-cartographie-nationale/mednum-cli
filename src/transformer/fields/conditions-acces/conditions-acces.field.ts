@@ -1,5 +1,5 @@
 import { ConditionAcces, ConditionsAcces } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { Choice, LieuxMediationNumeriqueMatching, DataSource } from '../../input';
+import { Choice, LieuxMediationNumeriqueMatching, DataSource, cibleAsDefault } from '../../input';
 
 const isAllowedTerm = (choice: Choice<ConditionAcces>, sourceValue: string): boolean =>
   choice.sauf?.every((forbidden: string): boolean => !sourceValue.includes(forbidden)) ?? true;
@@ -34,7 +34,7 @@ const conditionsAccesForTerms =
 const appendConditionsAcces =
   (source: DataSource) =>
   (conditionsAcces: ConditionAcces[], choice: Choice<ConditionAcces>): ConditionAcces[] =>
-    [...conditionsAcces, ...(choice.colonnes ?? [choice.cible]).reduce(conditionsAccesForTerms(choice, source), [])];
+    [...conditionsAcces, ...(choice.colonnes ?? cibleAsDefault(choice)).reduce(conditionsAccesForTerms(choice, source), [])];
 
 export const processConditionsAcces = (source: DataSource, matching: LieuxMediationNumeriqueMatching): ConditionsAcces =>
   ConditionsAcces(Array.from(new Set(matching.conditions_acces?.reduce(appendConditionsAcces(source), []))));
