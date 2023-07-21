@@ -1,5 +1,5 @@
 import { LabelNational, Typologie, Typologies } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { Choice, DataSource, LieuxMediationNumeriqueMatching } from '../../input';
+import { Choice, cibleAsDefault, DataSource, LieuxMediationNumeriqueMatching } from '../../input';
 import { TYPOLOGIE_MATCHERS } from './name-to-typologie';
 import { processLabelsNationaux } from '../labels-nationaux/labels-nationaux.field';
 
@@ -41,7 +41,7 @@ const typologiesForTerms =
 const appendTypologies =
   (source: DataSource) =>
   (typologies: Typologie[], choice: Choice<Typologie>): Typologie[] =>
-    [...typologies, ...(choice.colonnes ?? [choice.cible]).reduce(typologiesForTerms(choice, source), [])];
+    [...typologies, ...(choice.colonnes ?? cibleAsDefault(choice)).reduce(typologiesForTerms(choice, source), [])];
 
 const matchWithName =
   (source: DataSource, matching: LieuxMediationNumeriqueMatching) =>

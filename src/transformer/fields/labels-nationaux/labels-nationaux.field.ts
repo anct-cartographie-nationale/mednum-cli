@@ -1,5 +1,5 @@
 import { LabelNational, LabelsNationaux } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { Choice, LieuxMediationNumeriqueMatching, DataSource } from '../../input';
+import { Choice, LieuxMediationNumeriqueMatching, DataSource, cibleAsDefault } from '../../input';
 
 const isAllowedTerm = (choice: Choice<LabelNational>, sourceValue: string): boolean =>
   choice.sauf?.every((forbidden: string): boolean => !sourceValue.includes(forbidden)) ?? true;
@@ -34,7 +34,7 @@ const labelsNationauxForTerms =
 const appendLabelsNationaux =
   (source: DataSource) =>
   (labelsNationaux: LabelNational[], choice: Choice<LabelNational>): LabelNational[] =>
-    [...labelsNationaux, ...(choice.colonnes ?? [choice.cible]).reduce(labelsNationauxForTerms(choice, source), [])];
+    [...labelsNationaux, ...(choice.colonnes ?? cibleAsDefault(choice)).reduce(labelsNationauxForTerms(choice, source), [])];
 
 export const processLabelsNationaux = (source: DataSource, matching: LieuxMediationNumeriqueMatching): LabelsNationaux =>
   LabelsNationaux(Array.from(new Set(matching.labels_nationaux?.reduce(appendLabelsNationaux(source), []))));

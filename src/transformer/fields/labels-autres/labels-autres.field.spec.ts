@@ -75,4 +75,43 @@ describe('labels autres field', (): void => {
 
     expect(labelsAutres).toStrictEqual([]);
   });
+
+  it('should get exact label autre from source with single column', (): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      labels_autres: [
+        {
+          colonnes: ['label_1']
+        }
+      ]
+    } as LieuxMediationNumeriqueMatching;
+
+    const labelsAutres: string[] = processLabelsAutres(
+      {
+        label_1: 'label 1'
+      },
+      matching
+    );
+
+    expect(labelsAutres).toStrictEqual(['label 1']);
+  });
+
+  it('should get exact label autre from source with multiple columns', (): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      labels_autres: [
+        {
+          colonnes: ['label_1', 'label_2']
+        }
+      ]
+    } as LieuxMediationNumeriqueMatching;
+
+    const labelsAutres: string[] = processLabelsAutres(
+      {
+        label_1: 'label 1',
+        label_2: 'label 2'
+      },
+      matching
+    );
+
+    expect(labelsAutres).toStrictEqual(['label 1', 'label 2']);
+  });
 });

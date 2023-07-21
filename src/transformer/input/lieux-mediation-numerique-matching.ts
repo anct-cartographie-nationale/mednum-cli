@@ -35,10 +35,10 @@ export type Dissociation = {
 };
 
 export type Choice<T> = {
-  colonnes?: string[];
   termes?: string[];
   sauf?: string[];
-  cible: T;
+  colonnes?: string[];
+  cible?: T;
 };
 
 export type LieuxMediationNumeriqueMatching = {
@@ -103,3 +103,5 @@ export type LieuxMediationNumeriqueMatching = {
     osm?: string;
   };
 };
+
+export const cibleAsDefault = <T>(choice?: Choice<T>): T[] => (choice?.cible == null ? [] : [choice.cible]);

@@ -1,5 +1,5 @@
 import { ModaliteAccompagnement, ModalitesAccompagnement, Service, Services } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { Choice, LieuxMediationNumeriqueMatching, DataSource } from '../../input';
+import { Choice, LieuxMediationNumeriqueMatching, DataSource, cibleAsDefault } from '../../input';
 import { processModalitesAccompagnement } from '../modalites-accompagnement/modalites-accompagnement.field';
 
 const isAllowedTerm = (choice: Choice<Service>, sourceValue: string): boolean =>
@@ -54,7 +54,10 @@ const servicesForTerms =
 const appendServices =
   (source: DataSource, modalitesAccompagnement: ModalitesAccompagnement) =>
   (services: Service[], choice: Choice<Service>): Service[] =>
-    [...services, ...(choice.colonnes ?? [choice.cible]).reduce(servicesForTerms(choice, source, modalitesAccompagnement), [])];
+    [
+      ...services,
+      ...(choice.colonnes ?? cibleAsDefault(choice)).reduce(servicesForTerms(choice, source, modalitesAccompagnement), [])
+    ];
 
 export const processServices = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Services =>
   Services(

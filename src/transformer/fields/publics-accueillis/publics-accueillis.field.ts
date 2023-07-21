@@ -1,5 +1,5 @@
 import { PublicAccueilli, PublicsAccueillis } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { Choice, LieuxMediationNumeriqueMatching, DataSource } from '../../input';
+import { Choice, LieuxMediationNumeriqueMatching, DataSource, cibleAsDefault } from '../../input';
 
 const isAllowedTerm = (choice: Choice<PublicAccueilli>, sourceValue: string): boolean =>
   choice.sauf?.every((forbidden: string): boolean => !sourceValue.includes(forbidden)) ?? true;
@@ -36,7 +36,7 @@ const publicsAccueilliForTerms =
 const appendPublicsAccueilli =
   (source: DataSource) =>
   (publicsAccueilli: PublicAccueilli[], choice: Choice<PublicAccueilli>): PublicAccueilli[] =>
-    [...publicsAccueilli, ...(choice.colonnes ?? [choice.cible]).reduce(publicsAccueilliForTerms(choice, source), [])];
+    [...publicsAccueilli, ...(choice.colonnes ?? cibleAsDefault(choice)).reduce(publicsAccueilliForTerms(choice, source), [])];
 
 export const processPublicsAccueillis = (source: DataSource, matching: LieuxMediationNumeriqueMatching): PublicsAccueillis =>
   PublicsAccueillis(Array.from(new Set(matching.publics_accueillis?.reduce(appendPublicsAccueilli(source), []) ?? [])));
