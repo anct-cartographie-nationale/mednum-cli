@@ -63,13 +63,11 @@ const inferTypologies = (source: DataSource, matching: LieuxMediationNumeriqueMa
 const checkingTypologieSourceValues = (source: DataSource, matching: LieuxMediationNumeriqueMatching): boolean[] | undefined =>
   matching.typologie?.map(
     (typo: Choice<Typologie>): boolean =>
-      typo.colonnes != null &&
-      source[typo.colonnes[0] as keyof DataSource] != null &&
-      source[typo.colonnes[0] as keyof DataSource] !== ''
+      typo.colonnes != null && source[typo.colonnes[0] ?? ''] != null && source[typo.colonnes[0] ?? ''] !== ''
   );
 
 const typologiesArePreset = (matching: LieuxMediationNumeriqueMatching): boolean =>
-  !!matching.typologie?.[0]?.cible && !matching.typologie?.[0].colonnes && !matching.typologie?.[0].termes;
+  matching.typologie?.[0]?.cible != null && matching.typologie[0].colonnes == null && matching.typologie[0].termes == null;
 
 export const processTypologies = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Typologies =>
   ((checkingTypologieSourceValues(source, matching) ?? []).some((check: boolean): boolean => !check) &&
