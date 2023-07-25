@@ -17,6 +17,7 @@ import {
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Recorder, Report } from '../report';
 import {
+  CodeInseeCorrespondancy,
   Erp,
   processAccessibilite,
   processAdresse,
@@ -75,13 +76,14 @@ const lieuDeMediationNumerique = (
   sourceName: string,
   matching: LieuxMediationNumeriqueMatching,
   recorder: Recorder,
-  accesLibreData: Erp[]
+  accesLibreData: Erp[],
+  allCodeInsee: CodeInseeCorrespondancy[]
 ): LieuMediationNumerique => {
   const lieuMediationNumerique: LieuMediationNumerique = {
     id: processId(dataSource, matching, index),
     nom: processNom(dataSource, matching),
     pivot: processPivot(dataSource, matching),
-    adresse: processAdresse(recorder)(dataSource, matching),
+    adresse: processAdresse(recorder)(dataSource, matching, allCodeInsee),
     ...localisationIfAny(processLocalisation(dataSource, matching)),
     contact: processContact(recorder)(dataSource, matching),
     ...conditionsAccesIfAny(processConditionsAcces(dataSource, matching)),
@@ -114,10 +116,18 @@ const entryIdentification = (dataSource: DataSource, matching: string): string =
     : dataSource[JSON.parse(matching).nom.colonne]) ?? '';
 
 export const toLieuxMediationNumerique =
-  (matching: string, sourceName: string, report: Report, accesLibreData: Erp[]) =>
+  (matching: string, sourceName: string, report: Report, accesLibreData: Erp[], allCodeInsee: CodeInseeCorrespondancy[]) =>
   (dataSource: DataSource, index: number): LieuMediationNumerique | undefined => {
     try {
-      return lieuDeMediationNumerique(index, dataSource, sourceName, JSON.parse(matching), report.entry(index), accesLibreData);
+      return lieuDeMediationNumerique(
+        index,
+        dataSource,
+        sourceName,
+        JSON.parse(matching),
+        report.entry(index),
+        accesLibreData,
+        allCodeInsee
+      );
     } catch (error: unknown) {
       if (
         error instanceof ServicesError ||

@@ -6,7 +6,7 @@ import { Report } from '../../report';
 import { toLieuxMediationNumerique, validValuesOnly } from '../../input';
 import { writeErrorsOutputFiles, writeOutputFiles } from '../../output';
 import { TransformerOptions } from '../transformer-options';
-import { Erp } from '../../fields';
+import { CodeInseeCorrespondancy, Erp } from '../../fields';
 import { keepOneEntryPerSource } from './duplicates-same-source/duplicates-same-source';
 
 /* eslint-disable max-lines-per-function, max-statements, @typescript-eslint/strict-boolean-expressions */
@@ -85,6 +85,15 @@ const fetchAccesLibreData = async (): Promise<string> =>
     (await axios.get('https://anct-carto-client-feature-les-assembleurs.s3.eu-west-3.amazonaws.com/acceslibre.json')).data
   );
 
+const fetchAllCodeInsee = async (): Promise<string> =>
+  JSON.stringify(
+    (
+      await axios.get(
+        'https://public.opendatasoft.com/explore/dataset/correspondance-code-insee-code-postal/download?format=json'
+      )
+    ).data
+  );
+
 export const transformerAction = async (transformerOptions: TransformerOptions): Promise<void> => {
   await Promise.all([
     transformerOptions.source.startsWith('http')
@@ -95,12 +104,17 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
         )
       : await readFrom(transformerOptions.source.split('@')),
     fs.promises.readFile(transformerOptions.configFile, 'utf-8'),
-    await fetchAccesLibreData()
-  ]).then(([input, matching, accesLibreData]: [string, string, string]): void => {
+    await fetchAccesLibreData(),
+    await fetchAllCodeInsee()
+  ]).then(([input, matching, accesLibreData, codeInseeData]: [string, string, string, string]): void => {
     const accesLibreErps: Erp[] = JSON.parse(accesLibreData);
+    const allCodeInsee: CodeInseeCorrespondancy[] = JSON.parse(codeInseeData);
+
+    console.log(allCodeInsee);
+
     const lieuxDeMediationNumerique: LieuMediationNumerique[] = JSON.parse(replaceNullWithEmptyString(input))
       .map(flatten)
-      .map(toLieuxMediationNumerique(matching, transformerOptions.sourceName, REPORT, accesLibreErps))
+      .map(toLieuxMediationNumerique(matching, transformerOptions.sourceName, REPORT, accesLibreErps, allCodeInsee))
       .filter(validValuesOnly);
 
     const lieuxDeMediationNumeriqueFiltered: LieuMediationNumeriqueById = lieuxDeMediationNumerique.reduce(

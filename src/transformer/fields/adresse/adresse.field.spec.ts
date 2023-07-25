@@ -3,7 +3,7 @@
 import { Adresse, CommuneError } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Report } from '../../report';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
-import { processAdresse } from './adresse.field';
+import { CodeInseeCorrespondancy, processAdresse } from './adresse.field';
 
 const STANDARD_MATCHING: LieuxMediationNumeriqueMatching = {
   code_postal: {
@@ -400,6 +400,48 @@ describe('adresse field', (): void => {
       code_postal: '20234',
       commune: 'PIOBETTA',
       voie: 'Mairie de Piobetta'
+    });
+  });
+
+  it('should retrieve code insee from code postal', (): void => {
+    const source: DataSource = {
+      'Code postal': '22330',
+      'Ville *': 'LANGOURLA',
+      'Adresse postale *': '5 rue Malakoff'
+    };
+
+    const codesInseeData: CodeInseeCorrespondancy[] = [
+      {
+        insee_com: '22102',
+        postal_code: '22330'
+      }
+    ];
+
+    const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING, codesInseeData);
+
+    expect(adresse).toStrictEqual({
+      code_postal: '22330',
+      code_insee: '22102',
+      commune: 'LANGOURLA',
+      voie: '5 rue Malakoff'
+    });
+  });
+
+  it('should retrieve code insee from source', (): void => {
+    const source: DataSource = {
+      'Code postal': '22330',
+      'Ville *': 'LANGOURLA',
+      'Adresse postale *': '5 rue Malakoff',
+      'Code INSEE': '22102'
+    };
+
+    const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
+
+    expect(adresse).toStrictEqual({
+      code_postal: '22330',
+      code_insee: '22102',
+      commune: 'LANGOURLA',
+      voie: '5 rue Malakoff'
     });
   });
 });

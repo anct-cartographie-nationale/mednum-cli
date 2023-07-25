@@ -7,6 +7,11 @@ import { CLEAN_OPERATIONS, CleanOperation } from './clean-operations';
 
 type FixedAdresse = DataSource | undefined;
 
+export type CodeInseeCorrespondancy = {
+  insee_com: string;
+  postal_code: string;
+};
+
 const formatCommune = (commune: string): string =>
   (commune.charAt(0).toUpperCase() + commune.slice(1)).replace(/\s+/gu, ' ').trim();
 
@@ -39,7 +44,20 @@ const codePostalFromVoie = (voie: string): string => /\b\d{5}\b/u.exec(voie)?.[0
 
 const getCommuneFromVoie = (voie: string): string => /\b\d{5}\b\s*(?<commune>\w+)/u.exec(voie)?.groups?.['commune'] ?? '';
 
-const toLieuxMediationNumeriqueAdresse = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Adresse =>
+const processCodeInsee = (
+  allCodeInsee: CodeInseeCorrespondancy[],
+  codePostal: string,
+  codeInsee?: string
+): string | undefined => {
+  const codeInseeFromBase = allCodeInsee.find((entry: CodeInseeCorrespondancy) => entry.postal_code === codePostal);
+  return codeInseeFromBase?.insee_com ?? codeInsee ?? undefined;
+};
+
+const toLieuxMediationNumeriqueAdresse = (
+  source: DataSource,
+  matching: LieuxMediationNumeriqueMatching,
+  allCodeInsee?: CodeInseeCorrespondancy[]
+): Adresse =>
   Adresse({
     code_postal:
       matching.code_postal.colonne === ''
@@ -51,7 +69,13 @@ const toLieuxMediationNumeriqueAdresse = (source: DataSource, matching: LieuxMed
         : formatCommune(source[matching.commune.colonne] ?? ''),
     voie: formatVoie(voieField(source, matching.adresse)),
     ...complementAdresseIfAny(source[matching.complement_adresse?.colonne ?? '']),
-    ...codeInseeIfAny(source[matching.code_insee?.colonne ?? '']?.toString())
+    ...codeInseeIfAny(
+      processCodeInsee(
+        allCodeInsee ?? [],
+        source[matching.code_postal.colonne]?.toString() ?? codePostalFromVoie(voieField(source, matching.adresse)),
+        source[matching.code_insee?.colonne ?? '']?.toString()
+      )
+    )
   });
 
 const testCleanSelector = (cleanOperation: CleanOperation, property?: string): boolean =>
@@ -134,16 +158,16 @@ const checkCommuneAndVoieMissingMatch = (source: DataSource, matching: LieuxMedi
 
 export const processAdresse =
   (recorder: Recorder) =>
-  (source: DataSource, matching: LieuxMediationNumeriqueMatching): Adresse => {
+  (source: DataSource, matching: LieuxMediationNumeriqueMatching, allCodeInsee?: CodeInseeCorrespondancy[]): Adresse => {
     try {
-      return toLieuxMediationNumeriqueAdresse(source, matching);
+      return toLieuxMediationNumeriqueAdresse(source, matching, allCodeInsee);
     } catch (error: unknown) {
       if (error instanceof CodePostalError && matching.code_postal.colonne === '')
         return handleMissingCodePostalInMatching(recorder)(source, matching, error);
       if (checkCommuneAndVoieMissingMatch(source, matching)) throwCommuneOrAdresseErrors(source, matching);
       if (error instanceof CodeInseeError) {
         const { [matching.code_insee?.colonne ?? '']: _, ...sourceWithoutCodeInsee }: DataSource = source;
-        return toLieuxMediationNumeriqueAdresse(sourceWithoutCodeInsee, matching);
+        return toLieuxMediationNumeriqueAdresse(sourceWithoutCodeInsee, matching, allCodeInsee);
       }
       return fixAndRetry(recorder)(source, matching, error);
     }
