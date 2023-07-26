@@ -412,8 +412,10 @@ describe('adresse field', (): void => {
 
     const codesInseeData: CodeInseeCorrespondancy[] = [
       {
-        insee_com: '22102',
-        postal_code: '22330'
+        fields: {
+          insee_com: '22102',
+          postal_code: '22330'
+        }
       }
     ];
 

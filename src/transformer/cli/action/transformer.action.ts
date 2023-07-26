@@ -110,8 +110,6 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
     const accesLibreErps: Erp[] = JSON.parse(accesLibreData);
     const allCodeInsee: CodeInseeCorrespondancy[] = JSON.parse(codeInseeData);
 
-    console.log(allCodeInsee);
-
     const lieuxDeMediationNumerique: LieuMediationNumerique[] = JSON.parse(replaceNullWithEmptyString(input))
       .map(flatten)
       .map(toLieuxMediationNumerique(matching, transformerOptions.sourceName, REPORT, accesLibreErps, allCodeInsee))

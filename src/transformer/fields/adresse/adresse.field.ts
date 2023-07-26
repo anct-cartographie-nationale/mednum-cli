@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/naming-convention, camelcase */
+/* eslint-disable @typescript-eslint/naming-convention, camelcase, max-lines */
 
 import { Adresse, CodeInseeError, CodePostalError, CommuneError, VoieError } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching, DataSource, Colonne, Jonction } from '../../input';
@@ -8,8 +8,10 @@ import { CLEAN_OPERATIONS, CleanOperation } from './clean-operations';
 type FixedAdresse = DataSource | undefined;
 
 export type CodeInseeCorrespondancy = {
-  insee_com: string;
-  postal_code: string;
+  fields: {
+    insee_com: string;
+    postal_code: string;
+  };
 };
 
 const formatCommune = (commune: string): string =>
@@ -44,14 +46,25 @@ const codePostalFromVoie = (voie: string): string => /\b\d{5}\b/u.exec(voie)?.[0
 
 const getCommuneFromVoie = (voie: string): string => /\b\d{5}\b\s*(?<commune>\w+)/u.exec(voie)?.groups?.['commune'] ?? '';
 
-const processCodeInsee = (
-  allCodeInsee: CodeInseeCorrespondancy[],
-  codePostal: string,
-  codeInsee?: string
-): string | undefined => {
-  const codeInseeFromBase = allCodeInsee.find((entry: CodeInseeCorrespondancy) => entry.postal_code === codePostal);
-  return codeInseeFromBase?.insee_com ?? codeInsee ?? undefined;
-};
+const getCodeInseeFromSource = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string | undefined =>
+  source[matching.code_insee?.colonne ?? '']?.toString();
+
+const getCodePostal = (matching: LieuxMediationNumeriqueMatching, source: DataSource): string =>
+  matching.code_postal.colonne === ''
+    ? codePostalFromVoie(voieField(source, matching.adresse))
+    : source[matching.code_postal.colonne]?.toString() ?? '';
+
+const getCommune = (matching: LieuxMediationNumeriqueMatching, source: DataSource): string =>
+  matching.commune.colonne === ''
+    ? getCommuneFromVoie(voieField(source, matching.adresse))
+    : formatCommune(source[matching.commune.colonne] ?? '');
+
+const processCodeInsee =
+  (allCodeInsee: CodeInseeCorrespondancy[] = []) =>
+  (codePostal: string, codeInsee?: string): string | undefined =>
+    allCodeInsee.find((entry: CodeInseeCorrespondancy): boolean => entry.fields.postal_code === codePostal)?.fields.insee_com ??
+    codeInsee ??
+    undefined;
 
 const toLieuxMediationNumeriqueAdresse = (
   source: DataSource,
@@ -59,23 +72,11 @@ const toLieuxMediationNumeriqueAdresse = (
   allCodeInsee?: CodeInseeCorrespondancy[]
 ): Adresse =>
   Adresse({
-    code_postal:
-      matching.code_postal.colonne === ''
-        ? codePostalFromVoie(voieField(source, matching.adresse))
-        : source[matching.code_postal.colonne]?.toString() ?? '',
-    commune:
-      matching.commune.colonne === ''
-        ? getCommuneFromVoie(voieField(source, matching.adresse))
-        : formatCommune(source[matching.commune.colonne] ?? ''),
+    code_postal: getCodePostal(matching, source),
+    commune: getCommune(matching, source),
     voie: formatVoie(voieField(source, matching.adresse)),
     ...complementAdresseIfAny(source[matching.complement_adresse?.colonne ?? '']),
-    ...codeInseeIfAny(
-      processCodeInsee(
-        allCodeInsee ?? [],
-        source[matching.code_postal.colonne]?.toString() ?? codePostalFromVoie(voieField(source, matching.adresse)),
-        source[matching.code_insee?.colonne ?? '']?.toString()
-      )
-    )
+    ...codeInseeIfAny(processCodeInsee(allCodeInsee)(getCodePostal(matching, source), getCodeInseeFromSource(source, matching)))
   });
 
 const testCleanSelector = (cleanOperation: CleanOperation, property?: string): boolean =>
