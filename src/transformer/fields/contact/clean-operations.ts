@@ -313,6 +313,12 @@ const removeDashEmail = (field: string): CleanOperation => ({
   field
 });
 
+const removeMultipleAtEmail = (field: string): CleanOperation => ({
+  name: 'multiple at',
+  selector: /@.+@/u,
+  field
+});
+
 const cleanOperationIfAny = (
   cleanOperator: (colonne: string, codePostal?: string) => CleanOperation,
   colonne?: string,
@@ -365,5 +371,6 @@ export const cleanOperations = (
   ...cleanOperationIfAny(fixUnexpectedEmailList, matching.courriel?.colonne),
   ...cleanOperationIfAny(fixObfuscatedAtInEmail, matching.courriel?.colonne),
   ...cleanOperationIfAny(fixMissingEmailExtension, matching.courriel?.colonne),
-  ...cleanOperationIfAny(removeMissingAtInEmail, matching.courriel?.colonne)
+  ...cleanOperationIfAny(removeMissingAtInEmail, matching.courriel?.colonne),
+  ...cleanOperationIfAny(removeMultipleAtEmail, matching.courriel?.colonne)
 ];
