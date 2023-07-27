@@ -4,6 +4,7 @@ import { Adresse, CodeInseeError, CodePostalError, CommuneError, VoieError } fro
 import { LieuxMediationNumeriqueMatching, DataSource, Colonne, Jonction } from '../../input';
 import { Recorder } from '../../report';
 import { CLEAN_OPERATIONS, CleanOperation } from './clean-operations';
+import { ratio } from 'fuzzball';
 
 type FixedAdresse = DataSource | undefined;
 
@@ -11,6 +12,7 @@ export type CodeInseeCorrespondancy = {
   fields: {
     insee_com: string;
     postal_code: string;
+    nom_comm: string;
   };
 };
 
@@ -61,8 +63,11 @@ const getCommune = (matching: LieuxMediationNumeriqueMatching, source: DataSourc
 
 const processCodeInsee =
   (allCodeInsee: CodeInseeCorrespondancy[] = []) =>
-  (codePostal: string, codeInsee?: string): string | undefined =>
-    allCodeInsee.find((entry: CodeInseeCorrespondancy): boolean => entry.fields.postal_code === codePostal)?.fields.insee_com ??
+  (codePostal: string, commune: string, codeInsee?: string): string | undefined =>
+    allCodeInsee.find(
+      (entry: CodeInseeCorrespondancy): boolean =>
+        entry.fields.postal_code.split('/').includes(codePostal) && ratio(entry.fields.nom_comm, commune) >= 50
+    )?.fields.insee_com ??
     codeInsee ??
     undefined;
 
@@ -76,7 +81,13 @@ const toLieuxMediationNumeriqueAdresse = (
     commune: getCommune(matching, source),
     voie: formatVoie(voieField(source, matching.adresse)),
     ...complementAdresseIfAny(source[matching.complement_adresse?.colonne ?? '']),
-    ...codeInseeIfAny(processCodeInsee(allCodeInsee)(getCodePostal(matching, source), getCodeInseeFromSource(source, matching)))
+    ...codeInseeIfAny(
+      processCodeInsee(allCodeInsee)(
+        getCodePostal(matching, source),
+        getCommune(matching, source),
+        getCodeInseeFromSource(source, matching)
+      )
+    )
   });
 
 const testCleanSelector = (cleanOperation: CleanOperation, property?: string): boolean =>

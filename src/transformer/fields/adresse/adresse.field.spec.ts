@@ -414,7 +414,8 @@ describe('adresse field', (): void => {
       {
         fields: {
           insee_com: '22102',
-          postal_code: '22330'
+          postal_code: '22330',
+          nom_comm: 'LANGOUR LA'
         }
       }
     ];
@@ -443,6 +444,60 @@ describe('adresse field', (): void => {
       code_postal: '22330',
       code_insee: '22102',
       commune: 'LANGOURLA',
+      voie: '5 rue Malakoff'
+    });
+  });
+
+  it('should retrieve code insee with multiple code postal in code insee data base', (): void => {
+    const source: DataSource = {
+      'Code postal': '87000',
+      'Ville *': 'Limoges',
+      'Adresse postale *': '5 rue Malakoff'
+    };
+
+    const codesInseeData: CodeInseeCorrespondancy[] = [
+      {
+        fields: {
+          insee_com: '87202',
+          postal_code: '87000/87100/87280',
+          nom_comm: 'Limoges'
+        }
+      }
+    ];
+
+    const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING, codesInseeData);
+
+    expect(adresse).toStrictEqual({
+      code_postal: '87000',
+      code_insee: '87202',
+      commune: 'Limoges',
+      voie: '5 rue Malakoff'
+    });
+  });
+
+  it('should retrieve code insee with commune name with arrondissement', (): void => {
+    const source: DataSource = {
+      'Code postal': '13006',
+      'Ville *': 'Marseille',
+      'Adresse postale *': '5 rue Malakoff'
+    };
+
+    const codesInseeData: CodeInseeCorrespondancy[] = [
+      {
+        fields: {
+          insee_com: '13050',
+          postal_code: '13006',
+          nom_comm: 'MARSEILLE--6E--ARRONDISSEMENT'
+        }
+      }
+    ];
+
+    const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING, codesInseeData);
+
+    expect(adresse).toStrictEqual({
+      code_postal: '13006',
+      code_insee: '13050',
+      commune: 'Marseille',
       voie: '5 rue Malakoff'
     });
   });
