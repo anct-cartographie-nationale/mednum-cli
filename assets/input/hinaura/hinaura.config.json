@@ -205,7 +205,7 @@
     },
     {
       "colonnes": ["checkboxListeTypepublicscecifiques"],
-      "termes": ["2"],
+      "termes": ["2", "3"],
       "sauf": ["12"],
       "cible": "Public langues étrangères"
     },
