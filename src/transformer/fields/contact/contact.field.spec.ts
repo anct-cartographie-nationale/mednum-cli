@@ -1019,4 +1019,15 @@ describe('contact field', (): void => {
       })
     );
   });
+
+  it('should remove email if multiple At', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        [EMAIL_FIELD]: 'msap@marchaux1@orange.fr'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(Contact({}));
+  });
 });
