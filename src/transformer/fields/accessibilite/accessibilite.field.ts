@@ -23,8 +23,8 @@ const getAccessibiliteFromAccesLibre = (
     .filter((erp: Erp): boolean => erp.postal_code === adresseProcessed.code_postal)
     .filter(
       (erp: Erp): boolean =>
-        ratio(source[matching.nom.colonne] ?? '', erp.name) > 60 ||
-        ratio(adresseProcessed.voie, erp.numero.concat(' ', erp.voie)) > 60
+        ratio(source[matching.nom.colonne] ?? '', erp.name) >= 80 ||
+        ratio(adresseProcessed.voie, erp.numero.concat(' ', erp.voie)) >= 80
     );
 
   const accesLibreUrlByFuzzyMatch: string | undefined =
