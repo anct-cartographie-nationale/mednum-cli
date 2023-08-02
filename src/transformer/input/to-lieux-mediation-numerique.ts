@@ -17,8 +17,8 @@ import {
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Recorder, Report } from '../report';
 import {
-  CodeInseeCorrespondancy,
   Erp,
+  FindCommune,
   processAccessibilite,
   processAdresse,
   processConditionsAcces,
@@ -77,13 +77,13 @@ const lieuDeMediationNumerique = (
   matching: LieuxMediationNumeriqueMatching,
   recorder: Recorder,
   accesLibreData: Erp[],
-  allCodeInsee: CodeInseeCorrespondancy[]
+  findCommune: FindCommune
 ): LieuMediationNumerique => {
   const lieuMediationNumerique: LieuMediationNumerique = {
     id: processId(dataSource, matching, index),
     nom: processNom(dataSource, matching),
     pivot: processPivot(dataSource, matching),
-    adresse: processAdresse(recorder)(dataSource, matching, allCodeInsee),
+    adresse: processAdresse(findCommune)(dataSource, matching),
     ...localisationIfAny(processLocalisation(dataSource, matching)),
     contact: processContact(recorder)(dataSource, matching),
     ...conditionsAccesIfAny(processConditionsAcces(dataSource, matching)),
@@ -99,7 +99,7 @@ const lieuDeMediationNumerique = (
     ...priseRdvIfAny(processPriseRdv(dataSource, matching)),
     ...typologiesIfAny(processTypologies(dataSource, matching)),
     ...accessibiliteIfAny(
-      processAccessibilite(dataSource, matching, accesLibreData, processAdresse(recorder)(dataSource, matching))
+      processAccessibilite(dataSource, matching, accesLibreData, processAdresse(findCommune)(dataSource, matching))
     )
   };
 
@@ -116,7 +116,7 @@ const entryIdentification = (dataSource: DataSource, matching: string): string =
     : dataSource[JSON.parse(matching).nom.colonne]) ?? '';
 
 export const toLieuxMediationNumerique =
-  (matching: string, sourceName: string, report: Report, accesLibreData: Erp[], allCodeInsee: CodeInseeCorrespondancy[]) =>
+  (matching: string, sourceName: string, report: Report, accesLibreData: Erp[], findCommune: FindCommune) =>
   (dataSource: DataSource, index: number): LieuMediationNumerique | undefined => {
     try {
       return lieuDeMediationNumerique(
@@ -126,7 +126,7 @@ export const toLieuxMediationNumerique =
         JSON.parse(matching),
         report.entry(index),
         accesLibreData,
-        allCodeInsee
+        findCommune
       );
     } catch (error: unknown) {
       if (

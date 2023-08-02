@@ -1,9 +1,270 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
-import { Adresse, CommuneError } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { Report } from '../../report';
+import { Adresse, VoieError } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
-import { CodeInseeCorrespondancy, processAdresse } from './adresse.field';
+import { processAdresse } from './adresse.field';
+import {
+  Commune,
+  communeParCodePostal,
+  communeParNom,
+  communeParNomEtCodePostal,
+  communesParCodePostalMap,
+  communesParNomMap,
+  FindCommune
+} from './find-commune';
+
+const BEGLES: Commune = {
+  nom: 'Bègles',
+  code: '33039',
+  codeDepartement: '33',
+  siren: '213300395',
+  codeEpci: '243300316',
+  codeRegion: '75',
+  codesPostaux: ['33130'],
+  population: 30543
+};
+
+const BONNEVILLE_74: Commune = {
+  nom: 'Bonneville',
+  code: '74042',
+  codeDepartement: '74',
+  siren: '217400423',
+  codeEpci: '200000172',
+  codeRegion: '84',
+  codesPostaux: ['74130'],
+  population: 12511
+};
+
+const BONNEVILLE_80: Commune = {
+  nom: 'Bonneville',
+  code: '80113',
+  codeDepartement: '80',
+  siren: '218001071',
+  codeEpci: '200070951',
+  codeRegion: '32',
+  codesPostaux: ['80670'],
+  population: 337
+};
+
+const BRIZON: Commune = {
+  nom: 'Brizon',
+  code: '74049',
+  codeDepartement: '74',
+  siren: '217400498',
+  codeEpci: '200000172',
+  codeRegion: '84',
+  codesPostaux: ['74130'],
+  population: 481
+};
+
+const CHALUS_63: Commune = {
+  nom: 'Chalus',
+  code: '63074',
+  codeDepartement: '63',
+  siren: '216300749',
+  codeEpci: '200070407',
+  codeRegion: '84',
+  codesPostaux: ['63340'],
+  population: 182
+};
+
+const CHALUS_87: Commune = {
+  nom: 'Châlus',
+  code: '87032',
+  codeDepartement: '87',
+  siren: '218703205',
+  codeEpci: '200070506',
+  codeRegion: '75',
+  codesPostaux: ['87230'],
+  population: 1647
+};
+
+const ETREUX: Commune = {
+  nom: 'Étreux',
+  code: '02298',
+  codeDepartement: '02',
+  siren: '210202818',
+  codeEpci: '200071983',
+  codeRegion: '32',
+  codesPostaux: ['02510'],
+  population: 1454
+};
+const GANNAT: Commune = {
+  nom: 'Gannat',
+  code: '03118',
+  codeDepartement: '03',
+  siren: '210301180',
+  codeEpci: '200071389',
+  codeRegion: '84',
+  codesPostaux: ['03800'],
+  population: 5815
+};
+
+const GRENOBLE: Commune = {
+  nom: 'Grenoble',
+  code: '38185',
+  codeDepartement: '38',
+  siren: '213801855',
+  codeEpci: '200040715',
+  codeRegion: '84',
+  codesPostaux: ['38000', '38100'],
+  population: 158240
+};
+
+const LA_FERE: Commune = {
+  nom: 'La Fère',
+  code: '02304',
+  codeDepartement: '02',
+  siren: '210202867',
+  codeEpci: '200071785',
+  codeRegion: '32',
+  codesPostaux: ['02800'],
+  population: 2845
+};
+
+const LIMOGES: Commune = {
+  nom: 'Limoges',
+  code: '87085',
+  codeDepartement: '87',
+  siren: '218708501',
+  codeEpci: '248719312',
+  codeRegion: '75',
+  codesPostaux: ['87000', '87100', '87280'],
+  population: 130592
+};
+
+const MARSEILLE: Commune = {
+  nom: 'Marseille',
+  code: '13055',
+  codeDepartement: '13',
+  siren: '211300553',
+  codeEpci: '200054807',
+  codeRegion: '93',
+  codesPostaux: [
+    '13001',
+    '13002',
+    '13003',
+    '13004',
+    '13005',
+    '13006',
+    '13007',
+    '13008',
+    '13009',
+    '13010',
+    '13011',
+    '13012',
+    '13013',
+    '13014',
+    '13015',
+    '13016'
+  ],
+  population: 870321
+};
+
+const PIOBETTA: Commune = {
+  nom: 'Piobetta',
+  code: '2B234',
+  codeDepartement: '2B',
+  siren: '212002349',
+  codeEpci: '200034205',
+  codeRegion: '94',
+  codesPostaux: ['20234'],
+  population: 17
+};
+
+const SAINT_EUSTACHE: Commune = {
+  nom: 'Saint-Eustache',
+  code: '74232',
+  codeDepartement: '74',
+  siren: '217402320',
+  codeEpci: '200066793',
+  codeRegion: '84',
+  codesPostaux: ['74410'],
+  population: 491
+};
+
+const SAINT_JORIOZ: Commune = {
+  nom: 'Saint-Jorioz',
+  code: '74242',
+  codeDepartement: '74',
+  siren: '217402429',
+  codeEpci: '200066793',
+  codeRegion: '84',
+  codesPostaux: ['74410'],
+  population: 6151
+};
+
+const SAINT_LEONARD_DE_NOBLAT: Commune = {
+  nom: 'Saint-Léonard-de-Noblat',
+  code: '87161',
+  codeDepartement: '87',
+  siren: '218716108',
+  codeEpci: '248719361',
+  codeRegion: '75',
+  codesPostaux: ['87400'],
+  population: 4357
+};
+
+const SAINT_LAURENT_DE_CHAMOUSSET: Commune = {
+  nom: 'Saint-Laurent-de-Chamousset',
+  code: '69220',
+  codeDepartement: '69',
+  siren: '216902205',
+  codeEpci: '200066587',
+  codeRegion: '84',
+  codesPostaux: ['69930'],
+  population: 1798
+};
+
+const SAINT_PAUL_TROIS_CHATEAUX: Commune = {
+  nom: 'Saint-Paul-Trois-Châteaux',
+  code: '26324',
+  codeDepartement: '26',
+  siren: '212603245',
+  codeEpci: '200042901',
+  codeRegion: '84',
+  codesPostaux: ['26130'],
+  population: 8731
+};
+
+const VERSAILLES: Commune = {
+  nom: 'Versailles',
+  code: '78646',
+  codeDepartement: '78',
+  siren: '217806462',
+  codeEpci: '247800584',
+  codeRegion: '11',
+  codesPostaux: ['78000'],
+  population: 83583
+};
+
+const COMMUNES: Commune[] = [
+  BEGLES,
+  BONNEVILLE_74,
+  BONNEVILLE_80,
+  BRIZON,
+  CHALUS_63,
+  CHALUS_87,
+  ETREUX,
+  GANNAT,
+  GRENOBLE,
+  LA_FERE,
+  LIMOGES,
+  MARSEILLE,
+  PIOBETTA,
+  SAINT_EUSTACHE,
+  SAINT_JORIOZ,
+  SAINT_LEONARD_DE_NOBLAT,
+  SAINT_LAURENT_DE_CHAMOUSSET,
+  SAINT_PAUL_TROIS_CHATEAUX,
+  VERSAILLES
+];
+
+const FIND_COMMUNE: FindCommune = {
+  parNom: communeParNom(communesParNomMap(COMMUNES)),
+  parCodePostal: communeParCodePostal(communesParCodePostalMap(COMMUNES)),
+  parNomEtCodePostal: communeParNomEtCodePostal(COMMUNES)
+};
 
 const STANDARD_MATCHING: LieuxMediationNumeriqueMatching = {
   code_postal: {
@@ -58,9 +319,10 @@ describe('adresse field', (): void => {
       'Adresse postale *': '5 rue Malakoff'
     };
 
-    const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
+    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
+      code_insee: '38185',
       code_postal: '38000',
       commune: 'Grenoble',
       voie: '5 rue Malakoff'
@@ -75,9 +337,10 @@ describe('adresse field', (): void => {
       'Complement adresse': 'Allée 5'
     };
 
-    const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
+    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
+      code_insee: '38185',
       code_postal: '38000',
       commune: 'Grenoble',
       voie: '5 rue Malakoff',
@@ -93,13 +356,13 @@ describe('adresse field', (): void => {
       'Code INSEE': '38110'
     };
 
-    const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
+    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
+      code_insee: '38185',
       code_postal: '38000',
       commune: 'Grenoble',
-      voie: '5 rue Malakoff',
-      code_insee: '38110'
+      voie: '5 rue Malakoff'
     });
   });
 
@@ -112,8 +375,8 @@ describe('adresse field', (): void => {
     };
 
     expect((): void => {
-      processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
-    }).toThrow(new CommuneError(''));
+      processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
+    }).toThrow(new VoieError(''));
   });
 
   it('should fix value with code postal in adresse postale field instead of Code postal field', (): void => {
@@ -123,10 +386,11 @@ describe('adresse field', (): void => {
       'Ville *': 'grenoble'
     };
 
-    const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
+    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
-      code_postal: '38100',
+      code_insee: '38185',
+      code_postal: '38000',
       commune: 'Grenoble',
       voie: '5 rue Malakoff'
     });
@@ -139,11 +403,12 @@ describe('adresse field', (): void => {
       'Ville *': 'SAINT PAUL TROIS CH╢TEAUX'
     };
 
-    const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
+    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
+      code_insee: '26324',
       code_postal: '26130',
-      commune: 'SAINT PAUL TROIS CHÂTEAUX',
+      commune: 'Saint-Paul-Trois-Châteaux',
       voie: '10 rue du Serre Blanc'
     });
   });
@@ -151,15 +416,16 @@ describe('adresse field', (): void => {
   it('should fix code postal with extra . and digit', (): void => {
     const source: DataSource = {
       'Adresse postale *': '10 rue du Serre Blanc',
-      'Code postal': '68100.0',
+      'Code postal': '26130.0',
       'Ville *': 'SAINT PAUL TROIS CH╢TEAUX'
     };
 
-    const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
+    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
-      code_postal: '68100',
-      commune: 'SAINT PAUL TROIS CHÂTEAUX',
+      code_insee: '26324',
+      code_postal: '26130',
+      commune: 'Saint-Paul-Trois-Châteaux',
       voie: '10 rue du Serre Blanc'
     });
   });
@@ -171,11 +437,12 @@ describe('adresse field', (): void => {
       'Ville *': 'Saint Laurent de Chamousset'
     };
 
-    const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
+    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
+      code_insee: '69220',
       code_postal: '69930',
-      commune: 'Saint Laurent de Chamousset',
+      commune: 'Saint-Laurent-de-Chamousset',
       voie: '122 avenue des 4 cantons'
     });
   });
@@ -187,9 +454,10 @@ describe('adresse field', (): void => {
       'Ville *': 'Gannat'
     };
 
-    const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
+    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
+      code_insee: '03118',
       code_postal: '03800',
       commune: 'Gannat',
       voie: '12 Allée des tilleuls'
@@ -204,9 +472,10 @@ describe('adresse field', (): void => {
       Numéro: '5'
     };
 
-    const adresse: Adresse = processAdresse(Report().entry(0))(source, SPLIT_VOIE_MATCHING);
+    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, SPLIT_VOIE_MATCHING);
 
     expect(adresse).toStrictEqual({
+      code_insee: '38185',
       code_postal: '38000',
       commune: 'Grenoble',
       voie: '5 rue Malakoff'
@@ -221,9 +490,10 @@ describe('adresse field', (): void => {
       Numéro: '5'
     };
 
-    const adresse: Adresse = processAdresse(Report().entry(0))(source, SPLIT_VOIE_MATCHING);
+    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, SPLIT_VOIE_MATCHING);
 
     expect(adresse).toStrictEqual({
+      code_insee: '38185',
       code_postal: '38000',
       commune: 'Grenoble',
       voie: '5 rue Malakoff'
@@ -238,9 +508,10 @@ describe('adresse field', (): void => {
       Numéro: '17'
     };
 
-    const adresse: Adresse = processAdresse(Report().entry(0))(source, SPLIT_VOIE_MATCHING);
+    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, SPLIT_VOIE_MATCHING);
 
     expect(adresse).toStrictEqual({
+      code_insee: '02304',
       code_postal: '02800',
       commune: 'La Fère',
       voie: '17 rue Henri Martin'
@@ -255,16 +526,17 @@ describe('adresse field', (): void => {
       Numéro: '17'
     };
 
-    const adresse: Adresse = processAdresse(Report().entry(0))(source, SPLIT_VOIE_MATCHING);
+    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, SPLIT_VOIE_MATCHING);
 
     expect(adresse).toStrictEqual({
+      code_insee: '02298',
       code_postal: '02510',
-      commune: 'Etreux',
+      commune: 'Étreux',
       voie: '17 rue Henri Martin'
     });
   });
 
-  it('should process a voie with extra spaces in', (): void => {
+  it('should process a voie with extra spaces in Adresse', (): void => {
     const source: DataSource = {
       CP: '78000',
       Commune: 'Versailles',
@@ -272,33 +544,35 @@ describe('adresse field', (): void => {
       Numéro: '13'
     };
 
-    const adresse: Adresse = processAdresse(Report().entry(0))(source, SPLIT_VOIE_MATCHING);
+    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, SPLIT_VOIE_MATCHING);
 
     expect(adresse).toStrictEqual({
+      code_insee: '78646',
       code_postal: '78000',
       commune: 'Versailles',
       voie: '13 rue Saint Louis'
     });
   });
 
-  it('should process a commune with extra spaces in', (): void => {
+  it('should process a commune with extra spaces in Commune and Adresse', (): void => {
     const source: DataSource = {
       CP: '78000',
-      Commune: '   Versailles     ',
+      Commune: '    Versailles     ',
       Adresse: '    rue Saint     Louis  ',
       Numéro: '13'
     };
 
-    const adresse: Adresse = processAdresse(Report().entry(0))(source, SPLIT_VOIE_MATCHING);
+    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, SPLIT_VOIE_MATCHING);
 
     expect(adresse).toStrictEqual({
+      code_insee: '78646',
       code_postal: '78000',
       commune: 'Versailles',
       voie: '13 rue Saint Louis'
     });
   });
 
-  it('should process a complement adresse with extra spaces in', (): void => {
+  it('should process a complement adresse with extra spaces in Complement adresse', (): void => {
     const source: DataSource = {
       'Code postal': '78000',
       'Ville *': 'Versailles',
@@ -306,9 +580,10 @@ describe('adresse field', (): void => {
       'Complement adresse': '     Allée    5     '
     };
 
-    const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
+    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
+      code_insee: '78646',
       code_postal: '78000',
       commune: 'Versailles',
       voie: '13 rue Saint Louis',
@@ -322,9 +597,10 @@ describe('adresse field', (): void => {
       commune: 'Châlus'
     };
 
-    const adresse: Adresse = processAdresse(Report().entry(0))(source, CODE_POSTAL_IS_IN_ADRESSE_MATCHING);
+    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, CODE_POSTAL_IS_IN_ADRESSE_MATCHING);
 
     expect(adresse).toStrictEqual({
+      code_insee: '87032',
       code_postal: '87230',
       commune: 'Châlus',
       voie: '28 Avenue François Mitterrand'
@@ -337,9 +613,10 @@ describe('adresse field', (): void => {
       commune: 'Saint-Léonard-de-Noblat'
     };
 
-    const adresse: Adresse = processAdresse(Report().entry(0))(source, CODE_POSTAL_IS_IN_ADRESSE_MATCHING);
+    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, CODE_POSTAL_IS_IN_ADRESSE_MATCHING);
 
     expect(adresse).toStrictEqual({
+      code_insee: '87161',
       code_postal: '87400',
       commune: 'Saint-Léonard-de-Noblat',
       voie: '3 Place Gay-Lussac'
@@ -353,9 +630,10 @@ describe('adresse field', (): void => {
       'Adresse postale *': '52 Route des Ducs dAnjou'
     };
 
-    const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
+    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
+      code_insee: '78646',
       code_postal: '78000',
       commune: 'Versailles',
       voie: "52 Route des Ducs d'Anjou"
@@ -368,9 +646,10 @@ describe('adresse field', (): void => {
       adresse: '1 avenue Pasteur'
     };
 
-    const adresse: Adresse = processAdresse(Report().entry(0))(source, CODE_POSTAL_IS_IN_ADRESSE_MATCHING);
+    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, CODE_POSTAL_IS_IN_ADRESSE_MATCHING);
 
     expect(adresse).toStrictEqual({
+      code_insee: '33039',
       code_postal: '33130',
       commune: 'Bègles',
       voie: '1 avenue Pasteur'
@@ -394,57 +673,13 @@ describe('adresse field', (): void => {
       adresse: 'Mairie de Piobetta 20234 PIOBETTA'
     };
 
-    const adresse: Adresse = processAdresse(Report().entry(0))(source, CODE_POSTAL_AND_COMMUNE_ARE_IN_ADRESSE_MATCHING);
+    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, CODE_POSTAL_AND_COMMUNE_ARE_IN_ADRESSE_MATCHING);
 
     expect(adresse).toStrictEqual({
+      code_insee: '2B234',
       code_postal: '20234',
-      commune: 'PIOBETTA',
+      commune: 'Piobetta',
       voie: 'Mairie de Piobetta'
-    });
-  });
-
-  it('should retrieve code insee from code postal', (): void => {
-    const source: DataSource = {
-      'Code postal': '22330',
-      'Ville *': 'LANGOURLA',
-      'Adresse postale *': '5 rue Malakoff'
-    };
-
-    const codesInseeData: CodeInseeCorrespondancy[] = [
-      {
-        fields: {
-          insee_com: '22102',
-          postal_code: '22330',
-          nom_comm: 'LANGOUR LA'
-        }
-      }
-    ];
-
-    const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING, codesInseeData);
-
-    expect(adresse).toStrictEqual({
-      code_postal: '22330',
-      code_insee: '22102',
-      commune: 'LANGOURLA',
-      voie: '5 rue Malakoff'
-    });
-  });
-
-  it('should retrieve code insee from source', (): void => {
-    const source: DataSource = {
-      'Code postal': '22330',
-      'Ville *': 'LANGOURLA',
-      'Adresse postale *': '5 rue Malakoff',
-      'Code INSEE': '22102'
-    };
-
-    const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING);
-
-    expect(adresse).toStrictEqual({
-      code_postal: '22330',
-      code_insee: '22102',
-      commune: 'LANGOURLA',
-      voie: '5 rue Malakoff'
     });
   });
 
@@ -455,21 +690,11 @@ describe('adresse field', (): void => {
       'Adresse postale *': '5 rue Malakoff'
     };
 
-    const codesInseeData: CodeInseeCorrespondancy[] = [
-      {
-        fields: {
-          insee_com: '87202',
-          postal_code: '87000/87100/87280',
-          nom_comm: 'Limoges'
-        }
-      }
-    ];
-
-    const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING, codesInseeData);
+    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_postal: '87000',
-      code_insee: '87202',
+      code_insee: '87085',
       commune: 'Limoges',
       voie: '5 rue Malakoff'
     });
@@ -482,23 +707,30 @@ describe('adresse field', (): void => {
       'Adresse postale *': '5 rue Malakoff'
     };
 
-    const codesInseeData: CodeInseeCorrespondancy[] = [
-      {
-        fields: {
-          insee_com: '13050',
-          postal_code: '13006',
-          nom_comm: 'MARSEILLE--6E--ARRONDISSEMENT'
-        }
-      }
-    ];
-
-    const adresse: Adresse = processAdresse(Report().entry(0))(source, STANDARD_MATCHING, codesInseeData);
+    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_postal: '13006',
-      code_insee: '13050',
+      code_insee: '13055',
       commune: 'Marseille',
       voie: '5 rue Malakoff'
+    });
+  });
+
+  it('should find code insee for commune that share name and code postal with other communes', (): void => {
+    const source: DataSource = {
+      'Code postal': '74130',
+      'Ville *': 'Bonneville',
+      'Adresse postale *': 'Place de la mairie'
+    };
+
+    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
+
+    expect(adresse).toStrictEqual({
+      code_postal: '74130',
+      code_insee: '74042',
+      commune: 'Bonneville',
+      voie: 'Place de la mairie'
     });
   });
 });
