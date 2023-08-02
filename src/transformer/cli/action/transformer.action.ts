@@ -6,7 +6,16 @@ import { Report } from '../../report';
 import { toLieuxMediationNumerique, validValuesOnly } from '../../input';
 import { writeErrorsOutputFiles, writeOutputFiles } from '../../output';
 import { TransformerOptions } from '../transformer-options';
-import { Erp } from '../../fields';
+import {
+  Commune,
+  communeParCodePostal,
+  communeParNom,
+  communeParNomEtCodePostal,
+  communesParCodePostalMap,
+  communesParNomMap,
+  Erp,
+  FindCommune
+} from '../../fields';
 import { keepOneEntryPerSource } from './duplicates-same-source/duplicates-same-source';
 
 /* eslint-disable max-lines-per-function, max-statements, @typescript-eslint/strict-boolean-expressions */
@@ -85,6 +94,8 @@ const fetchAccesLibreData = async (): Promise<string> =>
     (await axios.get('https://anct-carto-client-feature-les-assembleurs.s3.eu-west-3.amazonaws.com/acceslibre.json')).data
   );
 
+const communesFromGeoAPI = async (): Promise<Commune[]> => (await axios.get('https://geo.api.gouv.fr/communes')).data;
+
 export const transformerAction = async (transformerOptions: TransformerOptions): Promise<void> => {
   await Promise.all([
     transformerOptions.source.startsWith('http')
@@ -95,12 +106,20 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
         )
       : await readFrom(transformerOptions.source.split('@')),
     fs.promises.readFile(transformerOptions.configFile, 'utf-8'),
-    await fetchAccesLibreData()
-  ]).then(([input, matching, accesLibreData]: [string, string, string]): void => {
+    await fetchAccesLibreData(),
+    await communesFromGeoAPI()
+  ]).then(([input, matching, accesLibreData, communes]: [string, string, string, Commune[]]): void => {
     const accesLibreErps: Erp[] = JSON.parse(accesLibreData);
+
+    const findCommune: FindCommune = {
+      parNom: communeParNom(communesParNomMap(communes)),
+      parCodePostal: communeParCodePostal(communesParCodePostalMap(communes)),
+      parNomEtCodePostal: communeParNomEtCodePostal(communes)
+    };
+
     const lieuxDeMediationNumerique: LieuMediationNumerique[] = JSON.parse(replaceNullWithEmptyString(input))
       .map(flatten)
-      .map(toLieuxMediationNumerique(matching, transformerOptions.sourceName, REPORT, accesLibreErps))
+      .map(toLieuxMediationNumerique(matching, transformerOptions.sourceName, REPORT, accesLibreErps, findCommune))
       .filter(validValuesOnly);
 
     const lieuxDeMediationNumeriqueFiltered: LieuMediationNumeriqueById = lieuxDeMediationNumerique.reduce(
