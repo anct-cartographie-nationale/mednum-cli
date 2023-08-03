@@ -1,4 +1,6 @@
+import { Adresse, Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Choice, LieuxMediationNumeriqueMatching, DataSource, cibleAsDefault } from '../../input';
+import { IsInQPV } from './qpv';
 
 const isAllowedTerm = (choice: Choice<string>, sourceValue: string): boolean =>
   choice.sauf?.every((forbidden: string): boolean => !sourceValue.includes(forbidden)) ?? true;
@@ -52,5 +54,26 @@ const appendLabelsAutres =
       ? extractLabelsAutresFromSource(source, choice.colonnes)
       : labelsAutresCibleMatchingTerms(labelsAutres, choice, source);
 
-export const processLabelsAutres = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string[] =>
-  Array.from(new Set(matching.labels_autres?.reduce(appendLabelsAutres(source), [])));
+const shouldAddQPV =
+  (isInQpv: IsInQPV) =>
+  (adresse?: Adresse, localisation?: Localisation): boolean =>
+    adresse?.code_insee != null && localisation != null && isInQpv(adresse.code_insee, localisation);
+
+export const processLabelsAutres = (
+  source: DataSource,
+  matching: LieuxMediationNumeriqueMatching,
+  isInQpv: IsInQPV,
+  adresse?: Adresse,
+  localisation?: Localisation
+): string[] => {
+  const labelsAutres: string[] = Array.from(new Set(matching.labels_autres?.reduce(appendLabelsAutres(source), [])));
+
+  try {
+    if (shouldAddQPV(isInQpv)(adresse, localisation)) {
+      return ['QPV', ...labelsAutres];
+    }
+    return labelsAutres;
+  } catch {
+    return labelsAutres;
+  }
+};

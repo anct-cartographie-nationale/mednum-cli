@@ -1,6 +1,7 @@
-/* eslint-disable @typescript-eslint/naming-convention, camelcase, max-lines-per-function */
+/* eslint-disable @typescript-eslint/naming-convention, camelcase, max-lines-per-function, max-lines */
 
 import {
+  Adresse,
   CodePostalError,
   CommuneError,
   ConditionsAcces,
@@ -19,6 +20,7 @@ import { Recorder, Report } from '../report';
 import {
   Erp,
   FindCommune,
+  IsInQPV,
   processAccessibilite,
   processAdresse,
   processConditionsAcces,
@@ -77,20 +79,24 @@ const lieuDeMediationNumerique = (
   matching: LieuxMediationNumeriqueMatching,
   recorder: Recorder,
   accesLibreData: Erp[],
-  findCommune: FindCommune
+  findCommune: FindCommune,
+  isInQpv: IsInQPV
 ): LieuMediationNumerique => {
+  const adresse: Adresse = processAdresse(findCommune)(dataSource, matching);
+  const localistaion: Localisation = processLocalisation(dataSource, matching);
+
   const lieuMediationNumerique: LieuMediationNumerique = {
     id: processId(dataSource, matching, index),
     nom: processNom(dataSource, matching),
     pivot: processPivot(dataSource, matching),
-    adresse: processAdresse(findCommune)(dataSource, matching),
-    ...localisationIfAny(processLocalisation(dataSource, matching)),
+    adresse,
+    ...localisationIfAny(localistaion),
     contact: processContact(recorder)(dataSource, matching),
     ...conditionsAccesIfAny(processConditionsAcces(dataSource, matching)),
     ...modalitesAccompagnementIfAny(processModalitesAccompagnement(dataSource, matching)),
     date_maj: processDate(dataSource, matching),
     ...labelsNationauxIfAny(processLabelsNationaux(dataSource, matching)),
-    ...labelsAutresIfAny(processLabelsAutres(dataSource, matching)),
+    ...labelsAutresIfAny(processLabelsAutres(dataSource, matching, isInQpv, adresse, localistaion)),
     ...publicsAccueillisIfAny(processPublicsAccueillis(dataSource, matching)),
     presentation: processPresentation(dataSource, matching),
     services: processServices(dataSource, matching),
@@ -98,9 +104,7 @@ const lieuDeMediationNumerique = (
     ...horairesIfAny(processHoraires(dataSource, matching)),
     ...priseRdvIfAny(processPriseRdv(dataSource, matching)),
     ...typologiesIfAny(processTypologies(dataSource, matching)),
-    ...accessibiliteIfAny(
-      processAccessibilite(dataSource, matching, accesLibreData, processAdresse(findCommune)(dataSource, matching))
-    )
+    ...accessibiliteIfAny(processAccessibilite(dataSource, matching, accesLibreData, adresse))
   };
 
   recorder.commit();
@@ -116,7 +120,7 @@ const entryIdentification = (dataSource: DataSource, matching: string): string =
     : dataSource[JSON.parse(matching).nom.colonne]) ?? '';
 
 export const toLieuxMediationNumerique =
-  (matching: string, sourceName: string, report: Report, accesLibreData: Erp[], findCommune: FindCommune) =>
+  (matching: string, sourceName: string, report: Report, accesLibreData: Erp[], findCommune: FindCommune, isInQpv: IsInQPV) =>
   (dataSource: DataSource, index: number): LieuMediationNumerique | undefined => {
     try {
       return lieuDeMediationNumerique(
@@ -126,7 +130,8 @@ export const toLieuxMediationNumerique =
         JSON.parse(matching),
         report.entry(index),
         accesLibreData,
-        findCommune
+        findCommune,
+        isInQpv
       );
     } catch (error: unknown) {
       if (
