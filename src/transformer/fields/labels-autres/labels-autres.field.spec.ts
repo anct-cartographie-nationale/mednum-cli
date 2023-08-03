@@ -1,11 +1,54 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
+import { Adresse, Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { Polygon } from '@turf/helpers/dist/js/lib/geojson';
+import { isInQPV } from '../../cli/action/qpv';
 import { processLabelsAutres } from './labels-autres.field';
 import { LieuxMediationNumeriqueMatching } from '../../input';
 
+const QPV_IN_02691_SHAPE: Polygon = {
+  coordinates: [
+    [
+      [3.3155745992, 49.8361707927],
+      [3.315905846, 49.8362365181],
+      [3.316198636, 49.8362329679],
+      [3.3162348085, 49.8362400703],
+      [3.3165592002, 49.8361394968],
+      [3.3166289092, 49.8361788491],
+      [3.3167165082, 49.8360047984],
+      [3.3155745992, 49.8361707927]
+    ]
+  ],
+  type: 'Polygon'
+};
+
+const ADRESSE_OUT_OF_QPV: Adresse = Adresse({
+  voie: '128, Rue Jean Jaurès',
+  code_postal: '57100',
+  code_insee: '02691',
+  commune: 'Metz'
+});
+
+const LOCALISATION_OUT_OF_QPV: Localisation = Localisation({ latitude: 46.204, longitude: 5.225 });
+
+const ADRESSE_IN_QPV: Adresse = Adresse({
+  voie: '128, Rue Jean Jaurès',
+  code_postal: '57100',
+  code_insee: '02691',
+  commune: 'Metz'
+});
+
+const LOCALISATION_IN_QPV: Localisation = Localisation({ latitude: 49.83615, longitude: 3.3162 });
+
 describe('labels autres field', (): void => {
   it('should not get labels autres for empty value', (): void => {
-    const labelsAutres: string[] = processLabelsAutres({}, {} as LieuxMediationNumeriqueMatching);
+    const labelsAutres: string[] = processLabelsAutres(
+      {},
+      {} as LieuxMediationNumeriqueMatching,
+      isInQPV(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
+      ADRESSE_OUT_OF_QPV,
+      LOCALISATION_OUT_OF_QPV
+    );
 
     expect(labelsAutres).toStrictEqual([]);
   });
@@ -19,7 +62,13 @@ describe('labels autres field', (): void => {
       ]
     } as LieuxMediationNumeriqueMatching;
 
-    const labelsAutres: string[] = processLabelsAutres({}, matching);
+    const labelsAutres: string[] = processLabelsAutres(
+      {},
+      matching,
+      isInQPV(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
+      ADRESSE_OUT_OF_QPV,
+      LOCALISATION_OUT_OF_QPV
+    );
 
     expect(labelsAutres).toStrictEqual(['SudLabs']);
   });
@@ -44,7 +93,10 @@ describe('labels autres field', (): void => {
       {
         label: 'Nièvre médiation et SudLabs'
       },
-      matching
+      matching,
+      isInQPV(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
+      ADRESSE_OUT_OF_QPV,
+      LOCALISATION_OUT_OF_QPV
     );
 
     expect(labelsAutres).toStrictEqual(['Nièvre médiation', 'SudLabs']);
@@ -70,7 +122,10 @@ describe('labels autres field', (): void => {
       {
         label: 'pas de labels'
       },
-      matching
+      matching,
+      isInQPV(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
+      ADRESSE_OUT_OF_QPV,
+      LOCALISATION_OUT_OF_QPV
     );
 
     expect(labelsAutres).toStrictEqual([]);
@@ -89,7 +144,10 @@ describe('labels autres field', (): void => {
       {
         label_1: 'label 1'
       },
-      matching
+      matching,
+      isInQPV(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
+      ADRESSE_OUT_OF_QPV,
+      LOCALISATION_OUT_OF_QPV
     );
 
     expect(labelsAutres).toStrictEqual(['label 1']);
@@ -109,9 +167,44 @@ describe('labels autres field', (): void => {
         label_1: 'label 1',
         label_2: 'label 2'
       },
-      matching
+      matching,
+      isInQPV(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
+      ADRESSE_OUT_OF_QPV,
+      LOCALISATION_OUT_OF_QPV
     );
 
     expect(labelsAutres).toStrictEqual(['label 1', 'label 2']);
+  });
+
+  it('should get QPV when code INSEE match a QPV area and localisation is in QPV area', (): void => {
+    const labelsAutres: string[] = processLabelsAutres(
+      {},
+      {} as LieuxMediationNumeriqueMatching,
+      isInQPV(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
+      ADRESSE_IN_QPV,
+      LOCALISATION_IN_QPV
+    );
+
+    expect(labelsAutres).toStrictEqual(['QPV']);
+  });
+
+  it('should get QPV with SudLabs default labels autres', (): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      labels_autres: [
+        {
+          cible: 'SudLabs'
+        }
+      ]
+    } as LieuxMediationNumeriqueMatching;
+
+    const labelsAutres: string[] = processLabelsAutres(
+      {},
+      matching,
+      isInQPV(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
+      ADRESSE_IN_QPV,
+      LOCALISATION_IN_QPV
+    );
+
+    expect(labelsAutres).toStrictEqual(['QPV', 'SudLabs']);
   });
 });

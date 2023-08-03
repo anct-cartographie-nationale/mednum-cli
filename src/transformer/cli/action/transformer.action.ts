@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-restricted-imports, @typescript-eslint/naming-convention, @typescript-eslint/prefer-nullish-coalescing */
+/* eslint-disable @typescript-eslint/no-restricted-imports, @typescript-eslint/naming-convention, @typescript-eslint/prefer-nullish-coalescing, max-lines */
 import * as fs from 'fs';
 import axios, { AxiosResponse } from 'axios';
 import { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
@@ -17,6 +17,7 @@ import {
   FindCommune
 } from '../../fields';
 import { keepOneEntryPerSource } from './duplicates-same-source/duplicates-same-source';
+import { isInQPV, qpvShapesMapFromTransfer, QpvTransfer } from './qpv';
 
 /* eslint-disable max-lines-per-function, max-statements, @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/typedef, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
@@ -96,6 +97,9 @@ const fetchAccesLibreData = async (): Promise<string> =>
 
 const communesFromGeoAPI = async (): Promise<Commune[]> => (await axios.get('https://geo.api.gouv.fr/communes')).data;
 
+const QPVFromDataGouv = async (): Promise<QpvTransfer[]> =>
+  (await axios.get('https://www.data.gouv.fr/fr/datasets/r/14caff6e-2619-4127-8518-0c33560c5eb4')).data;
+
 export const transformerAction = async (transformerOptions: TransformerOptions): Promise<void> => {
   await Promise.all([
     transformerOptions.source.startsWith('http')
@@ -107,8 +111,9 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
       : await readFrom(transformerOptions.source.split('@')),
     fs.promises.readFile(transformerOptions.configFile, 'utf-8'),
     await fetchAccesLibreData(),
-    await communesFromGeoAPI()
-  ]).then(([input, matching, accesLibreData, communes]: [string, string, string, Commune[]]): void => {
+    await communesFromGeoAPI(),
+    await QPVFromDataGouv()
+  ]).then(([input, matching, accesLibreData, communes, qpv]: [string, string, string, Commune[], QpvTransfer[]]): void => {
     const accesLibreErps: Erp[] = JSON.parse(accesLibreData);
 
     const findCommune: FindCommune = {
@@ -119,7 +124,16 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
 
     const lieuxDeMediationNumerique: LieuMediationNumerique[] = JSON.parse(replaceNullWithEmptyString(input))
       .map(flatten)
-      .map(toLieuxMediationNumerique(matching, transformerOptions.sourceName, REPORT, accesLibreErps, findCommune))
+      .map(
+        toLieuxMediationNumerique(
+          matching,
+          transformerOptions.sourceName,
+          REPORT,
+          accesLibreErps,
+          findCommune,
+          isInQPV(qpvShapesMapFromTransfer(qpv))
+        )
+      )
       .filter(validValuesOnly);
 
     const lieuxDeMediationNumeriqueFiltered: LieuMediationNumeriqueById = lieuxDeMediationNumerique.reduce(
