@@ -21,6 +21,7 @@ import {
   Erp,
   FindCommune,
   IsInQPV,
+  IsInZrr,
   processAccessibilite,
   processAdresse,
   processConditionsAcces,
@@ -80,7 +81,8 @@ const lieuDeMediationNumerique = (
   recorder: Recorder,
   accesLibreData: Erp[],
   findCommune: FindCommune,
-  isInQpv: IsInQPV
+  isInQpv: IsInQPV,
+  isInZrr: IsInZrr
 ): LieuMediationNumerique => {
   const adresse: Adresse = processAdresse(findCommune)(dataSource, matching);
   const localistaion: Localisation = processLocalisation(dataSource, matching);
@@ -96,7 +98,7 @@ const lieuDeMediationNumerique = (
     ...modalitesAccompagnementIfAny(processModalitesAccompagnement(dataSource, matching)),
     date_maj: processDate(dataSource, matching),
     ...labelsNationauxIfAny(processLabelsNationaux(dataSource, matching)),
-    ...labelsAutresIfAny(processLabelsAutres(dataSource, matching, isInQpv, adresse, localistaion)),
+    ...labelsAutresIfAny(processLabelsAutres(dataSource, matching, isInQpv, isInZrr, adresse, localistaion)),
     ...publicsAccueillisIfAny(processPublicsAccueillis(dataSource, matching)),
     presentation: processPresentation(dataSource, matching),
     services: processServices(dataSource, matching),
@@ -120,7 +122,15 @@ const entryIdentification = (dataSource: DataSource, matching: string): string =
     : dataSource[JSON.parse(matching).nom.colonne]) ?? '';
 
 export const toLieuxMediationNumerique =
-  (matching: string, sourceName: string, report: Report, accesLibreData: Erp[], findCommune: FindCommune, isInQpv: IsInQPV) =>
+  (
+    matching: string,
+    sourceName: string,
+    report: Report,
+    accesLibreData: Erp[],
+    findCommune: FindCommune,
+    isInQpv: IsInQPV,
+    isInZrr: IsInZrr
+  ) =>
   (dataSource: DataSource, index: number): LieuMediationNumerique | undefined => {
     try {
       return lieuDeMediationNumerique(
@@ -131,7 +141,8 @@ export const toLieuxMediationNumerique =
         report.entry(index),
         accesLibreData,
         findCommune,
-        isInQpv
+        isInQpv,
+        isInZrr
       );
     } catch (error: unknown) {
       if (
