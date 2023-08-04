@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
-import { Polygon } from '@turf/turf';
+import { MultiPolygon, Polygon } from '@turf/turf';
 import { QpvShapesMap } from '../../../../fields';
 import { qpvShapesMapFromTransfer, QpvTransfer } from './qpv.transfer';
 
@@ -19,6 +19,7 @@ const QPV_IN_01053_SHAPE: Polygon = {
   ],
   type: 'Polygon'
 };
+
 const QPV_IN_01053: QpvTransfer = {
   fields: {
     geo_shape: QPV_IN_01053_SHAPE,
@@ -64,9 +65,45 @@ const QPV_2_IN_02691_SHAPE: Polygon = {
   ],
   type: 'Polygon'
 };
+
 const QPV_2_IN_02691: QpvTransfer = {
   fields: {
     geo_shape: QPV_2_IN_02691_SHAPE,
+    code_insee: '02691'
+  }
+};
+
+const QPV_MULTIPOLYGON_IN_02691_SHAPE: MultiPolygon = {
+  coordinates: [
+    [
+      [
+        [3.3155745992, 49.8361707927],
+        [3.315905846, 49.8362365181],
+        [3.316198636, 49.8362329679],
+        [3.3162348085, 49.8362400703],
+        [3.3165592002, 49.8361394968],
+        [3.3166289092, 49.8361788491],
+        [3.3167165082, 49.8360047984],
+        [3.3155745992, 49.8361707927]
+      ],
+      [
+        [3.2688389444, 49.8542289588],
+        [3.2698198806, 49.8535784719],
+        [3.2703779095, 49.8534867139],
+        [3.2716256344, 49.8534659146],
+        [3.2722010342, 49.8532658839],
+        [3.272547131, 49.8536591022],
+        [3.2728391099, 49.8539651074],
+        [3.2688389444, 49.8542289588]
+      ]
+    ]
+  ],
+  type: 'MultiPolygon'
+};
+
+const QPV_MULTIPOLYGON_IN_02691: QpvTransfer = {
+  fields: {
+    geo_shape: QPV_MULTIPOLYGON_IN_02691_SHAPE,
     code_insee: '02691'
   }
 };
@@ -111,6 +148,16 @@ describe('qpv transfer', (): void => {
         [QPV_IN_01053.fields.code_insee, [QPV_IN_01053_SHAPE]],
         [QPV_1_IN_02691.fields.code_insee, [QPV_1_IN_02691_SHAPE, QPV_2_IN_02691_SHAPE]]
       ])
+    );
+  });
+
+  it('should convert multipolyon to list of polygons in qpv shapes map', (): void => {
+    const qpvTransferData: QpvTransfer[] = [QPV_MULTIPOLYGON_IN_02691];
+
+    const qpvShapesMap: QpvShapesMap = qpvShapesMapFromTransfer(qpvTransferData);
+
+    expect(qpvShapesMap).toStrictEqual(
+      new Map<string, Polygon[]>([[QPV_1_IN_02691.fields.code_insee, [QPV_1_IN_02691_SHAPE, QPV_2_IN_02691_SHAPE]]])
     );
   });
 });
