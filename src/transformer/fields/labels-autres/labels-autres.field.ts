@@ -72,13 +72,8 @@ const labelsToAdd =
 
 const appendExtraLabels =
   (isInQpv: IsInQPV, isInZrr: IsInZrr) =>
-  (labelsAutres: string[], adresse?: Adresse, localisation?: Localisation): string[] => {
-    try {
-      return [...labelsToAdd(isInQpv, isInZrr)(adresse, localisation), ...labelsAutres];
-    } catch {
-      return labelsAutres;
-    }
-  };
+  (labelsAutres: string[], adresse?: Adresse, localisation?: Localisation): string[] =>
+    [...labelsToAdd(isInQpv, isInZrr)(adresse, localisation), ...labelsAutres];
 
 const onlyNonEmptyLabels = (label: string): boolean => label !== '';
 
