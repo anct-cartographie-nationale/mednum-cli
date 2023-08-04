@@ -1,6 +1,7 @@
 import { Adresse, Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Choice, LieuxMediationNumeriqueMatching, DataSource, cibleAsDefault } from '../../input';
 import { IsInQPV } from './qpv';
+import { IsInZrr } from './zrr';
 
 const isAllowedTerm = (choice: Choice<string>, sourceValue: string): boolean =>
   choice.sauf?.every((forbidden: string): boolean => !sourceValue.includes(forbidden)) ?? true;
@@ -59,21 +60,36 @@ const shouldAddQPV =
   (adresse?: Adresse, localisation?: Localisation): boolean =>
     adresse?.code_insee != null && localisation != null && isInQpv(adresse.code_insee, localisation);
 
+const shouldAddZRR =
+  (isInZrr: IsInZrr) =>
+  (adresse?: Adresse): boolean =>
+    adresse?.code_insee != null && isInZrr(adresse.code_insee);
+
+const labelsToAdd =
+  (isInQpv: IsInQPV, isInZrr: IsInZrr) =>
+  (adresse?: Adresse, localisation?: Localisation): string[] =>
+    [...(shouldAddQPV(isInQpv)(adresse, localisation) ? ['QPV'] : []), ...(shouldAddZRR(isInZrr)(adresse) ? ['ZRR'] : [])];
+
+const appendExtraLabels =
+  (isInQpv: IsInQPV, isInZrr: IsInZrr) =>
+  (labelsAutres: string[], adresse?: Adresse, localisation?: Localisation): string[] => {
+    try {
+      return [...labelsToAdd(isInQpv, isInZrr)(adresse, localisation), ...labelsAutres];
+    } catch {
+      return labelsAutres;
+    }
+  };
+
+const onlyNonEmptyLabels = (label: string): boolean => label !== '';
+
+const labelsFromSource = (matching: LieuxMediationNumeriqueMatching, source: DataSource): string[] =>
+  Array.from(new Set(matching.labels_autres?.reduce(appendLabelsAutres(source), []))).filter(onlyNonEmptyLabels);
+
 export const processLabelsAutres = (
   source: DataSource,
   matching: LieuxMediationNumeriqueMatching,
   isInQpv: IsInQPV,
+  isInZrr: IsInZrr,
   adresse?: Adresse,
   localisation?: Localisation
-): string[] => {
-  const labelsAutres: string[] = Array.from(new Set(matching.labels_autres?.reduce(appendLabelsAutres(source), [])));
-
-  try {
-    if (shouldAddQPV(isInQpv)(adresse, localisation)) {
-      return ['QPV', ...labelsAutres];
-    }
-    return labelsAutres;
-  } catch {
-    return labelsAutres;
-  }
-};
+): string[] => appendExtraLabels(isInQpv, isInZrr)(labelsFromSource(matching, source), adresse, localisation);

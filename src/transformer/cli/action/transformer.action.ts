@@ -18,6 +18,8 @@ import {
 } from '../../fields';
 import { keepOneEntryPerSource } from './duplicates-same-source/duplicates-same-source';
 import { isInQPV, qpvShapesMapFromTransfer, QpvTransfer } from './qpv';
+import { isInZrr } from './zrr/is-in-zrr';
+import { zrrMapFromTransfer, ZrrTransfer } from './zrr/transfer';
 
 /* eslint-disable max-lines-per-function, max-statements, @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/typedef, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
@@ -100,6 +102,13 @@ const communesFromGeoAPI = async (): Promise<Commune[]> => (await axios.get('htt
 const QPVFromDataGouv = async (): Promise<QpvTransfer[]> =>
   (await axios.get('https://www.data.gouv.fr/fr/datasets/r/14caff6e-2619-4127-8518-0c33560c5eb4')).data;
 
+const ZRRFromEquipementsSportsGouv = async (): Promise<ZrrTransfer[]> =>
+  (
+    await axios.get(
+      'https://equipements.sports.gouv.fr/api/explore/v2.1/catalog/datasets/insee-zrr/exports/json?lang=fr&refine=statut_zrr:"Bénéficiaire"&timezone=Europe/Berlin'
+    )
+  ).data;
+
 export const transformerAction = async (transformerOptions: TransformerOptions): Promise<void> => {
   await Promise.all([
     transformerOptions.source.startsWith('http')
@@ -112,54 +121,65 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
     fs.promises.readFile(transformerOptions.configFile, 'utf-8'),
     await fetchAccesLibreData(),
     await communesFromGeoAPI(),
-    await QPVFromDataGouv()
-  ]).then(([input, matching, accesLibreData, communes, qpv]: [string, string, string, Commune[], QpvTransfer[]]): void => {
-    const accesLibreErps: Erp[] = JSON.parse(accesLibreData);
+    await QPVFromDataGouv(),
+    await ZRRFromEquipementsSportsGouv()
+  ]).then(
+    ([input, matching, accesLibreData, communes, qpv, zrr]: [
+      string,
+      string,
+      string,
+      Commune[],
+      QpvTransfer[],
+      ZrrTransfer[]
+    ]): void => {
+      const accesLibreErps: Erp[] = JSON.parse(accesLibreData);
 
-    const findCommune: FindCommune = {
-      parNom: communeParNom(communesParNomMap(communes)),
-      parCodePostal: communeParCodePostal(communesParCodePostalMap(communes)),
-      parNomEtCodePostal: communeParNomEtCodePostal(communes)
-    };
+      const findCommune: FindCommune = {
+        parNom: communeParNom(communesParNomMap(communes)),
+        parCodePostal: communeParCodePostal(communesParCodePostalMap(communes)),
+        parNomEtCodePostal: communeParNomEtCodePostal(communes)
+      };
 
-    const lieuxDeMediationNumerique: LieuMediationNumerique[] = JSON.parse(replaceNullWithEmptyString(input))
-      .map(flatten)
-      .map(
-        toLieuxMediationNumerique(
-          matching,
-          transformerOptions.sourceName,
-          REPORT,
-          accesLibreErps,
-          findCommune,
-          isInQPV(qpvShapesMapFromTransfer(qpv))
+      const lieuxDeMediationNumerique: LieuMediationNumerique[] = JSON.parse(replaceNullWithEmptyString(input))
+        .map(flatten)
+        .map(
+          toLieuxMediationNumerique(
+            matching,
+            transformerOptions.sourceName,
+            REPORT,
+            accesLibreErps,
+            findCommune,
+            isInQPV(qpvShapesMapFromTransfer(qpv)),
+            isInZrr(zrrMapFromTransfer(zrr))
+          )
         )
-      )
-      .filter(validValuesOnly);
+        .filter(validValuesOnly);
 
-    const lieuxDeMediationNumeriqueFiltered: LieuMediationNumeriqueById = lieuxDeMediationNumerique.reduce(
-      (lieuxById: LieuMediationNumeriqueById, lieu: LieuMediationNumerique): LieuMediationNumeriqueById => ({
-        ...lieuxById,
-        [lieu.id]: lieu
-      }),
-      {}
-    );
+      const lieuxDeMediationNumeriqueFiltered: LieuMediationNumeriqueById = lieuxDeMediationNumerique.reduce(
+        (lieuxById: LieuMediationNumeriqueById, lieu: LieuMediationNumerique): LieuMediationNumeriqueById => ({
+          ...lieuxById,
+          [lieu.id]: lieu
+        }),
+        {}
+      );
 
-    const lieuxDeMediationNumeriqueWithSingleIds: LieuMediationNumerique[] = Object.values(lieuxDeMediationNumeriqueFiltered);
+      const lieuxDeMediationNumeriqueWithSingleIds: LieuMediationNumerique[] = Object.values(lieuxDeMediationNumeriqueFiltered);
 
-    const lieuxMediationNumeriqueWithoutDuplicates: LieuMediationNumerique[] = keepOneEntryPerSource(
-      lieuxDeMediationNumeriqueWithSingleIds
-    );
+      const lieuxMediationNumeriqueWithoutDuplicates: LieuMediationNumerique[] = keepOneEntryPerSource(
+        lieuxDeMediationNumeriqueWithSingleIds
+      );
 
-    writeErrorsOutputFiles({
-      path: transformerOptions.outputDirectory,
-      name: transformerOptions.sourceName,
-      territoire: transformerOptions.territory
-    })(REPORT);
+      writeErrorsOutputFiles({
+        path: transformerOptions.outputDirectory,
+        name: transformerOptions.sourceName,
+        territoire: transformerOptions.territory
+      })(REPORT);
 
-    writeOutputFiles({
-      path: transformerOptions.outputDirectory,
-      name: transformerOptions.sourceName,
-      territoire: transformerOptions.territory
-    })(lieuxMediationNumeriqueWithoutDuplicates);
-  });
+      writeOutputFiles({
+        path: transformerOptions.outputDirectory,
+        name: transformerOptions.sourceName,
+        territoire: transformerOptions.territory
+      })(lieuxMediationNumeriqueWithoutDuplicates);
+    }
+  );
 };
