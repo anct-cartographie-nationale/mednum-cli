@@ -733,4 +733,32 @@ describe('adresse field', (): void => {
       voie: 'Place de la mairie'
     });
   });
+
+  it('should find commune in voie with space and no comma', (): void => {
+    const source: DataSource = {
+      'Adresse postale *': '9, Place de la paix 51530 MOUSSY'
+    };
+
+    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
+
+    expect(adresse).toStrictEqual({
+      code_postal: '51530',
+      commune: 'MOUSSY',
+      voie: '9 Place de la paix'
+    });
+  });
+
+  it('should find commune in voie with comma', (): void => {
+    const source: DataSource = {
+      'Adresse postale *': '38 Rue des Dats, 51520, Saint-Martin-sur-le-Pré, Marne, Grand Est'
+    };
+
+    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
+
+    expect(adresse).toStrictEqual({
+      code_postal: '51520',
+      commune: 'Saint-Martin-sur-le-Pré',
+      voie: '38 Rue des Dats'
+    });
+  });
 });

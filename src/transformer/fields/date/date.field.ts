@@ -16,6 +16,9 @@ const FRENCH_DATE_REG_EXP: RegExp = /^(?<day>\d{2})\/(?<month>\d{1,2})\/(?<year>
 
 const FRENCH_DATE_TIME_REG_EXP: RegExp = /^(?<day>\d{2})\/(?<month>\d{2})\/(?<year>\d{4}) (?<time>\d{2}:\d{2}:\d{2})$/u;
 
+const FRENCH_DATE_TIME_WITHOUT_SECONDS_REG_EXP: RegExp =
+  /^(?<day>\d{2})\/(?<month>\d{2})\/(?<year>\d{4}) (?<time>\d{2}:\d{2})$/u;
+
 const TIMESTAMP_REG_EXP: RegExp = /^(?<timestamp>\d{10})/u;
 
 const DATE_REGEXP: RegExp[] = [
@@ -23,6 +26,7 @@ const DATE_REGEXP: RegExp[] = [
   STANDARD_DATE_TIME_REG_EXP,
   FRENCH_DATE_TIME_REG_EXP,
   FRENCH_DATE_REG_EXP,
+  FRENCH_DATE_TIME_WITHOUT_SECONDS_REG_EXP,
   TIMESTAMP_REG_EXP
 ];
 

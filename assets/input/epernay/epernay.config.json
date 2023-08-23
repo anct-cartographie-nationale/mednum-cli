@@ -1,0 +1,286 @@
+{
+  "id": {
+    "colonne": "GlobalID"
+  },
+  "nom": {
+    "colonne": "Nom de votre structure"
+  },
+  "code_postal": {
+    "colonne": ""
+  },
+  "commune": {
+    "colonne": "commune"
+  },
+  "adresse": {
+    "colonne": "Adresse de la structure"
+  },
+  "telephone": {
+    "colonne": "Numéro de téléphone de la structure"
+  },
+  "courriel": {
+    "colonne": "Adresse mail de la structure"
+  },
+  "site_web": {
+    "colonne": "Site Web de la structure"
+  },
+  "latitude": {
+    "colonne": "y"
+  },
+  "longitude": {
+    "colonne": "x"
+  },
+  "date_maj": {
+    "colonne": "EditDate"
+  },
+  "labels_nationaux": [
+    {
+      "colonnes": ["Possédez-vous des labels nationaux ou régionaux ?"],
+      "termes": ["CNFS"],
+      "cible": "CNFS"
+    },
+    {
+      "colonnes": ["Possédez-vous des labels nationaux ou régionaux ?"],
+      "termes": ["France_Services"],
+      "cible": "France Services"
+    },
+    {
+      "colonnes": ["Possédez-vous des labels nationaux ou régionaux ?"],
+      "termes": ["Aidants_Connect"],
+      "cible": "Aidants Connect"
+    },
+    {
+      "colonnes": ["Possédez-vous des labels nationaux ou régionaux ?"],
+      "termes": ["Point_relais_CAF"],
+      "cible": "Point relais CAF"
+    }
+  ],
+  "modalites_accompagnement": [
+    {
+      "colonnes": ["Quel(s) type(s) d'acteur êtes-vous ?"],
+      "termes": ["J'assiste_et_j'accompagne_les_u"],
+      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+    }
+  ],
+  "publics_accueillis": [
+    {
+      "colonnes": ["Quel(s) type(s) de public accompagnez-vous  ?"],
+      "termes": ["Tout_public", "Jeunes_(16-26_ans)"],
+      "cible": "Jeunes (16-26 ans)"
+    },
+    {
+      "colonnes": ["Quel(s) type(s) de public accompagnez-vous  ?"],
+      "termes": ["Tout_public", "Familles/enfants"],
+      "cible": "Familles/enfants"
+    },
+    {
+      "colonnes": ["Quel(s) type(s) de public accompagnez-vous  ?"],
+      "termes": ["Tout_public", "Adultes"],
+      "cible": "Adultes"
+    },
+    {
+      "colonnes": ["Quel(s) type(s) de public accompagnez-vous  ?"],
+      "termes": ["Tout_public", "Seniors_(+_65_ans)"],
+      "cible": "Seniors (+ 65 ans)"
+    },
+    {
+      "colonnes": ["Quel(s) type(s) de public accompagnez-vous  ?"],
+      "termes": ["Tout_public", "Public_langues_étrangères"],
+      "cible": "Public langues étrangères"
+    },
+    {
+      "colonnes": ["Quel(s) type(s) de public accompagnez-vous  ?"],
+      "termes": ["Tout_public", "Handicaps_psychiques_:_troubles"],
+      "cible": "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales"
+    },
+    {
+      "colonnes": ["Quel(s) type(s) de public accompagnez-vous  ?"],
+      "termes": ["Tout_public", "Personnes_en_situation_d'illett"],
+      "cible": "Personnes en situation d'illettrisme"
+    },
+    {
+      "colonnes": ["Quel(s) type(s) de public accompagnez-vous  ?"],
+      "termes": ["Tout_public", "Surdité"],
+      "cible": "Surdité"
+    },
+    {
+      "colonnes": ["Quel(s) type(s) de public accompagnez-vous  ?"],
+      "termes": ["Tout_public", "Handicaps_mentaux_:_déficiences"],
+      "cible": "Handicaps mentaux : déficiences limitant les activités d'une personne"
+    },
+    {
+      "colonnes": ["Quel(s) type(s) de public accompagnez-vous  ?"],
+      "termes": ["Tout_public", "Déficience_visuelle"],
+      "cible": "Déficience visuelle"
+    }
+  ],
+  "conditions_acces": [
+    {
+      "colonnes": ["Quelles sont vos conditions d'accès ?"],
+      "termes": ["Gratuit"],
+      "cible": "Gratuit : Je peux accéder gratuitement au lieu et à ses services"
+    },
+    {
+      "colonnes": ["Quelles sont vos conditions d'accès ?"],
+      "termes": ["Adhésion"],
+      "cible": "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"
+    },
+    {
+      "colonnes": ["Quelles sont vos conditions d'accès ?"],
+      "termes": ["Payant"],
+      "cible": "Payant : L'accès au lieu et/ou à ses services est payant"
+    },
+    {
+      "colonnes": ["Quelles sont vos conditions d'accès ?"],
+      "termes": ["Gratuit_sous_condition_"],
+      "cible": "Gratuit sous condition : La gratuité est conditionnée à des critères (situation familiale, convention avec un organisme social...)"
+    }
+  ],
+  "services": [
+    {
+      "colonnes": ["Qu'apportez vous aux usagers qui viennent à votre rencontre ?"],
+      "termes": ["Devenir_autonome_dans_les_démar"],
+      "cible": "Devenir autonome dans les démarches administratives"
+    },
+    {
+      "colonnes": ["Qu'apportez vous aux usagers qui viennent à votre rencontre ?"],
+      "termes": ["Réaliser_des_démarches_administ"],
+      "cible": "Réaliser des démarches administratives avec un accompagnement"
+    },
+    {
+      "colonnes": ["Qu'apportez vous aux usagers qui viennent à votre rencontre ?"],
+      "termes": ["Prendre_en_main_un_smartphone_o"],
+      "cible": "Prendre en main un smartphone ou une tablette"
+    },
+    {
+      "colonnes": ["Qu'apportez vous aux usagers qui viennent à votre rencontre ?", "Quels sont vos équipements numériques ?"],
+      "termes": ["Accéder_à_du_matériel_", "ordinateur"],
+      "cible": "Prendre en main un ordinateur"
+    },
+    {
+      "colonnes": ["Qu'apportez vous aux usagers qui viennent à votre rencontre ?"],
+      "termes": ["Utiliser_le_numérique_au_quotid"],
+      "cible": "Utiliser le numérique au quotidien"
+    },
+    {
+      "colonnes": ["Qu'apportez vous aux usagers qui viennent à votre rencontre ?"],
+      "termes": ["_Approfondir_ma_culture_numériq"],
+      "cible": "Approfondir ma culture numérique"
+    },
+    {
+      "colonnes": ["Qu'apportez vous aux usagers qui viennent à votre rencontre ?"],
+      "termes": ["_Favoriser_mon_insertion_profes"],
+      "cible": "Favoriser mon insertion professionnelle"
+    },
+    {
+      "colonnes": ["Qu'apportez vous aux usagers qui viennent à votre rencontre ?"],
+      "termes": ["Accéder_à_une_connexion_interne"],
+      "cible": "Accéder à une connexion internet"
+    },
+    {
+      "colonnes": ["Qu'apportez vous aux usagers qui viennent à votre rencontre ?"],
+      "termes": ["Accéder_à_du_matériel_"],
+      "cible": "Accéder à du matériel"
+    },
+    {
+      "colonnes": ["Qu'apportez vous aux usagers qui viennent à votre rencontre ?"],
+      "termes": ["numerique--s-equiper-en-materiel-informatique"],
+      "cible": "S'équiper en matériel informatique"
+    },
+    {
+      "colonnes": ["Qu'apportez vous aux usagers qui viennent à votre rencontre ?"],
+      "termes": ["Créer_et_développer_mon_entrepr"],
+      "cible": "Créer et développer mon entreprise"
+    },
+    {
+      "colonnes": ["Qu'apportez vous aux usagers qui viennent à votre rencontre ?"],
+      "termes": ["Créer_avec_le_numérique"],
+      "cible": "Créer avec le numérique"
+    },
+    {
+      "colonnes": ["Qu'apportez vous aux usagers qui viennent à votre rencontre ?"],
+      "termes": ["Accompagner_les_démarches_de_sa"],
+      "cible": "Accompagner les démarches de santé"
+    },
+    {
+      "colonnes": ["Qu'apportez vous aux usagers qui viennent à votre rencontre ?"],
+      "termes": ["Promouvoir_la_citoyenneté_numér"],
+      "cible": "Promouvoir la citoyenneté numérique"
+    },
+    {
+      "colonnes": ["Qu'apportez vous aux usagers qui viennent à votre rencontre ?"],
+      "termes": ["Soutenir_la_parentalité_et_l'éd"],
+      "cible": "Soutenir la parentalité et l'éducation avec le numérique"
+    }
+  ],
+  "horaires": {
+    "semaine": "Horaires d'ouverture__1"
+  },
+  "typologie": [
+    {
+      "colonnes": ["Typologie de la structure"],
+      "termes": ["Associations"],
+      "cible": "ASSO"
+    },
+    {
+      "colonnes": ["Typologie de la structure"],
+      "termes": ["other"],
+      "cible": "Autre"
+    },
+    {
+      "colonnes": ["Typologie de la structure"],
+      "termes": ["Bibliothèque", "Médiathèque"],
+      "cible": "BIB"
+    },
+    {
+      "colonnes": ["Typologie de la structure"],
+      "termes": ["CAF", "Caisses d'allocation familiale"],
+      "cible": "CAF"
+    },
+    {
+      "colonnes": ["Typologie de la structure"],
+      "termes": ["_Centres communaux d'action soc"],
+      "cible": "CCAS"
+    },
+    {
+      "colonnes": ["Typologie de la structure"],
+      "termes": ["Conseils Départementaux", "Conseil Départemental"],
+      "cible": "CD"
+    },
+    {
+      "colonnes": ["Typologie de la structure"],
+      "termes": ["Centre social"],
+      "cible": "CS"
+    },
+    {
+      "colonnes": ["Autre - Typologie de la structure"],
+      "termes": ["CSAPA"],
+      "cible": "CSAPA"
+    },
+    {
+      "colonnes": ["Typologie de la structure"],
+      "termes": ["Maison de l'emploi"],
+      "cible": "MDE"
+    },
+    {
+      "colonnes": ["Typologie de la structure"],
+      "termes": ["Mission Locale"],
+      "cible": "ML"
+    },
+    {
+      "colonnes": ["Typologie de la structure"],
+      "termes": ["Communes"],
+      "cible": "MUNI"
+    },
+    {
+      "colonnes": ["Typologie de la structure"],
+      "termes": ["Préfecture", "Sous-préfecture"],
+      "cible": "PREF"
+    },
+
+    {
+      "colonnes": ["Typologie de la structure"],
+      "termes": ["Réseau France Services"],
+      "cible": "RFS"
+    }
+  ]
+}
