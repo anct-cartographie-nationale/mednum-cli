@@ -115,7 +115,7 @@
     "publier.rhin-occ": "ts-node src/index.ts publier -z \"fr:region:76\" -m \"./assets/output/rhin-occ/publier.json\"",
     "publier.res-in": "ts-node src/index.ts publier -z \"fr:commune:69123\" -m \"./assets/output/res-in/publier.json\"",
     "publier.ultra-num": "ts-node src/index.ts publier -z \"fr:region:04\" -m \"./assets/output/ultra-num/publier.json\"",
-    "dedupliquer.data-inclusion": "ts-node src/index.ts dedupliquer -s https://www.data.gouv.fr/fr/datasets/r/b5e5a1e1-122e-4f87-b6cf-d1ce342671be"
+    "dedupliquer.data-inclusion": "ts-node src/index.ts dedupliquer -s \"./assets/input/data-inclusion/test.json\""
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
