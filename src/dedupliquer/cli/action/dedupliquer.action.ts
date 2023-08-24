@@ -32,16 +32,8 @@ const writeOutputFiles = (
 };
 
 export const dedupliquerAction = async (dedupliquerOptions: DedupliquerOptions): Promise<void> => {
-  // const lieuxFromDataInclusion: AxiosResponse<SchemaLieuMediationNumerique[]> = await axios.get(dedupliquerOptions.source);
-  const data = fs.readFileSync(dedupliquerOptions.source, 'utf8');
-  const jsonData = JSON.parse(data);
-  // const data = lieuxFromDataInclusion.data.filter(
-  //   (lieu: SchemaLieuMediationNumerique) =>
-  //     lieu.adresse.toLowerCase().includes('jean jaurès') ||
-  //     lieu.adresse.toLowerCase().includes('jean jaures') ||
-  //     lieu.code_postal.startsWith('63')
-  // );
-  const lieuxWithLessDuplicates: SchemaLieuMediationNumerique[] = removeDuplicates(new Date())(jsonData);
+  const lieuxFromDataInclusion: AxiosResponse<SchemaLieuMediationNumerique[]> = await axios.get(dedupliquerOptions.source);
+  const lieuxWithLessDuplicates: SchemaLieuMediationNumerique[] = removeDuplicates(new Date())(lieuxFromDataInclusion.data);
   const lieuxDeMediationNumerique: LieuMediationNumerique[] = fromSchemaLieuxDeMediationNumerique(lieuxWithLessDuplicates);
 
   writeOutputFiles(
@@ -50,5 +42,9 @@ export const dedupliquerAction = async (dedupliquerOptions: DedupliquerOptions):
     lieuxDeMediationNumerique
   );
 
-  fs.writeFileSync(`./assets/output/data-inclusion/duplications.csv`, formatToCSV(duplicationComparisons(jsonData)), 'utf8');
+  fs.writeFileSync(
+    `./assets/output/data-inclusion/duplications.csv`,
+    formatToCSV(duplicationComparisons(lieuxFromDataInclusion.data)),
+    'utf8'
+  );
 };

@@ -113,12 +113,8 @@ const toCommunesDuplications = (
     duplications.find(withSameCodePostal(lieu))
   );
 
-const onlyWithDuplicates = (communeDuplications: CommuneDuplications): boolean => {
-  return communeDuplications.lieux.every(
-    (lieuDuplications: LieuDuplications): boolean => lieuDuplications.duplicates.length > 0
-  );
-};
+const onlyWithDuplicates = (communeDuplications: CommuneDuplications): boolean =>
+  communeDuplications.lieux.some((lieuDuplications: LieuDuplications): boolean => lieuDuplications.duplicates.length > 0);
 
-export const findDuplicates = (lieux: SchemaLieuMediationNumerique[]): CommuneDuplications[] => {
-  return lieux.reduce(toCommunesDuplications, []).filter(onlyWithDuplicates);
-};
+export const findDuplicates = (lieux: SchemaLieuMediationNumerique[]): CommuneDuplications[] =>
+  lieux.reduce(toCommunesDuplications, []).filter(onlyWithDuplicates);
