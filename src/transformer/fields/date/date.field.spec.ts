@@ -138,4 +138,15 @@ describe('date field', (): void => {
 
     expect(date).toEqual(new Date('2023-03-03T10:29:10'));
   });
+
+  it('should process date field with value 18/04/2023 09:49', (): void => {
+    const date: Date = processDate(
+      {
+        datetime_latest: '18/04/2023 09:49'
+      },
+      matching
+    );
+
+    expect(date).toEqual(new Date('2023-04-18T09:49:00.000Z'));
+  });
 });

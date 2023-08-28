@@ -101,6 +101,7 @@ export const CLEAN_COMMUNE: CleanOperation[] = [
   REPLACE_SPACES_WITH_DASHES
 ];
 
-const communeFromVoie = (voie: string): string => /\b\d{5}\b\s*(?<commune>\w+)/u.exec(voie)?.groups?.['commune'] ?? '';
+const communeFromVoie = (voie: string): string =>
+  /\b\d{5}\b\s*,?\s*(?<commune>[\w\s\-éèêàâôûç-]+)/u.exec(voie)?.groups?.['commune'] ?? '';
 
 export const communeField = (voie: string, commune?: string): string => commune?.toString() ?? communeFromVoie(voie);

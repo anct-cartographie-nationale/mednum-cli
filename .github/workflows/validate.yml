@@ -83,7 +83,8 @@ jobs:
             charente-maritime,
             eure-et-loir,
             conumm,
-            corse
+            corse,
+            epernay
           ]
     runs-on: ubuntu-latest
     environment: demo
