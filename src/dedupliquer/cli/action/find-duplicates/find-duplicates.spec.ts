@@ -105,7 +105,28 @@ describe('find duplicates', (): void => {
 
     const duplicates: CommuneDuplications[] = findDuplicates(lieux);
 
-    expect(duplicates).toStrictEqual([]);
+    expect(duplicates).toStrictEqual([
+      {
+        codePostal: '38000',
+        lieux: [
+          {
+            id: '574-mediation-numerique-hinaura',
+            duplicates: []
+          },
+          {
+            id: '2848-mediation-numerique-france-services',
+            duplicates: [
+              {
+                id: '574-mediation-numerique-hinaura',
+                distanceScore: 0,
+                nomFuzzyScore: 33,
+                voieFuzzyScore: 47
+              }
+            ]
+          }
+        ]
+      }
+    ]);
   });
 
   it('should get deduplication data for lieu 1 with RFS typologie and lieu 2 with PIMMS typologie', (): void => {
