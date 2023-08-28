@@ -105,28 +105,7 @@ describe('find duplicates', (): void => {
 
     const duplicates: CommuneDuplications[] = findDuplicates(lieux);
 
-    expect(duplicates).toStrictEqual([
-      {
-        codePostal: '38000',
-        lieux: [
-          {
-            id: '574-mediation-numerique-hinaura',
-            duplicates: []
-          },
-          {
-            id: '2848-mediation-numerique-france-services',
-            duplicates: [
-              {
-                id: '574-mediation-numerique-hinaura',
-                distanceScore: 0,
-                nomFuzzyScore: 33,
-                voieFuzzyScore: 47
-              }
-            ]
-          }
-        ]
-      }
-    ]);
+    expect(duplicates).toStrictEqual([]);
   });
 
   it('should get deduplication data for lieu 1 with RFS typologie and lieu 2 with PIMMS typologie', (): void => {
@@ -412,6 +391,170 @@ describe('find duplicates', (): void => {
                 voieFuzzyScore: 75
               }
             ]
+          }
+        ]
+      }
+    ]);
+  });
+
+  it('should get duplications event if there is a lieu with RFS typologie with the same code postal', (): void => {
+    const lieux: SchemaLieuMediationNumerique[] = [
+      {
+        id: 'mediation-numerique-hinaura-MaisonDesSolidaritesDeCournon-mediation-numerique',
+        nom: 'Maison des Solidarités de Cournon',
+        commune: "Cournon d'Auvergne",
+        code_postal: '63800',
+        adresse: '34 place Jean Jaurès',
+        latitude: 45.729599225,
+        longitude: 3.1899082661,
+        labels_nationaux: 'CNFS;Aidants Connect',
+        source: 'hinaura'
+      } as SchemaLieuMediationNumerique,
+      {
+        id: 'mediation-numerique-aidants-connect-318-mediation-numerique',
+        nom: 'MDS Cournon',
+        commune: "Cournon-d'Auvergne",
+        code_postal: '63800',
+        adresse: '34 place Jean Jaurès',
+        latitude: 45.729544,
+        longitude: 3.190005,
+        labels_nationaux: 'Aidants Connect',
+        source: 'aidants-connect'
+      } as SchemaLieuMediationNumerique,
+      {
+        id: '8eeeafab-4de8-4829-b042-52a94177411d',
+        nom: 'DEPARTEMENT DU PUY DE DOME',
+        commune: "Cournon-d'Auvergne",
+        code_postal: '63800',
+        adresse: '34 Place Jean Jaurès',
+        latitude: 45.728941,
+        longitude: 3.188564,
+        labels_nationaux: 'CNFS;Aidants Connect',
+        source: 'dora'
+      } as SchemaLieuMediationNumerique,
+      {
+        id: 'mediation-numerique-conseiller-numerique-62ab1e578255a806e299c93e-mediation-numerique',
+        nom: 'Maison des Solidarités',
+        commune: "COURNON D'AUVERGNE",
+        code_postal: '63800',
+        adresse: '34 Place Jean Jaurès',
+        latitude: 45.728941,
+        longitude: 3.188564,
+        labels_nationaux: 'CNFS;Aidants Connect',
+        source: 'conseiller-numerique'
+      } as SchemaLieuMediationNumerique,
+      {
+        id: 'mediation-numerique-france-services-2234-mediation-numerique',
+        nom: 'France services Maison des citoyens de Cournon d’Auvergne',
+        typologie: 'RFS',
+        commune: "Cournon-d'Auvergne",
+        code_postal: '63800',
+        adresse: '15 Impasse des Dômes',
+        code_insee: '63124',
+        latitude: 45.73156,
+        longitude: 3.192711,
+        labels_nationaux: 'France Services',
+        source: 'france-services'
+      } as SchemaLieuMediationNumerique
+    ];
+
+    const duplicates: CommuneDuplications[] = findDuplicates(lieux);
+
+    expect(duplicates).toStrictEqual([
+      {
+        codePostal: '63800',
+        lieux: [
+          {
+            duplicates: [
+              {
+                distanceScore: 100,
+                id: 'mediation-numerique-aidants-connect-318-mediation-numerique',
+                nomFuzzyScore: 50,
+                voieFuzzyScore: 100
+              },
+              {
+                distanceScore: 40,
+                id: '8eeeafab-4de8-4829-b042-52a94177411d',
+                nomFuzzyScore: 34,
+                voieFuzzyScore: 100
+              },
+              {
+                distanceScore: 40,
+                id: 'mediation-numerique-conseiller-numerique-62ab1e578255a806e299c93e-mediation-numerique',
+                nomFuzzyScore: 80,
+                voieFuzzyScore: 100
+              }
+            ],
+            id: 'mediation-numerique-hinaura-MaisonDesSolidaritesDeCournon-mediation-numerique'
+          },
+          {
+            duplicates: [
+              {
+                distanceScore: 100,
+                id: 'mediation-numerique-hinaura-MaisonDesSolidaritesDeCournon-mediation-numerique',
+                nomFuzzyScore: 50,
+                voieFuzzyScore: 100
+              },
+              {
+                distanceScore: 39,
+                id: '8eeeafab-4de8-4829-b042-52a94177411d',
+                nomFuzzyScore: 27,
+                voieFuzzyScore: 100
+              },
+              {
+                distanceScore: 39,
+                id: 'mediation-numerique-conseiller-numerique-62ab1e578255a806e299c93e-mediation-numerique',
+                nomFuzzyScore: 36,
+                voieFuzzyScore: 100
+              }
+            ],
+            id: 'mediation-numerique-aidants-connect-318-mediation-numerique'
+          },
+          {
+            duplicates: [
+              {
+                distanceScore: 40,
+                id: 'mediation-numerique-hinaura-MaisonDesSolidaritesDeCournon-mediation-numerique',
+                nomFuzzyScore: 34,
+                voieFuzzyScore: 100
+              },
+              {
+                distanceScore: 39,
+                id: 'mediation-numerique-aidants-connect-318-mediation-numerique',
+                nomFuzzyScore: 27,
+                voieFuzzyScore: 100
+              },
+              {
+                distanceScore: 100,
+                id: 'mediation-numerique-conseiller-numerique-62ab1e578255a806e299c93e-mediation-numerique',
+                nomFuzzyScore: 29,
+                voieFuzzyScore: 100
+              }
+            ],
+            id: '8eeeafab-4de8-4829-b042-52a94177411d'
+          },
+          {
+            duplicates: [
+              {
+                distanceScore: 40,
+                id: 'mediation-numerique-hinaura-MaisonDesSolidaritesDeCournon-mediation-numerique',
+                nomFuzzyScore: 80,
+                voieFuzzyScore: 100
+              },
+              {
+                distanceScore: 39,
+                id: 'mediation-numerique-aidants-connect-318-mediation-numerique',
+                nomFuzzyScore: 36,
+                voieFuzzyScore: 100
+              },
+              {
+                distanceScore: 100,
+                id: '8eeeafab-4de8-4829-b042-52a94177411d',
+                nomFuzzyScore: 29,
+                voieFuzzyScore: 100
+              }
+            ],
+            id: 'mediation-numerique-conseiller-numerique-62ab1e578255a806e299c93e-mediation-numerique'
           }
         ]
       }
