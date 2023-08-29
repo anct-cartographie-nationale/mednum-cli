@@ -113,8 +113,31 @@ const toCommunesDuplications = (
     duplications.find(withSameCodePostal(lieu))
   );
 
-const onlyWithDuplicates = (communeDuplications: CommuneDuplications): boolean =>
-  communeDuplications.lieux.every((lieuDuplications: LieuDuplications): boolean => lieuDuplications.duplicates.length > 0);
+const onlyWithDuplicates = (lieu: LieuDuplications): boolean => lieu.duplicates.length > 0;
+
+const onlyWithoutDuplicates = (lieu: LieuDuplications): boolean => lieu.duplicates.length === 0;
+
+const toDuplicatesWithout =
+  (noDuplicatesIds: string[]) =>
+  (lieu: LieuDuplications): LieuDuplications => ({
+    id: lieu.id,
+    duplicates: lieu.duplicates.filter((duplicate: Duplicate): boolean => !noDuplicatesIds.includes(duplicate.id))
+  });
+
+const toId = (lieu: LieuDuplications): string => lieu.id;
+
+const invalidDuplicatesIds = (communeDuplications: CommuneDuplications): string[] =>
+  communeDuplications.lieux.filter(onlyWithoutDuplicates).map(toId);
+
+const removeLieuxFrom = (communeDuplications: CommuneDuplications, ids: string[]): CommuneDuplications => ({
+  codePostal: communeDuplications.codePostal,
+  lieux: communeDuplications.lieux.map(toDuplicatesWithout(ids)).filter(onlyWithDuplicates)
+});
+
+const toValidDuplicates = (communeDuplications: CommuneDuplications): CommuneDuplications =>
+  removeLieuxFrom(communeDuplications, invalidDuplicatesIds(communeDuplications));
+
+const onlyWithLieux = (communeDuplications: CommuneDuplications): boolean => communeDuplications.lieux.length > 0;
 
 export const findDuplicates = (lieux: SchemaLieuMediationNumerique[]): CommuneDuplications[] =>
-  lieux.reduce(toCommunesDuplications, []).filter(onlyWithDuplicates);
+  lieux.reduce(toCommunesDuplications, []).map(toValidDuplicates).filter(onlyWithLieux);
