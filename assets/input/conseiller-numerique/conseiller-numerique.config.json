@@ -54,11 +54,6 @@
       "colonnes": ["labels_nationaux"],
       "termes": ["Aidants Connect"],
       "cible": "Aidants Connect"
-    },
-    {
-      "colonnes": ["labels_nationaux"],
-      "termes": ["France Services"],
-      "cible": "France Services"
     }
   ],
   "conditions_acces": [
@@ -69,7 +64,9 @@
     },
     {
       "colonnes": ["conditionAcces"],
-      "termes": ["Gratuit sous condition : La gratuité est conditionnée à des critères (situation familiale, convention avec un organisme social...)"],
+      "termes": [
+        "Gratuit sous condition : La gratuité est conditionnée à des critères (situation familiale, convention avec un organisme social...)"
+      ],
       "cible": "Gratuit sous condition : La gratuité est conditionnée à des critères (situation familiale, convention avec un organisme social...)"
     },
     {
@@ -248,5 +245,3 @@
     "osm": "horaires"
   }
 }
-
-
