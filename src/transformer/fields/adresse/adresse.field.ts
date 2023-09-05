@@ -25,22 +25,8 @@ export const complementAdresseIfAny = (complementAdresse?: string): { complement
 
 const codeInseeIfAny = (code_insee?: string): { code_insee?: string } => (code_insee == null ? {} : { code_insee });
 
-const excludeArrondissementCities = (normalizedCodePostal: string): boolean =>
-  ['75', '69', '13'].some((prefix: string): boolean => normalizedCodePostal.startsWith(prefix));
-
-const checkIfCodesPostauxAreSame = (normalizedCodePostal: string, communeCodepostal: string | undefined): string | undefined =>
-  communeCodepostal === normalizedCodePostal ? normalizedCodePostal : communeCodepostal;
-
-const compareCodesPostaux = (normalizedCodePostal: string, communeCodepostal: string | undefined): string | undefined =>
-  communeCodepostal == null ? normalizedCodePostal : checkIfCodesPostauxAreSame(normalizedCodePostal, communeCodepostal);
-
-const checkIfCodePostalNotContainCedex = (
-  normalizedCodePostal: string,
-  communeCodepostal: string | undefined
-): string | undefined =>
-  excludeArrondissementCities(normalizedCodePostal)
-    ? normalizedCodePostal
-    : compareCodesPostaux(normalizedCodePostal, communeCodepostal);
+const normalizedCodePostalIfExist = (codePostal: string, normalizedCodePostaux: string[] = []): string | undefined =>
+  normalizedCodePostaux.includes(codePostal) ? codePostal : normalizedCodePostaux[0];
 
 const addressFields = (
   addressToNormalize: AddressToNormalize,
@@ -49,9 +35,7 @@ const addressFields = (
 ): Omit<Adresse, 'isAdresse'> => ({
   ...sourceAddress,
   code_postal:
-    (addressToNormalize.code_postal === ''
-      ? commune?.codesPostaux[0]
-      : checkIfCodePostalNotContainCedex(addressToNormalize.code_postal, commune?.codesPostaux[0])) ?? '',
+    normalizedCodePostalIfExist(addressToNormalize.code_postal, commune?.codesPostaux) ?? addressToNormalize.code_postal,
   commune: commune?.nom ?? addressToNormalize.commune,
   ...codeInseeIfAny(commune?.code),
   voie: CLEAN_VOIE.reduce(toCleanField, sourceAddress.voie)
