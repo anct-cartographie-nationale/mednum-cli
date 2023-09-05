@@ -32,7 +32,7 @@ const checkIfCodesPostauxAreSame = (normalizedCodePostal: string, communeCodepos
   communeCodepostal === normalizedCodePostal ? normalizedCodePostal : communeCodepostal;
 
 const compareCodesPostaux = (normalizedCodePostal: string, communeCodepostal: string | undefined): string | undefined =>
-  communeCodepostal == null ? checkIfCodesPostauxAreSame(normalizedCodePostal, communeCodepostal) : normalizedCodePostal;
+  communeCodepostal == null ? normalizedCodePostal : checkIfCodesPostauxAreSame(normalizedCodePostal, communeCodepostal);
 
 const checkIfCodePostalNotContainCedex = (
   normalizedCodePostal: string,
