@@ -26,13 +26,13 @@ export const complementAdresseIfAny = (complementAdresse?: string): { complement
 const codeInseeIfAny = (code_insee?: string): { code_insee?: string } => (code_insee == null ? {} : { code_insee });
 
 const excludeArrondissementCities = (normalizedCodePostal: string): boolean =>
-  ['75', '69', '13'].some((prefix) => normalizedCodePostal.startsWith(prefix));
+  ['75', '69', '13'].some((prefix: string): boolean => normalizedCodePostal.startsWith(prefix));
 
 const checkIfCodesPostauxAreSame = (normalizedCodePostal: string, communeCodepostal: string | undefined): string | undefined =>
   communeCodepostal === normalizedCodePostal ? normalizedCodePostal : communeCodepostal;
 
 const compareCodesPostaux = (normalizedCodePostal: string, communeCodepostal: string | undefined): string | undefined =>
-  communeCodepostal ? checkIfCodesPostauxAreSame(normalizedCodePostal, communeCodepostal) : normalizedCodePostal;
+  communeCodepostal == null ? checkIfCodesPostauxAreSame(normalizedCodePostal, communeCodepostal) : normalizedCodePostal;
 
 const checkIfCodePostalNotContainCedex = (
   normalizedCodePostal: string,
