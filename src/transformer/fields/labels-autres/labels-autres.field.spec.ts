@@ -270,4 +270,25 @@ describe('labels autres field', (): void => {
 
     expect(labelsAutres).toStrictEqual(['QPV', 'ZRR']);
   });
+
+  it('should get only one QPV if QPV is set in source', (): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      labels_autres: [
+        {
+          cible: 'QPV'
+        }
+      ]
+    } as LieuxMediationNumeriqueMatching;
+
+    const labelsAutres: string[] = processLabelsAutres(
+      { labels_autres: 'QPV' },
+      matching,
+      isInQPV(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
+      isInZrr(new Map([['02691', false]])),
+      ADRESSE_IN_QPV,
+      LOCALISATION_IN_QPV
+    );
+
+    expect(labelsAutres).toStrictEqual(['QPV']);
+  });
 });

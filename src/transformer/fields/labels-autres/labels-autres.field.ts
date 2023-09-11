@@ -87,4 +87,4 @@ export const processLabelsAutres = (
   isInZrr: IsInZrr,
   adresse?: Adresse,
   localisation?: Localisation
-): string[] => appendExtraLabels(isInQpv, isInZrr)(labelsFromSource(matching, source), adresse, localisation);
+): string[] => [...new Set(appendExtraLabels(isInQpv, isInZrr)(labelsFromSource(matching, source), adresse, localisation))];
