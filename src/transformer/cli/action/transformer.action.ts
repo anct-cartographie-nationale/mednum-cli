@@ -103,11 +103,7 @@ const QPVFromDataGouv = async (): Promise<QpvTransfer[]> =>
   (await axios.get('https://www.data.gouv.fr/fr/datasets/r/14caff6e-2619-4127-8518-0c33560c5eb4')).data;
 
 const ZRRFromEquipementsSportsGouv = async (): Promise<ZrrTransfer[]> =>
-  (
-    await axios.get(
-      'https://equipements.sports.gouv.fr/api/explore/v2.1/catalog/datasets/insee-zrr/exports/json?select=zrr_simp&refine=zrr_simp:"C - Classée en ZRR"'
-    )
-  ).data;
+  (await axios.get('https://equipements.sports.gouv.fr/api/explore/v2.1/catalog/datasets/insee-zrr/exports/json')).data;
 
 export const transformerAction = async (transformerOptions: TransformerOptions): Promise<void> => {
   await Promise.all([

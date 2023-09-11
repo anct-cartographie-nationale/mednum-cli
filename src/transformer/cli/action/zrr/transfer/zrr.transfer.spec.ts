@@ -14,9 +14,9 @@ describe('zrr transfer', (): void => {
   it('should get false for code Insee 01041 that is not ZRR', (): void => {
     const transfer: ZrrTransfer[] = [
       {
-        com2018: '01041',
+        codgeo: '01041',
         nom_region: 'Auvergne-Rhône-Alpes',
-        statut_zrr: 'Non classée',
+        zrr_simp: 'NC - Commune non classée',
         commune_2018: 'Bettant',
         nom_dept: 'Ain',
         population_2015: 753
@@ -31,9 +31,9 @@ describe('zrr transfer', (): void => {
   it('should get true for code Insee 01041 that is ZRR', (): void => {
     const transfer: ZrrTransfer[] = [
       {
-        com2018: '01080',
+        codgeo: '01080',
         nom_region: 'Auvergne-Rhône-Alpes',
-        statut_zrr: 'Bénéficiaire',
+        zrr_simp: 'C - Classée en ZRR',
         commune_2018: 'Champdor-Corcelles',
         nom_dept: 'Ain',
         population_2015: 663
@@ -48,17 +48,17 @@ describe('zrr transfer', (): void => {
   it('should multiple items in ZRR map', (): void => {
     const transfer: ZrrTransfer[] = [
       {
-        com2018: '01080',
+        codgeo: '01080',
         nom_region: 'Auvergne-Rhône-Alpes',
-        statut_zrr: 'Bénéficiaire',
+        zrr_simp: 'C - Classée en ZRR',
         commune_2018: 'Champdor-Corcelles',
         nom_dept: 'Ain',
         population_2015: 663
       },
       {
-        com2018: '01041',
+        codgeo: '01041',
         nom_region: 'Auvergne-Rhône-Alpes',
-        statut_zrr: 'Non classée',
+        zrr_simp: 'NC - Commune non classée',
         commune_2018: 'Bettant',
         nom_dept: 'Ain',
         population_2015: 753
