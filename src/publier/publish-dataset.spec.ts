@@ -155,7 +155,7 @@ describe('mednum - dataset to update', (): void => {
       ressources: [
         {
           source: './assets/output/hinaura/services-inclusion-20230107_le-hub-hinaura.json',
-          schema: 'betagouv/data-inclusion-schema',
+          schema: 'gip-inclusion/data-inclusion-schema',
           description: "Structures de l'inclusion qui proposent des services de médiation numérique"
         }
       ]
@@ -171,7 +171,7 @@ describe('mednum - dataset to update', (): void => {
           {
             id: '15e10bf7-6d6a-44a1-9d70-176a44fc92a5',
             name: 'services-inclusion-20230107_le-hub-hinaura.json',
-            schema: 'betagouv/data-inclusion-schema',
+            schema: 'gip-inclusion/data-inclusion-schema',
             description: "Structures de l'inclusion qui proposent des services de médiation numérique"
           }
         ]
@@ -253,7 +253,7 @@ describe('mednum - dataset to update', (): void => {
             {
               id: '15e10bf7-6d6a-44a1-9d70-176a44fc92a5',
               name: 'services-inclusion-20230107_le-hub-hinaura.json',
-              schema: 'betagouv/data-inclusion-schema',
+              schema: 'gip-inclusion/data-inclusion-schema',
               description: "Structures de l'inclusion qui proposent des services de médiation numérique"
             }
           ],
@@ -280,7 +280,7 @@ describe('mednum - dataset to update', (): void => {
       ressources: [
         {
           source: './assets/output/hinaura/services-inclusion-20230107_le-hub-hinaura.json',
-          schema: 'betagouv/data-inclusion-schema',
+          schema: 'gip-inclusion/data-inclusion-schema',
           description: "Structures de l'inclusion qui proposent des services de médiation numérique"
         }
       ]
@@ -296,7 +296,7 @@ describe('mednum - dataset to update', (): void => {
           {
             id: '15e10bf7-6d6a-44a1-9d70-176a44fc92a5',
             name: 'services-inclusion-20230107_le-hub-hinaura.json',
-            schema: 'betagouv/data-inclusion-schema',
+            schema: 'gip-inclusion/data-inclusion-schema',
             description: "Structures de l'inclusion qui proposent des services de médiation numérique"
           }
         ]
@@ -318,7 +318,7 @@ describe('mednum - dataset to update', (): void => {
             {
               id: '65af465a-8641-af68-5af4-1a65f1fc651a',
               name: 'preexisting-ressource.json',
-              schema: 'betagouv/data-inclusion-schema',
+              schema: 'gip-inclusion/data-inclusion-schema',
               description: 'This preexisting ressource should not be updated'
             }
           ]
@@ -332,7 +332,7 @@ describe('mednum - dataset to update', (): void => {
           {
             id: '15e10bf7-6d6a-44a1-9d70-176a44fc92a5',
             name: 'services-inclusion-20230107_le-hub-hinaura.json',
-            schema: 'betagouv/data-inclusion-schema',
+            schema: 'gip-inclusion/data-inclusion-schema',
             description: "Structures de l'inclusion qui proposent des services de médiation numérique"
           }
         ],
@@ -358,7 +358,7 @@ describe('mednum - dataset to update', (): void => {
       ressources: [
         {
           source: './assets/output/hinaura/services-inclusion-20230107_le-hub-hinaura.json',
-          schema: 'betagouv/data-inclusion-schema',
+          schema: 'gip-inclusion/data-inclusion-schema',
           description: "Structures de l'inclusion qui proposent des services de médiation numérique"
         }
       ]
@@ -381,7 +381,7 @@ describe('mednum - dataset to update', (): void => {
             {
               id: '65af465a-8641-af68-5af4-1a65f1fc651a',
               name: 'services-inclusion-20230107_le-hub-hinaura.json',
-              schema: 'betagouv/data-inclusion-schema',
+              schema: 'gip-inclusion/data-inclusion-schema',
               description: 'This preexisting ressource should not be updated'
             }
           ]
@@ -395,7 +395,7 @@ describe('mednum - dataset to update', (): void => {
           {
             id: '65af465a-8641-af68-5af4-1a65f1fc651a',
             name: 'services-inclusion-20230107_le-hub-hinaura.json',
-            schema: 'betagouv/data-inclusion-schema',
+            schema: 'gip-inclusion/data-inclusion-schema',
             description: "Structures de l'inclusion qui proposent des services de médiation numérique"
           }
         ],
@@ -421,7 +421,7 @@ describe('mednum - dataset to update', (): void => {
       ressources: [
         {
           source: './assets/output/hinaura/services-inclusion-20230107_le-hub-hinaura.json',
-          schema: 'betagouv/data-inclusion-schema',
+          schema: 'gip-inclusion/data-inclusion-schema',
           description: "Structures de l'inclusion qui proposent des services de médiation numérique"
         }
       ]
@@ -444,7 +444,7 @@ describe('mednum - dataset to update', (): void => {
             {
               id: '65af465a-8641-af68-5af4-1a65f1fc651a',
               name: 'services-inclusion-20230104_le-hub-hinaura.json',
-              schema: 'betagouv/data-inclusion-schema',
+              schema: 'gip-inclusion/data-inclusion-schema',
               description: 'This preexisting ressource should not be updated'
             }
           ]
@@ -458,7 +458,7 @@ describe('mednum - dataset to update', (): void => {
           {
             id: '65af465a-8641-af68-5af4-1a65f1fc651a',
             name: 'services-inclusion-20230107_le-hub-hinaura.json',
-            schema: 'betagouv/data-inclusion-schema',
+            schema: 'gip-inclusion/data-inclusion-schema',
             description: "Structures de l'inclusion qui proposent des services de médiation numérique"
           }
         ],
@@ -484,7 +484,7 @@ describe('mednum - dataset to update', (): void => {
       ressources: [
         {
           source: './assets/output/hinaura/services-inclusion-20230107_le-hub-hinaura.json',
-          schema: 'betagouv/data-inclusion-schema',
+          schema: 'gip-inclusion/data-inclusion-schema',
           description: "Structures de l'inclusion qui proposent des services de médiation numérique"
         }
       ]
