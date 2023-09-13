@@ -57,7 +57,7 @@ const dataInclusionServicesRessource = (output: Output, date: Date, suffix?: str
     'json',
     suffix
   )}`,
-  schema: 'betagouv/data-inclusion-schema',
+  schema: 'gip-inclusion/data-inclusion-schema',
   description: `Services de médiation numérique rattachés à une structure de l'inclusion fournis par ${output.name} sur le territoire ${output.territoire}`
 });
 
@@ -69,7 +69,7 @@ const dataInclusionStructuresRessource = (output: Output, date: Date, suffix?: s
     'json',
     suffix
   )}`,
-  schema: 'betagouv/data-inclusion-schema',
+  schema: 'gip-inclusion/data-inclusion-schema',
   description: `Structures de l'inclusion qui proposent des services de médiation numérique fournis par ${output.name} sur le territoire ${output.territoire}`
 });
 

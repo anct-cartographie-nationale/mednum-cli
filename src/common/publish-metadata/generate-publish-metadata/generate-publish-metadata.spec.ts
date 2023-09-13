@@ -49,13 +49,13 @@ describe('publish metadata', (): void => {
         },
         {
           source: './assets/output/hinaura/services-inclusion-20230107-le-hub-hinaura.json',
-          schema: 'betagouv/data-inclusion-schema',
+          schema: 'gip-inclusion/data-inclusion-schema',
           description:
             "Services de médiation numérique rattachés à une structure de l'inclusion fournis par le hub Hinaura sur le territoire Auvergne-Rhône-Alpes"
         },
         {
           source: './assets/output/hinaura/structures-inclusion-20230107-le-hub-hinaura.json',
-          schema: 'betagouv/data-inclusion-schema',
+          schema: 'gip-inclusion/data-inclusion-schema',
           description:
             "Structures de l'inclusion qui proposent des services de médiation numérique fournis par le hub Hinaura sur le territoire Auvergne-Rhône-Alpes"
         }
@@ -109,13 +109,13 @@ describe('publish metadata', (): void => {
         },
         {
           source: './assets/output/maine-et-loire/services-inclusion-20230107-le-departement-maine-et-loire.json',
-          schema: 'betagouv/data-inclusion-schema',
+          schema: 'gip-inclusion/data-inclusion-schema',
           description:
             "Services de médiation numérique rattachés à une structure de l'inclusion fournis par le département Maine-et-Loire sur le territoire Maine-et-Loire"
         },
         {
           source: './assets/output/maine-et-loire/structures-inclusion-20230107-le-departement-maine-et-loire.json',
-          schema: 'betagouv/data-inclusion-schema',
+          schema: 'gip-inclusion/data-inclusion-schema',
           description:
             "Structures de l'inclusion qui proposent des services de médiation numérique fournis par le département Maine-et-Loire sur le territoire Maine-et-Loire"
         }
@@ -175,13 +175,13 @@ describe('publish metadata', (): void => {
         },
         {
           source: './assets/output/maine-et-loire/services-inclusion-20230107-le-departement-maine-et-loire.json',
-          schema: 'betagouv/data-inclusion-schema',
+          schema: 'gip-inclusion/data-inclusion-schema',
           description:
             "Services de médiation numérique rattachés à une structure de l'inclusion fournis par le département Maine-et-Loire sur le territoire Maine-et-Loire"
         },
         {
           source: './assets/output/maine-et-loire/structures-inclusion-20230107-le-departement-maine-et-loire.json',
-          schema: 'betagouv/data-inclusion-schema',
+          schema: 'gip-inclusion/data-inclusion-schema',
           description:
             "Structures de l'inclusion qui proposent des services de médiation numérique fournis par le département Maine-et-Loire sur le territoire Maine-et-Loire"
         }
@@ -236,13 +236,13 @@ describe('publish metadata', (): void => {
         },
         {
           source: './assets/output/hinaura/services-inclusion-20230107-le-hub-hinaura-suffix.json',
-          schema: 'betagouv/data-inclusion-schema',
+          schema: 'gip-inclusion/data-inclusion-schema',
           description:
             "Services de médiation numérique rattachés à une structure de l'inclusion fournis par le hub Hinaura sur le territoire Auvergne-Rhône-Alpes"
         },
         {
           source: './assets/output/hinaura/structures-inclusion-20230107-le-hub-hinaura-suffix.json',
-          schema: 'betagouv/data-inclusion-schema',
+          schema: 'gip-inclusion/data-inclusion-schema',
           description:
             "Structures de l'inclusion qui proposent des services de médiation numérique fournis par le hub Hinaura sur le territoire Auvergne-Rhône-Alpes"
         }
