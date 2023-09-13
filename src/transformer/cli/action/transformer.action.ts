@@ -105,7 +105,7 @@ const QPVFromDataGouv = async (): Promise<QpvTransfer[]> =>
 const ZRRFromEquipementsSportsGouv = async (): Promise<ZrrTransfer[]> =>
   (
     await axios.get(
-      'https://equipements.sports.gouv.fr/api/explore/v2.0/catalog/datasets/insee-zrr/exports/json?refine=zrr_simp:"C - Classée en ZRR"'
+      'https://equipements.sports.gouv.fr/api/explore/v2.0/catalog/datasets/insee-zrr/exports/json?select=zrr_simp,codgeo&refine=zrr_simp:"C - Classée en ZRR"'
     )
   ).data;
 

@@ -15,11 +15,7 @@ describe('zrr transfer', (): void => {
     const transfer: ZrrTransfer[] = [
       {
         codgeo: '01041',
-        nom_region: 'Auvergne-Rhône-Alpes',
-        zrr_simp: 'NC - Commune non classée',
-        commune_2018: 'Bettant',
-        nom_dept: 'Ain',
-        population_2015: 753
+        zrr_simp: 'NC - Commune non classée'
       }
     ];
 
@@ -32,11 +28,7 @@ describe('zrr transfer', (): void => {
     const transfer: ZrrTransfer[] = [
       {
         codgeo: '01080',
-        nom_region: 'Auvergne-Rhône-Alpes',
-        zrr_simp: 'C - Classée en ZRR',
-        commune_2018: 'Champdor-Corcelles',
-        nom_dept: 'Ain',
-        population_2015: 663
+        zrr_simp: 'C - Classée en ZRR'
       }
     ];
 
@@ -49,19 +41,11 @@ describe('zrr transfer', (): void => {
     const transfer: ZrrTransfer[] = [
       {
         codgeo: '01080',
-        nom_region: 'Auvergne-Rhône-Alpes',
-        zrr_simp: 'C - Classée en ZRR',
-        commune_2018: 'Champdor-Corcelles',
-        nom_dept: 'Ain',
-        population_2015: 663
+        zrr_simp: 'C - Classée en ZRR'
       },
       {
         codgeo: '01041',
-        nom_region: 'Auvergne-Rhône-Alpes',
-        zrr_simp: 'NC - Commune non classée',
-        commune_2018: 'Bettant',
-        nom_dept: 'Ain',
-        population_2015: 753
+        zrr_simp: 'NC - Commune non classée'
       }
     ];
 
