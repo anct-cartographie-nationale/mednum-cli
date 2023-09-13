@@ -10,6 +10,7 @@ import {
   Output,
   writeMediationNumeriqueCsvOutput,
   writeMediationNumeriqueJsonOutput,
+  writeMediationNumeriqueDynamoDBJsonOutput,
   writePublierMetadataOutput,
   writeServicesDataInclusionJsonOutput,
   writeStructuresDataInclusionJsonOutput
@@ -25,6 +26,7 @@ const writeOutputFiles = (
   lieuxDeMediationNumerique: LieuMediationNumerique[]
 ): void => {
   writeMediationNumeriqueJsonOutput(producer, lieuxWithLessDuplicates, 'sans-doublons');
+  writeMediationNumeriqueDynamoDBJsonOutput(producer, lieuxWithLessDuplicates);
   writeMediationNumeriqueCsvOutput(producer, lieuxWithLessDuplicates, 'sans-doublons');
   writeStructuresDataInclusionJsonOutput(producer, lieuxDeMediationNumerique, 'sans-doublons');
   writeServicesDataInclusionJsonOutput(producer, lieuxDeMediationNumerique, 'sans-doublons');
