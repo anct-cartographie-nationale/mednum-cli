@@ -151,10 +151,13 @@ jobs:
       - name: Publish to data.gouv
         run: yarn publier.data-inclusion
 
+      - name: List files
+        run: ls -la
+
       - name: Publish to database
         uses: jakejarvis/s3-sync-action@v0.5.1
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-          SOURCE_DIR: 'assets/output/data-inclusion/LieuxInclusionNumerique.json'
+          SOURCE_DIR: '/assets/output/data-inclusion/LieuxInclusionNumerique.json'
