@@ -152,7 +152,15 @@ jobs:
         run: yarn publier.data-inclusion
 
       - name: List files
-        run: ls -la
+        run: |
+          echo "current folder"
+          ls -la ./
+          echo "assets folder"
+          ls -la ./assets
+          echo "assets/output folder"
+          ls -la ./assets/output
+          echo "assets/output/data-inclusion folder"
+          ls -la ./assets/output/data-inclusion
 
       - name: Publish to database
         uses: jakejarvis/s3-sync-action@v0.5.1
@@ -160,4 +168,4 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-          SOURCE_DIR: '/assets/output/data-inclusion/LieuxInclusionNumerique.json'
+          SOURCE_DIR: './assets/output/data-inclusion/LieuxInclusionNumerique.json'
