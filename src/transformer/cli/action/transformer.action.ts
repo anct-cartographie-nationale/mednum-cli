@@ -105,7 +105,7 @@ const QPVFromDataGouv = async (): Promise<QpvTransfer[]> =>
 const ZRRFromEquipementsSportsGouv = async (): Promise<ZrrTransfer[]> =>
   (
     await axios.get(
-      'https://equipements.sports.gouv.fr/api/explore/v2.0/catalog/datasets/insee-zrr/exports/json?select=zrr_simp,codgeo&refine=zrr_simp:"C - Classée en ZRR"'
+      'https://equipements.sports.gouv.fr/api/explore/v2.0/catalog/datasets/insee-zrr/exports/json?select=codgeo&refine=zrr_simp:"C - Classée en ZRR"'
     )
   ).data;
 
@@ -133,7 +133,6 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
       ZrrTransfer[]
     ]): void => {
       const accesLibreErps: Erp[] = JSON.parse(accesLibreData);
-
       const findCommune: FindCommune = {
         parNom: communeParNom(communesParNomMap(communes)),
         parCodePostal: communeParCodePostal(communesParCodePostalMap(communes)),

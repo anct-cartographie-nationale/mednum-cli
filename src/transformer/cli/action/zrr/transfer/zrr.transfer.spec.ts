@@ -11,51 +11,15 @@ describe('zrr transfer', (): void => {
     expect(zrrMap).toStrictEqual(new Map<string, boolean>());
   });
 
-  it('should get false for code Insee 01041 that is not ZRR', (): void => {
+  it('should get true for code Insee 01080 that is ZRR', (): void => {
     const transfer: ZrrTransfer[] = [
       {
-        codgeo: '01041',
-        zrr_simp: 'NC - Commune non classée'
-      }
-    ];
-
-    const zrrMap: Map<string, boolean> = zrrMapFromTransfer(transfer);
-
-    expect(zrrMap).toStrictEqual(new Map<string, boolean>([['01041', false]]));
-  });
-
-  it('should get true for code Insee 01041 that is ZRR', (): void => {
-    const transfer: ZrrTransfer[] = [
-      {
-        codgeo: '01080',
-        zrr_simp: 'C - Classée en ZRR'
+        codgeo: '01080'
       }
     ];
 
     const zrrMap: Map<string, boolean> = zrrMapFromTransfer(transfer);
 
     expect(zrrMap).toStrictEqual(new Map<string, boolean>([['01080', true]]));
-  });
-
-  it('should multiple items in ZRR map', (): void => {
-    const transfer: ZrrTransfer[] = [
-      {
-        codgeo: '01080',
-        zrr_simp: 'C - Classée en ZRR'
-      },
-      {
-        codgeo: '01041',
-        zrr_simp: 'NC - Commune non classée'
-      }
-    ];
-
-    const zrrMap: Map<string, boolean> = zrrMapFromTransfer(transfer);
-
-    expect(zrrMap).toStrictEqual(
-      new Map<string, boolean>([
-        ['01080', true],
-        ['01041', false]
-      ])
-    );
   });
 });
