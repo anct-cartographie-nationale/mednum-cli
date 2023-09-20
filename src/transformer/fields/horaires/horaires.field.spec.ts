@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
 import { LieuxMediationNumeriqueMatching } from '../../input';
 import { OsmOpeningHoursString } from './process-horaires.field';
