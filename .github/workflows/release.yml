@@ -47,7 +47,8 @@ jobs:
             eure-et-loir,
             conumm,
             corse,
-            epernay
+            epernay,
+            bus-france-services-charente
           ]
     runs-on: ubuntu-latest
     environment: production
