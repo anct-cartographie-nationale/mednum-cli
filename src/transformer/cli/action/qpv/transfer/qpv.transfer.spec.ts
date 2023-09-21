@@ -23,7 +23,7 @@ const QPV_IN_01053_SHAPE: Polygon = {
 const QPV_IN_01053: QpvTransfer = {
   fields: {
     geo_shape: QPV_IN_01053_SHAPE,
-    code_insee: '01053'
+    list_com_2023: '01053'
   }
 };
 
@@ -46,7 +46,7 @@ const QPV_1_IN_02691_SHAPE: Polygon = {
 const QPV_1_IN_02691: QpvTransfer = {
   fields: {
     geo_shape: QPV_1_IN_02691_SHAPE,
-    code_insee: '02691'
+    list_com_2023: '02691'
   }
 };
 
@@ -69,7 +69,7 @@ const QPV_2_IN_02691_SHAPE: Polygon = {
 const QPV_2_IN_02691: QpvTransfer = {
   fields: {
     geo_shape: QPV_2_IN_02691_SHAPE,
-    code_insee: '02691'
+    list_com_2023: '02691'
   }
 };
 
@@ -104,7 +104,7 @@ const QPV_MULTIPOLYGON_IN_02691_SHAPE: MultiPolygon = {
 const QPV_MULTIPOLYGON_IN_02691: QpvTransfer = {
   fields: {
     geo_shape: QPV_MULTIPOLYGON_IN_02691_SHAPE,
-    code_insee: '02691'
+    list_com_2023: '02691'
   }
 };
 
@@ -114,7 +114,7 @@ describe('qpv transfer', (): void => {
 
     const qpvShapesMap: QpvShapesMap = qpvShapesMapFromTransfer(qpvTransferData);
 
-    expect(qpvShapesMap).toStrictEqual(new Map<string, Polygon[]>([[QPV_IN_01053.fields.code_insee, [QPV_IN_01053_SHAPE]]]));
+    expect(qpvShapesMap).toStrictEqual(new Map<string, Polygon[]>([[QPV_IN_01053.fields.list_com_2023, [QPV_IN_01053_SHAPE]]]));
   });
 
   it('should convert single QPV to QPV shapes map', (): void => {
@@ -122,7 +122,7 @@ describe('qpv transfer', (): void => {
 
     const qpvShapesMap: QpvShapesMap = qpvShapesMapFromTransfer(qpvTransferData);
 
-    expect(qpvShapesMap).toStrictEqual(new Map<string, Polygon[]>([[QPV_IN_01053.fields.code_insee, [QPV_IN_01053_SHAPE]]]));
+    expect(qpvShapesMap).toStrictEqual(new Map<string, Polygon[]>([[QPV_IN_01053.fields.list_com_2023, [QPV_IN_01053_SHAPE]]]));
   });
 
   it('should convert multiple QPV to QPV shapes map', (): void => {
@@ -132,8 +132,8 @@ describe('qpv transfer', (): void => {
 
     expect(qpvShapesMap).toStrictEqual(
       new Map<string, Polygon[]>([
-        [QPV_IN_01053.fields.code_insee, [QPV_IN_01053_SHAPE]],
-        [QPV_1_IN_02691.fields.code_insee, [QPV_1_IN_02691_SHAPE]]
+        [QPV_IN_01053.fields.list_com_2023, [QPV_IN_01053_SHAPE]],
+        [QPV_1_IN_02691.fields.list_com_2023, [QPV_1_IN_02691_SHAPE]]
       ])
     );
   });
@@ -145,8 +145,8 @@ describe('qpv transfer', (): void => {
 
     expect(qpvShapesMap).toStrictEqual(
       new Map<string, Polygon[]>([
-        [QPV_IN_01053.fields.code_insee, [QPV_IN_01053_SHAPE]],
-        [QPV_1_IN_02691.fields.code_insee, [QPV_1_IN_02691_SHAPE, QPV_2_IN_02691_SHAPE]]
+        [QPV_IN_01053.fields.list_com_2023, [QPV_IN_01053_SHAPE]],
+        [QPV_1_IN_02691.fields.list_com_2023, [QPV_1_IN_02691_SHAPE, QPV_2_IN_02691_SHAPE]]
       ])
     );
   });
@@ -157,7 +157,7 @@ describe('qpv transfer', (): void => {
     const qpvShapesMap: QpvShapesMap = qpvShapesMapFromTransfer(qpvTransferData);
 
     expect(qpvShapesMap).toStrictEqual(
-      new Map<string, Polygon[]>([[QPV_1_IN_02691.fields.code_insee, [QPV_1_IN_02691_SHAPE, QPV_2_IN_02691_SHAPE]]])
+      new Map<string, Polygon[]>([[QPV_1_IN_02691.fields.list_com_2023, [QPV_1_IN_02691_SHAPE, QPV_2_IN_02691_SHAPE]]])
     );
   });
 });
