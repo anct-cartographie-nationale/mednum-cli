@@ -1,0 +1,110 @@
+{
+  "id": {
+    "colonne": "id"
+  },
+  "nom": {
+    "colonne": "nom"
+  },
+  "pivot": {
+    "colonne": "SIRET"
+  },
+  "commune": {
+    "colonne": "commune"
+  },
+  "code_postal": {
+    "colonne": "code_postal"
+  },
+  "code_insee": {
+    "colonne": "code_insee"
+  },
+  "adresse": {
+    "colonne": "adresse"
+  },
+  "latitude": {
+    "colonne": "latitude"
+  },
+  "longitude": {
+    "colonne": "longitude"
+  },
+  "telephone": {
+    "colonne": "telephone"
+  },
+  "courriel": {
+    "colonne": "courriel"
+  },
+  "site_web": {
+    "colonne": "site_web"
+  },
+  "date_maj": {
+    "colonne": "date_maj"
+  },
+  "structure_parente": {
+    "colonne": "structure_parente"
+  },
+  "presentation_resume": {
+    "colonne": "presentation_resume"
+  },
+  "presentation_detail": {
+    "colonne": "presentation_detail"
+  },
+  "typologie": [
+    {
+      "cible": "RFS"
+    }
+  ],
+  "labels_nationaux": [
+    {
+      "colonnes": ["labels_nationaux"],
+      "termes": ["CNFS"],
+      "cible": "CNFS"
+    },
+    {
+      "colonnes": ["labels_nationaux"],
+      "termes": ["France Services"],
+      "cible": "France Services"
+    },
+    {
+      "colonnes": ["labels_nationaux"],
+      "termes": ["APTIC"],
+      "cible": "APTIC"
+    }
+  ],
+  "services": [
+    {
+      "colonnes": ["services"],
+      "termes": ["Accéder à du matériel"],
+      "cible": "Accéder à du matériel"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["Accéder à une connexion internet"],
+      "cible": "Accéder à une connexion internet"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["Favoriser mon insertion professionnelle"],
+      "cible": "Favoriser mon insertion professionnelle"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["Devenir autonome dans les démarches administratives"],
+      "cible": "Devenir autonome dans les démarches administratives"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["Réaliser des démarches administratives avec un accompagnement"],
+      "cible": "Réaliser des démarches administratives avec un accompagnement"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["Accompagner les démarches de santé"],
+      "cible": "Accompagner les démarches de santé"
+    }
+  ],
+  "horaires": {
+    "osm": "horaires"
+  },
+  "semaine_ouverture": {
+    "colonne": "ouverture"
+  }
+}

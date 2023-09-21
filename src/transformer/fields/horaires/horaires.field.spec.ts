@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
 import { LieuxMediationNumeriqueMatching } from '../../input';
 import { OsmOpeningHoursString } from './process-horaires.field';
@@ -38,6 +38,9 @@ const matching: LieuxMediationNumeriqueMatching = {
     ],
     semaine: 'Horaires ouverture',
     osm: 'OSM'
+  },
+  semaine_ouverture: {
+    colonne: 'ouverture'
   }
 } as LieuxMediationNumeriqueMatching;
 
@@ -702,5 +705,23 @@ describe('horaires field', (): void => {
     );
 
     expect(openingHours).toBe('Tu-Th 09:00-12:00,14:00-18:00; Fr 09:00-13:00');
+  });
+
+  it('should get osm hours with add of week opening impaire', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      { OSM: 'Mo 09:30-12:30,13:30-15:30; PH off', ouverture: 'Semaine impaire' },
+      matching
+    );
+
+    expect(openingHours).toBe('week 1-53/2 Mo 09:30-12:30,13:30-15:30; PH off');
+  });
+
+  it('should get osm hours with add of week opening paire', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      { OSM: 'Mo 09:30-12:30,13:30-15:30; PH off', ouverture: 'Semaine paire' },
+      matching
+    );
+
+    expect(openingHours).toBe('week 2-52/2 Mo 09:30-12:30,13:30-15:30; PH off');
   });
 });

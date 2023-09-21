@@ -6,6 +6,9 @@ import { InvalidHoursError } from './errors/invalid-hours-error';
 import { NO_OSM_OPENING_HOURS, OsmOpeningHoursString, osmOpeningHoursString } from './process-horaires.field';
 import { openingHoursFromWeek } from './opening-hours-from-week';
 
+const SEMAINE_IMPAIRE: string = 'week 1-53/2 ';
+const SEMAINE_PAIRE: string = 'week 2-52/2 ';
+
 const OPENING_HOURS_REGEXP: RegExp = /^\d{2}:\d{2}-\d{2}:\d{2}(?:,\d{2}:\d{2}-\d{2}:\d{2})?$/u;
 
 const OSM_OPENING_HOURS_TRIVIAL_REGEXP: RegExp =
@@ -27,11 +30,6 @@ const wrapInArray = (osmOpeningHours: OsmOpeningHours): [] | [OsmOpeningHours] =
 const processDay = (day: OsmDaysOfWeek, hours?: string): [] | [OsmOpeningHours] =>
   hours == null || hours === '' ? [] : wrapInArray(toSingleOsmOpeningHours(day, hours));
 
-const alreadyHaveOsmOpeningHours = (matching: LieuxMediationNumeriqueMatching, source: DataSource): boolean =>
-  matching.horaires?.osm != null &&
-  source[matching.horaires.osm] != null &&
-  OSM_OPENING_HOURS_TRIVIAL_REGEXP.test(source[matching.horaires.osm] ?? '');
-
 const openingHoursFromDays = (matching: LieuxMediationNumeriqueMatching, source: DataSource): OsmOpeningHoursString =>
   osmOpeningHoursString(
     toOsmOpeningHours([
@@ -45,10 +43,21 @@ const openingHoursFromDays = (matching: LieuxMediationNumeriqueMatching, source:
     ])
   );
 
+const applyWeek = (osmHoraires: string, weekOpening: string): OsmOpeningHoursString =>
+  weekOpening === 'Semaine paire' ? SEMAINE_PAIRE.concat(osmHoraires) : SEMAINE_IMPAIRE.concat(osmHoraires);
+
+const applyWeekOpeningIfAny = (osmHoraires?: string, weekOpening?: string): OsmOpeningHoursString =>
+  weekOpening != null && osmHoraires != null ? applyWeek(osmHoraires, weekOpening) : osmHoraires;
+
+const alreadyHaveOsmOpeningHours = (matching: LieuxMediationNumeriqueMatching, source: DataSource): boolean =>
+  matching.horaires?.osm != null &&
+  source[matching.horaires.osm] != null &&
+  OSM_OPENING_HOURS_TRIVIAL_REGEXP.test(source[matching.horaires.osm] ?? '');
+
 export const processHoraires = (source: DataSource, matching: LieuxMediationNumeriqueMatching): OsmOpeningHoursString => {
   try {
     if (alreadyHaveOsmOpeningHours(matching, source)) {
-      return source[matching.horaires?.osm ?? ''];
+      return applyWeekOpeningIfAny(source[matching.horaires?.osm ?? ''], source[matching.semaine_ouverture?.colonne ?? '']);
     }
     const osmOpeningHours: OsmOpeningHoursString = openingHoursFromDays(matching, source);
     return osmOpeningHours === NO_OSM_OPENING_HOURS && matching.horaires?.semaine != null

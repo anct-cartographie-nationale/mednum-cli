@@ -68,6 +68,7 @@ export type LieuxMediationNumeriqueMatching = {
   services: (Choice<Service> & { modalitesAccompagnement?: ModaliteAccompagnement })[];
   prise_rdv?: Colonne;
   accessibilite?: Colonne;
+  semaine_ouverture?: Colonne;
   horaires?: {
     jours?: [
       {
