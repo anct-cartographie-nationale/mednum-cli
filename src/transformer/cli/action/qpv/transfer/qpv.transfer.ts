@@ -6,13 +6,13 @@ import { QpvShapesMap } from '../../../../fields';
 export type QpvTransfer = {
   fields: {
     geo_shape?: MultiPolygon | Polygon;
-    code_insee: string;
+    list_com_2023: string;
   };
 };
 
 type FieldsWithShape = {
   geo_shape: MultiPolygon | Polygon;
-  code_insee: string;
+  list_com_2023: string;
 };
 
 const toSinglePolygon = (positions: Position[]): Polygon => ({
@@ -37,12 +37,12 @@ const toPolygons = (existingQpvTransfer: (MultiPolygon | Polygon)[]): Polygon[] 
 const upsertQpvToShapesMap = (
   existingQpvTransfer: (MultiPolygon | Polygon)[],
   qpvShapesMap: Map<string, Polygon[]>,
-  { code_insee, geo_shape: shapeToAdd }: FieldsWithShape
+  { list_com_2023, geo_shape: shapeToAdd }: FieldsWithShape
 ): QpvShapesMap =>
   existingQpvTransfer.length === 0
-    ? qpvShapesMap.set(code_insee, polygonsFromShape(shapeToAdd))
+    ? qpvShapesMap.set(list_com_2023, polygonsFromShape(shapeToAdd))
     : qpvShapesMap.set(
-        code_insee,
+        list_com_2023,
         isPolygon(shapeToAdd)
           ? [...toPolygons(existingQpvTransfer), shapeToAdd]
           : [...toPolygons(existingQpvTransfer), ...multiPolygonToListOfPolygons(shapeToAdd)]
@@ -54,7 +54,7 @@ export const qpvShapesMapFromTransfer = (qpvTransfer: QpvTransfer[]): QpvShapesM
   qpvTransfer.reduce(
     (qpvShapesMap: QpvShapesMap, { fields }: QpvTransfer): QpvShapesMap =>
       hasGeoShape(fields)
-        ? upsertQpvToShapesMap(qpvShapesMap.get(fields.code_insee) ?? [], qpvShapesMap, fields)
+        ? upsertQpvToShapesMap(qpvShapesMap.get(fields.list_com_2023) ?? [], qpvShapesMap, fields)
         : qpvShapesMap,
     new Map<string, Polygon[]>()
   );

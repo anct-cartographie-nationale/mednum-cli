@@ -100,7 +100,7 @@ const fetchAccesLibreData = async (): Promise<string> =>
 const communesFromGeoAPI = async (): Promise<Commune[]> => (await axios.get('https://geo.api.gouv.fr/communes')).data;
 
 const QPVFromDataGouv = async (): Promise<QpvTransfer[]> =>
-  (await axios.get('https://www.data.gouv.fr/fr/datasets/r/14caff6e-2619-4127-8518-0c33560c5eb4')).data;
+  (await axios.get('https://www.data.gouv.fr/fr/datasets/r/90b18bce-ad62-40bd-bb8e-4ac9cf980c24')).data;
 
 const ZRRFromEquipementsSportsGouv = async (): Promise<ZrrTransfer[]> =>
   (
