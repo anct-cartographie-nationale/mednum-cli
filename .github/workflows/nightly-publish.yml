@@ -113,9 +113,10 @@ jobs:
         run: yarn publier.data-inclusion
 
       - name: Publish to database
-        uses: jakejarvis/s3-sync-action@v0.5.1
+        uses: kersvers/s3-sync-with-cloudfront-invalidation@v1.0.0
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+          DISTRIBUTION_ID: ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }}
           SOURCE_DIR: './assets/output/data-inclusion/dynamo-import'
