@@ -1,4 +1,4 @@
-import { ZrrMap } from '../../../fields';
+import { ZrrMap } from '../../fields';
 import { isInZrr } from './is-in-zrr';
 
 describe('in in zrr', (): void => {

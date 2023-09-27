@@ -8,4 +8,4 @@ export type QpvShapesMap = Map<
   }[]
 >;
 
-export type IsInQPV = (codeInsee: string, localisation: Localisation) => boolean;
+export type IsInQpv = (codeInsee: string, localisation: Localisation) => boolean;

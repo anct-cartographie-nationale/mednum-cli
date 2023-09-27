@@ -1,7 +1,7 @@
 import { Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Polygon } from '@turf/helpers/dist/js/lib/geojson';
-import { QpvShapesMap } from '../../../fields';
-import { isInQPV } from './is-in-qpv';
+import { QpvShapesMap } from '../../fields';
+import { isInQpv } from './is-in-qpv';
 
 const QPV_IN_01053_SHAPE: Polygon = {
   coordinates: [
@@ -58,7 +58,7 @@ describe('is in qpv', (): void => {
       ['02691', [QPV_1_IN_02691_SHAPE, QPV_2_IN_02691_SHAPE]]
     ]);
 
-    const result: boolean = isInQPV(qpvShapesMap)('01019', Localisation({ latitude: 0, longitude: 0 }));
+    const result: boolean = isInQpv(qpvShapesMap)('01019', Localisation({ latitude: 0, longitude: 0 }));
 
     expect(result).toBe(false);
   });
@@ -68,7 +68,7 @@ describe('is in qpv', (): void => {
       ['01053', [QPV_IN_01053_SHAPE]],
       ['02691', [QPV_1_IN_02691_SHAPE, QPV_2_IN_02691_SHAPE]]
     ]);
-    const result: boolean = isInQPV(qpvShapesMap)('01053', Localisation({ latitude: 46.204, longitude: 5.225 }));
+    const result: boolean = isInQpv(qpvShapesMap)('01053', Localisation({ latitude: 46.204, longitude: 5.225 }));
 
     expect(result).toBe(false);
   });
@@ -78,7 +78,7 @@ describe('is in qpv', (): void => {
       ['01053', [QPV_IN_01053_SHAPE]],
       ['02691', [QPV_1_IN_02691_SHAPE, QPV_2_IN_02691_SHAPE]]
     ]);
-    const result: boolean = isInQPV(qpvShapesMap)('02691', Localisation({ latitude: 49.83615, longitude: 3.3162 }));
+    const result: boolean = isInQpv(qpvShapesMap)('02691', Localisation({ latitude: 49.83615, longitude: 3.3162 }));
 
     expect(result).toBe(true);
   });
@@ -88,7 +88,7 @@ describe('is in qpv', (): void => {
       ['01053', [QPV_IN_01053_SHAPE]],
       ['02691', [QPV_1_IN_02691_SHAPE, QPV_2_IN_02691_SHAPE]]
     ]);
-    const result: boolean = isInQPV(qpvShapesMap)('02691', Localisation({ latitude: 49.8538, longitude: 3.2708 }));
+    const result: boolean = isInQpv(qpvShapesMap)('02691', Localisation({ latitude: 49.8538, longitude: 3.2708 }));
 
     expect(result).toBe(true);
   });
