@@ -1,6 +1,6 @@
 import { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { createHash } from 'crypto';
-import { sourceATransformer } from '../../data';
+import { sourceATransformer, sourcesFromCartographieNationaleApi } from '../../data';
 import { toLieuxMediationNumerique, validValuesOnly } from '../../input';
 import { writeErrorsOutputFiles, writeOutputFiles } from '../../output';
 import { Report } from '../../report';
@@ -24,11 +24,11 @@ const toLieuById = (
   lieu: LieuMediationNumerique
 ): Record<string, LieuMediationNumerique> => ({ ...lieuxById, [lieu.id]: lieu });
 
-const shouldAbortTransform = (source: string, transformerOptions: TransformerOptions): boolean => {
-  const previousSourceHash: string = 'f05b575b462a2cd6e5956ff5249acebfe120a7c05943fe41fcb85fe370667ca1';
+const shouldAbortTransform = async (source: string, transformerOptions: TransformerOptions): Promise<boolean> => {
+  const previousSourceHash: string | undefined = (await sourcesFromCartographieNationaleApi()).get(
+    transformerOptions.sourceName
+  );
   const sourceHash: string = createHash('sha256').update(source).digest('hex');
-  /* eslint-disable-next-line no-console */
-  console.log(transformerOptions.sourceName, sourceHash);
 
   return previousSourceHash === sourceHash;
 };
@@ -36,7 +36,7 @@ const shouldAbortTransform = (source: string, transformerOptions: TransformerOpt
 export const transformerAction = async (transformerOptions: TransformerOptions): Promise<void> => {
   const source: string = await sourceATransformer(transformerOptions);
 
-  if (shouldAbortTransform(source, transformerOptions)) return;
+  if (await shouldAbortTransform(source, transformerOptions)) return;
 
   const lieuxDeMediationNumeriqueTransformationRepository: LieuxDeMediationNumeriqueTransformationRepository =
     await lieuxDeMediationNumeriqueTransformation(transformerOptions);
