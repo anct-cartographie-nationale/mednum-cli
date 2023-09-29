@@ -46,7 +46,7 @@ export const writeMediationNumeriqueDynamoDBJsonOutput = (
   schemaLieuxDeMediationNumerique: SchemaLieuMediationNumerique[]
 ): void => {
   fs.writeFile(
-    `${createFolderIfNotExist(`${producer.path}/dynamo-import`)}/LieuxInclusionNumerique.json`,
+    `${createFolderIfNotExist(`${producer.path}/dynamo-import`)}/cartographie-nationale-lieux-inclusion-numerique.json`,
     JSON.stringify(fromSchemaLieuxDeMediationNumerique(schemaLieuxDeMediationNumerique), noEmptyCell),
     throwWriteFileError
   );
