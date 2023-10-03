@@ -238,6 +238,17 @@ const VERSAILLES: Commune = {
   population: 83583
 };
 
+const VILLEFRANCE_DE_ROUERGUE: Commune = {
+  nom: 'Villefranche-de-Rouergue',
+  code: '12300',
+  codeDepartement: '12',
+  siren: '211203005',
+  codeEpci: '200069383',
+  codeRegion: '76',
+  codesPostaux: ['12200'],
+  population: 11681
+};
+
 const COMMUNES: Commune[] = [
   BEGLES,
   BONNEVILLE_74,
@@ -257,7 +268,8 @@ const COMMUNES: Commune[] = [
   SAINT_LEONARD_DE_NOBLAT,
   SAINT_LAURENT_DE_CHAMOUSSET,
   SAINT_PAUL_TROIS_CHATEAUX,
-  VERSAILLES
+  VERSAILLES,
+  VILLEFRANCE_DE_ROUERGUE
 ];
 
 const FIND_COMMUNE: FindCommune = {
@@ -759,6 +771,23 @@ describe('adresse field', (): void => {
       code_postal: '51520',
       commune: 'Saint-Martin-sur-le-Pré',
       voie: '38 Rue des Dats'
+    });
+  });
+
+  it('should check if code postal is the good one', (): void => {
+    const source: DataSource = {
+      'Code postal': '12204',
+      'Ville *': 'Villefranche-de-Rouergue',
+      'Adresse postale *': 'Chemin de 13 pierres - BP 421'
+    };
+
+    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
+
+    expect(adresse).toStrictEqual({
+      code_postal: '12200',
+      code_insee: '12300',
+      commune: 'Villefranche-de-Rouergue',
+      voie: 'Chemin de 13 pierres - BP 421'
     });
   });
 });

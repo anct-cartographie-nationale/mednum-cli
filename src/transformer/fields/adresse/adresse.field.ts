@@ -25,13 +25,17 @@ export const complementAdresseIfAny = (complementAdresse?: string): { complement
 
 const codeInseeIfAny = (code_insee?: string): { code_insee?: string } => (code_insee == null ? {} : { code_insee });
 
+const normalizedCodePostalIfExist = (codePostal: string, normalizedCodePostaux: string[] = []): string | undefined =>
+  normalizedCodePostaux.includes(codePostal) ? codePostal : normalizedCodePostaux[0];
+
 const addressFields = (
   addressToNormalize: AddressToNormalize,
   commune: Commune | undefined,
   sourceAddress: SourceAddress
 ): Omit<Adresse, 'isAdresse'> => ({
   ...sourceAddress,
-  code_postal: (addressToNormalize.code_postal === '' ? commune?.codesPostaux[0] : addressToNormalize.code_postal) ?? '',
+  code_postal:
+    normalizedCodePostalIfExist(addressToNormalize.code_postal, commune?.codesPostaux) ?? addressToNormalize.code_postal,
   commune: commune?.nom ?? addressToNormalize.commune,
   ...codeInseeIfAny(commune?.code),
   voie: CLEAN_VOIE.reduce(toCleanField, sourceAddress.voie)
