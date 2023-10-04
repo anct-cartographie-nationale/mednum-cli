@@ -24,7 +24,7 @@ const isDefault = (choice: Choice<string>): boolean => choice.colonnes == null;
 const findAndAppendLabelsAutres =
   (choice: Choice<string>, source: DataSource) =>
   (labelsAutres: string[], colonne: string): string[] =>
-    containsOneOfTheTerms(choice, source[colonne]) ? appendLabelAutre(labelsAutres, choice.cible) : labelsAutres;
+    containsOneOfTheTerms(choice, source[colonne]?.toString()) ? appendLabelAutre(labelsAutres, choice.cible) : labelsAutres;
 
 const labelsAutresForTerms =
   (choice: Choice<string>, source: DataSource) =>
@@ -36,7 +36,7 @@ const labelsAutresForTerms =
 const toLabelAutreFrom =
   (source: DataSource) =>
   (columnName: string): string | undefined =>
-    source[columnName];
+    source[columnName]?.toString();
 
 const onlyDefined = (valueToBeDefined: string | undefined): valueToBeDefined is string => valueToBeDefined != null;
 

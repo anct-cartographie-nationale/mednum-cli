@@ -23,14 +23,16 @@ const getAccessibiliteFromAccesLibre = (
     .filter((erp: Erp): boolean => erp.postal_code === adresseProcessed.code_postal)
     .filter(
       (erp: Erp): boolean =>
-        ratio(source[matching.nom.colonne] ?? '', erp.name) >= 80 ||
+        ratio(source[matching.nom.colonne]?.toString() ?? '', erp.name) >= 80 ||
         ratio(adresseProcessed.voie, erp.numero.concat(' ', erp.voie)) >= 80
     );
 
   const accesLibreUrlByFuzzyMatch: string | undefined =
     erpMatchWithScores.length === 1 ? erpMatchWithScores[0]?.web_url : undefined;
   const currentPivot: string | undefined =
-    matching.pivot?.colonne != null && source[matching.pivot.colonne] !== '' ? source[matching.pivot.colonne] : undefined;
+    matching.pivot?.colonne != null && source[matching.pivot.colonne]?.toString() !== ''
+      ? source[matching.pivot.colonne]?.toString()
+      : undefined;
   const accesLibreUrlBySiretMatch: string | undefined =
     erpMatchWithScores.find((erp: Erp): boolean => erp.siret === currentPivot)?.web_url ?? undefined;
 
@@ -49,5 +51,5 @@ export const processAccessibilite = (
   adresseProcessed: Adresse
 ): Url | undefined =>
   canProcessAccessibilite(source, matching.accessibilite)
-    ? Url(source[matching.accessibilite.colonne] ?? '')
+    ? Url(source[matching.accessibilite.colonne]?.toString() ?? '')
     : getAccessibiliteFromAccesLibre(source, matching, accesLibreData, adresseProcessed);

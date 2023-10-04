@@ -30,9 +30,9 @@ const courrielField = (courriel?: string): Pick<Contact, 'courriel'> =>
 
 const toLieuxMediationNumeriqueContact = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Contact =>
   Contact({
-    ...(matching.telephone?.colonne == null ? {} : telephoneField(source[matching.telephone.colonne])),
-    ...(matching.site_web?.colonne == null ? {} : siteWebField(source[matching.site_web.colonne]?.toLowerCase())),
-    ...(matching.courriel?.colonne == null ? {} : courrielField(source[matching.courriel.colonne]))
+    ...(matching.telephone?.colonne == null ? {} : telephoneField(source[matching.telephone.colonne]?.toString())),
+    ...(matching.site_web?.colonne == null ? {} : siteWebField(source[matching.site_web.colonne]?.toString()?.toLowerCase())),
+    ...(matching.courriel?.colonne == null ? {} : courrielField(source[matching.courriel.colonne]?.toString()))
   });
 
 const testCleanSelector = (cleanOperation: CleanOperation, property?: string): boolean =>
@@ -101,7 +101,10 @@ const fixAndRetry =
   (recorder: Recorder) =>
   (source: DataSource, matching: LieuxMediationNumeriqueMatching, error: unknown): Contact =>
     retryOrThrow(recorder)(
-      cleanOperations(matching, source[matching.code_postal.colonne]).reduce(toFixedContact(recorder)(source), undefined),
+      cleanOperations(matching, source[matching.code_postal.colonne]?.toString()).reduce(
+        toFixedContact(recorder)(source),
+        undefined
+      ),
       matching,
       error
     );

@@ -24,7 +24,9 @@ const isDefault = (choice: Choice<PublicAccueilli>): boolean => choice.colonnes 
 const findAndAppendPublicAccueilli =
   (choice: Choice<PublicAccueilli>, source: DataSource) =>
   (publicsAccueillis: PublicAccueilli[], colonne: string): PublicAccueilli[] =>
-    containsOneOfTheTerms(choice, source[colonne]) ? appendPublicAccueilli(publicsAccueillis, choice.cible) : publicsAccueillis;
+    containsOneOfTheTerms(choice, source[colonne]?.toString())
+      ? appendPublicAccueilli(publicsAccueillis, choice.cible)
+      : publicsAccueillis;
 
 const publicsAccueilliForTerms =
   (choice: Choice<PublicAccueilli>, source: DataSource) =>

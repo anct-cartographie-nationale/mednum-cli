@@ -29,7 +29,7 @@ const isDefault = (choice: Choice<Typologie>): boolean => choice.colonnes == nul
 const findAndAppendTypologies =
   (choice: Choice<Typologie>, source: DataSource) =>
   (typologies: Typologie[], colonne: string): Typologie[] =>
-    containsOneOfTheTerms(choice, source[colonne]) ? appendTypologie(typologies, choice.cible) : typologies;
+    containsOneOfTheTerms(choice, source[colonne]?.toString()) ? appendTypologie(typologies, choice.cible) : typologies;
 
 const typologiesForTerms =
   (choice: Choice<Typologie>, source: DataSource) =>
@@ -46,7 +46,7 @@ const appendTypologies =
 const matchWithName =
   (source: DataSource, matching: LieuxMediationNumeriqueMatching) =>
   (hasMatch: boolean, regExp: RegExp): boolean =>
-    hasMatch || regExp.test(source[matching.nom.colonne] ?? '');
+    hasMatch || regExp.test(source[matching.nom.colonne]?.toString() ?? '');
 
 const toTypologieMatchingName =
   (source: DataSource, matching: LieuxMediationNumeriqueMatching) =>

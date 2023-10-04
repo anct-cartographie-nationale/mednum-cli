@@ -114,11 +114,12 @@ const lieuDeMediationNumerique = (
   return lieuMediationNumerique;
 };
 
-export const validValuesOnly = (lieuDeMediationNumeriqueToValidate?: LieuMediationNumerique): boolean =>
-  lieuDeMediationNumeriqueToValidate != null;
+export const validValuesOnly = (
+  lieuDeMediationNumeriqueToValidate?: LieuMediationNumerique
+): lieuDeMediationNumeriqueToValidate is LieuMediationNumerique => lieuDeMediationNumeriqueToValidate != null;
 
 const entryIdentification = (dataSource: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
-  dataSource[matching.nom.colonne] ?? '';
+  dataSource[matching.nom.colonne]?.toString() ?? '';
 
 export const toLieuxMediationNumerique =
   (
@@ -126,11 +127,11 @@ export const toLieuxMediationNumerique =
     sourceName: string,
     report: Report
   ) =>
-  (dataSource: DataSource, index: number): LieuMediationNumerique | undefined => {
+  (dataSource: unknown, index: number): LieuMediationNumerique | undefined => {
     try {
       return lieuDeMediationNumerique(
         index,
-        dataSource,
+        dataSource as DataSource,
         sourceName,
         lieuxDeMediationNumeriqueTransformationRepository.config,
         report.entry(index),
@@ -152,7 +153,7 @@ export const toLieuxMediationNumerique =
           .record(
             error.key,
             error.message,
-            entryIdentification(dataSource, lieuxDeMediationNumeriqueTransformationRepository.config)
+            entryIdentification(dataSource as DataSource, lieuxDeMediationNumeriqueTransformationRepository.config)
           )
           .commit();
         return undefined;

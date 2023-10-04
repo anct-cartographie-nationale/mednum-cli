@@ -67,7 +67,7 @@ export const processAdresse =
   (source: DataSource, matching: LieuxMediationNumeriqueMatching): Adresse =>
     normalizeAddress(findCommune)({
       voie: voieField(source, matching.adresse),
-      commune: source[matching.commune.colonne],
-      code_postal: source[matching.code_postal.colonne],
-      ...complementAdresseIfAny(source[matching.complement_adresse?.colonne ?? ''])
+      commune: source[matching.commune.colonne]?.toString(),
+      code_postal: source[matching.code_postal.colonne]?.toString(),
+      ...complementAdresseIfAny(source[matching.complement_adresse?.colonne ?? '']?.toString())
     });

@@ -9,7 +9,7 @@ import {
   Typologie
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 
-export type DataSource = Record<string, string>;
+export type DataSource = Record<string, unknown>;
 
 export type Colonne = {
   colonne: string;

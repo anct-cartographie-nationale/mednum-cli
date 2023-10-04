@@ -1,12 +1,10 @@
 import { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { createHash } from 'crypto';
-import { sourceATransformer, sourcesFromCartographieNationaleApi } from '../../data';
-import { toLieuxMediationNumerique, validValuesOnly } from '../../input';
-import { writeErrorsOutputFiles, writeOutputFiles } from '../../output';
+import { sourceATransformer } from '../../data';
+import { DataSource, toLieuxMediationNumerique, validValuesOnly } from '../../input';
 import { Report } from '../../report';
 import { LieuxDeMediationNumeriqueTransformationRepository } from '../../repositories';
+import { canTransform, DiffSinceLastTransform } from '../diff-since-last-transform';
 import { TransformerOptions } from '../transformer-options';
-import { keepOneEntryPerSource } from './duplicates-same-source/duplicates-same-source';
 import { lieuxDeMediationNumeriqueTransformation } from './lieux-inclusion-numerique-transformation';
 
 /* eslint-disable-next-line @typescript-eslint/no-restricted-imports, @typescript-eslint/naming-convention, @typescript-eslint/typedef, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
@@ -14,50 +12,51 @@ const flatten = require('flat');
 
 const REPORT: Report = Report();
 
-const replaceNullWithEmptyString = (jsonString: string): string => {
-  const replacer = (_: string, values?: string): string => values ?? '';
-  return JSON.stringify(JSON.parse(jsonString), replacer);
-};
-
 const toLieuById = (
   lieuxById: Record<string, LieuMediationNumerique>,
   lieu: LieuMediationNumerique
 ): Record<string, LieuMediationNumerique> => ({ ...lieuxById, [lieu.id]: lieu });
 
-const shouldAbortTransform = async (source: string, transformerOptions: TransformerOptions): Promise<boolean> => {
-  const previousSourceHash: string | undefined = (await sourcesFromCartographieNationaleApi()).get(
-    transformerOptions.sourceName
-  );
-  const sourceHash: string = createHash('sha256').update(source).digest('hex');
-
-  return previousSourceHash === sourceHash;
+const replaceNullWithEmptyString = (jsonString: string): string => {
+  const replacer = (_: string, values?: string): string => values ?? '';
+  return JSON.stringify(JSON.parse(jsonString), replacer);
 };
 
+const lieuxToTransform = (sourceItems: DataSource[], diffSinceLastTransform: DiffSinceLastTransform): DataSource[] =>
+  canTransform(diffSinceLastTransform) ? diffSinceLastTransform.toUpsert : sourceItems;
+
+// const shouldAbortTransform = async (source: string, transformerOptions: TransformerOptions): Promise<boolean> => {
+//   const previousSourceHash: string | undefined = (await sourcesFromCartographieNationaleApi()).get(
+//     transformerOptions.sourceName
+//   );
+//   const sourceHash: string = createHash('sha256').update(source).digest('hex');
+//
+//   return previousSourceHash === sourceHash;
+// };
+
+const nothingToTransform = (itemsToTransform: DiffSinceLastTransform): boolean =>
+  canTransform(itemsToTransform) && itemsToTransform.toDelete.length === 0 && itemsToTransform.toUpsert.length === 0;
+
+/* eslint-disable-next-line max-statements */
 export const transformerAction = async (transformerOptions: TransformerOptions): Promise<void> => {
-  const source: string = await sourceATransformer(transformerOptions);
+  const sourceItems: DataSource[] = JSON.parse(replaceNullWithEmptyString(await sourceATransformer(transformerOptions)));
 
-  if (await shouldAbortTransform(source, transformerOptions)) return;
+  const repository: LieuxDeMediationNumeriqueTransformationRepository = await lieuxDeMediationNumeriqueTransformation(
+    transformerOptions
+  );
 
-  const lieuxDeMediationNumeriqueTransformationRepository: LieuxDeMediationNumeriqueTransformationRepository =
-    await lieuxDeMediationNumeriqueTransformation(transformerOptions);
+  const diffSinceLastTransform: DiffSinceLastTransform = repository.diffSinceLastTransform(sourceItems);
+  const lieux: DataSource[] = lieuxToTransform(sourceItems, diffSinceLastTransform);
 
-  const lieuxDeMediationNumeriqueFiltered: Record<string, LieuMediationNumerique> = JSON.parse(
-    replaceNullWithEmptyString(source)
-  )
+  if (nothingToTransform(diffSinceLastTransform)) return;
+
+  const lieuxDeMediationNumeriqueFiltered: Record<string, LieuMediationNumerique> = lieux
     .map(flatten)
-    .map(toLieuxMediationNumerique(lieuxDeMediationNumeriqueTransformationRepository, transformerOptions.sourceName, REPORT))
+    .map(toLieuxMediationNumerique(repository, transformerOptions.sourceName, REPORT))
     .filter(validValuesOnly)
     .reduce(toLieuById, {});
 
-  writeErrorsOutputFiles({
-    path: transformerOptions.outputDirectory,
-    name: transformerOptions.sourceName,
-    territoire: transformerOptions.territory
-  })(REPORT);
-
-  writeOutputFiles({
-    path: transformerOptions.outputDirectory,
-    name: transformerOptions.sourceName,
-    territoire: transformerOptions.territory
-  })(keepOneEntryPerSource(Object.values(lieuxDeMediationNumeriqueFiltered)));
+  repository.writeErrors(REPORT);
+  repository.writeOutputs(lieuxDeMediationNumeriqueFiltered);
+  repository.writeFingerprints(diffSinceLastTransform);
 };
