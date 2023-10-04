@@ -20,8 +20,8 @@ const DUPLICATION_COMPARISON_HEADINGS: string = [
 const duplicationComparisonLineFor = (duplicationComparison: DuplicationComparison): string =>
   [
     duplicationComparison.score,
-    duplicationComparison.typologie1,
-    duplicationComparison.typologie2,
+    duplicationComparison.typologie1?.replace(';', ','),
+    duplicationComparison.typologie2?.replace(';', ','),
     duplicationComparison.nomScore,
     duplicationComparison.nom1.replace(';', ''),
     duplicationComparison.nom2.replace(';', ''),
@@ -36,9 +36,4 @@ const duplicationComparisonLineFor = (duplicationComparison: DuplicationComparis
   ].join(';');
 
 export const formatToCSV = (duplicationComparisons: DuplicationComparison[]): string =>
-  [
-    DUPLICATION_COMPARISON_HEADINGS,
-    ...duplicationComparisons.map((duplicationComparison: DuplicationComparison): string =>
-      duplicationComparisonLineFor(duplicationComparison)
-    )
-  ].join('\n');
+  [DUPLICATION_COMPARISON_HEADINGS, ...duplicationComparisons.map(duplicationComparisonLineFor)].join('\n');
