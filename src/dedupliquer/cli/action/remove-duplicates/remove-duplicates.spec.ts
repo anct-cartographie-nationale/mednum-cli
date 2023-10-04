@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
 import {
-  ConditionAcces,
-  LabelNational,
   ModaliteAccompagnement,
-  PublicAccueilli,
   SchemaLieuMediationNumerique,
   Service,
-  Typologie
+  LabelNational,
+  ConditionAcces,
+  Typologie,
+  PublicAccueilli
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { removeDuplicates } from './remove-duplicates';
+import { findGroups, Group, removeDuplicates } from './remove-duplicates';
 
 describe('remove duplicates', (): void => {
   it('should not remove lieux when there is no duplicates', (): void => {
@@ -972,6 +972,156 @@ describe('remove duplicates', (): void => {
         source: 'conseiller-numerique',
         labels_nationaux: `${LabelNational.FranceServices};${LabelNational.CNFS};${LabelNational.APTIC}`
       } as SchemaLieuMediationNumerique
+    ]);
+  });
+
+  it('should not have any group when there is no duplicated lieux', (): void => {
+    const lieux: SchemaLieuMediationNumerique[] = [
+      {
+        id: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
+        pivot: '00000000000000',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'Durtal',
+        latitude: 47.6699154795,
+        longitude: -0.2551539846,
+        date_maj: '2023-05-03',
+        source: 'hinaura',
+        services: `${Service.RealiserDesDemarchesAdministratives}`
+      }
+    ];
+
+    const groups: Group[] = findGroups(new Date('2023-10-04'))(lieux);
+
+    expect(groups).toStrictEqual([]);
+  });
+
+  it('should have one group when there is two duplicated lieux', (): void => {
+    const lieux: SchemaLieuMediationNumerique[] = [
+      {
+        id: 'mediation-numerique-res-in-199-mediation-numerique',
+        pivot: '00000000000000',
+        nom: 'France Service Grenoble',
+        adresse: 'Place Robert Schumann',
+        code_postal: '38000',
+        commune: 'Grenoble',
+        latitude: 45.187654,
+        longitude: 5.704953,
+        date_maj: '2022-02-20',
+        source: 'res-in',
+        services: `${Service.CreerAvecLeNumerique}`
+      },
+      {
+        id: 'mediation-numerique-hub-lo-918-mediation-numerique',
+        pivot: '00000000000000',
+        nom: 'Maison France Services',
+        adresse: '4 Place Robert Schumann',
+        code_postal: '38000',
+        commune: 'GRENOBLE',
+        latitude: 45.187654,
+        longitude: 5.704953,
+        date_maj: '2019-11-12',
+        source: 'hub-lo',
+        services: `${Service.CreerAvecLeNumerique}`
+      }
+    ];
+
+    const groups: Group[] = findGroups(new Date('2023-10-04'))(lieux);
+
+    expect(groups).toStrictEqual([
+      {
+        id: '0',
+        lieuxIds: ['mediation-numerique-hub-lo-918-mediation-numerique', 'mediation-numerique-res-in-199-mediation-numerique']
+      }
+    ]);
+  });
+
+  it('should have two groups when there is multiple duplicated lieux for two final lieux', (): void => {
+    const lieux: SchemaLieuMediationNumerique[] = [
+      {
+        id: 'mediation-numerique-hinaura-MairiE2-mediation-numerique',
+        pivot: '00000000000000',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'Durtal',
+        latitude: 47.6699154795,
+        longitude: -0.2551539846,
+        date_maj: '2023-05-03',
+        source: 'hinaura',
+        services: `${Service.RealiserDesDemarchesAdministratives}`
+      },
+      {
+        id: 'mediation-numerique-hub-lo-333-mediation-numerique',
+        pivot: '00000000000000',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'DURTAL',
+        latitude: 47.671271,
+        longitude: -0.256457,
+        date_maj: '2023-01-16',
+        source: 'hub-lo',
+        courriel: 'commune-de-durtal@france-services.fr',
+        services: `${Service.DevenirAutonomeDansLesDemarchesAdministratives}`
+      },
+      {
+        id: 'mediation-numerique-res-in-201-mediation-numerique',
+        pivot: '00000000000000',
+        nom: 'France Services Durtal',
+        adresse: '11 rue Joseph Cugnot',
+        code_postal: '49430',
+        commune: 'DURTAL',
+        latitude: 47.671271,
+        longitude: -0.256457,
+        date_maj: '2022-01-16',
+        source: 'res-in',
+        services: `${Service.CreerAvecLeNumerique}`
+      },
+      {
+        id: 'mediation-numerique-res-in-199-mediation-numerique',
+        pivot: '00000000000000',
+        nom: 'France Service Grenoble',
+        adresse: 'Place Robert Schumann',
+        code_postal: '38000',
+        commune: 'Grenoble',
+        latitude: 45.187654,
+        longitude: 5.704953,
+        date_maj: '2022-02-20',
+        source: 'res-in',
+        services: `${Service.CreerAvecLeNumerique}`
+      },
+      {
+        id: 'mediation-numerique-hub-lo-918-mediation-numerique',
+        pivot: '00000000000000',
+        nom: 'Maison France Services',
+        adresse: '4 Place Robert Schumann',
+        code_postal: '38000',
+        commune: 'GRENOBLE',
+        latitude: 45.187654,
+        longitude: 5.704953,
+        date_maj: '2019-11-12',
+        source: 'hub-lo',
+        services: `${Service.CreerAvecLeNumerique}`
+      }
+    ];
+
+    const groups: Group[] = findGroups(new Date('2023-10-04'))(lieux);
+
+    expect(groups).toStrictEqual([
+      {
+        id: '1',
+        lieuxIds: ['mediation-numerique-hub-lo-918-mediation-numerique', 'mediation-numerique-res-in-199-mediation-numerique']
+      },
+      {
+        id: '0',
+        lieuxIds: [
+          'mediation-numerique-res-in-201-mediation-numerique',
+          'mediation-numerique-hub-lo-333-mediation-numerique',
+          'mediation-numerique-hinaura-MairiE2-mediation-numerique'
+        ]
+      }
     ]);
   });
 });
