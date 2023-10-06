@@ -1,5 +1,6 @@
 import { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { sourceATransformer } from '../../data';
+import { createHash } from 'crypto';
+import { sourceATransformer, sourcesFromCartographieNationaleApi, updateSourceWithCartographieNationaleApi } from '../../data';
 import { DataSource, toLieuxMediationNumerique, validValuesOnly } from '../../input';
 import { Report } from '../../report';
 import { LieuxDeMediationNumeriqueTransformationRepository } from '../../repositories';
@@ -25,21 +26,22 @@ const replaceNullWithEmptyString = (jsonString: string): string => {
 const lieuxToTransform = (sourceItems: DataSource[], diffSinceLastTransform: DiffSinceLastTransform): DataSource[] =>
   canTransform(diffSinceLastTransform) ? diffSinceLastTransform.toUpsert : sourceItems;
 
-// const shouldAbortTransform = async (source: string, transformerOptions: TransformerOptions): Promise<boolean> => {
-//   const previousSourceHash: string | undefined = (await sourcesFromCartographieNationaleApi()).get(
-//     transformerOptions.sourceName
-//   );
-//   const sourceHash: string = createHash('sha256').update(source).digest('hex');
-//
-//   return previousSourceHash === sourceHash;
-// };
-
 const nothingToTransform = (itemsToTransform: DiffSinceLastTransform): boolean =>
   canTransform(itemsToTransform) && itemsToTransform.toDelete.length === 0 && itemsToTransform.toUpsert.length === 0;
 
-/* eslint-disable-next-line max-statements */
+/* eslint-disable-next-line max-statements, max-lines-per-function */
 export const transformerAction = async (transformerOptions: TransformerOptions): Promise<void> => {
-  const sourceItems: DataSource[] = JSON.parse(replaceNullWithEmptyString(await sourceATransformer(transformerOptions)));
+  const source: string = await sourceATransformer(transformerOptions);
+
+  const previousSourceHash: string | undefined = (await sourcesFromCartographieNationaleApi(transformerOptions)).get(
+    transformerOptions.sourceName
+  );
+
+  const sourceHash: string = createHash('sha256').update(source).digest('hex');
+
+  if (previousSourceHash === sourceHash) return;
+
+  const sourceItems: DataSource[] = JSON.parse(replaceNullWithEmptyString(source));
 
   const repository: LieuxDeMediationNumeriqueTransformationRepository = await lieuxDeMediationNumeriqueTransformation(
     transformerOptions
@@ -59,4 +61,9 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
   repository.writeErrors(REPORT);
   repository.writeOutputs(lieuxDeMediationNumeriqueFiltered);
   repository.writeFingerprints(diffSinceLastTransform);
+
+  await updateSourceWithCartographieNationaleApi(transformerOptions)({
+    name: transformerOptions.sourceName,
+    hash: sourceHash
+  });
 };

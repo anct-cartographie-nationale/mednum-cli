@@ -2,8 +2,8 @@
 
 import { SourceMap, sourceMapFromTransfer, SourceTransfer } from './source.transfer';
 
-describe('zrr transfer', (): void => {
-  it('should not get any zrr in map when transfer is empty', (): void => {
+describe('source transfer', (): void => {
+  it('should transform empty source transfer to empty source map', (): void => {
     const transfer: SourceTransfer[] = [];
 
     const sourceMap: SourceMap = sourceMapFromTransfer(transfer);
@@ -11,7 +11,7 @@ describe('zrr transfer', (): void => {
     expect(sourceMap).toStrictEqual(new Map<string, string>());
   });
 
-  it('should get true for code Insee 01080 that is ZRR', (): void => {
+  it('should transform source transfer to source map with one item indexed by name', (): void => {
     const transfer: SourceTransfer[] = [
       {
         name: 'Hinaura',

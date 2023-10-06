@@ -6,7 +6,8 @@ import {
   sourceOption,
   sourceNameOption,
   encodingOption,
-  delimiterOption
+  delimiterOption,
+  apiKeyOption
 } from './options';
 import { configFileQuestion, outputDirectoryQuestion, sourceQuestion, sourceNameQuestion } from './questions';
 import { territoryOption } from './options/territory.option';
@@ -20,6 +21,8 @@ export type TransformerOptions = {
   territory: string;
   encoding?: string;
   delimiter?: string;
+  cartographieNationaleApiUrl?: string;
+  cartographieNationaleApiKey?: string;
 };
 
 export const TRANSFORMER_OPTIONS: ((program: Command) => Command)[] = [
@@ -29,7 +32,8 @@ export const TRANSFORMER_OPTIONS: ((program: Command) => Command)[] = [
   sourceNameOption,
   territoryOption,
   encodingOption,
-  delimiterOption
+  delimiterOption,
+  apiKeyOption
 ];
 
 export const transformerOptionsQuestions = (transformerOptions: TransformerOptions): Question[] => [
@@ -39,3 +43,14 @@ export const transformerOptionsQuestions = (transformerOptions: TransformerOptio
   sourceNameQuestion(transformerOptions),
   territoryQuestion(transformerOptions)
 ];
+
+const cartographieNationaleApiUrlIfAny = (cartographieNationaleApiUrl?: string): { cartographieNationaleApiUrl?: string } =>
+  cartographieNationaleApiUrl == null ? {} : { cartographieNationaleApiUrl };
+
+const cartographieNationaleApiKeyIfAny = (cartographieNationaleApiKey?: string): { cartographieNationaleApiKey?: string } =>
+  cartographieNationaleApiKey == null ? {} : { cartographieNationaleApiKey };
+
+export const toTransformerOptions = (environment: Record<string, string | undefined>): Partial<TransformerOptions> => ({
+  ...cartographieNationaleApiUrlIfAny(environment['CARTOGRAPHIE_NATIONALE_API_URL']),
+  ...cartographieNationaleApiKeyIfAny(environment['CARTOGRAPHIE_NATIONALE_API_KEY'])
+});
