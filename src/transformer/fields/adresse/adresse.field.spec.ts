@@ -767,7 +767,7 @@ describe('adresse field', (): void => {
       'Adresse postale *': 'Chemin de 13 pierres - BP 421'
     };
 
-    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_postal: '12200',
