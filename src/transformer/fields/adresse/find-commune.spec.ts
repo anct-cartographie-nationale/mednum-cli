@@ -1,11 +1,4 @@
-import {
-  Commune,
-  communeParCodePostal,
-  communeParNom,
-  communeParNomEtCodePostal,
-  communesParCodePostalMap,
-  communesParNomMap
-} from './find-commune';
+import { Commune, findCommune } from './find-commune';
 
 const BEGLES: Commune = {
   nom: 'Bègles',
@@ -73,17 +66,6 @@ const CHALUS_63: Commune = {
   population: 182
 };
 
-const CHALUS_87: Commune = {
-  nom: 'Châlus',
-  code: '87032',
-  codeDepartement: '87',
-  siren: '218703205',
-  codeEpci: '200070506',
-  codeRegion: '75',
-  codesPostaux: ['87230'],
-  population: 1647
-};
-
 const ETREUX: Commune = {
   nom: 'Étreux',
   code: '02298',
@@ -128,83 +110,11 @@ const MARCQ_EN_BAROEUL: Commune = {
   population: 38604
 };
 
-const SAINT_CLEMENT_LES_PLACES: Commune = {
-  nom: 'Saint-Clément-les-Places',
-  code: '69187',
-  codeDepartement: '69',
-  siren: '216901876',
-  codeEpci: '200066587',
-  codeRegion: '84',
-  codesPostaux: ['69930'],
-  population: 653
-};
-
-const SAINT_LAURENT_DE_CHAMOUSSET: Commune = {
-  nom: 'Saint-Laurent-de-Chamousset',
-  code: '69220',
-  codeDepartement: '69',
-  siren: '216902205',
-  codeEpci: '200066587',
-  codeRegion: '84',
-  codesPostaux: ['69930'],
-  population: 1798
-};
-
 describe('find commune', (): void => {
-  it('should get communes indexed by name', (): void => {
-    const communes: Commune[] = [BEGLES, CHALUS_63, ETREUX];
-
-    expect(communesParNomMap(communes)).toStrictEqual<Map<string, Commune>>(
-      new Map<string, Commune>([
-        ['begles', BEGLES],
-        ['chalus', CHALUS_63],
-        ['etreux', ETREUX]
-      ])
-    );
-  });
-
-  it('should get communes indexed by name only for communes that have different names', (): void => {
-    const communes: Commune[] = [CHALUS_63, CHALUS_87];
-
-    expect(communesParNomMap(communes)).toStrictEqual<Map<string, Commune>>(new Map<string, Commune>());
-  });
-
-  it('should get communes indexed by code postal', (): void => {
-    const communes: Commune[] = [BEGLES, CHALUS_63, ETREUX];
-
-    expect(communesParCodePostalMap(communes)).toStrictEqual<Map<string, Commune>>(
-      new Map<string, Commune>([
-        ['33130', BEGLES],
-        ['63340', CHALUS_63],
-        ['02510', ETREUX]
-      ])
-    );
-  });
-
-  it('should get multiple times the same commune when it has multiple code postal', (): void => {
-    const communes: Commune[] = [GRENOBLE, BEGLES, CHALUS_63, ETREUX];
-
-    expect(communesParCodePostalMap(communes)).toStrictEqual<Map<string, Commune>>(
-      new Map<string, Commune>([
-        ['38000', GRENOBLE],
-        ['38100', GRENOBLE],
-        ['33130', BEGLES],
-        ['63340', CHALUS_63],
-        ['02510', ETREUX]
-      ])
-    );
-  });
-
-  it('should get communes indexed by code postal only for communes that have different code postal', (): void => {
-    const communes: Commune[] = [SAINT_CLEMENT_LES_PLACES, SAINT_LAURENT_DE_CHAMOUSSET];
-
-    expect(communesParCodePostalMap(communes)).toStrictEqual<Map<string, Commune>>(new Map<string, Commune>());
-  });
-
   it('should get commune by code postal', (): void => {
     const communes: Commune[] = [GRENOBLE, BEGLES, CHALUS_63, ETREUX];
 
-    const commune: Commune | undefined = communeParCodePostal(communesParCodePostalMap(communes))('63340');
+    const commune: Commune | undefined = findCommune(communes).parCodePostal('63340');
 
     expect(commune).toStrictEqual<Commune>(CHALUS_63);
   });
@@ -212,7 +122,7 @@ describe('find commune', (): void => {
   it('should get commune by name', (): void => {
     const communes: Commune[] = [GRENOBLE, BEGLES, CHALUS_63, ETREUX];
 
-    const commune: Commune | undefined = communeParNom(communesParNomMap(communes))(CHALUS_63.nom);
+    const commune: Commune | undefined = findCommune(communes).parNom(CHALUS_63.nom);
 
     expect(commune).toStrictEqual<Commune>(CHALUS_63);
   });
@@ -220,7 +130,7 @@ describe('find commune', (): void => {
   it('should get commune by name and by code postal', (): void => {
     const communes: Commune[] = [BRIZON, BONNEVILLE_80, BONNEVILLE_74];
 
-    const commune: Commune | undefined = communeParNomEtCodePostal(communes)(BONNEVILLE_74.nom, '74130');
+    const commune: Commune | undefined = findCommune(communes).parNomEtCodePostal(BONNEVILLE_74.nom, '74130');
 
     expect(commune).toStrictEqual<Commune>(BONNEVILLE_74);
   });
@@ -228,7 +138,7 @@ describe('find commune', (): void => {
   it('should get commune by name and by code postal event if nom is a shorten version of official commune name', (): void => {
     const communes: Commune[] = [BRIZON, BONNEVILLE_80, BONNEVILLE_74];
 
-    const commune: Commune | undefined = communeParNomEtCodePostal(communes)('bonnevill', '74130');
+    const commune: Commune | undefined = findCommune(communes).parNomEtCodePostal('bonnevill', '74130');
 
     expect(commune).toStrictEqual<Commune>(BONNEVILLE_74);
   });
@@ -236,7 +146,7 @@ describe('find commune', (): void => {
   it('should not get commune by short name and by code postal if there is another commune with the same short name ans the same code postal', (): void => {
     const communes: Commune[] = [BRIZON, BONNEVILLE_80, BONNEVILLE_74, BONNE];
 
-    const commune: Commune | undefined = communeParNomEtCodePostal(communes)('bonne', '74130');
+    const commune: Commune | undefined = findCommune(communes).parNomEtCodePostal('bonne', '74130');
 
     expect(commune).toStrictEqual<Commune>(BONNE);
   });
@@ -244,7 +154,7 @@ describe('find commune', (): void => {
   it('should get commune by name and by code postal event if nom is an expanded version of official commune name', (): void => {
     const communes: Commune[] = [BRIZON, BONNEVILLE_80, BONNEVILLE_74];
 
-    const commune: Commune | undefined = communeParNomEtCodePostal(communes)('bonneville-trois-monts', '74130');
+    const commune: Commune | undefined = findCommune(communes).parNomEtCodePostal('bonneville-trois-monts', '74130');
 
     expect(commune).toStrictEqual<Commune>(BONNEVILLE_74);
   });
@@ -252,7 +162,7 @@ describe('find commune', (): void => {
   it('should get commune by name when apostrophe is missing', (): void => {
     const communes: Commune[] = [L_ARBRESLE];
 
-    const commune: Commune | undefined = communeParNom(communesParNomMap(communes))('L ARBRESLE');
+    const commune: Commune | undefined = findCommune(communes).parNom('L ARBRESLE');
 
     expect(commune).toStrictEqual<Commune>(L_ARBRESLE);
   });
@@ -260,7 +170,7 @@ describe('find commune', (): void => {
   it('should get commune by name when it constains œ', (): void => {
     const communes: Commune[] = [MARCQ_EN_BAROEUL];
 
-    const commune: Commune | undefined = communeParNom(communesParNomMap(communes))('Marcq-en-Baroeul');
+    const commune: Commune | undefined = findCommune(communes).parNom('Marcq-en-Baroeul');
 
     expect(commune).toStrictEqual<Commune>(MARCQ_EN_BAROEUL);
   });

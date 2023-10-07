@@ -22,7 +22,9 @@ const isDefault = (choice: Choice<LabelNational>): boolean => choice.colonnes ==
 const findAndAppendLabelsNationaux =
   (choice: Choice<LabelNational>, source: DataSource) =>
   (labelsNationaux: LabelNational[], colonne: string): LabelNational[] =>
-    containsOneOfTheTerms(choice, source[colonne]) ? appendLabelNational(labelsNationaux, choice.cible) : labelsNationaux;
+    containsOneOfTheTerms(choice, source[colonne]?.toString())
+      ? appendLabelNational(labelsNationaux, choice.cible)
+      : labelsNationaux;
 
 const labelsNationauxForTerms =
   (choice: Choice<LabelNational>, source: DataSource) =>

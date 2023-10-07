@@ -55,24 +55,24 @@ const toCommunesByCodePostalMap =
   (communesByCodePostalMap: Map<string, Commune>, commune: Commune): Map<string, Commune> =>
     commune.codesPostaux.reduce(toEveryCodePostalFromCommuneMap(codesPostauxCountMap, commune), communesByCodePostalMap);
 
-export const communesParNomMap = (communes: Commune[]): Map<string, Commune> =>
+const communesParNomMap = (communes: Commune[]): Map<string, Commune> =>
   communes.reduce(
     toCommuneByNameMap(communes.reduce(toCommunesCountMap, new Map<string, number>())),
     new Map<string, Commune>()
   );
 
-export const communesParCodePostalMap = (communes: Commune[]): Map<string, Commune> =>
+const communesParCodePostalMap = (communes: Commune[]): Map<string, Commune> =>
   communes.reduce(
     toCommunesByCodePostalMap(communes.reduce(toCodePostalCountMap, new Map<string, number>())),
     new Map<string, Commune>()
   );
 
-export const communeParCodePostal =
+const communeParCodePostal =
   (communesByCodePostalMap: Map<string, Commune>) =>
   (codePostal: string): Commune | undefined =>
     communesByCodePostalMap.get(codePostal);
 
-export const communeParNom =
+const communeParNom =
   (communesByNameMap: Map<string, Commune>) =>
   (nom: string): Commune | undefined =>
     communesByNameMap.get(slugify(nom));
@@ -91,8 +91,14 @@ const codePostalExactEtNomAvecMemeDebut =
     commune.codesPostaux.includes(codePostal) &&
     (slugify(commune.nom).startsWith(slugify(nom)) || slugify(nom).startsWith(slugify(commune.nom)));
 
-export const communeParNomEtCodePostal =
+const communeParNomEtCodePostal =
   (communes: Commune[]) =>
   (nom: string, codePostal: string): Commune | undefined =>
     communes.find(codePostalEtNomExactes(codePostal, nom)) ??
     communeUniqueOuRien(communes.filter(codePostalExactEtNomAvecMemeDebut(codePostal, nom)));
+
+export const findCommune = (communes: Commune[]): FindCommune => ({
+  parNom: communeParNom(communesParNomMap(communes)),
+  parCodePostal: communeParCodePostal(communesParCodePostalMap(communes)),
+  parNomEtCodePostal: communeParNomEtCodePostal(communes)
+});

@@ -20,7 +20,7 @@ import { Recorder, Report } from '../report';
 import {
   Erp,
   FindCommune,
-  IsInQPV,
+  IsInQpv,
   IsInZrr,
   processAccessibilite,
   processAdresse,
@@ -42,6 +42,7 @@ import {
   processSource,
   processTypologies
 } from '../fields';
+import { LieuxDeMediationNumeriqueTransformationRepository } from '../repositories';
 import { DataSource, LieuxMediationNumeriqueMatching } from './lieux-mediation-numerique-matching';
 
 const localisationIfAny = (localisation?: Localisation): { localisation?: Localisation } =>
@@ -81,7 +82,7 @@ const lieuDeMediationNumerique = (
   recorder: Recorder,
   accesLibreData: Erp[],
   findCommune: FindCommune,
-  isInQpv: IsInQPV,
+  isInQpv: IsInQpv,
   isInZrr: IsInZrr
 ): LieuMediationNumerique => {
   const adresse: Adresse = processAdresse(findCommune)(dataSource, matching);
@@ -113,36 +114,31 @@ const lieuDeMediationNumerique = (
   return lieuMediationNumerique;
 };
 
-export const validValuesOnly = (lieuDeMediationNumeriqueToValidate?: LieuMediationNumerique): boolean =>
-  lieuDeMediationNumeriqueToValidate != null;
+export const validValuesOnly = (
+  lieuDeMediationNumeriqueToValidate?: LieuMediationNumerique
+): lieuDeMediationNumeriqueToValidate is LieuMediationNumerique => lieuDeMediationNumeriqueToValidate != null;
 
-const entryIdentification = (dataSource: DataSource, matching: string): string =>
-  (dataSource[JSON.parse(matching).nom.colonne] === ''
-    ? dataSource[JSON.parse(matching).id.colonne]
-    : dataSource[JSON.parse(matching).nom.colonne]) ?? '';
+const entryIdentification = (dataSource: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
+  dataSource[matching.nom.colonne]?.toString() ?? '';
 
 export const toLieuxMediationNumerique =
   (
-    matching: string,
+    lieuxDeMediationNumeriqueTransformationRepository: LieuxDeMediationNumeriqueTransformationRepository,
     sourceName: string,
-    report: Report,
-    accesLibreData: Erp[],
-    findCommune: FindCommune,
-    isInQpv: IsInQPV,
-    isInZrr: IsInZrr
+    report: Report
   ) =>
-  (dataSource: DataSource, index: number): LieuMediationNumerique | undefined => {
+  (dataSource: unknown, index: number): LieuMediationNumerique | undefined => {
     try {
       return lieuDeMediationNumerique(
         index,
-        dataSource,
+        dataSource as DataSource,
         sourceName,
-        JSON.parse(matching),
+        lieuxDeMediationNumeriqueTransformationRepository.config,
         report.entry(index),
-        accesLibreData,
-        findCommune,
-        isInQpv,
-        isInZrr
+        lieuxDeMediationNumeriqueTransformationRepository.accesLibre,
+        lieuxDeMediationNumeriqueTransformationRepository.findCommune,
+        lieuxDeMediationNumeriqueTransformationRepository.isInQpv,
+        lieuxDeMediationNumeriqueTransformationRepository.isInZrr
       );
     } catch (error: unknown) {
       if (
@@ -152,7 +148,14 @@ export const toLieuxMediationNumerique =
         error instanceof CodePostalError ||
         error instanceof NomError
       ) {
-        report.entry(index).record(error.key, error.message, entryIdentification(dataSource, matching)).commit();
+        report
+          .entry(index)
+          .record(
+            error.key,
+            error.message,
+            entryIdentification(dataSource as DataSource, lieuxDeMediationNumeriqueTransformationRepository.config)
+          )
+          .commit();
         return undefined;
       }
       throw error;

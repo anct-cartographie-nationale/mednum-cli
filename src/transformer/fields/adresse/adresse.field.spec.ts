@@ -3,15 +3,7 @@
 import { Adresse, VoieError } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { processAdresse } from './adresse.field';
-import {
-  Commune,
-  communeParCodePostal,
-  communeParNom,
-  communeParNomEtCodePostal,
-  communesParCodePostalMap,
-  communesParNomMap,
-  FindCommune
-} from './find-commune';
+import { Commune, findCommune } from './find-commune';
 
 const BEGLES: Commune = {
   nom: 'Bègles',
@@ -272,12 +264,6 @@ const COMMUNES: Commune[] = [
   VILLEFRANCE_DE_ROUERGUE
 ];
 
-const FIND_COMMUNE: FindCommune = {
-  parNom: communeParNom(communesParNomMap(COMMUNES)),
-  parCodePostal: communeParCodePostal(communesParCodePostalMap(COMMUNES)),
-  parNomEtCodePostal: communeParNomEtCodePostal(COMMUNES)
-};
-
 const STANDARD_MATCHING: LieuxMediationNumeriqueMatching = {
   code_postal: {
     colonne: 'Code postal'
@@ -331,7 +317,7 @@ describe('adresse field', (): void => {
       'Adresse postale *': '5 rue Malakoff'
     };
 
-    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_insee: '38185',
@@ -349,7 +335,7 @@ describe('adresse field', (): void => {
       'Complement adresse': 'Allée 5'
     };
 
-    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_insee: '38185',
@@ -368,7 +354,7 @@ describe('adresse field', (): void => {
       'Code INSEE': '38110'
     };
 
-    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_insee: '38185',
@@ -387,7 +373,7 @@ describe('adresse field', (): void => {
     };
 
     expect((): void => {
-      processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
+      processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
     }).toThrow(new VoieError(''));
   });
 
@@ -398,7 +384,7 @@ describe('adresse field', (): void => {
       'Ville *': 'grenoble'
     };
 
-    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_insee: '38185',
@@ -415,7 +401,7 @@ describe('adresse field', (): void => {
       'Ville *': 'SAINT PAUL TROIS CH╢TEAUX'
     };
 
-    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_insee: '26324',
@@ -432,7 +418,7 @@ describe('adresse field', (): void => {
       'Ville *': 'SAINT PAUL TROIS CH╢TEAUX'
     };
 
-    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_insee: '26324',
@@ -449,7 +435,7 @@ describe('adresse field', (): void => {
       'Ville *': 'Saint Laurent de Chamousset'
     };
 
-    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_insee: '69220',
@@ -466,7 +452,7 @@ describe('adresse field', (): void => {
       'Ville *': 'Gannat'
     };
 
-    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_insee: '03118',
@@ -484,7 +470,7 @@ describe('adresse field', (): void => {
       Numéro: '5'
     };
 
-    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, SPLIT_VOIE_MATCHING);
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, SPLIT_VOIE_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_insee: '38185',
@@ -502,7 +488,7 @@ describe('adresse field', (): void => {
       Numéro: '5'
     };
 
-    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, SPLIT_VOIE_MATCHING);
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, SPLIT_VOIE_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_insee: '38185',
@@ -520,7 +506,7 @@ describe('adresse field', (): void => {
       Numéro: '17'
     };
 
-    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, SPLIT_VOIE_MATCHING);
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, SPLIT_VOIE_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_insee: '02304',
@@ -538,7 +524,7 @@ describe('adresse field', (): void => {
       Numéro: '17'
     };
 
-    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, SPLIT_VOIE_MATCHING);
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, SPLIT_VOIE_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_insee: '02298',
@@ -556,7 +542,7 @@ describe('adresse field', (): void => {
       Numéro: '13'
     };
 
-    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, SPLIT_VOIE_MATCHING);
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, SPLIT_VOIE_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_insee: '78646',
@@ -574,7 +560,7 @@ describe('adresse field', (): void => {
       Numéro: '13'
     };
 
-    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, SPLIT_VOIE_MATCHING);
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, SPLIT_VOIE_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_insee: '78646',
@@ -592,7 +578,7 @@ describe('adresse field', (): void => {
       'Complement adresse': '     Allée    5     '
     };
 
-    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_insee: '78646',
@@ -609,7 +595,7 @@ describe('adresse field', (): void => {
       commune: 'Châlus'
     };
 
-    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, CODE_POSTAL_IS_IN_ADRESSE_MATCHING);
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, CODE_POSTAL_IS_IN_ADRESSE_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_insee: '87032',
@@ -625,7 +611,7 @@ describe('adresse field', (): void => {
       commune: 'Saint-Léonard-de-Noblat'
     };
 
-    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, CODE_POSTAL_IS_IN_ADRESSE_MATCHING);
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, CODE_POSTAL_IS_IN_ADRESSE_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_insee: '87161',
@@ -642,7 +628,7 @@ describe('adresse field', (): void => {
       'Adresse postale *': '52 Route des Ducs dAnjou'
     };
 
-    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_insee: '78646',
@@ -658,7 +644,7 @@ describe('adresse field', (): void => {
       adresse: '1 avenue Pasteur'
     };
 
-    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, CODE_POSTAL_IS_IN_ADRESSE_MATCHING);
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, CODE_POSTAL_IS_IN_ADRESSE_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_insee: '33039',
@@ -685,7 +671,7 @@ describe('adresse field', (): void => {
       adresse: 'Mairie de Piobetta 20234 PIOBETTA'
     };
 
-    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, CODE_POSTAL_AND_COMMUNE_ARE_IN_ADRESSE_MATCHING);
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, CODE_POSTAL_AND_COMMUNE_ARE_IN_ADRESSE_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_insee: '2B234',
@@ -702,7 +688,7 @@ describe('adresse field', (): void => {
       'Adresse postale *': '5 rue Malakoff'
     };
 
-    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_postal: '87000',
@@ -719,7 +705,7 @@ describe('adresse field', (): void => {
       'Adresse postale *': '5 rue Malakoff'
     };
 
-    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_postal: '13006',
@@ -736,7 +722,7 @@ describe('adresse field', (): void => {
       'Adresse postale *': 'Place de la mairie'
     };
 
-    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_postal: '74130',
@@ -751,7 +737,7 @@ describe('adresse field', (): void => {
       'Adresse postale *': '9, Place de la paix 51530 MOUSSY'
     };
 
-    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_postal: '51530',
@@ -765,7 +751,7 @@ describe('adresse field', (): void => {
       'Adresse postale *': '38 Rue des Dats, 51520, Saint-Martin-sur-le-Pré, Marne, Grand Est'
     };
 
-    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_postal: '51520',
@@ -781,7 +767,7 @@ describe('adresse field', (): void => {
       'Adresse postale *': 'Chemin de 13 pierres - BP 421'
     };
 
-    const adresse: Adresse = processAdresse(FIND_COMMUNE)(source, STANDARD_MATCHING);
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
       code_postal: '12200',

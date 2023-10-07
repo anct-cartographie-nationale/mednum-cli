@@ -1,6 +1,6 @@
 import { Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { booleanPointInPolygon, point, Polygon, polygon } from '@turf/turf';
-import { QpvShapesMap } from '../../../fields';
+import { QpvShapesMap } from '../../fields';
 
 const toCheckEveryShapeFor =
   (localisation: Localisation) =>
@@ -10,7 +10,7 @@ const toCheckEveryShapeFor =
 const isInOneOfQPVShapes = (localisation: Localisation, geoShapes?: Polygon[]): boolean =>
   geoShapes?.reduce(toCheckEveryShapeFor(localisation), false) ?? false;
 
-export const isInQPV =
+export const isInQpv =
   (qpvShapesMap: QpvShapesMap) =>
   (codeInsee: string, localisation: Localisation): boolean =>
     qpvShapesMap.has(codeInsee) && isInOneOfQPVShapes(localisation, qpvShapesMap.get(codeInsee));

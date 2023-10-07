@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
 import { MultiPolygon, Polygon, Position } from '@turf/turf';
-import { QpvShapesMap } from '../../../../fields';
+import { QpvShapesMap } from '../../../fields';
 
 export type QpvTransfer = {
   fields: {

@@ -16,6 +16,7 @@ const isColonne = (colonneToTest: Partial<Colonne> & Partial<Dissociation>): col
 
 const dissocier = (source: DataSource, localisation: Dissociation & Partial<Colonne>): string | undefined =>
   source[localisation.dissocier.colonne]
+    ?.toString()
     ?.replace(INVALID_NUMBERS_CHARS, '')
     ?.split(localisation.dissocier.séparateur)
     .filter((coord: string): boolean => coord !== '')[localisation.dissocier.partie];

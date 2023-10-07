@@ -1,4 +1,4 @@
-import { IsInZrr, ZrrMap } from '../../../fields';
+import { IsInZrr, ZrrMap } from '../../fields';
 
 export const isInZrr =
   (zrrMap: ZrrMap): IsInZrr =>

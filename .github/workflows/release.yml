@@ -78,6 +78,8 @@ jobs:
           echo DATA_GOUV_API_KEY="${{ secrets.DATA_GOUV_API_KEY }}" >> .env
           echo DATA_GOUV_REFERENCE_ID="${{ secrets.DATA_GOUV_REFERENCE_ID }}" >> .env
           echo DATA_GOUV_REFERENCE_TYPE="${{ secrets.DATA_GOUV_REFERENCE_TYPE }}" >> .env
+          echo CARTOGRAPHIE_NATIONALE_API_URL="${{ secrets.CARTOGRAPHIE_NATIONALE_API_URL }}" >> .env
+          echo CARTOGRAPHIE_NATIONALE_API_KEY="${{ secrets.CARTOGRAPHIE_NATIONALE_API_KEY }}" >> .env
 
       - name: Publish
         run: yarn publier.${{ matrix.source }}

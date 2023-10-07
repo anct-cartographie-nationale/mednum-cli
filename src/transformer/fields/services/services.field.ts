@@ -42,7 +42,9 @@ const isDefault = (choice: Choice<Service>): boolean => choice.colonnes == null;
 const findAndAppendServices =
   (choice: Choice<Service>, source: DataSource, modalitesAccompagnement: ModalitesAccompagnement) =>
   (services: Service[], colonne: string): Service[] =>
-    containsOneOfTheTerms(choice, modalitesAccompagnement, source[colonne]) ? appendService(services, choice.cible) : services;
+    containsOneOfTheTerms(choice, modalitesAccompagnement, source[colonne]?.toString())
+      ? appendService(services, choice.cible)
+      : services;
 
 const servicesForTerms =
   (choice: Choice<Service>, source: DataSource, modalitesAccompagnement: ModalitesAccompagnement) =>

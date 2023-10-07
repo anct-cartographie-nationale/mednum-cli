@@ -22,7 +22,9 @@ const isDefault = (choice: Choice<ConditionAcces>): boolean => choice.colonnes =
 const findAndAppendConditionsAcces =
   (choice: Choice<ConditionAcces>, source: DataSource) =>
   (conditionsAcces: ConditionAcces[], colonne: string): ConditionAcces[] =>
-    containsOneOfTheTerms(choice, source[colonne]) ? appendConditionAcces(conditionsAcces, choice.cible) : conditionsAcces;
+    containsOneOfTheTerms(choice, source[colonne]?.toString())
+      ? appendConditionAcces(conditionsAcces, choice.cible)
+      : conditionsAcces;
 
 const conditionsAccesForTerms =
   (choice: Choice<ConditionAcces>, source: DataSource) =>

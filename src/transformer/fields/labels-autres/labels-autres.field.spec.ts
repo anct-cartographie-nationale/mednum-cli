@@ -2,8 +2,8 @@
 
 import { Adresse, Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Polygon } from '@turf/helpers/dist/js/lib/geojson';
-import { isInQPV } from '../../cli/action/qpv';
-import { isInZrr } from '../../cli/action/zrr/is-in-zrr';
+import { isInQpv, isInZrr } from '../../data';
+
 import { processLabelsAutres } from './labels-autres.field';
 import { LieuxMediationNumeriqueMatching } from '../../input';
 
@@ -53,7 +53,7 @@ describe('labels autres field', (): void => {
     const labelsAutres: string[] = processLabelsAutres(
       {},
       {} as LieuxMediationNumeriqueMatching,
-      isInQPV(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
+      isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
       isInZrr(new Map([['01160', true]])),
       ADRESSE_OUT_OF_QPV_AND_ZRR,
       LOCALISATION_OUT_OF_QPV_AND_ZRR
@@ -74,7 +74,7 @@ describe('labels autres field', (): void => {
     const labelsAutres: string[] = processLabelsAutres(
       {},
       matching,
-      isInQPV(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
+      isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
       isInZrr(new Map([['01160', true]])),
       ADRESSE_OUT_OF_QPV_AND_ZRR,
       LOCALISATION_OUT_OF_QPV_AND_ZRR
@@ -95,7 +95,7 @@ describe('labels autres field', (): void => {
     const labelsAutres: string[] = processLabelsAutres(
       {},
       matching,
-      isInQPV(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
+      isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
       isInZrr(new Map([['01160', true]])),
       ADRESSE_OUT_OF_QPV_AND_ZRR,
       LOCALISATION_OUT_OF_QPV_AND_ZRR
@@ -125,7 +125,7 @@ describe('labels autres field', (): void => {
         label: 'Nièvre médiation et SudLabs'
       },
       matching,
-      isInQPV(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
+      isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
       isInZrr(new Map([['01160', true]])),
       ADRESSE_OUT_OF_QPV_AND_ZRR,
       LOCALISATION_OUT_OF_QPV_AND_ZRR
@@ -155,7 +155,7 @@ describe('labels autres field', (): void => {
         label: 'pas de labels'
       },
       matching,
-      isInQPV(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
+      isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
       isInZrr(new Map([['01160', true]])),
       ADRESSE_OUT_OF_QPV_AND_ZRR,
       LOCALISATION_OUT_OF_QPV_AND_ZRR
@@ -178,7 +178,7 @@ describe('labels autres field', (): void => {
         label_1: 'label 1'
       },
       matching,
-      isInQPV(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
+      isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
       isInZrr(new Map([['01160', true]])),
       ADRESSE_OUT_OF_QPV_AND_ZRR,
       LOCALISATION_OUT_OF_QPV_AND_ZRR
@@ -202,7 +202,7 @@ describe('labels autres field', (): void => {
         label_2: 'label 2'
       },
       matching,
-      isInQPV(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
+      isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
       isInZrr(new Map([['01160', true]])),
       ADRESSE_OUT_OF_QPV_AND_ZRR,
       LOCALISATION_OUT_OF_QPV_AND_ZRR
@@ -215,7 +215,7 @@ describe('labels autres field', (): void => {
     const labelsAutres: string[] = processLabelsAutres(
       {},
       {} as LieuxMediationNumeriqueMatching,
-      isInQPV(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
+      isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
       isInZrr(new Map([['01160', true]])),
       ADRESSE_IN_QPV,
       LOCALISATION_IN_QPV
@@ -236,7 +236,7 @@ describe('labels autres field', (): void => {
     const labelsAutres: string[] = processLabelsAutres(
       {},
       matching,
-      isInQPV(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
+      isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
       isInZrr(new Map([['01160', true]])),
       ADRESSE_IN_QPV,
       LOCALISATION_IN_QPV
@@ -249,7 +249,7 @@ describe('labels autres field', (): void => {
     const labelsAutres: string[] = processLabelsAutres(
       {},
       {} as LieuxMediationNumeriqueMatching,
-      isInQPV(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
+      isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
       isInZrr(new Map([['01160', true]])),
       ADRESSE_IN_ZRR,
       LOCALISATION_IN_QPV
@@ -262,7 +262,7 @@ describe('labels autres field', (): void => {
     const labelsAutres: string[] = processLabelsAutres(
       {},
       {} as LieuxMediationNumeriqueMatching,
-      isInQPV(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
+      isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
       isInZrr(new Map([['02691', true]])),
       ADRESSE_IN_QPV,
       LOCALISATION_IN_QPV
@@ -283,7 +283,7 @@ describe('labels autres field', (): void => {
     const labelsAutres: string[] = processLabelsAutres(
       { labels_autres: 'QPV' },
       matching,
-      isInQPV(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
+      isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
       isInZrr(new Map([['02691', false]])),
       ADRESSE_IN_QPV,
       LOCALISATION_IN_QPV

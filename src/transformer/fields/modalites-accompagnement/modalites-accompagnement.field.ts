@@ -23,7 +23,7 @@ const appendModaliteAccompagnement = (
 const modalitesAccompagnementForTerms =
   (choice: Choice<ModaliteAccompagnement>, source: DataSource) =>
   (modalitesAccompagnement: ModaliteAccompagnement[], colonne: string): ModaliteAccompagnement[] =>
-    containsOneOfTheTerms(choice, source[colonne])
+    containsOneOfTheTerms(choice, source[colonne]?.toString())
       ? appendModaliteAccompagnement(modalitesAccompagnement, choice.cible)
       : modalitesAccompagnement;
 

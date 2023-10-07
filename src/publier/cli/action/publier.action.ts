@@ -21,10 +21,17 @@ export const publierAction = (publierOptions: PublierOptions): void => {
   fs.readFile(
     publierOptions.dataGouvMetadataFile,
     'utf8',
-    async (_: ErrnoException | null, dataString: string): Promise<void> =>
-      publishDataset(
+    async (_: ErrnoException | null, dataString?: string): Promise<void> => {
+      if (dataString == null) {
+        /* eslint-disable-next-line no-console */
+        console.log('Nothing to publish');
+        return;
+      }
+
+      await publishDataset(
         publishDatasetRepository(getApi(publierOptions)),
         getReference(publierOptions)
-      )({ ...JSON.parse(dataString), zone: publierOptions.dataGouvZone })
+      )({ ...JSON.parse(dataString), zone: publierOptions.dataGouvZone });
+    }
   );
 };
