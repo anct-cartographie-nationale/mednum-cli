@@ -68,9 +68,6 @@ jobs:
       - name: Install dependencies
         run: yarn
 
-      - name: Transform
-        run: yarn transformer.${{ matrix.source }}
-
       - name: 'Create env file'
         run: |
           touch .env
@@ -80,6 +77,9 @@ jobs:
           echo DATA_GOUV_REFERENCE_TYPE="${{ secrets.DATA_GOUV_REFERENCE_TYPE }}" >> .env
           echo CARTOGRAPHIE_NATIONALE_API_URL="${{ secrets.CARTOGRAPHIE_NATIONALE_API_URL }}" >> .env
           echo CARTOGRAPHIE_NATIONALE_API_KEY="${{ secrets.CARTOGRAPHIE_NATIONALE_API_KEY }}" >> .env
+
+      - name: Transform
+        run: yarn transformer.${{ matrix.source }}
 
       - name: Publish
         run: yarn publier.${{ matrix.source }}
