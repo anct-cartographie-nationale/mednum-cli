@@ -8,7 +8,7 @@ export const updateSourceWithCartographieNationaleApi =
   async (hash: string): Promise<void> => {
     if (transformerOptions.cartographieNationaleApiKey == null) return;
     await axios.put(
-      `${transformerOptions.cartographieNationaleApiUrl}/sources/${transformerOptions.sourceName}}`,
+      `${transformerOptions.cartographieNationaleApiUrl}/sources/${transformerOptions.sourceName}`,
       {
         hash
       },
