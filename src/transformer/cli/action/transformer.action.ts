@@ -62,8 +62,5 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
   repository.writeOutputs(lieuxDeMediationNumeriqueFiltered);
   repository.writeFingerprints(diffSinceLastTransform);
 
-  await updateSourceWithCartographieNationaleApi(transformerOptions)({
-    name: transformerOptions.sourceName,
-    hash: sourceHash
-  });
+  await updateSourceWithCartographieNationaleApi(transformerOptions)(sourceHash);
 };
