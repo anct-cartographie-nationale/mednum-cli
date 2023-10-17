@@ -1,5 +1,6 @@
 import { Command } from 'commander';
 import { Question } from 'inquirer';
+import { SourceSettings } from '../data';
 import {
   configFileOption,
   outputDirectoryOption,
@@ -13,14 +14,11 @@ import { configFileQuestion, outputDirectoryQuestion, sourceQuestion, sourceName
 import { territoryOption } from './options/territory.option';
 import { territoryQuestion } from './questions/territory.question';
 
-export type TransformerOptions = {
-  source: string;
+export type TransformerOptions = SourceSettings & {
   configFile: string;
   outputDirectory: string;
   sourceName: string;
   territory: string;
-  encoding?: string;
-  delimiter?: string;
   cartographieNationaleApiUrl?: string;
   cartographieNationaleApiKey?: string;
 };

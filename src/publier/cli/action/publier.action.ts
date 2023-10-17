@@ -1,7 +1,8 @@
 /* eslint-disable-next-line @typescript-eslint/no-restricted-imports */
 import * as fs from 'fs';
+import { Api } from '../../../common';
 import ErrnoException = NodeJS.ErrnoException;
-import { Api, publishDatasetRepository } from '../../repositories';
+import { publishDatasetRepository } from '../../repositories';
 import { Reference } from '../../models';
 import { publishDataset } from '../../publish-dataset';
 import { IdTypeChoice } from '../questions';

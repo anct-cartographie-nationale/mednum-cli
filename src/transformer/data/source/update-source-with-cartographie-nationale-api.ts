@@ -1,7 +1,6 @@
 import axios from 'axios';
+import { authHeader, headers } from '../../../common';
 import { TransformerOptions } from '../../cli/transformer-options';
-
-const API_KEY_HEADER: string = 'x-api-key' as const;
 
 export const updateSourceWithCartographieNationaleApi =
   (transformerOptions: TransformerOptions) =>
@@ -9,13 +8,7 @@ export const updateSourceWithCartographieNationaleApi =
     if (transformerOptions.cartographieNationaleApiKey == null) return;
     await axios.put(
       `${transformerOptions.cartographieNationaleApiUrl}/sources/${transformerOptions.sourceName}`,
-      {
-        hash
-      },
-      {
-        headers: {
-          [API_KEY_HEADER]: transformerOptions.cartographieNationaleApiKey
-        }
-      }
+      { hash },
+      headers(authHeader(transformerOptions.cartographieNationaleApiKey))
     );
   };

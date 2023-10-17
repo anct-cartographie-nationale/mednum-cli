@@ -13,11 +13,6 @@ const flatten = require('flat');
 
 const REPORT: Report = Report();
 
-const toLieuById = (
-  lieuxById: Record<string, LieuMediationNumerique>,
-  lieu: LieuMediationNumerique
-): Record<string, LieuMediationNumerique> => ({ ...lieuxById, [lieu.id]: lieu });
-
 const replaceNullWithEmptyString = (jsonString: string): string => {
   const replacer = (_: string, values?: string): string => values ?? '';
   return JSON.stringify(JSON.parse(jsonString), replacer);
@@ -31,17 +26,17 @@ const nothingToTransform = (itemsToTransform: DiffSinceLastTransform): boolean =
 
 /* eslint-disable-next-line max-statements, max-lines-per-function */
 export const transformerAction = async (transformerOptions: TransformerOptions): Promise<void> => {
+  const maxTransform: number | undefined = process.env['MAX_TRANSFORM'] == null ? undefined : +process.env['MAX_TRANSFORM'];
+
   const source: string = await sourceATransformer(transformerOptions);
 
   const previousSourceHash: string | undefined = (await sourcesFromCartographieNationaleApi(transformerOptions)).get(
     transformerOptions.sourceName
   );
-
   const sourceHash: string = createHash('sha256').update(source).digest('hex');
-
   if (previousSourceHash === sourceHash) return;
 
-  const sourceItems: DataSource[] = JSON.parse(replaceNullWithEmptyString(source));
+  const sourceItems: DataSource[] = JSON.parse(replaceNullWithEmptyString(source)).slice(0, maxTransform);
 
   const repository: LieuxDeMediationNumeriqueTransformationRepository = await lieuxDeMediationNumeriqueTransformation(
     transformerOptions
@@ -52,15 +47,15 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
 
   if (nothingToTransform(diffSinceLastTransform)) return;
 
-  const lieuxDeMediationNumeriqueFiltered: Record<string, LieuMediationNumerique> = lieux
+  const lieuxDeMediationNumerique: LieuMediationNumerique[] = lieux
     .map(flatten)
     .map(toLieuxMediationNumerique(repository, transformerOptions.sourceName, REPORT))
-    .filter(validValuesOnly)
-    .reduce(toLieuById, {});
+    .filter(validValuesOnly);
 
-  repository.writeErrors(REPORT);
-  repository.writeOutputs(lieuxDeMediationNumeriqueFiltered);
-  repository.writeFingerprints(diffSinceLastTransform);
+  repository.saveErrors(REPORT);
+  await repository.saveOutputs(lieuxDeMediationNumerique);
+  await repository.saveFingerprints(diffSinceLastTransform);
 
-  await updateSourceWithCartographieNationaleApi(transformerOptions)(sourceHash);
+  transformerOptions.cartographieNationaleApiKey != null &&
+    (await updateSourceWithCartographieNationaleApi(transformerOptions)(sourceHash));
 };

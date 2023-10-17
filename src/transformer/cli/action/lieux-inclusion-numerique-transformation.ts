@@ -8,9 +8,12 @@ import {
   isInZrr,
   qpvFromDataGouv,
   writeErrorsInFiles,
-  writeFingerprints,
-  writeOutputsInFiles,
-  zrrFromEquipementsSportsGouvApi
+  zrrFromEquipementsSportsGouvApi,
+  saveFingerprintsWithLieuxMediationNumeriqueApi,
+  saveOutputsWithLieuxInclusionNumeriqueApi,
+  fingerprintsFromLieuxMediationNumeriqueApi,
+  saveOutputsInFiles,
+  saveFingerprintsInFile
 } from '../../data';
 import { findCommune } from '../../fields';
 import { LieuxMediationNumeriqueMatching } from '../../input';
@@ -18,14 +21,18 @@ import { LieuxDeMediationNumeriqueTransformationRepository } from '../../reposit
 import { diffSinceLastTransform, Fingerprint } from '../diff-since-last-transform';
 import { TransformerOptions } from '../transformer-options';
 
+/* eslint-disable-next-line max-lines-per-function */
 export const lieuxDeMediationNumeriqueTransformation = async (
   transformerOptions: TransformerOptions
 ): Promise<LieuxDeMediationNumeriqueTransformationRepository> => {
+  const useFile: boolean = transformerOptions.cartographieNationaleApiKey == null;
   const config: LieuxMediationNumeriqueMatching = JSON.parse(
     await fs.promises.readFile(transformerOptions.configFile, 'utf-8')
   );
   const idKey: string = config.id?.colonne ?? '';
-  const fingerprints: Fingerprint[] = await fingerprintsFromFile(transformerOptions);
+  const fingerprints: Fingerprint[] = useFile
+    ? await fingerprintsFromFile(transformerOptions)
+    : await fingerprintsFromLieuxMediationNumeriqueApi(transformerOptions);
 
   return {
     config,
@@ -34,9 +41,13 @@ export const lieuxDeMediationNumeriqueTransformation = async (
     isInQpv: isInQpv(await qpvFromDataGouv()),
     isInZrr: isInZrr(await zrrFromEquipementsSportsGouvApi()),
     fingerprints,
-    writeErrors: writeErrorsInFiles(transformerOptions),
-    writeOutputs: writeOutputsInFiles(transformerOptions),
+    saveErrors: writeErrorsInFiles(transformerOptions),
+    saveOutputs: useFile
+      ? saveOutputsInFiles(transformerOptions)
+      : saveOutputsWithLieuxInclusionNumeriqueApi(transformerOptions),
     diffSinceLastTransform: diffSinceLastTransform(idKey, fingerprints),
-    writeFingerprints: writeFingerprints(idKey, fingerprints, transformerOptions)
+    saveFingerprints: useFile
+      ? saveFingerprintsInFile(idKey, fingerprints, transformerOptions)
+      : saveFingerprintsWithLieuxMediationNumeriqueApi(idKey, transformerOptions)
   };
 };

@@ -15,6 +15,7 @@ const isSameLocation = (structure: LieuMediationNumerique, lieu: LieuMediationNu
   structure.localisation?.latitude === lieu.localisation?.latitude &&
   structure.localisation?.longitude === lieu.localisation?.longitude;
 
+// todo: here is internal deduplication to fix
 export const keepOneEntryPerSource = (data: LieuMediationNumerique[]): LieuMediationNumerique[] =>
   data.filter(
     (lieu: LieuMediationNumerique, index: number, array: LieuMediationNumerique[]): boolean =>

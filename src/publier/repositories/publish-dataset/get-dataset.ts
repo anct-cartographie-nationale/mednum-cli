@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
 import axios from 'axios';
+import { Api, headers } from '../../../common';
 import { Dataset, Reference, Ressource } from '../../models';
-import { Api, headers } from '../data-gouv.api';
 
 type GetDatasetRessource = {
   created_at: Date;

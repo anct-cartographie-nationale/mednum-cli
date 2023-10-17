@@ -11,8 +11,8 @@ export type LieuxDeMediationNumeriqueTransformationRepository = {
   isInQpv: IsInQpv;
   isInZrr: IsInZrr;
   fingerprints: Fingerprint[];
-  writeErrors: (report: Report) => void;
-  writeOutputs: (lieuxDeMediationNumeriqueFiltered: Record<string, LieuMediationNumerique>) => void;
+  saveErrors: (report: Report) => void;
+  saveOutputs: (lieuxDeMediationNumerique: LieuMediationNumerique[]) => Promise<void>;
   diffSinceLastTransform: (sourceItems: DataSource[]) => DiffSinceLastTransform;
-  writeFingerprints: (diffSinceLastTransform: DiffSinceLastTransform) => void;
+  saveFingerprints: (diffSinceLastTransform: DiffSinceLastTransform) => Promise<void>;
 };
