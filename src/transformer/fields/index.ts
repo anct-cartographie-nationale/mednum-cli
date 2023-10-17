@@ -18,3 +18,4 @@ export * from './services/services.field';
 export * from './source/source.field';
 export * from './typologies/typologies.field';
 export * from './accessibilite/accessibilite.field';
+export * from './prive/prive.field';
