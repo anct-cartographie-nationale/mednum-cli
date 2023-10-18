@@ -64,7 +64,7 @@ jobs:
             angers,
             hub-lo,
             mulhouse,
-            data-inclusion,
+            dora,
             paca,
             loire-atlantique,
             rhin-occ,
@@ -87,6 +87,7 @@ jobs:
             corse,
             epernay,
             bus-france-services-charente,
+            sarthe,
             mednum-bfc
           ]
     runs-on: ubuntu-latest
