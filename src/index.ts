@@ -1,5 +1,6 @@
 import * as dotenv from 'dotenv';
 import { Command } from 'commander';
+import { addDataInclusionCommandTo } from './data-inclusion/cli';
 import { addPublierCommandTo } from './publier';
 import { addTransformerCommandTo } from './transformer';
 import { addExtractCommandTo } from './extract';
@@ -17,5 +18,6 @@ addTransformerCommandTo(PROGRAM);
 addPublierCommandTo(PROGRAM);
 addExtractCommandTo(PROGRAM);
 addDedupliquerCommandTo(PROGRAM);
+addDataInclusionCommandTo(PROGRAM);
 
 PROGRAM.parse();
