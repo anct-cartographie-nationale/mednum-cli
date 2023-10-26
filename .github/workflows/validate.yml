@@ -74,6 +74,7 @@ jobs:
             numi,
             vendee,
             vendee-extraction,
+            savoie-extraction,
             ultra-num,
             haute-vienne,
             fibre-64,
