@@ -18,7 +18,7 @@ const configureCommand = (program: Command): Command =>
   program
     .command('extract')
     .alias('e')
-    .description('Extraction de données selon une entrée geographique spécifique via data.gouv');
+    .description('Extraction de données selon une entrée géographique spécifique via data.gouv');
 
 const commandAction = async (_: unknown, command: Command): Promise<void> => promptAndRun(command.opts());
 

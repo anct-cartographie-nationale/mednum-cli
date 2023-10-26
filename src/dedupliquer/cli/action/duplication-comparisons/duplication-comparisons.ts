@@ -4,8 +4,8 @@ import { CommuneDuplications, Duplicate, findDuplicates, LieuDuplications } from
 export type DuplicationComparison = {
   id1: string;
   id2: string;
-  typologie1: string | undefined;
-  typologie2: string | undefined;
+  typologie1?: string;
+  typologie2?: string;
   score: number;
   adresseScore: number;
   adresse1: string;
@@ -41,8 +41,8 @@ const toDuplicationComparison = ({ lieu1, lieu2, duplicate }: ReadyToProcessDupl
   localisation2: `${lieu2.latitude} : ${lieu2.longitude}`,
   source1: lieu1.source,
   source2: lieu2.source,
-  typologie1: lieu1.typologie,
-  typologie2: lieu2.typologie
+  ...(lieu1.typologie == null ? {} : { typologie1: lieu1.typologie }),
+  ...(lieu2.typologie == null ? {} : { typologie2: lieu2.typologie })
 });
 
 const onlyValidScore = (duplication: DuplicationComparison): boolean => !isNaN(duplication.score);

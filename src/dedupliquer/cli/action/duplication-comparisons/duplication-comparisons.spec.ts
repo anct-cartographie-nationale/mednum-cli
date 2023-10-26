@@ -15,7 +15,8 @@ describe('deduplication comparison', (): void => {
         latitude: 45.186115,
         longitude: 5.716962,
         source: 'hinaura',
-        typologie: Typologie.TIERS_LIEUX
+        typologie: Typologie.TIERS_LIEUX,
+        date_maj: '2020-09-08'
       } as SchemaLieuMediationNumerique,
       {
         id: 'mediation-numerique-hub-lo-436-mediation-numerique',
@@ -26,7 +27,8 @@ describe('deduplication comparison', (): void => {
         latitude: 45.187654,
         longitude: 5.704953,
         source: 'res-in',
-        typologie: Typologie.ESS
+        typologie: Typologie.ESS,
+        date_maj: '2020-11-15'
       } as SchemaLieuMediationNumerique
     ];
 
@@ -88,7 +90,8 @@ describe('deduplication comparison', (): void => {
         latitude: 45.193684,
         longitude: 5.733633,
         source: 'france-services',
-        typologie: Typologie.TIERS_LIEUX
+        typologie: Typologie.TIERS_LIEUX,
+        date_maj: '2020-09-01'
       } as SchemaLieuMediationNumerique,
       {
         id: 'B',
@@ -99,7 +102,8 @@ describe('deduplication comparison', (): void => {
         latitude: 45.177784,
         longitude: 5.707327,
         source: 'conseiller-numerique',
-        typologie: Typologie.TIERS_LIEUX
+        typologie: Typologie.TIERS_LIEUX,
+        date_maj: '2020-09-02'
       } as SchemaLieuMediationNumerique,
       {
         id: 'C',
@@ -110,7 +114,8 @@ describe('deduplication comparison', (): void => {
         latitude: 45.172522,
         longitude: 5.704961,
         source: 'fibre64',
-        typologie: Typologie.TIERS_LIEUX
+        typologie: Typologie.TIERS_LIEUX,
+        date_maj: '2020-09-03'
       } as SchemaLieuMediationNumerique,
       {
         id: 'D',
@@ -121,7 +126,8 @@ describe('deduplication comparison', (): void => {
         latitude: 45.162266,
         longitude: 5.738204,
         source: 'hinaura',
-        typologie: Typologie.TIERS_LIEUX
+        typologie: Typologie.TIERS_LIEUX,
+        date_maj: '2020-09-04'
       } as SchemaLieuMediationNumerique,
       {
         id: 'E',
@@ -132,7 +138,8 @@ describe('deduplication comparison', (): void => {
         latitude: 45.163403,
         longitude: 5.727504,
         source: 'francil-in',
-        typologie: Typologie.TIERS_LIEUX
+        typologie: Typologie.TIERS_LIEUX,
+        date_maj: '2020-09-05'
       } as SchemaLieuMediationNumerique
     ];
 
