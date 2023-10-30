@@ -33,7 +33,11 @@ const toIdsToDeleteFrom =
 const findDeletedIds = (previousIds: Fingerprint[], newIds: string[]): FingerprintToDelete[] =>
   previousIds.reduce(toIdsToDeleteFrom(newIds), []);
 
-const getId = (idKey: string, item?: DataSource): string => (item?.[idKey] as string).toString();
+const toInnerProperty = (source: DataSource | string, key: string): DataSource | string =>
+  typeof source === 'string' ? source : (source[key] as DataSource | string);
+
+/* eslint-disable-next-line @typescript-eslint/no-base-to-string */
+const getId = (idKey: string, item: DataSource): string => idKey.split('.').reduce(toInnerProperty, item).toString();
 
 const onlyMatchingItemIds =
   (idKey: string, currentItem: DataSource) =>
