@@ -1,3 +1,5 @@
+/* eslint-disable max-lines */
+
 import { CleanOperation } from './clean-operations';
 
 const FIX_WRONG_ACCENT_CHARS: CleanOperation = {
@@ -84,6 +86,47 @@ const FIX_UNEXPECTED_DETAILS: CleanOperation = {
   fix: (toFix: number | string): string => toFix.toString().replace(/\s*\(.*\)\s*/u, '')
 };
 
+const FIX_FORGOTTEN_ARTICLE_FROM_PONTDECLAIX: CleanOperation = {
+  name: 'put forgotten definite article',
+  selector: /Pont-de-Claix/u,
+  fix: (toFix: string): string => toFix.toString().replace(/Pont-de-Claix/u, 'Le Pont-de-Claix')
+};
+
+const FIX_FORGOTTEN_ARTICLE_FROM_NOUVION_EN_THIERACHE: CleanOperation = {
+  name: 'put forgotten definite article',
+  selector: /NOUVION-EN-THIÉRACHE/u,
+  fix: (toFix: string): string => toFix.toString().replace(/NOUVION-EN-THIÉRACHE/u, 'Le NOUVION-EN-THIÉRACHE')
+};
+
+const FIX_FORGOTTEN_ARTICLE_FROM_FAY_SAINT_QUENTIN: CleanOperation = {
+  name: 'put forgotten definite article',
+  selector: /FAY-SAINT-QUENTIN/u,
+  fix: (toFix: string): string => toFix.toString().replace(/FAY-SAINT-QUENTIN/u, 'Le FAY-SAINT-QUENTIN')
+};
+
+const FIX_ADDED_LETTER_FROM_GRANDCHAMPS_DES_FONTAINES: CleanOperation = {
+  name: 'delete the letter s',
+  selector: /Grandchamps-des-Fontaines/u,
+  fix: (toFix: string): string => toFix.toString().replace(/Grandchamps-des-Fontaines/u, 'Grandchamp-des-Fontaines')
+};
+
+const FIX_FORGOTTEN_ARTICLE_FROM_PRECHEUR: CleanOperation = {
+  name: 'put forgotten definite article',
+  selector: /Prêcheur/u,
+  fix: (toFix: string): string => toFix.toString().replace(/Prêcheur/u, 'Le Prêcheur')
+};
+
+const FIX_SPELLING_NAME_OF_BORDERES_ET_LAMESENS: CleanOperation = {
+  name: 'correct the name of the commune ',
+  selector: /Bordères-et-Lamensens/u,
+  fix: (toFix: string): string => toFix.toString().replace(/Bordères-et-Lamensens/u, 'Bordères-et-Lamensans')
+};
+
+const FIX_SPELLING_NAME_OF_PIERREFFITTES_NESTALAS: CleanOperation = {
+  name: 'correct the name of the commune ',
+  selector: /Pierreffitte-Nestalas/u,
+  fix: (toFix: string): string => toFix.toString().replace(/Pierreffitte-Nestalas/u, 'Pierrefitte-Nestalas')
+};
 export const CLEAN_COMMUNE: CleanOperation[] = [
   FIX_UNEXPECTED_DETAILS,
   FIX_WRONG_ACCENT_CHARS,
@@ -98,7 +141,14 @@ export const CLEAN_COMMUNE: CleanOperation[] = [
   REMOVE_NUMERIC_CHARS,
   REMOVE_SPACE_AFTER_QUOTE,
   REMOVE_HEADING_AND_TRAILING_SPACES,
-  REPLACE_SPACES_WITH_DASHES
+  REPLACE_SPACES_WITH_DASHES,
+  FIX_FORGOTTEN_ARTICLE_FROM_PONTDECLAIX,
+  FIX_FORGOTTEN_ARTICLE_FROM_NOUVION_EN_THIERACHE,
+  FIX_FORGOTTEN_ARTICLE_FROM_FAY_SAINT_QUENTIN,
+  FIX_ADDED_LETTER_FROM_GRANDCHAMPS_DES_FONTAINES,
+  FIX_FORGOTTEN_ARTICLE_FROM_PRECHEUR,
+  FIX_SPELLING_NAME_OF_BORDERES_ET_LAMESENS,
+  FIX_SPELLING_NAME_OF_PIERREFFITTES_NESTALAS
 ];
 
 const communeFromVoie = (voie: string): string =>
