@@ -87,43 +87,43 @@ const FIX_UNEXPECTED_DETAILS: CleanOperation = {
 };
 
 const FIX_FORGOTTEN_ARTICLE_FROM_PONTDECLAIX: CleanOperation = {
-  name: 'put forgotten definite article',
+  name: 'put forgotten le for Pont-de-Claix',
   selector: /Pont-de-Claix/u,
   fix: (toFix: string): string => toFix.toString().replace(/Pont-de-Claix/u, 'Le Pont-de-Claix')
 };
 
 const FIX_FORGOTTEN_ARTICLE_FROM_NOUVION_EN_THIERACHE: CleanOperation = {
-  name: 'put forgotten definite article',
-  selector: /NOUVION-EN-THIÉRACHE/u,
-  fix: (toFix: string): string => toFix.toString().replace(/NOUVION-EN-THIÉRACHE/u, 'Le NOUVION-EN-THIÉRACHE')
+  name: 'le for NOUVION-EN-THIÉRACHE',
+  selector: /Nouvion-en-Thiérache/u,
+  fix: (toFix: string): string => toFix.toString().replace(/Nouvion-en-Thiérache/u, 'Le Nouvion-en-Thiérache')
 };
 
 const FIX_FORGOTTEN_ARTICLE_FROM_FAY_SAINT_QUENTIN: CleanOperation = {
-  name: 'put forgotten definite article',
-  selector: /FAY-SAINT-QUENTIN/u,
-  fix: (toFix: string): string => toFix.toString().replace(/FAY-SAINT-QUENTIN/u, 'Le FAY-SAINT-QUENTIN')
+  name: 'put forgotten le for FAY-SAINT-QUENTIN',
+  selector: /Fay-Saint-Quentin/u,
+  fix: (toFix: string): string => toFix.toString().replace(/Fay-Saint-Quentin/u, 'Le Fay-Saint-Quentin')
 };
 
 const FIX_ADDED_LETTER_FROM_GRANDCHAMPS_DES_FONTAINES: CleanOperation = {
-  name: 'delete the letter s',
+  name: 'delete the letter s for Grandchamps-des-Fontaines',
   selector: /Grandchamps-des-Fontaines/u,
   fix: (toFix: string): string => toFix.toString().replace(/Grandchamps-des-Fontaines/u, 'Grandchamp-des-Fontaines')
 };
 
 const FIX_FORGOTTEN_ARTICLE_FROM_PRECHEUR: CleanOperation = {
-  name: 'put forgotten definite article',
+  name: 'put forgotten le for Prêcheur',
   selector: /Prêcheur/u,
   fix: (toFix: string): string => toFix.toString().replace(/Prêcheur/u, 'Le Prêcheur')
 };
 
 const FIX_SPELLING_NAME_OF_BORDERES_ET_LAMESENS: CleanOperation = {
-  name: 'correct the name of the commune ',
+  name: 'fix typo in Bordères-et-Lamensen ',
   selector: /Bordères-et-Lamensens/u,
   fix: (toFix: string): string => toFix.toString().replace(/Bordères-et-Lamensens/u, 'Bordères-et-Lamensans')
 };
 
 const FIX_SPELLING_NAME_OF_PIERREFFITTES_NESTALAS: CleanOperation = {
-  name: 'correct the name of the commune ',
+  name: 'fix typo in Pierreffitte-Nestalas ',
   selector: /Pierreffitte-Nestalas/u,
   fix: (toFix: string): string => toFix.toString().replace(/Pierreffitte-Nestalas/u, 'Pierrefitte-Nestalas')
 };

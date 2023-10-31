@@ -73,9 +73,16 @@ describe('clean commune', (): void => {
 
     expect(commune).toBe("L'ESCARÈNE");
   });
+
   it('should add missing le', (): void => {
     const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'Pont-de-Claix'));
 
     expect(commune).toBe('Le Pont-de-Claix');
+  });
+
+  it('should add  an article', (): void => {
+    const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'Nouvion-en-Thiérache'));
+
+    expect(commune).toBe('Le Nouvion-en-Thiérach');
   });
 });
