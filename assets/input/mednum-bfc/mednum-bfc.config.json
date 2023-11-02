@@ -1,0 +1,75 @@
+{
+  "id": {
+    "colonne": "bfc_id"
+  },
+  "nom": {
+    "colonne": "nom_structure"
+  },
+  "code_postal": {
+    "colonne": "code_postal"
+  },
+  "commune": {
+    "colonne": "ville"
+  },
+  "adresse": {
+    "colonne": "adresse"
+  },
+  "latitude": {
+    "colonne": "lat"
+  },
+  "longitude": {
+    "colonne": "lon"
+  },
+  "telephone": {
+    "colonne": "contact_tel"
+  },
+  "courriel": {
+    "colonne": "contact_email"
+  },
+  "site_web": {
+    "colonne": "url_lieu"
+  },
+  "date_maj": {
+    "colonne": "mise_a_jour"
+  },
+  "labels_nationaux": [
+    {
+      "colonnes": ["code_label"],
+      "termes": ["APTIC"],
+      "cible": "APTIC"
+    },
+    {
+      "colonnes": ["code_label"],
+      "termes": ["MFS"],
+      "cible": "France Services"
+    }
+  ],
+  "services": [
+    {
+      "colonnes": ["INTERNET"],
+      "termes": ["oui"],
+      "cible": "Accéder à une connexion internet"
+    },
+
+    {
+      "colonnes": ["INITIATION"],
+      "termes": ["oui"],
+      "cible": "Prendre en main un ordinateur"
+    },
+    {
+      "colonnes": ["INITIATION"],
+      "termes": ["oui"],
+      "cible": "Prendre en main un smartphone ou une tablette"
+    },
+    {
+      "colonnes": ["DEM_Gen", "DEM_Spe"],
+      "termes": ["oui"],
+      "cible": "Devenir autonome dans les démarches administratives"
+    },
+    {
+      "colonnes": ["DEM_Gen", "DEM_Gen"],
+      "termes": ["oui"],
+      "cible": "Réaliser des démarches administratives avec un accompagnement"
+    }
+  ]
+}
