@@ -52,8 +52,8 @@ const REMOVE_DISTRICT: CleanOperation = {
 
 const REMOVE_CEDEX: CleanOperation = {
   name: 'remove cedex',
-  selector: /-?[Cc](?:EDEX|edex)\s?\d*/u,
-  fix: (toFix: string): string => toFix.replace(/-?[Cc](?:EDEX|edex)\s?\d*/u, '')
+  selector: /-?[Cc](?:[ÉE]DEX|[ée]dex)\s?\d*/u,
+  fix: (toFix: string): string => toFix.replace(/-?[Cc](?:[ÉE]DEX|[ée]dex)\s?\d*/u, '')
 };
 
 const REMOVE_NUMERIC_CHARS: CleanOperation = {
