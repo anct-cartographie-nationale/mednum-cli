@@ -6,7 +6,6 @@ export type Commune = {
   codeEpci: string;
   codeRegion: string;
   codesPostaux: string[];
-  population: number;
 };
 
 export type FindCommune = {

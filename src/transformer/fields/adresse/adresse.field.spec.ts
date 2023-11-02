@@ -12,8 +12,7 @@ const BEGLES: Commune = {
   siren: '213300395',
   codeEpci: '243300316',
   codeRegion: '75',
-  codesPostaux: ['33130'],
-  population: 30543
+  codesPostaux: ['33130']
 };
 
 const BONNEVILLE_74: Commune = {
@@ -23,8 +22,7 @@ const BONNEVILLE_74: Commune = {
   siren: '217400423',
   codeEpci: '200000172',
   codeRegion: '84',
-  codesPostaux: ['74130'],
-  population: 12511
+  codesPostaux: ['74130']
 };
 
 const BONNEVILLE_80: Commune = {
@@ -34,8 +32,7 @@ const BONNEVILLE_80: Commune = {
   siren: '218001071',
   codeEpci: '200070951',
   codeRegion: '32',
-  codesPostaux: ['80670'],
-  population: 337
+  codesPostaux: ['80670']
 };
 
 const BRIZON: Commune = {
@@ -45,8 +42,7 @@ const BRIZON: Commune = {
   siren: '217400498',
   codeEpci: '200000172',
   codeRegion: '84',
-  codesPostaux: ['74130'],
-  population: 481
+  codesPostaux: ['74130']
 };
 
 const CHALUS_63: Commune = {
@@ -56,8 +52,7 @@ const CHALUS_63: Commune = {
   siren: '216300749',
   codeEpci: '200070407',
   codeRegion: '84',
-  codesPostaux: ['63340'],
-  population: 182
+  codesPostaux: ['63340']
 };
 
 const CHALUS_87: Commune = {
@@ -67,8 +62,7 @@ const CHALUS_87: Commune = {
   siren: '218703205',
   codeEpci: '200070506',
   codeRegion: '75',
-  codesPostaux: ['87230'],
-  population: 1647
+  codesPostaux: ['87230']
 };
 
 const ETREUX: Commune = {
@@ -78,8 +72,7 @@ const ETREUX: Commune = {
   siren: '210202818',
   codeEpci: '200071983',
   codeRegion: '32',
-  codesPostaux: ['02510'],
-  population: 1454
+  codesPostaux: ['02510']
 };
 const GANNAT: Commune = {
   nom: 'Gannat',
@@ -88,8 +81,7 @@ const GANNAT: Commune = {
   siren: '210301180',
   codeEpci: '200071389',
   codeRegion: '84',
-  codesPostaux: ['03800'],
-  population: 5815
+  codesPostaux: ['03800']
 };
 
 const GRENOBLE: Commune = {
@@ -99,8 +91,7 @@ const GRENOBLE: Commune = {
   siren: '213801855',
   codeEpci: '200040715',
   codeRegion: '84',
-  codesPostaux: ['38000', '38100'],
-  population: 158240
+  codesPostaux: ['38000', '38100']
 };
 
 const LA_FERE: Commune = {
@@ -110,8 +101,7 @@ const LA_FERE: Commune = {
   siren: '210202867',
   codeEpci: '200071785',
   codeRegion: '32',
-  codesPostaux: ['02800'],
-  population: 2845
+  codesPostaux: ['02800']
 };
 
 const LIMOGES: Commune = {
@@ -121,8 +111,7 @@ const LIMOGES: Commune = {
   siren: '218708501',
   codeEpci: '248719312',
   codeRegion: '75',
-  codesPostaux: ['87000', '87100', '87280'],
-  population: 130592
+  codesPostaux: ['87000', '87100', '87280']
 };
 
 const MARSEILLE: Commune = {
@@ -149,8 +138,7 @@ const MARSEILLE: Commune = {
     '13014',
     '13015',
     '13016'
-  ],
-  population: 870321
+  ]
 };
 
 const PIOBETTA: Commune = {
@@ -160,8 +148,7 @@ const PIOBETTA: Commune = {
   siren: '212002349',
   codeEpci: '200034205',
   codeRegion: '94',
-  codesPostaux: ['20234'],
-  population: 17
+  codesPostaux: ['20234']
 };
 
 const SAINT_EUSTACHE: Commune = {
@@ -171,8 +158,7 @@ const SAINT_EUSTACHE: Commune = {
   siren: '217402320',
   codeEpci: '200066793',
   codeRegion: '84',
-  codesPostaux: ['74410'],
-  population: 491
+  codesPostaux: ['74410']
 };
 
 const SAINT_JORIOZ: Commune = {
@@ -182,8 +168,7 @@ const SAINT_JORIOZ: Commune = {
   siren: '217402429',
   codeEpci: '200066793',
   codeRegion: '84',
-  codesPostaux: ['74410'],
-  population: 6151
+  codesPostaux: ['74410']
 };
 
 const SAINT_LEONARD_DE_NOBLAT: Commune = {
@@ -193,8 +178,7 @@ const SAINT_LEONARD_DE_NOBLAT: Commune = {
   siren: '218716108',
   codeEpci: '248719361',
   codeRegion: '75',
-  codesPostaux: ['87400'],
-  population: 4357
+  codesPostaux: ['87400']
 };
 
 const SAINT_LAURENT_DE_CHAMOUSSET: Commune = {
@@ -204,8 +188,7 @@ const SAINT_LAURENT_DE_CHAMOUSSET: Commune = {
   siren: '216902205',
   codeEpci: '200066587',
   codeRegion: '84',
-  codesPostaux: ['69930'],
-  population: 1798
+  codesPostaux: ['69930']
 };
 
 const SAINT_PAUL_TROIS_CHATEAUX: Commune = {
@@ -215,8 +198,7 @@ const SAINT_PAUL_TROIS_CHATEAUX: Commune = {
   siren: '212603245',
   codeEpci: '200042901',
   codeRegion: '84',
-  codesPostaux: ['26130'],
-  population: 8731
+  codesPostaux: ['26130']
 };
 
 const VERSAILLES: Commune = {
@@ -226,8 +208,7 @@ const VERSAILLES: Commune = {
   siren: '217806462',
   codeEpci: '247800584',
   codeRegion: '11',
-  codesPostaux: ['78000'],
-  population: 83583
+  codesPostaux: ['78000']
 };
 
 const VILLEFRANCE_DE_ROUERGUE: Commune = {
@@ -237,8 +218,27 @@ const VILLEFRANCE_DE_ROUERGUE: Commune = {
   siren: '211203005',
   codeEpci: '200069383',
   codeRegion: '76',
-  codesPostaux: ['12200'],
-  population: 11681
+  codesPostaux: ['12200']
+};
+
+const MOUSSY: Commune = {
+  nom: 'Moussy',
+  code: '51390',
+  codeDepartement: '51',
+  siren: '215103631',
+  codeEpci: '200067684',
+  codeRegion: '44',
+  codesPostaux: ['51530']
+};
+
+const SAINT_MARTIN_SUR_LE_PRE: Commune = {
+  nom: 'Saint-Martin-sur-le-Pré',
+  code: '51504',
+  codeDepartement: '51',
+  siren: '215104670',
+  codeEpci: '200066876',
+  codeRegion: '44',
+  codesPostaux: ['51520']
 };
 
 const COMMUNES: Commune[] = [
@@ -254,11 +254,13 @@ const COMMUNES: Commune[] = [
   LA_FERE,
   LIMOGES,
   MARSEILLE,
+  MOUSSY,
   PIOBETTA,
   SAINT_EUSTACHE,
   SAINT_JORIOZ,
   SAINT_LEONARD_DE_NOBLAT,
   SAINT_LAURENT_DE_CHAMOUSSET,
+  SAINT_MARTIN_SUR_LE_PRE,
   SAINT_PAUL_TROIS_CHATEAUX,
   VERSAILLES,
   VILLEFRANCE_DE_ROUERGUE
@@ -740,8 +742,9 @@ describe('adresse field', (): void => {
     const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
+      code_insee: '51390',
       code_postal: '51530',
-      commune: 'MOUSSY',
+      commune: 'Moussy',
       voie: '9 Place de la paix'
     });
   });
@@ -754,6 +757,7 @@ describe('adresse field', (): void => {
     const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
 
     expect(adresse).toStrictEqual({
+      code_insee: '51504',
       code_postal: '51520',
       commune: 'Saint-Martin-sur-le-Pré',
       voie: '38 Rue des Dats'
@@ -774,6 +778,23 @@ describe('adresse field', (): void => {
       code_insee: '12300',
       commune: 'Villefranche-de-Rouergue',
       voie: 'Chemin de 13 pierres - BP 421'
+    });
+  });
+
+  it('should get Saint-Barbant old commune', (): void => {
+    const source: DataSource = {
+      'Code postal': '87330',
+      'Ville *': 'Saint-Barbant',
+      'Adresse postale *': '12 rue des lilas'
+    };
+
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
+
+    expect(adresse).toStrictEqual({
+      code_postal: '87330',
+      code_insee: '87028',
+      commune: "Val-d'Oire-et-Gartempe",
+      voie: '12 rue des lilas'
     });
   });
 });

@@ -7,8 +7,7 @@ const BEGLES: Commune = {
   siren: '213300395',
   codeEpci: '243300316',
   codeRegion: '75',
-  codesPostaux: ['33130'],
-  population: 30543
+  codesPostaux: ['33130']
 };
 
 const BONNE: Commune = {
@@ -18,8 +17,7 @@ const BONNE: Commune = {
   siren: '217400741',
   codeEpci: '200000188',
   codeRegion: '84',
-  codesPostaux: ['74130'],
-  population: 6364
+  codesPostaux: ['74130']
 };
 
 const BONNEVILLE_74: Commune = {
@@ -29,8 +27,7 @@ const BONNEVILLE_74: Commune = {
   siren: '217400423',
   codeEpci: '200000172',
   codeRegion: '84',
-  codesPostaux: ['74130'],
-  population: 12511
+  codesPostaux: ['74130']
 };
 
 const BONNEVILLE_80: Commune = {
@@ -40,8 +37,7 @@ const BONNEVILLE_80: Commune = {
   siren: '218001071',
   codeEpci: '200070951',
   codeRegion: '32',
-  codesPostaux: ['80670'],
-  population: 337
+  codesPostaux: ['80670']
 };
 
 const BRIZON: Commune = {
@@ -51,8 +47,7 @@ const BRIZON: Commune = {
   siren: '217400498',
   codeEpci: '200000172',
   codeRegion: '84',
-  codesPostaux: ['74130'],
-  population: 481
+  codesPostaux: ['74130']
 };
 
 const CHALUS_63: Commune = {
@@ -62,8 +57,7 @@ const CHALUS_63: Commune = {
   siren: '216300749',
   codeEpci: '200070407',
   codeRegion: '84',
-  codesPostaux: ['63340'],
-  population: 182
+  codesPostaux: ['63340']
 };
 
 const ETREUX: Commune = {
@@ -73,8 +67,7 @@ const ETREUX: Commune = {
   siren: '210202818',
   codeEpci: '200071983',
   codeRegion: '32',
-  codesPostaux: ['02510'],
-  population: 1454
+  codesPostaux: ['02510']
 };
 
 const GRENOBLE: Commune = {
@@ -84,8 +77,7 @@ const GRENOBLE: Commune = {
   siren: '213801855',
   codeEpci: '200040715',
   codeRegion: '84',
-  codesPostaux: ['38000', '38100'],
-  population: 158240
+  codesPostaux: ['38000', '38100']
 };
 
 const L_ARBRESLE: Commune = {
@@ -95,8 +87,7 @@ const L_ARBRESLE: Commune = {
   siren: '216900100',
   codeEpci: '246900625',
   codeRegion: '84',
-  codesPostaux: ['69210'],
-  population: 6437
+  codesPostaux: ['69210']
 };
 
 const MARCQ_EN_BAROEUL: Commune = {
@@ -106,8 +97,7 @@ const MARCQ_EN_BAROEUL: Commune = {
   siren: '215903782',
   codeEpci: '200093201',
   codeRegion: '32',
-  codesPostaux: ['59700'],
-  population: 38604
+  codesPostaux: ['59700']
 };
 
 describe('find commune', (): void => {
