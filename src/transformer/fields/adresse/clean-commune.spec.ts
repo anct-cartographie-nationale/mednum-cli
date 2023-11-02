@@ -73,4 +73,46 @@ describe('clean commune', (): void => {
 
     expect(commune).toBe("L'ESCARÈNE");
   });
+
+  it('should add an article for Pont-de-Claix', (): void => {
+    const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'Pont-de-Claix'));
+
+    expect(commune).toBe('Le Pont-de-Claix');
+  });
+
+  it('should add an article for Nouvion-en-Thiérache', (): void => {
+    const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'Nouvion-en-Thiérache'));
+
+    expect(commune).toBe('Le Nouvion-en-Thiérache');
+  });
+
+  it('should add an article for Fay-Saint-Quentin', (): void => {
+    const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'Fay-Saint-Quentin'));
+
+    expect(commune).toBe('Le Fay-Saint-Quentin');
+  });
+
+  it('should add an article for Prêcheur', (): void => {
+    const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'Prêcheur'));
+
+    expect(commune).toBe('Le Prêcheur');
+  });
+
+  it('should delete the letter s for Grandchamps-des-Fontaines', (): void => {
+    const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'Grandchamps-des-Fontaines'));
+
+    expect(commune).toBe('Grandchamp-des-Fontaines');
+  });
+
+  it('should fix the typo in Bordères-et-Lamensen', (): void => {
+    const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'Bordères-et-Lamensens'));
+
+    expect(commune).toBe('Bordères-et-Lamensans');
+  });
+
+  it('should fix the typo in Pierreffitte-Nestalas', (): void => {
+    const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'Pierreffitte-Nestalas'));
+
+    expect(commune).toBe('Pierrefitte-Nestalas');
+  });
 });
