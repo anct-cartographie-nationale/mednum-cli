@@ -116,7 +116,7 @@ describe('clean commune', (): void => {
     expect(commune).toBe('Le-Prêcheur');
   });
 
-  it('should not add an article for Le Prêcheur', (): void => {
+  it('should not add an article for Le Prếcheur', (): void => {
     const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'Le Prêcheur'));
 
     expect(commune).toBe('Le-Prêcheur');
