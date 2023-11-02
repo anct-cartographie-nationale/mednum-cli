@@ -52,8 +52,8 @@ const REMOVE_DISTRICT: CleanOperation = {
 
 const REMOVE_CEDEX: CleanOperation = {
   name: 'remove cedex',
-  selector: /[Cc](?:EDEX|edex)\s?\d+/u,
-  fix: (toFix: string): string => toFix.replace(/[Cc](?:EDEX|edex)\s?\d+/u, '')
+  selector: /-?[Cc](?:EDEX|edex)\s?\d*/u,
+  fix: (toFix: string): string => toFix.replace(/-?[Cc](?:EDEX|edex)\s?\d*/u, '')
 };
 
 const REMOVE_NUMERIC_CHARS: CleanOperation = {
@@ -127,6 +127,7 @@ const FIX_SPELLING_NAME_OF_PIERREFFITTES_NESTALAS: CleanOperation = {
   selector: /^Pierreffitte-Nestalas$/u,
   fix: (toFix: string): string => toFix.toString().replace(/^Pierreffitte-Nestalas$/u, 'Pierrefitte-Nestalas')
 };
+
 export const CLEAN_COMMUNE: CleanOperation[] = [
   FIX_UNEXPECTED_DETAILS,
   FIX_WRONG_ACCENT_CHARS,

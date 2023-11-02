@@ -139,4 +139,10 @@ describe('clean commune', (): void => {
 
     expect(commune).toBe('Pierrefitte-Nestalas');
   });
+
+  it('should remove cedex without number', (): void => {
+    const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'Douai-cedex'));
+
+    expect(commune).toBe('Douai');
+  });
 });
