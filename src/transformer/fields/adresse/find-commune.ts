@@ -12,6 +12,7 @@ export type FindCommune = {
   parNom: (name: string) => Commune | undefined;
   parCodePostal: (codePostal: string) => Commune | undefined;
   parNomEtCodePostal: (nom: string, codePostal: string) => Commune | undefined;
+  parNomEtCodePostalLePlusProcheDuDepartement: (nom: string, codePostal: string) => Commune | undefined;
 };
 
 export const slugify = (text: string): string =>
@@ -96,8 +97,21 @@ const communeParNomEtCodePostal =
     communes.find(codePostalEtNomExactes(codePostal, nom)) ??
     communeUniqueOuRien(communes.filter(codePostalExactEtNomAvecMemeDebut(codePostal, nom)));
 
+const onlySameNameInCodePostalDepartement =
+  (nom: string, codePostal: string) =>
+  (commune: Commune): boolean =>
+    commune.nom === nom && codePostal.startsWith(commune.codeDepartement);
+
+const parNomEtCodePostalLePlusProcheDuDepartement =
+  (communes: Commune[]) =>
+  (nom: string, codePostal: string): Commune | undefined => {
+    const communesFound: Commune[] = communes.filter(onlySameNameInCodePostalDepartement(nom, codePostal));
+    return communesFound.length === 1 ? communesFound.at(0) : undefined;
+  };
+
 export const findCommune = (communes: Commune[]): FindCommune => ({
   parNom: communeParNom(communesParNomMap(communes)),
   parCodePostal: communeParCodePostal(communesParCodePostalMap(communes)),
-  parNomEtCodePostal: communeParNomEtCodePostal(communes)
+  parNomEtCodePostal: communeParNomEtCodePostal(communes),
+  parNomEtCodePostalLePlusProcheDuDepartement: parNomEtCodePostalLePlusProcheDuDepartement(communes)
 });

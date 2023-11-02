@@ -241,6 +241,36 @@ const SAINT_MARTIN_SUR_LE_PRE: Commune = {
   codesPostaux: ['51520']
 };
 
+const VERNON_07: Commune = {
+  nom: 'Vernon',
+  code: '07336',
+  codeDepartement: '07',
+  siren: '210703369',
+  codeEpci: '240700302',
+  codeRegion: '84',
+  codesPostaux: ['07260']
+};
+
+const VERNON_07_FAKE: Commune = {
+  nom: 'Vernon',
+  code: '07222',
+  codeDepartement: '07',
+  siren: '210705893',
+  codeEpci: '240700999',
+  codeRegion: '84',
+  codesPostaux: ['07430']
+};
+
+const VERNON_27: Commune = {
+  nom: 'Vernon',
+  code: '27681',
+  codeDepartement: '27',
+  siren: '212706816',
+  codeEpci: '200072312',
+  codeRegion: '28',
+  codesPostaux: ['27200']
+};
+
 const COMMUNES: Commune[] = [
   BEGLES,
   BONNEVILLE_74,
@@ -262,6 +292,9 @@ const COMMUNES: Commune[] = [
   SAINT_LAURENT_DE_CHAMOUSSET,
   SAINT_MARTIN_SUR_LE_PRE,
   SAINT_PAUL_TROIS_CHATEAUX,
+  VERNON_07,
+  VERNON_07_FAKE,
+  VERNON_27,
   VERSAILLES,
   VILLEFRANCE_DE_ROUERGUE
 ];
@@ -795,6 +828,39 @@ describe('adresse field', (): void => {
       code_insee: '87028',
       commune: "Val-d'Oire-et-Gartempe",
       voie: '12 rue des lilas'
+    });
+  });
+
+  it('should find code postal matching code departement when there is multiple communes with the same name and wrong code postal', (): void => {
+    const source: DataSource = {
+      'Code postal': '27220',
+      'Ville *': 'Vernon',
+      'Adresse postale *': '3 place de la Mairie'
+    };
+
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
+
+    expect(adresse).toStrictEqual({
+      code_postal: '27200',
+      code_insee: '27681',
+      commune: 'Vernon',
+      voie: '3 place de la Mairie'
+    });
+  });
+
+  it('should not find code postal matching code departement when there is multiple communes with the same iname in the same departement', (): void => {
+    const source: DataSource = {
+      'Code postal': '07330',
+      'Ville *': 'Vernon',
+      'Adresse postale *': '3 place de la Mairie'
+    };
+
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
+
+    expect(adresse).toStrictEqual({
+      code_postal: '07330',
+      commune: 'Vernon',
+      voie: '3 place de la Mairie'
     });
   });
 });
