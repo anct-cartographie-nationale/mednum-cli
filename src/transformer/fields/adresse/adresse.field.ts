@@ -46,6 +46,7 @@ const communeFrom = (findCommune: FindCommune, addressToNormalize: AddressToNorm
   findCommune.parCodePostal(addressToNormalize.code_postal) ??
   findCommune.parNom(addressToNormalize.commune) ??
   findCommune.parNomEtCodePostal(addressToNormalize.commune, addressToNormalize.code_postal) ??
+  findCommune.parNomEtCodePostalLePlusProcheDuDepartement(addressToNormalize.commune, addressToNormalize.code_postal) ??
   ANCIENNES_COMMUNES_MAP.get(addressToNormalize.commune);
 
 const buildAddress =
