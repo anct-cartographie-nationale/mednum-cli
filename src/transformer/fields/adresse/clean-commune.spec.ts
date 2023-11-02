@@ -116,7 +116,7 @@ describe('clean commune', (): void => {
     expect(commune).toBe('Le-Prêcheur');
   });
 
-  it('should not add an article for Le Prêcheur', (): void => {
+  it('should not add an article for Le Prếcheur', (): void => {
     const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'Le Prêcheur'));
 
     expect(commune).toBe('Le-Prêcheur');
@@ -138,5 +138,17 @@ describe('clean commune', (): void => {
     const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'Pierreffitte-Nestalas'));
 
     expect(commune).toBe('Pierrefitte-Nestalas');
+  });
+
+  it('should remove cedex without number', (): void => {
+    const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'Douai-cedex'));
+
+    expect(commune).toBe('Douai');
+  });
+
+  it('should remove cédex', (): void => {
+    const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'SAINT-NICOLAS-cédex'));
+
+    expect(commune).toBe('SAINT-NICOLAS');
   });
 });
