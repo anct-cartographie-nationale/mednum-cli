@@ -88,44 +88,44 @@ const FIX_UNEXPECTED_DETAILS: CleanOperation = {
 
 const FIX_FORGOTTEN_ARTICLE_FROM_PONTDECLAIX: CleanOperation = {
   name: 'put forgotten le for Pont-de-Claix',
-  selector: /Pont-de-Claix/u,
-  fix: (toFix: string): string => toFix.toString().replace(/Pont-de-Claix/u, 'Le Pont-de-Claix')
+  selector: /^Pont-de-Claix$/u,
+  fix: (toFix: string): string => toFix.toString().replace(/^Pont-de-Claix$/u, 'Le Pont-de-Claix')
 };
 
 const FIX_FORGOTTEN_ARTICLE_FROM_NOUVION_EN_THIERACHE: CleanOperation = {
   name: 'le for NOUVION-EN-THIÉRACHE',
-  selector: /Nouvion-en-Thiérache/u,
-  fix: (toFix: string): string => toFix.toString().replace(/Nouvion-en-Thiérache/u, 'Le Nouvion-en-Thiérache')
+  selector: /^Nouvion-en-Thiérache$/u,
+  fix: (toFix: string): string => toFix.toString().replace(/^Nouvion-en-Thiérache$/u, 'Le Nouvion-en-Thiérache')
 };
 
 const FIX_FORGOTTEN_ARTICLE_FROM_FAY_SAINT_QUENTIN: CleanOperation = {
   name: 'put forgotten le for FAY-SAINT-QUENTIN',
-  selector: /Fay-Saint-Quentin/u,
-  fix: (toFix: string): string => toFix.toString().replace(/Fay-Saint-Quentin/u, 'Le Fay-Saint-Quentin')
+  selector: /^Fay-Saint-Quentin$/u,
+  fix: (toFix: string): string => toFix.toString().replace(/^Fay-Saint-Quentin$/u, 'Le Fay-Saint-Quentin')
 };
 
 const FIX_ADDED_LETTER_FROM_GRANDCHAMPS_DES_FONTAINES: CleanOperation = {
   name: 'delete the letter s for Grandchamps-des-Fontaines',
-  selector: /Grandchamps-des-Fontaines/u,
-  fix: (toFix: string): string => toFix.toString().replace(/Grandchamps-des-Fontaines/u, 'Grandchamp-des-Fontaines')
+  selector: /^Grandchamps-des-Fontaines$/u,
+  fix: (toFix: string): string => toFix.toString().replace(/^Grandchamps-des-Fontaines$/u, 'Grandchamp-des-Fontaines')
 };
 
 const FIX_FORGOTTEN_ARTICLE_FROM_PRECHEUR: CleanOperation = {
   name: 'put forgotten le for Prêcheur',
-  selector: /Prêcheur/u,
-  fix: (toFix: string): string => toFix.toString().replace(/Prêcheur/u, 'Le Prêcheur')
+  selector: /^Prêcheur$/u,
+  fix: (toFix: string): string => toFix.toString().replace(/^Prêcheur$/u, 'Le Prêcheur')
 };
 
 const FIX_SPELLING_NAME_OF_BORDERES_ET_LAMESENS: CleanOperation = {
   name: 'fix typo in Bordères-et-Lamensen ',
-  selector: /Bordères-et-Lamensens/u,
-  fix: (toFix: string): string => toFix.toString().replace(/Bordères-et-Lamensens/u, 'Bordères-et-Lamensans')
+  selector: /^Bordères-et-Lamensens$/u,
+  fix: (toFix: string): string => toFix.toString().replace(/^Bordères-et-Lamensens$/u, 'Bordères-et-Lamensans')
 };
 
 const FIX_SPELLING_NAME_OF_PIERREFFITTES_NESTALAS: CleanOperation = {
   name: 'fix typo in Pierreffitte-Nestalas ',
-  selector: /Pierreffitte-Nestalas/u,
-  fix: (toFix: string): string => toFix.toString().replace(/Pierreffitte-Nestalas/u, 'Pierrefitte-Nestalas')
+  selector: /^Pierreffitte-Nestalas$/u,
+  fix: (toFix: string): string => toFix.toString().replace(/^Pierreffitte-Nestalas$/u, 'Pierrefitte-Nestalas')
 };
 export const CLEAN_COMMUNE: CleanOperation[] = [
   FIX_UNEXPECTED_DETAILS,
@@ -141,14 +141,14 @@ export const CLEAN_COMMUNE: CleanOperation[] = [
   REMOVE_NUMERIC_CHARS,
   REMOVE_SPACE_AFTER_QUOTE,
   REMOVE_HEADING_AND_TRAILING_SPACES,
-  REPLACE_SPACES_WITH_DASHES,
   FIX_FORGOTTEN_ARTICLE_FROM_PONTDECLAIX,
   FIX_FORGOTTEN_ARTICLE_FROM_NOUVION_EN_THIERACHE,
   FIX_FORGOTTEN_ARTICLE_FROM_FAY_SAINT_QUENTIN,
   FIX_ADDED_LETTER_FROM_GRANDCHAMPS_DES_FONTAINES,
   FIX_FORGOTTEN_ARTICLE_FROM_PRECHEUR,
   FIX_SPELLING_NAME_OF_BORDERES_ET_LAMESENS,
-  FIX_SPELLING_NAME_OF_PIERREFFITTES_NESTALAS
+  FIX_SPELLING_NAME_OF_PIERREFFITTES_NESTALAS,
+  REPLACE_SPACES_WITH_DASHES
 ];
 
 const communeFromVoie = (voie: string): string =>

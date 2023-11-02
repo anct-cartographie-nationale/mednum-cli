@@ -77,25 +77,49 @@ describe('clean commune', (): void => {
   it('should add an article for Pont-de-Claix', (): void => {
     const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'Pont-de-Claix'));
 
-    expect(commune).toBe('Le Pont-de-Claix');
+    expect(commune).toBe('Le-Pont-de-Claix');
+  });
+
+  it('should not add an article for Le Pont-de-Claix', (): void => {
+    const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'Le Pont-de-Claix'));
+
+    expect(commune).toBe('Le-Pont-de-Claix');
   });
 
   it('should add an article for Nouvion-en-Thiérache', (): void => {
     const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'Nouvion-en-Thiérache'));
 
-    expect(commune).toBe('Le Nouvion-en-Thiérache');
+    expect(commune).toBe('Le-Nouvion-en-Thiérache');
+  });
+
+  it('should not add an article for Le Nouvion-en-Thiérache', (): void => {
+    const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'Le Nouvion-en-Thiérache'));
+
+    expect(commune).toBe('Le-Nouvion-en-Thiérache');
   });
 
   it('should add an article for Fay-Saint-Quentin', (): void => {
     const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'Fay-Saint-Quentin'));
 
-    expect(commune).toBe('Le Fay-Saint-Quentin');
+    expect(commune).toBe('Le-Fay-Saint-Quentin');
+  });
+
+  it('should not add an article for Le Fay-Saint-Quentin', (): void => {
+    const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'Le Fay-Saint-Quentin'));
+
+    expect(commune).toBe('Le-Fay-Saint-Quentin');
   });
 
   it('should add an article for Prêcheur', (): void => {
     const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'Prêcheur'));
 
-    expect(commune).toBe('Le Prêcheur');
+    expect(commune).toBe('Le-Prêcheur');
+  });
+
+  it('should not add an article for Le Prêcheur', (): void => {
+    const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'Le Prêcheur'));
+
+    expect(commune).toBe('Le-Prêcheur');
   });
 
   it('should delete the letter s for Grandchamps-des-Fontaines', (): void => {
