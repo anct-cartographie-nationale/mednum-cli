@@ -145,4 +145,10 @@ describe('clean commune', (): void => {
 
     expect(commune).toBe('Douai');
   });
+
+  it('should remove cédex', (): void => {
+    const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'SAINT-NICOLAS-cédex'));
+
+    expect(commune).toBe('SAINT-NICOLAS');
+  });
 });
