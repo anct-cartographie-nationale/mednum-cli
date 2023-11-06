@@ -2,6 +2,8 @@ import { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-nu
 import { Groups } from '../group-duplicates/group-duplicates';
 import { mergeLieux, mergeOldLieux } from './merge-lieux';
 
+export type MergedLieuxByGroupMap = Map<string, SchemaLieuMediationNumerique>;
+
 const DAYS_IN_YEAR: 365 = 365 as const;
 const MILLISECONDS_IN_DAY: number = 24 * 60 * 60 * 1000;
 const DATE_LIMIT_OFFSET: number = (DAYS_IN_YEAR / 2) * MILLISECONDS_IN_DAY;
@@ -30,16 +32,20 @@ const toMergedLieu =
   };
 
 const idsInGroupsToMergedLieux =
-  (lieux: SchemaLieuMediationNumerique[], now: Date) =>
-  (mergedLieux: SchemaLieuMediationNumerique[], [, groupIds]: [string, string[]]): SchemaLieuMediationNumerique[] => {
+  (now: Date) =>
+  (lieux: SchemaLieuMediationNumerique[]) =>
+  (mergedLieux: MergedLieuxByGroupMap, [key, groupIds]: [string, string[]]): MergedLieuxByGroupMap => {
     const lieu: SchemaLieuMediationNumerique | null = lieux
       .filter(onlyMatchingGroupIds(groupIds))
       .sort(byDate)
       .reduce(toMergedLieu(now), null);
-    return lieu == null ? mergedLieux : [...mergedLieux, lieu];
+    return lieu == null ? mergedLieux : mergedLieux.set(key, lieu);
   };
 
 export const mergeDuplicates =
   (now: Date) =>
-  (lieux: SchemaLieuMediationNumerique[], groups: Groups): SchemaLieuMediationNumerique[] =>
-    Array.from(groups.mergeGroupsMap.entries()).reduce(idsInGroupsToMergedLieux(lieux, now), []);
+  (lieux: SchemaLieuMediationNumerique[], groups: Groups): MergedLieuxByGroupMap =>
+    Array.from(groups.mergeGroupsMap.entries()).reduce(
+      idsInGroupsToMergedLieux(now)(lieux),
+      new Map<string, SchemaLieuMediationNumerique>()
+    );

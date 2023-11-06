@@ -4,7 +4,7 @@ import { Erp, FindCommune, IsInQpv, IsInZrr } from '../fields';
 import { DataSource, LieuxMediationNumeriqueMatching } from '../input';
 import { Report } from '../report';
 
-export type LieuxDeMediationNumeriqueTransformationRepository = {
+export type TransformationRepository = {
   config: LieuxMediationNumeriqueMatching;
   accesLibre: Erp[];
   findCommune: FindCommune;

@@ -42,7 +42,7 @@ import {
   processSource,
   processTypologies
 } from '../fields';
-import { LieuxDeMediationNumeriqueTransformationRepository } from '../repositories';
+import { TransformationRepository } from '../repositories';
 import { DataSource, LieuxMediationNumeriqueMatching } from './lieux-mediation-numerique-matching';
 
 const localisationIfAny = (localisation?: Localisation): { localisation?: Localisation } =>
@@ -122,11 +122,7 @@ const entryIdentification = (dataSource: DataSource, matching: LieuxMediationNum
   dataSource[matching.nom.colonne]?.toString() ?? '';
 
 export const toLieuxMediationNumerique =
-  (
-    lieuxDeMediationNumeriqueTransformationRepository: LieuxDeMediationNumeriqueTransformationRepository,
-    sourceName: string,
-    report: Report
-  ) =>
+  (lieuxDeMediationNumeriqueTransformationRepository: TransformationRepository, sourceName: string, report: Report) =>
   (dataSource: unknown, index: number): LieuMediationNumerique | undefined => {
     try {
       return lieuDeMediationNumerique(

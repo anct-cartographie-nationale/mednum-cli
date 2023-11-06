@@ -3,10 +3,10 @@ import { createHash } from 'crypto';
 import { sourceATransformer, sourcesFromCartographieNationaleApi, updateSourceWithCartographieNationaleApi } from '../../data';
 import { DataSource, toLieuxMediationNumerique, validValuesOnly } from '../../input';
 import { Report } from '../../report';
-import { LieuxDeMediationNumeriqueTransformationRepository } from '../../repositories';
+import { TransformationRepository } from '../../repositories';
 import { canTransform, DiffSinceLastTransform } from '../diff-since-last-transform';
 import { TransformerOptions } from '../transformer-options';
-import { lieuxDeMediationNumeriqueTransformation } from './lieux-inclusion-numerique-transformation';
+import { transformationRespository } from './transformation.respository';
 
 /* eslint-disable-next-line @typescript-eslint/no-restricted-imports, @typescript-eslint/naming-convention, @typescript-eslint/typedef, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
 const flatten = require('flat');
@@ -38,9 +38,7 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
 
   const sourceItems: DataSource[] = JSON.parse(replaceNullWithEmptyString(source)).slice(0, maxTransform);
 
-  const repository: LieuxDeMediationNumeriqueTransformationRepository = await lieuxDeMediationNumeriqueTransformation(
-    transformerOptions
-  );
+  const repository: TransformationRepository = await transformationRespository(transformerOptions);
 
   const diffSinceLastTransform: DiffSinceLastTransform = repository.diffSinceLastTransform(sourceItems);
   const lieux: DataSource[] = lieuxToTransform(sourceItems, diffSinceLastTransform);

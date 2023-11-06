@@ -17,14 +17,12 @@ import {
 } from '../../data';
 import { findCommune } from '../../fields';
 import { LieuxMediationNumeriqueMatching } from '../../input';
-import { LieuxDeMediationNumeriqueTransformationRepository } from '../../repositories';
+import { TransformationRepository } from '../../repositories';
 import { diffSinceLastTransform, Fingerprint } from '../diff-since-last-transform';
 import { TransformerOptions } from '../transformer-options';
 
 /* eslint-disable-next-line max-lines-per-function */
-export const lieuxDeMediationNumeriqueTransformation = async (
-  transformerOptions: TransformerOptions
-): Promise<LieuxDeMediationNumeriqueTransformationRepository> => {
+export const transformationRespository = async (transformerOptions: TransformerOptions): Promise<TransformationRepository> => {
   const useFile: boolean = transformerOptions.cartographieNationaleApiKey == null;
   const config: LieuxMediationNumeriqueMatching = JSON.parse(
     await fs.promises.readFile(transformerOptions.configFile, 'utf-8')

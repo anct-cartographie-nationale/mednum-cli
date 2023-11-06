@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
 import { SchemaLieuMediationNumerique, Typologie } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { duplicationComparisons } from '../duplication-comparisons';
+import { duplicationComparisons } from '../../../steps';
 import { formatToCSV } from './deduplication-comparisons-to-csv';
 
 describe('deduplication comparison to csv', (): void => {

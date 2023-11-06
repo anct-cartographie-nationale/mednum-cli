@@ -1,3 +1,4 @@
+export * from './api-key.option';
 export * from './cutoff.option';
 export * from './output-directory.option';
 export * from './source.option';

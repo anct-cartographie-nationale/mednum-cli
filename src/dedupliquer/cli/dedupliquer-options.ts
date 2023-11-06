@@ -1,6 +1,6 @@
 import { Command } from 'commander';
 import { Question } from 'inquirer';
-import { cutoffOption, outputDirectoryOption, sourceNameOption, sourceOption, territoryOption } from './options';
+import { cutoffOption, outputDirectoryOption, sourceNameOption, sourceOption, territoryOption, apiKeyOption } from './options';
 import { outputDirectoryQuestion, sourceNameQuestion, sourceQuestion, territoryQuestion } from './questions';
 
 export type DedupliquerOptions = {
@@ -8,6 +8,8 @@ export type DedupliquerOptions = {
   outputDirectory: string;
   sourceName: string;
   territory: string;
+  cartographieNationaleApiUrl: string;
+  cartographieNationaleApiKey: string;
 };
 
 export const DEDUPLIQUER_OPTIONS: ((program: Command) => Command)[] = [
@@ -15,7 +17,8 @@ export const DEDUPLIQUER_OPTIONS: ((program: Command) => Command)[] = [
   outputDirectoryOption,
   sourceOption,
   sourceNameOption,
-  territoryOption
+  territoryOption,
+  apiKeyOption
 ];
 
 export const dedupliquerOptionsQuestions = (dedupliquerOptions: DedupliquerOptions): Question[] => [
@@ -24,3 +27,14 @@ export const dedupliquerOptionsQuestions = (dedupliquerOptions: DedupliquerOptio
   sourceNameQuestion(dedupliquerOptions),
   territoryQuestion(dedupliquerOptions)
 ];
+
+const cartographieNationaleApiUrlIfAny = (cartographieNationaleApiUrl?: string): { cartographieNationaleApiUrl?: string } =>
+  cartographieNationaleApiUrl == null ? {} : { cartographieNationaleApiUrl };
+
+const cartographieNationaleApiKeyIfAny = (cartographieNationaleApiKey?: string): { cartographieNationaleApiKey?: string } =>
+  cartographieNationaleApiKey == null ? {} : { cartographieNationaleApiKey };
+
+export const toDedupliquerOptions = (environment: Record<string, string | undefined>): Partial<DedupliquerOptions> => ({
+  ...cartographieNationaleApiUrlIfAny(environment['CARTOGRAPHIE_NATIONALE_API_URL']),
+  ...cartographieNationaleApiKeyIfAny(environment['CARTOGRAPHIE_NATIONALE_API_KEY'])
+});
