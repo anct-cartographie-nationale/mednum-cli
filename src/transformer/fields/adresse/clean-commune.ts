@@ -128,6 +128,34 @@ const FIX_SPELLING_NAME_OF_PIERREFFITTES_NESTALAS: CleanOperation = {
   fix: (toFix: string): string => toFix.toString().replace(/^Pierreffitte-Nestalas$/u, 'Pierrefitte-Nestalas')
 };
 
+const FIX_SPELLING_NAME_OF_AYRE_SUR_LA_LYS: CleanOperation = {
+  name: 'fix typo in Ayre-sur-la-Lys',
+  selector: /^Ayre-sur-la-Lys$/u,
+  fix: (toFix: string): string => toFix.toString().replace(/^Ayre-sur-la-Lys$/u, 'Aire-sur-la-Lys')
+};
+
+const FIX_SPELLING_NAME_OF_SAUGNACQ_ET_MURET: CleanOperation = {
+  name: 'fix typo in Saugnacq-et-muret',
+  selector: /^Saugnacq-et-muret$/u,
+  fix: (toFix: string): string => toFix.toString().replace(/^Saugnacq-et-muret$/u, 'Saugnac-et-muret')
+};
+const FIX_FORGOTTEN_DASH_OF_SAINT_PHILIBERT_DE_GRANDLIEU: CleanOperation = {
+  name: 'fix typo in Saint-Philbert-de-Grandlieu',
+  selector: /^Saint-Philbert-de-Grandlieu$/u,
+  fix: (toFix: string): string => toFix.toString().replace(/^Saint-Philbert-de-Grandlieu$/u, 'Saint-Philbert-de-Grand-Lieu')
+};
+
+const FIX_FORGOTTEN_APOSTROPHE_OF_SAINT_DONAT_SUR_LHERBASSE: CleanOperation = {
+  name: 'fix typo in Saint-Donat-sur-lHerbasse',
+  selector: /^Saint-Donat-sur-lHerbasse$/u,
+  fix: (toFix: string): string => toFix.toString().replace(/^Saint-Donat-sur-lHerbasse$/u, "Saint-Donat-sur-l'Herbasse")
+};
+
+const FIX_FORGOTTEN_LETTER_L_OF_LES_MOLETTES: CleanOperation = {
+  name: 'fix typo in Les-Molettes',
+  selector: /^Les-Molettes$/u,
+  fix: (toFix: string): string => toFix.toString().replace(/^Les-Molettes/u, 'Les-Mollettes')
+};
 export const CLEAN_COMMUNE: CleanOperation[] = [
   FIX_UNEXPECTED_DETAILS,
   FIX_WRONG_ACCENT_CHARS,
@@ -149,7 +177,12 @@ export const CLEAN_COMMUNE: CleanOperation[] = [
   FIX_FORGOTTEN_ARTICLE_FROM_PRECHEUR,
   FIX_SPELLING_NAME_OF_BORDERES_ET_LAMESENS,
   FIX_SPELLING_NAME_OF_PIERREFFITTES_NESTALAS,
-  REPLACE_SPACES_WITH_DASHES
+  REPLACE_SPACES_WITH_DASHES,
+  FIX_SPELLING_NAME_OF_AYRE_SUR_LA_LYS,
+  FIX_SPELLING_NAME_OF_SAUGNACQ_ET_MURET,
+  FIX_FORGOTTEN_DASH_OF_SAINT_PHILIBERT_DE_GRANDLIEU,
+  FIX_FORGOTTEN_APOSTROPHE_OF_SAINT_DONAT_SUR_LHERBASSE,
+  FIX_FORGOTTEN_LETTER_L_OF_LES_MOLETTES
 ];
 
 const communeFromVoie = (voie: string): string =>
