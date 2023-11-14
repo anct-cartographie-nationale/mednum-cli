@@ -1,9 +1,9 @@
-import { ANCIENNES_COMMUNES_MAP } from './anciennes-communes';
+import { getNewCommune } from './anciennes-communes';
 import { Commune } from './find-commune';
 
 describe('anciennes communes', (): void => {
   it('should build anciennes communes map from json file', (): void => {
-    const commune: Commune | undefined = ANCIENNES_COMMUNES_MAP.get('Saint-Barbant');
+    const commune: Commune | undefined = getNewCommune('Saint-Barbant');
 
     expect(commune).toStrictEqual({
       nom: "Val-d'Oire-et-Gartempe",
@@ -13,6 +13,20 @@ describe('anciennes communes', (): void => {
       codeEpci: '200071942',
       codeRegion: '75',
       codesPostaux: ['87330']
+    });
+  });
+
+  it('should build anciennes communes map from json file with uppercase', (): void => {
+    const commune: Commune | undefined = getNewCommune('PLAN-DU-VAR');
+
+    expect(commune).toStrictEqual({
+      nom: 'Levens',
+      code: '06075',
+      codeDepartement: '06',
+      siren: '2106007552',
+      codeEpci: '200030195',
+      codeRegion: '93',
+      codesPostaux: ['06670']
     });
   });
 });
