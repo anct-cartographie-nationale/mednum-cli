@@ -116,7 +116,7 @@ describe('clean commune', (): void => {
     expect(commune).toBe('Le-Prêcheur');
   });
 
-  it('should not add an article for Le Prêcheur', (): void => {
+  it('should not add an article for Le Prếcheur', (): void => {
     const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'Le Prêcheur'));
 
     expect(commune).toBe('Le-Prêcheur');
@@ -150,5 +150,35 @@ describe('clean commune', (): void => {
     const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'SAINT-NICOLAS-cédex'));
 
     expect(commune).toBe('SAINT-NICOLAS');
+  });
+
+  it('should fix the typo in Ayre-sur-la-Lys', (): void => {
+    const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'Ayre-sur-la-Lys'));
+
+    expect(commune).toBe('Aire-sur-la-Lys');
+  });
+
+  it('should fix the typo in Saugnacq-et-muret', (): void => {
+    const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'Saugnacq-et-muret'));
+
+    expect(commune).toBe('Saugnac-et-muret');
+  });
+
+  it('should fix the typo in Saint-Philbert-de-Grandlieu', (): void => {
+    const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'Saint-Philbert-de-Grandlieu'));
+
+    expect(commune).toBe('Saint-Philbert-de-Grand-Lieu');
+  });
+
+  it('should fix the apostrophe in Saint-Donat-sur-lHerbasse', (): void => {
+    const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'Saint-Donat-sur-lHerbasse'));
+
+    expect(commune).toBe("Saint-Donat-sur-l'Herbasse");
+  });
+
+  it('should add the letter l in Les-Molettes', (): void => {
+    const commune: string = CLEAN_COMMUNE.reduce(toCleanField, communeField('', 'Les-Molettes'));
+
+    expect(commune).toBe('Les-Mollettes');
   });
 });
