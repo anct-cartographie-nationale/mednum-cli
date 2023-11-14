@@ -6,7 +6,7 @@ const onlyDefined = <T>(entry: T | undefined): entry is T => entry != null;
 const communeMapEntry = (newCommune: NewCommune | undefined, communeName: string): [string, Commune] | undefined => {
   if (newCommune == null) return undefined;
   const { date, ...commune }: NewCommune = newCommune;
-  return [communeName, commune];
+  return [communeName.toLowerCase(), commune];
 };
 
 const toAncienneCommuneMapEntry = (ancienneCommuneName: string): [string, Commune] | undefined =>
@@ -15,3 +15,6 @@ const toAncienneCommuneMapEntry = (ancienneCommuneName: string): [string, Commun
 export const ANCIENNES_COMMUNES_MAP: Map<string, Commune> = new Map(
   Object.keys(ANCIENNES_COMMUNES).map(toAncienneCommuneMapEntry).filter(onlyDefined)
 );
+
+export const getNewCommune = (ancienneCommune: string): Commune | undefined =>
+  ANCIENNES_COMMUNES_MAP.get(ancienneCommune.toLowerCase());

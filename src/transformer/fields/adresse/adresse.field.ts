@@ -2,7 +2,7 @@
 
 import { Adresse } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { DataSource, LieuxMediationNumeriqueMatching } from '../../input';
-import { ANCIENNES_COMMUNES_MAP } from './anciennes-communes';
+import { getNewCommune } from './anciennes-communes';
 import { CLEAN_CODE_POSTAL, codePostalField } from './clean-code-postal';
 import { CLEAN_COMMUNE, communeField } from './clean-commune';
 import { toCleanField } from './clean-operations';
@@ -47,7 +47,7 @@ const communeFrom = (findCommune: FindCommune, addressToNormalize: AddressToNorm
   findCommune.parNom(addressToNormalize.commune) ??
   findCommune.parNomEtCodePostal(addressToNormalize.commune, addressToNormalize.code_postal) ??
   findCommune.parNomEtCodePostalLePlusProcheDuDepartement(addressToNormalize.commune, addressToNormalize.code_postal) ??
-  ANCIENNES_COMMUNES_MAP.get(addressToNormalize.commune);
+  getNewCommune(addressToNormalize.commune);
 
 const buildAddress =
   (findCommune: FindCommune) =>
