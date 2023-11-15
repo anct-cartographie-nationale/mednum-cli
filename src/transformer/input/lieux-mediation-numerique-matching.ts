@@ -72,31 +72,31 @@ export type LieuxMediationNumeriqueMatching = {
   horaires?: {
     jours?: [
       {
-        colonne: string | string[];
+        colonne: string[] | string;
         osm: 'Mo';
       },
       {
-        colonne: string | string[];
+        colonne: string[] | string;
         osm: 'Tu';
       },
       {
-        colonne: string | string[];
+        colonne: string[] | string;
         osm: 'We';
       },
       {
-        colonne: string | string[];
+        colonne: string[] | string;
         osm: 'Th';
       },
       {
-        colonne: string | string[];
+        colonne: string[] | string;
         osm: 'Fr';
       },
       {
-        colonne: string | string[];
+        colonne: string[] | string;
         osm: 'Sa';
       },
       {
-        colonne: string | string[];
+        colonne: string[] | string;
         osm: 'Su';
       }
     ];

@@ -36,14 +36,14 @@ const openingHoursFromDays = (matching: LieuxMediationNumeriqueMatching, source:
       ...(matching.horaires?.jours?.reduce(
         (
           processedDay: OsmOpeningHours[],
-          currentValue: { colonne: string | string[]; osm: OsmDaysOfWeek }
+          currentValue: { colonne: string[] | string; osm: OsmDaysOfWeek }
         ): OsmOpeningHours[] => [
           ...processedDay,
           ...processDay(
             currentValue.osm,
             Array.isArray(currentValue.colonne)
-              ? currentValue.colonne.map((col) => source[col]?.toString()).join(', ')
-              : source[currentValue.colonne]?.toString() || ''
+              ? currentValue.colonne.map((col: string): string | undefined => source[col]?.toString()).join(', ')
+              : source[currentValue.colonne]?.toString() ?? ''
           )
         ],
         []
