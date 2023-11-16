@@ -106,6 +106,7 @@
     "publier.hinaura": "ts-node src/index.ts publier -z \"fr:region:84\" -m \"./assets/output/hinaura/publier.json\"",
     "publier.hub-lo": "ts-node src/index.ts publier -z \"fr:region:24\" -m \"./assets/output/hub-lo/publier.json\"",
     "publier.maine-et-loire": "ts-node src/index.ts publier -z \"fr:departement:49\" -m \"./assets/output/maine-et-loire/publier.json\"",
+    "publier.mednum-bfc": "ts-node src/index.ts publier -z \"fr:region:27\" -m \"./assets/output/mednum-bfc/publier.json\"",
     "publier.mulhouse": "ts-node src/index.ts publier -z \"fr:commune:68224\" -m \"./assets/output/mulhouse/publier.json\"",
     "publier.numi": "ts-node src/index.ts publier -z \"fr:region:28\" -m \"./assets/output/numi/publier.json\"",
     "publier.mednum-hub-antilles": "ts-node src/index.ts publier -z \"fr:region:02\" -m \"./assets/output/mednum-hub-antilles/publier.json\"",

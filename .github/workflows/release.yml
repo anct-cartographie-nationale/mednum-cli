@@ -49,7 +49,8 @@ jobs:
             conumm,
             corse,
             epernay,
-            bus-france-services-charente
+            bus-france-services-charente,
+            mednum-bfc
           ]
     runs-on: ubuntu-latest
     environment: production
