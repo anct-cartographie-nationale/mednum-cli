@@ -1,0 +1,192 @@
+{
+  "id": {
+    "colonne": "bfc_id"
+  },
+  "nom": {
+    "colonne": "nom_structure"
+  },
+  "code_postal": {
+    "colonne": "code_postal"
+  },
+  "commune": {
+    "colonne": "ville"
+  },
+  "adresse": {
+    "colonne": "adresse"
+  },
+  "latitude": {
+    "colonne": "lat"
+  },
+  "longitude": {
+    "colonne": "lon"
+  },
+  "telephone": {
+    "colonne": "contact_tel"
+  },
+  "courriel": {
+    "colonne": "contact_email"
+  },
+  "site_web": {
+    "colonne": "url_lieu"
+  },
+  "date_maj": {
+    "colonne": "mise_a_jour"
+  },
+  "labels_nationaux": [
+    {
+      "colonnes": ["code_label"],
+      "termes": ["APTIC"],
+      "cible": "APTIC"
+    },
+    {
+      "colonnes": ["code_label"],
+      "termes": ["MFS"],
+      "cible": "France Services"
+    }
+  ],
+  "typologies": [
+    {
+      "colonnes": ["code_typo"],
+      "termes": ["O"],
+      "cible": "OF"
+    },
+    {
+      "colonnes": ["code_typo"],
+      "termes": ["TL"],
+      "cible": "TIERS_LIEUX"
+    },
+    {
+      "colonnes": ["code_typo"],
+      "termes": ["I"],
+      "cible": "PAD"
+    }
+  ],
+  "labels_autres": [
+    {
+      "colonnes": ["code_label"],
+      "termes": ["RIN"],
+      "cible": "Réseau inclusion numérique"
+    },
+    {
+      "colonnes": ["code_label"],
+      "termes": ["NMM"],
+      "cible": "Nièvre médiation numérique"
+    },
+    {
+      "colonnes": ["code_label"],
+      "termes": ["MSAP"],
+      "cible": "Maison de service au public"
+    },
+    {
+      "colonnes": ["code_label"],
+      "termes": ["FTL"],
+      "cible": "France Tiers-Lieux"
+    },
+    {
+      "colonnes": ["code_label"],
+      "termes": ["DM"],
+      "cible": "Réseau Dijon métropole"
+    }
+  ],
+  "modalites_accompagnement": [
+    {
+      "colonnes": ["code_accomp"],
+      "termes": ["A"],
+      "cible": "Seul : j'ai accès à du matériel et une connexion"
+    },
+    {
+      "colonnes": ["code_accomp"],
+      "termes": ["R", "G"],
+      "cible": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
+    },
+    {
+      "colonnes": ["code_accomp"],
+      "termes": ["RDV", "L"],
+      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+    }
+  ],
+  "services": [
+    {
+      "colonnes": ["code_accomp"],
+      "termes": ["A"],
+      "cible": "Accéder à une connexion internet"
+    },
+    {
+      "colonnes": ["code_accomp"],
+      "termes": ["A"],
+      "cible": "Accéder à du matériel"
+    },
+    {
+      "colonnes": ["code_accomp"],
+      "termes": ["G", "L", "RDV"],
+      "cible": "Devenir autonome dans les démarches administratives"
+    },
+    {
+      "colonnes": ["code_accomp"],
+      "termes": ["G", "L", "RDV"],
+      "cible": "Réaliser des démarches administratives avec un accompagnement"
+    },
+    {
+      "colonnes": ["code_typo"],
+      "termes": ["I"],
+      "cible": "Devenir autonome dans les démarches administratives"
+    },
+    {
+      "colonnes": ["code_typo"],
+      "termes": ["I"],
+      "cible": "Réaliser des démarches administratives avec un accompagnement"
+    },
+    {
+      "colonnes": ["code_typo"],
+      "termes": ["F"],
+      "cible": "Approfondir ma culture numérique"
+    },
+    {
+      "colonnes": ["code_typo"],
+      "termes": ["F", "TL"],
+      "cible": "Créer avec le numérique"
+    },
+    {
+      "colonnes": ["code_typo"],
+      "termes": ["T", "TL"],
+      "cible": "Accéder à une connexion internet"
+    },
+    {
+      "colonnes": ["code_typo"],
+      "termes": ["TL"],
+      "cible": "Créer et développer mon entreprise"
+    }
+  ],
+  "horaires": {
+    "jours": [
+      {
+        "colonne": ["lundi matin", "lundi après-midi"],
+        "osm": "Mo"
+      },
+      {
+        "colonne": ["mardi matin", "mardi après-midi"],
+        "osm": "Tu"
+      },
+      {
+        "colonne": ["mercredi matin", "mercredi après-midi"],
+        "osm": "We"
+      },
+      {
+        "colonne": ["jeudi matin", "jeudi après-midi"],
+        "osm": "Th"
+      },
+      {
+        "colonne": ["vendredi matin", "vendredi après-midi"],
+        "osm": "Fr"
+      },
+      {
+        "colonne": ["samedi matin", "samedi après-midi"],
+        "osm": "Sa"
+      },
+      {
+        "colonne": ["dimanche matin", "dimanche après-midi"],
+        "osm": "Su"
+      }
+    ]
+  }
+}
