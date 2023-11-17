@@ -55,7 +55,7 @@ export const ANCIENNES_COMMUNES: Record<string, NewCommune> = {
     codeRegion: '44',
     codesPostaux: ['88150']
   },
-  'Saint-Sver-Calvados': {
+  'Saint-Sever-Calvados': {
     nom: 'Noues de Sienne',
     date: '2023-10-30',
     code: '14658',
@@ -155,7 +155,7 @@ export const ANCIENNES_COMMUNES: Record<string, NewCommune> = {
     codeRegion: '52',
     codesPostaux: ['85120']
   },
-  'La-Chappelle-aux-Lys': {
+  'La-Chapelle-aux-Lys': {
     nom: 'Terval',
     date: '2023-10-30',
     code: '85289',
@@ -424,5 +424,60 @@ export const ANCIENNES_COMMUNES: Record<string, NewCommune> = {
     codeEpci: '200066793',
     codeRegion: '84',
     codesPostaux: ['74210']
+  },
+
+  Pringy: {
+    nom: 'Annecy',
+    date: '2023-11-14',
+    code: '74010',
+    codeDepartement: '74',
+    siren: '200063402',
+    codeEpci: '200066793',
+    codeRegion: '84',
+    codesPostaux: ['74370']
+  },
+
+  'Ouzouer-le-Marché': {
+    nom: 'Beauce la Romaine',
+    date: '2023-11-14',
+    code: '41173',
+    codeDepartement: '41',
+    siren: '200055390',
+    codeEpci: '200070183',
+    codeRegion: '24',
+    codesPostaux: ['41240']
+  },
+
+  'Le Bény-Bocage': {
+    nom: 'Beauce la Romaine',
+    date: '2023-11-14',
+    code: '14061',
+    codeDepartement: '14',
+    siren: '200056869',
+    codeEpci: '200068799',
+    codeRegion: '28',
+    codesPostaux: ['14350']
+  },
+
+  Couhé: {
+    nom: 'Valence-en-Poitou',
+    date: '2023-11-14',
+    code: '86082',
+    codeDepartement: '86',
+    siren: '200084861',
+    codeEpci: '200070035',
+    codeRegion: '75',
+    codesPostaux: ['86700']
+  },
+
+  "Caumont-l'Éventé": {
+    nom: 'Caumont-sur-Aure',
+    date: '2023-11-14',
+    code: '14143',
+    codeDepartement: '14',
+    siren: '200064871',
+    codeEpci: '200069524',
+    codeRegion: '28',
+    codesPostaux: ['14240']
   }
 };
