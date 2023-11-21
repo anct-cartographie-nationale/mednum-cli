@@ -63,6 +63,4 @@ describe('merge hours ranges', (): void => {
 
     expect(merged).toBe('08:00-12:30,14:00-18:00');
   });
-
-  // todo: two combined ranges
 });

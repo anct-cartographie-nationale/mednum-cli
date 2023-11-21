@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
 import axios, { AxiosResponse } from 'axios';
+import { Api, authHeader, headers } from '../../../common';
 import { Dataset, PublishDataset } from '../../models';
-import { Api, authHeader, headers } from '../data-gouv.api';
 
 type UpdateDatasetTransfer = {
   description: string;

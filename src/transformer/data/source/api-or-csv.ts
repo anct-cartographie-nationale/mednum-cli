@@ -1,8 +1,12 @@
 import axios, { AxiosResponse } from 'axios';
 /* eslint-disable-next-line @typescript-eslint/no-restricted-imports */
 import * as fs from 'fs';
-// todo: remove link to cli
-import { TransformerOptions } from '../../cli/transformer-options';
+
+export type SourceSettings = {
+  source: string;
+  encoding?: string;
+  delimiter?: string;
+};
 
 /* eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/typedef, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
 const iconv = require('iconv-lite');
@@ -66,7 +70,5 @@ const fetchFrom = async ([source, key]: string[], encoding?: string, delimiter?:
 const readFrom = async ([source, key]: string[]): Promise<string> =>
   JSON.stringify(fromJson(JSON.parse(await fs.promises.readFile(source ?? '', 'utf-8')), key));
 
-export const sourceATransformer = async (transformerOptions: TransformerOptions): Promise<string> =>
-  transformerOptions.source.startsWith('http')
-    ? fetchFrom(transformerOptions.source.split('@'), transformerOptions.encoding ?? '', transformerOptions.delimiter ?? '')
-    : readFrom(transformerOptions.source.split('@'));
+export const sourceATransformer = async ({ source, encoding = '', delimiter = '' }: SourceSettings): Promise<string> =>
+  source.startsWith('http') ? fetchFrom(source.split('@'), encoding, delimiter) : readFrom(source.split('@'));

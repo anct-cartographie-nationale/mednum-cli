@@ -17,41 +17,37 @@ jobs:
       matrix:
         source: [
             aidants-connect,
-            hinaura,
-            maine-et-loire,
-            les-assembleurs,
-            france-services,
-            france-tiers-lieux,
-            conseiller-numerique,
-            francil-in,
             angers,
+            bus-france-services-charente,
+            charente-maritime,
+            conumm,
+            conseiller-numerique,
+            corse,
+            dora,
+            epernay,
+            etapes-numerique,
+            fibre-64,
+            france-services,
+            francil-in,
+            france-tiers-lieux,
+            gironde,
+            haute-vienne,
+            hinaura,
             hub-lo,
+            maine-et-loire,
+            mednum-bfc,
             mulhouse,
-            data-inclusion,
+            vendee,
+            la-creuse,
+            les-assembleurs,
+            les-landes,
             paca,
             loire-atlantique,
             rhin-occ,
             res-in,
-            # les-landes,
-            la-creuse,
-            numi,
-            vendee,
-            vendee-extraction,
-            savoie-extraction,
-            ultra-num,
-            haute-vienne,
-            fibre-64,
-            mednum-hub-antilles,
-            gironde,
-            etapes-numerique,
-            charente-maritime,
-            eure-et-loir,
-            conumm,
-            corse,
-            epernay,
-            bus-france-services-charente,
-            mednum-bfc
-          ]
+            sarthe,
+            ultra-num
+        ]
     runs-on: ubuntu-latest
     environment: production
 
@@ -85,6 +81,9 @@ jobs:
 
       - name: Publish
         run: yarn publier.${{ matrix.source }}
+
+      - name: Internal deduplication
+        run: yarn dedupliquer.${{ matrix.source }}
 
   build:
     uses: romain-cambonie/serenity-workflows/.github/workflows/_build-and-upload-artifact.reusable.yml@master
@@ -121,7 +120,7 @@ jobs:
           npx semantic-release
 
   deduplicate:
-    name: Publish data-inclusion without duplicates
+    name: Merge all duplicates between sources
     runs-on: ubuntu-latest
     environment: production
     needs:
@@ -142,9 +141,6 @@ jobs:
       - name: Install dependencies
         run: yarn
 
-      - name: Deduplicate
-        run: yarn dedupliquer.data-inclusion
-
       - name: 'Create env file'
         run: |
           touch .env
@@ -152,15 +148,8 @@ jobs:
           echo DATA_GOUV_API_KEY="${{ secrets.DATA_GOUV_API_KEY }}" >> .env
           echo DATA_GOUV_REFERENCE_ID="${{ secrets.DATA_GOUV_REFERENCE_ID }}" >> .env
           echo DATA_GOUV_REFERENCE_TYPE="${{ secrets.DATA_GOUV_REFERENCE_TYPE }}" >> .env
+          echo CARTOGRAPHIE_NATIONALE_API_URL="${{ secrets.CARTOGRAPHIE_NATIONALE_API_URL }}" >> .env
+          echo CARTOGRAPHIE_NATIONALE_API_KEY="${{ secrets.CARTOGRAPHIE_NATIONALE_API_KEY }}" >> .env
 
-      - name: Publish to data.gouv
-        run: yarn publier.data-inclusion
-
-      - name: Publish to database
-        uses: kersvers/s3-sync-with-cloudfront-invalidation@v1.0.0
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-          DISTRIBUTION_ID: ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }}
-          SOURCE_DIR: './assets/output/data-inclusion/dynamo-import'
+      - name: Deduplicate
+        run: yarn dedupliquer.cartographie-nationale

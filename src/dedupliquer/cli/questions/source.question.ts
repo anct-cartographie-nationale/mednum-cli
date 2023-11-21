@@ -12,7 +12,7 @@ export const sourceQuestion = (
   mednumDedupliquerProperties: DedupliquerOptions
 ): InputQuestion & { name: keyof DedupliquerOptions } => ({
   message: 'Source de données à dédupliquer',
-  name: 'source',
+  name: 'baseSource',
   validate: validateSource,
   when: (): boolean => validateSource(mednumDedupliquerProperties.source) !== true,
   filter: (answer: string): string => answer.trim()

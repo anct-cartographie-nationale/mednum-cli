@@ -6,7 +6,7 @@ module.exports = {
     'error',
     {
       allowImplicit: true,
-      checkForEach: true
+      checkForEach: false
     }
   ],
   'getter-return': [

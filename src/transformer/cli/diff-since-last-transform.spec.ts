@@ -13,27 +13,27 @@ import {
 const ID_KEY: string = 'TYPO_UID';
 
 const UATL_FINGERPRINT: Fingerprint = {
-  id: '14',
+  sourceId: '14',
   hash: 'e7d7002d1df0c66f3c0ab706f6511dc534baeae83c0221607696532932af4751'
 };
 
 const UATL_FINGERPRINT_UPDATED: Fingerprint = {
-  id: '14',
+  sourceId: '14',
   hash: '0a93e9d31109b1c7a33342eca2c853c8f0ca71afeb7102e880e211db7f8d8faf'
 };
 
 const IREPS_FINGERPRINT: Fingerprint = {
-  id: '32',
+  sourceId: '32',
   hash: '196c86a3b61bfba6b02ede6880a965cb49d16cb7c1963416f0b43b79e6068530'
 };
 
 const FILALIGNE_FINGERPRINT: Fingerprint = {
-  id: '56',
+  sourceId: '56',
   hash: '0ae880e9ed6893699721543d9f900354937ec8f789afb353cc6b9d75bc1a74ab'
 };
 
 const TRAIT_D_UNION_FINGERPRINT: Fingerprint = {
-  id: '23',
+  sourceId: '23',
   hash: '882f4a726a017ef4dbf1889484298c6a9d2bbf6da2f4bd903829d42832ca2f9b'
 };
 
@@ -164,7 +164,7 @@ describe('should transform', (): void => {
 
     expect(itemsToTransform).toStrictEqual({
       toUpsert: [],
-      toDelete: ['32']
+      toDelete: [{ sourceId: '32' }]
     });
   });
 
@@ -216,7 +216,7 @@ describe('should transform', (): void => {
   });
 
   it('should delete a previous fingerprint when an item has been deleted', (): void => {
-    const updatedFingerprints: Fingerprint[] = updateFingerprints(FINGERPRINTS, [], ['14']);
+    const updatedFingerprints: Fingerprint[] = updateFingerprints(FINGERPRINTS, [], [{ sourceId: '14' }]);
 
     expect(updatedFingerprints).toStrictEqual([IREPS_FINGERPRINT, FILALIGNE_FINGERPRINT]);
   });

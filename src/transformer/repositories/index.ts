@@ -1,1 +1,1 @@
-export * from './lieux-inclusion-numerique-transformation.repository';
+export * from './transformation.repository';

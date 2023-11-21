@@ -5,14 +5,18 @@ export type DiffSinceLastTransformWithoutId = null;
 
 export type DiffSinceLastTransformWithId = {
   toUpsert: DataSource[];
-  toDelete: string[];
+  toDelete: FingerprintToDelete[];
 };
 
 export type DiffSinceLastTransform = DiffSinceLastTransformWithId | DiffSinceLastTransformWithoutId;
 
 export type Fingerprint = {
-  id: string;
+  sourceId: string;
   hash: string;
+};
+
+export type FingerprintToDelete = {
+  sourceId: string;
 };
 
 const DIFF_WITHOUT_ID: DiffSinceLastTransformWithoutId = null;
@@ -23,17 +27,18 @@ const hasSameHash = (currentHash: string | undefined, item: DataSource): boolean
 
 const toIdsToDeleteFrom =
   (newIds: string[]) =>
-  (toDelete: string[], previousId: string): string[] =>
-    newIds.includes(previousId) ? toDelete : [...toDelete, previousId];
+  (toDelete: FingerprintToDelete[], previousId: Fingerprint): FingerprintToDelete[] =>
+    newIds.includes(previousId.sourceId) ? toDelete : [...toDelete, { sourceId: previousId.sourceId }];
 
-const findDeletedIds = (previousIds: string[], newIds: string[]): string[] => previousIds.reduce(toIdsToDeleteFrom(newIds), []);
+const findDeletedIds = (previousIds: Fingerprint[], newIds: string[]): FingerprintToDelete[] =>
+  previousIds.reduce(toIdsToDeleteFrom(newIds), []);
 
 const getId = (idKey: string, item?: DataSource): string => (item?.[idKey] as string).toString();
 
 const onlyMatchingItemIds =
   (idKey: string, currentItem: DataSource) =>
   (fingerprint: Fingerprint): boolean =>
-    fingerprint.id === getId(idKey, currentItem);
+    fingerprint.sourceId === getId(idKey, currentItem);
 
 const toItemToUpsert =
   (fingerprints: Fingerprint[], idKey: string) =>
@@ -43,15 +48,15 @@ const toItemToUpsert =
 const idsToUpsert = (sourceItems: DataSource[], idKey: string, fingerprints: Fingerprint[]): DataSource[] =>
   sourceItems.reduce(toItemToUpsert(fingerprints, idKey), []);
 
-const toFingerprintId = (fingerprint: Fingerprint): string => fingerprint.id;
+const toFingerprintId = (fingerprint: Fingerprint): string => fingerprint.sourceId;
 
 const toItemId =
   (idKey: string) =>
   (currentItem: DataSource): string =>
     getId(idKey, currentItem);
 
-const idsToDelete = (fingerprints: Fingerprint[], sourceItem: DataSource[], idKey: string): string[] =>
-  findDeletedIds(fingerprints.map(toFingerprintId), sourceItem.map(toItemId(idKey)));
+const idsToDelete = (fingerprints: Fingerprint[], sourceItem: DataSource[], idKey: string): FingerprintToDelete[] =>
+  findDeletedIds(fingerprints, sourceItem.map(toItemId(idKey)));
 
 const findItemsToTransform = (sourceItem: DataSource[], fingerprints: Fingerprint[], idKey: string): DiffSinceLastTransform =>
   idKey === ''
@@ -69,7 +74,7 @@ export const diffSinceLastTransform =
 const toFingerprint =
   (idKey: string) =>
   (sourceItem: DataSource): Fingerprint => ({
-    id: getId(idKey, sourceItem),
+    sourceId: getId(idKey, sourceItem),
     hash: hashFor(sourceItem)
   });
 
@@ -79,22 +84,22 @@ export const fingerprintsFrom = (sourceItems: DataSource[], idKey: string): Fing
 const matchingFingerprintById =
   (fingerprint: Fingerprint) =>
   (nextFingerprint: Fingerprint): boolean =>
-    nextFingerprint.id === fingerprint.id;
+    nextFingerprint.sourceId === fingerprint.sourceId;
 
 const updateFingerprintHash = (fingerprint: Fingerprint, nextFingerprints: Fingerprint[]): Fingerprint => ({
-  id: fingerprint.id,
+  sourceId: fingerprint.sourceId,
   hash: nextFingerprints.find(matchingFingerprintById(fingerprint))?.hash ?? ''
 });
 
 const toUpdatedFingerprintHash =
   (matchingIds: string[], nextFingerprints: Fingerprint[]) =>
   (fingerprint: Fingerprint): Fingerprint =>
-    matchingIds.includes(fingerprint.id) ? updateFingerprintHash(fingerprint, nextFingerprints) : fingerprint;
+    matchingIds.includes(fingerprint.sourceId) ? updateFingerprintHash(fingerprint, nextFingerprints) : fingerprint;
 
 const onlyFingerprintsToAdd =
   (matchingIds: string[]) =>
   (fingerprint: Fingerprint): boolean =>
-    !matchingIds.includes(fingerprint.id);
+    !matchingIds.includes(fingerprint.sourceId);
 
 const onlyMatchingIds =
   (nextFingerprintsIds: string[]) =>
@@ -104,16 +109,17 @@ const onlyMatchingIds =
 const onlyFingerprintsNotIn =
   (idsToRemove: string[]) =>
   (fingerprint: Fingerprint): boolean =>
-    !idsToRemove.includes(fingerprint.id);
+    !idsToRemove.includes(fingerprint.sourceId);
 
 export const updateFingerprints = (
   fingerprints: Fingerprint[],
   nextFingerprints: Fingerprint[],
-  toDelete: string[] = []
+  fingerprintToDelete: FingerprintToDelete[] = []
 ): Fingerprint[] => {
   const fingerprintsIds: string[] = fingerprints.map(toFingerprintId);
   const nextFingerprintsIds: string[] = nextFingerprints.map(toFingerprintId);
   const matchingIds: string[] = fingerprintsIds.filter(onlyMatchingIds(nextFingerprintsIds));
+  const toDelete: string[] = fingerprintToDelete.map((fingerprint: FingerprintToDelete): string => fingerprint.sourceId);
 
   return [
     ...fingerprints.filter(onlyFingerprintsNotIn(toDelete)).map(toUpdatedFingerprintHash(matchingIds, nextFingerprints)),
