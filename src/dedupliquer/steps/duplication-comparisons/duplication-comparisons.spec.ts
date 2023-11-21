@@ -32,7 +32,7 @@ describe('deduplication comparison', (): void => {
       } as SchemaLieuMediationNumerique
     ];
 
-    const lieuxWithoutDuplicates: DuplicationComparison[] = duplicationComparisons(lieux);
+    const lieuxWithoutDuplicates: DuplicationComparison[] = duplicationComparisons(lieux, false);
 
     expect(lieuxWithoutDuplicates).toStrictEqual<DuplicationComparison[]>([
       {
@@ -74,7 +74,7 @@ describe('deduplication comparison', (): void => {
       } as SchemaLieuMediationNumerique
     ];
 
-    const lieuxWithoutDuplicates: DuplicationComparison[] = duplicationComparisons(lieux);
+    const lieuxWithoutDuplicates: DuplicationComparison[] = duplicationComparisons(lieux, false);
 
     expect(lieuxWithoutDuplicates).toStrictEqual<DuplicationComparison[]>([]);
   });
@@ -143,7 +143,7 @@ describe('deduplication comparison', (): void => {
       } as SchemaLieuMediationNumerique
     ];
 
-    const lieuxWithoutDuplicates: DuplicationComparison[] = duplicationComparisons(lieux);
+    const lieuxWithoutDuplicates: DuplicationComparison[] = duplicationComparisons(lieux, false);
 
     expect(lieuxWithoutDuplicates).toStrictEqual<DuplicationComparison[]>([
       {

@@ -277,4 +277,83 @@ describe('group duplicates', (): void => {
       ])
     });
   });
+
+  it('should merge 3 lieux together', (): void => {
+    const duplicates: DuplicationComparison[] = [
+      {
+        id1: '05a12890-03e5-5abd-949c-cbaaf5b9afe5',
+        id2: 'ad71ff4b-c21e-474c-96ee-ce9be12a973d',
+        score: 100,
+        adresseScore: 100,
+        adresse1: 'Avenue de Haute Roche 69310 Pierre-Bénite',
+        adresse2: 'Avenue de Haute Roche 69310 Pierre-Bénite',
+        nomScore: 100,
+        nom1: "Maison de l'emploi et du numérique",
+        nom2: "Maison de l'emploi et du numérique",
+        distanceScore: 100,
+        localisation1: '45.7003476 : 4.8277535',
+        localisation2: '45.7003476 : 4.8277535',
+        source1: 'Hinaura',
+        source2: 'Res-in',
+        typologie1: 'MDE',
+        typologie2: 'MDE'
+      },
+      {
+        id1: '05a12890-03e5-5abd-949c-cbaaf5b9afe5',
+        id2: '36cb4c7c-28d3-4f0b-ae50-d4a682a4b6f5',
+        score: 100,
+        adresseScore: 100,
+        adresse1: 'Avenue de Haute Roche 69310 Pierre-Bénite',
+        adresse2: 'Avenue de Haute Roche 69310 Pierre-Bénite',
+        nomScore: 100,
+        nom1: "Maison de l'emploi et du numérique",
+        nom2: "Maison de l'emploi et du numérique",
+        distanceScore: 100,
+        localisation1: '45.7003476 : 4.8277535',
+        localisation2: '45.7003476 : 4.8277535',
+        source1: 'Hinaura',
+        source2: 'Conseiller Numérique',
+        typologie1: 'MDE',
+        typologie2: 'MDE'
+      },
+      {
+        id1: 'ad71ff4b-c21e-474c-96ee-ce9be12a973d',
+        id2: '36cb4c7c-28d3-4f0b-ae50-d4a682a4b6f5',
+        score: 100,
+        adresseScore: 100,
+        adresse1: 'Avenue de Haute Roche 69310 Pierre-Bénite',
+        adresse2: 'Avenue de Haute Roche 69310 Pierre-Bénite',
+        nomScore: 100,
+        nom1: "Maison de l'emploi et du numérique",
+        nom2: "Maison de l'emploi et du numérique",
+        distanceScore: 100,
+        localisation1: '45.7003476 : 4.8277535',
+        localisation2: '45.7003476 : 4.8277535',
+        source1: 'Res-in',
+        source2: 'Conseiller Numérique',
+        typologie1: 'MDE',
+        typologie2: 'MDE'
+      }
+    ];
+
+    const readyToMerge: Groups = groupDuplicates(duplicates);
+
+    expect(readyToMerge).toStrictEqual({
+      mergeGroupsMap: new Map<string, string[]>([
+        [
+          '594712d536a1cc22353e9a6191971dd29b0d4cedcab3cb70dfa9b1bfe40a7d00',
+          [
+            '05a12890-03e5-5abd-949c-cbaaf5b9afe5',
+            '36cb4c7c-28d3-4f0b-ae50-d4a682a4b6f5',
+            'ad71ff4b-c21e-474c-96ee-ce9be12a973d'
+          ]
+        ]
+      ]),
+      itemGroupMap: new Map<string, string>([
+        ['05a12890-03e5-5abd-949c-cbaaf5b9afe5', '594712d536a1cc22353e9a6191971dd29b0d4cedcab3cb70dfa9b1bfe40a7d00'],
+        ['36cb4c7c-28d3-4f0b-ae50-d4a682a4b6f5', '594712d536a1cc22353e9a6191971dd29b0d4cedcab3cb70dfa9b1bfe40a7d00'],
+        ['ad71ff4b-c21e-474c-96ee-ce9be12a973d', '594712d536a1cc22353e9a6191971dd29b0d4cedcab3cb70dfa9b1bfe40a7d00']
+      ])
+    });
+  });
 });

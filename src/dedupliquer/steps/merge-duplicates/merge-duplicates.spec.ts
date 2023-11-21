@@ -81,30 +81,28 @@ describe('remove duplicates', (): void => {
 
     const lieuxWithoutDuplicates: MergedLieuxByGroupMap = mergeDuplicates(new Date('2023-05-30'))(
       lieux,
-      groupDuplicates(duplicationComparisons(lieux))
+      groupDuplicates(duplicationComparisons(lieux, false))
     );
 
     expect(lieuxWithoutDuplicates).toStrictEqual(
-      new Map<string, SchemaLieuMediationNumerique>(
-        new Map<string, SchemaLieuMediationNumerique>([
-          [
-            '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
-            {
-              id: 'hinaura-MairiE2|hub-lo-436',
-              pivot: '00000000000000',
-              nom: 'France Services Durtal',
-              adresse: '11 rue Joseph Cugnot',
-              code_postal: '49430',
-              commune: 'Durtal',
-              latitude: 47.6699154795,
-              longitude: -0.2551539846,
-              date_maj: '2023-05-03',
-              source: 'hinaura',
-              services: Service.AccederADuMateriel
-            }
-          ]
-        ])
-      )
+      new Map<string, SchemaLieuMediationNumerique>([
+        [
+          '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
+          {
+            id: 'hinaura-MairiE2|hub-lo-436',
+            pivot: '00000000000000',
+            nom: 'France Services Durtal',
+            adresse: '11 rue Joseph Cugnot',
+            code_postal: '49430',
+            commune: 'Durtal',
+            latitude: 47.6699154795,
+            longitude: -0.2551539846,
+            date_maj: '2023-05-03',
+            source: 'hinaura',
+            services: Service.AccederADuMateriel
+          }
+        ]
+      ])
     );
   });
 
@@ -141,31 +139,29 @@ describe('remove duplicates', (): void => {
 
     const lieuxWithoutDuplicates: MergedLieuxByGroupMap = mergeDuplicates(new Date('2023-05-30'))(
       lieux,
-      groupDuplicates(duplicationComparisons(lieux))
+      groupDuplicates(duplicationComparisons(lieux, false))
     );
 
     expect(lieuxWithoutDuplicates).toStrictEqual(
-      new Map<string, SchemaLieuMediationNumerique>(
-        new Map<string, SchemaLieuMediationNumerique>([
-          [
-            '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
-            {
-              id: 'hinaura-MairiE2|hub-lo-436',
-              pivot: '00000000000000',
-              nom: 'France Services Durtal',
-              adresse: '11 rue Joseph Cugnot',
-              code_postal: '49430',
-              commune: 'Durtal',
-              latitude: 47.6699154795,
-              longitude: -0.2551539846,
-              date_maj: '2023-05-03',
-              courriel: 'commune-de-durtal@france-services.fr',
-              source: 'hinaura',
-              services: Service.RealiserDesDemarchesAdministratives
-            }
-          ]
-        ])
-      )
+      new Map<string, SchemaLieuMediationNumerique>([
+        [
+          '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
+          {
+            id: 'hinaura-MairiE2|hub-lo-436',
+            pivot: '00000000000000',
+            nom: 'France Services Durtal',
+            adresse: '11 rue Joseph Cugnot',
+            code_postal: '49430',
+            commune: 'Durtal',
+            latitude: 47.6699154795,
+            longitude: -0.2551539846,
+            date_maj: '2023-05-03',
+            courriel: 'commune-de-durtal@france-services.fr',
+            source: 'hinaura',
+            services: Service.RealiserDesDemarchesAdministratives
+          }
+        ]
+      ])
     );
   });
 
@@ -202,31 +198,29 @@ describe('remove duplicates', (): void => {
 
     const lieuxWithoutDuplicates: MergedLieuxByGroupMap = mergeDuplicates(new Date('2023-05-30'))(
       lieux,
-      groupDuplicates(duplicationComparisons(lieux))
+      groupDuplicates(duplicationComparisons(lieux, false))
     );
 
     expect(lieuxWithoutDuplicates).toStrictEqual(
-      new Map<string, SchemaLieuMediationNumerique>(
-        new Map<string, SchemaLieuMediationNumerique>([
-          [
-            '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
-            {
-              id: 'hinaura-MairiE2|hub-lo-436',
-              pivot: '43493312300029',
-              nom: 'France Services Durtal',
-              adresse: '11 rue Joseph Cugnot',
-              code_postal: '49430',
-              commune: 'Durtal',
-              latitude: 47.6699154795,
-              longitude: -0.2551539846,
-              date_maj: '2023-05-03',
-              courriel: 'commune-de-durtal@france-services.fr',
-              source: 'hinaura',
-              services: Service.RealiserDesDemarchesAdministratives
-            }
-          ]
-        ])
-      )
+      new Map<string, SchemaLieuMediationNumerique>([
+        [
+          '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
+          {
+            id: 'hinaura-MairiE2|hub-lo-436',
+            pivot: '43493312300029',
+            nom: 'France Services Durtal',
+            adresse: '11 rue Joseph Cugnot',
+            code_postal: '49430',
+            commune: 'Durtal',
+            latitude: 47.6699154795,
+            longitude: -0.2551539846,
+            date_maj: '2023-05-03',
+            courriel: 'commune-de-durtal@france-services.fr',
+            source: 'hinaura',
+            services: Service.RealiserDesDemarchesAdministratives
+          }
+        ]
+      ])
     );
   });
 
@@ -263,31 +257,29 @@ describe('remove duplicates', (): void => {
 
     const lieuxWithoutDuplicates: MergedLieuxByGroupMap = mergeDuplicates(new Date('2023-05-30'))(
       lieux,
-      groupDuplicates(duplicationComparisons(lieux))
+      groupDuplicates(duplicationComparisons(lieux, false))
     );
 
     expect(lieuxWithoutDuplicates).toStrictEqual(
-      new Map<string, SchemaLieuMediationNumerique>(
-        new Map<string, SchemaLieuMediationNumerique>([
-          [
-            '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
-            {
-              id: 'hinaura-MairiE2|hub-lo-436',
-              pivot: '00000000000000',
-              nom: 'France Services Durtal',
-              adresse: '11 rue Joseph Cugnot',
-              code_postal: '49430',
-              commune: 'Durtal',
-              latitude: 47.6699154795,
-              longitude: -0.2551539846,
-              date_maj: '2023-05-03',
-              courriel: 'commune-de-durtal@france-services.fr',
-              source: 'hinaura',
-              services: `${Service.DevenirAutonomeDansLesDemarchesAdministratives};${Service.RealiserDesDemarchesAdministratives};${Service.PrendreEnMainUnSmartphoneOuUneTablette};${Service.FavoriserMonInsertionProfessionnelle}`
-            }
-          ]
-        ])
-      )
+      new Map<string, SchemaLieuMediationNumerique>([
+        [
+          '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
+          {
+            id: 'hinaura-MairiE2|hub-lo-436',
+            pivot: '00000000000000',
+            nom: 'France Services Durtal',
+            adresse: '11 rue Joseph Cugnot',
+            code_postal: '49430',
+            commune: 'Durtal',
+            latitude: 47.6699154795,
+            longitude: -0.2551539846,
+            date_maj: '2023-05-03',
+            courriel: 'commune-de-durtal@france-services.fr',
+            source: 'hinaura',
+            services: `${Service.DevenirAutonomeDansLesDemarchesAdministratives};${Service.RealiserDesDemarchesAdministratives};${Service.PrendreEnMainUnSmartphoneOuUneTablette};${Service.FavoriserMonInsertionProfessionnelle}`
+          }
+        ]
+      ])
     );
   });
 
@@ -326,32 +318,30 @@ describe('remove duplicates', (): void => {
 
     const lieuxWithoutDuplicates: MergedLieuxByGroupMap = mergeDuplicates(new Date('2023-05-30'))(
       lieux,
-      groupDuplicates(duplicationComparisons(lieux))
+      groupDuplicates(duplicationComparisons(lieux, false))
     );
 
     expect(lieuxWithoutDuplicates).toStrictEqual(
-      new Map<string, SchemaLieuMediationNumerique>(
-        new Map<string, SchemaLieuMediationNumerique>([
-          [
-            '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
-            {
-              id: 'hinaura-MairiE2|hub-lo-436',
-              pivot: '00000000000000',
-              nom: 'France Services Durtal',
-              adresse: '11 rue Joseph Cugnot',
-              code_postal: '49430',
-              commune: 'Durtal',
-              latitude: 47.6699154795,
-              longitude: -0.2551539846,
-              date_maj: '2023-05-03',
-              courriel: 'commune-de-durtal@france-services.fr',
-              source: 'hinaura',
-              services: Service.RealiserDesDemarchesAdministratives,
-              modalites_accompagnement: `${ModaliteAccompagnement.Seul};${ModaliteAccompagnement.AMaPlace};${ModaliteAccompagnement.DansUnAtelier};${ModaliteAccompagnement.AvecDeLAide}`
-            }
-          ]
-        ])
-      )
+      new Map<string, SchemaLieuMediationNumerique>([
+        [
+          '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
+          {
+            id: 'hinaura-MairiE2|hub-lo-436',
+            pivot: '00000000000000',
+            nom: 'France Services Durtal',
+            adresse: '11 rue Joseph Cugnot',
+            code_postal: '49430',
+            commune: 'Durtal',
+            latitude: 47.6699154795,
+            longitude: -0.2551539846,
+            date_maj: '2023-05-03',
+            courriel: 'commune-de-durtal@france-services.fr',
+            source: 'hinaura',
+            services: Service.RealiserDesDemarchesAdministratives,
+            modalites_accompagnement: `${ModaliteAccompagnement.Seul};${ModaliteAccompagnement.AMaPlace};${ModaliteAccompagnement.DansUnAtelier};${ModaliteAccompagnement.AvecDeLAide}`
+          }
+        ]
+      ])
     );
   });
 
@@ -390,32 +380,30 @@ describe('remove duplicates', (): void => {
 
     const lieuxWithoutDuplicates: MergedLieuxByGroupMap = mergeDuplicates(new Date('2023-05-30'))(
       lieux,
-      groupDuplicates(duplicationComparisons(lieux))
+      groupDuplicates(duplicationComparisons(lieux, false))
     );
 
     expect(lieuxWithoutDuplicates).toStrictEqual(
-      new Map<string, SchemaLieuMediationNumerique>(
-        new Map<string, SchemaLieuMediationNumerique>([
-          [
-            '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
-            {
-              id: 'hinaura-MairiE2|hub-lo-436',
-              pivot: '00000000000000',
-              nom: 'France Services Durtal',
-              adresse: '11 rue Joseph Cugnot',
-              code_postal: '49430',
-              commune: 'Durtal',
-              latitude: 47.6699154795,
-              longitude: -0.2551539846,
-              date_maj: '2023-05-03',
-              courriel: 'commune-de-durtal@france-services.fr',
-              source: 'hinaura',
-              services: Service.RealiserDesDemarchesAdministratives,
-              conditions_acces: `${ConditionAcces.GratuitSousCondition};${ConditionAcces.Payant};${ConditionAcces.AccepteLePassNumerique};${ConditionAcces.Gratuit}`
-            }
-          ]
-        ])
-      )
+      new Map<string, SchemaLieuMediationNumerique>([
+        [
+          '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
+          {
+            id: 'hinaura-MairiE2|hub-lo-436',
+            pivot: '00000000000000',
+            nom: 'France Services Durtal',
+            adresse: '11 rue Joseph Cugnot',
+            code_postal: '49430',
+            commune: 'Durtal',
+            latitude: 47.6699154795,
+            longitude: -0.2551539846,
+            date_maj: '2023-05-03',
+            courriel: 'commune-de-durtal@france-services.fr',
+            source: 'hinaura',
+            services: Service.RealiserDesDemarchesAdministratives,
+            conditions_acces: `${ConditionAcces.GratuitSousCondition};${ConditionAcces.Payant};${ConditionAcces.AccepteLePassNumerique};${ConditionAcces.Gratuit}`
+          }
+        ]
+      ])
     );
   });
 
@@ -454,32 +442,30 @@ describe('remove duplicates', (): void => {
 
     const lieuxWithoutDuplicates: MergedLieuxByGroupMap = mergeDuplicates(new Date('2023-05-30'))(
       lieux,
-      groupDuplicates(duplicationComparisons(lieux))
+      groupDuplicates(duplicationComparisons(lieux, false))
     );
 
     expect(lieuxWithoutDuplicates).toStrictEqual(
-      new Map<string, SchemaLieuMediationNumerique>(
-        new Map<string, SchemaLieuMediationNumerique>([
-          [
-            '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
-            {
-              id: 'hinaura-MairiE2|hub-lo-436',
-              pivot: '00000000000000',
-              nom: 'France Services Durtal',
-              adresse: '11 rue Joseph Cugnot',
-              code_postal: '49430',
-              commune: 'Durtal',
-              latitude: 47.6699154795,
-              longitude: -0.2551539846,
-              date_maj: '2023-05-03',
-              courriel: 'commune-de-durtal@france-services.fr',
-              source: 'hinaura',
-              services: Service.RealiserDesDemarchesAdministratives,
-              publics_accueillis: `${PublicAccueilli.Surdite};${PublicAccueilli.Adultes};${PublicAccueilli.Jeunes};${PublicAccueilli.Seniors}`
-            }
-          ]
-        ])
-      )
+      new Map<string, SchemaLieuMediationNumerique>([
+        [
+          '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
+          {
+            id: 'hinaura-MairiE2|hub-lo-436',
+            pivot: '00000000000000',
+            nom: 'France Services Durtal',
+            adresse: '11 rue Joseph Cugnot',
+            code_postal: '49430',
+            commune: 'Durtal',
+            latitude: 47.6699154795,
+            longitude: -0.2551539846,
+            date_maj: '2023-05-03',
+            courriel: 'commune-de-durtal@france-services.fr',
+            source: 'hinaura',
+            services: Service.RealiserDesDemarchesAdministratives,
+            publics_accueillis: `${PublicAccueilli.Surdite};${PublicAccueilli.Adultes};${PublicAccueilli.Jeunes};${PublicAccueilli.Seniors}`
+          }
+        ]
+      ])
     );
   });
 
@@ -518,32 +504,30 @@ describe('remove duplicates', (): void => {
 
     const lieuxWithoutDuplicates: MergedLieuxByGroupMap = mergeDuplicates(new Date('2023-05-30'))(
       lieux,
-      groupDuplicates(duplicationComparisons(lieux))
+      groupDuplicates(duplicationComparisons(lieux, false))
     );
 
     expect(lieuxWithoutDuplicates).toStrictEqual(
-      new Map<string, SchemaLieuMediationNumerique>(
-        new Map<string, SchemaLieuMediationNumerique>([
-          [
-            '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
-            {
-              id: 'hinaura-MairiE2|hub-lo-436',
-              pivot: '00000000000000',
-              nom: 'France Services Durtal',
-              adresse: '11 rue Joseph Cugnot',
-              code_postal: '49430',
-              commune: 'Durtal',
-              latitude: 47.6699154795,
-              longitude: -0.2551539846,
-              date_maj: '2023-05-03',
-              courriel: 'commune-de-durtal@france-services.fr',
-              source: 'hinaura',
-              services: Service.RealiserDesDemarchesAdministratives,
-              labels_nationaux: `${LabelNational.CNFS};${LabelNational.FranceServices};${LabelNational.APTIC};${LabelNational.AidantsConnect}`
-            }
-          ]
-        ])
-      )
+      new Map<string, SchemaLieuMediationNumerique>([
+        [
+          '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
+          {
+            id: 'hinaura-MairiE2|hub-lo-436',
+            pivot: '00000000000000',
+            nom: 'France Services Durtal',
+            adresse: '11 rue Joseph Cugnot',
+            code_postal: '49430',
+            commune: 'Durtal',
+            latitude: 47.6699154795,
+            longitude: -0.2551539846,
+            date_maj: '2023-05-03',
+            courriel: 'commune-de-durtal@france-services.fr',
+            source: 'hinaura',
+            services: Service.RealiserDesDemarchesAdministratives,
+            labels_nationaux: `${LabelNational.CNFS};${LabelNational.FranceServices};${LabelNational.APTIC};${LabelNational.AidantsConnect}`
+          }
+        ]
+      ])
     );
   });
 
@@ -582,32 +566,30 @@ describe('remove duplicates', (): void => {
 
     const lieuxWithoutDuplicates: MergedLieuxByGroupMap = mergeDuplicates(new Date('2023-05-30'))(
       lieux,
-      groupDuplicates(duplicationComparisons(lieux))
+      groupDuplicates(duplicationComparisons(lieux, false))
     );
 
     expect(lieuxWithoutDuplicates).toStrictEqual(
-      new Map<string, SchemaLieuMediationNumerique>(
-        new Map<string, SchemaLieuMediationNumerique>([
-          [
-            '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
-            {
-              id: 'hinaura-MairiE2|hub-lo-436',
-              pivot: '00000000000000',
-              nom: 'France Services Durtal',
-              adresse: '11 rue Joseph Cugnot',
-              code_postal: '49430',
-              commune: 'Durtal',
-              latitude: 47.6699154795,
-              longitude: -0.2551539846,
-              date_maj: '2023-05-03',
-              courriel: 'commune-de-durtal@france-services.fr',
-              source: 'hinaura',
-              services: Service.RealiserDesDemarchesAdministratives,
-              labels_autres: "Ville de Paris;Francil'in;cooltech;fablab"
-            }
-          ]
-        ])
-      )
+      new Map<string, SchemaLieuMediationNumerique>([
+        [
+          '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
+          {
+            id: 'hinaura-MairiE2|hub-lo-436',
+            pivot: '00000000000000',
+            nom: 'France Services Durtal',
+            adresse: '11 rue Joseph Cugnot',
+            code_postal: '49430',
+            commune: 'Durtal',
+            latitude: 47.6699154795,
+            longitude: -0.2551539846,
+            date_maj: '2023-05-03',
+            courriel: 'commune-de-durtal@france-services.fr',
+            source: 'hinaura',
+            services: Service.RealiserDesDemarchesAdministratives,
+            labels_autres: "Ville de Paris;Francil'in;cooltech;fablab"
+          }
+        ]
+      ])
     );
   });
 
@@ -646,32 +628,30 @@ describe('remove duplicates', (): void => {
 
     const lieuxWithoutDuplicates: MergedLieuxByGroupMap = mergeDuplicates(new Date('2023-05-30'))(
       lieux,
-      groupDuplicates(duplicationComparisons(lieux))
+      groupDuplicates(duplicationComparisons(lieux, false))
     );
 
     expect(lieuxWithoutDuplicates).toStrictEqual(
-      new Map<string, SchemaLieuMediationNumerique>(
-        new Map<string, SchemaLieuMediationNumerique>([
-          [
-            '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
-            {
-              id: 'hinaura-MairiE2|hub-lo-436',
-              pivot: '00000000000000',
-              nom: 'France Services Durtal',
-              adresse: '11 rue Joseph Cugnot',
-              code_postal: '49430',
-              commune: 'Durtal',
-              latitude: 47.6699154795,
-              longitude: -0.2551539846,
-              date_maj: '2023-05-03',
-              courriel: 'commune-de-durtal@france-services.fr',
-              source: 'hinaura',
-              services: Service.RealiserDesDemarchesAdministratives,
-              site_web: 'https://www.ville-durtal.fr/;https://www.ccals.fr/profils/durtal/;https://www.cap-tierslieux.org/'
-            }
-          ]
-        ])
-      )
+      new Map<string, SchemaLieuMediationNumerique>([
+        [
+          '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
+          {
+            id: 'hinaura-MairiE2|hub-lo-436',
+            pivot: '00000000000000',
+            nom: 'France Services Durtal',
+            adresse: '11 rue Joseph Cugnot',
+            code_postal: '49430',
+            commune: 'Durtal',
+            latitude: 47.6699154795,
+            longitude: -0.2551539846,
+            date_maj: '2023-05-03',
+            courriel: 'commune-de-durtal@france-services.fr',
+            source: 'hinaura',
+            services: Service.RealiserDesDemarchesAdministratives,
+            site_web: 'https://www.ville-durtal.fr/;https://www.ccals.fr/profils/durtal/;https://www.cap-tierslieux.org/'
+          }
+        ]
+      ])
     );
   });
 
@@ -710,32 +690,30 @@ describe('remove duplicates', (): void => {
 
     const lieuxWithoutDuplicates: MergedLieuxByGroupMap = mergeDuplicates(new Date('2023-05-30'))(
       lieux,
-      groupDuplicates(duplicationComparisons(lieux))
+      groupDuplicates(duplicationComparisons(lieux, false))
     );
 
     expect(lieuxWithoutDuplicates).toStrictEqual(
-      new Map<string, SchemaLieuMediationNumerique>(
-        new Map<string, SchemaLieuMediationNumerique>([
-          [
-            '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
-            {
-              id: 'hinaura-MairiE2|hub-lo-436',
-              pivot: '00000000000000',
-              nom: 'France Services Durtal',
-              adresse: '11 rue Joseph Cugnot',
-              code_postal: '49430',
-              commune: 'Durtal',
-              latitude: 47.6699154795,
-              longitude: -0.2551539846,
-              date_maj: '2023-05-03',
-              courriel: 'commune-de-durtal@france-services.fr',
-              source: 'hinaura',
-              services: Service.RealiserDesDemarchesAdministratives,
-              typologie: `${Typologie.RFS};${Typologie.ASSO};${Typologie.TIERS_LIEUX}`
-            }
-          ]
-        ])
-      )
+      new Map<string, SchemaLieuMediationNumerique>([
+        [
+          '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
+          {
+            id: 'hinaura-MairiE2|hub-lo-436',
+            pivot: '00000000000000',
+            nom: 'France Services Durtal',
+            adresse: '11 rue Joseph Cugnot',
+            code_postal: '49430',
+            commune: 'Durtal',
+            latitude: 47.6699154795,
+            longitude: -0.2551539846,
+            date_maj: '2023-05-03',
+            courriel: 'commune-de-durtal@france-services.fr',
+            source: 'hinaura',
+            services: Service.RealiserDesDemarchesAdministratives,
+            typologie: `${Typologie.RFS};${Typologie.ASSO};${Typologie.TIERS_LIEUX}`
+          }
+        ]
+      ])
     );
   });
 
@@ -772,31 +750,29 @@ describe('remove duplicates', (): void => {
 
     const lieuxWithoutDuplicates: MergedLieuxByGroupMap = mergeDuplicates(new Date('2023-05-30'))(
       lieux,
-      groupDuplicates(duplicationComparisons(lieux))
+      groupDuplicates(duplicationComparisons(lieux, false))
     );
 
     expect(lieuxWithoutDuplicates).toStrictEqual(
-      new Map<string, SchemaLieuMediationNumerique>(
-        new Map<string, SchemaLieuMediationNumerique>([
-          [
-            '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
-            {
-              id: 'hinaura-MairiE2|hub-lo-436',
-              pivot: '00000000000000',
-              nom: 'France Services Durtal',
-              adresse: '11 rue Joseph Cugnot',
-              code_postal: '49430',
-              commune: 'DURTAL',
-              latitude: 47.671271,
-              longitude: -0.256457,
-              date_maj: '2023-05-03',
-              courriel: 'commune-de-durtal@france-services.fr',
-              source: 'francil-in',
-              services: Service.RealiserDesDemarchesAdministratives
-            }
-          ]
-        ])
-      )
+      new Map<string, SchemaLieuMediationNumerique>([
+        [
+          '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
+          {
+            id: 'hinaura-MairiE2|hub-lo-436',
+            pivot: '00000000000000',
+            nom: 'France Services Durtal',
+            adresse: '11 rue Joseph Cugnot',
+            code_postal: '49430',
+            commune: 'DURTAL',
+            latitude: 47.671271,
+            longitude: -0.256457,
+            date_maj: '2023-05-03',
+            courriel: 'commune-de-durtal@france-services.fr',
+            source: 'francil-in',
+            services: Service.RealiserDesDemarchesAdministratives
+          }
+        ]
+      ])
     );
   });
 
@@ -832,31 +808,29 @@ describe('remove duplicates', (): void => {
 
     const lieuxWithoutDuplicates: MergedLieuxByGroupMap = mergeDuplicates(new Date('2023-05-30'))(
       lieux,
-      groupDuplicates(duplicationComparisons(lieux))
+      groupDuplicates(duplicationComparisons(lieux, false))
     );
 
     expect(lieuxWithoutDuplicates).toStrictEqual(
-      new Map<string, SchemaLieuMediationNumerique>(
-        new Map<string, SchemaLieuMediationNumerique>([
-          [
-            '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
-            {
-              id: 'hinaura-MairiE2|hub-lo-436',
-              pivot: '00000000000000',
-              nom: 'France Services Durtal',
-              adresse: '11 rue Joseph Cugnot',
-              code_postal: '49430',
-              commune: 'Durtal',
-              latitude: 47.6699154795,
-              longitude: -0.2551539846,
-              date_maj: '2023-05-03',
-              source: 'conseiller-numerique',
-              courriel: 'commune-de-durtal@france-services.fr',
-              services: Service.RealiserDesDemarchesAdministratives
-            }
-          ]
-        ])
-      )
+      new Map<string, SchemaLieuMediationNumerique>([
+        [
+          '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
+          {
+            id: 'hinaura-MairiE2|hub-lo-436',
+            pivot: '00000000000000',
+            nom: 'France Services Durtal',
+            adresse: '11 rue Joseph Cugnot',
+            code_postal: '49430',
+            commune: 'Durtal',
+            latitude: 47.6699154795,
+            longitude: -0.2551539846,
+            date_maj: '2023-05-03',
+            source: 'conseiller-numerique',
+            courriel: 'commune-de-durtal@france-services.fr',
+            services: Service.RealiserDesDemarchesAdministratives
+          }
+        ]
+      ])
     );
   });
 
@@ -893,30 +867,28 @@ describe('remove duplicates', (): void => {
 
     const lieuxWithoutDuplicates: MergedLieuxByGroupMap = mergeDuplicates(new Date('2023-05-30'))(
       lieux,
-      groupDuplicates(duplicationComparisons(lieux))
+      groupDuplicates(duplicationComparisons(lieux, false))
     );
 
     expect(lieuxWithoutDuplicates).toStrictEqual(
-      new Map<string, SchemaLieuMediationNumerique>(
-        new Map<string, SchemaLieuMediationNumerique>([
-          [
-            '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
-            {
-              id: 'hinaura-MairiE2|hub-lo-436',
-              pivot: '00000000000000',
-              nom: 'France Services Durtal',
-              adresse: '11 rue Joseph Cugnot',
-              code_postal: '49430',
-              commune: 'Durtal',
-              latitude: 47.6699154795,
-              longitude: -0.2551539846,
-              date_maj: '2023-05-03',
-              source: 'hinaura',
-              services: Service.AccederADuMateriel
-            }
-          ]
-        ])
-      )
+      new Map<string, SchemaLieuMediationNumerique>([
+        [
+          '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
+          {
+            id: 'hinaura-MairiE2|hub-lo-436',
+            pivot: '00000000000000',
+            nom: 'France Services Durtal',
+            adresse: '11 rue Joseph Cugnot',
+            code_postal: '49430',
+            commune: 'Durtal',
+            latitude: 47.6699154795,
+            longitude: -0.2551539846,
+            date_maj: '2023-05-03',
+            source: 'hinaura',
+            services: Service.AccederADuMateriel
+          }
+        ]
+      ])
     );
   });
 
@@ -953,30 +925,28 @@ describe('remove duplicates', (): void => {
 
     const lieuxWithoutDuplicates: MergedLieuxByGroupMap = mergeDuplicates(new Date('2023-05-30'))(
       lieux,
-      groupDuplicates(duplicationComparisons(lieux))
+      groupDuplicates(duplicationComparisons(lieux, false))
     );
 
     expect(lieuxWithoutDuplicates).toStrictEqual(
-      new Map<string, SchemaLieuMediationNumerique>(
-        new Map<string, SchemaLieuMediationNumerique>([
-          [
-            '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
-            {
-              id: 'hinaura-MairiE2|hub-lo-436',
-              pivot: '00000000000000',
-              nom: 'France Services Durtal',
-              adresse: '11 rue Joseph Cugnot',
-              code_postal: '49430',
-              commune: 'DURTAL',
-              latitude: 47.671271,
-              longitude: -0.256457,
-              date_maj: '2023-05-03',
-              source: 'francil-in',
-              services: Service.AccederADuMateriel
-            }
-          ]
-        ])
-      )
+      new Map<string, SchemaLieuMediationNumerique>([
+        [
+          '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
+          {
+            id: 'hinaura-MairiE2|hub-lo-436',
+            pivot: '00000000000000',
+            nom: 'France Services Durtal',
+            adresse: '11 rue Joseph Cugnot',
+            code_postal: '49430',
+            commune: 'DURTAL',
+            latitude: 47.671271,
+            longitude: -0.256457,
+            date_maj: '2023-05-03',
+            source: 'francil-in',
+            services: Service.AccederADuMateriel
+          }
+        ]
+      ])
     );
   });
 
@@ -1012,30 +982,28 @@ describe('remove duplicates', (): void => {
 
     const lieuxWithoutDuplicates: MergedLieuxByGroupMap = mergeDuplicates(new Date('2023-05-30'))(
       lieux,
-      groupDuplicates(duplicationComparisons(lieux))
+      groupDuplicates(duplicationComparisons(lieux, false))
     );
 
     expect(lieuxWithoutDuplicates).toStrictEqual(
-      new Map<string, SchemaLieuMediationNumerique>(
-        new Map<string, SchemaLieuMediationNumerique>([
-          [
-            '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
-            {
-              id: 'hinaura-MairiE2|hub-lo-436',
-              pivot: '00000000000000',
-              nom: 'France Services Durtal',
-              adresse: '11 rue Joseph Cugnot',
-              code_postal: '49430',
-              commune: 'Durtal',
-              latitude: 47.6699154795,
-              longitude: -0.2551539846,
-              date_maj: '2023-05-03',
-              source: 'conseiller-numerique',
-              services: Service.AccederADuMateriel
-            }
-          ]
-        ])
-      )
+      new Map<string, SchemaLieuMediationNumerique>([
+        [
+          '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
+          {
+            id: 'hinaura-MairiE2|hub-lo-436',
+            pivot: '00000000000000',
+            nom: 'France Services Durtal',
+            adresse: '11 rue Joseph Cugnot',
+            code_postal: '49430',
+            commune: 'Durtal',
+            latitude: 47.6699154795,
+            longitude: -0.2551539846,
+            date_maj: '2023-05-03',
+            source: 'conseiller-numerique',
+            services: Service.AccederADuMateriel
+          }
+        ]
+      ])
     );
   });
 
@@ -1071,30 +1039,28 @@ describe('remove duplicates', (): void => {
 
     const lieuxWithoutDuplicates: MergedLieuxByGroupMap = mergeDuplicates(new Date('2023-05-30'))(
       lieux,
-      groupDuplicates(duplicationComparisons(lieux))
+      groupDuplicates(duplicationComparisons(lieux, false))
     );
 
     expect(lieuxWithoutDuplicates).toStrictEqual(
-      new Map<string, SchemaLieuMediationNumerique>(
-        new Map<string, SchemaLieuMediationNumerique>([
-          [
-            '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
-            {
-              id: 'hinaura-MairiE2|hub-lo-436',
-              pivot: '00000000000000',
-              nom: 'France Services Durtal',
-              adresse: '11 rue Joseph Cugnot',
-              code_postal: '49430',
-              commune: 'DURTAL',
-              latitude: 47.671271,
-              longitude: -0.256457,
-              date_maj: '2023-05-03',
-              source: 'conseiller-numerique',
-              services: Service.AccederADuMateriel
-            }
-          ]
-        ])
-      )
+      new Map<string, SchemaLieuMediationNumerique>([
+        [
+          '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
+          {
+            id: 'hinaura-MairiE2|hub-lo-436',
+            pivot: '00000000000000',
+            nom: 'France Services Durtal',
+            adresse: '11 rue Joseph Cugnot',
+            code_postal: '49430',
+            commune: 'DURTAL',
+            latitude: 47.671271,
+            longitude: -0.256457,
+            date_maj: '2023-05-03',
+            source: 'conseiller-numerique',
+            services: Service.AccederADuMateriel
+          }
+        ]
+      ])
     );
   });
 
@@ -1132,31 +1098,29 @@ describe('remove duplicates', (): void => {
 
     const lieuxWithoutDuplicates: MergedLieuxByGroupMap = mergeDuplicates(new Date('2023-05-30'))(
       lieux,
-      groupDuplicates(duplicationComparisons(lieux))
+      groupDuplicates(duplicationComparisons(lieux, false))
     );
 
     expect(lieuxWithoutDuplicates).toStrictEqual(
-      new Map<string, SchemaLieuMediationNumerique>(
-        new Map<string, SchemaLieuMediationNumerique>([
-          [
-            '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
-            {
-              id: 'hinaura-MairiE2|hub-lo-436',
-              pivot: '00000000000000',
-              nom: 'France Services Durtal',
-              adresse: '11 rue Joseph Cugnot',
-              code_postal: '49430',
-              commune: 'Durtal',
-              latitude: 47.6699154795,
-              longitude: -0.2551539846,
-              date_maj: '2023-05-03',
-              source: 'conseiller-numerique',
-              labels_nationaux: `${LabelNational.FranceServices};${LabelNational.CNFS};${LabelNational.APTIC}`,
-              services: Service.AccederADuMateriel
-            }
-          ]
-        ])
-      )
+      new Map<string, SchemaLieuMediationNumerique>([
+        [
+          '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
+          {
+            id: 'hinaura-MairiE2|hub-lo-436',
+            pivot: '00000000000000',
+            nom: 'France Services Durtal',
+            adresse: '11 rue Joseph Cugnot',
+            code_postal: '49430',
+            commune: 'Durtal',
+            latitude: 47.6699154795,
+            longitude: -0.2551539846,
+            date_maj: '2023-05-03',
+            source: 'conseiller-numerique',
+            labels_nationaux: `${LabelNational.FranceServices};${LabelNational.CNFS};${LabelNational.APTIC}`,
+            services: Service.AccederADuMateriel
+          }
+        ]
+      ])
     );
   });
 });

@@ -15,7 +15,5 @@ export const headers = (headersToAppend?: Headers): { headers: Headers } => ({
   }
 });
 
-export const authHeader = (apiKey: string): Headers => ({
-  /* eslint-disable-next-line @typescript-eslint/naming-convention */
-  'X-API-KEY': apiKey
-});
+/* eslint-disable-next-line @typescript-eslint/naming-convention */
+export const authHeader = (apiKey?: string): Headers => (apiKey == null ? {} : { 'X-API-KEY': apiKey });

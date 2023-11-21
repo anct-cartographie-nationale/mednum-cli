@@ -24,9 +24,13 @@ const configureCommand = (program: Command): Command =>
 
 const commandAction = async (_: unknown, command: Command): Promise<void> =>
   promptAndRun({
-    ...{ cartographieNationaleApiUrl: 'https://cartographie.societenumerique.gouv.fr/api/v0' },
+    ...{
+      cartographieNationaleApiUrl: 'https://cartographie.societenumerique.gouv.fr/api/v0',
+      baseSource: command.opts()['source']
+    },
     ...toDedupliquerOptions(process.env),
-    ...command.opts()
+    ...command.opts(),
+    allowInternal: command.opts()['allowInternal'] === 'true'
   });
 
 export const addDedupliquerCommandTo = (program: Command): Command =>

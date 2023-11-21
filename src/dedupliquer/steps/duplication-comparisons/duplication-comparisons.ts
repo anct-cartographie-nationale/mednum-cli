@@ -81,8 +81,12 @@ const toDuplicationsForLieu =
       : [...readyToProcessDuplicationComparisons, { duplicate, lieu1, lieu2 }];
   };
 
-const getReadyProcessDuplicationComparison = (lieux: SchemaLieuMediationNumerique[]): ReadyToProcessDuplicationComparison[] =>
-  findDuplicates(lieux)
+const getReadyProcessDuplicationComparison = (
+  lieux: SchemaLieuMediationNumerique[],
+  allowInternalMerge: boolean,
+  lieuxToDeduplicate: SchemaLieuMediationNumerique[]
+): ReadyToProcessDuplicationComparison[] =>
+  findDuplicates(lieux, allowInternalMerge, lieuxToDeduplicate)
     .flatMap((communeDuplications: CommuneDuplications): LieuDuplications[] => communeDuplications.lieux)
     .reduce(
       (
@@ -98,5 +102,12 @@ const getReadyProcessDuplicationComparison = (lieux: SchemaLieuMediationNumeriqu
       []
     );
 
-export const duplicationComparisons = (lieux: SchemaLieuMediationNumerique[]): DuplicationComparison[] =>
-  getReadyProcessDuplicationComparison(lieux).map(toDuplicationComparison).filter(onlyValidScore).sort(byScore);
+export const duplicationComparisons = (
+  lieux: SchemaLieuMediationNumerique[],
+  allowInternalMerge: boolean,
+  lieuxToDeduplicate: SchemaLieuMediationNumerique[] = lieux
+): DuplicationComparison[] =>
+  getReadyProcessDuplicationComparison(lieux, allowInternalMerge, lieuxToDeduplicate)
+    .map(toDuplicationComparison)
+    .filter(onlyValidScore)
+    .sort(byScore);

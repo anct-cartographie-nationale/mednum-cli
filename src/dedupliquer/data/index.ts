@@ -1,1 +1,1 @@
-export * from './merge-group/transfer';
+export * from './merge-group.transfer';

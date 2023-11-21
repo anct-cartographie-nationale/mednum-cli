@@ -20,16 +20,16 @@ const updateGroup =
     itemGroupMap: itemGroupMap.set(id2, groupId)
   });
 
-const getMergedGroupsIds = (mergeGroupsMap: Map<string, string[]>, groupId2: string, groupId1: string): string[] => [
-  ...(mergeGroupsMap.get(groupId2) ?? []),
-  ...(mergeGroupsMap.get(groupId1) ?? [])
-];
+const getMergedGroupsIds = (mergeGroupsMap: Map<string, string[]>, groupId2: string, groupId1: string): string[] =>
+  Array.from(new Set([...(mergeGroupsMap.get(groupId2) ?? []), ...(mergeGroupsMap.get(groupId1) ?? [])]));
 
 const mergeGroups =
   (readyToMerge: Groups) =>
   (groupId2: string, groupId1: string): Groups => {
     const mergedGroupsIds: string[] = getMergedGroupsIds(readyToMerge.mergeGroupsMap, groupId2, groupId1);
-    readyToMerge.mergeGroupsMap.set(groupId2, mergedGroupsIds).delete(groupId1);
+
+    readyToMerge.mergeGroupsMap.delete(groupId1);
+    readyToMerge.mergeGroupsMap.set(groupId2, mergedGroupsIds);
     mergedGroupsIds.forEach((id: string): Map<string, string> => readyToMerge.itemGroupMap.set(id, groupId2));
 
     return readyToMerge;
@@ -63,8 +63,12 @@ const useIdsInGroupsHashesAsGroupIds = (groups: Groups): Groups => {
 
 export const groupDuplicates = (duplicates: DuplicationComparison[]): Groups =>
   useIdsInGroupsHashesAsGroupIds(
-    duplicates.reduce(toGroups, {
-      mergeGroupsMap: new Map<string, string[]>(),
-      itemGroupMap: new Map<string, string>()
-    })
+    duplicates.reduce(
+      (groups: Groups, duplicationComparison: DuplicationComparison, index: number): Groups =>
+        toGroups(groups, duplicationComparison, index),
+      {
+        mergeGroupsMap: new Map<string, string[]>(),
+        itemGroupMap: new Map<string, string>()
+      }
+    )
   );

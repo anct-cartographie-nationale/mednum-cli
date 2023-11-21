@@ -18,25 +18,30 @@ export type CommuneDuplications = {
   lieux: LieuDuplications[];
 };
 
-const sameSource = (lieu: SchemaLieuMediationNumerique, curentLieu: SchemaLieuMediationNumerique): boolean =>
-  lieu.source === curentLieu.source;
+const sameSource = (lieu: SchemaLieuMediationNumerique, lieuToDeduplicate: SchemaLieuMediationNumerique): boolean =>
+  lieu.source === lieuToDeduplicate.source;
 
-const sameId = (lieu: SchemaLieuMediationNumerique, curentLieu: SchemaLieuMediationNumerique): boolean =>
-  lieu.id === curentLieu.id;
+const sameId = (lieu: SchemaLieuMediationNumerique, lieuToDeduplicate: SchemaLieuMediationNumerique): boolean =>
+  lieu.id === lieuToDeduplicate.id;
 
-const sameCodePostal = (lieu: SchemaLieuMediationNumerique, curentLieu: SchemaLieuMediationNumerique): boolean =>
-  lieu.code_postal === curentLieu.code_postal;
+const sameCodePostal = (lieu: SchemaLieuMediationNumerique, lieuToDeduplicate: SchemaLieuMediationNumerique): boolean =>
+  lieu.code_postal === lieuToDeduplicate.code_postal;
 
-const compatibleTypologies = (lieu: SchemaLieuMediationNumerique, curentLieu: SchemaLieuMediationNumerique): boolean =>
-  lieu.typologie === Typologie.RFS || lieu.typologie === Typologie.PIMMS ? true : curentLieu.typologie !== Typologie.RFS;
+const hasRFSCompatibleTypology = (lieu: SchemaLieuMediationNumerique): boolean =>
+  [`${Typologie.RFS}`, `${Typologie.PIMMS}`].includes(lieu.typologie ?? 'NO_TYPOLOGY');
+
+const compatibleTypologies = (lieu: SchemaLieuMediationNumerique, lieuToDeduplicate: SchemaLieuMediationNumerique): boolean =>
+  hasRFSCompatibleTypology(lieu) && hasRFSCompatibleTypology(lieuToDeduplicate)
+    ? true
+    : lieuToDeduplicate.typologie !== Typologie.RFS && lieu.typologie !== Typologie.RFS;
 
 const onlyPotentialDuplicates =
-  (curentLieu: SchemaLieuMediationNumerique) =>
+  (lieuToDeduplicate: SchemaLieuMediationNumerique, allowInternalMerge: boolean) =>
   (lieu: SchemaLieuMediationNumerique): boolean =>
-    sameCodePostal(lieu, curentLieu) &&
-    !sameId(lieu, curentLieu) &&
-    !sameSource(lieu, curentLieu) &&
-    compatibleTypologies(lieu, curentLieu);
+    sameCodePostal(lieu, lieuToDeduplicate) &&
+    !sameId(lieu, lieuToDeduplicate) &&
+    (allowInternalMerge || !sameSource(lieu, lieuToDeduplicate)) &&
+    compatibleTypologies(lieu, lieuToDeduplicate);
 
 const MINIMAL_CARTESIAN_DISTANCE: 0.0004 = 0.0004 as const;
 
@@ -59,39 +64,44 @@ const cartesianDistanceBetween = (lieu: SchemaLieuMediationNumerique, curentLieu
     ? pythagore(lieu.latitude, curentLieu.latitude, lieu.longitude, curentLieu.longitude)
     : NaN;
 
-const duplicatesWithScores = (lieux: SchemaLieuMediationNumerique[], curentLieu: SchemaLieuMediationNumerique): Duplicate[] =>
-  lieux.filter(onlyPotentialDuplicates(curentLieu)).map(
-    (lieu: SchemaLieuMediationNumerique): Duplicate => ({
-      id: lieu.id,
-      distanceScore: distanceScore(cartesianDistanceBetween(lieu, curentLieu)),
-      nomFuzzyScore: ratio(lieu.nom, curentLieu.nom),
-      voieFuzzyScore: ratio(lieu.adresse, curentLieu.adresse)
-    })
-  );
+const duplicatesWithScores =
+  (lieux: SchemaLieuMediationNumerique[]) =>
+  (lieuToDeduplicate: SchemaLieuMediationNumerique, allowInternalMerge: boolean): Duplicate[] =>
+    lieux.filter(onlyPotentialDuplicates(lieuToDeduplicate, allowInternalMerge)).map(
+      (lieu: SchemaLieuMediationNumerique): Duplicate => ({
+        id: lieu.id,
+        distanceScore: distanceScore(cartesianDistanceBetween(lieu, lieuToDeduplicate)),
+        nomFuzzyScore: ratio(lieu.nom, lieuToDeduplicate.nom),
+        voieFuzzyScore: ratio(lieu.adresse, lieuToDeduplicate.adresse)
+      })
+    );
 
-const appendCommuneDuplications = (
-  lieu: SchemaLieuMediationNumerique,
-  lieux: SchemaLieuMediationNumerique[],
-  duplications: CommuneDuplications[]
-): CommuneDuplications[] => [
-  ...duplications,
-  {
-    codePostal: lieu.code_postal,
-    lieux: [{ id: lieu.id, duplicates: duplicatesWithScores(lieux, lieu) }]
-  }
-];
+const appendCommuneDuplications =
+  (lieux: SchemaLieuMediationNumerique[]) =>
+  (
+    lieuToDeduplicate: SchemaLieuMediationNumerique,
+    duplications: CommuneDuplications[],
+    allowInternalMerge: boolean
+  ): CommuneDuplications[] =>
+    [
+      ...duplications,
+      {
+        codePostal: lieuToDeduplicate.code_postal,
+        lieux: [{ id: lieuToDeduplicate.id, duplicates: duplicatesWithScores(lieux)(lieuToDeduplicate, allowInternalMerge) }]
+      }
+    ];
 
 const toUpdatedCommuneDuplications =
-  (
-    lieu: SchemaLieuMediationNumerique,
-    lieux: SchemaLieuMediationNumerique[],
-    duplicationsWithSameCodePostal: CommuneDuplications
-  ) =>
+  (lieux: SchemaLieuMediationNumerique[]) =>
+  (lieu: SchemaLieuMediationNumerique, duplicationsWithSameCodePostal: CommuneDuplications, allowInternalMerge: boolean) =>
   (communeDuplications: CommuneDuplications): CommuneDuplications =>
     communeDuplications.codePostal === lieu.code_postal
       ? {
           codePostal: lieu.code_postal,
-          lieux: [...duplicationsWithSameCodePostal.lieux, { id: lieu.id, duplicates: duplicatesWithScores(lieux, lieu) }]
+          lieux: [
+            ...duplicationsWithSameCodePostal.lieux,
+            { id: lieu.id, duplicates: duplicatesWithScores(lieux)(lieu, allowInternalMerge) }
+          ]
         }
       : communeDuplications;
 
@@ -100,18 +110,15 @@ const withSameCodePostal =
   (communeDuplications: CommuneDuplications): boolean =>
     communeDuplications.codePostal === lieu.code_postal;
 
-const toCommunesDuplications = (
-  duplications: CommuneDuplications[],
-  lieu: SchemaLieuMediationNumerique,
-  _: number,
-  lieux: SchemaLieuMediationNumerique[]
-): CommuneDuplications[] =>
-  ((duplicationsWithSameCodePostal?: CommuneDuplications): CommuneDuplications[] =>
-    duplicationsWithSameCodePostal == null
-      ? appendCommuneDuplications(lieu, lieux, duplications)
-      : duplications.map(toUpdatedCommuneDuplications(lieu, lieux, duplicationsWithSameCodePostal)))(
-    duplications.find(withSameCodePostal(lieu))
-  );
+const toCommunesDuplications =
+  (lieux: SchemaLieuMediationNumerique[], allowInternalMerge: boolean) =>
+  (duplications: CommuneDuplications[], lieuToDeduplicate: SchemaLieuMediationNumerique): CommuneDuplications[] =>
+    ((duplicationsWithSameCodePostal?: CommuneDuplications): CommuneDuplications[] =>
+      duplicationsWithSameCodePostal == null
+        ? appendCommuneDuplications(lieux)(lieuToDeduplicate, duplications, allowInternalMerge)
+        : duplications.map(
+            toUpdatedCommuneDuplications(lieux)(lieuToDeduplicate, duplicationsWithSameCodePostal, allowInternalMerge)
+          ))(duplications.find(withSameCodePostal(lieuToDeduplicate)));
 
 const onlyWithDuplicates = (lieu: LieuDuplications): boolean => lieu.duplicates.length > 0;
 
@@ -139,5 +146,9 @@ const toValidDuplicates = (communeDuplications: CommuneDuplications): CommuneDup
 
 const onlyWithLieux = (communeDuplications: CommuneDuplications): boolean => communeDuplications.lieux.length > 0;
 
-export const findDuplicates = (lieux: SchemaLieuMediationNumerique[]): CommuneDuplications[] =>
-  lieux.reduce(toCommunesDuplications, []).map(toValidDuplicates).filter(onlyWithLieux);
+export const findDuplicates = (
+  lieux: SchemaLieuMediationNumerique[],
+  allowInternalMerge: boolean,
+  lieuxToDeduplicate: SchemaLieuMediationNumerique[] = lieux
+): CommuneDuplications[] =>
+  lieuxToDeduplicate.reduce(toCommunesDuplications(lieux, allowInternalMerge), []).map(toValidDuplicates).filter(onlyWithLieux);

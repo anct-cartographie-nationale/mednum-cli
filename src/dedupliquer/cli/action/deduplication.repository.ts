@@ -4,18 +4,16 @@ import { Groups, MergedLieuxByGroupMap } from '../../steps';
 import { DeduplicationRepository } from '../../repositories';
 import { DedupliquerOptions } from '../dedupliquer-options';
 
-export const deduplicationRepository = async (dedupliquerOptions: DedupliquerOptions): Promise<DeduplicationRepository> => {
-  const useFile: boolean = dedupliquerOptions.cartographieNationaleApiKey == null;
-
-  return {
-    save: async (
-      groups: Groups,
-      merged: MergedLieuxByGroupMap,
-      lieuxToDeduplicate: SchemaLieuMediationNumerique[] = []
-    ): Promise<void> => {
-      useFile
-        ? saveInFiles(dedupliquerOptions)(lieuxToDeduplicate, groups, merged)
-        : await saveWithApi(dedupliquerOptions)(groups, merged);
+export const deduplicationRepository = (dedupliquerOptions: DedupliquerOptions): DeduplicationRepository => ({
+  save: async (
+    groups: Groups,
+    merged: MergedLieuxByGroupMap,
+    lieuxToDeduplicate: SchemaLieuMediationNumerique[] = []
+  ): Promise<void> => {
+    if (dedupliquerOptions.cartographieNationaleApiKey == null) {
+      saveInFiles(dedupliquerOptions)(lieuxToDeduplicate, groups, merged);
+    } else {
+      await saveWithApi(dedupliquerOptions)(groups, merged);
     }
-  };
-};
+  }
+});

@@ -13,29 +13,35 @@ import {
 import { DedupliquerOptions } from '../dedupliquer-options';
 import { deduplicationRepository } from './deduplication.repository';
 
+const INTERNAL_DUPLICATION_SCORE_THRESHOLD: 90 = 90 as const;
 const DUPLICATION_SCORE_THRESHOLD: 60 = 60 as const;
 
-const onlyMoreThanDuplicationScoreThreshold = (duplicationComparison: DuplicationComparison): boolean =>
-  duplicationComparison.score > DUPLICATION_SCORE_THRESHOLD;
+const onlyMoreThanDuplicationScoreThreshold =
+  (allowInternalMerge: boolean) =>
+  (duplicationComparison: DuplicationComparison): boolean =>
+    duplicationComparison.score > (allowInternalMerge ? INTERNAL_DUPLICATION_SCORE_THRESHOLD : DUPLICATION_SCORE_THRESHOLD);
+
+const noCache = (): string => Math.random().toString(16).slice(2, -1);
 
 export const dedupliquerAction = async (dedupliquerOptions: DedupliquerOptions): Promise<void> => {
   const repository: DeduplicationRepository = await deduplicationRepository(dedupliquerOptions);
 
-  const lieuxToDeduplicate: AxiosResponse<SchemaLieuMediationNumerique[]> = await axios.get(dedupliquerOptions.source);
-
-  // todo: need to have preexisting groups as input
-  // todo: need to use preexisting groups to initialize groups
-
-  const duplicationComparisonsToGroup: DuplicationComparison[] = duplicationComparisons(lieuxToDeduplicate.data).filter(
-    onlyMoreThanDuplicationScoreThreshold
+  const lieux: AxiosResponse<SchemaLieuMediationNumerique[]> = await axios.get(
+    dedupliquerOptions.baseSource.replace('$cache', noCache())
   );
 
+  const lieuxToDeduplicate: AxiosResponse<SchemaLieuMediationNumerique[]> = await axios.get(
+    dedupliquerOptions.source.replace('$cache', noCache())
+  );
+
+  const duplicationComparisonsToGroup: DuplicationComparison[] = duplicationComparisons(
+    lieux.data,
+    dedupliquerOptions.allowInternal,
+    lieuxToDeduplicate.data
+  ).filter(onlyMoreThanDuplicationScoreThreshold(dedupliquerOptions.allowInternal));
+
   const groups: Groups = groupDuplicates(duplicationComparisonsToGroup);
-  const merged: MergedLieuxByGroupMap = mergeDuplicates(new Date())(lieuxToDeduplicate.data, groups);
+  const merged: MergedLieuxByGroupMap = mergeDuplicates(new Date())(lieux.data, groups);
 
-  await repository.save(groups, merged, lieuxToDeduplicate.data);
-
-  // console.log(groups.mergeGroupsMap);
-  // console.log(merged);
-  // console.log(mergeGroups);
+  await repository.save(groups, merged, lieux.data);
 };

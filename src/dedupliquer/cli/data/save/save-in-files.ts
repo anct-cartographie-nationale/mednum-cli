@@ -51,7 +51,7 @@ export const saveInFiles =
 
     fs.writeFileSync(
       `${dedupliquerOptions.outputDirectory}/duplications.csv`,
-      formatToCSV(duplicationComparisons(lieuxToDeduplicate)),
+      formatToCSV(duplicationComparisons(lieuxToDeduplicate, false)),
       'utf8'
     );
   };
