@@ -23,8 +23,9 @@ const onlyMoreThanDuplicationScoreThreshold =
 
 const noCache = (): string => Math.random().toString(16).slice(2, -1);
 
+/* eslint-disable-next-line max-statements */
 export const dedupliquerAction = async (dedupliquerOptions: DedupliquerOptions): Promise<void> => {
-  const repository: DeduplicationRepository = await deduplicationRepository(dedupliquerOptions);
+  const repository: DeduplicationRepository = deduplicationRepository(dedupliquerOptions);
 
   const lieux: AxiosResponse<SchemaLieuMediationNumerique[]> = await axios.get(
     dedupliquerOptions.baseSource.replace('$cache', noCache())
@@ -42,6 +43,11 @@ export const dedupliquerAction = async (dedupliquerOptions: DedupliquerOptions):
 
   const groups: Groups = groupDuplicates(duplicationComparisonsToGroup);
   const merged: MergedLieuxByGroupMap = mergeDuplicates(new Date())(lieux.data, groups);
+
+  /* eslint-disable-next-line no-console */
+  console.log('Nouveaux lieux concernés par une fusion :', groups.itemGroupMap.size);
+  /* eslint-disable-next-line no-console */
+  console.log('Nouveaux lieux fusionnés à enregistrer :', merged.size);
 
   await repository.save(groups, merged, lieux.data);
 };
