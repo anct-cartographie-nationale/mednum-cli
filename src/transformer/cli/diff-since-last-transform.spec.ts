@@ -17,6 +17,11 @@ const UATL_FINGERPRINT: Fingerprint = {
   hash: 'e7d7002d1df0c66f3c0ab706f6511dc534baeae83c0221607696532932af4751'
 };
 
+const UATL_NESTED_FINGERPRINT: Fingerprint = {
+  sourceId: '14',
+  hash: '6e4220f91ae29edacd6ae9f3bfc2525b8e4344755746c04e5dbe912d56f51c32'
+};
+
 const UATL_FINGERPRINT_UPDATED: Fingerprint = {
   sourceId: '14',
   hash: '0a93e9d31109b1c7a33342eca2c853c8f0ca71afeb7102e880e211db7f8d8faf'
@@ -38,6 +43,28 @@ const TRAIT_D_UNION_FINGERPRINT: Fingerprint = {
 };
 
 const FINGERPRINTS: Fingerprint[] = [UATL_FINGERPRINT, IREPS_FINGERPRINT, FILALIGNE_FINGERPRINT];
+
+const UATL_NESTED: DataSource = {
+  properties: {
+    id_source: 14,
+    USER_NOM: 'Université Angevine du Temps Libre (UATL)',
+    USER_ADRES: '14, rue Pocquet de Livonnières',
+    USER_QUART: 'Centre Ville',
+    LAT: 47.47303152,
+    LNG: -0.54897495,
+    DATE_MAJ: '2022-09-26 19:18:28',
+    PUBLIC_: 'Senior (plus de 45 ans)',
+    ACCES_ORDI: 'Utilisation ordinateur et/ou tablette',
+    WIFI: 'Accès WIFI',
+    HORAIRE: '9h à 12h, 14h à 17h hors vacances scolaires',
+    TRANSPORT: 'Tramway (Ligne A) - arrêt Hôtel de Ville',
+    TELEPHONE: '02 41 88 96 41',
+    MAIL: 'uatl@uatl-eca.fr',
+    SITE_INTER: 'https://uatl-eca.fr/',
+    code_postal: '49000',
+    commune: 'Angers'
+  }
+};
 
 const UATL: DataSource = {
   TYPO_UID: 14,
@@ -133,6 +160,17 @@ const SOURCE_WITH_CREATE: DataSource[] = [UATL, IREPS, FILALIGNE, TRAIT_D_UNION]
 
 describe('should transform', (): void => {
   it('should detect that an item has not changed between two transformations', (): void => {
+    const itemsToTransform: DiffSinceLastTransform = diffSinceLastTransform('properties.id_source', [UATL_NESTED_FINGERPRINT])([
+      UATL_NESTED
+    ]);
+
+    expect(itemsToTransform).toStrictEqual({
+      toUpsert: [],
+      toDelete: []
+    });
+  });
+
+  it('should detect that an item has not changed between two transformations with nested key', (): void => {
     const itemsToTransform: DiffSinceLastTransform = diffSinceLastTransform(ID_KEY, FINGERPRINTS)(SOURCE);
 
     expect(itemsToTransform).toStrictEqual({
