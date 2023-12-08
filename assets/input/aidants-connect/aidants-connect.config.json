@@ -1,30 +1,27 @@
 {
   "id": {
-    "colonne": "ID"
+    "colonne": "id"
   },
   "nom": {
-    "colonne": "Name"
+    "colonne": "nom"
   },
   "pivot": {
-    "colonne": "Siret"
+    "colonne": "pivot"
   },
   "code_postal": {
-    "colonne": "Zip Code"
+    "colonne": "code_postal"
+  },
+  "code_insee": {
+    "colonne": "code_insee"
   },
   "commune": {
-    "colonne": "result_city"
+    "colonne": "commune"
   },
   "adresse": {
-    "colonne": "Address"
-  },
-  "latitude": {
-    "colonne": "latitude"
-  },
-  "longitude": {
-    "colonne": "longitude"
+    "colonne": "adresse"
   },
   "date_maj": {
-    "valeur": "2023-04-01"
+    "valeur": "date_de_modification"
   },
   "labels_nationaux": [
     {
@@ -37,13 +34,6 @@
     }
   ],
   "services": [
-    {
-      "cible": "Accompagner les démarches de santé"
-    },
-
-    {
-      "cible": "Devenir autonome dans les démarches administratives"
-    },
     {
       "cible": "Réaliser des démarches administratives avec un accompagnement"
     }

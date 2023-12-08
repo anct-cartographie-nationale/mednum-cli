@@ -23,6 +23,7 @@ import {
   FindCommune,
   IsInQpv,
   IsInZrr,
+  NO_LOCALISATION,
   processAccessibilite,
   processAdresse,
   processConditionsAcces,
@@ -46,6 +47,12 @@ import {
 } from '../fields';
 import { TransformationRepository } from '../repositories';
 import { DataSource, LieuxMediationNumeriqueMatching } from './lieux-mediation-numerique-matching';
+import { LocalisationByGeo } from '../data';
+
+export type LieuMediationNumeriqueWithLocalisation = {
+  lieuMediationNumerique: LieuMediationNumerique | undefined;
+  hasLocalisation?: boolean;
+};
 
 const localisationIfAny = (localisation?: Localisation): { localisation?: Localisation } =>
   localisation == null ? {} : { localisation };
@@ -85,10 +92,12 @@ const lieuDeMediationNumerique = (
   accesLibreData: Erp[],
   findCommune: FindCommune,
   isInQpv: IsInQpv,
-  isInZrr: IsInZrr
-): LieuMediationNumerique | undefined => {
+  isInZrr: IsInZrr,
+  localisationFromGeo?: LocalisationByGeo
+): LieuMediationNumeriqueWithLocalisation | undefined => {
   const adresse: Adresse = processAdresse(findCommune)(dataSource, matching);
-  const localistaion: Localisation = processLocalisation(dataSource, matching);
+  const localisation: Localisation | undefined = processLocalisation(dataSource, matching, localisationFromGeo);
+  const hasLocalisation: boolean = localisation !== NO_LOCALISATION;
 
   if (isPrive(dataSource, matching)) return undefined;
 
@@ -97,13 +106,13 @@ const lieuDeMediationNumerique = (
     nom: processNom(dataSource, matching),
     pivot: processPivot(dataSource, matching),
     adresse,
-    ...localisationIfAny(localistaion),
+    ...localisationIfAny(localisation),
     contact: processContact(recorder)(dataSource, matching),
     ...conditionsAccesIfAny(processConditionsAcces(dataSource, matching)),
     ...modalitesAccompagnementIfAny(processModalitesAccompagnement(dataSource, matching)),
     date_maj: processDate(dataSource, matching),
     ...labelsNationauxIfAny(processLabelsNationaux(dataSource, matching)),
-    ...labelsAutresIfAny(processLabelsAutres(dataSource, matching, isInQpv, isInZrr, adresse, localistaion)),
+    ...labelsAutresIfAny(processLabelsAutres(dataSource, matching, isInQpv, isInZrr, adresse, localisation)),
     ...publicsAccueillisIfAny(processPublicsAccueillis(dataSource, matching)),
     presentation: processPresentation(dataSource, matching),
     services: processServices(dataSource, matching),
@@ -115,7 +124,7 @@ const lieuDeMediationNumerique = (
   };
 
   recorder.commit();
-  return lieuMediationNumerique;
+  return { lieuMediationNumerique, hasLocalisation };
 };
 
 export const validValuesOnly = (
@@ -127,7 +136,11 @@ const entryIdentification = (dataSource: DataSource, matching: LieuxMediationNum
 
 export const toLieuxMediationNumerique =
   (lieuxDeMediationNumeriqueTransformationRepository: TransformationRepository, sourceName: string, report: Report) =>
-  (dataSource: unknown, index: number): LieuMediationNumerique | undefined => {
+  (
+    dataSource: unknown,
+    index: number,
+    localisation?: LocalisationByGeo
+  ): LieuMediationNumeriqueWithLocalisation | undefined => {
     try {
       return lieuDeMediationNumerique(
         index,
@@ -138,7 +151,8 @@ export const toLieuxMediationNumerique =
         lieuxDeMediationNumeriqueTransformationRepository.accesLibre,
         lieuxDeMediationNumeriqueTransformationRepository.findCommune,
         lieuxDeMediationNumeriqueTransformationRepository.isInQpv,
-        lieuxDeMediationNumeriqueTransformationRepository.isInZrr
+        lieuxDeMediationNumeriqueTransformationRepository.isInZrr,
+        localisation
       );
     } catch (error: unknown) {
       if (
@@ -157,7 +171,7 @@ export const toLieuxMediationNumerique =
             entryIdentification(dataSource as DataSource, lieuxDeMediationNumeriqueTransformationRepository.config)
           )
           .commit();
-        return undefined;
+        return { lieuMediationNumerique: undefined };
       }
       throw error;
     }

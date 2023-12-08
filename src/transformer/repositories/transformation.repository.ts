@@ -3,6 +3,7 @@ import { DiffSinceLastTransform, Fingerprint } from '../cli/diff-since-last-tran
 import { Erp, FindCommune, IsInQpv, IsInZrr } from '../fields';
 import { DataSource, LieuxMediationNumeriqueMatching } from '../input';
 import { Report } from '../report';
+import { LocalisationByGeo } from '../data';
 
 export type TransformationRepository = {
   config: LieuxMediationNumeriqueMatching;
@@ -15,4 +16,5 @@ export type TransformationRepository = {
   saveOutputs: (lieuxDeMediationNumerique: LieuMediationNumerique[]) => Promise<void>;
   diffSinceLastTransform: (sourceItems: DataSource[]) => DiffSinceLastTransform;
   saveFingerprints: (diffSinceLastTransform: DiffSinceLastTransform) => Promise<void>;
+  findLocalisation: (source: DataSource) => Promise<LocalisationByGeo | undefined>;
 };

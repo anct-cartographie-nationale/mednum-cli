@@ -13,10 +13,12 @@ import {
   saveOutputsWithLieuxInclusionNumeriqueApi,
   fingerprintsFromLieuxMediationNumeriqueApi,
   saveOutputsInFiles,
-  saveFingerprintsInFile
+  saveFingerprintsInFile,
+  localisationByGeocode,
+  LocalisationByGeo
 } from '../../data';
 import { findCommune } from '../../fields';
-import { LieuxMediationNumeriqueMatching } from '../../input';
+import { DataSource, LieuxMediationNumeriqueMatching } from '../../input';
 import { TransformationRepository } from '../../repositories';
 import { diffSinceLastTransform, Fingerprint } from '../diff-since-last-transform';
 import { TransformerOptions } from '../transformer-options';
@@ -46,6 +48,8 @@ export const transformationRespository = async (transformerOptions: TransformerO
     diffSinceLastTransform: diffSinceLastTransform(idKey, fingerprints),
     saveFingerprints: useFile
       ? saveFingerprintsInFile(idKey, fingerprints, transformerOptions)
-      : saveFingerprintsWithLieuxMediationNumeriqueApi(idKey, transformerOptions)
+      : saveFingerprintsWithLieuxMediationNumeriqueApi(idKey, transformerOptions),
+    findLocalisation: async (source: DataSource): Promise<LocalisationByGeo | undefined> =>
+      localisationByGeocode(source, config)
   };
 };

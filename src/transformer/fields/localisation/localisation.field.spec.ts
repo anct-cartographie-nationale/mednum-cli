@@ -3,6 +3,7 @@
 import { Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { NO_LOCALISATION, processLocalisation } from './localisation.field';
+import { LocalisationByGeo } from '../../data';
 
 const STANDARD_MATCHING: LieuxMediationNumeriqueMatching = {
   latitude: {
@@ -44,6 +45,24 @@ const JOINED_LATITUDE_AND_LONGITUDE_MATCHING_DIFFERENT_SEPARATOR: LieuxMediation
       séparateur: ' ',
       partie: 0
     }
+  }
+} as LieuxMediationNumeriqueMatching;
+
+const GEOCODE_MATCHING: LieuxMediationNumeriqueMatching = {
+  latitude: {
+    colonne: 'bf_latitude'
+  },
+  longitude: {
+    colonne: 'bf_longitude'
+  },
+  commune: {
+    colonne: 'commune'
+  },
+  code_postal: {
+    colonne: 'code_postal'
+  },
+  adresse: {
+    colonne: 'adresse'
   }
 } as LieuxMediationNumeriqueMatching;
 
@@ -125,24 +144,72 @@ describe('localisation field', (): void => {
     );
   });
 
-  it('should return null when there is no latitude or longitude colonnes', (): void => {
-    const source: DataSource = {};
-    const localisation: Localisation = processLocalisation(source, STANDARD_MATCHING);
+  it('should geocode even if source colonne are missing', (): void => {
+    const source: DataSource = {
+      commune: 'Paris',
+      code_postal: '75007',
+      adresse: '20 Avenue de Ségur'
+    };
 
-    expect(localisation).toStrictEqual<Localisation>(NO_LOCALISATION);
+    const localisationFromGeo: LocalisationByGeo = {
+      latitude: '48.850699',
+      longitude: '2.308628'
+    };
+
+    const localisation: Localisation = processLocalisation(source, GEOCODE_MATCHING, localisationFromGeo);
+
+    expect(localisation).toStrictEqual<Localisation>(
+      Localisation({
+        latitude: 48.850699,
+        longitude: 2.308628
+      })
+    );
   });
 
-  it('should return null when coordinates are empty string', (): void => {
+  it('should geocode if source are empty string', (): void => {
     const source: DataSource = {
       bf_latitude: '',
-      bf_longitude: ''
+      bf_longitude: '',
+      commune: 'Paris',
+      code_postal: '75007',
+      adresse: '20 Avenue de Ségur'
     };
-    const localisation: Localisation = processLocalisation(source, STANDARD_MATCHING);
+
+    const localisationFromGeo: LocalisationByGeo = {
+      latitude: '48.850699',
+      longitude: '2.308628'
+    };
+
+    const localisation: Localisation = processLocalisation(source, GEOCODE_MATCHING, localisationFromGeo);
+
+    expect(localisation).toStrictEqual<Localisation>(
+      Localisation({
+        latitude: 48.850699,
+        longitude: 2.308628
+      })
+    );
+  });
+
+  it('should return NO_LOCALISATION if geocode return undefined', (): void => {
+    const source: DataSource = {
+      bf_latitude: '',
+      bf_longitude: '',
+      commune: 'Paris',
+      code_postal: '01568',
+      adresse: 'no adresse'
+    };
+
+    const localisationFromGeo: LocalisationByGeo = {
+      latitude: '',
+      longitude: ''
+    };
+
+    const localisation: Localisation = processLocalisation(source, GEOCODE_MATCHING, localisationFromGeo);
 
     expect(localisation).toStrictEqual<Localisation>(NO_LOCALISATION);
   });
 
-  it('should return null when coordinates have 0 as value', (): void => {
+  it('should return NO_LOCALISATION when coordinates have 0 as value', (): void => {
     const source: DataSource = {
       bf_latitude: '0',
       bf_longitude: '0'
