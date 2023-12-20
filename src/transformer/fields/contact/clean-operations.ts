@@ -326,6 +326,20 @@ const removeMultipleAtEmail = (field: string): CleanOperation => ({
   field
 });
 
+const fixMissingAccentuatedEInEmail = (field: string): CleanOperation => ({
+  name: 'fix accentuated chars',
+  selector: /[éè]/u,
+  field,
+  fix: (toFix: string): string => toFix.replace(/[éè]/gu, 'e')
+});
+
+const fixMissingAccentuatedCInEmail = (field: string): CleanOperation => ({
+  name: 'fix accentuated chars',
+  selector: /ç/u,
+  field,
+  fix: (toFix: string): string => toFix.replace(/ç/gu, 'c')
+});
+
 const cleanOperationIfAny = (
   cleanOperator: (colonne: string, codePostal?: string) => CleanOperation,
   colonne?: string,
@@ -372,6 +386,8 @@ export const cleanOperations = (
   ...cleanOperationIfAny(removeEmailStartingWithWww, matching.courriel?.colonne),
   ...cleanOperationIfAny(removeEmailStartingWithAt, matching.courriel?.colonne),
   ...cleanOperationIfAny(trimEmail, matching.courriel?.colonne),
+  ...cleanOperationIfAny(fixMissingAccentuatedEInEmail, matching.courriel?.colonne),
+  ...cleanOperationIfAny(fixMissingAccentuatedCInEmail, matching.courriel?.colonne),
   ...cleanOperationIfAny(fixEmailWithTwoArobase, matching.courriel?.colonne),
   ...cleanOperationIfAny(fixStartingWithDotEmail, matching.courriel?.colonne),
   ...cleanOperationIfAny(fixEmailStartingWithMailTo, matching.courriel?.colonne),

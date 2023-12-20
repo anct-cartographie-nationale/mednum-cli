@@ -684,7 +684,7 @@ describe('contact field', (): void => {
 
     expect(contact).toStrictEqual<Contact>(
       Contact({
-        courriel: 'chambéry@accorderie.fr'
+        courriel: 'chambery@accorderie.fr'
       })
     );
   });
@@ -869,6 +869,36 @@ describe('contact field', (): void => {
     expect(contact).toStrictEqual<Contact>(
       Contact({
         telephone: '+33971103960'
+      })
+    );
+  });
+
+  it('should replace é with e in email', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        [EMAIL_FIELD]: 'chambéry@accorderie.fr'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        courriel: 'chambery@accorderie.fr'
+      })
+    );
+  });
+
+  it('should replace ç with c in email', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        [EMAIL_FIELD]: 'service.bibliothequeç@sarlat.fr'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        courriel: 'service.bibliothequec@sarlat.fr'
       })
     );
   });

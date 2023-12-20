@@ -15,7 +15,12 @@ export const saveOutputsWithLieuxInclusionNumeriqueApi =
     transformerOptions.cartographieNationaleApiKey != null &&
       (await axios.patch<unknown, AxiosResponse, SchemaLieuMediationNumerique[]>(
         `${transformerOptions.cartographieNationaleApiUrl}/lieux-inclusion-numerique`,
-        lieuxMediationNumerique.filter(onlyDefined).map(toSchemaLieuMediationNumerique),
+        lieuxMediationNumerique
+          .filter(onlyDefined)
+          .map(
+            (lieuMediationNumerique: LieuMediationNumerique): SchemaLieuMediationNumerique =>
+              toSchemaLieuMediationNumerique(lieuMediationNumerique)
+          ),
         headers(authHeader(transformerOptions.cartographieNationaleApiKey))
       ));
   };
