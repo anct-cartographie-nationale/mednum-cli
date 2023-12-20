@@ -21,19 +21,13 @@ const onlyMoreThanDuplicationScoreThreshold =
   (duplicationComparison: DuplicationComparison): boolean =>
     duplicationComparison.score > (allowInternalMerge ? INTERNAL_DUPLICATION_SCORE_THRESHOLD : DUPLICATION_SCORE_THRESHOLD);
 
-const noCache = (): string => Math.random().toString(16).slice(2, -1);
-
 /* eslint-disable-next-line max-statements */
 export const dedupliquerAction = async (dedupliquerOptions: DedupliquerOptions): Promise<void> => {
   const repository: DeduplicationRepository = deduplicationRepository(dedupliquerOptions);
 
-  const lieux: AxiosResponse<SchemaLieuMediationNumerique[]> = await axios.get(
-    dedupliquerOptions.baseSource.replace('$cache', noCache())
-  );
+  const lieux: AxiosResponse<SchemaLieuMediationNumerique[]> = await axios.get(dedupliquerOptions.baseSource);
 
-  const lieuxToDeduplicate: AxiosResponse<SchemaLieuMediationNumerique[]> = await axios.get(
-    dedupliquerOptions.source.replace('$cache', noCache())
-  );
+  const lieuxToDeduplicate: AxiosResponse<SchemaLieuMediationNumerique[]> = await axios.get(dedupliquerOptions.source);
 
   const duplicationComparisonsToGroup: DuplicationComparison[] = duplicationComparisons(
     lieux.data,
