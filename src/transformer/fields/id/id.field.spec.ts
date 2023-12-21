@@ -29,4 +29,20 @@ describe('id field', (): void => {
 
     expect(id).toBe('0');
   });
+
+  it('should get index as id when no id in source even if matching field is ok', (): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      id: {
+        colonne: 'ID'
+      }
+    } as LieuxMediationNumeriqueMatching;
+
+    const source: DataSource = {
+      ID: ''
+    };
+
+    const id: string = processId(source, matching, 0);
+
+    expect(id).toBe('0');
+  });
 });
