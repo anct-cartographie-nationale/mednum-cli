@@ -82,8 +82,10 @@ const toFingerprint =
     hash: hashFor(sourceItem)
   });
 
+const onlyValidSourceId = (fingerprint: Fingerprint): boolean => fingerprint.sourceId !== '';
+
 export const fingerprintsFrom = (sourceItems: DataSource[], idKey: string): Fingerprint[] =>
-  sourceItems.map(toFingerprint(idKey));
+  sourceItems.map(toFingerprint(idKey)).filter(onlyValidSourceId);
 
 const matchingFingerprintById =
   (fingerprint: Fingerprint) =>
@@ -103,7 +105,7 @@ const toUpdatedFingerprintHash =
 const onlyFingerprintsToAdd =
   (matchingIds: string[]) =>
   (fingerprint: Fingerprint): boolean =>
-    !matchingIds.includes(fingerprint.sourceId);
+    !matchingIds.includes(fingerprint.sourceId) && fingerprint.sourceId !== '';
 
 const onlyMatchingIds =
   (nextFingerprintsIds: string[]) =>
