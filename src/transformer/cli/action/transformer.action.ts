@@ -50,8 +50,15 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
     .map(toLieuxMediationNumerique(repository, transformerOptions.sourceName, REPORT))
     .filter(validValuesOnly);
 
+  /* eslint-disable-next-line no-console */
+  diffSinceLastTransform != null && console.log('Nouveaux lieux à ajouter :', diffSinceLastTransform.toUpsert.length);
+  /* eslint-disable-next-line no-console */
+  diffSinceLastTransform != null && console.log('Lieux à supprimer :', diffSinceLastTransform.toDelete.length);
+
   repository.saveErrors(REPORT);
+
   await repository.saveOutputs(lieuxDeMediationNumerique);
+
   await repository.saveFingerprints(diffSinceLastTransform);
 
   transformerOptions.cartographieNationaleApiKey != null &&

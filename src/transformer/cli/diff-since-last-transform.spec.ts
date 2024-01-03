@@ -150,7 +150,13 @@ const TRAIT_D_UNION: DataSource = {
   commune: 'Angers'
 };
 
+const EMPTY_ID: DataSource = {
+  TYPO_UID: ''
+};
+
 const SOURCE: DataSource[] = [UATL, IREPS, FILALIGNE];
+
+const SOURCE_WITH_EMPTY_ID: DataSource[] = [...SOURCE, EMPTY_ID];
 
 const SOURCE_WITH_UPDATE: DataSource[] = [UATL, IREPS, { ...FILALIGNE, DATE_MAJ: '2023-10-02 14:20:41' }];
 
@@ -221,6 +227,12 @@ describe('should transform', (): void => {
     expect(fingerprints).toStrictEqual(FINGERPRINTS);
   });
 
+  it('should not compute fingerprint with empty id from source items', (): void => {
+    const fingerprints: Fingerprint[] = fingerprintsFrom(SOURCE_WITH_EMPTY_ID, ID_KEY);
+
+    expect(fingerprints).toStrictEqual(FINGERPRINTS);
+  });
+
   it('should not update fingerprints, when nothing has changed', (): void => {
     const updatedFingerprints: Fingerprint[] = updateFingerprints(FINGERPRINTS, []);
 
@@ -231,6 +243,18 @@ describe('should transform', (): void => {
     const updatedFingerprints: Fingerprint[] = updateFingerprints(FINGERPRINTS, [TRAIT_D_UNION_FINGERPRINT]);
 
     expect(updatedFingerprints).toStrictEqual([...FINGERPRINTS, TRAIT_D_UNION_FINGERPRINT]);
+  });
+
+  it('should not add fingerprint without id', (): void => {
+    const updatedFingerprints: Fingerprint[] = updateFingerprints(FINGERPRINTS, [
+      ...FINGERPRINTS,
+      {
+        sourceId: '',
+        hash: 'e7d7002d1df0c66f3c0ab706f6511dc534baeae83c0221607696532932af4751'
+      }
+    ]);
+
+    expect(updatedFingerprints).toStrictEqual(FINGERPRINTS);
   });
 
   it('should update a previous fingerprint, when an item has been updated', (): void => {

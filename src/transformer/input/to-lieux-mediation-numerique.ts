@@ -5,6 +5,7 @@ import {
   CodePostalError,
   CommuneError,
   ConditionsAcces,
+  IdError,
   LabelsNationaux,
   LieuMediationNumerique,
   Localisation,
@@ -138,6 +139,7 @@ export const toLieuxMediationNumerique =
       );
     } catch (error: unknown) {
       if (
+        error instanceof IdError ||
         error instanceof ServicesError ||
         error instanceof VoieError ||
         error instanceof CommuneError ||
