@@ -19,7 +19,8 @@ const fromJson = <T>(response: Record<string, T>, key?: string): T[] =>
 const inputIsJson = (response: AxiosResponse): boolean =>
   response.config.url?.includes('geojson') === true ||
   response.headers['content-type']?.includes('application/geo+json') === true ||
-  response.headers['content-type']?.includes('application/json') === true;
+  response.headers['content-type']?.includes('application/json') === true ||
+  response.headers['content-type']?.includes('application/vnd.geo+json') === true;
 
 const defaultIfUndefined = (toBeDefined: string | undefined, defaultValue: string): string =>
   toBeDefined !== undefined && toBeDefined !== '' ? toBeDefined : defaultValue;
