@@ -1,17 +1,15 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
-import { MultiPolygon, Polygon, Position } from '@turf/turf';
+import { Feature, MultiPolygon, Polygon, Position } from '@turf/turf';
 import { QpvShapesMap } from '../../../fields';
 
 export type QpvTransfer = {
-  fields: {
-    geo_shape?: MultiPolygon | Polygon;
-    list_com_2023: string;
-  };
+  geo_shape?: Feature<MultiPolygon | Polygon>;
+  list_com_2023: string;
 };
 
 type FieldsWithShape = {
-  geo_shape: MultiPolygon | Polygon;
+  geo_shape: Feature<MultiPolygon | Polygon>;
   list_com_2023: string;
 };
 
@@ -40,21 +38,19 @@ const upsertQpvToShapesMap = (
   { list_com_2023, geo_shape: shapeToAdd }: FieldsWithShape
 ): QpvShapesMap =>
   existingQpvTransfer.length === 0
-    ? qpvShapesMap.set(list_com_2023, polygonsFromShape(shapeToAdd))
+    ? qpvShapesMap.set(list_com_2023, polygonsFromShape(shapeToAdd.geometry))
     : qpvShapesMap.set(
         list_com_2023,
-        isPolygon(shapeToAdd)
-          ? [...toPolygons(existingQpvTransfer), shapeToAdd]
-          : [...toPolygons(existingQpvTransfer), ...multiPolygonToListOfPolygons(shapeToAdd)]
+        isPolygon(shapeToAdd.geometry)
+          ? [...toPolygons(existingQpvTransfer), shapeToAdd.geometry]
+          : [...toPolygons(existingQpvTransfer), ...multiPolygonToListOfPolygons(shapeToAdd.geometry)]
       );
 
-const hasGeoShape = (fields: QpvTransfer['fields']): fields is FieldsWithShape => fields.geo_shape != null;
+const hasGeoShape = (qpv: QpvTransfer): qpv is FieldsWithShape => qpv.geo_shape != null;
 
 export const qpvShapesMapFromTransfer = (qpvTransfer: QpvTransfer[]): QpvShapesMap =>
   qpvTransfer.reduce(
-    (qpvShapesMap: QpvShapesMap, { fields }: QpvTransfer): QpvShapesMap =>
-      hasGeoShape(fields)
-        ? upsertQpvToShapesMap(qpvShapesMap.get(fields.list_com_2023) ?? [], qpvShapesMap, fields)
-        : qpvShapesMap,
+    (qpvShapesMap: QpvShapesMap, qpv: QpvTransfer): QpvShapesMap =>
+      hasGeoShape(qpv) ? upsertQpvToShapesMap(qpvShapesMap.get(qpv.list_com_2023) ?? [], qpvShapesMap, qpv) : qpvShapesMap,
     new Map<string, Polygon[]>()
   );
