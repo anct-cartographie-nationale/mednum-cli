@@ -4,7 +4,7 @@ import { MergeGroupTransfer } from '../../../data';
 import { findGroupIdsToDelete, Groups, MergedLieuxByGroupMap, MergeGroup, mergeGroups } from '../../../steps';
 import { DedupliquerOptions } from '../../dedupliquer-options';
 
-const toSourceFromId = (id: string): string | undefined => id.split('@').at(0);
+const toSourceFromId = (id: string): string | undefined => id.split('_').at(0);
 
 export const shouldMarkAsDeduplicated = (mergeGroupsMap: Map<string, string[]>): boolean =>
   Array.from(new Set(Array.from(mergeGroupsMap.values()).flat().map(toSourceFromId))).length > 1;
