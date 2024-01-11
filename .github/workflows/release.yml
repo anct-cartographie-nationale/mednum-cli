@@ -15,7 +15,8 @@ jobs:
     name: Publish to data.gouv
     strategy:
       matrix:
-        source: [
+        source:
+          [
             aidants-connect,
             angers,
             bus-france-services-charente,
@@ -47,7 +48,7 @@ jobs:
             res-in,
             sarthe,
             ultra-num
-        ]
+          ]
     runs-on: ubuntu-latest
     environment: production
 
@@ -78,6 +79,8 @@ jobs:
 
       - name: Transform
         run: yarn transformer.${{ matrix.source }}
+        env:
+          DATA_INCLUSION_API_KEY: ${{ secrets.DATA_INCLUSION_API_KEY}}
 
       - name: Publish
         run: yarn publier.${{ matrix.source }}

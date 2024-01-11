@@ -2,7 +2,7 @@ type Headers = Record<string, string>;
 
 export type Api = {
   key: string;
-  url: string;
+  url?: string;
 };
 
 export const headers = (headersToAppend?: Headers): { headers: Headers } => ({
