@@ -22,42 +22,41 @@ const filePayload =
       structuresWithServicesNumeriques(dataInclusionStructures, dataInclusionServices).filter(onlyMatchingSource(filter))
     );
 
-const getApi = (properties: DataInclusionOptions): Api => ({
+const getApiKey = (properties: DataInclusionOptions): Api => ({
   key: properties.dataInclusionApiKey
 });
 
-const fetchAllPages = async <T extends SchemaStructureDataInclusion | SchemaServiceDataInclusion>(
+const fetchAllPages = async <T extends SchemaServiceDataInclusion | SchemaStructureDataInclusion>(
   apiUrl: string,
   dataInclusionOptions: DataInclusionOptions,
-  totalPages: number
+  totalPages: number,
+  currentPage: number = 2,
+  allPagesDatas: T[] = []
 ): Promise<T[]> => {
-  let allData: T[] = [];
-
-  for (let page = 1; page <= totalPages; page++) {
-    try {
-      const url = `${apiUrl}&page=${page}`;
-      const response: AxiosResponse = await axios.get(url, {
-        headers: { Authorization: `Bearer ${getApi(dataInclusionOptions).key}` }
-      });
-      allData.push(...response.data.items);
-    } catch (error) {
-      break;
-    }
+  if (currentPage > totalPages) {
+    return allPagesDatas;
   }
 
-  return allData;
+  const response: AxiosResponse = await axios.get(`${apiUrl}&page=${currentPage}`, {
+    /* eslint-disable-next-line @typescript-eslint/naming-convention */
+    headers: { Authorization: `Bearer ${getApiKey(dataInclusionOptions).key}` }
+  });
+  allPagesDatas.push(...response.data.items);
+
+  return fetchAllPages(apiUrl, dataInclusionOptions, totalPages, currentPage + 1, allPagesDatas);
 };
 
-export const dataInclusionAction = async (dataInclusionOptions: DataInclusionOptions): Promise<void> => {
-  const dataInclusionStructureUrl: string = 'https://api.data.inclusion.beta.gouv.fr/api/v0/structures?thematique=numerique';
-  const dataInclusionServiceUrl: string = 'https://api.data.inclusion.beta.gouv.fr/api/v0/services?thematique=numerique';
-
-  const responseStructures: SchemaStructureDataInclusion[] = await axios
+const fetchDataInclusionStructures = async (
+  dataInclusionOptions: DataInclusionOptions,
+  dataInclusionStructureUrl: string
+): Promise<SchemaStructureDataInclusion[]> =>
+  axios
     .get(`${dataInclusionStructureUrl}&page=1`, {
-      headers: { Authorization: `Bearer ${getApi(dataInclusionOptions).key}` }
+      /* eslint-disable-next-line @typescript-eslint/naming-convention */
+      headers: { Authorization: `Bearer ${getApiKey(dataInclusionOptions).key}` }
     })
-    .then(async (response) => {
-      let allPagesData: SchemaStructureDataInclusion[] = await fetchAllPages(
+    .then(async (response: AxiosResponse): Promise<SchemaStructureDataInclusion[]> => {
+      const allPagesData: SchemaStructureDataInclusion[] = await fetchAllPages(
         dataInclusionStructureUrl,
         dataInclusionOptions,
         response.data.pages
@@ -65,18 +64,37 @@ export const dataInclusionAction = async (dataInclusionOptions: DataInclusionOpt
       return [...response.data.items, ...allPagesData];
     });
 
-  const responseServices: SchemaServiceDataInclusion[] = await axios
+const fetchDataInclusionServices = async (
+  dataInclusionOptions: DataInclusionOptions,
+  dataInclusionServiceUrl: string
+): Promise<SchemaServiceDataInclusion[]> =>
+  axios
     .get(`${dataInclusionServiceUrl}&page=1`, {
-      headers: { Authorization: `Bearer ${getApi(dataInclusionOptions).key}` }
+      /* eslint-disable-next-line @typescript-eslint/naming-convention */
+      headers: { Authorization: `Bearer ${getApiKey(dataInclusionOptions).key}` }
     })
-    .then(async (response) => {
-      let allPagesData: SchemaServiceDataInclusion[] = await fetchAllPages(
+    .then(async (response: AxiosResponse): Promise<SchemaServiceDataInclusion[]> => {
+      const allPagesData: SchemaServiceDataInclusion[] = await fetchAllPages(
         dataInclusionServiceUrl,
         dataInclusionOptions,
         response.data.pages
       );
       return [...response.data.items, ...allPagesData];
     });
+
+export const dataInclusionAction = async (dataInclusionOptions: DataInclusionOptions): Promise<void> => {
+  const dataInclusionStructureUrl: string = 'https://api.data.inclusion.beta.gouv.fr/api/v0/structures?thematique=numerique';
+  const dataInclusionServiceUrl: string = 'https://api.data.inclusion.beta.gouv.fr/api/v0/services?thematique=numerique';
+
+  const responseStructures: SchemaStructureDataInclusion[] = await fetchDataInclusionStructures(
+    dataInclusionOptions,
+    dataInclusionStructureUrl
+  );
+
+  const responseServices: SchemaServiceDataInclusion[] = await fetchDataInclusionServices(
+    dataInclusionOptions,
+    dataInclusionServiceUrl
+  );
 
   fs.writeFileSync(
     dataInclusionOptions.outputFile,
