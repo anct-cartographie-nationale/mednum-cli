@@ -54,14 +54,18 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
     lieux
       .map(flatten as (lieu: DataSource) => DataSource)
       .map(async (dataSource: DataSource, index: number): Promise<LieuMediationNumerique | undefined> => {
-        const lieuDeMediationNumeriqueWithLocalisation: LieuMediationNumeriqueWithLocalisation = toLieuxMediationNumerique(
+        let lieuDeMediationNumeriqueWithLocalisation: LieuMediationNumeriqueWithLocalisation = toLieuxMediationNumerique(
           repository,
           transformerOptions.sourceName,
           REPORT
         )(dataSource, index);
         if (lieuDeMediationNumeriqueWithLocalisation.hasLocalisation === false) {
           const localisation: LocalisationByGeo | undefined = await repository.findLocalisation(dataSource);
-          toLieuxMediationNumerique(repository, transformerOptions.sourceName, REPORT)(dataSource, index, localisation);
+          lieuDeMediationNumeriqueWithLocalisation = toLieuxMediationNumerique(
+            repository,
+            transformerOptions.sourceName,
+            REPORT
+          )(dataSource, index, localisation);
         }
         return lieuDeMediationNumeriqueWithLocalisation.lieuMediationNumerique;
       })
