@@ -1,19 +1,22 @@
-type Headers = Record<string, string>;
+/* eslint-disable @typescript-eslint/naming-convention */
+
+type Headers<T> = Record<string, T>;
 
 export type Api = {
   key: string;
-  url?: string;
+  url: string;
 };
 
-export const headers = (headersToAppend?: Headers): { headers: Headers } => ({
+export const headers = (headersToAppend?: Headers<string>): { headers: Headers<string> } => ({
   headers: {
-    /* eslint-disable-next-line @typescript-eslint/naming-convention */
     Accept: 'application/json',
-    /* eslint-disable-next-line @typescript-eslint/naming-convention */
     'Content-Type': 'application/json',
     ...headersToAppend
   }
 });
 
-/* eslint-disable-next-line @typescript-eslint/naming-convention */
-export const authHeader = (apiKey?: string): Headers => (apiKey == null ? {} : { 'X-API-KEY': apiKey });
+export const authHeader = (apiKey?: string): Headers<string> => (apiKey == null ? {} : { 'X-API-KEY': apiKey });
+
+export const bearerTokenHeader = (apiKey: string): Headers<{ Authorization: string }> => ({
+  headers: { Authorization: `Bearer ${apiKey}` }
+});
