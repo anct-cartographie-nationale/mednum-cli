@@ -120,6 +120,10 @@ jobs:
     needs:
       - deduplicate
     steps:
+      - name: Sleep for 5 minutes
+        run: sleep 300s
+        shell: bash
+
       - name: Prepare lieux inclusion numerique file
         run: |
           mkdir mkdir -p client-application/assets/data
