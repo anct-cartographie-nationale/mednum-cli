@@ -32,39 +32,18 @@ const fetchAllPages = async <T>(
   return fetchAllPages({ key, url }, totalPages, currentPage + 1, [...allPagesDatas, ...response.data.items]);
 };
 
-const fetchDataInclusionStructures = async ({ key, url }: Api): Promise<SchemaStructureDataInclusion[]> =>
-  axios
-    /* eslint-disable-next-line @typescript-eslint/naming-convention */
-    .get(`${url}&page=1`, bearerTokenHeader(key))
-    .then(
-      async (
-        response: AxiosResponse<{ pages: number; items: SchemaStructureDataInclusion[] }>
-      ): Promise<SchemaStructureDataInclusion[]> => [
-        ...response.data.items,
-        ...(await fetchAllPages<SchemaStructureDataInclusion>({ key, url }, response.data.pages))
-      ]
-    );
-
-const fetchDataInclusionServices = async ({ key, url }: Api): Promise<SchemaServiceDataInclusion[]> =>
-  axios
-    /* eslint-disable-next-line @typescript-eslint/naming-convention */
-    .get(`${url}&page=1`, bearerTokenHeader(key))
-    .then(
-      async (
-        response: AxiosResponse<{ pages: number; items: SchemaServiceDataInclusion[] }>
-      ): Promise<SchemaServiceDataInclusion[]> => [
-        ...response.data.items,
-        ...(await fetchAllPages<SchemaServiceDataInclusion>({ key, url }, response.data.pages))
-      ]
-    );
+const fetchFromDataInclusionApi = async <T>({ key, url }: Api): Promise<T[]> => {
+  const { items, pages }: { items: T[]; pages: number } = (await axios.get(`${url}&page=1`, bearerTokenHeader(key))).data;
+  return [...items, ...(await fetchAllPages<T>({ key, url }, pages))];
+};
 
 export const dataInclusionAction = async (dataInclusionOptions: DataInclusionOptions): Promise<void> => {
-  const responseStructures: SchemaStructureDataInclusion[] = await fetchDataInclusionStructures({
+  const responseStructures: SchemaStructureDataInclusion[] = await fetchFromDataInclusionApi({
     key: dataInclusionOptions.dataInclusionApiKey,
     url: 'https://api.data.inclusion.beta.gouv.fr/api/v0/structures?source=dora'
   });
 
-  const responseServices: SchemaServiceDataInclusion[] = await fetchDataInclusionServices({
+  const responseServices: SchemaServiceDataInclusion[] = await fetchFromDataInclusionApi({
     key: dataInclusionOptions.dataInclusionApiKey,
     url: 'https://api.data.inclusion.beta.gouv.fr/api/v0/services?source=dora'
   });
