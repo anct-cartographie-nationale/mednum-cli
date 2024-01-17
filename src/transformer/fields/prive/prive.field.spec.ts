@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
-import { processPrive } from './prive.field';
+import { isPrive } from './prive.field';
 
 describe('prive field', (): void => {
   it('should get prive field from data source using matching information', (): void => {
@@ -15,7 +15,7 @@ describe('prive field', (): void => {
       prive: true
     };
 
-    const prive: boolean | undefined = processPrive(source, matching);
+    const prive: boolean | undefined = isPrive(source, matching);
 
     expect(prive).toBe(true);
   });
@@ -29,7 +29,7 @@ describe('prive field', (): void => {
 
     const source: DataSource = {};
 
-    const prive: boolean | undefined = processPrive(source, matching);
+    const prive: boolean | undefined = isPrive(source, matching);
 
     expect(prive).toBe(false);
   });

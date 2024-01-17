@@ -41,11 +41,11 @@ import {
   processPublicsAccueillis,
   processServices,
   processSource,
-  processTypologies
+  processTypologies,
+  isPrive
 } from '../fields';
 import { TransformationRepository } from '../repositories';
 import { DataSource, LieuxMediationNumeriqueMatching } from './lieux-mediation-numerique-matching';
-import { processPrive } from '../fields/prive/prive.field';
 
 const localisationIfAny = (localisation?: Localisation): { localisation?: Localisation } =>
   localisation == null ? {} : { localisation };
@@ -89,9 +89,8 @@ const lieuDeMediationNumerique = (
 ): LieuMediationNumerique | undefined => {
   const adresse: Adresse = processAdresse(findCommune)(dataSource, matching);
   const localistaion: Localisation = processLocalisation(dataSource, matching);
-  const noPublicConum: boolean = processPrive(dataSource, matching);
 
-  if (noPublicConum) return undefined;
+  if (isPrive(dataSource, matching)) return undefined;
 
   const lieuMediationNumerique: LieuMediationNumerique = {
     id: processId(dataSource, matching, index),
