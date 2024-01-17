@@ -200,5 +200,81 @@
       "termes": ["Favoriser mon insertion professionnelle"],
       "cible": "Favoriser mon insertion professionnelle"
     }
+  ],
+  "horaires": {
+    "osm": "properties.horaires"
+  },
+  "typologie": [
+    {
+      "colonnes": ["properties.typologie"],
+      "termes": ["ASSOCIATION"],
+      "cible": "ASSO"
+    },
+    {
+      "colonnes": ["properties.typologie"],
+      "termes": ["AUTRE"],
+      "cible": "Autre"
+    },
+    {
+      "colonnes": ["properties.typologie"],
+      "termes": ["BIBLIOTHÈQUE", "MÉDIATHÈQUE"],
+      "cible": "BIB"
+    },
+    {
+      "colonnes": ["properties.typologie"],
+      "termes": ["CCAS"],
+      "cible": "CCAS"
+    },
+    {
+      "colonnes": ["properties.typologie"],
+      "termes": ["CIAS"],
+      "cible": "CIAS"
+    },
+    {
+      "colonnes": ["properties.typologie"],
+      "termes": ["CENTRE SOCIAL"],
+      "cible": "CS"
+    },
+    {
+      "colonnes": ["properties.typologie"],
+      "termes": ["INTERCOMMUNALITÉ"],
+      "cible": "EPCI"
+    },
+    {
+      "colonnes": ["properties.typologie"],
+      "termes": ["ACCUEIL D’ACTION SOCIALE DU DÉPARTEMENT"],
+      "cible": "DEPT"
+    },
+    {
+      "colonnes": ["properties.typologie"],
+      "termes": ["MAISON DE L'EMPLOI"],
+      "cible": "MDE"
+    },
+    {
+      "colonnes": ["properties.typologie"],
+      "termes": ["MISSION LOCALE"],
+      "cible": "ML"
+    },
+    {
+      "colonnes": ["properties.typologie"],
+      "termes": ["ACCUEIL D’UNE COMMUNE"],
+      "cible": "MUNI"
+    },
+    {
+      "colonnes": ["properties.typologie"],
+      "termes": ["ORGANISME DE FORMATION"],
+      "cible": "OF"
+    },
+    {
+      "colonnes": ["properties.typologie"],
+      "termes": ["PRÉFECTURE", "SOUS-PRÉFECTURE"],
+      "cible": "PREF"
+    },
+
+    {
+      "colonnes": ["properties.typologie"],
+      "termes": ["FRANCE SERVICES"],
+      "cible": "RFS"
+    }
   ]
 }
