@@ -41,8 +41,17 @@ const getAccessibiliteFromAccesLibre = (
   return accesLibreUrl == null ? undefined : Url(accesLibreUrl);
 };
 
-const canProcessAccessibilite = (source: DataSource, accessibilite?: Colonne): accessibilite is Colonne =>
-  accessibilite?.colonne != null && source[accessibilite.colonne] != null && source[accessibilite.colonne] !== '';
+const canProcessAccessibilite = (source: DataSource, accessibilite?: Colonne): accessibilite is Colonne => {
+  return accessibilite?.colonne != null && source[accessibilite.colonne] != null && source[accessibilite.colonne] !== '';
+};
+
+const accessibiliteUrlIsValid = (source: DataSource, accessibilite?: Colonne): boolean => {
+  try {
+    return canProcessAccessibilite(source, accessibilite) && !!Url(source[accessibilite.colonne] as string);
+  } catch {
+    return false;
+  }
+};
 
 export const processAccessibilite = (
   source: DataSource,
@@ -50,6 +59,6 @@ export const processAccessibilite = (
   accesLibreData: Erp[],
   adresseProcessed: Adresse
 ): Url | undefined =>
-  canProcessAccessibilite(source, matching.accessibilite)
+  canProcessAccessibilite(source, matching.accessibilite) && accessibiliteUrlIsValid(source, matching.accessibilite)
     ? Url(source[matching.accessibilite.colonne]?.toString() ?? '')
     : getAccessibiliteFromAccesLibre(source, matching, accesLibreData, adresseProcessed);

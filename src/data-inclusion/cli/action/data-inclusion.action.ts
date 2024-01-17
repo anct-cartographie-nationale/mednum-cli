@@ -61,12 +61,12 @@ const fetchDataInclusionServices = async ({ key, url }: Api): Promise<SchemaServ
 export const dataInclusionAction = async (dataInclusionOptions: DataInclusionOptions): Promise<void> => {
   const responseStructures: SchemaStructureDataInclusion[] = await fetchDataInclusionStructures({
     key: dataInclusionOptions.dataInclusionApiKey,
-    url: 'https://api.data.inclusion.beta.gouv.fr/api/v0/structures?thematique=numerique'
+    url: 'https://api.data.inclusion.beta.gouv.fr/api/v0/structures?source=dora'
   });
 
   const responseServices: SchemaServiceDataInclusion[] = await fetchDataInclusionServices({
     key: dataInclusionOptions.dataInclusionApiKey,
-    url: 'https://api.data.inclusion.beta.gouv.fr/api/v0/services?thematique=numerique'
+    url: 'https://api.data.inclusion.beta.gouv.fr/api/v0/services?source=dora'
   });
 
   fs.writeFileSync(
