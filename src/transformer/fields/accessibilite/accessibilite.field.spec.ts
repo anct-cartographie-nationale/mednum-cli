@@ -75,7 +75,9 @@ describe('accessibilite field', (): void => {
 
     const accessibilite: string | undefined = processAccessibilite(source, matching, accesLibreData, adresseProcessed);
 
-    expect(accessibilite).toBeUndefined();
+    expect(accessibilite).toBe(
+      'https://acceslibre.beta.gouv.fr/recherche/?what=&where=Saint-Nazaire-le-D%C3%A9sert%20%2826%29&lat=44.569759&lon=5.275761&code=26321'
+    );
   });
 
   it('should ignore empty strings', (): void => {
