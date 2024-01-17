@@ -9,7 +9,8 @@ jobs:
   publish-to-data-gouv:
     strategy:
       matrix:
-        source: [
+        source:
+          [
             aidants-connect,
             angers,
             bus-france-services-charente,
@@ -41,7 +42,7 @@ jobs:
             res-in,
             sarthe,
             ultra-num
-        ]
+          ]
     runs-on: ubuntu-latest
     environment: production
 
@@ -69,6 +70,7 @@ jobs:
           echo DATA_GOUV_REFERENCE_TYPE="${{ secrets.DATA_GOUV_REFERENCE_TYPE }}" >> .env
           echo CARTOGRAPHIE_NATIONALE_API_URL="${{ secrets.CARTOGRAPHIE_NATIONALE_API_URL }}" >> .env
           echo CARTOGRAPHIE_NATIONALE_API_KEY="${{ secrets.CARTOGRAPHIE_NATIONALE_API_KEY }}" >> .env
+          echo DATA_INCLUSION_API_KEY="${{ secrets.DATA_INCLUSION_API_KEY }}" >> .env
 
       - name: Transform
         run: yarn transformer.${{ matrix.source }}

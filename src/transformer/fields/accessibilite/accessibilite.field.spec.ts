@@ -53,6 +53,33 @@ describe('accessibilite field', (): void => {
     expect(accessibilite).toBeUndefined();
   });
 
+  it('should not get accessibilite url from data source if not valid', (): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      accessibilite: {
+        colonne: 'bf_accessibilit_'
+      }
+    } as LieuxMediationNumeriqueMatching;
+
+    const adresseProcessed: Adresse = {
+      voie: '',
+      code_postal: '',
+      commune: ''
+    } as Adresse;
+
+    const source: DataSource = {
+      bf_accessibilit_:
+        'https://acceslibre.beta.gouv.fr/recherche/?what=&where=Saint-Nazaire-le-D%C3%A9sert%20(26)&lat=44.569759&lon=5.275761&code=26321'
+    };
+
+    const accesLibreData: Erp[] = [];
+
+    const accessibilite: string | undefined = processAccessibilite(source, matching, accesLibreData, adresseProcessed);
+
+    expect(accessibilite).toBe(
+      'https://acceslibre.beta.gouv.fr/recherche/?what=&where=Saint-Nazaire-le-D%C3%A9sert%20%2826%29&lat=44.569759&lon=5.275761&code=26321'
+    );
+  });
+
   it('should ignore empty strings', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
       accessibilite: {

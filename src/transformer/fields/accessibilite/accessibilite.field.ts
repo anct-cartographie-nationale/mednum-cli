@@ -29,10 +29,12 @@ const getAccessibiliteFromAccesLibre = (
 
   const accesLibreUrlByFuzzyMatch: string | undefined =
     erpMatchWithScores.length === 1 ? erpMatchWithScores[0]?.web_url : undefined;
+
   const currentPivot: string | undefined =
     matching.pivot?.colonne != null && source[matching.pivot.colonne]?.toString() !== ''
       ? source[matching.pivot.colonne]?.toString()
       : undefined;
+
   const accesLibreUrlBySiretMatch: string | undefined =
     erpMatchWithScores.find((erp: Erp): boolean => erp.siret === currentPivot)?.web_url ?? undefined;
 
@@ -44,6 +46,8 @@ const getAccessibiliteFromAccesLibre = (
 const canProcessAccessibilite = (source: DataSource, accessibilite?: Colonne): accessibilite is Colonne =>
   accessibilite?.colonne != null && source[accessibilite.colonne] != null && source[accessibilite.colonne] !== '';
 
+const fixUrl = (url: string): string => url.replace(/\(/gu, '%28').replace(/\)/gu, '%29');
+
 export const processAccessibilite = (
   source: DataSource,
   matching: LieuxMediationNumeriqueMatching,
@@ -51,5 +55,5 @@ export const processAccessibilite = (
   adresseProcessed: Adresse
 ): Url | undefined =>
   canProcessAccessibilite(source, matching.accessibilite)
-    ? Url(source[matching.accessibilite.colonne]?.toString() ?? '')
+    ? Url(fixUrl(source[matching.accessibilite.colonne]?.toString() ?? ''))
     : getAccessibiliteFromAccesLibre(source, matching, accesLibreData, adresseProcessed);

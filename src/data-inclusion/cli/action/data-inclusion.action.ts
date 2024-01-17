@@ -1,10 +1,8 @@
-import {
-  SchemaServiceDataInclusion,
-  SchemaStructureDataInclusion
-} from '@gouvfr-anct/lieux-de-mediation-numerique/lib/cjs/transfer/schema-data-inclusion/schema-data-inclusion';
-import axios, { AxiosResponse } from 'axios';
 /* eslint-disable-next-line @typescript-eslint/no-restricted-imports */
 import * as fs from 'fs';
+import axios, { AxiosResponse } from 'axios';
+import { SchemaServiceDataInclusion, SchemaStructureDataInclusion } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { Api, bearerTokenHeader } from '../../../common';
 import { DataInclusionMerged } from '../../data-inclusion-merged';
 import { structuresWithServicesNumeriques } from '../../merge-services-in-structure';
 import { DataInclusionOptions } from '../data-inclusion-options';
@@ -21,18 +19,38 @@ const filePayload =
       structuresWithServicesNumeriques(dataInclusionStructures, dataInclusionServices).filter(onlyMatchingSource(filter))
     );
 
-export const dataInclusionAction = async (dataInclusionOptions: DataInclusionOptions): Promise<void> => {
-  const responseStructures: AxiosResponse = await axios.get(
-    'https://www.data.gouv.fr/fr/datasets/r/4fc64287-e869-4550-8fb9-b1e0b7809ffa'
-  );
+const fetchAllPages = async <T>(
+  { key, url }: Api,
+  totalPages: number,
+  currentPage: number = 2,
+  allPagesDatas: T[] = []
+): Promise<T[]> => {
+  if (currentPage > totalPages) return allPagesDatas;
 
-  const responseServices: AxiosResponse = await axios.get(
-    'https://www.data.gouv.fr/fr/datasets/r/0eac1faa-66f9-4e49-8fb3-f0721027d89f'
-  );
+  const response: AxiosResponse = await axios.get(`${url}&page=${currentPage}`, bearerTokenHeader(key));
+
+  return fetchAllPages({ key, url }, totalPages, currentPage + 1, [...allPagesDatas, ...response.data.items]);
+};
+
+const fetchFromDataInclusionApi = async <T>({ key, url }: Api): Promise<T[]> => {
+  const { items, pages }: { items: T[]; pages: number } = (await axios.get(`${url}&page=1`, bearerTokenHeader(key))).data;
+  return [...items, ...(await fetchAllPages<T>({ key, url }, pages))];
+};
+
+export const dataInclusionAction = async (dataInclusionOptions: DataInclusionOptions): Promise<void> => {
+  const responseStructures: SchemaStructureDataInclusion[] = await fetchFromDataInclusionApi({
+    key: dataInclusionOptions.dataInclusionApiKey,
+    url: 'https://api.data.inclusion.beta.gouv.fr/api/v0/structures?source=dora'
+  });
+
+  const responseServices: SchemaServiceDataInclusion[] = await fetchFromDataInclusionApi({
+    key: dataInclusionOptions.dataInclusionApiKey,
+    url: 'https://api.data.inclusion.beta.gouv.fr/api/v0/services?source=dora'
+  });
 
   fs.writeFileSync(
     dataInclusionOptions.outputFile,
-    filePayload(dataInclusionOptions.filter)(responseStructures.data, responseServices.data),
+    filePayload(dataInclusionOptions.filter)(responseStructures, responseServices),
     'utf8'
   );
 };
