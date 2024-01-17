@@ -69,6 +69,7 @@ export type LieuxMediationNumeriqueMatching = {
   prise_rdv?: Colonne;
   accessibilite?: Colonne;
   semaine_ouverture?: Colonne;
+  prive?: Colonne;
   horaires?: {
     jours?: [
       {

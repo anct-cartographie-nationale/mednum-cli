@@ -41,7 +41,8 @@ import {
   processPublicsAccueillis,
   processServices,
   processSource,
-  processTypologies
+  processTypologies,
+  isPrive
 } from '../fields';
 import { TransformationRepository } from '../repositories';
 import { DataSource, LieuxMediationNumeriqueMatching } from './lieux-mediation-numerique-matching';
@@ -85,9 +86,11 @@ const lieuDeMediationNumerique = (
   findCommune: FindCommune,
   isInQpv: IsInQpv,
   isInZrr: IsInZrr
-): LieuMediationNumerique => {
+): LieuMediationNumerique | undefined => {
   const adresse: Adresse = processAdresse(findCommune)(dataSource, matching);
   const localistaion: Localisation = processLocalisation(dataSource, matching);
+
+  if (isPrive(dataSource, matching)) return undefined;
 
   const lieuMediationNumerique: LieuMediationNumerique = {
     id: processId(dataSource, matching, index),
