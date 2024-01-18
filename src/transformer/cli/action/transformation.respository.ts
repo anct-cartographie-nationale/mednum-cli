@@ -14,11 +14,10 @@ import {
   fingerprintsFromLieuxMediationNumeriqueApi,
   saveOutputsInFiles,
   saveFingerprintsInFile,
-  localisationByGeocode,
-  LocalisationByGeo
+  localisationByGeocode
 } from '../../data';
 import { findCommune } from '../../fields';
-import { DataSource, LieuxMediationNumeriqueMatching } from '../../input';
+import { LieuxMediationNumeriqueMatching } from '../../input';
 import { TransformationRepository } from '../../repositories';
 import { diffSinceLastTransform, Fingerprint } from '../diff-since-last-transform';
 import { TransformerOptions } from '../transformer-options';
@@ -40,6 +39,7 @@ export const transformationRespository = async (transformerOptions: TransformerO
     findCommune: findCommune(await communeFromGeoApi()),
     isInQpv: isInQpv(await qpvFromDataGouv()),
     isInZrr: isInZrr(await zrrFromEquipementsSportsGouvApi()),
+    geocode: localisationByGeocode,
     fingerprints,
     saveErrors: writeErrorsInFiles(transformerOptions),
     saveOutputs: useFile
@@ -48,8 +48,6 @@ export const transformationRespository = async (transformerOptions: TransformerO
     diffSinceLastTransform: diffSinceLastTransform(idKey, fingerprints),
     saveFingerprints: useFile
       ? saveFingerprintsInFile(idKey, fingerprints, transformerOptions)
-      : saveFingerprintsWithLieuxMediationNumeriqueApi(idKey, transformerOptions),
-    findLocalisation: async (source: DataSource): Promise<LocalisationByGeo | undefined> =>
-      localisationByGeocode(source, config)
+      : saveFingerprintsWithLieuxMediationNumeriqueApi(idKey, transformerOptions)
   };
 };

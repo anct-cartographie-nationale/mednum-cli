@@ -1,36 +1,19 @@
+import { Adresse, Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import axios, { AxiosResponse } from 'axios';
-import { Colonne, DataSource, Dissociation, Jonction, LieuxMediationNumeriqueMatching } from '../../input';
+import { NO_LOCALISATION } from '../../fields';
 
-export type LocalisationByGeo = {
-  latitude: string;
-  longitude: string;
-};
+const isValid = (response: AxiosResponse): boolean =>
+  response.data.features[0]?.geometry?.coordinates != null && response.data.features[0].properties.score > 0.7;
 
-const isColonne = (colonneToTest: Partial<Colonne> & Partial<Dissociation>): colonneToTest is Colonne =>
-  colonneToTest.colonne != null;
+const toLocalisation = (response: AxiosResponse): Localisation =>
+  Localisation({
+    latitude: response.data.features[0].geometry.coordinates[1],
+    longitude: response.data.features[0].geometry.coordinates[0]
+  });
 
-const extractColonneValue = (source: DataSource, field: Colonne | (Jonction & Partial<Colonne>)): string =>
-  isColonne(field) ? source[field.colonne]?.toString() ?? '' : '';
-
-export const localisationByGeocode = async (
-  source: DataSource,
-  matching: LieuxMediationNumeriqueMatching
-): Promise<LocalisationByGeo | undefined> => {
-  const adresse: string = extractColonneValue(source, matching.adresse)
-    .replace(/\s*\(.*?\)\s*/gu, ' ')
-    .replace(/^(?<adresse>.*),.*$/u, '$<adresse>')
-    .replace(/\s+$/u, '')
-    .replace(/\s/gu, '+');
-  const codePostal: string = extractColonneValue(source, matching.code_postal);
-  const commune: string = extractColonneValue(source, matching.commune);
+export const localisationByGeocode = (adresse: Adresse) => async (): Promise<Localisation> => {
   const response: AxiosResponse = await axios.get(
-    `https://wxs.ign.fr/essentiels/geoportail/geocodage/rest/0.1/search?q=${adresse}&postcode=${codePostal}&city=${commune}`
+    `https://wxs.ign.fr/essentiels/geoportail/geocodage/rest/0.1/search?q=${adresse.voie}&postcode=${adresse.code_postal}&city=${adresse.commune}`
   );
-  let ignReponse: string[] = [];
-  if (response.data.features?.[0]?.geometry != null && response.data.features[0].properties.score > 0.7)
-    ignReponse = response.data.features[0].geometry?.coordinates;
-  return {
-    latitude: ignReponse[1]?.toString() ?? '',
-    longitude: ignReponse[0]?.toString() ?? ''
-  };
+  return isValid(response) ? toLocalisation(response) : NO_LOCALISATION;
 };

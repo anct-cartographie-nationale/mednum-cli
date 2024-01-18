@@ -29,28 +29,25 @@ const streamPromise = async (
   notJson: boolean,
   chunks: Uint8Array[],
   response: AxiosResponse,
-  key?: string,
   encoding?: string,
   delimiter?: string
-): Promise<string> =>
-  new Promise<string>(
-    (resolve: (promesseValue: PromiseLike<string> | string) => void, reject: (reason?: Error) => void): void => {
+): Promise<object> =>
+  new Promise<object>(
+    (resolve: (promesseValue: PromiseLike<object> | object) => void, reject: (reason?: Error) => void): void => {
       response.data.on('end', async (): Promise<void> => {
         resolve(
-          JSON.stringify(
-            response.headers['content-type'] === 'text/csv' || notJson
-              ? await csv({ delimiter: defaultIfUndefined(delimiter, ',') }).fromString(
-                  iconv.decode(Buffer.concat(chunks), defaultIfUndefined(encoding, 'utf8'))
-                )
-              : fromJson(JSON.parse(Buffer.concat(chunks).toString()), key)
-          )
+          response.headers['content-type'] === 'text/csv' || notJson
+            ? await csv({ delimiter: defaultIfUndefined(delimiter, ',') }).fromString(
+                iconv.decode(Buffer.concat(chunks), defaultIfUndefined(encoding, 'utf8'))
+              )
+            : JSON.parse(Buffer.concat(chunks).toString())
         );
       });
       response.data.on('error', reject);
     }
   );
 
-const streamFromAPI = async (response: AxiosResponse, key?: string, encoding?: string, delimiter?: string): Promise<string> => {
+const streamFromAPI = async (response: AxiosResponse, encoding?: string, delimiter?: string): Promise<object> => {
   const chunks: Uint8Array[] = [];
 
   response.data.on('data', (chunk: Uint8Array): number => chunks.push(chunk));
@@ -62,14 +59,27 @@ const streamFromAPI = async (response: AxiosResponse, key?: string, encoding?: s
     notJson = !inputIsJson(response);
   }
 
-  return streamPromise(notJson, chunks, response, key, encoding, delimiter);
+  return streamPromise(notJson, chunks, response, encoding, delimiter);
 };
 
-const fetchFrom = async ([source, key]: string[], encoding?: string, delimiter?: string): Promise<string> =>
-  streamFromAPI(await axios.get(source ?? '', { responseType: 'stream' }), key, encoding, delimiter);
+const fetchFrom = async ([source, key]: string[], encoding?: string, delimiter?: string): Promise<string[]> => {
+  const response: { next?: string } = await streamFromAPI(
+    await axios.get(source ?? '', { responseType: 'stream' }),
+    encoding,
+    delimiter
+  );
+
+  const data: string[] = fromJson(response, key);
+
+  return response.next == null
+    ? data
+    : [...data, ...(await fetchFrom(`${response.next}@${key}`.split('@'), encoding, delimiter))];
+};
 
 const readFrom = async ([source, key]: string[]): Promise<string> =>
   JSON.stringify(fromJson(JSON.parse(await fs.promises.readFile(source ?? '', 'utf-8')), key));
 
 export const sourceATransformer = async ({ source, encoding = '', delimiter = '' }: SourceSettings): Promise<string> =>
-  source.startsWith('http') ? fetchFrom(source.split('@'), encoding, delimiter) : readFrom(source.split('@'));
+  source.startsWith('http')
+    ? JSON.stringify(await fetchFrom(source.split('@'), encoding, delimiter))
+    : readFrom(source.split('@'));

@@ -7,7 +7,7 @@ export * from './horaires/horaires.field';
 export * from './id/id.field';
 export * from './labels-autres';
 export * from './labels-nationaux/labels-nationaux.field';
-export * from './localisation/localisation.field';
+export * from './localisation';
 export * from './modalites-accompagnement/modalites-accompagnement.field';
 export * from './nom/nom.field';
 export * from './pivot/pivot.field';

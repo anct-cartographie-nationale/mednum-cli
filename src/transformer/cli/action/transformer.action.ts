@@ -1,12 +1,7 @@
 import { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { createHash } from 'crypto';
-import {
-  LocalisationByGeo,
-  sourceATransformer,
-  sourcesFromCartographieNationaleApi,
-  updateSourceWithCartographieNationaleApi
-} from '../../data';
-import { DataSource, LieuMediationNumeriqueWithLocalisation, toLieuxMediationNumerique, validValuesOnly } from '../../input';
+import { sourceATransformer, sourcesFromCartographieNationaleApi, updateSourceWithCartographieNationaleApi } from '../../data';
+import { DataSource, toLieuxMediationNumerique, validValuesOnly } from '../../input';
 import { Report } from '../../report';
 import { TransformationRepository } from '../../repositories';
 import { canTransform, DiffSinceLastTransform } from '../diff-since-last-transform';
@@ -46,32 +41,14 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
   const repository: TransformationRepository = await transformationRespository(transformerOptions);
 
   const diffSinceLastTransform: DiffSinceLastTransform = repository.diffSinceLastTransform(sourceItems);
-  const lieux: DataSource[] = lieuxToTransform(sourceItems, diffSinceLastTransform);
 
   if (nothingToTransform(diffSinceLastTransform)) return;
 
-  const lieuxDeMediationNumerique: LieuMediationNumerique[] = await Promise.all(
-    lieux
-      .map(flatten as (lieu: DataSource) => DataSource)
-      .map(async (dataSource: DataSource, index: number): Promise<LieuMediationNumerique | undefined> => {
-        let lieuDeMediationNumeriqueWithLocalisation: LieuMediationNumeriqueWithLocalisation = toLieuxMediationNumerique(
-          repository,
-          transformerOptions.sourceName,
-          REPORT
-        )(dataSource, index);
-        if (lieuDeMediationNumeriqueWithLocalisation.hasLocalisation === false) {
-          const localisation: LocalisationByGeo | undefined = await repository.findLocalisation(dataSource);
-          lieuDeMediationNumeriqueWithLocalisation = toLieuxMediationNumerique(
-            repository,
-            transformerOptions.sourceName,
-            REPORT
-          )(dataSource, index, localisation);
-        }
-        return lieuDeMediationNumeriqueWithLocalisation.lieuMediationNumerique;
-      })
-  ).then((resolvedLieuxMediationNumerique: (LieuMediationNumerique | undefined)[]): LieuMediationNumerique[] =>
-    resolvedLieuxMediationNumerique.filter(validValuesOnly)
-  );
+  const lieux: DataSource[] = lieuxToTransform(sourceItems, diffSinceLastTransform);
+
+  const lieuxDeMediationNumerique: LieuMediationNumerique[] = (
+    await Promise.all(lieux.map(flatten).map(toLieuxMediationNumerique(repository, transformerOptions.sourceName, REPORT)))
+  ).filter(validValuesOnly);
 
   /* eslint-disable-next-line no-console */
   diffSinceLastTransform != null && console.log('Nouveaux lieux à ajouter :', diffSinceLastTransform.toUpsert.length);

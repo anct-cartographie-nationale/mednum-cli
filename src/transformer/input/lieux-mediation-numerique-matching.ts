@@ -51,8 +51,8 @@ export type LieuxMediationNumeriqueMatching = {
   adresse: Jonction & Partial<Colonne>;
   complement_adresse?: Colonne;
   code_insee?: Colonne;
-  latitude: Dissociation & Partial<Colonne>;
-  longitude: Dissociation & Partial<Colonne>;
+  latitude?: Dissociation & Partial<Colonne>;
+  longitude?: Dissociation & Partial<Colonne>;
   telephone?: Colonne;
   site_web?: Colonne;
   courriel?: Colonne;
