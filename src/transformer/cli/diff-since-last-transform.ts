@@ -62,12 +62,12 @@ const toItemId =
 const idsToDelete = (fingerprints: Fingerprint[], sourceItem: DataSource[], idKey: string): FingerprintToDelete[] =>
   findDeletedIds(fingerprints, sourceItem.map(toItemId(idKey)));
 
-const findItemsToTransform = (sourceItem: DataSource[], fingerprints: Fingerprint[], idKey: string): DiffSinceLastTransform =>
+const findItemsToTransform = (sourceItems: DataSource[], fingerprints: Fingerprint[], idKey: string): DiffSinceLastTransform =>
   idKey === ''
     ? DIFF_WITHOUT_ID
     : {
-        toUpsert: idsToUpsert(sourceItem, idKey, fingerprints),
-        toDelete: idsToDelete(fingerprints, sourceItem, idKey)
+        toUpsert: idsToUpsert(sourceItems, idKey, fingerprints),
+        toDelete: idsToDelete(fingerprints, sourceItems, idKey)
       };
 
 export const diffSinceLastTransform =

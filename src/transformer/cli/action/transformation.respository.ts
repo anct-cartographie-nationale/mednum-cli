@@ -13,7 +13,8 @@ import {
   saveOutputsWithLieuxInclusionNumeriqueApi,
   fingerprintsFromLieuxMediationNumeriqueApi,
   saveOutputsInFiles,
-  saveFingerprintsInFile
+  saveFingerprintsInFile,
+  localisationByGeocode
 } from '../../data';
 import { findCommune } from '../../fields';
 import { LieuxMediationNumeriqueMatching } from '../../input';
@@ -38,6 +39,7 @@ export const transformationRespository = async (transformerOptions: TransformerO
     findCommune: findCommune(await communeFromGeoApi()),
     isInQpv: isInQpv(await qpvFromDataGouv()),
     isInZrr: isInZrr(await zrrFromEquipementsSportsGouvApi()),
+    geocode: localisationByGeocode,
     fingerprints,
     saveErrors: writeErrorsInFiles(transformerOptions),
     saveOutputs: useFile

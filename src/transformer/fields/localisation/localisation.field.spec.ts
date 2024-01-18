@@ -47,14 +47,42 @@ const JOINED_LATITUDE_AND_LONGITUDE_MATCHING_DIFFERENT_SEPARATOR: LieuxMediation
   }
 } as LieuxMediationNumeriqueMatching;
 
+const GEOCODE_MATCHING: LieuxMediationNumeriqueMatching = {
+  latitude: {
+    colonne: 'bf_latitude'
+  },
+  longitude: {
+    colonne: 'bf_longitude'
+  },
+  commune: {
+    colonne: 'commune'
+  },
+  code_postal: {
+    colonne: 'code_postal'
+  },
+  adresse: {
+    colonne: 'adresse'
+  }
+} as LieuxMediationNumeriqueMatching;
+
+const GEOCODE_ADDRESS_SUCCESS: () => Promise<Localisation> = async (): Promise<Localisation> =>
+  Promise.resolve(
+    Localisation({
+      latitude: 48.850699,
+      longitude: 2.308628
+    })
+  );
+
+const GEOCODE_ADDRESS_ERROR: () => Promise<Localisation> = async (): Promise<Localisation> => Promise.resolve(NO_LOCALISATION);
+
 describe('localisation field', (): void => {
-  it('should process localisation form source', (): void => {
+  it('should process localisation form source', async (): Promise<void> => {
     const source: DataSource = {
       bf_latitude: '47.29212184845607',
       bf_longitude: '0.02176010906045345'
     };
 
-    const localisation: Localisation = processLocalisation(source, STANDARD_MATCHING);
+    const localisation: Localisation = await processLocalisation(source, STANDARD_MATCHING, GEOCODE_ADDRESS_SUCCESS);
 
     expect(localisation).toStrictEqual<Localisation>(
       Localisation({
@@ -64,13 +92,13 @@ describe('localisation field', (): void => {
     );
   });
 
-  it('should process localisation with coma form source', (): void => {
+  it('should process localisation with coma form source', async (): Promise<void> => {
     const source: DataSource = {
       bf_latitude: '47,29212184845607',
       bf_longitude: '0,02176010906045345'
     };
 
-    const localisation: Localisation = processLocalisation(source, STANDARD_MATCHING);
+    const localisation: Localisation = await processLocalisation(source, STANDARD_MATCHING, GEOCODE_ADDRESS_SUCCESS);
 
     expect(localisation).toStrictEqual<Localisation>(
       Localisation({
@@ -80,12 +108,16 @@ describe('localisation field', (): void => {
     );
   });
 
-  it('should process localisation form source with associated latitude and longitude', (): void => {
+  it('should process localisation form source with associated latitude and longitude', async (): Promise<void> => {
     const source: DataSource = {
       'Geo Point': '47.29212184845607,0.02176010906045345'
     };
 
-    const localisation: Localisation = processLocalisation(source, JOINED_LATITUDE_AND_LONGITUDE_MATCHING);
+    const localisation: Localisation = await processLocalisation(
+      source,
+      JOINED_LATITUDE_AND_LONGITUDE_MATCHING,
+      GEOCODE_ADDRESS_SUCCESS
+    );
 
     expect(localisation).toStrictEqual<Localisation>(
       Localisation({
@@ -95,12 +127,16 @@ describe('localisation field', (): void => {
     );
   });
 
-  it('should process localisation form source with associated latitude and longitude and others charactere in it', (): void => {
+  it('should process localisation form source with associated latitude and longitude and others charactere in it', async (): Promise<void> => {
     const source: DataSource = {
       'Geo Point': 'POINT (-0.49316 43.89695)'
     };
 
-    const localisation: Localisation = processLocalisation(source, JOINED_LATITUDE_AND_LONGITUDE_MATCHING_DIFFERENT_SEPARATOR);
+    const localisation: Localisation = await processLocalisation(
+      source,
+      JOINED_LATITUDE_AND_LONGITUDE_MATCHING_DIFFERENT_SEPARATOR,
+      GEOCODE_ADDRESS_SUCCESS
+    );
 
     expect(localisation).toStrictEqual<Localisation>(
       Localisation({
@@ -110,12 +146,12 @@ describe('localisation field', (): void => {
     );
   });
 
-  it('should convert coordindates geographique projection legal to validate coordinates', (): void => {
+  it('should convert coordindates geographique projection legal to validate coordinates', async (): Promise<void> => {
     const source: DataSource = {
       bf_latitude: '6789183.34',
       bf_longitude: '352113.49'
     };
-    const localisation: Localisation = processLocalisation(source, STANDARD_MATCHING);
+    const localisation: Localisation = await processLocalisation(source, STANDARD_MATCHING, GEOCODE_ADDRESS_SUCCESS);
 
     expect(localisation).toStrictEqual<Localisation>(
       Localisation({
@@ -125,29 +161,62 @@ describe('localisation field', (): void => {
     );
   });
 
-  it('should return null when there is no latitude or longitude colonnes', (): void => {
-    const source: DataSource = {};
-    const localisation: Localisation = processLocalisation(source, STANDARD_MATCHING);
+  it('should geocode even if source colonne are missing', async (): Promise<void> => {
+    const source: DataSource = {
+      commune: 'Paris',
+      code_postal: '75007',
+      adresse: '20 Avenue de Ségur'
+    };
 
-    expect(localisation).toStrictEqual<Localisation>(NO_LOCALISATION);
+    const localisation: Localisation = await processLocalisation(source, GEOCODE_MATCHING, GEOCODE_ADDRESS_SUCCESS);
+
+    expect(localisation).toStrictEqual<Localisation>(
+      Localisation({
+        latitude: 48.850699,
+        longitude: 2.308628
+      })
+    );
   });
 
-  it('should return null when coordinates are empty string', (): void => {
+  it('should geocode if source are empty string', async (): Promise<void> => {
     const source: DataSource = {
       bf_latitude: '',
-      bf_longitude: ''
+      bf_longitude: '',
+      commune: 'Paris',
+      code_postal: '75007',
+      adresse: '20 Avenue de Ségur'
     };
-    const localisation: Localisation = processLocalisation(source, STANDARD_MATCHING);
+
+    const localisation: Localisation = await processLocalisation(source, GEOCODE_MATCHING, GEOCODE_ADDRESS_SUCCESS);
+
+    expect(localisation).toStrictEqual<Localisation>(
+      Localisation({
+        latitude: 48.850699,
+        longitude: 2.308628
+      })
+    );
+  });
+
+  it('should return NO_LOCALISATION if geocode return undefined', async (): Promise<void> => {
+    const source: DataSource = {
+      bf_latitude: '',
+      bf_longitude: '',
+      commune: 'Paris',
+      code_postal: '01568',
+      adresse: 'no adresse'
+    };
+
+    const localisation: Localisation = await processLocalisation(source, GEOCODE_MATCHING, GEOCODE_ADDRESS_ERROR);
 
     expect(localisation).toStrictEqual<Localisation>(NO_LOCALISATION);
   });
 
-  it('should return null when coordinates have 0 as value', (): void => {
+  it('should return NO_LOCALISATION when coordinates have 0 as value', async (): Promise<void> => {
     const source: DataSource = {
       bf_latitude: '0',
       bf_longitude: '0'
     };
-    const localisation: Localisation = processLocalisation(source, STANDARD_MATCHING);
+    const localisation: Localisation = await processLocalisation(source, STANDARD_MATCHING, GEOCODE_ADDRESS_ERROR);
 
     expect(localisation).toStrictEqual<Localisation>(NO_LOCALISATION);
   });

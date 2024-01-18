@@ -41,14 +41,14 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
   const repository: TransformationRepository = await transformationRespository(transformerOptions);
 
   const diffSinceLastTransform: DiffSinceLastTransform = repository.diffSinceLastTransform(sourceItems);
-  const lieux: DataSource[] = lieuxToTransform(sourceItems, diffSinceLastTransform);
 
   if (nothingToTransform(diffSinceLastTransform)) return;
 
-  const lieuxDeMediationNumerique: LieuMediationNumerique[] = lieux
-    .map(flatten)
-    .map(toLieuxMediationNumerique(repository, transformerOptions.sourceName, REPORT))
-    .filter(validValuesOnly);
+  const lieux: DataSource[] = lieuxToTransform(sourceItems, diffSinceLastTransform);
+
+  const lieuxDeMediationNumerique: LieuMediationNumerique[] = (
+    await Promise.all(lieux.map(flatten).map(toLieuxMediationNumerique(repository, transformerOptions.sourceName, REPORT)))
+  ).filter(validValuesOnly);
 
   /* eslint-disable-next-line no-console */
   diffSinceLastTransform != null && console.log('Nouveaux lieux à ajouter :', diffSinceLastTransform.toUpsert.length);

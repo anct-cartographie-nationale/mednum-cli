@@ -40,15 +40,33 @@ const validateLocalisationField = (localisationToValidate: LocalisationToValidat
     localisationToValidate.latitude === 0 || localisationToValidate.longitude === 0
       ? { latitude: LOCALISATION_IS_ZERO_VALUES, longitude: LOCALISATION_IS_ZERO_VALUES }
       : localisationToValidate;
+
   return isValidLocalisation(localisationToValidateProbablyFalse)
     ? localisationToValidateProbablyFalse
     : checkFormatLocalisation(localisationToValidateProbablyFalse);
 };
 
-const localisationFromMatching = (source: DataSource, matching: LieuxMediationNumeriqueMatching): LocalisationToValidate => ({
-  latitude: parseFloat(localisationField(source, matching.latitude) ?? NO_LOCALISATION_COLONNE),
-  longitude: parseFloat(localisationField(source, matching.longitude) ?? NO_LOCALISATION_COLONNE)
+const localisationFromMatching = (
+  source: DataSource,
+  { latitude, longitude }: { latitude: Dissociation & Partial<Colonne>; longitude: Dissociation & Partial<Colonne> }
+): LocalisationToValidate => ({
+  latitude: parseFloat(localisationField(source, latitude) ?? NO_LOCALISATION_COLONNE),
+  longitude: parseFloat(localisationField(source, longitude) ?? NO_LOCALISATION_COLONNE)
 });
 
-export const processLocalisation = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Localisation =>
-  validateLocalisationField(localisationFromMatching(source, matching));
+const isValidLocalisationatching = (
+  matching: LieuxMediationNumeriqueMatching
+): matching is LieuxMediationNumeriqueMatching & {
+  latitude: Dissociation & Partial<Colonne>;
+  longitude: Dissociation & Partial<Colonne>;
+} => matching.latitude != null && matching.longitude != null;
+
+export const processLocalisation = async (
+  source: DataSource,
+  matching: LieuxMediationNumeriqueMatching,
+  geocodeAddress: () => Promise<Localisation>
+): Promise<Localisation> => {
+  if (!isValidLocalisationatching(matching)) return geocodeAddress();
+  const localisation: Localisation = validateLocalisationField(localisationFromMatching(source, matching));
+  return localisation === NO_LOCALISATION ? geocodeAddress() : localisation;
+};

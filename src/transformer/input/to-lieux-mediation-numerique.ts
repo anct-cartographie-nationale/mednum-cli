@@ -19,10 +19,6 @@ import {
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Recorder, Report } from '../report';
 import {
-  Erp,
-  FindCommune,
-  IsInQpv,
-  IsInZrr,
   processAccessibilite,
   processAdresse,
   processConditionsAcces,
@@ -76,19 +72,15 @@ const horairesIfAny = (horaires?: string): { horaires?: string } => (horaires ==
 
 const priseRdvIfAny = (priseRdv?: Url): { prise_rdv?: Url } => (priseRdv == null ? {} : { prise_rdv: priseRdv });
 
-const lieuDeMediationNumerique = (
+const lieuDeMediationNumerique = async (
   index: number,
   dataSource: DataSource,
   sourceName: string,
-  matching: LieuxMediationNumeriqueMatching,
   recorder: Recorder,
-  accesLibreData: Erp[],
-  findCommune: FindCommune,
-  isInQpv: IsInQpv,
-  isInZrr: IsInZrr
-): LieuMediationNumerique | undefined => {
+  { findCommune, isInQpv, isInZrr, geocode, accesLibre, config: matching }: TransformationRepository
+): Promise<LieuMediationNumerique | undefined> => {
   const adresse: Adresse = processAdresse(findCommune)(dataSource, matching);
-  const localistaion: Localisation = processLocalisation(dataSource, matching);
+  const localisation: Localisation | undefined = await processLocalisation(dataSource, matching, geocode(adresse));
 
   if (isPrive(dataSource, matching)) return undefined;
 
@@ -97,13 +89,13 @@ const lieuDeMediationNumerique = (
     nom: processNom(dataSource, matching),
     pivot: processPivot(dataSource, matching),
     adresse,
-    ...localisationIfAny(localistaion),
+    ...localisationIfAny(localisation),
     contact: processContact(recorder)(dataSource, matching),
     ...conditionsAccesIfAny(processConditionsAcces(dataSource, matching)),
     ...modalitesAccompagnementIfAny(processModalitesAccompagnement(dataSource, matching)),
     date_maj: processDate(dataSource, matching),
     ...labelsNationauxIfAny(processLabelsNationaux(dataSource, matching)),
-    ...labelsAutresIfAny(processLabelsAutres(dataSource, matching, isInQpv, isInZrr, adresse, localistaion)),
+    ...labelsAutresIfAny(processLabelsAutres(dataSource, matching, isInQpv, isInZrr, adresse, localisation)),
     ...publicsAccueillisIfAny(processPublicsAccueillis(dataSource, matching)),
     presentation: processPresentation(dataSource, matching),
     services: processServices(dataSource, matching),
@@ -111,7 +103,7 @@ const lieuDeMediationNumerique = (
     ...horairesIfAny(processHoraires(dataSource, matching)),
     ...priseRdvIfAny(processPriseRdv(dataSource, matching)),
     ...typologiesIfAny(processTypologies(dataSource, matching)),
-    ...accessibiliteIfAny(processAccessibilite(dataSource, matching, accesLibreData, adresse))
+    ...accessibiliteIfAny(processAccessibilite(dataSource, matching, accesLibre, adresse))
   };
 
   recorder.commit();
@@ -126,20 +118,10 @@ const entryIdentification = (dataSource: DataSource, matching: LieuxMediationNum
   dataSource[matching.nom.colonne]?.toString() ?? '';
 
 export const toLieuxMediationNumerique =
-  (lieuxDeMediationNumeriqueTransformationRepository: TransformationRepository, sourceName: string, report: Report) =>
-  (dataSource: unknown, index: number): LieuMediationNumerique | undefined => {
+  (repository: TransformationRepository, sourceName: string, report: Report) =>
+  async (dataSource: unknown, index: number): Promise<LieuMediationNumerique | undefined> => {
     try {
-      return lieuDeMediationNumerique(
-        index,
-        dataSource as DataSource,
-        sourceName,
-        lieuxDeMediationNumeriqueTransformationRepository.config,
-        report.entry(index),
-        lieuxDeMediationNumeriqueTransformationRepository.accesLibre,
-        lieuxDeMediationNumeriqueTransformationRepository.findCommune,
-        lieuxDeMediationNumeriqueTransformationRepository.isInQpv,
-        lieuxDeMediationNumeriqueTransformationRepository.isInZrr
-      );
+      return await lieuDeMediationNumerique(index, dataSource as DataSource, sourceName, report.entry(index), repository);
     } catch (error: unknown) {
       if (
         error instanceof IdError ||
@@ -151,11 +133,7 @@ export const toLieuxMediationNumerique =
       ) {
         report
           .entry(index)
-          .record(
-            error.key,
-            error.message,
-            entryIdentification(dataSource as DataSource, lieuxDeMediationNumeriqueTransformationRepository.config)
-          )
+          .record(error.key, error.message, entryIdentification(dataSource as DataSource, repository.config))
           .commit();
         return undefined;
       }
