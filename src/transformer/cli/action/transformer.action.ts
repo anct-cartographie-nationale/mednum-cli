@@ -1,6 +1,16 @@
-import { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import {
+  fromSchemaLieuDeMediationNumerique,
+  LieuMediationNumerique,
+  SchemaLieuMediationNumerique
+} from '@gouvfr-anct/lieux-de-mediation-numerique';
+import axios from 'axios';
 import { createHash } from 'crypto';
-import { sourceATransformer, sourcesFromCartographieNationaleApi, updateSourceWithCartographieNationaleApi } from '../../data';
+import {
+  saveOutputsInFiles,
+  sourceATransformer,
+  sourcesFromCartographieNationaleApi,
+  updateSourceWithCartographieNationaleApi
+} from '../../data';
 import { DataSource, toLieuxMediationNumerique, validValuesOnly } from '../../input';
 import { Report } from '../../report';
 import { TransformationRepository } from '../../repositories';
@@ -34,6 +44,7 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
     transformerOptions.sourceName
   );
   const sourceHash: string = createHash('sha256').update(source).digest('hex');
+
   if (previousSourceHash === sourceHash) return;
 
   const sourceItems: DataSource[] = JSON.parse(replaceNullWithEmptyString(source)).slice(0, maxTransform);
@@ -61,6 +72,15 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
 
   await repository.saveFingerprints(diffSinceLastTransform);
 
-  transformerOptions.cartographieNationaleApiKey != null &&
-    (await updateSourceWithCartographieNationaleApi(transformerOptions)(sourceHash));
+  if (transformerOptions.cartographieNationaleApiKey == null) return;
+
+  await updateSourceWithCartographieNationaleApi(transformerOptions)(sourceHash);
+
+  const lieuxToPublish: LieuMediationNumerique[] = (
+    await axios.get<SchemaLieuMediationNumerique[]>(
+      `${transformerOptions.cartographieNationaleApiUrl}/lieux-inclusion-numerique/with-duplicates?source[eq]=${transformerOptions.sourceName}&mergedIds[exists]=false`
+    )
+  ).data.map(fromSchemaLieuDeMediationNumerique);
+
+  await saveOutputsInFiles(transformerOptions)(lieuxToPublish);
 };
