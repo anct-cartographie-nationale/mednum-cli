@@ -20,7 +20,11 @@ const configureCommand = (program: Command): Command =>
     .alias('e')
     .description('Extraction de données selon une entrée géographique spécifique via data.gouv');
 
-const commandAction = async (_: unknown, command: Command): Promise<void> => promptAndRun(command.opts());
+const commandAction = async (_: unknown, command: Command): Promise<void> =>
+  promptAndRun({
+    ...{ cartographieNationaleApiUrl: 'https://cartographie.societenumerique.gouv.fr/api/v0' },
+    ...command.opts()
+  });
 
 export const addExtractCommandTo = (program: Command): Command =>
   EXTRACT_OPTIONS.reduce(configureCommandOptions, configureCommand(program)).action(commandAction);

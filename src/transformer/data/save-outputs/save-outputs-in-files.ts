@@ -1,9 +1,8 @@
 import { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { TransformerOptions } from '../../cli/transformer-options';
 import { writeOutputFiles } from '../../output';
 
 export const saveOutputsInFiles =
-  (transformerOptions: TransformerOptions) =>
+  (transformerOptions: { outputDirectory: string; sourceName: string; territory: string }) =>
   async (lieuxMediationNumerique: LieuMediationNumerique[]): Promise<void> =>
     Promise.resolve().then((): void => {
       writeOutputFiles({
