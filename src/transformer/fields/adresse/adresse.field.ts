@@ -43,8 +43,8 @@ const addressFields = (
 });
 
 const communeFrom = (findCommune: FindCommune, addressToNormalize: AddressToNormalize): Commune | undefined =>
-  findCommune.parCodePostal(addressToNormalize.code_postal) ??
   findCommune.parNom(addressToNormalize.commune) ??
+  findCommune.parCodePostal(addressToNormalize.code_postal) ??
   findCommune.parNomEtCodePostal(addressToNormalize.commune, addressToNormalize.code_postal) ??
   findCommune.parNomEtCodePostalLePlusProcheDuDepartement(addressToNormalize.commune, addressToNormalize.code_postal) ??
   getNewCommune(addressToNormalize.commune);
