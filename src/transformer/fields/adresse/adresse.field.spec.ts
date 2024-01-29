@@ -15,6 +15,16 @@ const BEGLES: Commune = {
   codesPostaux: ['33130']
 };
 
+const BLOIS: Commune = {
+  nom: 'Blois',
+  code: '41018',
+  codeDepartement: '41',
+  siren: '214100182',
+  codeEpci: '200001519',
+  codeRegion: '24',
+  codesPostaux: ['41000']
+};
+
 const BONNEVILLE_74: Commune = {
   nom: 'Bonneville',
   code: '74042',
@@ -161,6 +171,16 @@ const SAINT_EUSTACHE: Commune = {
   codesPostaux: ['74410']
 };
 
+const SAINT_ETIENNE: Commune = {
+  nom: 'Saint-Étienne',
+  code: '42218',
+  codeDepartement: '42',
+  siren: '214202186',
+  codeEpci: '244200770',
+  codeRegion: '84',
+  codesPostaux: ['42000', '42100', '42230']
+};
+
 const SAINT_JORIOZ: Commune = {
   nom: 'Saint-Jorioz',
   code: '74242',
@@ -273,6 +293,7 @@ const VERNON_27: Commune = {
 
 const COMMUNES: Commune[] = [
   BEGLES,
+  BLOIS,
   BONNEVILLE_74,
   BONNEVILLE_80,
   BRIZON,
@@ -287,6 +308,7 @@ const COMMUNES: Commune[] = [
   MOUSSY,
   PIOBETTA,
   SAINT_EUSTACHE,
+  SAINT_ETIENNE,
   SAINT_JORIOZ,
   SAINT_LEONARD_DE_NOBLAT,
   SAINT_LAURENT_DE_CHAMOUSSET,
@@ -861,6 +883,24 @@ describe('adresse field', (): void => {
       code_postal: '07330',
       commune: 'Vernon',
       voie: '3 place de la Mairie'
+    });
+  });
+
+  it('should find commune by check name before checking code postal', (): void => {
+    const source: DataSource = {
+      'Code postal': '42000',
+      'Code INSEE': '42218',
+      'Ville *': 'Blois',
+      'Adresse postale *': '11 place René Coty 42000 Blois'
+    };
+
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
+
+    expect(adresse).toStrictEqual({
+      code_postal: '41000',
+      code_insee: '41018',
+      commune: 'Blois',
+      voie: '11 place René Coty'
     });
   });
 });
