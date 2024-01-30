@@ -14,13 +14,13 @@ import {
 
 export const writeOutputFiles =
   (producer: Output) =>
-  (lieuxDeMediationNumerique: LieuMediationNumerique[]): void => {
+  (lieuxDeMediationNumerique: LieuMediationNumerique[], suffix?: string): void => {
     const schemaLieuxDeMediationNumerique: SchemaLieuMediationNumerique[] =
       toSchemaLieuxDeMediationNumerique(lieuxDeMediationNumerique);
 
-    writeMediationNumeriqueJsonOutput(producer, schemaLieuxDeMediationNumerique);
-    writeMediationNumeriqueCsvOutput(producer, schemaLieuxDeMediationNumerique);
-    writeStructuresDataInclusionJsonOutput(producer, lieuxDeMediationNumerique);
-    writeServicesDataInclusionJsonOutput(producer, lieuxDeMediationNumerique);
+    writeMediationNumeriqueJsonOutput(producer, schemaLieuxDeMediationNumerique, suffix);
+    writeMediationNumeriqueCsvOutput(producer, schemaLieuxDeMediationNumerique, suffix);
+    writeStructuresDataInclusionJsonOutput(producer, lieuxDeMediationNumerique, suffix);
+    writeServicesDataInclusionJsonOutput(producer, lieuxDeMediationNumerique, suffix);
     writePublierMetadataOutput(producer, lieuxDeMediationNumerique);
   };

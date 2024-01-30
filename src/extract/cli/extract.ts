@@ -23,7 +23,8 @@ const configureCommand = (program: Command): Command =>
 const commandAction = async (_: unknown, command: Command): Promise<void> =>
   promptAndRun({
     ...{ cartographieNationaleApiUrl: 'https://cartographie.societenumerique.gouv.fr/api/v0' },
-    ...command.opts()
+    ...command.opts(),
+    duplicates: command.opts()['duplicates'] !== 'false'
   });
 
 export const addExtractCommandTo = (program: Command): Command =>
