@@ -208,6 +208,10 @@ jobs:
     needs:
       - deduplicate
     steps:
+      - name: Wait for deduplication end
+        run: sleep 300s
+        shell: bash
+
       - name: Checkout mednum-cli repository
         uses: actions/checkout@v3
         with:
@@ -229,10 +233,8 @@ jobs:
           echo DATA_GOUV_API_KEY="${{ secrets.DATA_GOUV_API_KEY }}" >> .env
           echo DATA_GOUV_REFERENCE_ID="${{ secrets.DATA_GOUV_REFERENCE_ID }}" >> .env
           echo DATA_GOUV_REFERENCE_TYPE="${{ secrets.DATA_GOUV_REFERENCE_TYPE }}" >> .env
-
-      - name: Sleep for 5 minutes
-        run: sleep 300s
-        shell: bash
+          echo CARTOGRAPHIE_NATIONALE_API_URL="${{ secrets.CARTOGRAPHIE_NATIONALE_API_URL }}" >> .env
+          echo CARTOGRAPHIE_NATIONALE_API_KEY="${{ secrets.CARTOGRAPHIE_NATIONALE_API_KEY }}" >> .env
 
       - name: Extract
         run: yarn extract.all
