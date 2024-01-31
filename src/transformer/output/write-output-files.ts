@@ -22,5 +22,5 @@ export const writeOutputFiles =
     writeMediationNumeriqueCsvOutput(producer, schemaLieuxDeMediationNumerique, suffix);
     writeStructuresDataInclusionJsonOutput(producer, lieuxDeMediationNumerique, suffix);
     writeServicesDataInclusionJsonOutput(producer, lieuxDeMediationNumerique, suffix);
-    writePublierMetadataOutput(producer, lieuxDeMediationNumerique);
+    writePublierMetadataOutput(producer, lieuxDeMediationNumerique, suffix);
   };
