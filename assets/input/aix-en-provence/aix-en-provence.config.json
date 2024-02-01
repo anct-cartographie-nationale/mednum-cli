@@ -1,0 +1,180 @@
+{
+  "id": {
+    "colonne": "id"
+  },
+  "nom": {
+    "colonne": "nom"
+  },
+  "pivot": {
+    "colonne": "pivot"
+  },
+  "commune": {
+    "colonne": "commune"
+  },
+  "code_postal": {
+    "colonne": "code_postal"
+  },
+  "code_insee": {
+    "colonne": "code_insee"
+  },
+  "adresse": {
+    "colonne": "Adresse"
+  },
+  "complement_adresse": {
+    "colonne": "complement_adresse"
+  },
+  "latitude": {
+    "colonne": "latitude"
+  },
+  "longitude": {
+    "colonne": "longitude"
+  },
+  "telephone": {
+    "colonne": "telephone"
+  },
+  "courriel": {
+    "colonne": "courriel"
+  },
+  "site_web": {
+    "colonne": "site_web"
+  },
+  "date_maj": {
+    "colonne": "date_maj"
+  },
+  "structure_parente": {
+    "colonne": "structure_parente"
+  },
+  "presentation_resume": {
+    "colonne": "presentation_resume"
+  },
+  "presentation_detail": {
+    "colonne": "presentation_detail"
+  },
+  "source": {
+    "colonne": "source"
+  },
+  "typologie": [
+    {
+      "colonnes": ["typologie"],
+      "termes": ["ASSO"],
+      "cible": "ASSO"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["BIB"],
+      "cible": "BIB"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CAF"],
+      "cible": "CAF"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CCAS"],
+      "cible": "CCAS"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CS"],
+      "cible": "CS"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["ML"],
+      "cible": "ML"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["MUNI"],
+      "cible": "MUNI"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["PAD"],
+      "cible": "PAD"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["PE"],
+      "cible": "PE"
+    }
+  ],
+  "labels_nationaux": [
+    {
+      "colonnes": ["labels_nationaux"],
+      "termes": ["CNFS"],
+      "cible": "CNFS"
+    },
+    {
+      "colonnes": ["labels_nationaux"],
+      "termes": ["France Services"],
+      "cible": "France Services"
+    },
+    {
+      "colonnes": ["labels_nationaux"],
+      "termes": ["Aidants Connect"],
+      "cible": "Aidants Connect"
+    }
+  ],
+  "services": [
+    {
+      "colonnes": ["services"],
+      "termes": ["Accéder à du matériel"],
+      "cible": "Accéder à du matériel"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["Accéder à une connexion internet"],
+      "cible": "Accéder à une connexion internet"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["Favoriser mon insertion professionnelle"],
+      "cible": "Favoriser mon insertion professionnelle"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["Devenir autonome dans les démarches administratives"],
+      "cible": "Devenir autonome dans les démarches administratives"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["Réaliser des démarches administratives avec un accompagnement"],
+      "cible": "Réaliser des démarches administratives avec un accompagnement"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["Prendre en main un smartphone ou une tablette"],
+      "cible": "Prendre en main un smartphone ou une tablette"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["Prendre en main un ordinateur"],
+      "cible": "Prendre en main un ordinateur"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["Utiliser le numérique au quotidien"],
+      "cible": "Utiliser le numérique au quotidien"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["Approfondir ma culture numérique"],
+      "cible": "Approfondir ma culture numérique"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["S'équiper en matériel informatique"],
+      "cible": "S'équiper en matériel informatique"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["Soutenir la parentalité et l'éducation avec le numérique"],
+      "cible": "Soutenir la parentalité et l'éducation avec le numérique"
+    }
+  ],
+  "horaires": {
+    "osm": "horaires"
+  }
+}
