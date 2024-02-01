@@ -89,7 +89,7 @@ describe('remove duplicates', (): void => {
         [
           '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
           {
-            id: 'hinaura-MairiE2|hub-lo-436',
+            id: 'hinaura-MairiE2__hub-lo-436',
             pivot: '00000000000000',
             nom: 'France Services Durtal',
             adresse: '11 rue Joseph Cugnot',
@@ -147,7 +147,7 @@ describe('remove duplicates', (): void => {
         [
           '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
           {
-            id: 'hinaura-MairiE2|hub-lo-436',
+            id: 'hinaura-MairiE2__hub-lo-436',
             pivot: '00000000000000',
             nom: 'France Services Durtal',
             adresse: '11 rue Joseph Cugnot',
@@ -206,7 +206,7 @@ describe('remove duplicates', (): void => {
         [
           '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
           {
-            id: 'hinaura-MairiE2|hub-lo-436',
+            id: 'hinaura-MairiE2__hub-lo-436',
             pivot: '43493312300029',
             nom: 'France Services Durtal',
             adresse: '11 rue Joseph Cugnot',
@@ -265,7 +265,7 @@ describe('remove duplicates', (): void => {
         [
           '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
           {
-            id: 'hinaura-MairiE2|hub-lo-436',
+            id: 'hinaura-MairiE2__hub-lo-436',
             pivot: '00000000000000',
             nom: 'France Services Durtal',
             adresse: '11 rue Joseph Cugnot',
@@ -326,7 +326,7 @@ describe('remove duplicates', (): void => {
         [
           '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
           {
-            id: 'hinaura-MairiE2|hub-lo-436',
+            id: 'hinaura-MairiE2__hub-lo-436',
             pivot: '00000000000000',
             nom: 'France Services Durtal',
             adresse: '11 rue Joseph Cugnot',
@@ -388,7 +388,7 @@ describe('remove duplicates', (): void => {
         [
           '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
           {
-            id: 'hinaura-MairiE2|hub-lo-436',
+            id: 'hinaura-MairiE2__hub-lo-436',
             pivot: '00000000000000',
             nom: 'France Services Durtal',
             adresse: '11 rue Joseph Cugnot',
@@ -450,7 +450,7 @@ describe('remove duplicates', (): void => {
         [
           '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
           {
-            id: 'hinaura-MairiE2|hub-lo-436',
+            id: 'hinaura-MairiE2__hub-lo-436',
             pivot: '00000000000000',
             nom: 'France Services Durtal',
             adresse: '11 rue Joseph Cugnot',
@@ -512,7 +512,7 @@ describe('remove duplicates', (): void => {
         [
           '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
           {
-            id: 'hinaura-MairiE2|hub-lo-436',
+            id: 'hinaura-MairiE2__hub-lo-436',
             pivot: '00000000000000',
             nom: 'France Services Durtal',
             adresse: '11 rue Joseph Cugnot',
@@ -574,7 +574,7 @@ describe('remove duplicates', (): void => {
         [
           '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
           {
-            id: 'hinaura-MairiE2|hub-lo-436',
+            id: 'hinaura-MairiE2__hub-lo-436',
             pivot: '00000000000000',
             nom: 'France Services Durtal',
             adresse: '11 rue Joseph Cugnot',
@@ -636,7 +636,7 @@ describe('remove duplicates', (): void => {
         [
           '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
           {
-            id: 'hinaura-MairiE2|hub-lo-436',
+            id: 'hinaura-MairiE2__hub-lo-436',
             pivot: '00000000000000',
             nom: 'France Services Durtal',
             adresse: '11 rue Joseph Cugnot',
@@ -698,7 +698,7 @@ describe('remove duplicates', (): void => {
         [
           '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
           {
-            id: 'hinaura-MairiE2|hub-lo-436',
+            id: 'hinaura-MairiE2__hub-lo-436',
             pivot: '00000000000000',
             nom: 'France Services Durtal',
             adresse: '11 rue Joseph Cugnot',
@@ -758,7 +758,7 @@ describe('remove duplicates', (): void => {
         [
           '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
           {
-            id: 'hinaura-MairiE2|hub-lo-436',
+            id: 'hinaura-MairiE2__hub-lo-436',
             pivot: '00000000000000',
             nom: 'France Services Durtal',
             adresse: '11 rue Joseph Cugnot',
@@ -816,7 +816,7 @@ describe('remove duplicates', (): void => {
         [
           '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
           {
-            id: 'hinaura-MairiE2|hub-lo-436',
+            id: 'hinaura-MairiE2__hub-lo-436',
             pivot: '00000000000000',
             nom: 'France Services Durtal',
             adresse: '11 rue Joseph Cugnot',
@@ -875,7 +875,7 @@ describe('remove duplicates', (): void => {
         [
           '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
           {
-            id: 'hinaura-MairiE2|hub-lo-436',
+            id: 'hinaura-MairiE2__hub-lo-436',
             pivot: '00000000000000',
             nom: 'France Services Durtal',
             adresse: '11 rue Joseph Cugnot',
@@ -933,7 +933,7 @@ describe('remove duplicates', (): void => {
         [
           '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
           {
-            id: 'hinaura-MairiE2|hub-lo-436',
+            id: 'hinaura-MairiE2__hub-lo-436',
             pivot: '00000000000000',
             nom: 'France Services Durtal',
             adresse: '11 rue Joseph Cugnot',
@@ -990,7 +990,7 @@ describe('remove duplicates', (): void => {
         [
           '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
           {
-            id: 'hinaura-MairiE2|hub-lo-436',
+            id: 'hinaura-MairiE2__hub-lo-436',
             pivot: '00000000000000',
             nom: 'France Services Durtal',
             adresse: '11 rue Joseph Cugnot',
@@ -1047,7 +1047,7 @@ describe('remove duplicates', (): void => {
         [
           '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
           {
-            id: 'hinaura-MairiE2|hub-lo-436',
+            id: 'hinaura-MairiE2__hub-lo-436',
             pivot: '00000000000000',
             nom: 'France Services Durtal',
             adresse: '11 rue Joseph Cugnot',
@@ -1106,7 +1106,7 @@ describe('remove duplicates', (): void => {
         [
           '673303b99e539442336e5e866dc641d67938c3a0cfd32880c2cafac2fd6ea3ba',
           {
-            id: 'hinaura-MairiE2|hub-lo-436',
+            id: 'hinaura-MairiE2__hub-lo-436',
             pivot: '00000000000000',
             nom: 'France Services Durtal',
             adresse: '11 rue Joseph Cugnot',

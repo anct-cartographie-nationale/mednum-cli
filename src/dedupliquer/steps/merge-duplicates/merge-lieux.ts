@@ -45,7 +45,7 @@ const mergeTypologie = (typologie1?: string, typologie2?: string): { typologie?:
 const mergeId = (lieu1: SchemaLieuMediationNumerique, lieu2: SchemaLieuMediationNumerique): string =>
   [lieu1.id, lieu2.id]
     .sort()
-    .join('|')
+    .join('__')
     .replace(/-?mediation-numerique-?/gu, '');
 
 const ignoreDefaultPivot = (lieu1: SchemaLieuMediationNumerique, lieu2: SchemaLieuMediationNumerique): { pivot: string } => ({
