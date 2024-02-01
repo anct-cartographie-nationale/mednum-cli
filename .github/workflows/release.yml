@@ -18,6 +18,7 @@ jobs:
         source:
           [
             aidants-connect,
+            aix-en-provence,
             angers,
             bus-france-services-charente,
             charente-maritime,
