@@ -97,6 +97,8 @@ jobs:
           ]
     runs-on: ubuntu-latest
     environment: production
+    needs:
+      - transform-and-publish
 
     steps:
       - name: Checkout mednum-cli repository
