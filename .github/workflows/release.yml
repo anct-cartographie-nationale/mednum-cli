@@ -52,22 +52,18 @@ jobs:
           ]
     runs-on: ubuntu-latest
     environment: production
-
     steps:
       - name: Checkout mednum-cli repository
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '16.x'
           cache: 'yarn'
-
       - name: Install dependencies
         run: yarn
-
       - name: 'Create env file'
         run: |
           touch .env
@@ -78,62 +74,12 @@ jobs:
           echo CARTOGRAPHIE_NATIONALE_API_URL="${{ secrets.CARTOGRAPHIE_NATIONALE_API_URL }}" >> .env
           echo CARTOGRAPHIE_NATIONALE_API_KEY="${{ secrets.CARTOGRAPHIE_NATIONALE_API_KEY }}" >> .env
           echo DATA_INCLUSION_API_KEY="${{ secrets.DATA_INCLUSION_API_KEY }}" >> .env
-
       - name: Transform
         run: yarn transformer.${{ matrix.source }}
-
       - name: Publish
         run: yarn publier.${{ matrix.source }}
-
       - name: Internal deduplication
         run: yarn dedupliquer.${{ matrix.source }}
-
-  extract-and-publish:
-    name: Extract and publish to data.gouv
-    strategy:
-      matrix:
-        source:
-          [
-            extract-eure-et-loir,
-            extract-mednum-hub-antilles,
-            extract-numi,
-            extract-savoie,
-            extract-vendee
-          ]
-    runs-on: ubuntu-latest
-    environment: production
-    needs:
-      - transform-and-publish
-
-    steps:
-      - name: Checkout mednum-cli repository
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16.x'
-          cache: 'yarn'
-
-      - name: Install dependencies
-        run: yarn
-
-      - name: 'Create env file'
-        run: |
-          touch .env
-          echo DATA_GOUV_API_URL="${{ secrets.DATA_GOUV_API_URL }}" >> .env
-          echo DATA_GOUV_API_KEY="${{ secrets.DATA_GOUV_API_KEY }}" >> .env
-          echo DATA_GOUV_REFERENCE_ID="${{ secrets.DATA_GOUV_REFERENCE_ID }}" >> .env
-          echo DATA_GOUV_REFERENCE_TYPE="${{ secrets.DATA_GOUV_REFERENCE_TYPE }}" >> .env
-          echo CARTOGRAPHIE_NATIONALE_API_URL="${{ secrets.CARTOGRAPHIE_NATIONALE_API_URL }}" >> .env
-
-      - name: Extract
-        run: yarn extract.${{ matrix.source }}
-
-      - name: Publish
-        run: yarn publier.${{ matrix.source }}
 
   build:
     uses: romain-cambonie/serenity-workflows/.github/workflows/_build-and-upload-artifact.reusable.yml@master
@@ -143,23 +89,19 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - build
-
     steps:
       - name: Checkout mednum-cli repository
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 'lts/*'
-
       - name: Download release artifact
         uses: actions/download-artifact@v3
         with:
           name: bundle
-
       - name: Link the semantic release config and release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -176,22 +118,18 @@ jobs:
     needs:
       - transform-and-publish
       - extract-and-publish
-
     steps:
       - name: Checkout client-application repository
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '16.x'
           cache: 'yarn'
-
       - name: Install dependencies
         run: yarn
-
       - name: 'Create env file'
         run: |
           touch .env
@@ -201,9 +139,49 @@ jobs:
           echo DATA_GOUV_REFERENCE_TYPE="${{ secrets.DATA_GOUV_REFERENCE_TYPE }}" >> .env
           echo CARTOGRAPHIE_NATIONALE_API_URL="${{ secrets.CARTOGRAPHIE_NATIONALE_API_URL }}" >> .env
           echo CARTOGRAPHIE_NATIONALE_API_KEY="${{ secrets.CARTOGRAPHIE_NATIONALE_API_KEY }}" >> .env
-
       - name: Deduplicate
         run: yarn dedupliquer.all
+
+  extract-and-publish:
+    name: Extract and publish to data.gouv
+    strategy:
+      matrix:
+        source:
+          [
+            extract-eure-et-loir,
+            extract-mednum-hub-antilles,
+            extract-numi,
+            extract-savoie,
+            extract-vendee
+          ]
+    runs-on: ubuntu-latest
+    environment: production
+    needs:
+      - deduplicate
+    steps:
+      - name: Checkout mednum-cli repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn
+      - name: 'Create env file'
+        run: |
+          touch .env
+          echo DATA_GOUV_API_URL="${{ secrets.DATA_GOUV_API_URL }}" >> .env
+          echo DATA_GOUV_API_KEY="${{ secrets.DATA_GOUV_API_KEY }}" >> .env
+          echo DATA_GOUV_REFERENCE_ID="${{ secrets.DATA_GOUV_REFERENCE_ID }}" >> .env
+          echo DATA_GOUV_REFERENCE_TYPE="${{ secrets.DATA_GOUV_REFERENCE_TYPE }}" >> .env
+          echo CARTOGRAPHIE_NATIONALE_API_URL="${{ secrets.CARTOGRAPHIE_NATIONALE_API_URL }}" >> .env
+      - name: Extract
+        run: yarn extract.${{ matrix.source }}
+      - name: Publish
+        run: yarn publier.${{ matrix.source }}
 
   publish-to-data-gouv:
     name: Get lieux from API and publish to data.gouv
@@ -215,21 +193,17 @@ jobs:
       - name: Wait for deduplication end
         run: sleep 300s
         shell: bash
-
       - name: Checkout mednum-cli repository
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '16.x'
           cache: 'yarn'
-
       - name: Install dependencies
         run: yarn
-
       - name: 'Create env file'
         run: |
           touch .env
@@ -238,10 +212,8 @@ jobs:
           echo DATA_GOUV_REFERENCE_ID="${{ secrets.DATA_GOUV_REFERENCE_ID }}" >> .env
           echo DATA_GOUV_REFERENCE_TYPE="${{ secrets.DATA_GOUV_REFERENCE_TYPE }}" >> .env
           echo CARTOGRAPHIE_NATIONALE_API_URL="${{ secrets.CARTOGRAPHIE_NATIONALE_API_URL }}" >> .env
-
       - name: Extract
         run: yarn extract.all
-
       - name: Publish
         run: yarn publier.all
 
@@ -254,12 +226,10 @@ jobs:
       - name: Sleep for 5 minutes
         run: sleep 300s
         shell: bash
-
       - name: Prepare lieux inclusion numerique file
         run: |
           mkdir mkdir -p client-application/assets/data
           curl https://cartographie.societenumerique.gouv.fr/api/v0/lieux-inclusion-numerique | gunzip >> ./client-application/assets/data/lieux-inclusion-numerique.json
-
       - name: Publish to S3
         uses: kersvers/s3-sync-with-cloudfront-invalidation@v1.0.0
         env:
