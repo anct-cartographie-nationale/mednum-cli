@@ -2,8 +2,10 @@ import { Adresse, Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique
 import axios, { AxiosResponse } from 'axios';
 import { NO_LOCALISATION } from '../../fields';
 
-const isValid = (response: AxiosResponse): boolean =>
-  response.data.features[0]?.geometry?.coordinates != null && response.data.features[0].properties.score > 0.7;
+const isValid = (adresse: Adresse, response: AxiosResponse): boolean =>
+  response.data.features[0]?.geometry?.coordinates != null &&
+  (response.data.features[0].properties.score > 0.6 ||
+    (response.data.features[0].properties.score > 0.4 && response.data.features[0].properties.city === adresse.commune));
 
 const toLocalisation = (response: AxiosResponse): Localisation =>
   Localisation({
@@ -15,5 +17,6 @@ export const localisationByGeocode = (adresse: Adresse) => async (): Promise<Loc
   const response: AxiosResponse = await axios.get(
     `https://wxs.ign.fr/essentiels/geoportail/geocodage/rest/0.1/search?q=${adresse.voie}&postcode=${adresse.code_postal}&city=${adresse.commune}`
   );
-  return isValid(response) ? toLocalisation(response) : NO_LOCALISATION;
+
+  return isValid(adresse, response) ? toLocalisation(response) : NO_LOCALISATION;
 };
