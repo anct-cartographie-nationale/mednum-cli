@@ -158,6 +158,9 @@ jobs:
     needs:
       - deduplicate
     steps:
+      - name: Wait for deduplication end
+        run: sleep 300s
+        shell: bash
       - name: Checkout mednum-cli repository
         uses: actions/checkout@v3
         with:
