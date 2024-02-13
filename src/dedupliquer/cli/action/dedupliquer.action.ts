@@ -25,23 +25,23 @@ const onlyMoreThanDuplicationScoreThreshold =
 export const dedupliquerAction = async (dedupliquerOptions: DedupliquerOptions): Promise<void> => {
   const repository: DeduplicationRepository = deduplicationRepository(dedupliquerOptions);
 
-  const lieux: AxiosResponse<SchemaLieuMediationNumerique[]> = await axios.get(dedupliquerOptions.baseSource);
+  const allLieuxWithDuplicates: AxiosResponse<SchemaLieuMediationNumerique[]> = await axios.get(dedupliquerOptions.baseSource);
 
   const lieuxToDeduplicate: AxiosResponse<SchemaLieuMediationNumerique[]> = await axios.get(dedupliquerOptions.source);
 
   const duplicationComparisonsToGroup: DuplicationComparison[] = duplicationComparisons(
-    lieux.data,
+    allLieuxWithDuplicates.data,
     dedupliquerOptions.allowInternal,
     lieuxToDeduplicate.data
   ).filter(onlyMoreThanDuplicationScoreThreshold(dedupliquerOptions.allowInternal));
 
   const groups: Groups = groupDuplicates(duplicationComparisonsToGroup);
-  const merged: MergedLieuxByGroupMap = mergeDuplicates(new Date())(lieux.data, groups);
+  const merged: MergedLieuxByGroupMap = mergeDuplicates(new Date())(allLieuxWithDuplicates.data, groups);
 
   /* eslint-disable-next-line no-console */
   console.log('Nouveaux lieux concernés par une fusion :', groups.itemGroupMap.size);
   /* eslint-disable-next-line no-console */
   console.log('Nouveaux lieux fusionnés à enregistrer :', merged.size);
 
-  await repository.save(groups, merged, lieux.data);
+  await repository.save(groups, merged, allLieuxWithDuplicates.data);
 };
