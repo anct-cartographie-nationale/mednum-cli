@@ -20,21 +20,6 @@ export const saveWithApi =
     if (nothingToUpdate(groups, merged)) return;
 
     try {
-      const mergeGroupsToSave: MergeGroup[] = mergeGroups(groups, merged);
-      const mergeGroupsBatchSize: number = 1000;
-      const numberOfMergeGroupsToSaveBatches: number = Math.ceil(mergeGroupsToSave.length / mergeGroupsBatchSize);
-
-      for (let i: number = 0; i < numberOfMergeGroupsToSaveBatches; i++) {
-        await axios.patch<unknown, AxiosResponse, MergeGroupTransfer>(
-          `${dedupliquerOptions.cartographieNationaleApiUrl}/lieux-inclusion-numerique/merge-groups`,
-          {
-            mergeGroups: mergeGroupsToSave.slice(i * mergeGroupsBatchSize, (i + 1) * mergeGroupsBatchSize),
-            groupIdsToDelete: []
-          },
-          headers(authHeader(dedupliquerOptions.cartographieNationaleApiKey))
-        );
-      }
-
       const groupsToDelete: string[] = findGroupIdsToDelete(
         await paginate<MergeGroup>(
           `${dedupliquerOptions.cartographieNationaleApiUrl}/lieux-inclusion-numerique/merge-groups?page[number]=0&page[size]=2000`
@@ -55,11 +40,27 @@ export const saveWithApi =
         );
       }
 
-      await axios.patch<unknown, AxiosResponse>(
-        `${dedupliquerOptions.cartographieNationaleApiUrl}/lieux-inclusion-numerique/mark-all-as-deduplicated`,
-        null,
-        headers(authHeader(dedupliquerOptions.cartographieNationaleApiKey))
-      );
+      const mergeGroupsToSave: MergeGroup[] = mergeGroups(groups, merged);
+      const mergeGroupsBatchSize: number = 1000;
+      const numberOfMergeGroupsToSaveBatches: number = Math.ceil(mergeGroupsToSave.length / mergeGroupsBatchSize);
+
+      for (let i: number = 0; i < numberOfMergeGroupsToSaveBatches; i++) {
+        await axios.patch<unknown, AxiosResponse, MergeGroupTransfer>(
+          `${dedupliquerOptions.cartographieNationaleApiUrl}/lieux-inclusion-numerique/merge-groups`,
+          {
+            mergeGroups: mergeGroupsToSave.slice(i * mergeGroupsBatchSize, (i + 1) * mergeGroupsBatchSize),
+            groupIdsToDelete: []
+          },
+          headers(authHeader(dedupliquerOptions.cartographieNationaleApiKey))
+        );
+      }
+
+      shouldMarkAsDeduplicated(groups.mergeGroupsMap) &&
+        (await axios.patch<unknown, AxiosResponse>(
+          `${dedupliquerOptions.cartographieNationaleApiUrl}/lieux-inclusion-numerique/mark-all-as-deduplicated`,
+          null,
+          headers(authHeader(dedupliquerOptions.cartographieNationaleApiKey))
+        ));
     } catch (error) {
       /* eslint-disable-next-line no-console */
       console.log(error);
