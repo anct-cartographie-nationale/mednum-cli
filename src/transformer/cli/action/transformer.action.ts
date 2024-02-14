@@ -3,8 +3,8 @@ import {
   LieuMediationNumerique,
   SchemaLieuMediationNumerique
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import axios from 'axios';
 import { createHash } from 'crypto';
+import { paginate } from '../../../common';
 import {
   saveOutputsInFiles,
   sourceATransformer,
@@ -77,10 +77,11 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
   await updateSourceWithCartographieNationaleApi(transformerOptions)(sourceHash);
 
   const lieuxToPublish: LieuMediationNumerique[] = (
-    await axios.get<SchemaLieuMediationNumerique[]>(
-      `${transformerOptions.cartographieNationaleApiUrl}/lieux-inclusion-numerique/with-duplicates?source[eq]=${transformerOptions.sourceName}&mergedIds[exists]=false`
+    await paginate<SchemaLieuMediationNumerique>(
+      `${transformerOptions.cartographieNationaleApiUrl}/lieux-inclusion-numerique/with-duplicates?page[number]=0&page[size]=10000`,
+      `source[eq]=${transformerOptions.sourceName}&mergedIds[exists]=false`
     )
-  ).data.map(fromSchemaLieuDeMediationNumerique);
+  ).map(fromSchemaLieuDeMediationNumerique);
 
   await saveOutputsInFiles(transformerOptions)(lieuxToPublish);
 };

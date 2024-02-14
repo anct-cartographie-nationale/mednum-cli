@@ -1,1 +1,1 @@
-export * from './build-api-url';
+export * from './extract-query-string';
