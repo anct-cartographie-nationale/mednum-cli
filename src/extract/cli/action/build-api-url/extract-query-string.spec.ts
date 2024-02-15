@@ -23,6 +23,6 @@ describe('build api url', (): void => {
       duplicates: false
     });
 
-    expect(url).toBe('');
+    expect(url).toBe('or[mergedIds][exists]=true&or[group][exists]=false');
   });
 });
