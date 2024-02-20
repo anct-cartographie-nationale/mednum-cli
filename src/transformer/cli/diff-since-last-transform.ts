@@ -12,7 +12,7 @@ export type DiffSinceLastTransform = DiffSinceLastTransformWithId | DiffSinceLas
 
 export type Fingerprint = {
   sourceId: string;
-  hash: string;
+  hash?: string;
 };
 
 export type FingerprintToDelete = {
@@ -23,15 +23,7 @@ const DIFF_WITHOUT_ID: DiffSinceLastTransformWithoutId = null;
 
 const hashFor = (item: DataSource): string => createHash('sha256').update(JSON.stringify(item)).digest('hex');
 
-const hasSameHash = (currentHash: string | undefined, item: DataSource): boolean => currentHash !== hashFor(item);
-
-const toIdsToDeleteFrom =
-  (newIds: string[]) =>
-  (toDelete: FingerprintToDelete[], previousId: Fingerprint): FingerprintToDelete[] =>
-    newIds.includes(previousId.sourceId) ? toDelete : [...toDelete, { sourceId: previousId.sourceId }];
-
-const findDeletedIds = (previousIds: Fingerprint[], newIds: string[]): FingerprintToDelete[] =>
-  previousIds.reduce(toIdsToDeleteFrom(newIds), []);
+const hasSameHash = (currentHash: string | undefined, item: DataSource): boolean => currentHash === hashFor(item);
 
 const toInnerProperty = (source: DataSource | string, key: string): DataSource | string =>
   typeof source === 'string' ? source : (source[key] as DataSource | string);
@@ -40,17 +32,14 @@ const toInnerProperty = (source: DataSource | string, key: string): DataSource |
 const getId = (idKey: string, item: DataSource): string => idKey.split('.').reduce(toInnerProperty, item).toString();
 
 const onlyMatchingItemIds =
-  (idKey: string, currentItem: DataSource) =>
+  (idKey: string, item: DataSource) =>
   (fingerprint: Fingerprint): boolean =>
-    fingerprint.sourceId === getId(idKey, currentItem);
+    fingerprint.sourceId === getId(idKey, item);
 
 const toItemToUpsert =
   (fingerprints: Fingerprint[], idKey: string) =>
   (toUpsert: DataSource[], item: DataSource): DataSource[] =>
-    hasSameHash(fingerprints.find(onlyMatchingItemIds(idKey, item))?.hash, item) ? [...toUpsert, item] : toUpsert;
-
-const idsToUpsert = (sourceItems: DataSource[], idKey: string, fingerprints: Fingerprint[]): DataSource[] =>
-  sourceItems.reduce(toItemToUpsert(fingerprints, idKey), []);
+    hasSameHash(fingerprints.find(onlyMatchingItemIds(idKey, item))?.hash, item) ? toUpsert : [...toUpsert, item];
 
 const toFingerprintId = (fingerprint: Fingerprint): string => fingerprint.sourceId;
 
@@ -59,15 +48,21 @@ const toItemId =
   (currentItem: DataSource): string =>
     getId(idKey, currentItem);
 
-const idsToDelete = (fingerprints: Fingerprint[], sourceItem: DataSource[], idKey: string): FingerprintToDelete[] =>
-  findDeletedIds(fingerprints, sourceItem.map(toItemId(idKey)));
+const toIdsToDeleteFrom =
+  (sourceItemIds: string[]) =>
+  (fingerprintsToDelete: FingerprintToDelete[], fingerprint: Fingerprint): FingerprintToDelete[] =>
+    sourceItemIds.includes(fingerprint.sourceId)
+      ? fingerprintsToDelete
+      : [...fingerprintsToDelete, { sourceId: fingerprint.sourceId }];
+
+const onlyWithHash = (fingerprint: Fingerprint): boolean => fingerprint.hash != null;
 
 const findItemsToTransform = (sourceItems: DataSource[], fingerprints: Fingerprint[], idKey: string): DiffSinceLastTransform =>
   idKey === ''
     ? DIFF_WITHOUT_ID
     : {
-        toUpsert: idsToUpsert(sourceItems, idKey, fingerprints),
-        toDelete: idsToDelete(fingerprints, sourceItems, idKey)
+        toUpsert: sourceItems.reduce(toItemToUpsert(fingerprints, idKey), []),
+        toDelete: fingerprints.filter(onlyWithHash).reduce(toIdsToDeleteFrom(sourceItems.map(toItemId(idKey))), [])
       };
 
 export const diffSinceLastTransform =
