@@ -49,11 +49,6 @@
       "colonnes": ["labels_nationaux"],
       "termes": ["CNFS"],
       "cible": "CNFS"
-    },
-    {
-      "colonnes": ["labels_nationaux"],
-      "termes": ["Aidants Connect"],
-      "cible": "Aidants Connect"
     }
   ],
   "conditions_acces": [
