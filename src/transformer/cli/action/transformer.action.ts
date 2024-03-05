@@ -18,10 +18,17 @@ import { canTransform, DiffSinceLastTransform } from '../diff-since-last-transfo
 import { TransformerOptions } from '../transformer-options';
 import { transformationRespository } from './transformation.respository';
 
+type LieuxMediationNumeriqueBlacklisted = {
+  id: string;
+  source: string;
+};
+
 /* eslint-disable-next-line @typescript-eslint/no-restricted-imports, @typescript-eslint/naming-convention, @typescript-eslint/typedef, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
 const flatten = require('flat');
 
 const REPORT: Report = Report();
+
+const lieuxMediationNumeriqueBlacklist = require('../../../../assets/lieuxMediationNumerique.blacklist.json');
 
 const replaceNullWithEmptyString = (jsonString: string): string => {
   const replacer = (_: string, values?: string): string => values ?? '';
@@ -33,6 +40,11 @@ const lieuxToTransform = (sourceItems: DataSource[], diffSinceLastTransform: Dif
 
 const nothingToTransform = (itemsToTransform: DiffSinceLastTransform): boolean =>
   canTransform(itemsToTransform) && itemsToTransform.toDelete.length === 0 && itemsToTransform.toUpsert.length === 0;
+
+const lieuxMediationNumeriqueToDelete = (lieuDeMediationNumerique: LieuMediationNumerique): boolean =>
+  !lieuxMediationNumeriqueBlacklist.some((lieu: LieuxMediationNumeriqueBlacklisted) =>
+    lieu.id.includes(`${lieuDeMediationNumerique.source?.replace(/\s/g, '-')}_${lieuDeMediationNumerique.id}`)
+  );
 
 /* eslint-disable-next-line max-statements, max-lines-per-function */
 export const transformerAction = async (transformerOptions: TransformerOptions): Promise<void> => {
@@ -59,7 +71,9 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
 
   const lieuxDeMediationNumerique: LieuMediationNumerique[] = (
     await Promise.all(lieux.map(flatten).map(toLieuxMediationNumerique(repository, transformerOptions.sourceName, REPORT)))
-  ).filter(validValuesOnly);
+  )
+    .filter(validValuesOnly)
+    .filter(lieuxMediationNumeriqueToDelete);
 
   /* eslint-disable-next-line no-console */
   diffSinceLastTransform != null && console.log('Nouveaux lieux à ajouter :', diffSinceLastTransform.toUpsert.length);
