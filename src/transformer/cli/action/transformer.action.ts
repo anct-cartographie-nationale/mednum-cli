@@ -28,7 +28,8 @@ const flatten = require('flat');
 
 const REPORT: Report = Report();
 
-const lieuxMediationNumeriqueBlacklist = require('../../../../assets/lieuxMediationNumerique.blacklist.json');
+/* eslint-disable-next-line @typescript-eslint/no-restricted-imports, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
+const LIEUX_MEDIATION_NUMERIQUE_BLACKLIST: LieuxMediationNumeriqueBlacklisted[] = require('../../../../assets/lieuxMediationNumerique.blacklist.json');
 
 const replaceNullWithEmptyString = (jsonString: string): string => {
   const replacer = (_: string, values?: string): string => values ?? '';
@@ -42,8 +43,8 @@ const nothingToTransform = (itemsToTransform: DiffSinceLastTransform): boolean =
   canTransform(itemsToTransform) && itemsToTransform.toDelete.length === 0 && itemsToTransform.toUpsert.length === 0;
 
 const lieuxMediationNumeriqueToDelete = (lieuDeMediationNumerique: LieuMediationNumerique): boolean =>
-  !lieuxMediationNumeriqueBlacklist.some((lieu: LieuxMediationNumeriqueBlacklisted) =>
-    lieu.id.includes(`${lieuDeMediationNumerique.source?.replace(/\s/g, '-')}_${lieuDeMediationNumerique.id}`)
+  !LIEUX_MEDIATION_NUMERIQUE_BLACKLIST.some((lieu: LieuxMediationNumeriqueBlacklisted): boolean =>
+    lieu.id.includes(`${lieuDeMediationNumerique.source?.replace(/\s/gu, '-')}_${lieuDeMediationNumerique.id}`)
   );
 
 /* eslint-disable-next-line max-statements, max-lines-per-function */
