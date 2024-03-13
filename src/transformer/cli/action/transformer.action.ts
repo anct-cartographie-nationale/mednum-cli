@@ -11,7 +11,7 @@ import {
   sourcesFromCartographieNationaleApi,
   updateSourceWithCartographieNationaleApi
 } from '../../data';
-import { DataSource, toLieuxMediationNumerique, validValuesOnly } from '../../input';
+import { DataSource, LieuxMediationNumeriqueMatching, toLieuxMediationNumerique, validValuesOnly } from '../../input';
 import { Report } from '../../report';
 import { TransformationRepository } from '../../repositories';
 import { canTransform, DiffSinceLastTransform } from '../diff-since-last-transform';
@@ -42,9 +42,17 @@ const lieuxToTransform = (sourceItems: DataSource[], diffSinceLastTransform: Dif
 const nothingToTransform = (itemsToTransform: DiffSinceLastTransform): boolean =>
   canTransform(itemsToTransform) && itemsToTransform.toDelete.length === 0 && itemsToTransform.toUpsert.length === 0;
 
-const lieuxMediationNumeriqueToDelete = (lieuDeMediationNumerique: LieuMediationNumerique): boolean =>
-  !LIEUX_MEDIATION_NUMERIQUE_BLACKLIST.some((lieu: LieuxMediationNumeriqueBlacklisted): boolean =>
-    lieu.id.includes(`${lieuDeMediationNumerique.source?.replace(/\s/gu, '-')}_${lieuDeMediationNumerique.id}`)
+const sourceItemsToDelete = (
+  sourceItems: DataSource[],
+  lieuxMediationNumeriqueBlacklisted: LieuxMediationNumeriqueBlacklisted[],
+  matching: LieuxMediationNumeriqueMatching
+): DataSource[] =>
+  sourceItems.filter(
+    (sourceItem: DataSource): boolean =>
+      matching.id != null &&
+      !lieuxMediationNumeriqueBlacklisted
+        .map((lieu: LieuxMediationNumeriqueBlacklisted): string => lieu.id)
+        .includes((sourceItem[matching.id.colonne] as string).toString())
   );
 
 /* eslint-disable-next-line max-statements, max-lines-per-function */
@@ -58,11 +66,28 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
   );
   const sourceHash: string = createHash('sha256').update(source).digest('hex');
 
-  if (previousSourceHash === sourceHash) return;
+  const lieuxMediationNumeriqueBlacklistedFiltered: LieuxMediationNumeriqueBlacklisted[] =
+    LIEUX_MEDIATION_NUMERIQUE_BLACKLIST.filter(
+      (lieu: LieuxMediationNumeriqueBlacklisted): boolean => lieu.source === transformerOptions.sourceName
+    );
 
-  const sourceItems: DataSource[] = JSON.parse(replaceNullWithEmptyString(source)).slice(0, maxTransform);
+  const lieuxBlacklistHash: string = createHash('sha256')
+    .update(JSON.stringify(lieuxMediationNumeriqueBlacklistedFiltered))
+    .digest('hex');
+
+  const combinedHash: string = createHash('sha256')
+    .update(sourceHash + lieuxBlacklistHash)
+    .digest('hex');
+
+  if (previousSourceHash === combinedHash) return;
 
   const repository: TransformationRepository = await transformationRespository(transformerOptions);
+
+  const sourceItems: DataSource[] = sourceItemsToDelete(
+    JSON.parse(replaceNullWithEmptyString(source)).slice(0, maxTransform),
+    lieuxMediationNumeriqueBlacklistedFiltered,
+    repository.config
+  );
 
   const diffSinceLastTransform: DiffSinceLastTransform = repository.diffSinceLastTransform(sourceItems);
 
@@ -72,9 +97,7 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
 
   const lieuxDeMediationNumerique: LieuMediationNumerique[] = (
     await Promise.all(lieux.map(flatten).map(toLieuxMediationNumerique(repository, transformerOptions.sourceName, REPORT)))
-  )
-    .filter(validValuesOnly)
-    .filter(lieuxMediationNumeriqueToDelete);
+  ).filter(validValuesOnly);
 
   /* eslint-disable-next-line no-console */
   diffSinceLastTransform != null && console.log('Nouveaux lieux à ajouter :', diffSinceLastTransform.toUpsert.length);
@@ -89,7 +112,7 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
 
   if (transformerOptions.cartographieNationaleApiKey == null) return;
 
-  await updateSourceWithCartographieNationaleApi(transformerOptions)(sourceHash);
+  await updateSourceWithCartographieNationaleApi(transformerOptions)(combinedHash);
 
   const lieuxToPublish: LieuMediationNumerique[] = (
     await paginate<SchemaLieuMediationNumerique>(
