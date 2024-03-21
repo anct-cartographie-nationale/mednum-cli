@@ -81,7 +81,8 @@ jobs:
             rhin-occ,
             res-in,
             sarthe,
-            ultra-num
+            ultra-num,
+            nouvelle-caledonie
           ]
     runs-on: ubuntu-latest
     environment: demo
