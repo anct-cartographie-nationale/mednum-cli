@@ -291,7 +291,7 @@ const fixUnexpectedEmailList = (field: string): CleanOperation => ({
   name: 'unexpected email list',
   selector: /\S\s?(?:et|ou|;|\s|\/)\s?\S/u,
   field,
-  fix: (toFix: string): string => toFix.split(/\s?(?:et|ou|;|\s|\/)\s?/u)[0] ?? ''
+  fix: (toFix: string): string => toFix.split(/\s?(?:et|ou|\s|\/)\s?/u)[0] ?? ''
 });
 
 const fixObfuscatedAtInEmail = (field: string): CleanOperation => ({
