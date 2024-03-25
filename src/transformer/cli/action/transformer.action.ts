@@ -11,17 +11,25 @@ import {
   sourcesFromCartographieNationaleApi,
   updateSourceWithCartographieNationaleApi
 } from '../../data';
-import { DataSource, toLieuxMediationNumerique, validValuesOnly } from '../../input';
+import { DataSource, LieuxMediationNumeriqueMatching, toLieuxMediationNumerique, validValuesOnly } from '../../input';
 import { Report } from '../../report';
 import { TransformationRepository } from '../../repositories';
 import { canTransform, DiffSinceLastTransform } from '../diff-since-last-transform';
 import { TransformerOptions } from '../transformer-options';
 import { transformationRespository } from './transformation.respository';
 
+type LieuxMediationNumeriqueBlacklisted = {
+  id: string;
+  source: string;
+};
+
 /* eslint-disable-next-line @typescript-eslint/no-restricted-imports, @typescript-eslint/naming-convention, @typescript-eslint/typedef, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
 const flatten = require('flat');
 
 const REPORT: Report = Report();
+
+/* eslint-disable-next-line @typescript-eslint/no-restricted-imports, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
+const LIEUX_MEDIATION_NUMERIQUE_BLACKLIST: LieuxMediationNumeriqueBlacklisted[] = require('../../../../assets/lieuxMediationNumerique.blacklist.json');
 
 const replaceNullWithEmptyString = (jsonString: string): string => {
   const replacer = (_: string, values?: string): string => values ?? '';
@@ -34,6 +42,19 @@ const lieuxToTransform = (sourceItems: DataSource[], diffSinceLastTransform: Dif
 const nothingToTransform = (itemsToTransform: DiffSinceLastTransform): boolean =>
   canTransform(itemsToTransform) && itemsToTransform.toDelete.length === 0 && itemsToTransform.toUpsert.length === 0;
 
+const sourceItemsToDelete = (
+  sourceItems: DataSource[],
+  lieuxMediationNumeriqueBlacklisted: LieuxMediationNumeriqueBlacklisted[],
+  matching: LieuxMediationNumeriqueMatching
+): DataSource[] =>
+  sourceItems.filter(
+    (sourceItem: DataSource): boolean =>
+      matching.id != null &&
+      !lieuxMediationNumeriqueBlacklisted
+        .map((lieu: LieuxMediationNumeriqueBlacklisted): string => lieu.id)
+        .includes((sourceItem[matching.id.colonne] as string).toString())
+  );
+
 /* eslint-disable-next-line max-statements, max-lines-per-function */
 export const transformerAction = async (transformerOptions: TransformerOptions): Promise<void> => {
   const maxTransform: number | undefined = process.env['MAX_TRANSFORM'] == null ? undefined : +process.env['MAX_TRANSFORM'];
@@ -45,11 +66,28 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
   );
   const sourceHash: string = createHash('sha256').update(source).digest('hex');
 
-  if (previousSourceHash === sourceHash) return;
+  const lieuxMediationNumeriqueBlacklistedFiltered: LieuxMediationNumeriqueBlacklisted[] =
+    LIEUX_MEDIATION_NUMERIQUE_BLACKLIST.filter(
+      (lieu: LieuxMediationNumeriqueBlacklisted): boolean => lieu.source === transformerOptions.sourceName
+    );
 
-  const sourceItems: DataSource[] = JSON.parse(replaceNullWithEmptyString(source)).slice(0, maxTransform);
+  const lieuxBlacklistHash: string = createHash('sha256')
+    .update(JSON.stringify(lieuxMediationNumeriqueBlacklistedFiltered))
+    .digest('hex');
+
+  const combinedHash: string = createHash('sha256')
+    .update(sourceHash + lieuxBlacklistHash)
+    .digest('hex');
+
+  if (previousSourceHash === combinedHash) return;
 
   const repository: TransformationRepository = await transformationRespository(transformerOptions);
+
+  const sourceItems: DataSource[] = sourceItemsToDelete(
+    JSON.parse(replaceNullWithEmptyString(source)).slice(0, maxTransform),
+    lieuxMediationNumeriqueBlacklistedFiltered,
+    repository.config
+  );
 
   const diffSinceLastTransform: DiffSinceLastTransform = repository.diffSinceLastTransform(sourceItems);
 
@@ -74,7 +112,7 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
 
   if (transformerOptions.cartographieNationaleApiKey == null) return;
 
-  await updateSourceWithCartographieNationaleApi(transformerOptions)(sourceHash);
+  await updateSourceWithCartographieNationaleApi(transformerOptions)(combinedHash);
 
   const lieuxToPublish: LieuMediationNumerique[] = (
     await paginate<SchemaLieuMediationNumerique>(
