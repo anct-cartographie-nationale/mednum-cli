@@ -1071,4 +1071,15 @@ describe('contact field', (): void => {
 
     expect(contact).toStrictEqual<Contact>(Contact({ telephone: '+33782358117' }));
   });
+
+  it('should allow multi email in courriel field separated by ;', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        courriel: 'test@mairie.fr;test2@mairie.fr'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(Contact({ courriel: 'test@mairie.fr;test2@mairie.fr' }));
+  });
 });
