@@ -2,12 +2,12 @@
 
 import { Adresse } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
-import { Erp, processAccessibilite } from './accessibilite.field';
+import { Erp, processFicheAccesLibre } from './fiche-acces-libre.field';
 
-describe('accessibilite field', (): void => {
-  it('should get accessibilite url from data source using matching information', (): void => {
+describe('Fiche acces libre field', (): void => {
+  it('should get fiche acces libre url from data source using matching information', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
-      accessibilite: {
+      fiche_acces_libre: {
         colonne: 'bf_accessibilit_'
       }
     } as LieuxMediationNumeriqueMatching;
@@ -24,16 +24,16 @@ describe('accessibilite field', (): void => {
 
     const accesLibreData: Erp[] = [];
 
-    const accessibilite: string | undefined = processAccessibilite(source, matching, accesLibreData, adresseProcessed);
+    const ficheAccesLibre: string | undefined = processFicheAccesLibre(source, matching, accesLibreData, adresseProcessed);
 
-    expect(accessibilite).toBe(
+    expect(ficheAccesLibre).toBe(
       'https://acceslibre.beta.gouv.fr/app/73-chambery/a/administration-publique/erp/mairie-chambery/'
     );
   });
 
-  it('should not get any accessibilite url', (): void => {
+  it('should not get any fiche acces libre url', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
-      accessibilite: {
+      fiche_acces_libre: {
         colonne: 'bf_accessibilit_'
       }
     } as LieuxMediationNumeriqueMatching;
@@ -48,14 +48,14 @@ describe('accessibilite field', (): void => {
 
     const accesLibreData: Erp[] = [];
 
-    const accessibilite: string | undefined = processAccessibilite(source, matching, accesLibreData, adresseProcessed);
+    const ficheAccesLibre: string | undefined = processFicheAccesLibre(source, matching, accesLibreData, adresseProcessed);
 
-    expect(accessibilite).toBeUndefined();
+    expect(ficheAccesLibre).toBeUndefined();
   });
 
-  it('should not get accessibilite url from data source if not valid', (): void => {
+  it('should not get fiche acces libre url from data source if not valid', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
-      accessibilite: {
+      fiche_acces_libre: {
         colonne: 'bf_accessibilit_'
       }
     } as LieuxMediationNumeriqueMatching;
@@ -73,16 +73,16 @@ describe('accessibilite field', (): void => {
 
     const accesLibreData: Erp[] = [];
 
-    const accessibilite: string | undefined = processAccessibilite(source, matching, accesLibreData, adresseProcessed);
+    const ficheAccesLibre: string | undefined = processFicheAccesLibre(source, matching, accesLibreData, adresseProcessed);
 
-    expect(accessibilite).toBe(
+    expect(ficheAccesLibre).toBe(
       'https://acceslibre.beta.gouv.fr/recherche/?what=&where=Saint-Nazaire-le-D%C3%A9sert%20%2826%29&lat=44.569759&lon=5.275761&code=26321'
     );
   });
 
   it('should ignore empty strings', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
-      accessibilite: {
+      fiche_acces_libre: {
         colonne: 'bf_accessibilit_'
       }
     } as LieuxMediationNumeriqueMatching;
@@ -99,14 +99,14 @@ describe('accessibilite field', (): void => {
 
     const accesLibreData: Erp[] = [];
 
-    const accessibilite: string | undefined = processAccessibilite(source, matching, accesLibreData, adresseProcessed);
+    const ficheAccesLibre: string | undefined = processFicheAccesLibre(source, matching, accesLibreData, adresseProcessed);
 
-    expect(accessibilite).toBeUndefined();
+    expect(ficheAccesLibre).toBeUndefined();
   });
 
-  it('should get accessibilite from acces libre', (): void => {
+  it('should get fiche acces libre from acces libre database', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
-      accessibilite: {
+      fiche_acces_libre: {
         colonne: 'bf_accessibilit_'
       },
       nom: {
@@ -136,9 +136,9 @@ describe('accessibilite field', (): void => {
       }
     ];
 
-    const accessibilite: string | undefined = processAccessibilite(source, matching, accesLibreData, adresseProcessed);
+    const ficheAccesLibre: string | undefined = processFicheAccesLibre(source, matching, accesLibreData, adresseProcessed);
 
-    expect(accessibilite).toBe(
+    expect(ficheAccesLibre).toBe(
       'https://acceslibre.beta.gouv.fr/app/49-allonnes/a/guichet-france-services/erp/france-services/'
     );
   });

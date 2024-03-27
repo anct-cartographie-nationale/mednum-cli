@@ -17,5 +17,5 @@ export * from './publics-accueillis/publics-accueillis.field';
 export * from './services/services.field';
 export * from './source/source.field';
 export * from './typologies/typologies.field';
-export * from './accessibilite/accessibilite.field';
+export * from './fiche-acces-libre/fiche-acces-libre.field';
 export * from './prive/prive.field';

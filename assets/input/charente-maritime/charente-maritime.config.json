@@ -47,7 +47,7 @@
   "prise_rdv": {
     "colonne": "properties.prise_rdv"
   },
-  "accessibilite": {
+  "fiche_acces_libre": {
     "colonne": "properties.accessibilite"
   },
   "labels_nationaux": [
