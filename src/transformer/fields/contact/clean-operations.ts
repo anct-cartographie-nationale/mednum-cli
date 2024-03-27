@@ -287,11 +287,11 @@ const fixStartingWithDotEmail = (field: string): CleanOperation => ({
   fix: (toFix: string): string => toFix.replace(/^\.([^@]+)@/u, '$1@')
 });
 
-const fixUnexpectedEmailList = (field: string): CleanOperation => ({
+const fixReplaceSeparatorMultiEmail = (field: string): CleanOperation => ({
   name: 'unexpected email list',
-  selector: /\S\s?(?:et|ou|;|\s|\/)\s?\S/u,
+  selector: /(?:\s+(?:et|ou)\s+)|[-\/\s]+/gu,
   field,
-  fix: (toFix: string): string => toFix.split(/\s?(?:et|ou|\s|\/)\s?/u)[0] ?? ''
+  fix: (toFix: string): string => toFix.replace(/(?:\s+(?:et|ou)\s+)|[-\/\s]+/gu, ';')
 });
 
 const fixObfuscatedAtInEmail = (field: string): CleanOperation => ({
@@ -392,7 +392,7 @@ export const cleanOperations = (
   ...cleanOperationIfAny(fixStartingWithDotEmail, matching.courriel?.colonne),
   ...cleanOperationIfAny(fixEmailStartingWithMailTo, matching.courriel?.colonne),
   ...cleanOperationIfAny(fixUnexpectedEmailLabel, matching.courriel?.colonne),
-  ...cleanOperationIfAny(fixUnexpectedEmailList, matching.courriel?.colonne),
+  ...cleanOperationIfAny(fixReplaceSeparatorMultiEmail, matching.courriel?.colonne),
   ...cleanOperationIfAny(fixObfuscatedAtInEmail, matching.courriel?.colonne),
   ...cleanOperationIfAny(fixMissingEmailExtension, matching.courriel?.colonne),
   ...cleanOperationIfAny(removeMissingAtInEmail, matching.courriel?.colonne),
