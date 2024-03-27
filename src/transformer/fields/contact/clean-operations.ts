@@ -289,9 +289,9 @@ const fixStartingWithDotEmail = (field: string): CleanOperation => ({
 
 const fixReplaceSeparatorMultiEmail = (field: string): CleanOperation => ({
   name: 'unexpected email list',
-  selector: /(?:\s+(?:et|ou)\s+)|[-\/\s]+/gu,
+  selector: /(?:\s(?:et|ou)\s)|(?:\/)|\s+/gu,
   field,
-  fix: (toFix: string): string => toFix.replace(/(?:\s+(?:et|ou)\s+)|[-\/\s]+/gu, ';')
+  fix: (toFix: string): string => toFix.replace(/(?:\s(?:et|ou)\s)|(?:\/)|\s+/gu, ';')
 });
 
 const fixObfuscatedAtInEmail = (field: string): CleanOperation => ({
