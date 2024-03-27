@@ -44,7 +44,7 @@
   "prise_rdv": {
     "colonne": "prise_rdv"
   },
-  "accessibilite": {
+  "fiche_acces_libre": {
     "colonne": "accessibilite"
   },
   "presentation_resume": {

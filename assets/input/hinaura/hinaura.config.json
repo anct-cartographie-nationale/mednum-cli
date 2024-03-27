@@ -78,7 +78,7 @@
   "prise_rdv": {
     "colonne": "bf_prisrdv"
   },
-  "accessibilite": {
+  "fiche_acces_libre": {
     "colonne": "bf_accessibilit_"
   },
   "presentation_detail": {

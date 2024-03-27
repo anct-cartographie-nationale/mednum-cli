@@ -19,7 +19,6 @@ import {
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Recorder, Report } from '../report';
 import {
-  processAccessibilite,
   processAdresse,
   processConditionsAcces,
   processContact,
@@ -38,7 +37,8 @@ import {
   processServices,
   processSource,
   processTypologies,
-  isPrive
+  isPrive,
+  processFicheAccesLibre
 } from '../fields';
 import { TransformationRepository } from '../repositories';
 import { DataSource, LieuxMediationNumeriqueMatching } from './lieux-mediation-numerique-matching';
@@ -49,7 +49,8 @@ const localisationIfAny = (localisation?: Localisation): { localisation?: Locali
 const conditionsAccesIfAny = (conditionsAcces: ConditionsAcces): { conditions_acces?: ConditionsAcces } =>
   conditionsAcces.length === 0 ? {} : { conditions_acces: conditionsAcces };
 
-const accessibiliteIfAny = (accessibilite?: Url): { accessibilite?: Url } => (accessibilite == null ? {} : { accessibilite });
+const ficheAccesLibreIfAny = (ficheAcceslibre?: Url): { ficheAcceslibre?: Url } =>
+  ficheAcceslibre == null ? {} : { ficheAcceslibre };
 
 const modalitesAccompagnementIfAny = (
   modaliteAccompagnement: ModalitesAccompagnement
@@ -103,7 +104,7 @@ const lieuDeMediationNumerique = async (
     ...horairesIfAny(processHoraires(dataSource, matching)),
     ...priseRdvIfAny(processPriseRdv(dataSource, matching)),
     ...typologiesIfAny(processTypologies(dataSource, matching)),
-    ...accessibiliteIfAny(processAccessibilite(dataSource, matching, accesLibre, adresse))
+    ...ficheAccesLibreIfAny(processFicheAccesLibre(dataSource, matching, accesLibre, adresse))
   };
 
   recorder.commit();
