@@ -24,7 +24,7 @@ const commandAction = async (_: unknown, command: Command): Promise<void> =>
   promptAndRun({
     ...{ cartographieNationaleApiUrl: 'https://cartographie.societenumerique.gouv.fr/api/v0' },
     ...command.opts(),
-    duplicates: command.opts()['duplicates'] !== 'false'
+    duplicates: command.opts()['duplicates'] === 'true'
   });
 
 export const addExtractCommandTo = (program: Command): Command =>

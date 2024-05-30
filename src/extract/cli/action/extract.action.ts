@@ -16,5 +16,5 @@ export const extractAction = async (extractOptions: ExtractOptions): Promise<voi
     )
   ).map(fromSchemaLieuDeMediationNumerique);
 
-  await saveOutputsInFiles(extractOptions)(lieuxToPublish, extractOptions.duplicates ? undefined : 'sans-doublons');
+  await saveOutputsInFiles(extractOptions)(lieuxToPublish, extractOptions.duplicates ? 'avec-doublons' : undefined);
 };
