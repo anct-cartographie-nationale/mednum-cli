@@ -1,18 +1,18 @@
 {
   "id": {
-    "colonne": "Département"
+    "colonne": "ID"
   },
   "nom": {
-    "colonne": "Site"
+    "colonne": "Nom"
   },
   "commune": {
-    "colonne": "result_city"
+    "colonne": "Commune"
   },
   "adresse": {
     "colonne": "Adresse"
   },
   "code_postal": {
-    "colonne": "result_postcode"
+    "colonne": "Code postal"
   },
   "latitude": {
     "colonne": "latitude"
@@ -23,15 +23,34 @@
   "date_maj": {
     "colonne": ""
   },
-  "modalites_accompagnement": [
-    {
-      "colonnes": ["Présence d’un CN"],
-      "termes": ["oui"],
-      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
-    }
-  ],
-
   "services": [
+    {
+      "cible": "Prendre en main un smartphone ou une tablette"
+    },
+    {
+      "cible": "Prendre en main un ordinateur"
+    },
+    {
+      "cible": "Utiliser le numérique au quotidien"
+    },
+    {
+      "cible": "Favoriser mon insertion professionnelle"
+    },
+    {
+      "cible": "Créer et développer mon entreprise"
+    },
+    {
+      "cible": "Soutenir la parentalité et l'éducation avec le numérique"
+    },
+    {
+      "cible": "Créer avec le numérique"
+    },
+    {
+      "cible": "Approfondir ma culture numérique"
+    },
+    {
+      "cible": "Promouvoir la citoyenneté numérique"
+    },
     {
       "cible": "Accéder à une connexion internet"
     },
