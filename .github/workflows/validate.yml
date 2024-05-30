@@ -121,6 +121,7 @@ jobs:
               extract-eure-et-loir,
               extract-mednum-hub-antilles,
               extract-numi,
+              extract-paca,
               extract-savoie,
               extract-vendee
             ]
