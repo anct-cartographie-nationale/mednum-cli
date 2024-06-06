@@ -94,11 +94,6 @@
       "cible": "CNFS"
     },
     {
-      "colonnes": ["checkboxListeTypeaccompagnement"],
-      "termes": ["9"],
-      "cible": "Aidants Connect"
-    },
-    {
       "colonnes": ["checkboxListeTypelieu"],
       "termes": ["4"],
       "cible": "France Services"

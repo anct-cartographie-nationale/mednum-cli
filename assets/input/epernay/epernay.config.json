@@ -45,11 +45,6 @@
     },
     {
       "colonnes": ["Possédez-vous des labels nationaux ou régionaux ?"],
-      "termes": ["Aidants_Connect"],
-      "cible": "Aidants Connect"
-    },
-    {
-      "colonnes": ["Possédez-vous des labels nationaux ou régionaux ?"],
       "termes": ["Point_relais_CAF"],
       "cible": "Point relais CAF"
     }

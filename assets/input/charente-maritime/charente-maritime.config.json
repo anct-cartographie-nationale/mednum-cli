@@ -58,11 +58,6 @@
     },
     {
       "colonnes": ["properties.labels_nationaux"],
-      "termes": ["Aidants Connect"],
-      "cible": "Aidants Connect"
-    },
-    {
-      "colonnes": ["properties.labels_nationaux"],
       "termes": ["France Services"],
       "cible": "France Services"
     },

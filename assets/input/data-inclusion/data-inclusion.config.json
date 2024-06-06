@@ -66,11 +66,6 @@
     },
     {
       "colonnes": ["labels_nationaux"],
-      "termes": ["aidants-connect"],
-      "cible": "Aidants Connect"
-    },
-    {
-      "colonnes": ["labels_nationaux"],
       "termes": ["aptic"],
       "cible": "APTIC"
     },
