@@ -57,11 +57,6 @@
     },
     {
       "colonnes": ["labels"],
-      "termes": ["aidants connect"],
-      "cible": "Aidants Connect"
-    },
-    {
-      "colonnes": ["labels"],
       "termes": ["france-services"],
       "cible": "France Services"
     },

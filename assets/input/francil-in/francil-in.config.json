@@ -40,11 +40,6 @@
     },
     {
       "colonnes": ["properties.label.0", "properties.label.1", "properties.label.2", "properties.label.3", "properties.label.4"],
-      "termes": ["6"],
-      "cible": "Aidants Connect"
-    },
-    {
-      "colonnes": ["properties.label.0", "properties.label.1", "properties.label.2", "properties.label.3", "properties.label.4"],
       "termes": ["2"],
       "cible": "APTIC"
     },

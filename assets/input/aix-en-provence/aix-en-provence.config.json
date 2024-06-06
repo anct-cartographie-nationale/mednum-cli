@@ -110,11 +110,6 @@
       "colonnes": ["labels_nationaux"],
       "termes": ["France Services"],
       "cible": "France Services"
-    },
-    {
-      "colonnes": ["labels_nationaux"],
-      "termes": ["Aidants Connect"],
-      "cible": "Aidants Connect"
     }
   ],
   "services": [

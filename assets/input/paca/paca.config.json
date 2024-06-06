@@ -95,11 +95,6 @@
     },
     {
       "colonnes": ["labels"],
-      "termes": ["AIDANT CONNECT"],
-      "cible": "Aidants Connect"
-    },
-    {
-      "colonnes": ["labels"],
       "termes": ["CAMPUS CONNECTE"],
       "cible": "Campus connecté"
     },
