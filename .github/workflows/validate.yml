@@ -110,8 +110,8 @@ jobs:
           echo MAX_TRANSFORM=1000 >> .env
       - name: Transform
         run: yarn transformer.${{ matrix.source }}
-      - name: Publish
-        run: yarn publier.${{ matrix.source }}
+#       - name: Publish
+#         run: yarn publier.${{ matrix.source }}
 
   extract-and-publish:
       name: Extract and publish to data.gouv
@@ -151,5 +151,5 @@ jobs:
             echo DATA_GOUV_REFERENCE_TYPE="${{ secrets.DATA_GOUV_REFERENCE_TYPE }}" >> .env
         - name: Extract
           run: yarn extract.${{ matrix.source }}
-        - name: Publish
-          run: yarn publier.${{ matrix.source }}
+#         - name: Publish
+#           run: yarn publier.${{ matrix.source }}
