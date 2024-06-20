@@ -189,7 +189,7 @@
     "@gouvfr-anct/lieux-de-mediation-numerique": "^1.22.1",
     "@gouvfr-anct/timetable-to-osm-opening-hours": "^1.0.1",
     "@turf/turf": "^6.5.0",
-    "axios": "^1.2.2",
+    "axios": "^1.7.2",
     "commander": "^10.0.0",
     "crypto": "^1.0.1",
     "csvtojson": "^2.0.10",
