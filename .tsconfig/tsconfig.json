@@ -5,7 +5,7 @@
   "compilerOptions": {
     "outDir": "../dist",
     "module": "commonjs",
-    "target": "es6"
+    "target": "es2022"
   },
   "include": ["../src/**/*"],
   "exclude": ["../src/**/*.spec.ts", "../src/**/*.test.ts"]
