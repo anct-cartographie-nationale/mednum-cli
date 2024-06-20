@@ -78,8 +78,8 @@ jobs:
           echo DATA_INCLUSION_API_KEY="${{ secrets.DATA_INCLUSION_API_KEY }}" >> .env
       - name: Transform
         run: yarn transformer.${{ matrix.source }}
-      - name: Publish
-        run: yarn publier.${{ matrix.source }}
+#       - name: Publish
+#         run: yarn publier.${{ matrix.source }}
       - name: Internal deduplication
         run: yarn dedupliquer.${{ matrix.source }}
 
@@ -185,8 +185,8 @@ jobs:
           echo CARTOGRAPHIE_NATIONALE_API_URL="${{ secrets.CARTOGRAPHIE_NATIONALE_API_URL }}" >> .env
       - name: Extract
         run: yarn extract.${{ matrix.source }}
-      - name: Publish
-        run: yarn publier.${{ matrix.source }}
+#       - name: Publish
+#         run: yarn publier.${{ matrix.source }}
 
   publish-to-data-gouv:
     name: Get lieux from API and publish to data.gouv
@@ -219,8 +219,8 @@ jobs:
           echo CARTOGRAPHIE_NATIONALE_API_URL="${{ secrets.CARTOGRAPHIE_NATIONALE_API_URL }}" >> .env
       - name: Extract
         run: yarn extract.all
-      - name: Publish
-        run: yarn publier.all
+#       - name: Publish
+#         run: yarn publier.all
 
   publish-to-s3:
     name: Get lieux from API and publish to S3
