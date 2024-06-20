@@ -216,12 +216,14 @@ La branche `main`, ainsi que l'ensemble des branches de travail avec un préfixe
 #### Publication sur le registre npm
 
 À chaque fusion sur la branche `main`, l'outil est publié sur [npm](https://www.npmjs.com/)
+
 - Organisation: [@gouvfr-anct](https://www.npmjs.com/org/gouvfr-anct)
 - Package: [@gouvfr-anct/mednum](https://www.npmjs.com/package/@gouvfr-anct/mednum)
 
 ##### Transformations et publication automatique
 
 Les workflows GitHub [validate.yml](.github%2Fworkflows%2Fvalidate.yml) et [transform-and-publish.yml](.github%2Fworkflows%2Ftransform-and-publish.yml) se chargent de transformer et de publier automatiquement les données :
+
 - `validate.yml` est lancé à chaque push sur une branche en cours de développement. Les données sont publiées dans un [environnement de démo de data.gouv](https://demo.data.gouv.fr/fr/organizations/cartographie-nationale-des-lieux-de-mediation-numerique/).  
   Pour qu'une nouvelle source de données soit prise en compte, il faut bien penser à l'ajouter dans le job `publish-to-data-gouv` : une `strategy` de type `matrix` définie chaque `source` à transformer et publier.
 - `release.yml` est lancé à chaque fusion sur `main`. Les données sont publiées dans [l'organisation Cartographie Nationale des lieux de médiation numérique sur data.gouv](https://data.gouv.fr/fr/organizations/cartographie-nationale-des-lieux-de-mediation-numerique/).  

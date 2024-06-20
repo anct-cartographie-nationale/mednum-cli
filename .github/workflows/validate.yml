@@ -114,42 +114,34 @@ jobs:
         run: yarn publier.${{ matrix.source }}
 
   extract-and-publish:
-      name: Extract and publish to data.gouv
-      strategy:
-        matrix:
-          source:
-            [
-              extract-eure-et-loir,
-              extract-mednum-hub-antilles,
-              extract-numi,
-              extract-paca,
-              extract-savoie,
-              extract-vendee
-            ]
-      runs-on: ubuntu-latest
-      environment: demo
-      needs:
-        - transform-and-publish
-      steps:
-        - name: Checkout client-application repository
-          uses: actions/checkout@v3
-          with:
-            fetch-depth: 0
-        - name: Set up Node.js
-          uses: actions/setup-node@v3
-          with:
-            node-version: 'latest'
-            cache: 'yarn'
-        - name: Install dependencies
-          run: yarn
-        - name: 'Create env file'
-          run: |
-            touch .env
-            echo DATA_GOUV_API_URL="${{ secrets.DATA_GOUV_API_URL }}" >> .env
-            echo DATA_GOUV_API_KEY="${{ secrets.DATA_GOUV_API_KEY }}" >> .env
-            echo DATA_GOUV_REFERENCE_ID="${{ secrets.DATA_GOUV_REFERENCE_ID }}" >> .env
-            echo DATA_GOUV_REFERENCE_TYPE="${{ secrets.DATA_GOUV_REFERENCE_TYPE }}" >> .env
-        - name: Extract
-          run: yarn extract.${{ matrix.source }}
-        - name: Publish
-          run: yarn publier.${{ matrix.source }}
+    name: Extract and publish to data.gouv
+    strategy:
+      matrix:
+        source: [extract-eure-et-loir, extract-mednum-hub-antilles, extract-numi, extract-paca, extract-savoie, extract-vendee]
+    runs-on: ubuntu-latest
+    environment: demo
+    needs:
+      - transform-and-publish
+    steps:
+      - name: Checkout client-application repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'latest'
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn
+      - name: 'Create env file'
+        run: |
+          touch .env
+          echo DATA_GOUV_API_URL="${{ secrets.DATA_GOUV_API_URL }}" >> .env
+          echo DATA_GOUV_API_KEY="${{ secrets.DATA_GOUV_API_KEY }}" >> .env
+          echo DATA_GOUV_REFERENCE_ID="${{ secrets.DATA_GOUV_REFERENCE_ID }}" >> .env
+          echo DATA_GOUV_REFERENCE_TYPE="${{ secrets.DATA_GOUV_REFERENCE_TYPE }}" >> .env
+      - name: Extract
+        run: yarn extract.${{ matrix.source }}
+      - name: Publish
+        run: yarn publier.${{ matrix.source }}

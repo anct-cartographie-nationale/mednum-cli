@@ -67,13 +67,17 @@ const shouldAddZRR =
 
 const labelsToAdd =
   (isInQpv: IsInQpv, isInZrr: IsInZrr) =>
-  (adresse?: Adresse, localisation?: Localisation): string[] =>
-    [...(shouldAddQPV(isInQpv)(adresse, localisation) ? ['QPV'] : []), ...(shouldAddZRR(isInZrr)(adresse) ? ['ZRR'] : [])];
+  (adresse?: Adresse, localisation?: Localisation): string[] => [
+    ...(shouldAddQPV(isInQpv)(adresse, localisation) ? ['QPV'] : []),
+    ...(shouldAddZRR(isInZrr)(adresse) ? ['ZRR'] : [])
+  ];
 
 const appendExtraLabels =
   (isInQpv: IsInQpv, isInZrr: IsInZrr) =>
-  (labelsAutres: string[], adresse?: Adresse, localisation?: Localisation): string[] =>
-    [...labelsToAdd(isInQpv, isInZrr)(adresse, localisation), ...labelsAutres];
+  (labelsAutres: string[], adresse?: Adresse, localisation?: Localisation): string[] => [
+    ...labelsToAdd(isInQpv, isInZrr)(adresse, localisation),
+    ...labelsAutres
+  ];
 
 const onlyNonEmptyLabels = (label: string): boolean => label !== '';
 

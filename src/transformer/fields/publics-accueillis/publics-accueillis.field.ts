@@ -37,8 +37,10 @@ const publicsAccueilliForTerms =
 
 const appendPublicsAccueilli =
   (source: DataSource) =>
-  (publicsAccueilli: PublicAccueilli[], choice: Choice<PublicAccueilli>): PublicAccueilli[] =>
-    [...publicsAccueilli, ...(choice.colonnes ?? cibleAsDefault(choice)).reduce(publicsAccueilliForTerms(choice, source), [])];
+  (publicsAccueilli: PublicAccueilli[], choice: Choice<PublicAccueilli>): PublicAccueilli[] => [
+    ...publicsAccueilli,
+    ...(choice.colonnes ?? cibleAsDefault(choice)).reduce(publicsAccueilliForTerms(choice, source), [])
+  ];
 
 export const processPublicsAccueillis = (source: DataSource, matching: LieuxMediationNumeriqueMatching): PublicsAccueillis =>
   PublicsAccueillis(Array.from(new Set(matching.publics_accueillis?.reduce(appendPublicsAccueilli(source), []) ?? [])));

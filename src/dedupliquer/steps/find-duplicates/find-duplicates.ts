@@ -82,14 +82,13 @@ const appendCommuneDuplications =
     lieuToDeduplicate: SchemaLieuMediationNumerique,
     duplications: CommuneDuplications[],
     allowInternalMerge: boolean
-  ): CommuneDuplications[] =>
-    [
-      ...duplications,
-      {
-        codePostal: lieuToDeduplicate.code_postal,
-        lieux: [{ id: lieuToDeduplicate.id, duplicates: duplicatesWithScores(lieux)(lieuToDeduplicate, allowInternalMerge) }]
-      }
-    ];
+  ): CommuneDuplications[] => [
+    ...duplications,
+    {
+      codePostal: lieuToDeduplicate.code_postal,
+      lieux: [{ id: lieuToDeduplicate.id, duplicates: duplicatesWithScores(lieux)(lieuToDeduplicate, allowInternalMerge) }]
+    }
+  ];
 
 const toUpdatedCommuneDuplications =
   (lieux: SchemaLieuMediationNumerique[]) =>

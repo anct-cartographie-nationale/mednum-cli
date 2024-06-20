@@ -112,15 +112,7 @@ jobs:
     name: Extract and publish to data.gouv
     strategy:
       matrix:
-        source:
-          [
-            extract-eure-et-loir,
-            extract-mednum-hub-antilles,
-            extract-numi,
-            extract-paca,
-            extract-savoie,
-            extract-vendee
-          ]
+        source: [extract-eure-et-loir, extract-mednum-hub-antilles, extract-numi, extract-paca, extract-savoie, extract-vendee]
     runs-on: ubuntu-latest
     environment: production
     needs:
