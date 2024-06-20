@@ -40,8 +40,10 @@ const typologiesForTerms =
 
 const appendTypologies =
   (source: DataSource) =>
-  (typologies: Typologie[], choice: Choice<Typologie>): Typologie[] =>
-    [...typologies, ...(choice.colonnes ?? cibleAsDefault(choice)).reduce(typologiesForTerms(choice, source), [])];
+  (typologies: Typologie[], choice: Choice<Typologie>): Typologie[] => [
+    ...typologies,
+    ...(choice.colonnes ?? cibleAsDefault(choice)).reduce(typologiesForTerms(choice, source), [])
+  ];
 
 const matchWithName =
   (source: DataSource, matching: LieuxMediationNumeriqueMatching) =>

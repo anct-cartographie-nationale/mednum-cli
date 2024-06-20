@@ -35,8 +35,10 @@ const conditionsAccesForTerms =
 
 const appendConditionsAcces =
   (source: DataSource) =>
-  (conditionsAcces: ConditionAcces[], choice: Choice<ConditionAcces>): ConditionAcces[] =>
-    [...conditionsAcces, ...(choice.colonnes ?? cibleAsDefault(choice)).reduce(conditionsAccesForTerms(choice, source), [])];
+  (conditionsAcces: ConditionAcces[], choice: Choice<ConditionAcces>): ConditionAcces[] => [
+    ...conditionsAcces,
+    ...(choice.colonnes ?? cibleAsDefault(choice)).reduce(conditionsAccesForTerms(choice, source), [])
+  ];
 
 export const processConditionsAcces = (source: DataSource, matching: LieuxMediationNumeriqueMatching): ConditionsAcces =>
   ConditionsAcces(Array.from(new Set(matching.conditions_acces?.reduce(appendConditionsAcces(source), []))));
