@@ -35,8 +35,10 @@ const labelsNationauxForTerms =
 
 const appendLabelsNationaux =
   (source: DataSource) =>
-  (labelsNationaux: LabelNational[], choice: Choice<LabelNational>): LabelNational[] =>
-    [...labelsNationaux, ...(choice.colonnes ?? cibleAsDefault(choice)).reduce(labelsNationauxForTerms(choice, source), [])];
+  (labelsNationaux: LabelNational[], choice: Choice<LabelNational>): LabelNational[] => [
+    ...labelsNationaux,
+    ...(choice.colonnes ?? cibleAsDefault(choice)).reduce(labelsNationauxForTerms(choice, source), [])
+  ];
 
 export const processLabelsNationaux = (source: DataSource, matching: LieuxMediationNumeriqueMatching): LabelsNationaux =>
   LabelsNationaux(Array.from(new Set(matching.labels_nationaux?.reduce(appendLabelsNationaux(source), []))));

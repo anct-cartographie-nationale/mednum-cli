@@ -1,8 +1,11 @@
 .git/
 .idea/
 .vscode/
+assets/
+bin/
 build/
 coverage/
 dist/
-lib/
 node_modules/
+lib/
+out/
