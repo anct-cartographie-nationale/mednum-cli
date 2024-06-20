@@ -61,7 +61,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
+          node-version: 'latest'
           cache: 'yarn'
       - name: Install dependencies
         run: yarn
@@ -126,7 +126,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
+          node-version: 'latest'
           cache: 'yarn'
       - name: Install dependencies
         run: yarn
@@ -170,7 +170,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
+          node-version: 'latest'
           cache: 'yarn'
       - name: Install dependencies
         run: yarn
@@ -204,7 +204,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
+          node-version: 'latest'
           cache: 'yarn'
       - name: Install dependencies
         run: yarn
