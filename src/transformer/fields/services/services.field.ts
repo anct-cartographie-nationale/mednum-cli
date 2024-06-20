@@ -55,11 +55,10 @@ const servicesForTerms =
 
 const appendServices =
   (source: DataSource, modalitesAccompagnement: ModalitesAccompagnement) =>
-  (services: Service[], choice: Choice<Service>): Service[] =>
-    [
-      ...services,
-      ...(choice.colonnes ?? cibleAsDefault(choice)).reduce(servicesForTerms(choice, source, modalitesAccompagnement), [])
-    ];
+  (services: Service[], choice: Choice<Service>): Service[] => [
+    ...services,
+    ...(choice.colonnes ?? cibleAsDefault(choice)).reduce(servicesForTerms(choice, source, modalitesAccompagnement), [])
+  ];
 
 export const processServices = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Services =>
   Services(
