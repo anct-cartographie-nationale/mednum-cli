@@ -10,6 +10,7 @@ import {
   LieuMediationNumerique,
   Localisation,
   ModalitesAccompagnement,
+  ModelError,
   NomError,
   PublicsAccueillis,
   ServicesError,
@@ -17,6 +18,7 @@ import {
   Url,
   VoieError
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { AxiosError } from 'axios';
 import { Recorder, Report } from '../report';
 import {
   processAccessibilite,
@@ -117,26 +119,37 @@ export const validValuesOnly = (
 const entryIdentification = (dataSource: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
   dataSource[matching.nom.colonne]?.toString() ?? '';
 
+const isErrorToReport = (error: unknown): error is ModelError<LieuMediationNumerique> =>
+  error instanceof IdError ||
+  error instanceof ServicesError ||
+  error instanceof VoieError ||
+  error instanceof CommuneError ||
+  error instanceof CodePostalError ||
+  error instanceof NomError;
+
+const logAndSkip = (error: AxiosError): LieuMediationNumerique | undefined => {
+  /* eslint-disable-next-line no-console */
+  console.log(error);
+  return undefined;
+};
+
 export const toLieuxMediationNumerique =
   (repository: TransformationRepository, sourceName: string, report: Report) =>
   async (dataSource: unknown, index: number): Promise<LieuMediationNumerique | undefined> => {
     try {
       return await lieuDeMediationNumerique(index, dataSource as DataSource, sourceName, report.entry(index), repository);
     } catch (error: unknown) {
-      if (
-        error instanceof IdError ||
-        error instanceof ServicesError ||
-        error instanceof VoieError ||
-        error instanceof CommuneError ||
-        error instanceof CodePostalError ||
-        error instanceof NomError
-      ) {
+      if (isErrorToReport(error)) {
         report
           .entry(index)
           .record(error.key, error.message, entryIdentification(dataSource as DataSource, repository.config))
           .commit();
         return undefined;
       }
+      if (error instanceof AxiosError) {
+        return logAndSkip(error);
+      }
+
       throw error;
     }
   };
