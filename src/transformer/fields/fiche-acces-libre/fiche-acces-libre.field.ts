@@ -13,7 +13,7 @@ export type Erp = {
   postal_code: string;
 };
 
-const getAccessibiliteFromAccesLibre = (
+const getFicheAccesLibreFromAccesLibreDatabase = (
   source: DataSource,
   matching: LieuxMediationNumeriqueMatching,
   accesLibreData: Erp[],
@@ -43,17 +43,17 @@ const getAccessibiliteFromAccesLibre = (
   return accesLibreUrl == null ? undefined : Url(accesLibreUrl);
 };
 
-const canProcessAccessibilite = (source: DataSource, accessibilite?: Colonne): accessibilite is Colonne =>
-  accessibilite?.colonne != null && source[accessibilite.colonne] != null && source[accessibilite.colonne] !== '';
+const canProcessFicheAccesLibre = (source: DataSource, ficheAccesLibre?: Colonne): ficheAccesLibre is Colonne =>
+  ficheAccesLibre?.colonne != null && source[ficheAccesLibre.colonne] != null && source[ficheAccesLibre.colonne] !== '';
 
 const fixUrl = (url: string): string => url.replace(/\(/gu, '%28').replace(/\)/gu, '%29');
 
-export const processAccessibilite = (
+export const processFicheAccesLibre = (
   source: DataSource,
   matching: LieuxMediationNumeriqueMatching,
   accesLibreData: Erp[],
   adresseProcessed: Adresse
 ): Url | undefined =>
-  canProcessAccessibilite(source, matching.accessibilite)
-    ? Url(fixUrl(source[matching.accessibilite.colonne]?.toString() ?? ''))
-    : getAccessibiliteFromAccesLibre(source, matching, accesLibreData, adresseProcessed);
+  canProcessFicheAccesLibre(source, matching.fiche_acces_libre)
+    ? Url(fixUrl(source[matching.fiche_acces_libre.colonne]?.toString() ?? ''))
+    : getFicheAccesLibreFromAccesLibreDatabase(source, matching, accesLibreData, adresseProcessed);
