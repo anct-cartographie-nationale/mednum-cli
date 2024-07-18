@@ -212,7 +212,7 @@
   "services": [
     {
       "colonnes": ["services"],
-      "termes": ["Devenir autonome"],
+      "termes": ["Devenir autonome", "Aide aux démarches administratives"],
       "cible": "Devenir autonome dans les démarches administratives"
     },
     {
@@ -232,27 +232,27 @@
     },
     {
       "colonnes": ["services"],
-      "termes": ["numérique au quotidien"],
+      "termes": ["quotidien"],
       "cible": "Utiliser le numérique au quotidien"
     },
     {
       "colonnes": ["services"],
-      "termes": ["culture numérique"],
+      "termes": ["culture numérique", "monde numérique"],
       "cible": "Approfondir ma culture numérique"
     },
     {
       "colonnes": ["services"],
-      "termes": ["insertion professionnelle"],
+      "termes": ["Insertion professionnelle"],
       "cible": "Favoriser mon insertion professionnelle"
     },
     {
       "colonnes": ["services"],
-      "termes": ["connexion internet"],
+      "termes": ["connexion internet", "internet"],
       "cible": "Accéder à une connexion internet"
     },
     {
       "colonnes": ["services"],
-      "termes": ["Accéder à du matériel"],
+      "termes": ["matériel"],
       "cible": "Accéder à du matériel"
     },
     {
@@ -267,7 +267,7 @@
     },
     {
       "colonnes": ["services"],
-      "termes": ["Créer avec le numérique"],
+      "termes": ["Créer avec le numérique", "créations numériques"],
       "cible": "Créer avec le numérique"
     },
     {
@@ -277,7 +277,7 @@
     },
     {
       "colonnes": ["services"],
-      "termes": ["citoyenneté numérique"],
+      "termes": ["citoyenneté numérique", "Utilisation sécurisée du numérique"],
       "cible": "Promouvoir la citoyenneté numérique"
     },
     {
