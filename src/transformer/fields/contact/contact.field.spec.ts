@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
-import { Contact, Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { Contact, Courriel, Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { Report } from '../../report';
 import { processContact } from './contact.field';
@@ -15,7 +15,7 @@ const matching: LieuxMediationNumeriqueMatching = {
   telephone: {
     colonne: 'Téléphone'
   },
-  courriel: {
+  courriels: {
     colonne: EMAIL_FIELD
   },
   site_web: {
@@ -43,7 +43,7 @@ describe('contact field', (): void => {
     expect(contact).toStrictEqual<Contact>(
       Contact({
         telephone: '+33124963587',
-        courriel: 'test@mairie.fr',
+        courriels: [Courriel('test@mairie.fr')],
         site_web: [Url('https://mairie.fr')]
       })
     );
@@ -86,7 +86,7 @@ describe('contact field', (): void => {
         'Site Web': 'https://mairie.fr'
       } as DataSource,
       {
-        courriel: {
+        courriels: {
           colonne: EMAIL_FIELD
         },
         site_web: {
@@ -97,7 +97,7 @@ describe('contact field', (): void => {
 
     expect(contact).toStrictEqual<Contact>(
       Contact({
-        courriel: 'test@mairie.fr',
+        courriels: [Courriel('test@mairie.fr')],
         site_web: [Url('https://mairie.fr')]
       })
     );
@@ -137,7 +137,7 @@ describe('contact field', (): void => {
         telephone: {
           colonne: 'Téléphone'
         },
-        courriel: {
+        courriels: {
           colonne: EMAIL_FIELD
         }
       } as LieuxMediationNumeriqueMatching
@@ -146,7 +146,7 @@ describe('contact field', (): void => {
     expect(contact).toStrictEqual<Contact>(
       Contact({
         telephone: '+33124963587',
-        courriel: 'test@mairie.fr'
+        courriels: [Courriel('test@mairie.fr')]
       })
     );
   });
@@ -225,6 +225,36 @@ describe('contact field', (): void => {
     expect(contact).toStrictEqual<Contact>(
       Contact({
         site_web: [Url('http://www.banquealimentaire.org'), Url('http://barennes.banquealimentaire.org')]
+      })
+    );
+  });
+
+  it('should seperate two url if there is no separator', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        'Site Web': 'http://www.letoilerie.com/http://marie-et-alphonse.com/'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        site_web: [Url('http://www.letoilerie.com/'), Url('http://marie-et-alphonse.com/')]
+      })
+    );
+  });
+
+  it('should fix multiple urls separated with newline', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        'Site Web': 'https://www.facebook.com/pam.falep/\nhttps://falep.corsica/\n'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        site_web: [Url('https://www.facebook.com/pam.falep/'), Url('https://falep.corsica/')]
       })
     );
   });
@@ -389,7 +419,7 @@ describe('contact field', (): void => {
 
     expect(contact).toStrictEqual<Contact>(
       Contact({
-        courriel: 'contact@crangevrieranimation.com',
+        courriels: [Courriel('contact@crangevrieranimation.com')],
         site_web: [Url('https://www.crangevrieranimation.com/')],
         telephone: '+33450673375'
       })
@@ -684,7 +714,7 @@ describe('contact field', (): void => {
 
     expect(contact).toStrictEqual<Contact>(
       Contact({
-        courriel: 'chambery@accorderie.fr'
+        courriels: [Courriel('chambery@accorderie.fr'), Courriel('accueilchambery@accorderie.fr')]
       })
     );
   });
@@ -699,7 +729,7 @@ describe('contact field', (): void => {
 
     expect(contact).toStrictEqual<Contact>(
       Contact({
-        courriel: 'epnevs26@gmail.com'
+        courriels: [Courriel('epnevs26@gmail.com'), Courriel('contact@eustaches.com')]
       })
     );
   });
@@ -714,7 +744,7 @@ describe('contact field', (): void => {
 
     expect(contact).toStrictEqual<Contact>(
       Contact({
-        courriel: 'gieres-jeunesse@wanadoo.fr'
+        courriels: [Courriel('gieres-jeunesse@wanadoo.fr'), Courriel('pij@ville-gieres.fr')]
       })
     );
   });
@@ -729,7 +759,7 @@ describe('contact field', (): void => {
 
     expect(contact).toStrictEqual<Contact>(
       Contact({
-        courriel: 'mlidv.direction@gmail.com'
+        courriels: [Courriel('mlidv.direction@gmail.com'), Courriel('accueil.mipe.ml@gmail.com')]
       })
     );
   });
@@ -744,7 +774,7 @@ describe('contact field', (): void => {
 
     expect(contact).toStrictEqual<Contact>(
       Contact({
-        courriel: 's.fontaine@vichy-communaute.fr'
+        courriels: [Courriel('s.fontaine@vichy-communaute.fr'), Courriel('t.chosson@vichy-communaute.fr')]
       })
     );
   });
@@ -770,7 +800,7 @@ describe('contact field', (): void => {
 
     expect(contact).toStrictEqual<Contact>(
       Contact({
-        courriel: 'accuei@cap-berriat.com'
+        courriels: [Courriel('accuei@cap-berriat.com')]
       })
     );
   });
@@ -785,7 +815,7 @@ describe('contact field', (): void => {
 
     expect(contact).toStrictEqual<Contact>(
       Contact({
-        courriel: 'francois.legoff@orange.fr'
+        courriels: [Courriel('francois.legoff@orange.fr')]
       })
     );
   });
@@ -811,7 +841,7 @@ describe('contact field', (): void => {
 
     expect(contact).toStrictEqual<Contact>(
       Contact({
-        courriel: 'cnumerique15@gmail.com'
+        courriels: [Courriel('cnumerique15@gmail.com')]
       })
     );
   });
@@ -837,7 +867,7 @@ describe('contact field', (): void => {
 
     expect(contact).toStrictEqual<Contact>(
       Contact({
-        courriel: 'mfs-stjust@oise.fr'
+        courriels: [Courriel('mfs-stjust@oise.fr')]
       })
     );
   });
@@ -852,7 +882,7 @@ describe('contact field', (): void => {
 
     expect(contact).toStrictEqual<Contact>(
       Contact({
-        courriel: 'mfs-stjust@oise.fr'
+        courriels: [Courriel('mfs-stjust@oise.fr')]
       })
     );
   });
@@ -883,7 +913,7 @@ describe('contact field', (): void => {
 
     expect(contact).toStrictEqual<Contact>(
       Contact({
-        courriel: 'chambery@accorderie.fr'
+        courriels: [Courriel('chambery@accorderie.fr')]
       })
     );
   });
@@ -898,7 +928,7 @@ describe('contact field', (): void => {
 
     expect(contact).toStrictEqual<Contact>(
       Contact({
-        courriel: 'service.bibliothequec@sarlat.fr'
+        courriels: [Courriel('service.bibliothequec@sarlat.fr')]
       })
     );
   });
@@ -906,29 +936,14 @@ describe('contact field', (): void => {
   it('should add : if missing with https', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
-        'Site Web': 'https//www.saintpereenretz.fr/bouger/culture/mediatheque.html'
+        'Site Web': 'https//www.saintppereenretz.fr/bouger/culture/mediatheque.html'
       } as DataSource,
       matching
     );
 
     expect(contact).toStrictEqual<Contact>(
       Contact({
-        site_web: [Url('https://www.saintpereenretz.fr/bouger/culture/mediatheque.html')]
-      })
-    );
-  });
-
-  it('should seperate two url if there is no separator', (): void => {
-    const contact: Contact = processContact(Report().entry(0))(
-      {
-        'Site Web': 'http://www.letoilerie.com/http://marie-et-alphonse.com/'
-      } as DataSource,
-      matching
-    );
-
-    expect(contact).toStrictEqual<Contact>(
-      Contact({
-        site_web: [Url('http://www.letoilerie.com/'), Url('http://marie-et-alphonse.com/')]
+        site_web: [Url('https://www.saintppereenretz.fr/bouger/culture/mediatheque.html')]
       })
     );
   });
@@ -1015,22 +1030,7 @@ describe('contact field', (): void => {
 
     expect(contact).toStrictEqual<Contact>(
       Contact({
-        courriel: 'contact.pessac@mldesgraves.fr'
-      })
-    );
-  });
-
-  it('should fix multiple urls separated with newline', (): void => {
-    const contact: Contact = processContact(Report().entry(0))(
-      {
-        'Site Web': 'https://www.facebook.com/pam.falep/\nhttps://falep.corsica/\n'
-      } as DataSource,
-      matching
-    );
-
-    expect(contact).toStrictEqual<Contact>(
-      Contact({
-        site_web: [Url('https://www.facebook.com/pam.falep/'), Url('https://falep.corsica/')]
+        courriels: [Courriel('contact.pessac@mldesgraves.fr')]
       })
     );
   });

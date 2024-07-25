@@ -1,10 +1,14 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
 import {
-  ConditionAcces,
-  LabelNational,
+  DispositifProgrammeNational,
+  FormationLabel,
+  Frais,
+  Itinerance,
+  ModaliteAcces,
   ModaliteAccompagnement,
-  PublicAccueilli,
+  PriseEnChargeSpecifique,
+  PublicSpecifiquementAdresse,
   Service,
   Typologie
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
@@ -43,33 +47,37 @@ export type Choice<T> = {
 
 export type LieuxMediationNumeriqueMatching = {
   id?: Colonne;
-  nom: Colonne;
   pivot?: Colonne;
-  typologie?: Choice<Typologie>[];
-  code_postal: Colonne;
+  nom: Colonne;
   commune: Colonne;
+  code_postal: Colonne;
+  code_insee?: Colonne;
   adresse: Jonction & Partial<Colonne>;
   complement_adresse?: Colonne;
-  code_insee?: Colonne;
   latitude?: Dissociation & Partial<Colonne>;
   longitude?: Dissociation & Partial<Colonne>;
+  typologie?: Choice<Typologie>[];
   telephone?: Colonne;
   site_web?: Colonne;
-  courriel?: Colonne;
+  courriels?: Colonne;
   presentation_resume?: Colonne;
   presentation_detail?: Colonne;
-  conditions_acces?: Choice<ConditionAcces>[];
-  modalites_accompagnement?: Choice<ModaliteAccompagnement>[];
-  date_maj: Partial<Colonne & Valeur>;
   source?: Colonne;
-  labels_nationaux?: Choice<LabelNational>[];
-  labels_autres?: Choice<string>[];
-  publics_accueillis?: Choice<PublicAccueilli>[];
-  services: (Choice<Service> & { modalitesAccompagnement?: ModaliteAccompagnement })[];
+  itinerance?: Choice<Itinerance>[];
+  structure_parente?: Colonne;
+  date_maj: Partial<Colonne & Valeur>;
+  services?: Choice<Service>[];
+  publics_specifiquement_adresses?: Choice<PublicSpecifiquementAdresse>[];
+  prise_en_charge_specifique?: Choice<PriseEnChargeSpecifique>[];
+  frais_a_charge?: Choice<Frais>[];
+  dispositif_programmes_nationaux?: Choice<DispositifProgrammeNational>[];
+  formations_labels?: Choice<FormationLabel>[];
+  autres_formations_labels?: Choice<string>[];
+  modalites_acces?: Choice<ModaliteAcces>[];
+  modalites_accompagnement?: Choice<ModaliteAccompagnement>[];
+  fiche_acces_libre?: Colonne;
   prise_rdv?: Colonne;
-  accessibilite?: Colonne;
   semaine_ouverture?: Colonne;
-  prive?: Colonne;
   horaires?: {
     jours?: [
       {

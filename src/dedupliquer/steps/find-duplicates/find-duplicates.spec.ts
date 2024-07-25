@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
-import { SchemaLieuMediationNumerique, Service, Typologie } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import {
+  DispositifProgrammeNational,
+  PublicSpecifiquementAdresse,
+  SchemaLieuMediationNumerique,
+  Service,
+  Typologie
+} from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { CommuneDuplications, findDuplicates } from './find-duplicates';
 
 describe('find duplicates', (): void => {
@@ -91,7 +97,7 @@ describe('find duplicates', (): void => {
         longitude: 5.716962,
         source: 'conseiller-numerique',
         date_maj: '2023-07-12',
-        services: `${Service.AccederADuMateriel}`
+        services: `${Service.AccesInternetEtMaterielInformatique}`
       },
       {
         id: '2848-mediation-numerique-hinaura',
@@ -104,7 +110,7 @@ describe('find duplicates', (): void => {
         longitude: 5.716961,
         source: 'hinaura',
         date_maj: '2023-09-05',
-        services: `${Service.CreerAvecLeNumerique}`
+        services: `${Service.AccesInternetEtMaterielInformatique}`
       }
     ];
 
@@ -176,8 +182,12 @@ describe('find duplicates', (): void => {
       {
         id: 'd490fc66-6a42-5001-ba98-d3fc9eb01006',
         nom: 'Maison des Services (Saint-Laurent-de-Chamousset)',
-        services:
-          'Devenir autonome dans les démarches administratives;Réaliser des démarches administratives avec un accompagnement;Prendre en main un ordinateur;Accéder à une connexion internet;Accéder à du matériel;Accompagner les démarches de santé',
+        services: [
+          Service.AideAuxDemarchesAdministratives,
+          Service.MaitriseDesOutilsNumeriquesDuQuotidien,
+          Service.AccesInternetEtMaterielInformatique,
+          Service.InsertionProfessionnelleViaLeNumerique
+        ].join('|'),
         pivot: '00000000000000',
         commune: 'Saint-Laurent-de-Chamousset',
         code_postal: '69930',
@@ -186,10 +196,10 @@ describe('find duplicates', (): void => {
         latitude: 45.7393306125,
         longitude: 4.4679915905,
         telephone: '+33474265078',
-        courriel: 'mds@cc-mdl.fr',
+        courriels: 'mds@cc-mdl.fr',
         presentation_detail: '',
-        publics_accueillis: 'Adultes;Seniors (+ 65 ans)',
-        conditions_acces: 'Gratuit : Je peux accéder gratuitement au lieu et à ses services',
+        publics_specifiquement_adresses: [PublicSpecifiquementAdresse.Jeunes, PublicSpecifiquementAdresse.Femmes].join('|'),
+        frais_a_charge: 'Gratuit',
         source: 'Res-in',
         date_maj: '2023-09-05'
       }
@@ -199,7 +209,7 @@ describe('find duplicates', (): void => {
       {
         id: 'e265f967-a340-54a6-ab7d-6753cbb97fcc',
         nom: 'Maison des Services saint Laurent de chamousset',
-        services: 'Accéder à une connexion internet;Accéder à du matériel',
+        services: [Service.AccesInternetEtMaterielInformatique].join('|'),
         pivot: '00000000000000',
         typologie: 'RFS',
         commune: 'Saint-Laurent-de-Chamousset',
@@ -211,9 +221,12 @@ describe('find duplicates', (): void => {
         telephone: '+33474265078',
         presentation_resume: '',
         presentation_detail: '',
-        publics_accueillis: 'Adultes;Seniors (+ 65 ans)',
-        conditions_acces: 'Gratuit : Je peux accéder gratuitement au lieu et à ses services',
-        labels_nationaux: 'CNFS;France Services',
+        publics_specifiquement_adresses: [PublicSpecifiquementAdresse.Jeunes, PublicSpecifiquementAdresse.Femmes].join('|'),
+        frais_a_charge: 'Gratuit',
+        dispositif_programmes_nationaux: [
+          DispositifProgrammeNational.ConseillersNumeriques,
+          DispositifProgrammeNational.FranceServices
+        ].join('|'),
         source: 'Hinaura',
         date_maj: '2022-08-17'
       }
@@ -523,7 +536,10 @@ describe('find duplicates', (): void => {
         adresse: '34 place Jean Jaurès',
         latitude: 45.729599225,
         longitude: 3.1899082661,
-        labels_nationaux: 'CNFS;Aidants Connect',
+        dispositif_programmes_nationaux: [
+          DispositifProgrammeNational.ConseillersNumeriques,
+          DispositifProgrammeNational.AidantsConnect
+        ].join('|'),
         source: 'hinaura'
       } as SchemaLieuMediationNumerique,
       {
@@ -534,7 +550,7 @@ describe('find duplicates', (): void => {
         adresse: '34 place Jean Jaurès',
         latitude: 45.729544,
         longitude: 3.190005,
-        labels_nationaux: 'Aidants Connect',
+        dispositif_programmes_nationaux: DispositifProgrammeNational.AidantsConnect,
         source: 'aidants-connect'
       } as SchemaLieuMediationNumerique,
       {
@@ -545,7 +561,10 @@ describe('find duplicates', (): void => {
         adresse: '34 Place Jean Jaurès',
         latitude: 45.728941,
         longitude: 3.188564,
-        labels_nationaux: 'CNFS;Aidants Connect',
+        dispositif_programmes_nationaux: [
+          DispositifProgrammeNational.ConseillersNumeriques,
+          DispositifProgrammeNational.AidantsConnect
+        ].join('|'),
         source: 'dora'
       } as SchemaLieuMediationNumerique,
       {
@@ -556,7 +575,10 @@ describe('find duplicates', (): void => {
         adresse: '34 Place Jean Jaurès',
         latitude: 45.728941,
         longitude: 3.188564,
-        labels_nationaux: 'CNFS;Aidants Connect',
+        dispositif_programmes_nationaux: [
+          DispositifProgrammeNational.ConseillersNumeriques,
+          DispositifProgrammeNational.AidantsConnect
+        ].join('|'),
         source: 'conseiller-numerique'
       } as SchemaLieuMediationNumerique,
       {
@@ -569,7 +591,7 @@ describe('find duplicates', (): void => {
         code_insee: '63124',
         latitude: 45.73156,
         longitude: 3.192711,
-        labels_nationaux: 'France Services',
+        dispositif_programmes_nationaux: `${DispositifProgrammeNational.FranceServices}`,
         source: 'france-services'
       } as SchemaLieuMediationNumerique
     ];

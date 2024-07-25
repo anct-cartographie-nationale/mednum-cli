@@ -1,7 +1,6 @@
-import { LieuxMediationNumeriqueMatching, DataSource, Colonne } from '../../input';
-
-const canProcessPrive = (source: DataSource, prive?: Colonne): prive is Colonne =>
-  prive?.colonne != null && source[prive.colonne] != null;
+import { ModaliteAcces } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { DataSource, LieuxMediationNumeriqueMatching } from '../../input';
+import { processModalitesAcces } from '../modalites-acces/modalites-acces.field';
 
 export const isPrive = (source: DataSource, matching: LieuxMediationNumeriqueMatching): boolean =>
-  canProcessPrive(source, matching.prive) ? Boolean(source[matching.prive.colonne]) : false;
+  processModalitesAcces(source, matching).includes(ModaliteAcces.PasDePublic);
