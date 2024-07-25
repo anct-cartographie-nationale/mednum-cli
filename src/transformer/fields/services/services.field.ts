@@ -62,5 +62,5 @@ const appendServices =
 
 export const processServices = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Services =>
   Services(
-    Array.from(new Set(matching.services.reduce(appendServices(source, processModalitesAccompagnement(source, matching)), [])))
+    Array.from(new Set(matching.services?.reduce(appendServices(source, processModalitesAccompagnement(source, matching)), [])))
   );

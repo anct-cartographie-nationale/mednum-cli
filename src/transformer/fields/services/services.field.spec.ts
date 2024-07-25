@@ -1,32 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
 import { processServices } from './services.field';
-import { ModaliteAccompagnement, Service } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { Service } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { DataSource, LieuxMediationNumeriqueMatching } from '../../input';
 
 const MATCHING: LieuxMediationNumeriqueMatching = {
-  modalites_accompagnement: [
-    {
-      colonnes: ["Types d'accompagnement proposés"],
-      termes: ['accompagnement en groupe'],
-      cible: ModaliteAccompagnement.DansUnAtelier
-    },
-    {
-      colonnes: ["Types d'accompagnement proposés"],
-      termes: ['faire à la place de'],
-      cible: ModaliteAccompagnement.AMaPlace
-    },
-    {
-      colonnes: ["Types d'accompagnement proposés"],
-      termes: ['accompagnement individuel'],
-      cible: ModaliteAccompagnement.AvecDeLAide
-    },
-    {
-      colonnes: ["Types d'accompagnement proposés"],
-      termes: ['accès libre avec un accompagnement'],
-      cible: ModaliteAccompagnement.Seul
-    }
-  ],
   services: [
     {
       colonnes: [
@@ -35,28 +13,8 @@ const MATCHING: LieuxMediationNumeriqueMatching = {
         'Comprendre et Utiliser les sites d’accès aux droits proposées',
         'Sensibilisations culture numérique'
       ],
-      termes: ['réseau wifi'],
-      cible: 'Accéder à une connexion internet'
-    },
-    {
-      colonnes: [
-        'À disposition',
-        'Formations compétences de base proposées',
-        'Comprendre et Utiliser les sites d’accès aux droits proposées',
-        'Sensibilisations culture numérique'
-      ],
-      termes: ['accès libre à du matériel informatique'],
-      cible: 'Accéder à du matériel'
-    },
-    {
-      colonnes: [
-        'À disposition',
-        'Formations compétences de base proposées',
-        'Comprendre et Utiliser les sites d’accès aux droits proposées',
-        'Sensibilisations culture numérique'
-      ],
-      termes: ["découvrir l'ordinateur"],
-      cible: 'Prendre en main un ordinateur'
+      termes: ['réseau wifi', 'tablette', 'smartphone', 'accès libre à du matériel informatique', 'accéder à internet'],
+      cible: Service.AccesInternetEtMaterielInformatique
     },
     {
       colonnes: [
@@ -66,7 +24,7 @@ const MATCHING: LieuxMediationNumeriqueMatching = {
         'Sensibilisations culture numérique'
       ],
       termes: ["découvrir l'ordinateur", 'cultures numériques'],
-      cible: 'Utiliser le numérique au quotidien'
+      cible: Service.MaitriseDesOutilsNumeriquesDuQuotidien
     },
     {
       colonnes: [
@@ -75,38 +33,8 @@ const MATCHING: LieuxMediationNumeriqueMatching = {
         'Comprendre et Utiliser les sites d’accès aux droits proposées',
         'Sensibilisations culture numérique'
       ],
-      termes: ["découvrir l'ordinateur", 'cultures numériques'],
-      cible: 'Approfondir ma culture numérique'
-    },
-    {
-      colonnes: [
-        'À disposition',
-        'Formations compétences de base proposées',
-        'Comprendre et Utiliser les sites d’accès aux droits proposées',
-        'Sensibilisations culture numérique'
-      ],
-      termes: ['tablette', 'smartphone'],
-      cible: 'Prendre en main un smartphone ou une tablette'
-    },
-    {
-      colonnes: [
-        'À disposition',
-        'Formations compétences de base proposées',
-        'Comprendre et Utiliser les sites d’accès aux droits proposées',
-        'Sensibilisations culture numérique'
-      ],
-      termes: ['cultures numériques'],
-      cible: 'Promouvoir la citoyenneté numérique'
-    },
-    {
-      colonnes: [
-        'À disposition',
-        'Formations compétences de base proposées',
-        'Comprendre et Utiliser les sites d’accès aux droits proposées',
-        'Sensibilisations culture numérique'
-      ],
-      termes: ['cpam', 'ameli.fr'],
-      cible: 'Accompagner les démarches de santé'
+      termes: ['open source', 'cultures numériques', "découvrir l'ordinateur"],
+      cible: Service.ComprehensionDuMondeNumerique
     },
     {
       colonnes: [
@@ -116,8 +44,7 @@ const MATCHING: LieuxMediationNumeriqueMatching = {
         'Sensibilisations culture numérique'
       ],
       termes: ['services de la caf', 'services des impôts', 'logement social', 'pôle emploi', 'pole-emploi.fr'],
-      cible: 'Devenir autonome dans les démarches administratives',
-      modalitesAccompagnement: "Seul : j'ai accès à du matériel et une connexion"
+      cible: Service.AideAuxDemarchesAdministratives
     },
     {
       colonnes: [
@@ -126,317 +53,182 @@ const MATCHING: LieuxMediationNumeriqueMatching = {
         'Comprendre et Utiliser les sites d’accès aux droits proposées',
         'Sensibilisations culture numérique'
       ],
-      termes: ['services de la caf', 'services des impôts', 'logement social', 'pôle emploi', 'pole-emploi.fr'],
-      cible: 'Réaliser des démarches administratives avec un accompagnement',
-      modalitesAccompagnement: "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+      termes: ['france travail', 'pôle emploi', 'pole-emploi.fr'],
+      cible: Service.InsertionProfessionnelleViaLeNumerique
+    },
+    {
+      colonnes: [
+        'À disposition',
+        'Formations compétences de base proposées',
+        'Comprendre et Utiliser les sites d’accès aux droits proposées',
+        'Sensibilisations culture numérique'
+      ],
+      termes: ['Éduquer avec le numérique'],
+      cible: Service.ParentaliteEtEducationAvecLeNumerique
+    },
+    {
+      colonnes: [
+        'À disposition',
+        'Formations compétences de base proposées',
+        'Comprendre et Utiliser les sites d’accès aux droits proposées',
+        'Sensibilisations culture numérique'
+      ],
+      termes: ['sécuriser sa navigation', "découvrir l'ordinateur"],
+      cible: Service.UtilisationSecuriseeDuNumerique
+    },
+    {
+      colonnes: [
+        'À disposition',
+        'Formations compétences de base proposées',
+        'Comprendre et Utiliser les sites d’accès aux droits proposées',
+        'Sensibilisations culture numérique'
+      ],
+      termes: ['Imprimante 3D', 'cultures numériques'],
+      cible: Service.LoisirsEtCreationsNumeriques
+    },
+    {
+      colonnes: [
+        'À disposition',
+        'Formations compétences de base proposées',
+        'Comprendre et Utiliser les sites d’accès aux droits proposées',
+        'Sensibilisations culture numérique'
+      ],
+      termes: ["S'équiper en matériel informatique"],
+      cible: Service.MaterielInformatiqueAPrixSolidaire
     }
   ]
 } as LieuxMediationNumeriqueMatching;
-const MODALITES_ACCOMPAGNEMENT_FIELD: "Types d'accompagnement proposés" = "Types d'accompagnement proposés" as const;
 
 describe('services field', (): void => {
   it('should handle empty value', (): void => {
     expect((): void => {
-      processServices(
-        {
-          [MODALITES_ACCOMPAGNEMENT_FIELD]: ''
-        },
-        MATCHING
-      );
+      processServices({}, MATCHING);
     }).toThrow(new Error("Le service 'service indéfini' n'est pas une valeur admise"));
   });
 
   it('should not find any service matching a_disposition key', (): void => {
     expect((): void => {
-      processServices({ 'À disposition': '', [MODALITES_ACCOMPAGNEMENT_FIELD]: '' }, MATCHING);
+      processServices({ 'À disposition': '' }, MATCHING);
     }).toThrow(new Error("Le service 'service indéfini' n'est pas une valeur admise"));
   });
 
   it('should not find any service matching formations_competences_de_base_proposees key', (): void => {
     expect((): void => {
-      processServices(
-        {
-          'Formations compétences de base proposées': '',
-          [MODALITES_ACCOMPAGNEMENT_FIELD]: ''
-        },
-        MATCHING
-      );
+      processServices({ 'Formations compétences de base proposées': '' }, MATCHING);
     }).toThrow(new Error("Le service 'service indéfini' n'est pas une valeur admise"));
   });
 
   it('should not find any service matching comprendre_et_utiliser_les_sites_d’acces_aux_droits_proposees key', (): void => {
     expect((): void => {
-      processServices(
-        {
-          'Comprendre et Utiliser les sites d’accès aux droits proposées': '',
-          [MODALITES_ACCOMPAGNEMENT_FIELD]: ''
-        },
-        MATCHING
-      );
+      processServices({ 'Comprendre et Utiliser les sites d’accès aux droits proposées': '' }, MATCHING);
     }).toThrow(new Error("Le service 'service indéfini' n'est pas une valeur admise"));
   });
 
   it('should not find any service matching sensibilisations_culture_numerique key', (): void => {
     expect((): void => {
-      processServices(
-        {
-          'Sensibilisations culture numérique': '',
-          [MODALITES_ACCOMPAGNEMENT_FIELD]: ''
-        },
-        MATCHING
-      );
+      processServices({ 'Sensibilisations culture numérique': '' }, MATCHING);
     }).toThrow(new Error("Le service 'service indéfini' n'est pas une valeur admise"));
   });
 
-  it('should find "Accéder à une connexion internet" service', (): void => {
-    const services: Service[] = processServices(
-      {
-        'À disposition': 'réseau wifi',
-        [MODALITES_ACCOMPAGNEMENT_FIELD]: ''
-      },
-      MATCHING
-    );
+  it('should find "Accès internet et matériel informatique" service with "réseau wifi" in "À disposition" column', (): void => {
+    const services: Service[] = processServices({ 'À disposition': 'réseau wifi' }, MATCHING);
 
-    expect(services).toStrictEqual([Service.AccederAUneConnexionInternet]);
+    expect(services).toStrictEqual([Service.AccesInternetEtMaterielInformatique]);
   });
 
-  it('should find "Accéder à du matériel" service', (): void => {
-    const services: Service[] = processServices(
-      {
-        'À disposition': 'accès libre à du matériel informatique',
-        [MODALITES_ACCOMPAGNEMENT_FIELD]: ''
-      },
-      MATCHING
-    );
+  it('should find "Accès internet et matériel informatique" service with "accès libre à du matériel informatique" in "À disposition" column', (): void => {
+    const services: Service[] = processServices({ 'À disposition': 'accès libre à du matériel informatique' }, MATCHING);
 
-    expect(services).toStrictEqual([Service.AccederADuMateriel]);
+    expect(services).toStrictEqual([Service.AccesInternetEtMaterielInformatique]);
   });
 
-  it('should find "Prendre en main un ordinateur,Utiliser le numérique au quotidien,Approfondir ma culture numérique" service', (): void => {
-    const services: Service[] = processServices(
-      {
-        'À disposition': "découvrir l'ordinateur",
-        [MODALITES_ACCOMPAGNEMENT_FIELD]: ''
-      },
-      MATCHING
-    );
+  it('should find "Maitrise des outils numériques du quotidien, Utilisation sécurisée du numérique, Comprehension du monde numérique" service', (): void => {
+    const services: Service[] = processServices({ 'À disposition': "découvrir l'ordinateur" }, MATCHING);
 
     expect(services).toStrictEqual([
-      Service.PrendreEnMainUnOrdinateur,
-      Service.UtiliserLeNumerique,
-      Service.ApprofondirMaCultureNumerique
+      Service.MaitriseDesOutilsNumeriquesDuQuotidien,
+      Service.ComprehensionDuMondeNumerique,
+      Service.UtilisationSecuriseeDuNumerique
     ]);
   });
 
-  it('should find "Prendre en main un smartphone ou une tablette" service with "tablette" value', (): void => {
-    const services: Service[] = processServices(
-      {
-        'À disposition': 'tablette',
-        [MODALITES_ACCOMPAGNEMENT_FIELD]: ''
-      },
-      MATCHING
-    );
+  it('should find "Acces internet et materiel informatique" service with "tablette" value', (): void => {
+    const services: Service[] = processServices({ 'À disposition': 'tablette' }, MATCHING);
 
-    expect(services).toStrictEqual([Service.PrendreEnMainUnSmartphoneOuUneTablette]);
+    expect(services).toStrictEqual([Service.AccesInternetEtMaterielInformatique]);
   });
 
-  it('should find "Prendre en main un smartphone ou une tablette" service with "smartphone" value', (): void => {
-    const services: Service[] = processServices(
-      {
-        'À disposition': 'smartphone',
-        [MODALITES_ACCOMPAGNEMENT_FIELD]: ''
-      },
-      MATCHING
-    );
+  it('should find "Acces internet et materiel informatique" service with "smartphone" value', (): void => {
+    const services: Service[] = processServices({ 'À disposition': 'smartphone' }, MATCHING);
 
-    expect(services).toStrictEqual([Service.PrendreEnMainUnSmartphoneOuUneTablette]);
+    expect(services).toStrictEqual([Service.AccesInternetEtMaterielInformatique]);
   });
 
-  it('should not find any "démarches administratives" service when modalites_accompagnement is not specified', (): void => {
-    expect((): void => {
-      processServices(
-        {
-          'À disposition': 'services de la caf',
-          [MODALITES_ACCOMPAGNEMENT_FIELD]: ''
-        },
-        MATCHING
-      );
-    }).toThrow(new Error("Le service 'service indéfini' n'est pas une valeur admise"));
-  });
+  it('should find "Aide aux démarches administratives" services when "À disposition" contains "services de la caf"', (): void => {
+    const services: Service[] = processServices({ 'À disposition': 'services de la caf' }, MATCHING);
 
-  it('should find "Devenir autonome dans les démarches administratives,Réaliser des démarches administratives avec un accompagnement" services when modalites_accompagnement is set to "Seul, Avec de l\'aide"', (): void => {
-    const services: Service[] = processServices(
-      {
-        'À disposition': 'services de la caf',
-        [MODALITES_ACCOMPAGNEMENT_FIELD]: ['accès libre avec un accompagnement', 'accompagnement individuel'].join(',')
-      },
-      MATCHING
-    );
-
-    expect(services).toStrictEqual([
-      Service.DevenirAutonomeDansLesDemarchesAdministratives,
-      Service.RealiserDesDemarchesAdministratives
-    ]);
-  });
-
-  it('should find "Devenir autonome dans les démarches administratives" service when modalites_accompagnement is set to "Seul"', (): void => {
-    const services: Service[] = processServices(
-      {
-        'À disposition': 'services de la caf',
-        [MODALITES_ACCOMPAGNEMENT_FIELD]: 'accès libre avec un accompagnement'
-      },
-      MATCHING
-    );
-
-    expect(services).toStrictEqual([Service.DevenirAutonomeDansLesDemarchesAdministratives]);
-  });
-
-  it('should find "Réaliser des démarches administratives avec un accompagnement" service when modalites_accompagnement is set to "Avec de l\'aide"', (): void => {
-    const services: Service[] = processServices(
-      {
-        'À disposition': 'services de la caf',
-        [MODALITES_ACCOMPAGNEMENT_FIELD]: 'accompagnement individuel'
-      },
-      MATCHING
-    );
-
-    expect(services).toStrictEqual([Service.RealiserDesDemarchesAdministratives]);
-  });
-
-  it('should find "Accompagner les démarches de santé" service with CPAM value', (): void => {
-    const services: Service[] = processServices(
-      {
-        'À disposition': 'CPAM',
-        [MODALITES_ACCOMPAGNEMENT_FIELD]: ''
-      },
-      MATCHING
-    );
-
-    expect(services).toStrictEqual([Service.AccompagnerLesDemarchesDeSante]);
-  });
-
-  it('should find "Accompagner les démarches de santé" service with ameli.fr value', (): void => {
-    const services: Service[] = processServices(
-      {
-        'À disposition': 'ameli.fr',
-        [MODALITES_ACCOMPAGNEMENT_FIELD]: ''
-      },
-      MATCHING
-    );
-
-    expect(services).toStrictEqual([Service.AccompagnerLesDemarchesDeSante]);
+    expect(services).toStrictEqual([Service.AideAuxDemarchesAdministratives]);
   });
 
   it('should find "Utiliser le numérique au quotidien,Approfondir ma culture numérique,Promouvoir la citoyenneté numérique" services', (): void => {
-    const services: Service[] = processServices(
-      {
-        'À disposition': 'cultures numériques',
-        [MODALITES_ACCOMPAGNEMENT_FIELD]: ''
-      },
-      MATCHING
-    );
+    const services: Service[] = processServices({ 'À disposition': 'cultures numériques' }, MATCHING);
 
     expect(services).toStrictEqual([
-      Service.UtiliserLeNumerique,
-      Service.ApprofondirMaCultureNumerique,
-      Service.PromouvoirLaCitoyenneteNumerique
+      Service.MaitriseDesOutilsNumeriquesDuQuotidien,
+      Service.ComprehensionDuMondeNumerique,
+      Service.LoisirsEtCreationsNumeriques
     ]);
   });
 
-  it('should cumulate all available services with "Seul" as modalites_accompagnement', (): void => {
+  it('should cumulate all available services', (): void => {
     const services: Service[] = processServices(
       {
         'À disposition':
-          "réseau wifi, accès libre à du matériel informatique, découvrir l'ordinateur, utiliser une tablette, démarches CPAM, cultures numériques, pôle emploi",
-        [MODALITES_ACCOMPAGNEMENT_FIELD]: 'accès libre avec un accompagnement'
+          "réseau wifi, accès libre à du matériel informatique, tablette, Imprimante 3D, S'équiper en matériel informatique",
+        'Comprendre et Utiliser les sites d’accès aux droits proposées':
+          "services des impôts', 'logement social', 'pôle emploi",
+        'Formations compétences de base proposées': "Découvrir l'ordinateur",
+        'Sensibilisations culture numérique': 'Éduquer avec le numérique'
       },
       MATCHING
     );
 
     expect(services).toStrictEqual([
-      Service.AccederAUneConnexionInternet,
-      Service.AccederADuMateriel,
-      Service.PrendreEnMainUnOrdinateur,
-      Service.UtiliserLeNumerique,
-      Service.ApprofondirMaCultureNumerique,
-      Service.PrendreEnMainUnSmartphoneOuUneTablette,
-      Service.PromouvoirLaCitoyenneteNumerique,
-      Service.AccompagnerLesDemarchesDeSante,
-      Service.DevenirAutonomeDansLesDemarchesAdministratives
-    ]);
-  });
-
-  it('should cumulate all available services with "Avec de l\'aide" as modalites_accompagnement', (): void => {
-    const services: Service[] = processServices(
-      {
-        'À disposition':
-          "réseau wifi, accès libre à du matériel informatique, découvrir l'ordinateur, utiliser une tablette, démarches CPAM, cultures numériques, pôle emploi",
-        [MODALITES_ACCOMPAGNEMENT_FIELD]: 'accompagnement individuel'
-      },
-      MATCHING
-    );
-
-    expect(services).toStrictEqual([
-      Service.AccederAUneConnexionInternet,
-      Service.AccederADuMateriel,
-      Service.PrendreEnMainUnOrdinateur,
-      Service.UtiliserLeNumerique,
-      Service.ApprofondirMaCultureNumerique,
-      Service.PrendreEnMainUnSmartphoneOuUneTablette,
-      Service.PromouvoirLaCitoyenneteNumerique,
-      Service.AccompagnerLesDemarchesDeSante,
-      Service.RealiserDesDemarchesAdministratives
-    ]);
-  });
-
-  it('should cumulate all available services with "Seul, Avec de l\'aide" as modalites_accompagnement', (): void => {
-    const services: Service[] = processServices(
-      {
-        'À disposition':
-          "réseau wifi, accès libre à du matériel informatique, découvrir l'ordinateur, utiliser une tablette, démarches CPAM, cultures numériques, pôle emploi",
-        [MODALITES_ACCOMPAGNEMENT_FIELD]: ['accès libre avec un accompagnement', 'accompagnement individuel'].join(',')
-      },
-      MATCHING
-    );
-
-    expect(services).toStrictEqual([
-      Service.AccederAUneConnexionInternet,
-      Service.AccederADuMateriel,
-      Service.PrendreEnMainUnOrdinateur,
-      Service.UtiliserLeNumerique,
-      Service.ApprofondirMaCultureNumerique,
-      Service.PrendreEnMainUnSmartphoneOuUneTablette,
-      Service.PromouvoirLaCitoyenneteNumerique,
-      Service.AccompagnerLesDemarchesDeSante,
-      Service.DevenirAutonomeDansLesDemarchesAdministratives,
-      Service.RealiserDesDemarchesAdministratives
+      Service.AccesInternetEtMaterielInformatique,
+      Service.MaitriseDesOutilsNumeriquesDuQuotidien,
+      Service.ComprehensionDuMondeNumerique,
+      Service.AideAuxDemarchesAdministratives,
+      Service.InsertionProfessionnelleViaLeNumerique,
+      Service.ParentaliteEtEducationAvecLeNumerique,
+      Service.UtilisationSecuriseeDuNumerique,
+      Service.LoisirsEtCreationsNumeriques,
+      Service.MaterielInformatiqueAPrixSolidaire
     ]);
   });
 
   it('should get only one service when there is redundancy in targeted fields', (): void => {
     const services: Service[] = processServices(
       {
-        'À disposition': 'tablette',
-        'Sensibilisations culture numérique': 'utiliser une tablette',
-        [MODALITES_ACCOMPAGNEMENT_FIELD]: ''
+        'À disposition': 'matériel informatique',
+        'Sensibilisations culture numérique': 'accéder à internet'
       },
       MATCHING
     );
 
-    expect(services).toStrictEqual([Service.PrendreEnMainUnSmartphoneOuUneTablette]);
+    expect(services).toStrictEqual([Service.AccesInternetEtMaterielInformatique]);
   });
 
-  it('should get gratuit default services', (): void => {
+  it('should get maitriser outils numériques du quotidien default services', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
       services: [
         {
-          cible: Service.UtiliserLeNumerique
+          cible: Service.MaitriseDesOutilsNumeriquesDuQuotidien
         }
       ]
     } as LieuxMediationNumeriqueMatching;
 
     const services: Service[] = processServices({} as DataSource, matching);
 
-    expect(services).toStrictEqual([Service.UtiliserLeNumerique]);
+    expect(services).toStrictEqual([Service.MaitriseDesOutilsNumeriquesDuQuotidien]);
   });
 });

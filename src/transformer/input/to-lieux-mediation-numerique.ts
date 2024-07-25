@@ -4,15 +4,20 @@ import {
   Adresse,
   CodePostalError,
   CommuneError,
-  ConditionsAcces,
+  DispositifProgrammesNationaux,
+  FormationsLabels,
+  FraisACharge,
   IdError,
-  LabelsNationaux,
+  Itinerances,
   LieuMediationNumerique,
   Localisation,
+  ModalitesAcces,
   ModalitesAccompagnement,
   ModelError,
   NomError,
-  PublicsAccueillis,
+  PrisesEnChargeSpecifiques,
+  PublicsSpecifiquementAdresses,
+  Services,
   ServicesError,
   Typologies,
   Url,
@@ -21,54 +26,80 @@ import {
 import { AxiosError } from 'axios';
 import { Recorder, Report } from '../report';
 import {
-  processAccessibilite,
+  processFicheAccesLibre,
   processAdresse,
-  processConditionsAcces,
+  processFraisACharge,
   processContact,
   processDate,
   processHoraires,
   processId,
-  processLabelsAutres,
-  processLabelsNationaux,
+  processAutresFormationsLabels,
+  processDispositifProgrammeNationaux,
   processLocalisation,
   processModalitesAccompagnement,
   processNom,
   processPivot,
   processPresentation,
   processPriseRdv,
-  processPublicsAccueillis,
   processServices,
   processSource,
   processTypologies,
+  processItinerances,
+  processPublicsSpecifiquementAdresses,
+  processPrisesEnChargeSpecifiques,
+  processFormationsLabels,
+  processModalitesAcces,
   isPrive
 } from '../fields';
 import { TransformationRepository } from '../repositories';
 import { DataSource, LieuxMediationNumeriqueMatching } from './lieux-mediation-numerique-matching';
 
+const isFilled = <T>(nullable?: T[]): nullable is T[] => nullable != null && nullable.length > 0;
+
 const localisationIfAny = (localisation?: Localisation): { localisation?: Localisation } =>
   localisation == null ? {} : { localisation };
 
-const conditionsAccesIfAny = (conditionsAcces: ConditionsAcces): { conditions_acces?: ConditionsAcces } =>
-  conditionsAcces.length === 0 ? {} : { conditions_acces: conditionsAcces };
+const itinerancesIfAny = (itinerances?: Itinerances): { itinerances?: Itinerances } =>
+  isFilled(itinerances) ? { itinerances } : {};
 
-const accessibiliteIfAny = (accessibilite?: Url): { accessibilite?: Url } => (accessibilite == null ? {} : { accessibilite });
+const servicesIfAny = (services?: Services): { services?: Services } => (isFilled(services) ? { services } : {});
+
+const fraisAChargeIfAny = (fraisACharge?: FraisACharge): { frais_a_charge?: FraisACharge } =>
+  isFilled(fraisACharge) ? { frais_a_charge: fraisACharge } : {};
+
+const ficheAccesLibreIfAny = (ficheAccesLibre?: Url): { fiche_acces_libre?: Url } =>
+  ficheAccesLibre == null ? {} : { fiche_acces_libre: ficheAccesLibre };
 
 const modalitesAccompagnementIfAny = (
-  modaliteAccompagnement: ModalitesAccompagnement
+  modaliteAccompagnement?: ModalitesAccompagnement
 ): { modalites_accompagnement?: ModalitesAccompagnement } =>
-  modaliteAccompagnement.length === 0 ? {} : { modalites_accompagnement: modaliteAccompagnement };
+  isFilled(modaliteAccompagnement) ? { modalites_accompagnement: modaliteAccompagnement } : {};
 
-const typologiesIfAny = (typologies: Typologies): { typologies?: Typologies } =>
-  typologies.length === 0 ? {} : { typologies };
+const modalitesAccesIfAny = (modalitesAcces?: ModalitesAcces): { modalites_acces?: ModalitesAcces } =>
+  isFilled(modalitesAcces) ? { modalites_acces: modalitesAcces } : {};
 
-const labelsNationauxIfAny = (labelsNationaux: LabelsNationaux): { labels_nationaux?: LabelsNationaux } =>
-  labelsNationaux.length === 0 ? {} : { labels_nationaux: labelsNationaux };
+const typologiesIfAny = (typologies?: Typologies): { typologies?: Typologies } => (isFilled(typologies) ? { typologies } : {});
 
-const labelsAutresIfAny = (labelsAutres: string[]): { labels_autres?: string[] } =>
-  labelsAutres.length === 0 ? {} : { labels_autres: labelsAutres };
+const dispositifProgrammesNationauxIfAny = (
+  dispositifProgrammesNationaux?: DispositifProgrammesNationaux
+): { dispositif_programmes_nationaux?: DispositifProgrammesNationaux } =>
+  isFilled(dispositifProgrammesNationaux) ? { dispositif_programmes_nationaux: dispositifProgrammesNationaux } : {};
 
-const publicsAccueillisIfAny = (publicsAccueillis: PublicsAccueillis): { publics_accueillis?: PublicsAccueillis } =>
-  publicsAccueillis.length === 0 ? {} : { publics_accueillis: publicsAccueillis };
+const formationsLabelsIfAny = (formationsLabels?: FormationsLabels): { formations_labels?: FormationsLabels } =>
+  isFilled(formationsLabels) ? { formations_labels: formationsLabels } : {};
+
+const autresFormationsLabelsIfAny = (autresFormationsLabels?: string[]): { autres_formations_labels?: string[] } =>
+  isFilled(autresFormationsLabels) ? { autres_formations_labels: autresFormationsLabels } : {};
+
+const publicsSpecifiquementAdressesIfAny = (
+  publicsSpecifiquementAdresses?: PublicsSpecifiquementAdresses
+): { publics_specifiquement_adresses?: PublicsSpecifiquementAdresses } =>
+  isFilled(publicsSpecifiquementAdresses) ? { publics_specifiquement_adresses: publicsSpecifiquementAdresses } : {};
+
+const prisesEnChargeSpecifiquesIfAny = (
+  prisesEnChargeSpecifiques?: PrisesEnChargeSpecifiques
+): { prise_en_charge_specifique?: PrisesEnChargeSpecifiques } =>
+  isFilled(prisesEnChargeSpecifiques) ? { prise_en_charge_specifique: prisesEnChargeSpecifiques } : {};
 
 const horairesIfAny = (horaires?: string): { horaires?: string } => (horaires == null ? {} : { horaires });
 
@@ -88,24 +119,30 @@ const lieuDeMediationNumerique = async (
 
   const lieuMediationNumerique: LieuMediationNumerique = {
     id: processId(dataSource, matching, index),
-    nom: processNom(dataSource, matching),
     pivot: processPivot(dataSource, matching),
+    nom: processNom(dataSource, matching),
     adresse,
     ...localisationIfAny(localisation),
-    contact: processContact(recorder)(dataSource, matching),
-    ...conditionsAccesIfAny(processConditionsAcces(dataSource, matching)),
-    ...modalitesAccompagnementIfAny(processModalitesAccompagnement(dataSource, matching)),
-    date_maj: processDate(dataSource, matching),
-    ...labelsNationauxIfAny(processLabelsNationaux(dataSource, matching)),
-    ...labelsAutresIfAny(processLabelsAutres(dataSource, matching, isInQpv, isInZrr, adresse, localisation)),
-    ...publicsAccueillisIfAny(processPublicsAccueillis(dataSource, matching)),
-    presentation: processPresentation(dataSource, matching),
-    services: processServices(dataSource, matching),
-    source: processSource(dataSource, matching, sourceName),
-    ...horairesIfAny(processHoraires(dataSource, matching)),
-    ...priseRdvIfAny(processPriseRdv(dataSource, matching)),
     ...typologiesIfAny(processTypologies(dataSource, matching)),
-    ...accessibiliteIfAny(processAccessibilite(dataSource, matching, [], adresse))
+    contact: processContact(recorder)(dataSource, matching),
+    ...horairesIfAny(processHoraires(dataSource, matching)),
+    presentation: processPresentation(dataSource, matching),
+    source: processSource(dataSource, matching, sourceName),
+    ...itinerancesIfAny(processItinerances(dataSource, matching)),
+    date_maj: processDate(dataSource, matching),
+    ...servicesIfAny(processServices(dataSource, matching)),
+    ...publicsSpecifiquementAdressesIfAny(processPublicsSpecifiquementAdresses(dataSource, matching)),
+    ...prisesEnChargeSpecifiquesIfAny(processPrisesEnChargeSpecifiques(dataSource, matching)),
+    ...fraisAChargeIfAny(processFraisACharge(dataSource, matching)),
+    ...dispositifProgrammesNationauxIfAny(processDispositifProgrammeNationaux(dataSource, matching)),
+    ...formationsLabelsIfAny(processFormationsLabels(dataSource, matching)),
+    ...autresFormationsLabelsIfAny(
+      processAutresFormationsLabels(dataSource, matching, isInQpv, isInZrr, adresse, localisation)
+    ),
+    ...modalitesAccesIfAny(processModalitesAcces(dataSource, matching)),
+    ...modalitesAccompagnementIfAny(processModalitesAccompagnement(dataSource, matching)),
+    ...ficheAccesLibreIfAny(processFicheAccesLibre(dataSource, matching, [], adresse)),
+    ...priseRdvIfAny(processPriseRdv(dataSource, matching))
   };
 
   recorder.commit();

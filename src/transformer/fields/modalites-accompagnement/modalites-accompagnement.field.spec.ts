@@ -15,18 +15,18 @@ const MATCHING: LieuxMediationNumeriqueMatching = {
     },
     {
       colonnes: ["Types d'accompagnement proposés"],
-      termes: ['faire à la place de'],
-      cible: ModaliteAccompagnement.AMaPlace
+      termes: ['en ligne'],
+      cible: ModaliteAccompagnement.ADistance
     },
     {
       colonnes: ["Types d'accompagnement proposés"],
-      termes: ['accompagnement individuel'],
-      cible: ModaliteAccompagnement.AvecDeLAide
+      termes: ['avec un accompagnement'],
+      cible: ModaliteAccompagnement.AccompagnementIndividuel
     },
     {
       colonnes: ["Types d'accompagnement proposés"],
-      termes: ['accès libre avec un accompagnement'],
-      cible: ModaliteAccompagnement.Seul
+      termes: ['accès libre'],
+      cible: ModaliteAccompagnement.EnAutonomie
     }
   ]
 } as LieuxMediationNumeriqueMatching;
@@ -43,26 +43,26 @@ describe('modalites accompagnement field', (): void => {
     expect(modalitesAccompagnement).toStrictEqual([]);
   });
 
-  it('should get "Avec de l\'aide" when value is "accompagnement individuel"', (): void => {
+  it('should get "Accompagnement individuel" when value is "avec un accompagnement"', (): void => {
     const modalitesAccompagnement: ModalitesAccompagnement = processModalitesAccompagnement(
       {
-        [MODALITES_ACCOMPAGNEMENT_FIELD]: 'accompagnement individuel'
+        [MODALITES_ACCOMPAGNEMENT_FIELD]: 'avec un accompagnement'
       },
       MATCHING
     );
 
-    expect(modalitesAccompagnement).toStrictEqual([ModaliteAccompagnement.AvecDeLAide]);
+    expect(modalitesAccompagnement).toStrictEqual([ModaliteAccompagnement.AccompagnementIndividuel]);
   });
 
-  it('should get "Seul" when value is "accès libre avec un accompagnement"', (): void => {
+  it('should get "Seul" when value is "accès libre"', (): void => {
     const modalitesAccompagnement: ModalitesAccompagnement = processModalitesAccompagnement(
       {
-        [MODALITES_ACCOMPAGNEMENT_FIELD]: 'accès libre avec un accompagnement'
+        [MODALITES_ACCOMPAGNEMENT_FIELD]: 'accès libre'
       },
       MATCHING
     );
 
-    expect(modalitesAccompagnement).toStrictEqual([ModaliteAccompagnement.Seul]);
+    expect(modalitesAccompagnement).toStrictEqual([ModaliteAccompagnement.EnAutonomie]);
   });
 
   it('should get "Dans un atelier" when value is "accompagnement en groupe"', (): void => {
@@ -76,25 +76,25 @@ describe('modalites accompagnement field', (): void => {
     expect(modalitesAccompagnement).toStrictEqual([ModaliteAccompagnement.DansUnAtelier]);
   });
 
-  it('should get "A ma place" when value is "faire à la place de"', (): void => {
+  it('should get "A ma place" when value is "en ligne"', (): void => {
     const modalitesAccompagnement: ModalitesAccompagnement = processModalitesAccompagnement(
       {
-        [MODALITES_ACCOMPAGNEMENT_FIELD]: 'faire à la place de'
+        [MODALITES_ACCOMPAGNEMENT_FIELD]: 'en ligne'
       },
       MATCHING
     );
 
-    expect(modalitesAccompagnement).toStrictEqual([ModaliteAccompagnement.AMaPlace]);
+    expect(modalitesAccompagnement).toStrictEqual([ModaliteAccompagnement.ADistance]);
   });
 
-  it('should get "Dans un atelier,A ma place" when value is "faire à la place de,accompagnement en groupe"', (): void => {
+  it('should get "Dans un atelier,A ma place" when value is "en ligne,accompagnement en groupe"', (): void => {
     const modalitesAccompagnement: ModalitesAccompagnement = processModalitesAccompagnement(
       {
-        [MODALITES_ACCOMPAGNEMENT_FIELD]: 'faire à la place de, accompagnement en groupe'
+        [MODALITES_ACCOMPAGNEMENT_FIELD]: 'en ligne, accompagnement en groupe'
       },
       MATCHING
     );
 
-    expect(modalitesAccompagnement).toStrictEqual([ModaliteAccompagnement.DansUnAtelier, ModaliteAccompagnement.AMaPlace]);
+    expect(modalitesAccompagnement).toStrictEqual([ModaliteAccompagnement.DansUnAtelier, ModaliteAccompagnement.ADistance]);
   });
 });

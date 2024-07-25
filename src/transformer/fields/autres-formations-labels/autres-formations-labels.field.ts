@@ -14,46 +14,52 @@ const isTermFound =
 const containsOneOfTheTerms = (choice: Choice<string>, sourceValue: string = ''): boolean =>
   choice.termes == null ? sourceValue !== '' : choice.termes.reduce(isTermFound(sourceValue.toLowerCase(), choice), false);
 
-const appendLabelAutre = (labelsAutres: string[], labelAutre?: string): string[] => [
-  ...labelsAutres,
-  ...(labelAutre == null ? [] : [labelAutre])
+const appendAutreFormationLabel = (autresFormationsLabels: string[], autreFormationLabel?: string): string[] => [
+  ...autresFormationsLabels,
+  ...(autreFormationLabel == null ? [] : [autreFormationLabel])
 ];
 
 const isDefault = (choice: Choice<string>): boolean => choice.colonnes == null;
 
-const findAndAppendLabelsAutres =
+const findAndAppendAutresFormationsLabels =
   (choice: Choice<string>, source: DataSource) =>
-  (labelsAutres: string[], colonne: string): string[] =>
-    containsOneOfTheTerms(choice, source[colonne]?.toString()) ? appendLabelAutre(labelsAutres, choice.cible) : labelsAutres;
+  (autresFormationsLabels: string[], colonne: string): string[] =>
+    containsOneOfTheTerms(choice, source[colonne]?.toString())
+      ? appendAutreFormationLabel(autresFormationsLabels, choice.cible)
+      : autresFormationsLabels;
 
-const labelsAutresForTerms =
+const autresFormationsLabelsForTerms =
   (choice: Choice<string>, source: DataSource) =>
-  (labelsAutres: string[], colonne: string): string[] =>
+  (autresFormationsLabels: string[], colonne: string): string[] =>
     isDefault(choice)
-      ? appendLabelAutre(labelsAutres, choice.cible)
-      : findAndAppendLabelsAutres(choice, source)(labelsAutres, colonne);
+      ? appendAutreFormationLabel(autresFormationsLabels, choice.cible)
+      : findAndAppendAutresFormationsLabels(choice, source)(autresFormationsLabels, colonne);
 
-const toLabelAutreFrom =
+const toAutreFormationLabelFrom =
   (source: DataSource) =>
   (columnName: string): string | undefined =>
     source[columnName]?.toString();
 
 const onlyDefined = (valueToBeDefined: string | undefined): valueToBeDefined is string => valueToBeDefined != null;
 
-const extractLabelsAutresFromSource = (source: DataSource, colonnes: string[] = []): string[] =>
-  colonnes.map(toLabelAutreFrom(source)).filter(onlyDefined);
+const extractAutresFormationsLabelsFromSource = (source: DataSource, colonnes: string[] = []): string[] =>
+  colonnes.map(toAutreFormationLabelFrom(source)).filter(onlyDefined);
 
-const labelsAutresCibleMatchingTerms = (labelsAutres: string[], choice: Choice<string>, source: DataSource): string[] => [
-  ...labelsAutres,
-  ...(choice.colonnes ?? cibleAsDefault(choice)).reduce(labelsAutresForTerms(choice, source), [])
+const autresFormationsLabelsCibleMatchingTerms = (
+  autresFormationsLabels: string[],
+  choice: Choice<string>,
+  source: DataSource
+): string[] => [
+  ...autresFormationsLabels,
+  ...(choice.colonnes ?? cibleAsDefault(choice)).reduce(autresFormationsLabelsForTerms(choice, source), [])
 ];
 
-const appendLabelsAutres =
+const appendAutresFormationsLabels =
   (source: DataSource) =>
-  (labelsAutres: string[], choice: Choice<string>): string[] =>
+  (autresFormationsLabels: string[], choice: Choice<string>): string[] =>
     choice.cible == null
-      ? extractLabelsAutresFromSource(source, choice.colonnes)
-      : labelsAutresCibleMatchingTerms(labelsAutres, choice, source);
+      ? extractAutresFormationsLabelsFromSource(source, choice.colonnes)
+      : autresFormationsLabelsCibleMatchingTerms(autresFormationsLabels, choice, source);
 
 const shouldAddQPV =
   (isInQpv: IsInQpv) =>
@@ -74,17 +80,19 @@ const labelsToAdd =
 
 const appendExtraLabels =
   (isInQpv: IsInQpv, isInZrr: IsInZrr) =>
-  (labelsAutres: string[], adresse?: Adresse, localisation?: Localisation): string[] => [
+  (autresFormationsLabels: string[], adresse?: Adresse, localisation?: Localisation): string[] => [
     ...labelsToAdd(isInQpv, isInZrr)(adresse, localisation),
-    ...labelsAutres
+    ...autresFormationsLabels
   ];
 
 const onlyNonEmptyLabels = (label: string): boolean => label !== '';
 
 const labelsFromSource = (matching: LieuxMediationNumeriqueMatching, source: DataSource): string[] =>
-  Array.from(new Set(matching.labels_autres?.reduce(appendLabelsAutres(source), []))).filter(onlyNonEmptyLabels);
+  Array.from(new Set(matching.autres_formations_labels?.reduce(appendAutresFormationsLabels(source), []))).filter(
+    onlyNonEmptyLabels
+  );
 
-export const processLabelsAutres = (
+export const processAutresFormationsLabels = (
   source: DataSource,
   matching: LieuxMediationNumeriqueMatching,
   isInQpv: IsInQpv,

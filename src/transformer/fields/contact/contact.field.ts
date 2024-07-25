@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 
-import { Contact, Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { Contact, Courriel, Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
-import { Recorder } from '../../report/report';
+import { Recorder } from '../../report';
 import { cleanOperations, CleanOperation } from './clean-operations';
 
 type FixedContact = DataSource | undefined;
@@ -23,16 +23,16 @@ const telephoneField = (telephone?: number | string): Pick<Contact, 'telephone'>
       };
 
 const siteWebField = (siteWeb?: string): Pick<Contact, 'site_web'> =>
-  siteWeb == null ? {} : { site_web: siteWeb.split(';').map(Url) };
+  siteWeb == null ? {} : { site_web: siteWeb.split('|').map(Url) };
 
-const courrielField = (courriel?: string): Pick<Contact, 'courriel'> =>
-  courriel == null || courriel === '' ? {} : { courriel };
+const courrielField = (courriels?: string): Pick<Contact, 'courriels'> =>
+  courriels == null || courriels === '' ? {} : { courriels: courriels.split('|').map(Courriel) };
 
 const toLieuxMediationNumeriqueContact = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Contact =>
   Contact({
     ...(matching.telephone?.colonne == null ? {} : telephoneField(source[matching.telephone.colonne]?.toString())),
     ...(matching.site_web?.colonne == null ? {} : siteWebField(source[matching.site_web.colonne]?.toString()?.toLowerCase())),
-    ...(matching.courriel?.colonne == null ? {} : courrielField(source[matching.courriel.colonne]?.toString()))
+    ...(matching.courriels?.colonne == null ? {} : courrielField(source[matching.courriels.colonne]?.toString()?.toLowerCase()))
   });
 
 const testCleanSelector = (cleanOperation: CleanOperation, property?: string): boolean =>

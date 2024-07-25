@@ -3,11 +3,12 @@
 import {
   SchemaLieuMediationNumerique,
   Service,
-  LabelNational,
   ModaliteAccompagnement,
   Typologie,
-  ConditionAcces,
-  PublicAccueilli
+  DispositifProgrammeNational,
+  PublicSpecifiquementAdresse,
+  PriseEnChargeSpecifique,
+  Frais
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { duplicationComparisons } from '../duplication-comparisons';
 import { groupDuplicates } from '../group-duplicates/group-duplicates';
@@ -27,7 +28,7 @@ describe('remove duplicates', (): void => {
         longitude: 5.716962,
         date_maj: '2023-05-03',
         source: 'hinaura',
-        services: Service.AccederADuMateriel
+        services: Service.AccesInternetEtMaterielInformatique
       },
       {
         id: 'mediation-numerique-hub-lo-436-mediation-numerique',
@@ -40,7 +41,7 @@ describe('remove duplicates', (): void => {
         longitude: 5.704953,
         date_maj: '2023-05-03',
         source: 'hinaura',
-        services: Service.AccederADuMateriel
+        services: Service.AccesInternetEtMaterielInformatique
       }
     ];
 
@@ -62,7 +63,7 @@ describe('remove duplicates', (): void => {
         longitude: -0.2551539846,
         date_maj: '2023-05-03',
         source: 'hinaura',
-        services: Service.AccederADuMateriel
+        services: Service.AccesInternetEtMaterielInformatique
       },
       {
         id: 'mediation-numerique-hub-lo-436-mediation-numerique',
@@ -75,7 +76,7 @@ describe('remove duplicates', (): void => {
         longitude: -0.256457,
         date_maj: '2019-08-01',
         source: 'francil-in',
-        services: Service.AccederADuMateriel
+        services: Service.AccesInternetEtMaterielInformatique
       }
     ];
 
@@ -99,7 +100,7 @@ describe('remove duplicates', (): void => {
             longitude: -0.2551539846,
             date_maj: '2023-05-03',
             source: 'hinaura',
-            services: Service.AccederADuMateriel
+            services: Service.AccesInternetEtMaterielInformatique
           }
         ]
       ])
@@ -119,7 +120,7 @@ describe('remove duplicates', (): void => {
         longitude: -0.2551539846,
         date_maj: '2023-05-03',
         source: 'hinaura',
-        services: Service.RealiserDesDemarchesAdministratives
+        services: Service.AideAuxDemarchesAdministratives
       },
       {
         id: 'mediation-numerique-hub-lo-436-mediation-numerique',
@@ -131,9 +132,9 @@ describe('remove duplicates', (): void => {
         latitude: 47.671271,
         longitude: -0.256457,
         date_maj: '2023-01-16',
-        courriel: 'commune-de-durtal@france-services.fr',
+        courriels: 'commune-de-durtal@france-services.fr',
         source: 'francil-in',
-        services: Service.RealiserDesDemarchesAdministratives
+        services: Service.AideAuxDemarchesAdministratives
       }
     ];
 
@@ -156,9 +157,9 @@ describe('remove duplicates', (): void => {
             latitude: 47.6699154795,
             longitude: -0.2551539846,
             date_maj: '2023-05-03',
-            courriel: 'commune-de-durtal@france-services.fr',
+            courriels: 'commune-de-durtal@france-services.fr',
             source: 'hinaura',
-            services: Service.RealiserDesDemarchesAdministratives
+            services: Service.AideAuxDemarchesAdministratives
           }
         ]
       ])
@@ -177,9 +178,9 @@ describe('remove duplicates', (): void => {
         latitude: 47.6699154795,
         longitude: -0.2551539846,
         date_maj: '2023-05-03',
-        courriel: 'commune-de-durtal@france-services.fr',
+        courriels: 'commune-de-durtal@france-services.fr',
         source: 'hinaura',
-        services: Service.RealiserDesDemarchesAdministratives
+        services: Service.AideAuxDemarchesAdministratives
       },
       {
         id: 'mediation-numerique-hub-lo-436-mediation-numerique',
@@ -192,7 +193,7 @@ describe('remove duplicates', (): void => {
         longitude: -0.256457,
         date_maj: '2023-05-03',
         source: 'francil-in',
-        services: Service.RealiserDesDemarchesAdministratives
+        services: Service.AideAuxDemarchesAdministratives
       }
     ];
 
@@ -215,9 +216,9 @@ describe('remove duplicates', (): void => {
             latitude: 47.6699154795,
             longitude: -0.2551539846,
             date_maj: '2023-05-03',
-            courriel: 'commune-de-durtal@france-services.fr',
+            courriels: 'commune-de-durtal@france-services.fr',
             source: 'hinaura',
-            services: Service.RealiserDesDemarchesAdministratives
+            services: Service.AideAuxDemarchesAdministratives
           }
         ]
       ])
@@ -236,9 +237,9 @@ describe('remove duplicates', (): void => {
         latitude: 47.6699154795,
         longitude: -0.2551539846,
         date_maj: '2023-05-03',
-        courriel: 'commune-de-durtal@france-services.fr',
+        courriels: 'commune-de-durtal@france-services.fr',
         source: 'hinaura',
-        services: `${Service.DevenirAutonomeDansLesDemarchesAdministratives};${Service.RealiserDesDemarchesAdministratives}`
+        services: Service.AideAuxDemarchesAdministratives
       },
       {
         id: 'mediation-numerique-hub-lo-436-mediation-numerique',
@@ -251,7 +252,7 @@ describe('remove duplicates', (): void => {
         longitude: -0.256457,
         date_maj: '2023-05-03',
         source: 'francil-in',
-        services: `${Service.PrendreEnMainUnSmartphoneOuUneTablette};${Service.FavoriserMonInsertionProfessionnelle}`
+        services: `${Service.MaitriseDesOutilsNumeriquesDuQuotidien}|${Service.InsertionProfessionnelleViaLeNumerique}`
       }
     ];
 
@@ -274,9 +275,9 @@ describe('remove duplicates', (): void => {
             latitude: 47.6699154795,
             longitude: -0.2551539846,
             date_maj: '2023-05-03',
-            courriel: 'commune-de-durtal@france-services.fr',
+            courriels: 'commune-de-durtal@france-services.fr',
             source: 'hinaura',
-            services: `${Service.DevenirAutonomeDansLesDemarchesAdministratives};${Service.RealiserDesDemarchesAdministratives};${Service.PrendreEnMainUnSmartphoneOuUneTablette};${Service.FavoriserMonInsertionProfessionnelle}`
+            services: `${Service.AideAuxDemarchesAdministratives}|${Service.MaitriseDesOutilsNumeriquesDuQuotidien}|${Service.InsertionProfessionnelleViaLeNumerique}`
           }
         ]
       ])
@@ -295,10 +296,10 @@ describe('remove duplicates', (): void => {
         latitude: 47.6699154795,
         longitude: -0.2551539846,
         date_maj: '2023-05-03',
-        courriel: 'commune-de-durtal@france-services.fr',
+        courriels: 'commune-de-durtal@france-services.fr',
         source: 'hinaura',
-        services: Service.RealiserDesDemarchesAdministratives,
-        modalites_accompagnement: `${ModaliteAccompagnement.Seul};${ModaliteAccompagnement.AMaPlace};${ModaliteAccompagnement.DansUnAtelier}`
+        services: Service.AideAuxDemarchesAdministratives,
+        modalites_accompagnement: `${ModaliteAccompagnement.EnAutonomie}|${ModaliteAccompagnement.AccompagnementIndividuel}|${ModaliteAccompagnement.DansUnAtelier}`
       },
       {
         id: 'mediation-numerique-hub-lo-436-mediation-numerique',
@@ -311,8 +312,8 @@ describe('remove duplicates', (): void => {
         longitude: -0.256457,
         date_maj: '2023-05-03',
         source: 'francil-in',
-        services: Service.RealiserDesDemarchesAdministratives,
-        modalites_accompagnement: `${ModaliteAccompagnement.AvecDeLAide};${ModaliteAccompagnement.DansUnAtelier}`
+        services: Service.AideAuxDemarchesAdministratives,
+        modalites_accompagnement: `${ModaliteAccompagnement.ADistance}|${ModaliteAccompagnement.AccompagnementIndividuel}|${ModaliteAccompagnement.DansUnAtelier}`
       }
     ];
 
@@ -335,10 +336,10 @@ describe('remove duplicates', (): void => {
             latitude: 47.6699154795,
             longitude: -0.2551539846,
             date_maj: '2023-05-03',
-            courriel: 'commune-de-durtal@france-services.fr',
+            courriels: 'commune-de-durtal@france-services.fr',
             source: 'hinaura',
-            services: Service.RealiserDesDemarchesAdministratives,
-            modalites_accompagnement: `${ModaliteAccompagnement.Seul};${ModaliteAccompagnement.AMaPlace};${ModaliteAccompagnement.DansUnAtelier};${ModaliteAccompagnement.AvecDeLAide}`
+            services: Service.AideAuxDemarchesAdministratives,
+            modalites_accompagnement: `${ModaliteAccompagnement.EnAutonomie}|${ModaliteAccompagnement.AccompagnementIndividuel}|${ModaliteAccompagnement.DansUnAtelier}|${ModaliteAccompagnement.ADistance}`
           }
         ]
       ])
@@ -357,10 +358,10 @@ describe('remove duplicates', (): void => {
         latitude: 47.6699154795,
         longitude: -0.2551539846,
         date_maj: '2023-05-03',
-        courriel: 'commune-de-durtal@france-services.fr',
+        courriels: 'commune-de-durtal@france-services.fr',
         source: 'hinaura',
-        services: Service.RealiserDesDemarchesAdministratives,
-        conditions_acces: `${ConditionAcces.GratuitSousCondition};${ConditionAcces.Payant};${ConditionAcces.AccepteLePassNumerique}`
+        services: Service.AideAuxDemarchesAdministratives,
+        frais_a_charge: `${Frais.GratuitSousCondition}|${Frais.Payant}`
       },
       {
         id: 'mediation-numerique-hub-lo-436-mediation-numerique',
@@ -373,8 +374,8 @@ describe('remove duplicates', (): void => {
         longitude: -0.256457,
         date_maj: '2023-05-03',
         source: 'francil-in',
-        services: Service.RealiserDesDemarchesAdministratives,
-        conditions_acces: `${ConditionAcces.Gratuit};${ConditionAcces.Payant}`
+        services: Service.AideAuxDemarchesAdministratives,
+        frais_a_charge: `${Frais.Gratuit}|${Frais.Payant}`
       }
     ];
 
@@ -397,10 +398,10 @@ describe('remove duplicates', (): void => {
             latitude: 47.6699154795,
             longitude: -0.2551539846,
             date_maj: '2023-05-03',
-            courriel: 'commune-de-durtal@france-services.fr',
+            courriels: 'commune-de-durtal@france-services.fr',
             source: 'hinaura',
-            services: Service.RealiserDesDemarchesAdministratives,
-            conditions_acces: `${ConditionAcces.GratuitSousCondition};${ConditionAcces.Payant};${ConditionAcces.AccepteLePassNumerique};${ConditionAcces.Gratuit}`
+            services: Service.AideAuxDemarchesAdministratives,
+            frais_a_charge: `${Frais.GratuitSousCondition}|${Frais.Payant}|${Frais.Gratuit}`
           }
         ]
       ])
@@ -419,10 +420,11 @@ describe('remove duplicates', (): void => {
         latitude: 47.6699154795,
         longitude: -0.2551539846,
         date_maj: '2023-05-03',
-        courriel: 'commune-de-durtal@france-services.fr',
+        courriels: 'commune-de-durtal@france-services.fr',
         source: 'hinaura',
-        services: Service.RealiserDesDemarchesAdministratives,
-        publics_accueillis: `${PublicAccueilli.Surdite};${PublicAccueilli.Adultes};${PublicAccueilli.Jeunes}`
+        services: Service.AideAuxDemarchesAdministratives,
+        publics_specifiquement_adresses: `${PublicSpecifiquementAdresse.Seniors}|${PublicSpecifiquementAdresse.Jeunes}`,
+        prise_en_charge_specifique: `${PriseEnChargeSpecifique.Surdite}|${PriseEnChargeSpecifique.HandicapsMoteurs}`
       },
       {
         id: 'mediation-numerique-hub-lo-436-mediation-numerique',
@@ -435,8 +437,9 @@ describe('remove duplicates', (): void => {
         longitude: -0.256457,
         date_maj: '2023-05-03',
         source: 'francil-in',
-        services: Service.RealiserDesDemarchesAdministratives,
-        publics_accueillis: `${PublicAccueilli.Surdite};${PublicAccueilli.Adultes};${PublicAccueilli.Seniors}`
+        services: Service.AideAuxDemarchesAdministratives,
+        publics_specifiquement_adresses: `${PublicSpecifiquementAdresse.Etudiants}|${PublicSpecifiquementAdresse.FamillesEnfants}`,
+        prise_en_charge_specifique: `${PriseEnChargeSpecifique.LanguesEtrangeresAutre}|${PriseEnChargeSpecifique.LanguesEtrangeresAnglais}`
       }
     ];
 
@@ -459,10 +462,11 @@ describe('remove duplicates', (): void => {
             latitude: 47.6699154795,
             longitude: -0.2551539846,
             date_maj: '2023-05-03',
-            courriel: 'commune-de-durtal@france-services.fr',
+            courriels: 'commune-de-durtal@france-services.fr',
             source: 'hinaura',
-            services: Service.RealiserDesDemarchesAdministratives,
-            publics_accueillis: `${PublicAccueilli.Surdite};${PublicAccueilli.Adultes};${PublicAccueilli.Jeunes};${PublicAccueilli.Seniors}`
+            services: Service.AideAuxDemarchesAdministratives,
+            publics_specifiquement_adresses: `${PublicSpecifiquementAdresse.Seniors}|${PublicSpecifiquementAdresse.Jeunes}|${PublicSpecifiquementAdresse.Etudiants}|${PublicSpecifiquementAdresse.FamillesEnfants}`,
+            prise_en_charge_specifique: `${PriseEnChargeSpecifique.Surdite}|${PriseEnChargeSpecifique.HandicapsMoteurs}|${PriseEnChargeSpecifique.LanguesEtrangeresAutre}|${PriseEnChargeSpecifique.LanguesEtrangeresAnglais}`
           }
         ]
       ])
@@ -481,10 +485,10 @@ describe('remove duplicates', (): void => {
         latitude: 47.6699154795,
         longitude: -0.2551539846,
         date_maj: '2023-05-03',
-        courriel: 'commune-de-durtal@france-services.fr',
+        courriels: 'commune-de-durtal@france-services.fr',
         source: 'hinaura',
-        services: Service.RealiserDesDemarchesAdministratives,
-        labels_nationaux: `${LabelNational.CNFS};${LabelNational.FranceServices};${LabelNational.APTIC}`
+        services: Service.AideAuxDemarchesAdministratives,
+        dispositif_programmes_nationaux: `${DispositifProgrammeNational.ConseillersNumeriques}|${DispositifProgrammeNational.FranceServices}|${DispositifProgrammeNational.CertificationPIX}`
       },
       {
         id: 'mediation-numerique-hub-lo-436-mediation-numerique',
@@ -497,8 +501,8 @@ describe('remove duplicates', (): void => {
         longitude: -0.256457,
         date_maj: '2023-05-03',
         source: 'francil-in',
-        services: Service.RealiserDesDemarchesAdministratives,
-        labels_nationaux: `${LabelNational.AidantsConnect};${LabelNational.APTIC}`
+        services: Service.AideAuxDemarchesAdministratives,
+        dispositif_programmes_nationaux: `${DispositifProgrammeNational.AidantsConnect}|${DispositifProgrammeNational.CertificationPIX}`
       }
     ];
 
@@ -521,10 +525,10 @@ describe('remove duplicates', (): void => {
             latitude: 47.6699154795,
             longitude: -0.2551539846,
             date_maj: '2023-05-03',
-            courriel: 'commune-de-durtal@france-services.fr',
+            courriels: 'commune-de-durtal@france-services.fr',
             source: 'hinaura',
-            services: Service.RealiserDesDemarchesAdministratives,
-            labels_nationaux: `${LabelNational.CNFS};${LabelNational.FranceServices};${LabelNational.APTIC};${LabelNational.AidantsConnect}`
+            services: Service.AideAuxDemarchesAdministratives,
+            dispositif_programmes_nationaux: `${DispositifProgrammeNational.ConseillersNumeriques}|${DispositifProgrammeNational.FranceServices}|${DispositifProgrammeNational.CertificationPIX}|${DispositifProgrammeNational.AidantsConnect}`
           }
         ]
       ])
@@ -543,10 +547,10 @@ describe('remove duplicates', (): void => {
         latitude: 47.6699154795,
         longitude: -0.2551539846,
         date_maj: '2023-05-03',
-        courriel: 'commune-de-durtal@france-services.fr',
+        courriels: 'commune-de-durtal@france-services.fr',
         source: 'hinaura',
-        services: Service.RealiserDesDemarchesAdministratives,
-        labels_autres: "Ville de Paris;Francil'in;cooltech"
+        services: Service.AideAuxDemarchesAdministratives,
+        autres_formations_labels: ['Ville de Paris', "Francil'in", 'cooltech'].join('|')
       },
       {
         id: 'mediation-numerique-hub-lo-436-mediation-numerique',
@@ -559,8 +563,8 @@ describe('remove duplicates', (): void => {
         longitude: -0.256457,
         date_maj: '2023-05-03',
         source: 'francil-in',
-        services: Service.RealiserDesDemarchesAdministratives,
-        labels_autres: "fablab;Francil'in"
+        services: Service.AideAuxDemarchesAdministratives,
+        autres_formations_labels: ['fablab', "Francil'in"].join('|')
       }
     ];
 
@@ -583,10 +587,10 @@ describe('remove duplicates', (): void => {
             latitude: 47.6699154795,
             longitude: -0.2551539846,
             date_maj: '2023-05-03',
-            courriel: 'commune-de-durtal@france-services.fr',
+            courriels: 'commune-de-durtal@france-services.fr',
             source: 'hinaura',
-            services: Service.RealiserDesDemarchesAdministratives,
-            labels_autres: "Ville de Paris;Francil'in;cooltech;fablab"
+            services: Service.AideAuxDemarchesAdministratives,
+            autres_formations_labels: ['Ville de Paris', "Francil'in", 'cooltech', 'fablab'].join('|')
           }
         ]
       ])
@@ -605,10 +609,10 @@ describe('remove duplicates', (): void => {
         latitude: 47.6699154795,
         longitude: -0.2551539846,
         date_maj: '2023-05-03',
-        courriel: 'commune-de-durtal@france-services.fr',
+        courriels: 'commune-de-durtal@france-services.fr',
         source: 'hinaura',
-        services: Service.RealiserDesDemarchesAdministratives,
-        site_web: 'https://www.ville-durtal.fr/;https://www.ccals.fr/profils/durtal/'
+        services: Service.AideAuxDemarchesAdministratives,
+        site_web: ['https://www.ville-durtal.fr/', 'https://www.ccals.fr/profils/durtal/'].join('|')
       },
       {
         id: 'mediation-numerique-hub-lo-436-mediation-numerique',
@@ -621,8 +625,8 @@ describe('remove duplicates', (): void => {
         longitude: -0.256457,
         date_maj: '2023-05-03',
         source: 'francil-in',
-        services: Service.RealiserDesDemarchesAdministratives,
-        site_web: 'https://www.ville-durtal.fr/;https://www.cap-tierslieux.org/'
+        services: Service.AideAuxDemarchesAdministratives,
+        site_web: ['https://www.ville-durtal.fr/', 'https://www.cap-tierslieux.org'].join('|')
       }
     ];
 
@@ -645,10 +649,14 @@ describe('remove duplicates', (): void => {
             latitude: 47.6699154795,
             longitude: -0.2551539846,
             date_maj: '2023-05-03',
-            courriel: 'commune-de-durtal@france-services.fr',
+            courriels: 'commune-de-durtal@france-services.fr',
             source: 'hinaura',
-            services: Service.RealiserDesDemarchesAdministratives,
-            site_web: 'https://www.ville-durtal.fr/;https://www.ccals.fr/profils/durtal/;https://www.cap-tierslieux.org/'
+            services: Service.AideAuxDemarchesAdministratives,
+            site_web: [
+              'https://www.ville-durtal.fr/',
+              'https://www.ccals.fr/profils/durtal/',
+              'https://www.cap-tierslieux.org'
+            ].join('|')
           }
         ]
       ])
@@ -667,10 +675,10 @@ describe('remove duplicates', (): void => {
         latitude: 47.6699154795,
         longitude: -0.2551539846,
         date_maj: '2023-05-03',
-        courriel: 'commune-de-durtal@france-services.fr',
+        courriels: 'commune-de-durtal@france-services.fr',
         source: 'hinaura',
-        services: Service.RealiserDesDemarchesAdministratives,
-        typologie: `${Typologie.RFS};${Typologie.ASSO}`
+        services: Service.AideAuxDemarchesAdministratives,
+        typologie: `${Typologie.RFS}|${Typologie.ASSO}`
       },
       {
         id: 'mediation-numerique-hub-lo-436-mediation-numerique',
@@ -683,8 +691,8 @@ describe('remove duplicates', (): void => {
         longitude: -0.256457,
         date_maj: '2023-05-03',
         source: 'francil-in',
-        services: Service.RealiserDesDemarchesAdministratives,
-        typologie: `${Typologie.RFS};${Typologie.TIERS_LIEUX}`
+        services: Service.AideAuxDemarchesAdministratives,
+        typologie: `${Typologie.RFS}|${Typologie.TIERS_LIEUX}`
       }
     ];
 
@@ -707,10 +715,10 @@ describe('remove duplicates', (): void => {
             latitude: 47.6699154795,
             longitude: -0.2551539846,
             date_maj: '2023-05-03',
-            courriel: 'commune-de-durtal@france-services.fr',
+            courriels: 'commune-de-durtal@france-services.fr',
             source: 'hinaura',
-            services: Service.RealiserDesDemarchesAdministratives,
-            typologie: `${Typologie.RFS};${Typologie.ASSO};${Typologie.TIERS_LIEUX}`
+            services: Service.AideAuxDemarchesAdministratives,
+            typologie: `${Typologie.RFS}|${Typologie.ASSO}|${Typologie.TIERS_LIEUX}`
           }
         ]
       ])
@@ -729,9 +737,9 @@ describe('remove duplicates', (): void => {
         latitude: 47.6699154795,
         longitude: -0.2551539846,
         date_maj: '2023-01-16',
-        courriel: 'commune-de-durtal@france-services.fr',
+        courriels: 'commune-de-durtal@france-services.fr',
         source: 'hinaura',
-        services: Service.RealiserDesDemarchesAdministratives
+        services: Service.AideAuxDemarchesAdministratives
       },
       {
         id: 'mediation-numerique-hub-lo-436-mediation-numerique',
@@ -744,7 +752,7 @@ describe('remove duplicates', (): void => {
         longitude: -0.256457,
         date_maj: '2023-05-03',
         source: 'francil-in',
-        services: Service.RealiserDesDemarchesAdministratives
+        services: Service.AideAuxDemarchesAdministratives
       }
     ];
 
@@ -767,9 +775,9 @@ describe('remove duplicates', (): void => {
             latitude: 47.671271,
             longitude: -0.256457,
             date_maj: '2023-05-03',
-            courriel: 'commune-de-durtal@france-services.fr',
+            courriels: 'commune-de-durtal@france-services.fr',
             source: 'francil-in',
-            services: Service.RealiserDesDemarchesAdministratives
+            services: Service.AideAuxDemarchesAdministratives
           }
         ]
       ])
@@ -789,7 +797,7 @@ describe('remove duplicates', (): void => {
         longitude: -0.2551539846,
         date_maj: '2023-05-03',
         source: 'conseiller-numerique',
-        services: Service.RealiserDesDemarchesAdministratives
+        services: Service.AideAuxDemarchesAdministratives
       },
       {
         id: 'mediation-numerique-hub-lo-436-mediation-numerique',
@@ -801,8 +809,8 @@ describe('remove duplicates', (): void => {
         latitude: 47.671271,
         longitude: -0.256457,
         date_maj: '2023-01-16',
-        courriel: 'commune-de-durtal@france-services.fr',
-        services: Service.RealiserDesDemarchesAdministratives
+        courriels: 'commune-de-durtal@france-services.fr',
+        services: Service.AideAuxDemarchesAdministratives
       }
     ];
 
@@ -826,8 +834,8 @@ describe('remove duplicates', (): void => {
             longitude: -0.2551539846,
             date_maj: '2023-05-03',
             source: 'conseiller-numerique',
-            courriel: 'commune-de-durtal@france-services.fr',
-            services: Service.RealiserDesDemarchesAdministratives
+            courriels: 'commune-de-durtal@france-services.fr',
+            services: Service.AideAuxDemarchesAdministratives
           }
         ]
       ])
@@ -847,7 +855,7 @@ describe('remove duplicates', (): void => {
         longitude: -0.2551539846,
         date_maj: '2023-05-03',
         source: 'hinaura',
-        services: Service.AccederADuMateriel
+        services: Service.AccesInternetEtMaterielInformatique
       },
       {
         id: 'mediation-numerique-hub-lo-436-mediation-numerique',
@@ -859,9 +867,9 @@ describe('remove duplicates', (): void => {
         latitude: 47.671271,
         longitude: -0.256457,
         date_maj: '2019-01-17',
-        courriel: 'commune-de-durtal@france-services.fr',
+        courriels: 'commune-de-durtal@france-services.fr',
         source: 'francil-in',
-        services: Service.AccederADuMateriel
+        services: Service.AccesInternetEtMaterielInformatique
       }
     ];
 
@@ -885,7 +893,7 @@ describe('remove duplicates', (): void => {
             longitude: -0.2551539846,
             date_maj: '2023-05-03',
             source: 'hinaura',
-            services: Service.AccederADuMateriel
+            services: Service.AccesInternetEtMaterielInformatique
           }
         ]
       ])
@@ -904,9 +912,9 @@ describe('remove duplicates', (): void => {
         latitude: 47.6699154795,
         longitude: -0.2551539846,
         date_maj: '2019-01-16',
-        courriel: 'commune-de-durtal@france-services.fr',
+        courriels: 'commune-de-durtal@france-services.fr',
         source: 'hinaura',
-        services: Service.AccederADuMateriel
+        services: Service.AccesInternetEtMaterielInformatique
       },
       {
         id: 'mediation-numerique-hub-lo-436-mediation-numerique',
@@ -919,7 +927,7 @@ describe('remove duplicates', (): void => {
         longitude: -0.256457,
         date_maj: '2023-05-03',
         source: 'francil-in',
-        services: Service.AccederADuMateriel
+        services: Service.AccesInternetEtMaterielInformatique
       }
     ];
 
@@ -943,7 +951,7 @@ describe('remove duplicates', (): void => {
             longitude: -0.256457,
             date_maj: '2023-05-03',
             source: 'francil-in',
-            services: Service.AccederADuMateriel
+            services: Service.AccesInternetEtMaterielInformatique
           }
         ]
       ])
@@ -963,7 +971,7 @@ describe('remove duplicates', (): void => {
         longitude: -0.2551539846,
         date_maj: '2023-05-03',
         source: 'conseiller-numerique',
-        services: Service.AccederADuMateriel
+        services: Service.AccesInternetEtMaterielInformatique
       },
       {
         id: 'mediation-numerique-hub-lo-436-mediation-numerique',
@@ -975,8 +983,8 @@ describe('remove duplicates', (): void => {
         latitude: 47.671271,
         longitude: -0.256457,
         date_maj: '2019-01-16',
-        courriel: 'commune-de-durtal@france-services.fr',
-        services: Service.AccederADuMateriel
+        courriels: 'commune-de-durtal@france-services.fr',
+        services: Service.AccesInternetEtMaterielInformatique
       }
     ];
 
@@ -1000,7 +1008,7 @@ describe('remove duplicates', (): void => {
             longitude: -0.2551539846,
             date_maj: '2023-05-03',
             source: 'conseiller-numerique',
-            services: Service.AccederADuMateriel
+            services: Service.AccesInternetEtMaterielInformatique
           }
         ]
       ])
@@ -1019,8 +1027,8 @@ describe('remove duplicates', (): void => {
         latitude: 47.6699154795,
         longitude: -0.2551539846,
         date_maj: '2019-01-16',
-        courriel: 'commune-de-durtal@france-services.fr',
-        services: Service.AccederADuMateriel
+        courriels: 'commune-de-durtal@france-services.fr',
+        services: Service.AccesInternetEtMaterielInformatique
       },
       {
         id: 'mediation-numerique-hub-lo-436-mediation-numerique',
@@ -1033,7 +1041,7 @@ describe('remove duplicates', (): void => {
         longitude: -0.256457,
         date_maj: '2023-05-03',
         source: 'conseiller-numerique',
-        services: Service.AccederADuMateriel
+        services: Service.AccesInternetEtMaterielInformatique
       }
     ];
 
@@ -1057,7 +1065,7 @@ describe('remove duplicates', (): void => {
             longitude: -0.256457,
             date_maj: '2023-05-03',
             source: 'conseiller-numerique',
-            services: Service.AccederADuMateriel
+            services: Service.AccesInternetEtMaterielInformatique
           }
         ]
       ])
@@ -1077,8 +1085,8 @@ describe('remove duplicates', (): void => {
         longitude: -0.2551539846,
         date_maj: '2023-05-03',
         source: 'conseiller-numerique',
-        labels_nationaux: LabelNational.FranceServices,
-        services: Service.AccederADuMateriel
+        dispositif_programmes_nationaux: DispositifProgrammeNational.FranceServices,
+        services: Service.AccesInternetEtMaterielInformatique
       },
       {
         id: 'mediation-numerique-hub-lo-436-mediation-numerique',
@@ -1090,9 +1098,9 @@ describe('remove duplicates', (): void => {
         latitude: 47.671271,
         longitude: -0.256457,
         date_maj: '2019-01-16',
-        courriel: 'commune-de-durtal@france-services.fr',
-        labels_nationaux: `${LabelNational.CNFS};${LabelNational.APTIC}`,
-        services: Service.AccederADuMateriel
+        courriels: 'commune-de-durtal@france-services.fr',
+        dispositif_programmes_nationaux: `${DispositifProgrammeNational.ConseillersNumeriques}|${DispositifProgrammeNational.CertificationPIX}`,
+        services: Service.AccesInternetEtMaterielInformatique
       }
     ];
 
@@ -1116,8 +1124,8 @@ describe('remove duplicates', (): void => {
             longitude: -0.2551539846,
             date_maj: '2023-05-03',
             source: 'conseiller-numerique',
-            labels_nationaux: `${LabelNational.FranceServices};${LabelNational.CNFS};${LabelNational.APTIC}`,
-            services: Service.AccederADuMateriel
+            dispositif_programmes_nationaux: `${DispositifProgrammeNational.FranceServices}|${DispositifProgrammeNational.ConseillersNumeriques}|${DispositifProgrammeNational.CertificationPIX}`,
+            services: Service.AccesInternetEtMaterielInformatique
           }
         ]
       ])

@@ -1,7 +1,7 @@
-import { LabelNational, Typologie, Typologies } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { DispositifProgrammeNational, Typologie, Typologies } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Choice, cibleAsDefault, DataSource, LieuxMediationNumeriqueMatching } from '../../input';
+import { processDispositifProgrammeNationaux } from '../dispositifs-programmes-nationaux/dispositifs-programmes-nationaux.field';
 import { TYPOLOGIE_MATCHERS } from './name-to-typologie';
-import { processLabelsNationaux } from '../labels-nationaux/labels-nationaux.field';
 
 export type TypologieMatcher = {
   typologie: Typologie;
@@ -58,7 +58,7 @@ const toTypologieMatchingName =
       : typologies;
 
 const inferTypologies = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Typologies =>
-  processLabelsNationaux(source, matching).includes(LabelNational.FranceServices)
+  processDispositifProgrammeNationaux(source, matching).includes(DispositifProgrammeNational.FranceServices)
     ? Typologies([Typologie.RFS])
     : TYPOLOGIE_MATCHERS.reduce(toTypologieMatchingName(source, matching), Typologies([]));
 

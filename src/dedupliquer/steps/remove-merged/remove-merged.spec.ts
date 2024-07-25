@@ -18,7 +18,7 @@ describe('remove merged', (): void => {
         longitude: 5.716962,
         date_maj: '2023-05-03',
         source: 'hinaura',
-        services: Service.AccederADuMateriel
+        services: Service.AccesInternetEtMaterielInformatique
       },
       {
         id: 'mediation-numerique-hub-lo-436-mediation-numerique',
@@ -31,7 +31,7 @@ describe('remove merged', (): void => {
         longitude: 5.704953,
         date_maj: '2023-05-03',
         source: 'hinaura',
-        services: Service.AccederADuMateriel
+        services: Service.AccesInternetEtMaterielInformatique
       }
     ];
 
@@ -58,7 +58,7 @@ describe('remove merged', (): void => {
         longitude: 5.716962,
         date_maj: '2023-05-03',
         source: 'hinaura',
-        services: Service.AccederADuMateriel
+        services: Service.AccesInternetEtMaterielInformatique
       },
       {
         id: 'mediation-numerique-hub-lo-436-mediation-numerique',
@@ -71,7 +71,7 @@ describe('remove merged', (): void => {
         longitude: 5.704953,
         date_maj: '2023-05-03',
         source: 'hinaura',
-        services: Service.AccederADuMateriel
+        services: Service.AccesInternetEtMaterielInformatique
       }
     ];
 
@@ -94,7 +94,7 @@ describe('remove merged', (): void => {
         longitude: 5.704953,
         date_maj: '2023-05-03',
         source: 'hinaura',
-        services: Service.AccederADuMateriel
+        services: Service.AccesInternetEtMaterielInformatique
       }
     ]);
   });

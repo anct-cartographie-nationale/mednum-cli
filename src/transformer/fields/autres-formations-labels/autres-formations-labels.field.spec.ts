@@ -3,9 +3,8 @@
 import { Adresse, Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Polygon } from '@turf/helpers/dist/js/lib/geojson';
 import { isInQpv, isInZrr } from '../../data';
-
-import { processLabelsAutres } from './labels-autres.field';
 import { LieuxMediationNumeriqueMatching } from '../../input';
+import { processAutresFormationsLabels } from './autres-formations-labels.field';
 
 const QPV_IN_02691_SHAPE: Polygon = {
   coordinates: [
@@ -50,7 +49,7 @@ const LOCALISATION_IN_QPV: Localisation = Localisation({ latitude: 49.83615, lon
 
 describe('labels autres field', (): void => {
   it('should not get labels autres for empty value', (): void => {
-    const labelsAutres: string[] = processLabelsAutres(
+    const labelsAutres: string[] = processAutresFormationsLabels(
       {},
       {} as LieuxMediationNumeriqueMatching,
       isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
@@ -64,14 +63,14 @@ describe('labels autres field', (): void => {
 
   it('should not get empty string labels', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
-      labels_autres: [
+      autres_formations_labels: [
         {
           cible: ''
         }
       ]
     } as LieuxMediationNumeriqueMatching;
 
-    const labelsAutres: string[] = processLabelsAutres(
+    const labelsAutres: string[] = processAutresFormationsLabels(
       {},
       matching,
       isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
@@ -85,14 +84,14 @@ describe('labels autres field', (): void => {
 
   it('should get SudLabs default labels autres', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
-      labels_autres: [
+      autres_formations_labels: [
         {
           cible: 'SudLabs'
         }
       ]
     } as LieuxMediationNumeriqueMatching;
 
-    const labelsAutres: string[] = processLabelsAutres(
+    const labelsAutres: string[] = processAutresFormationsLabels(
       {},
       matching,
       isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
@@ -106,7 +105,7 @@ describe('labels autres field', (): void => {
 
   it('should get matching SudLabs and Nièvre médiation numérique labels autres', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
-      labels_autres: [
+      autres_formations_labels: [
         {
           colonnes: ['label'],
           termes: ['Nièvre médiation'],
@@ -120,7 +119,7 @@ describe('labels autres field', (): void => {
       ]
     } as LieuxMediationNumeriqueMatching;
 
-    const labelsAutres: string[] = processLabelsAutres(
+    const labelsAutres: string[] = processAutresFormationsLabels(
       {
         label: 'Nièvre médiation et SudLabs'
       },
@@ -136,7 +135,7 @@ describe('labels autres field', (): void => {
 
   it('should not get any matching label autre', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
-      labels_autres: [
+      autres_formations_labels: [
         {
           colonnes: ['label'],
           termes: ['Nièvre médiation'],
@@ -150,7 +149,7 @@ describe('labels autres field', (): void => {
       ]
     } as LieuxMediationNumeriqueMatching;
 
-    const labelsAutres: string[] = processLabelsAutres(
+    const labelsAutres: string[] = processAutresFormationsLabels(
       {
         label: 'pas de labels'
       },
@@ -166,14 +165,14 @@ describe('labels autres field', (): void => {
 
   it('should get exact label autre from source with single column', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
-      labels_autres: [
+      autres_formations_labels: [
         {
           colonnes: ['label_1']
         }
       ]
     } as LieuxMediationNumeriqueMatching;
 
-    const labelsAutres: string[] = processLabelsAutres(
+    const labelsAutres: string[] = processAutresFormationsLabels(
       {
         label_1: 'label 1'
       },
@@ -189,14 +188,14 @@ describe('labels autres field', (): void => {
 
   it('should get exact label autre from source with multiple columns', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
-      labels_autres: [
+      autres_formations_labels: [
         {
           colonnes: ['label_1', 'label_2']
         }
       ]
     } as LieuxMediationNumeriqueMatching;
 
-    const labelsAutres: string[] = processLabelsAutres(
+    const labelsAutres: string[] = processAutresFormationsLabels(
       {
         label_1: 'label 1',
         label_2: 'label 2'
@@ -212,7 +211,7 @@ describe('labels autres field', (): void => {
   });
 
   it('should get QPV when code INSEE match a QPV area and localisation is in QPV area', (): void => {
-    const labelsAutres: string[] = processLabelsAutres(
+    const labelsAutres: string[] = processAutresFormationsLabels(
       {},
       {} as LieuxMediationNumeriqueMatching,
       isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
@@ -226,14 +225,14 @@ describe('labels autres field', (): void => {
 
   it('should get QPV with SudLabs default labels autres', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
-      labels_autres: [
+      autres_formations_labels: [
         {
           cible: 'SudLabs'
         }
       ]
     } as LieuxMediationNumeriqueMatching;
 
-    const labelsAutres: string[] = processLabelsAutres(
+    const labelsAutres: string[] = processAutresFormationsLabels(
       {},
       matching,
       isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
@@ -246,7 +245,7 @@ describe('labels autres field', (): void => {
   });
 
   it('should get ZRR when code INSEE match a ZRR', (): void => {
-    const labelsAutres: string[] = processLabelsAutres(
+    const labelsAutres: string[] = processAutresFormationsLabels(
       {},
       {} as LieuxMediationNumeriqueMatching,
       isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
@@ -259,7 +258,7 @@ describe('labels autres field', (): void => {
   });
 
   it('should get QPV and ZRR when code INSEE match the both cases', (): void => {
-    const labelsAutres: string[] = processLabelsAutres(
+    const labelsAutres: string[] = processAutresFormationsLabels(
       {},
       {} as LieuxMediationNumeriqueMatching,
       isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
@@ -273,14 +272,14 @@ describe('labels autres field', (): void => {
 
   it('should get only one QPV if QPV is set in source', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
-      labels_autres: [
+      autres_formations_labels: [
         {
           cible: 'QPV'
         }
       ]
     } as LieuxMediationNumeriqueMatching;
 
-    const labelsAutres: string[] = processLabelsAutres(
+    const labelsAutres: string[] = processAutresFormationsLabels(
       { labels_autres: 'QPV' },
       matching,
       isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
