@@ -62,7 +62,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
+          node-version: 'latest'
           cache: 'yarn'
       - name: Install dependencies
         run: yarn
@@ -127,7 +127,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
+          node-version: 'latest'
           cache: 'yarn'
       - name: Install dependencies
         run: yarn
@@ -147,15 +147,7 @@ jobs:
     name: Extract and publish to data.gouv
     strategy:
       matrix:
-        source:
-          [
-            extract-eure-et-loir,
-            extract-mednum-hub-antilles,
-            extract-numi,
-            extract-paca,
-            extract-savoie,
-            extract-vendee
-          ]
+        source: [extract-eure-et-loir, extract-mednum-hub-antilles, extract-numi, extract-paca, extract-savoie, extract-vendee]
     runs-on: ubuntu-latest
     environment: production
     needs:
@@ -171,7 +163,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
+          node-version: 'latest'
           cache: 'yarn'
       - name: Install dependencies
         run: yarn
@@ -205,7 +197,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
+          node-version: 'latest'
           cache: 'yarn'
       - name: Install dependencies
         run: yarn
