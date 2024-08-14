@@ -6,7 +6,6 @@ import { Report } from '../report';
 
 export type TransformationRepository = {
   config: LieuxMediationNumeriqueMatching;
-  accesLibre: Erp[];
   findCommune: FindCommune;
   isInQpv: IsInQpv;
   isInZrr: IsInZrr;

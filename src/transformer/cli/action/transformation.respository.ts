@@ -1,7 +1,6 @@
 /* eslint-disable-next-line @typescript-eslint/no-restricted-imports */
 import * as fs from 'fs';
 import {
-  accesLibreFromS3,
   communeFromGeoApi,
   fingerprintsFromFile,
   isInQpv,
@@ -35,7 +34,6 @@ export const transformationRespository = async (transformerOptions: TransformerO
 
   return {
     config,
-    accesLibre: await accesLibreFromS3(),
     findCommune: findCommune(await communeFromGeoApi()),
     isInQpv: isInQpv(await qpvFromDataGouv()),
     isInZrr: isInZrr(await zrrFromEquipementsSportsGouvApi()),
