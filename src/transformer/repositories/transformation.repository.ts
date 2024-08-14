@@ -1,12 +1,11 @@
 import { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { DiffSinceLastTransform, Fingerprint } from '../cli/diff-since-last-transform';
-import { Erp, FindCommune, IsInQpv, IsInZrr, Geocode } from '../fields';
+import { FindCommune, IsInQpv, IsInZrr, Geocode } from '../fields';
 import { DataSource, LieuxMediationNumeriqueMatching } from '../input';
 import { Report } from '../report';
 
 export type TransformationRepository = {
   config: LieuxMediationNumeriqueMatching;
-  accesLibre: Erp[];
   findCommune: FindCommune;
   isInQpv: IsInQpv;
   isInZrr: IsInZrr;
