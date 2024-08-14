@@ -12,6 +12,21 @@
       "colonnes": ["Type"],
       "termes": ["Association"],
       "cible": "ASSO"
+    },
+    {
+      "colonnes": ["Type"],
+      "termes": ["Collectivité"],
+      "cible": "MUNI"
+    },
+    {
+      "colonnes": ["Type"],
+      "termes": ["Espace Public Numérique"],
+      "cible": "EPN"
+    },
+    {
+      "colonnes": ["Type"],
+      "termes": ["Mission locale", "ARML"],
+      "cible": "ML"
     }
   ],
   "code_postal": {
@@ -41,128 +56,78 @@
   "presentation_resume": {
     "colonne": "Activités proposées"
   },
-  "labels_nationaux": [
-    {
-      "colonnes": ["Type"],
-      "termes": ["Conseiller numérique"],
-      "cible": "CNFS"
-    },
-    {
-      "colonnes": ["Type"],
-      "termes": ["France Services"],
-      "cible": "France Services"
-    }
-  ],
-
   "modalites_accompagnement": [
     {
       "colonnes": ["Activités proposées"],
-      "termes": ["Ateliers"],
-      "cible": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
+      "termes": ["individuel", "Accompagnement"],
+      "cible": "Accompagnement individuel"
     },
     {
       "colonnes": ["Activités proposées"],
-      "termes": ["Accompagnement individuel"],
-      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+      "termes": ["Ateliers", "Groupe de parole"],
+      "cible": "Dans un atelier collectif"
     }
   ],
   "date_maj": {
     "colonne": ""
   },
-  "conditions_acces": [
+  "publics_specifiquement_adresses": [
     {
-      "colonnes": ["Type"],
-      "termes": ["France Services"],
-      "cible": "Gratuit : Je peux accéder gratuitement au lieu et à ses services"
-    }
-  ],
-  "publics_accueillis": [
-    {
-      "colonnes": ["Type"],
-      "termes": ["France Services"],
-      "cible": "Adultes"
+      "colonnes": ["Activités proposées"],
+      "termes": ["autonomie numérique des jeunes de 16 à 29 ans", "ateliers numériques dédiés aux jeunes"],
+      "cible": "Jeunes"
     },
     {
-      "colonnes": ["Type"],
-      "termes": ["France Services"],
-      "cible": "Jeunes (16-26 ans)"
-    },
-    {
-      "colonnes": ["Type"],
-      "termes": ["France Services"],
-      "cible": "Familles/enfants"
-    },
-    {
-      "colonnes": ["Type"],
-      "termes": ["France Services"],
-      "cible": "Seniors (+ 65 ans)"
+      "colonnes": ["Activités proposées"],
+      "termes": ["autonomie numérique des jeunes de 16 à 29 ans"],
+      "cible": "Étudiants"
     }
   ],
   "services": [
     {
       "colonnes": ["Matériel mis à disposition"],
-      "termes": ["Connexion Internet"],
-      "cible": "Accéder à une connexion internet"
-    },
-    {
-      "colonnes": ["Matériel mis à disposition"],
-      "termes": ["Photocopieuse", "Imprimante", "Scanner"],
-      "cible": "Accéder à du matériel"
-    },
-    {
-      "colonnes": ["Matériel mis à disposition"],
-      "termes": ["Ordinateur fixe", "Ordinateur"],
-      "cible": "Prendre en main un ordinateur"
+      "termes": ["Connexion Internet", "Photocopieuse", "Imprimante", "Scanner", "Ordinateur fixe", "impression 3D", "fraiseuse numérique"],
+      "cible": "Accès internet et matériel informatique"
     },
     {
       "colonnes": ["Activités proposées"],
-      "termes": ["formation aux outils numériques", "initiation à l'informatique", "pratiques numériques"],
-      "cible": "Utiliser le numérique au quotidien"
+      "termes": ["formation aux outils numériques", "initiation à l'informatique", "pratiques numériques", "Utiliser le numérique au quotidien", "Prendre en main un smartphone ou une tablette", "Prendre en main un ordinateur"],
+      "cible": "Maîtrise des outils numériques du quotidien"
     },
     {
       "colonnes": ["Activités proposées"],
-      "termes": ["formation aux outils numériques", "initiation à l'informatique", "pratiques numériques"],
-      "cible": "Approfondir ma culture numérique"
-    },
-    {
-      "colonnes": ["Matériel mis à disposition"],
-      "termes": ["Tablette", "Smartphone"],
-      "cible": "Prendre en main un smartphone ou une tablette"
+      "termes": ["bonnes pratiques numériques", "prévention sur les usages numériques", "fake news, cybersécurité"],
+      "cible": "Utilisation sécurisée du numérique"
     },
     {
       "colonnes": ["Activités proposées"],
-      "termes": ["pratiques numériques", "usages numériques", "Groupe de parole"],
-      "cible": "Promouvoir la citoyenneté numérique"
+      "termes": ["création graphique", "programmation", "montage photo", "impression 3D", "fraiseuse numérique"],
+      "cible": "Loisirs et créations numériques"
     },
     {
       "colonnes": ["Activités proposées"],
-      "termes": ["l'accès aux droits", "CAF", "CPAM"],
-      "cible": "Accompagner les démarches de santé"
+      "termes": ["présentation des métiers de la filière numérique", "Accompagnement à la création d'entreprise", "Organisme de formation"],
+      "cible": "Insertion professionnelle via le numérique"
     },
     {
       "colonnes": ["Activités proposées"],
-      "termes": ["l'accès aux droits", "services publics dématérialisés"],
-      "cible": "Devenir autonome dans les démarches administratives"
+      "termes": ["pratiques numériques", "usages numériques", "Groupe de parole", "IA, cryptomonnaies, blockchain", "Approfondir sa culture numérique"],
+      "cible": "Compréhension du monde numérique"
     },
     {
       "colonnes": ["Activités proposées"],
-      "termes": ["l'accès aux droits", "services publics dématérialisés"],
-      "cible": "Réaliser des démarches administratives avec un accompagnement"
-    },
-    {
-      "colonnes": ["Type"],
-      "termes": ["France Services"],
-      "cible": "Réaliser des démarches administratives avec un accompagnement"
-    },
-    {
-      "colonnes": ["Type"],
-      "termes": ["France Services"],
-      "cible": "Favoriser mon insertion professionnelle"
+      "termes": ["l'accès aux droits", "démarches classique en ligne", "CAF", "CPAM", "l'accès aux droits", "services publics dématérialisés", "l'accès aux droits", "services publics dématérialisés"],
+      "cible": "Aide aux démarches administratives"
     },
     {
       "colonnes": ["Activités proposées"],
       "termes": ["destination des parents", "l'E-parentalité"],
-      "cible": "Soutenir la parentalité et l'éducation avec le numérique"
+      "cible": "Parentalité et éducation avec le numérique"
+    },
+    {
+      "colonnes": ["Activités proposées"],
+      "termes": ["Dotation de matériel numérique"],
+      "cible": "Acquisition de matériel informatique à prix solidaire"
     }
   ],
   "horaires": {
