@@ -59,8 +59,8 @@ const isFilled = <T>(nullable?: T[]): nullable is T[] => nullable != null && nul
 const localisationIfAny = (localisation?: Localisation): { localisation?: Localisation } =>
   localisation == null ? {} : { localisation };
 
-const itinerancesIfAny = (itinerances?: Itinerances): { itinerances?: Itinerances } =>
-  isFilled(itinerances) ? { itinerances } : {};
+const itinerancesIfAny = (itinerance?: Itinerances): { itinerance?: Itinerances } =>
+  isFilled(itinerance) ? { itinerance } : {};
 
 const servicesIfAny = (services?: Services): { services?: Services } => (isFilled(services) ? { services } : {});
 

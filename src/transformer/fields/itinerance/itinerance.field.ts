@@ -22,12 +22,14 @@ const itinerancesForTerms =
   (itinerances: Itinerance[], colonne: string): Itinerance[] =>
     containsOneOfTheTerms(choice, source[colonne]?.toString()) ? appendItinerance(itinerances, choice.cible) : itinerances;
 
+const isDefaultChoice = (choice: Choice<Itinerance>): boolean => choice.colonnes == null && choice.termes == null;
+
 const appendItinerances =
   (source: DataSource) =>
-  (itinerances: Itinerance[], choice: Choice<Itinerance>): Itinerance[] => [
-    ...itinerances,
-    ...(choice.colonnes ?? []).reduce(itinerancesForTerms(choice, source), [])
-  ];
+  (itinerances: Itinerance[], choice: Choice<Itinerance>): Itinerance[] =>
+    isDefaultChoice(choice)
+      ? appendItinerance(itinerances, choice.cible)
+      : [...itinerances, ...(choice.colonnes ?? []).reduce(itinerancesForTerms(choice, source), [])];
 
 export const processItinerances = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Itinerances =>
   Itinerances(Array.from(new Set(matching.itinerance?.reduce(appendItinerances(source), []))));

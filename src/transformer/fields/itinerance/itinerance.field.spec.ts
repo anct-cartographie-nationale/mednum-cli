@@ -21,6 +21,14 @@ const MATCHING: LieuxMediationNumeriqueMatching = {
   ]
 } as LieuxMediationNumeriqueMatching;
 
+const DEFAULT_MATCHING: LieuxMediationNumeriqueMatching = {
+  itinerance: [
+    {
+      cible: Itinerance.Itinerant
+    }
+  ]
+} as LieuxMediationNumeriqueMatching;
+
 describe('itinerance field', (): void => {
   it('should not get any itinerance data for empty value', (): void => {
     const itinerances: Itinerances = processItinerances(
@@ -64,5 +72,16 @@ describe('itinerance field', (): void => {
     );
 
     expect(itinerances).toStrictEqual([Itinerance.Fixe, Itinerance.Itinerant]);
+  });
+
+  it('should apply "Itinerant" as default value', (): void => {
+    const itinerances: Itinerances = processItinerances(
+      {
+        [ITINERANCE_FIELD]: ''
+      },
+      DEFAULT_MATCHING
+    );
+
+    expect(itinerances).toStrictEqual([Itinerance.Itinerant]);
   });
 });
