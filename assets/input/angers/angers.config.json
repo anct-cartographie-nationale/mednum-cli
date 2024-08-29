@@ -14,6 +14,9 @@
   "adresse": {
     "colonne": "USER_ADRES"
   },
+  "complement_adresse": {
+    "colonne": "USER_QUART"
+  },
   "latitude": {
     "colonne": "LAT"
   },
@@ -23,130 +26,165 @@
   "telephone": {
     "colonne": "TELEPHONE"
   },
-  "courriel": {
+  "courriels": {
     "colonne": "MAIL"
   },
   "site_web": {
     "colonne": "SITE_INTER"
   },
-  "conditions_acces": [],
-  "modalites_accompagnement": [],
   "date_maj": {
     "colonne": "DATE_MAJ"
   },
-  "publics_accueillis": [
+  "presentation_detail": {
+    "colonne": "TRANSPORT"
+  },
+  "typologie": [
     {
-      "colonnes": ["PUBLIC_"],
-      "termes": ["adultes", "résident", "demandeur d'emploi", "entrepreneur", "public majeur uniquement", "professionnel"],
-      "cible": "Adultes"
-    },
-    {
-      "colonnes": ["PUBLIC_"],
-      "termes": ["résident"],
-      "cible": "Familles/enfants"
-    },
-    {
-      "colonnes": ["PUBLIC_"],
-      "termes": [
-        "etudiant",
-        "jeune",
-        "Jeune (16-25 ans)",
-        "jeune (18-30 ans)",
-        "jeune (16-30 ans)",
-        "Jeune (15-30 ans)",
-        "résident"
+      "colonnes": [
+        "PICTO"
       ],
-      "cible": "Jeunes (16-26 ans)"
+      "termes": [
+        "Bibliotheque"
+      ],
+      "cible": "BIB"
     },
     {
-      "colonnes": ["PUBLIC_"],
-      "termes": ["senior", "senior (plus de 45 ans)", "résident"],
-      "cible": "Seniors (+ 65 ans)"
+      "colonnes": [
+        "PICTO"
+      ],
+      "termes": [
+        "Maison de quartier"
+      ],
+      "cible": "MQ"
     },
     {
-      "colonnes": ["PUBLIC_"],
-      "termes": ["etranger", "résident", "réfugié", "étrangère"],
-      "cible": "Public langues étrangères"
+      "colonnes": [
+        "PICTO"
+      ],
+      "termes": [
+        "Hotel de ville"
+      ],
+      "cible": "MUNI"
+    }
+  ],
+  "publics_specifiquement_adresses": [
+    {
+      "colonnes": [
+        "PUBLIC_"
+      ],
+      "termes": [
+        "Jeune"
+      ],
+      "cible": "Jeunes"
+    },
+    {
+      "colonnes": [
+        "PUBLIC_"
+      ],
+      "termes": [
+        "Etudiant"
+      ],
+      "cible": "Étudiants"
+    },
+    {
+      "colonnes": [
+        "PUBLIC_"
+      ],
+      "termes": [
+        "Senior"
+      ],
+      "cible": "Seniors"
+    }
+  ],
+  "prise_en_charge_specifique": [
+    {
+      "colonnes": [
+        "PUBLIC_"
+      ],
+      "termes": [
+        "Etranger", "Réfugié", "Personne en situation de précarité (française ou étrangère)"
+      ],
+      "cible": "Langues étrangères (anglais)"
+    },
+    {
+      "colonnes": [
+        "PUBLIC_"
+      ],
+      "termes": [
+        "Etranger", "Réfugié", "Personne en situation de précarité (française ou étrangère)"
+      ],
+      "cible": "Langues étrangères (autres)"
     }
   ],
   "services": [
     {
-      "colonnes": ["ACCES_ORDI", "WIFI"],
-      "termes": ["Accès WIFI", "Utilisation ordinateur et/ou tablette"],
-      "cible": "Accéder à une connexion internet"
-    },
-    {
-      "colonnes": ["ACCES_ORDI", "QUALIF1", "QUALIF3", "QUALIF4"],
+      "colonnes": [
+        "QUALIF1"
+      ],
       "termes": [
-        "Utilisation ordinateur et/ou tablette",
-        "Utilisation d'une imprimante",
-        "Utilisation d'un scanner",
         "Initiation aux outils numériques"
       ],
-      "cible": "Accéder à du matériel"
+      "cible": "Maîtrise des outils numériques du quotidien"
     },
     {
-      "colonnes": ["ACCES_ORDI", "QUALIF1"],
-      "termes": ["Utilisation ordinateur et/ou tablette", "Initiation aux outils numériques"],
-      "cible": "Prendre en main un ordinateur"
-    },
-    {
-      "colonnes": ["ACCES_ORDI", "QUALIF1", "SENS_INTER", "AVIS_NUM", "FORM_PERF"],
+      "colonnes": [
+        "ACCES_ORDI", "WIFI", "QUALIF3", "QUALIF4"
+      ],
       "termes": [
-        "Utilisation ordinateur et/ou tablette",
-        "Initiation aux outils numériques",
-        "Sensibilisation aux risques d'internet",
-        "Avis éclairé sur les usagers numériques",
+        "Utilisation ordinateur et/ou tablette", "Accès WIFI", "Utilisation d'une imprimante", "Utilisation d'un scanner"
+      ],
+      "cible": "Accès internet et matériel informatique"
+    },
+    {
+      "colonnes": [
+        "PRET_MAT",
+        "REPAR_MAT"
+      ],
+      "termes": [
+        "Prêt de matériel",
+        "Réparation de matériel"
+      ],
+      "cible": "Acquisition de matériel informatique à prix solidaire"
+    },
+    {
+      "colonnes": [
+        "SENS_INTER", "AVIS_NUM"
+      ],
+      "termes": [
+        "Sensibilisation aux risques d'internet", "Avis éclairé sur les usagers numériques"
+      ],
+      "cible": "Utilisation sécurisée du numérique"
+    },
+    {
+      "colonnes": [
+        "AIDE_DEMAT", "QUALIF2"
+      ],
+      "termes": [
+        "Aide aux démarches dématérialisées", "Aide pour les démarches administratives"
+      ],
+      "cible": "Aide aux démarches administratives"
+    },
+    {
+      "colonnes": [
+        "FORM_PERF"
+      ],
+      "termes": [
         "Perfectionnement aux outils numériques"
       ],
-      "cible": "Utiliser le numérique au quotidien"
+      "cible": "Utilisation sécurisée du numérique"
     },
     {
-      "colonnes": ["ACCES_ORDI", "QUALIF1", "SENS_INTER", "AVIS_NUM", "FORM_PERF"],
-      "termes": [
-        "Utilisation ordinateur et/ou tablette",
-        "Initiation aux outils numériques",
-        "Sensibilisation aux risques d'internet",
-        "Avis éclairé sur les usagers numériques",
-        "Perfectionnement aux outils numériques"
+      "colonnes": [
+        "FORM_PERF",
+        "AVIS_NUM"
       ],
-      "cible": "Approfondir ma culture numérique"
-    },
-    {
-      "colonnes": ["ACCES_ORDI"],
-      "termes": ["Utilisation ordinateur et/ou tablette"],
-      "cible": "Prendre en main un smartphone ou une tablette"
-    },
-    {
-      "colonnes": ["AVIS_NUM", "QUALIF1"],
-      "termes": ["Avis éclairé sur les usagers numériques", "Initiation aux outils numériques"],
-      "cible": "Promouvoir la citoyenneté numérique"
-    },
-    {
-      "colonnes": ["AIDE_DEMAT", "QUALIF2"],
-      "termes": ["Aide pour les démarches administratives", "Aide aux démarches dématérialisées"],
-      "cible": "Accompagner les démarches de santé"
-    },
-    {
-      "colonnes": ["AIDE_DEMAT", "QUALIF2"],
-      "termes": ["Aide pour les démarches administratives", "Aide aux démarches dématérialisées"],
-      "cible": "Favoriser mon insertion professionnelle"
-    },
-    {
-      "colonnes": ["PRET_MAT", "REPAR_MAT"],
-      "termes": ["Prêt de matériel", "Réparation de matériel"],
-      "cible": "S'équiper en matériel informatique"
-    },
-    {
-      "colonnes": ["QUALIF2", "AIDE_DEMAT"],
-      "termes": ["Aide pour les démarches administratives", "Aide aux démarches dématérialisées"],
-      "cible": "Devenir autonome dans les démarches administratives"
-    },
-    {
-      "colonnes": ["QUALIF2", "AIDE_DEMAT"],
-      "termes": ["Aide pour les démarches administratives", "Aide aux démarches dématérialisées"],
-      "cible": "Réaliser des démarches administratives avec un accompagnement"
+      "termes": [
+        "Perfectionnement aux outils numériques",
+        "Avis éclairé sur les usagers numériques"
+      ],
+      "cible": "Compréhension du monde numérique"
     }
+
   ],
   "horaires": {
     "semaine": "HORAIRE"
