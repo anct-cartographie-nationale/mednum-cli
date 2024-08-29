@@ -30,12 +30,12 @@
   ],
   "modalites_accompagnement": [
     {
-      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+      "cible": "Accompagnement individuel"
     }
   ],
   "services": [
     {
-      "cible": "Réaliser des démarches administratives avec un accompagnement"
+      "cible": "Aide aux démarches administratives"
     }
   ]
 }
