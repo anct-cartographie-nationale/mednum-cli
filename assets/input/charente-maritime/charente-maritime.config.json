@@ -14,13 +14,19 @@
   "adresse": {
     "colonne": "properties.adresse"
   },
+  "complement_adresse": {
+    "colonne": "properties.complement_adresse"
+  },
   "code_postal": {
     "colonne": "properties.code_postal"
+  },
+  "code_insee": {
+    "colonne": "properties.code_insee"
   },
   "telephone": {
     "colonne": "properties.telephone"
   },
-  "courriel": {
+  "courriels": {
     "colonne": "properties.courriel"
   },
   "site_web": {
@@ -50,150 +56,99 @@
   "accessibilite": {
     "colonne": "properties.accessibilite"
   },
-  "labels_nationaux": [
-    {
-      "colonnes": ["properties.labels_nationaux"],
-      "termes": ["CNFS"],
-      "cible": "CNFS"
-    },
-    {
-      "colonnes": ["properties.labels_nationaux"],
-      "termes": ["France Services"],
-      "cible": "France Services"
-    },
-    {
-      "colonnes": ["properties.labels_nationaux"],
-      "termes": ["APTIC"],
-      "cible": "APTIC"
-    }
-  ],
-  "conditions_acces": [
+  "frais_a_charge": [
     {
       "colonnes": ["properties.conditions_acces"],
       "termes": ["Gratuit"],
-      "cible": "Gratuit : Je peux accéder gratuitement au lieu et à ses services"
+      "cible": "Gratuit"
     },
     {
       "colonnes": ["properties.conditions_acces"],
-      "termes": ["adhésion"],
-      "cible": "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"
-    },
-    {
-      "colonnes": ["properties.conditions_acces"],
-      "termes": ["Accepte le Pass numérique"],
-      "cible": "Accepte le Pass numérique : Il est possible d'utiliser un Pass numérique pour accéder au lieu"
+      "termes": ["Adhésion", "Contribution par prestation"],
+      "cible": "Payant"
     }
   ],
   "modalites_accompagnement": [
     {
       "colonnes": ["properties.modalites_accompagnement"],
       "termes": ["Seul"],
-      "cible": "Seul : j'ai accès à du matériel et une connexion"
+      "cible": "En autonomie"
     },
     {
       "colonnes": ["properties.modalites_accompagnement"],
       "termes": ["Dans un atelier"],
-      "cible": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
+      "cible": "Dans un atelier collectif"
     },
     {
       "colonnes": ["properties.modalites_accompagnement"],
       "termes": ["Avec de l'aide"],
-      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+      "cible": "Accompagnement individuel"
     }
   ],
-  "publics_accueillis": [
+  "publics_specifiquement_adresses": [
     {
       "colonnes": ["properties.publics_accueillis"],
-      "termes": ["Tout public", "Jeunes (16-26 ans)"],
-      "cible": "Jeunes (16-26 ans)"
+      "termes": ["Jeunes"],
+      "cible": "Jeunes"
     },
     {
       "colonnes": ["properties.publics_accueillis"],
-      "termes": ["Tout public"],
-      "cible": "Familles/enfants"
+      "termes": ["Seniors"],
+      "cible": "Seniors"
+    }
+  ],
+  "prise_en_charge_specifique": [
+    {
+      "colonnes": ["properties.publics_accueillis"],
+      "termes": ["Public langues étrangères"],
+      "cible": "Langues étrangères (anglais)"
     },
     {
       "colonnes": ["properties.publics_accueillis"],
-      "termes": ["Tout public", "Bénéficiaires du RSA", "Personnes en recherche d'emploi"],
-      "cible": "Adultes"
-    },
-    {
-      "colonnes": ["properties.publics_accueillis"],
-      "termes": ["Tout public", "Seniors (+ 65 ans)"],
-      "cible": "Seniors (+ 65 ans)"
-    },
-    {
-      "colonnes": ["properties.publics_accueillis"],
-      "termes": ["Tout public", "Public langues étrangères"],
-      "cible": "Public langues étrangères"
-    },
-    {
-      "colonnes": ["properties.publics_accueillis"],
-      "termes": ["Tout public"],
-      "cible": "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales"
-    },
-    {
-      "colonnes": ["properties.publics_accueillis"],
-      "termes": ["Tout public"],
-      "cible": "Personnes en situation d'illettrisme"
-    },
-    {
-      "colonnes": ["properties.publics_accueillis"],
-      "termes": ["Tout public"],
-      "cible": "Surdité"
-    },
-    {
-      "colonnes": ["properties.publics_accueillis"],
-      "termes": ["Tout public"],
-      "cible": "Handicaps mentaux : déficiences limitant les activités d'une personne"
-    },
-    {
-      "colonnes": ["properties.publics_accueillis"],
-      "termes": ["Tout public"],
-      "cible": "Déficience visuelle"
+      "termes": ["Public langues étrangères"],
+      "cible": "Langues étrangères (autres)"
     }
   ],
   "services": [
     {
       "colonnes": ["properties.services"],
-      "termes": ["Accéder à une connexion internet"],
-      "cible": "Accéder à une connexion internet"
+      "termes": ["Accéder à une connexion internet", "Accéder à du matériel"],
+      "cible": "Accès internet et matériel informatique"
     },
     {
       "colonnes": ["properties.services"],
-      "termes": ["Accéder à du matériel"],
-      "cible": "Accéder à du matériel"
+      "termes": ["Utiliser le numérique au quotidien", "Prendre en main un ordinateur", "Prendre en main un smartphone ou une tablette", "Tous apprentissage de l informatique", "Accompagnement vers l'autonomie sur les outils numériques", "envoyer un mail"],
+      "cible": "Maîtrise des outils numériques du quotidien"
     },
     {
       "colonnes": ["properties.services"],
-      "termes": ["Utiliser le numérique au quotidien", "Accès aux droits et a l information"],
-      "cible": "Utiliser le numérique au quotidien"
+      "termes": ["Soutenir la parentalité et l'éducation avec le numérique", "Continuité éducative"],
+      "cible": "Parentalité et éducation avec le numérique"
     },
     {
       "colonnes": ["properties.services"],
-      "termes": ["Réaliser des démarches administratives avec un accompagnement"],
-      "cible": "Réaliser des démarches administratives avec un accompagnement"
-    },
-
-    {
-      "colonnes": ["properties.services"],
-      "termes": ["Prendre en main un ordinateur"],
-      "cible": "Prendre en main un ordinateur"
+      "termes": ["Accès aux droits et a l information"],
+      "cible": "Compréhension du monde numérique"
     },
     {
       "colonnes": ["properties.services"],
-      "termes": ["Prendre en main un smartphone ou une tablette"],
-      "cible": "Prendre en main un smartphone ou une tablette"
+      "termes": ["Réaliser des démarches administratives avec un accompagnement", "Démarches postales de service public"],
+      "cible": "Aide aux démarches administratives"
     },
     {
       "colonnes": ["properties.services"],
-      "termes": ["Soutenir la parentalité et l'éducation avec le numérique"],
-      "cible": "Soutenir la parentalité et l'éducation avec le numérique"
+      "termes": ["Favoriser mon insertion professionnelle", "écrire un cv"],
+      "cible": "Insertion professionnelle via le numérique"
     },
     {
       "colonnes": ["properties.services"],
-      "termes": ["Favoriser mon insertion professionnelle"],
-      "cible": "Favoriser mon insertion professionnelle"
+      "termes": ["décharger des photos", "retoucher des photos", "initiation à la robotique"],
+      "cible": "Loisirs et créations numériques"
+    },
+    {
+      "colonnes": ["properties.services"],
+      "termes": ["Sensibilisation au cyberharcèlement", "comment protéger ses données"],
+      "cible": "Utilisation sécurisée du numérique"
     }
   ],
   "horaires": {
@@ -202,7 +157,7 @@
   "typologie": [
     {
       "colonnes": ["properties.typologie"],
-      "termes": ["ASSOCIATION"],
+      "termes": ["ASSOCIATION", "SALLE ASSOCIATIVE", "CLUB INFORMATIQUE"],
       "cible": "ASSO"
     },
     {
@@ -232,13 +187,33 @@
     },
     {
       "colonnes": ["properties.typologie"],
-      "termes": ["INTERCOMMUNALITÉ"],
-      "cible": "EPCI"
+      "termes": ["CENTRE CULTUREL"],
+      "cible": "CSC"
+    },
+    {
+      "colonnes": ["properties.typologie"],
+      "termes": ["CPAM"],
+      "cible": "CPAM"
     },
     {
       "colonnes": ["properties.typologie"],
       "termes": ["ACCUEIL D’ACTION SOCIALE DU DÉPARTEMENT"],
-      "cible": "DEPT"
+      "cible": "CDAS"
+    },
+    {
+      "colonnes": ["properties.typologie"],
+      "termes": ["CHANTIER D'INSERTION"],
+      "cible": "EI"
+    },
+    {
+      "colonnes": ["properties.typologie"],
+      "termes": ["ITINÉRANT"],
+      "cible": "ENM"
+    },
+    {
+      "colonnes": ["properties.typologie"],
+      "termes": ["AGENCE PÔLE EMPLOI"],
+      "cible": "FT"
     },
     {
       "colonnes": ["properties.typologie"],
@@ -252,8 +227,23 @@
     },
     {
       "colonnes": ["properties.typologie"],
-      "termes": ["ACCUEIL D’UNE COMMUNE"],
+      "termes": ["MAISON DE QUARTIER"],
+      "cible": "MQ"
+    },
+    {
+      "colonnes": ["properties.typologie"],
+      "termes": ["MSAP"],
+      "cible": "MSAP"
+    },
+    {
+      "colonnes": ["properties.typologie"],
+      "termes": ["ACCUEIL D’UNE COMMUNE", "MAIRIE"],
       "cible": "MUNI"
+    },
+    {
+      "colonnes": ["properties.typologie"],
+      "termes": ["BUREAU DE POSTE", "AGENCE POSTALE"],
+      "cible": "LA_POSTE"
     },
     {
       "colonnes": ["properties.typologie"],
@@ -262,14 +252,28 @@
     },
     {
       "colonnes": ["properties.typologie"],
+      "termes": ["BUREAU INFORMATION JEUNESSE", "CENTRE INFORMATION JEUNESSE"],
+      "cible": "PIJ_BIJ"
+    },
+    {
+      "colonnes": ["properties.typologie"],
       "termes": ["PRÉFECTURE", "SOUS-PRÉFECTURE"],
       "cible": "PREF"
     },
-
     {
       "colonnes": ["properties.typologie"],
-      "termes": ["FRANCE SERVICES"],
-      "cible": "RFS"
+      "termes": ["ZONE D'ACCÈS WIFI PUBLIQUE"],
+      "cible": "EPI"
+    },
+    {
+      "colonnes": ["properties.typologie"],
+      "termes": ["INTERCOMMUNALITÉ"],
+      "cible": "EPCI"
+    },
+    {
+      "colonnes": ["properties.typologie"],
+      "termes": ["TIERS-LIEU"],
+      "cible": "TIERS_LIEUX"
     }
   ]
 }
