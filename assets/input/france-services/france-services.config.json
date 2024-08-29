@@ -29,42 +29,65 @@
   "telephone": {
     "colonne": "telephone"
   },
-  "courriel": {
+  "courriels": {
     "colonne": "mail"
   },
   "date_maj": {
-    "colonne": "labellisation"
+    "colonne": "labellisation_fs"
   },
-  "labels_nationaux": [
+  "presentation_detail": {
+    "colonne": "commentaire"
+  },
+  "typologie": [
+    {
+      "cible": "RFS"
+    }
+  ],
+  "itinerance": [
+    {
+      "colonnes": ["format_fs"],
+      "termes": ["Bus_équivalent", "Itinérante"],
+      "cible": "Itinérant"
+    },
+    {
+      "colonnes": ["format_fs"],
+      "termes": ["Fixe", "Multisites"],
+      "cible": "Fixe"
+    }
+  ],
+  "modalites_acces": [
+    {
+      "colonnes": ["prise_rdv"],
+      "termes": ["Non"],
+      "cible": "Se présenter"
+    },
+    {
+      "colonnes": ["prise_rdv"],
+      "termes": ["Oui"],
+      "cible": "Téléphoner"
+    },
+    {
+      "colonnes": ["prise_rdv"],
+      "termes": ["Oui"],
+      "cible": "Contacter par mail"
+    }
+  ],
+  "dispositif_programmes_nationaux": [
     {
       "cible": "France Services"
     }
   ],
-  "conditions_acces": [
+  "frais_a_charge": [
     {
-      "cible": "Gratuit : Je peux accéder gratuitement au lieu et à ses services"
-    }
-  ],
-  "publics_accueillis": [
-    {
-      "cible": "Adultes"
-    },
-    {
-      "cible": "Jeunes (16-26 ans)"
-    },
-    {
-      "cible": "Familles/enfants"
-    },
-    {
-      "cible": "Seniors (+ 65 ans)"
+      "cible": "Gratuit"
     }
   ],
   "services": [
     {
-      "cible": "Réaliser des démarches administratives avec un accompagnement"
+      "cible": "Aide aux démarches administratives"
     },
     {
-      "cible": "Favoriser mon insertion professionnelle"
+      "cible": "Insertion professionnelle via le numérique"
     }
   ],
   "horaires": {
