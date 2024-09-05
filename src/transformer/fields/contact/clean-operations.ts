@@ -79,6 +79,13 @@ const fixUppercaseWebsites = (field: string): CleanOperation => ({
   fix: (toFix: string): string => toFix.toLowerCase()
 });
 
+const fixMisplacedColonInWebsite = (field: string): CleanOperation => ({
+  name: 'missing colon websites',
+  selector: /https\/\/:/u,
+  field,
+  fix: (toFix: string): string => toFix.replace(/https\/\/:/u, 'https://')
+});
+
 const fixMissingColonWebsites = (field: string): CleanOperation => ({
   name: 'missing colon websites',
   selector: /(https?)(\/\/)/u,
@@ -234,6 +241,20 @@ const keepFirstNumberIfMultiple = (field: string): CleanOperation => ({
   fix: (toFix: string): string => /^(?<phone>[^\n]+)/u.exec(toFix)?.groups?.['phone'] ?? ''
 });
 
+const fixSpaceBeforeDotInEmail = (field: string): CleanOperation => ({
+  name: 'remove space before dot.',
+  selector: /\w\s\./u,
+  field,
+  fix: (toFix: string): string => toFix.replace(/(\w)\s\./u, '$1.')
+});
+
+const removeTextPrecededByWrongCharacterInEmail = (field: string): CleanOperation => ({
+  name: 'text preceded by wrong wharacter',
+  selector: /^\w+[;\s]/u,
+  field,
+  fix: (toFix: string): string => toFix.replace(/^\w+[;\s]/u, '')
+});
+
 const removeEmailStartingWithWww = (field: string): CleanOperation => ({
   name: 'email starts with www.',
   selector: /^www\./u,
@@ -359,6 +380,7 @@ export const cleanOperations = (
   ...cleanOperationIfAny(fixWebsitesWithCodedSpacesAndParenthese, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixMissingHttpWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixMissingHttpWebsitesWithMultipleUrl, matching.site_web?.colonne),
+  ...cleanOperationIfAny(fixMisplacedColonInWebsite, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixMissingColonWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(removeStartingByTwoZeroInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(removeNoValidNumbersInPhone, matching.telephone?.colonne),
@@ -376,6 +398,7 @@ export const cleanOperations = (
   ...cleanOperationIfAny(removeOnly0ValueInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(keepFirstNumberIfMultiple, matching.telephone?.colonne),
   ...cleanOperationIfAny(fixMissingPlusCharAtStartingPhone, matching.telephone?.colonne),
+  ...cleanOperationIfAny(fixSpaceBeforeDotInEmail, matching.courriels?.colonne),
   ...cleanOperationIfAny(removeEmailStartingWithWww, matching.courriels?.colonne),
   ...cleanOperationIfAny(removeEmailStartingWithAt, matching.courriels?.colonne),
   ...cleanOperationIfAny(trimEmail, matching.courriels?.colonne),
@@ -385,6 +408,7 @@ export const cleanOperations = (
   ...cleanOperationIfAny(fixStartingWithDotEmail, matching.courriels?.colonne),
   ...cleanOperationIfAny(fixEmailStartingWithMailTo, matching.courriels?.colonne),
   ...cleanOperationIfAny(fixUnexpectedEmailLabel, matching.courriels?.colonne),
+  ...cleanOperationIfAny(removeTextPrecededByWrongCharacterInEmail, matching.courriels?.colonne),
   ...cleanOperationIfAny(fixUnexpectedEmailSeparator, matching.courriels?.colonne),
   ...cleanOperationIfAny(fixObfuscatedAtInEmail, matching.courriels?.colonne),
   ...cleanOperationIfAny(fixMissingEmailExtension, matching.courriels?.colonne),

@@ -289,6 +289,21 @@ describe('contact field', (): void => {
     );
   });
 
+  it('should fix url starting with https//:', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        'Site Web': 'https//:ajdmonde.fr'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        site_web: [Url('https://ajdmonde.fr')]
+      })
+    );
+  });
+
   it('should remove details in parenthesis', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
@@ -914,6 +929,51 @@ describe('contact field', (): void => {
     expect(contact).toStrictEqual<Contact>(
       Contact({
         courriels: [Courriel('chambery@accorderie.fr')]
+      })
+    );
+  });
+
+  it('should fix space before dot in email', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        [EMAIL_FIELD]: 'mediatheque .numerique@ville-gentilly.fr'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        courriels: [Courriel('mediatheque.numerique@ville-gentilly.fr')]
+      })
+    );
+  });
+
+  it('should remove text preceded by semicolon in email', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        [EMAIL_FIELD]: 'mediatheque;creteil.abbaye@gpsea.fr'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        courriels: [Courriel('creteil.abbaye@gpsea.fr')]
+      })
+    );
+  });
+
+  it('should remove text preceded by space in email', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        [EMAIL_FIELD]: 'aifpplaine centrale@ml94.reseau-idf.org'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        courriels: [Courriel('centrale@ml94.reseau-idf.org')]
       })
     );
   });
