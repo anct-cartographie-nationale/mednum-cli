@@ -32,114 +32,164 @@
   "presentation_detail": {
     "colonne": "Description"
   },
-  "labels_nationaux": [
+  "typologie": [
     {
-      "colonnes": ["Description"],
-      "termes": ["aptic"],
-      "cible": "APTIC"
+      "colonnes": ["Type Structure"],
+      "termes": ["MSA"],
+      "cible": "MSA"
+    },
+    {
+      "colonnes": ["Type Structure"],
+      "termes": ["Association"],
+      "cible": "ASSO"
+    },
+    {
+      "colonnes": ["Type Structure"],
+      "termes": ["CAF"],
+      "cible": "CAF"
+    },
+    {
+      "colonnes": ["Type Structure"],
+      "termes": ["Pôle Emploi"],
+      "cible": "FT"
     }
   ],
   "conditions_acces": [
     {
       "colonnes": ["Description"],
       "termes": ["gratuit"],
-      "cible": "Gratuit : Je peux accéder gratuitement au lieu et à ses services"
+      "sauf": ["Gratuit à condition", "Gratuit sous condition", "condition d’être adhérent"],
+      "cible": "Gratuit"
     },
     {
       "colonnes": ["Description"],
-      "termes": ["payant"],
-      "cible": "Payant : L'accès au lieu et/ou à ses services est payant"
+      "termes": ["Compte Personnel de Formation", "peut être payante", "Gratuit à condition", "condition d’être adhérent"],
+      "cible": "Gratuit sous condition"
     },
     {
       "colonnes": ["Description"],
-      "termes": ["adhésion"],
-      "cible": "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"
-    },
-    {
-      "colonnes": ["Description"],
-      "termes": ["pass numérique", "aptic"],
-      "cible": "Accepte le Pass numérique : Il est possible d'utiliser un Pass numérique pour accéder au lieu"
+      "termes": ["Payant", "adhésion", "tarif"],
+      "cible": "Payant"
     }
   ],
   "modalites_accompagnement": [
     {
-      "colonnes": ["Présence d'un médiateur"],
-      "termes": ["oui"],
-      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+      "colonnes": ["Présence d'un médiateur", "Description"],
+      "termes": ["Oui", "Accompagnement individuel", "Consultation accompagnée", "formation individualisé", "démarche est accompagnée", "accompagnement des publics", "animateurs présent"],
+      "cible": "Accompagnement individuel"
+    },
+    {
+      "colonnes": ["services", "Description"],
+      "termes": ["en autonomie", "à disposition", "en libre accès"],
+      "cible": "En autonomie"
+    },
+    {
+      "colonnes": ["Description"],
+      "termes": ["atelier", "Groupes de 5 à 6 participants"],
+      "cible": "Dans un atelier collectif"
     }
   ],
-  "publics_accueillis": [
+  "modalites_acces": [
     {
       "colonnes": ["Description"],
-      "termes": ["tout public", "tous les publics"],
-      "cible": "Jeunes (16-26 ans)"
+      "termes": ["par mail, par téléphone, sur place", "sur place, par téléphone", "par téléphone, sur place", "sur place, par téléphone, par mail", "Prendre rendez-vous sur place", "par téléphone ou sur place"],
+      "cible": "Se présenter"
     },
     {
       "colonnes": ["Description"],
-      "termes": ["tout public", "tous les publics"],
-      "cible": "Familles/enfants"
+      "termes": ["par mail, par téléphone, sur place", "sur place, par téléphone", "par téléphone, par mail", "par téléphone, sur place", "sur place, par téléphone, par mail", "par téléphone ou sur place"],
+      "cible": "Téléphoner"
     },
     {
       "colonnes": ["Description"],
-      "termes": ["tout public", "tous les publics"],
-      "cible": "Adultes"
+      "termes": ["par mail, par téléphone, sur place", "par téléphone, par mail", "sur place, par téléphone, par mail"],
+      "cible": "Contacter par mail"
+    }
+  ],
+  "publics_specifiquement_adresses": [
+    {
+      "colonnes": ["Description"],
+      "termes": ["dedié aux 12-29 ans", "âgés de 15 à 25 ans", "accueil collectif de mineurs"],
+      "cible": "Jeunes"
     },
     {
       "colonnes": ["Description"],
-      "termes": ["tout public", "tous les publics"],
-      "cible": "Seniors (+ 65 ans)"
+      "termes": ["dedié aux 12-29 ans", "âgés de 15 à 25 ans"],
+      "cible": "Étudiants"
+    },
+    {
+      "colonnes": ["Description"],
+      "termes": ["enfants", "adolescents", "familles", "pour les plus jeunes", "collégiens"],
+      "cible": "Familles et/ou enfants"
+    },
+    {
+      "colonnes": ["Description"],
+      "termes": ["personnes âgées", "plus de 55 ans"],
+      "cible": "Seniors"
+    },
+    {
+      "colonnes": ["Description"],
+      "termes": ["mis à disposition des femmes"],
+      "cible": "Femmes"
+    }
+  ],
+  "prise_en_charge_specifique": [
+    {
+      "colonnes": ["Description"],
+      "termes": ["Déficients Visuels", "déficientes visuelles"],
+      "cible": "Déficience visuelle"
+    },
+    {
+      "colonnes": ["Description"],
+      "termes": ["alphabétisation"],
+      "cible": "Illettrisme"
+    },
+    {
+      "colonnes": ["Description"],
+      "termes": ["Français Langue Etrangère"],
+      "cible": "Langues étrangères (anglais)"
+    },
+    {
+      "colonnes": ["Description"],
+      "termes": ["Français Langue Etrangère"],
+      "cible": "Langues étrangères (autres)"
+    },
+    {
+      "colonnes": ["Description"],
+      "termes": ["fauteuil roulant"],
+      "cible": "Handicaps moteurs"
     }
   ],
   "services": [
     {
-      "colonnes": ["equipements"],
-      "termes": ["accès internet", "wifi"],
-      "cible": "Accéder à une connexion internet"
+      "colonnes": ["services", "Description"],
+      "termes": ["démarches administratives", "démarches juridiques et administratives", "démarches dématérialisées", "programme de formation et de perfectionnement", "soutien numérique aux usagers dans le cadre de la dématérialisation des procédures", "accès au droit par le numérique"],
+      "cible": "Aide aux démarches administratives"
     },
     {
-      "colonnes": ["equipements"],
-      "termes": ["imprimante", "ordinateur", "scanner", "photocopieuse", "vidéo-projecteur"],
-      "cible": "Accéder à du matériel"
+      "colonnes": ["equipements", "Description"],
+      "termes": ["Cours informatique", "Smartphone", "Ordinateur", "Tablette", "etre initié aux outils numériques", "outils numériques du quotidien"],
+      "cible": "Maîtrise des outils numériques du quotidien"
     },
     {
-      "colonnes": ["equipements"],
-      "termes": ["smartphone", "tablette"],
-      "cible": "Prendre en main un smartphone ou une tablette"
+      "colonnes": ["Description"],
+      "termes": ["recherche d’emploi", "lettre de motivation", "accompagne toute personne à la recherche d’un emploi", "accompagnement des demandeurs d’emploi", "accompagnement des demandeurs d'emploi"],
+      "cible": "Insertion professionnelle via le numérique"
     },
     {
-      "colonnes": ["services"],
-      "termes": ["etre accompagné dans ses démarches administratives"],
-      "cible": "Réaliser des démarches administratives avec un accompagnement"
+      "colonnes": ["services", "Description"],
+      "termes": ["consoles de jeux", "outils de création et de communication multimédias", "pratiquer des activités récréatives numériques", "Ateliers créatifs et ludiques", "jeux vidéo", "créer des robots"],
+      "cible": "Loisirs et créations numériques"
     },
     {
-      "colonnes": ["services"],
-      "termes": ["etre accompagné dans ses démarches administratives"],
-      "cible": "Devenir autonome dans les démarches administratives"
+      "colonnes": ["Description"],
+      "termes": ["programme de formation et de perfectionnement"],
+      "cible": "Compréhension du monde numérique"
     },
     {
-      "colonnes": ["services"],
-      "termes": ["pratiquer des activités récréatives numériques"],
-      "cible": "Créer avec le numérique"
-    },
-    {
-      "colonnes": ["services"],
-      "termes": ["pratiquer des activités récréatives numériques", "etre initié aux outils numériques"],
-      "cible": "Utiliser le numérique au quotidien"
-    },
-    {
-      "colonnes": ["services"],
-      "termes": ["pratiquer des activités récréatives numériques", "etre initié aux outils numériques"],
-      "cible": "Approfondir ma culture numérique"
-    },
-    {
-      "colonnes": ["services"],
-      "termes": ["pratiquer des activités récréatives numériques", "etre initié aux outils numériques"],
-      "cible": "Promouvoir la citoyenneté numérique"
-    },
-    {
-      "colonnes": ["services", "equipements"],
-      "termes": ["accès à Internet en autonomie", "ordinateur"],
-      "cible": "Prendre en main un ordinateur"
+      "colonnes": ["equipements", "Description"],
+      "termes": ["Accès Internet", "point internet", "matériel  informatique", "postes informatiques", "espace informatique", "logiciels bureautiques", "wifi", "imprimante", "Smartphone", "Ordinateur", "Tablette", "scanner", "photocopieuse", "vidéo-projecteur"],
+      "cible": "Accès internet et matériel informatique"
     }
   ],
   "horaires": {
