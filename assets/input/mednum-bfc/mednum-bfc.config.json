@@ -23,7 +23,7 @@
   "telephone": {
     "colonne": "contact_tel"
   },
-  "courriel": {
+  "courriels": {
     "colonne": "contact_email"
   },
   "site_web": {
@@ -32,36 +32,21 @@
   "date_maj": {
     "colonne": "mise_a_jour"
   },
-  "labels_nationaux": [
+  "typologie": [
     {
       "colonnes": ["code_label"],
-      "termes": ["APTIC"],
-      "cible": "APTIC"
-    },
+      "termes": ["MSAP"],
+      "cible": "MSAP"
+    }
+  ],
+  "formations_labels": [
     {
       "colonnes": ["code_label"],
-      "termes": ["MFS"],
-      "cible": "France Services"
+      "termes": ["BFC"],
+      "cible": "Arnia/MedNum BFC (Bourgogne-Franche-Comté)"
     }
   ],
-  "typologies": [
-    {
-      "colonnes": ["code_typo"],
-      "termes": ["O"],
-      "cible": "OF"
-    },
-    {
-      "colonnes": ["code_typo"],
-      "termes": ["TL"],
-      "cible": "TIERS_LIEUX"
-    },
-    {
-      "colonnes": ["code_typo"],
-      "termes": ["I"],
-      "cible": "PAD"
-    }
-  ],
-  "labels_autres": [
+  "autres_formations_labels": [
     {
       "colonnes": ["code_label"],
       "termes": ["RIN"],
@@ -71,11 +56,6 @@
       "colonnes": ["code_label"],
       "termes": ["NMM"],
       "cible": "Nièvre médiation numérique"
-    },
-    {
-      "colonnes": ["code_label"],
-      "termes": ["MSAP"],
-      "cible": "Maison de service au public"
     },
     {
       "colonnes": ["code_label"],
@@ -92,69 +72,39 @@
     {
       "colonnes": ["code_accomp"],
       "termes": ["A"],
-      "cible": "Seul : j'ai accès à du matériel et une connexion"
+      "cible": "En autonomie"
     },
     {
       "colonnes": ["code_accomp"],
       "termes": ["R", "G"],
-      "cible": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
+      "cible": "Dans un atelier collectif"
     },
     {
       "colonnes": ["code_accomp"],
       "termes": ["RDV", "L"],
-      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+      "cible": "Accompagnement individuel"
     }
   ],
   "services": [
     {
-      "colonnes": ["code_accomp"],
-      "termes": ["A"],
-      "cible": "Accéder à une connexion internet"
+      "colonnes": ["code_accomp", "code_typo"],
+      "termes": ["G", "L", "RDV", "I"],
+      "cible": "Aide aux démarches administratives"
     },
     {
       "colonnes": ["code_accomp"],
-      "termes": ["A"],
-      "cible": "Accéder à du matériel"
-    },
-    {
-      "colonnes": ["code_accomp"],
-      "termes": ["G", "L", "RDV"],
-      "cible": "Devenir autonome dans les démarches administratives"
-    },
-    {
-      "colonnes": ["code_accomp"],
-      "termes": ["G", "L", "RDV"],
-      "cible": "Réaliser des démarches administratives avec un accompagnement"
-    },
-    {
-      "colonnes": ["code_typo"],
-      "termes": ["I"],
-      "cible": "Devenir autonome dans les démarches administratives"
-    },
-    {
-      "colonnes": ["code_typo"],
-      "termes": ["I"],
-      "cible": "Réaliser des démarches administratives avec un accompagnement"
-    },
-    {
-      "colonnes": ["code_typo"],
-      "termes": ["F"],
-      "cible": "Approfondir ma culture numérique"
-    },
-    {
-      "colonnes": ["code_typo"],
       "termes": ["F", "TL"],
-      "cible": "Créer avec le numérique"
+      "cible": "Loisirs et créations numériques"
     },
     {
-      "colonnes": ["code_typo"],
-      "termes": ["T", "TL"],
-      "cible": "Accéder à une connexion internet"
+      "colonnes": ["code_accomp"],
+      "termes": ["F"],
+      "cible": "Compréhension du monde numérique"
     },
     {
-      "colonnes": ["code_typo"],
-      "termes": ["TL"],
-      "cible": "Créer et développer mon entreprise"
+      "colonnes": ["code_accomp"],
+      "termes": ["A", "T", "TL"],
+      "cible": "Accès internet et matériel informatique"
     }
   ],
   "horaires": {
