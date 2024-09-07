@@ -54,7 +54,7 @@
       "cible": "FT"
     }
   ],
-  "conditions_acces": [
+  "frais_a_charge": [
     {
       "colonnes": ["Description"],
       "termes": ["gratuit"],

@@ -35,7 +35,7 @@
   "presentation_detail": {
     "colonne": "Jedecrislesactionsdinclusionnumeriquedemastructureenquelquesmots"
   },
-  "conditions_acces": [
+  "frais_a_charge": [
     {
       "colonnes": ["Lestarifsdemastructure"],
       "termes": ["Gratuit", "gratuit","GRATUIT", "0Euro", "Service Public", "gratuite", "non payant"],

@@ -47,7 +47,7 @@
   "telephone": {
     "colonne": "N° de téléphone"
   },
-  "courriel": {
+  "courriels": {
     "colonne": "Adresse e-mail"
   },
   "site_web": {

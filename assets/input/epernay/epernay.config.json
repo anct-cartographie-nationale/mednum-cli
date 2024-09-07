@@ -144,7 +144,7 @@
       "cible": "Handicaps mentaux"
     }
   ],
-  "conditions_acces": [
+  "frais_a_charge": [
     {
       "colonnes": ["Quelles sont vos conditions d'accès ?"],
       "termes": ["Gratuit"],

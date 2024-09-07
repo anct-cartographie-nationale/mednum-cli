@@ -94,7 +94,7 @@
       "cible": "Promeneurs du net"
     }
   ],
-  "conditions_acces": [
+  "frais_a_charge": [
     {
       "colonnes": ["c_formation_detail", "c_materiel_info_detail", "c_accompagnement_teletravail"],
       "termes": ["gratuites", "gratuits", "gratuit", "gratuitement"],

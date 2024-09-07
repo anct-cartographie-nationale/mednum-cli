@@ -69,7 +69,7 @@
       "cible": "EPN"
     }
   ],
-  "conditions_acces": [
+  "frais_a_charge": [
     {
       "colonnes": ["properties.condition", "properties.commentaires"],
       "termes": ["accès libre", "gratuite", "gratuit"],

@@ -103,7 +103,7 @@
       "cible": "EPN"
     }
   ],
-  "conditions_acces": [
+  "frais_a_charge": [
     {
       "colonnes": ["Coût accès équipement", "Coût accès médiation numérique", "Coût accès démarches", "Type équipement"],
       "termes": ["gratuit"],
