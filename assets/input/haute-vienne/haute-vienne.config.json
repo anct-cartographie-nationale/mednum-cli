@@ -17,7 +17,7 @@
   "telephone": {
     "colonne": "properties.tel_fixe"
   },
-  "courriel": {
+  "courriels": {
     "colonne": "properties.mail"
   },
   "site_web": {
