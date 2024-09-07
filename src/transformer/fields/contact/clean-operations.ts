@@ -111,7 +111,7 @@ const fixWebsitesSeparator = (field: string): CleanOperation => ({
   name: 'websites separator',
   selector: /;|\s(?:ou|\/|;)\s/u,
   field,
-  fix: (toFix: string): string => toFix.replace(/;|\sou\s/u, '|')
+  fix: (toFix: string): string => toFix.replace(/;|\s(?:ou|\/|;)\s/, '|')
 });
 
 const fixWebsitesWithComaInsteadOfDot = (field: string): CleanOperation => ({

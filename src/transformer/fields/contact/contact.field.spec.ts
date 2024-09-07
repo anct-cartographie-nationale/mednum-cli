@@ -289,6 +289,21 @@ describe('contact field', (): void => {
     );
   });
 
+  it('should fix multiple urls separated by slash', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        'Site Web': 'https://www.siea.fr/ / https://sites.google.com/tactis.fr/siea-tida/conseiller-numerique'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        site_web: [Url('https://www.siea.fr/'), Url('https://sites.google.com/tactis.fr/siea-tida/conseiller-numerique')]
+      })
+    );
+  });
+
   it('should fix url starting with https//:', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
