@@ -32,16 +32,16 @@
   "modalites_accompagnement": [
     {
       "colonnes": ["modalites_accompagnement"],
-      "cible": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
+      "cible": "Dans un atelier collectif"
     }
   ],
   "services": [
     {
       "colonnes": ["services"],
-      "cible": "Utiliser le numérique au quotidien"
+      "cible": "Maîtrise des outils numériques du quotidien"
     }
   ],
   "horaires": {
-    "osm": "horaires"
+    "semaine": "horaires"
   }
 }
