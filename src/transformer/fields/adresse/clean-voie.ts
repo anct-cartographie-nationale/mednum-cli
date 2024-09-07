@@ -15,8 +15,8 @@ const FIX_WRONG_SINGLE_QUOTE_IN_VOIE: CleanOperation = {
 
 const REMOVE_FORBIDDEN_CHARS_IN_VOIE: CleanOperation = {
   name: 'replace forbidden chars with empty string',
-  selector: /[",]/u,
-  fix: (toFix: string): string => toFix.replace(/[",]/gu, '')
+  selector: /[",²]/u,
+  fix: (toFix: string): string => toFix.replace(/[",²]/gu, '')
 };
 
 const REMOVE_MULTILINES_IN_VOIE: CleanOperation = {
