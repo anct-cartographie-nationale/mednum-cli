@@ -17,6 +17,9 @@
       "séparateur": " "
     }
   },
+  "complement_adresse": {
+    "colonne": "COMP_ADRESSE"
+  },
   "latitude": {
     "colonne": "y"
   },
@@ -26,118 +29,96 @@
   "telephone": {
     "colonne": "NUM_TEL"
   },
-  "courriel": {
+  "courriels": {
     "colonne": "MAIL_STRUC"
   },
   "site_web": {
     "colonne": "SITE_WEB"
   },
-  "conditions_acces": [
+  "frais_a_charge": [
     {
       "colonnes": ["PBC_Adh"],
-      "cible": "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"
+      "termes": ["Adhérent"],
+      "cible": "Payant"
     }
   ],
   "date_maj": {
     "colonne": "DAT_MaJ"
   },
-  "publics_accueillis": [
-    {
-      "colonnes": ["PBC_Tout", "PBC_Adult"],
-      "termes": ["tous", "adultes"],
-      "cible": "Adultes"
-    },
-    {
-      "colonnes": ["PBC_Tout"],
-      "termes": ["tous"],
-      "cible": "Familles/enfants"
-    },
-    {
-      "colonnes": ["PBC_Tout", "PBC_Jeunes"],
-      "termes": ["tous", "jeunes"],
-      "cible": "Jeunes (16-26 ans)"
-    },
-    {
-      "colonnes": ["PBC_Tout", "PBC_Senior"],
-      "termes": ["tous", "séniors", "seniors"],
-      "cible": "Seniors (+ 65 ans)"
-    },
-    {
-      "colonnes": ["PBC_Tout"],
-      "termes": ["tous"],
-      "cible": "Surdité"
-    },
-    {
-      "colonnes": ["PBC_Tout"],
-      "termes": ["tous"],
-      "cible": "Handicaps mentaux : déficiences limitant les activités d'une personne"
-    },
-    {
-      "colonnes": ["PBC_Tout"],
-      "termes": ["tous"],
-      "cible": "Personnes en situation d'illettrisme"
-    },
-    {
-      "colonnes": ["PBC_Tout"],
-      "termes": ["tous"],
-      "cible": "Public langues étrangères"
-    },
-    {
-      "colonnes": ["PBC_Tout"],
-      "termes": ["tous"],
-      "cible": "Uniquement femmes"
-    },
-    {
-      "colonnes": ["PBC_Tout"],
-      "termes": ["tous"],
-      "cible": "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales"
-    },
-    {
-      "colonnes": ["PBC_Tout"],
-      "termes": ["tous"],
-      "cible": "Déficience visuelle"
-    }
-  ],
-  "modalites_accompagnement": [
-    {
-      "colonnes": ["Accueil"],
-      "termes": ["oui"],
-      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
-    }
-  ],
-  "labels_nationaux": [
+  "typologie": [
     {
       "colonnes": ["SS_CAT"],
-      "termes": ["France Services"],
-      "cible": "France Services"
+      "termes": ["Association"],
+      "cible": "ASSO"
+    },
+    {
+      "colonnes": ["SS_CAT"],
+      "termes": ["Bibliothèque", "Médiathèque"],
+      "cible": "BIB"
+    },
+    {
+      "colonnes": ["SS_CAT"],
+      "termes": ["CCAS"],
+      "cible": "CCAS"
+    },
+    {
+      "colonnes": ["SS_CAT"],
+      "termes": ["Centre Social"],
+      "cible": "CS"
+    },
+    {
+      "colonnes": ["SS_CAT"],
+      "termes": ["Espace de vie sociale"],
+      "cible": "EVS"
+    },
+    {
+      "colonnes": ["SS_CAT"],
+      "termes": ["La Poste"],
+      "cible": "LA_POSTE"
+    },
+    {
+      "colonnes": ["SS_CAT"],
+      "termes": ["MDS"],
+      "cible": "MDS"
+    },
+    {
+      "colonnes": ["SS_CAT"],
+      "termes": ["Mission locale"],
+      "cible": "ML"
+    },
+    {
+      "colonnes": ["SS_CAT"],
+      "termes": ["PIJ"],
+      "cible": "PIJ_BIJ"
+    }
+  ],
+  "publics_specifiquement_adresses": [
+    {
+      "colonnes": ["PBC_Jeunes"],
+      "termes": ["Jeunes"],
+      "cible": "Jeunes"
+    },
+    {
+      "colonnes": ["PBC_Senior"],
+      "termes": ["Seniors"],
+      "cible": "Seniors"
     }
   ],
   "services": [
     {
-      "colonnes": ["INTERNET"],
-      "termes": ["oui"],
-      "cible": "Accéder à une connexion internet"
-    },
-
-    {
-      "colonnes": ["INITIATION"],
-      "termes": ["oui"],
-      "cible": "Prendre en main un ordinateur"
-    },
-    {
-      "colonnes": ["INITIATION"],
-      "termes": ["oui"],
-      "cible": "Prendre en main un smartphone ou une tablette"
-    },
-    {
       "colonnes": ["DEM_Gen", "DEM_Spe"],
       "termes": ["oui"],
-      "cible": "Devenir autonome dans les démarches administratives"
+      "cible": "Aide aux démarches administratives"
     },
     {
-      "colonnes": ["DEM_Gen", "DEM_Gen"],
+      "colonnes": ["INITIATION"],
       "termes": ["oui"],
-      "cible": "Réaliser des démarches administratives avec un accompagnement"
+      "cible": "Maîtrise des outils numériques du quotidien"
+    },
+    {
+      "colonnes": ["INTERNET"],
+      "termes": ["oui"],
+      "cible": "Accès internet et matériel informatique"
     }
   ]
 }
