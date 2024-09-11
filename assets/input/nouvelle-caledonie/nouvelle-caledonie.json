@@ -603,9 +603,9 @@
         "conditions_acces": "Gratuit",
         "conditions_acces_detail": null,
         "labels_autres": "Structure d'information jeunesse, Case numérique",
-        "nbre_postes_fixes": 0,
+        "nbre_postes_fixes": null,
         "nbre_postes_portables": "15",
-        "nbre_postes_tablettes": "0",
+        "nbre_postes_tablettes": null,
         "capacite_ateliers_collectifs": "10",
         "modalites_accompagnement0": "Espace public numérique (accès ordinateurs et accompagnement dédié)",
         "etp_mediateur": 1
@@ -839,8 +839,8 @@
         "conditions_acces_detail": null,
         "labels_autres": "Projet de labelisation en-cours.",
         "nbre_postes_fixes": 10,
-        "nbre_postes_portables": "0",
-        "nbre_postes_tablettes": "0",
+        "nbre_postes_portables": null,
+        "nbre_postes_tablettes": null,
         "capacite_ateliers_collectifs": "20",
         "modalites_accompagnement0": "Tiers lieux",
         "etp_mediateur": null
@@ -933,8 +933,8 @@
         "conditions_acces_detail": "Adhesion",
         "labels_autres": null,
         "nbre_postes_fixes": 6,
-        "nbre_postes_portables": "0",
-        "nbre_postes_tablettes": "0",
+        "nbre_postes_portables": null,
+        "nbre_postes_tablettes": null,
         "capacite_ateliers_collectifs": "20",
         "modalites_accompagnement0": "Simple accès (ordinateurs sans accompagnement)",
         "etp_mediateur": 1
@@ -1027,11 +1027,11 @@
         "conditions_acces_detail": null,
         "labels_autres": null,
         "nbre_postes_fixes": 12,
-        "nbre_postes_portables": "0",
-        "nbre_postes_tablettes": "0",
-        "capacite_ateliers_collectifs": "0",
+        "nbre_postes_portables": null,
+        "nbre_postes_tablettes": null,
+        "capacite_ateliers_collectifs": null,
         "modalites_accompagnement0": "Espace public numérique (accès ordinateurs et accompagnement dédié)",
-        "etp_mediateur": 0
+        "etp_mediateur": null
     },
     {
         "date_soumission": "2024-02-15",
@@ -1262,8 +1262,8 @@
         "conditions_acces_detail": null,
         "labels_autres": "Structure d'information jeunesse",
         "nbre_postes_fixes": 3,
-        "nbre_postes_portables": "0",
-        "nbre_postes_tablettes": "0",
+        "nbre_postes_portables": null,
+        "nbre_postes_tablettes": null,
         "capacite_ateliers_collectifs": "2",
         "modalites_accompagnement0": "Espace public numérique (accès ordinateurs et accompagnement dédié)",
         "etp_mediateur": 1
@@ -1356,11 +1356,11 @@
         "conditions_acces_detail": "Adhésion à la bibliothèque et à son règlement",
         "labels_autres": null,
         "nbre_postes_fixes": 4,
-        "nbre_postes_portables": "0",
-        "nbre_postes_tablettes": "0",
+        "nbre_postes_portables": null,
+        "nbre_postes_tablettes": null,
         "capacite_ateliers_collectifs": "4",
         "modalites_accompagnement0": "Seul : j'ai accès à du matériel et une connexion",
-        "etp_mediateur": 0
+        "etp_mediateur": null
     },
     {
         "date_soumission": "2023-10-25",
@@ -1731,12 +1731,12 @@
         "conditions_acces": "Gratuit sous condition",
         "conditions_acces_detail": null,
         "labels_autres": null,
-        "nbre_postes_fixes": 0,
-        "nbre_postes_portables": "0",
-        "nbre_postes_tablettes": "0",
-        "capacite_ateliers_collectifs": "0",
+        "nbre_postes_fixes": null,
+        "nbre_postes_portables": null,
+        "nbre_postes_tablettes": null,
+        "capacite_ateliers_collectifs": null,
         "modalites_accompagnement0": "Fourniture de matériel reconditionné",
-        "etp_mediateur": 0
+        "etp_mediateur": null
     },
     {
         "date_soumission": "2023-09-17",
@@ -1779,8 +1779,8 @@
         "conditions_acces_detail": "Adhésion à l'association",
         "labels_autres": null,
         "nbre_postes_fixes": 6,
-        "nbre_postes_portables": "0",
-        "nbre_postes_tablettes": "0",
+        "nbre_postes_portables": null,
+        "nbre_postes_tablettes": null,
         "capacite_ateliers_collectifs": "15",
         "modalites_accompagnement0": "Simple accès (ordinateurs sans accompagnement)",
         "etp_mediateur": null
@@ -2249,11 +2249,11 @@
         "conditions_acces_detail": null,
         "labels_autres": null,
         "nbre_postes_fixes": 4,
-        "nbre_postes_portables": "0",
-        "nbre_postes_tablettes": "0",
-        "capacite_ateliers_collectifs": "0",
+        "nbre_postes_portables": null,
+        "nbre_postes_tablettes": null,
+        "capacite_ateliers_collectifs": null,
         "modalites_accompagnement0": "Simple accès (ordinateurs sans accompagnement)",
-        "etp_mediateur": 0
+        "etp_mediateur": null
     },
     {
         "date_soumission": "2024-02-15",
@@ -2343,11 +2343,11 @@
         "conditions_acces_detail": null,
         "labels_autres": null,
         "nbre_postes_fixes": 4,
-        "nbre_postes_portables": "0",
-        "nbre_postes_tablettes": "0",
-        "capacite_ateliers_collectifs": "0",
+        "nbre_postes_portables": null,
+        "nbre_postes_tablettes": null,
+        "capacite_ateliers_collectifs": null,
         "modalites_accompagnement0": "Point numérique (ordinateurs et accompagnement ponctuel)",
-        "etp_mediateur": 0
+        "etp_mediateur": null
     },
     {
         "date_soumission": "2023-11-26",
@@ -2531,11 +2531,11 @@
         "conditions_acces_detail": null,
         "labels_autres": null,
         "nbre_postes_fixes": 3,
-        "nbre_postes_portables": "0",
-        "nbre_postes_tablettes": "0",
+        "nbre_postes_portables": null,
+        "nbre_postes_tablettes": null,
         "capacite_ateliers_collectifs": "12",
         "modalites_accompagnement0": "Point numérique (ordinateurs et accompagnement ponctuel)",
-        "etp_mediateur": 0
+        "etp_mediateur": null
     },
     {
         "date_soumission": "2023-11-08",
@@ -2770,7 +2770,7 @@
         "nbre_postes_tablettes": null,
         "capacite_ateliers_collectifs": null,
         "modalites_accompagnement0": "Fourniture de matériel reconditionné",
-        "etp_mediateur": 0
+        "etp_mediateur": null
     },
     {
         "date_soumission": "2023-10-16",
@@ -3094,12 +3094,12 @@
         "conditions_acces": "Payant",
         "conditions_acces_detail": null,
         "labels_autres": null,
-        "nbre_postes_fixes": 0,
-        "nbre_postes_portables": "0",
-        "nbre_postes_tablettes": "0",
-        "capacite_ateliers_collectifs": "0",
+        "nbre_postes_fixes": null,
+        "nbre_postes_portables": null,
+        "nbre_postes_tablettes": null,
+        "capacite_ateliers_collectifs": null,
         "modalites_accompagnement0": "Non concerné",
-        "etp_mediateur": 0
+        "etp_mediateur": null
     },
     {
         "date_soumission": "2023-09-14",
@@ -3142,8 +3142,8 @@
         "conditions_acces_detail": null,
         "labels_autres": "Case numérique",
         "nbre_postes_fixes": 7,
-        "nbre_postes_portables": "0",
-        "nbre_postes_tablettes": "0",
+        "nbre_postes_portables": null,
+        "nbre_postes_tablettes": null,
         "capacite_ateliers_collectifs": "7",
         "modalites_accompagnement0": "Espace public numérique (accès ordinateurs et accompagnement dédié)",
         "etp_mediateur": 1
@@ -3706,8 +3706,8 @@
         "conditions_acces_detail": null,
         "labels_autres": "Ambassadeur Pédagojeux",
         "nbre_postes_fixes": 10,
-        "nbre_postes_portables": "0",
-        "nbre_postes_tablettes": "0",
+        "nbre_postes_portables": null,
+        "nbre_postes_tablettes": null,
         "capacite_ateliers_collectifs": "18",
         "modalites_accompagnement0": "Point numérique (ordinateurs et accompagnement ponctuel)",
         "etp_mediateur": null
@@ -4083,7 +4083,7 @@
         "labels_autres": null,
         "nbre_postes_fixes": 10,
         "nbre_postes_portables": "5",
-        "nbre_postes_tablettes": "0",
+        "nbre_postes_tablettes": null,
         "capacite_ateliers_collectifs": "20",
         "modalites_accompagnement0": "Point numérique (ordinateurs et accompagnement ponctuel)",
         "etp_mediateur": null
@@ -4130,7 +4130,7 @@
         "labels_autres": "Structure d'information jeunesse",
         "nbre_postes_fixes": 2,
         "nbre_postes_portables": "1",
-        "nbre_postes_tablettes": "0",
+        "nbre_postes_tablettes": null,
         "capacite_ateliers_collectifs": "2",
         "modalites_accompagnement0": "Espace public numérique (accès ordinateurs et accompagnement dédié)",
         "etp_mediateur": 1
