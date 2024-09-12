@@ -104,7 +104,7 @@
     {
       "colonnes": ["c_formation_detail", "c_materiel_info_detail"],
       "termes": ["payantes", "€"],
-      "cible": "Payant "
+      "cible": "Payant"
     },
     {
       "colonnes": ["c_formation_detail", "c_materiel_info_detail", "c_accompagnement_teletravail"],
