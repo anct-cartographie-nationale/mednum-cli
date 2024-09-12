@@ -749,6 +749,21 @@ describe('contact field', (): void => {
     );
   });
 
+  it('should fix email starting with colon', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        [EMAIL_FIELD]: ': ccas@biarritz.fr'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        courriels: [Courriel('ccas@biarritz.fr')]
+      })
+    );
+  });
+
   it('should have only one email - "ou" separator', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
