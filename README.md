@@ -440,7 +440,7 @@ L'interface vous pose un ensemble de questions afin de recevoir les paramètres 
   - Dans le champ `Couverture spatiale`, entrez en entier le territoire que vous voulez par exemple `Métropole de Lyon`
   - Plusieurs requêtes sont envoyées au fur et à mesure que vous tapez
   - Observer la réponse au fromat json : c'est le champ id qui correspond à la valeur attendue par data.gouv.fr, ne gardez que la partie avant `@`
-  - Par exemple pour `Métropole de Lyon`, il y a le champ `id	"fr:epci:200046977@2015-01-01"`, la valeur à récupérer est : `fr:epci:200046977`
+  - Par exemple pour `Métropole de Lyon`, il y a le champ `id "fr:epci:200046977@2015-01-01"`, la valeur à récupérer est : `fr:epci:200046977`
 
 #### Options disponibles pour la commande publier
 

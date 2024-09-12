@@ -49,10 +49,10 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
   );
   const sourceHash: string = createHash('sha256').update(source).digest('hex');
 
-  // if (previousSourceHash === sourceHash) {
-  //   console.log("2. Il n'y a pas de différence par rapport à la transformation précédente");
-  //   return;
-  // }
+  if (previousSourceHash === sourceHash) {
+    console.log("2. Il n'y a pas de différence par rapport à la transformation précédente");
+    return;
+  }
 
   const sourceItems: DataSource[] = JSON.parse(replaceNullWithEmptyString(source)).slice(0, maxTransform);
 

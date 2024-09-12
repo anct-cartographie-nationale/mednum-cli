@@ -63,7 +63,6 @@ jobs:
             fibre-64,
             france-services,
             francil-in,
-#             france-tiers-lieux,
             gironde,
             haute-vienne,
             hinaura,
@@ -78,10 +77,7 @@ jobs:
             les-landes,
             paca,
             loire-atlantique,
-            rhin-occ,
-            res-in,
             sarthe,
-            ultra-num,
             nouvelle-caledonie
           ]
     runs-on: ubuntu-latest
