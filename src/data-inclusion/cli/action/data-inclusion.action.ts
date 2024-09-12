@@ -40,12 +40,12 @@ const fetchFromDataInclusionApi = async <T>({ key, url }: Api): Promise<T[]> => 
 export const dataInclusionAction = async (dataInclusionOptions: DataInclusionOptions): Promise<void> => {
   const responseStructures: SchemaStructureDataInclusion[] = await fetchFromDataInclusionApi({
     key: dataInclusionOptions.dataInclusionApiKey,
-    url: 'https://api.data.inclusion.beta.gouv.fr/api/v0/structures?source=dora'
+    url: 'https://api.data.inclusion.beta.gouv.fr/api/v0/structures?sources=dora'
   });
 
   const responseServices: SchemaServiceDataInclusion[] = await fetchFromDataInclusionApi({
     key: dataInclusionOptions.dataInclusionApiKey,
-    url: 'https://api.data.inclusion.beta.gouv.fr/api/v0/services?source=dora'
+    url: 'https://api.data.inclusion.beta.gouv.fr/api/v0/services?sources=dora'
   });
 
   fs.writeFileSync(
