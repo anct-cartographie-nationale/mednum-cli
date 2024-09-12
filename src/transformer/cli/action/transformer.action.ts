@@ -50,9 +50,6 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
   const sourceHash: string = createHash('sha256').update(source).digest('hex');
 
   if (previousSourceHash === sourceHash) {
-    console.log('sourceName', transformerOptions.sourceName);
-    console.log('previousSourceHash', previousSourceHash);
-    console.log('sourceHash', sourceHash);
     console.log("2. Il n'y a pas de différence par rapport à la transformation précédente");
     return;
   }
