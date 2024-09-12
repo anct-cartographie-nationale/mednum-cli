@@ -29,8 +29,10 @@ const modalitesAccompagnementForTerms =
 
 const appendModalitesAccompagnement =
   (source: DataSource) =>
-  (modalitesAccompagnement: ModaliteAccompagnement[], choice: Choice<ModaliteAccompagnement>): ModaliteAccompagnement[] =>
-    [...modalitesAccompagnement, ...(choice.colonnes ?? []).reduce(modalitesAccompagnementForTerms(choice, source), [])];
+  (modalitesAccompagnement: ModaliteAccompagnement[], choice: Choice<ModaliteAccompagnement>): ModaliteAccompagnement[] => [
+    ...modalitesAccompagnement,
+    ...(choice.colonnes ?? []).reduce(modalitesAccompagnementForTerms(choice, source), [])
+  ];
 
 export const processModalitesAccompagnement = (
   source: DataSource,

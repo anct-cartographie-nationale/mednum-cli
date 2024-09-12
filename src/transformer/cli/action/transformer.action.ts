@@ -42,29 +42,34 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
 
   const source: string = await sourceATransformer(transformerOptions);
 
+  console.log('1. Vérification de la différence par rapport au hash de la transformation précédente');
+
   const previousSourceHash: string | undefined = (await sourcesFromCartographieNationaleApi(transformerOptions)).get(
     transformerOptions.sourceName
   );
   const sourceHash: string = createHash('sha256').update(source).digest('hex');
 
-  if (previousSourceHash === sourceHash) return;
+  if (previousSourceHash === sourceHash) {
+    console.log("2. Il n'y a pas de différence par rapport à la transformation précédente");
+    return;
+  }
 
   const sourceItems: DataSource[] = JSON.parse(replaceNullWithEmptyString(source)).slice(0, maxTransform);
 
-  console.log('1. Initialisation des services tiers');
+  console.log('2. Initialisation des services tiers');
   const repository: TransformationRepository = await transformationRespository(transformerOptions);
 
-  console.log('2. Calcul de la différence depuis la dernière transformation');
+  console.log('3. Calcul de la différence depuis la dernière transformation');
   const diffSinceLastTransform: DiffSinceLastTransform = repository.diffSinceLastTransform(sourceItems);
 
   if (nothingToTransform(diffSinceLastTransform)) {
-    console.log("3. Il n'y a rien à transformer");
+    console.log("4. Il n'y a rien à transformer");
     return;
   }
 
   const lieux: DataSource[] = lieuxToTransform(sourceItems, diffSinceLastTransform);
 
-  console.log('3. Transformation des données vers le schéma des lieux de mediation numérique');
+  console.log('4. Transformation des données vers le schéma des lieux de mediation numérique');
   const lieuxDeMediationNumerique: LieuMediationNumerique[] = (
     await Promise.all(lieux.map(flatten).map(toLieuxMediationNumerique(repository, transformerOptions.sourceName, REPORT)))
   ).filter(validValuesOnly);
@@ -74,18 +79,18 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
   /* eslint-disable-next-line no-console */
   diffSinceLastTransform != null && console.log('Lieux à supprimer :', diffSinceLastTransform.toDelete.length);
 
-  console.log("4. Sauvegarde du rapport d'erreur");
+  console.log("5. Sauvegarde du rapport d'erreur");
   repository.saveErrors(REPORT);
 
-  console.log('5. Sauvegarde des sorties');
+  console.log('6. Sauvegarde des sorties');
   await repository.saveOutputs(lieuxDeMediationNumerique);
 
-  console.log('6. Sauvegarde des empruntes');
+  console.log('7. Sauvegarde des empruntes');
   await repository.saveFingerprints(diffSinceLastTransform);
 
   if (transformerOptions.cartographieNationaleApiKey == null) return;
 
-  console.log('7. Sauvegarde du hash de la source');
+  console.log('8. Sauvegarde du hash de la source');
   await updateSourceWithCartographieNationaleApi(transformerOptions)(sourceHash);
 
   const lieuxToPublish: LieuMediationNumerique[] = (
@@ -95,6 +100,6 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
     )
   ).map(fromSchemaLieuDeMediationNumerique);
 
-  console.log('8. Sauvegarde des fichiers de sortie');
+  console.log('9. Sauvegarde des fichiers de sortie');
   await saveOutputsInFiles(transformerOptions)(lieuxToPublish);
 };

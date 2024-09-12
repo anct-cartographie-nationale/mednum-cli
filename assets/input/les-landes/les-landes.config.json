@@ -5,6 +5,9 @@
   "nom": {
     "colonne": "name"
   },
+  "pivot": {
+    "colonne": "siret"
+  },
   "code_postal": {
     "colonne": "adresse_code_postal"
   },
@@ -13,6 +16,9 @@
   },
   "commune": {
     "colonne": "adresse_commune"
+  },
+  "structure_parente": {
+    "colonne": "structure_porteuse"
   },
   "adresse": {
     "joindre": {
@@ -40,7 +46,7 @@
   "telephone": {
     "colonne": "contact_telephone"
   },
-  "courriel": {
+  "courriels": {
     "colonne": "contact_email"
   },
   "site_web": {
@@ -49,59 +55,73 @@
   "presentation_detail": {
     "colonne": "description"
   },
-  "labels_nationaux": [
+  "itinerance": [
     {
-      "colonnes": ["labels"],
-      "termes": ["cnfs"],
-      "cible": "CNFS"
-    },
-    {
-      "colonnes": ["labels"],
-      "termes": ["france-services"],
-      "cible": "France Services"
-    },
-    {
-      "colonnes": ["labels"],
-      "termes": ["aptic"],
-      "cible": "APTIC"
+      "colonnes": ["itinerant"],
+      "termes": ["Oui"],
+      "cible": "Itinérant"
     }
   ],
-  "publics_accueillis": [
+  "typologie": [
+    {
+      "colonnes": ["type_lieu"],
+      "termes": ["EPN"],
+      "cible": "EPN"
+    },
+    {
+      "colonnes": ["type_lieu"],
+      "termes": ["Association"],
+      "cible": "ASSO"
+    },
+    {
+      "colonnes": ["type_lieu"],
+      "termes": ["Bibliothèque", "Médiathèque"],
+      "cible": "BIB"
+    },
+    {
+      "colonnes": ["type_lieu"],
+      "termes": ["Centre social"],
+      "cible": "CS"
+    },
+    {
+      "colonnes": ["type_lieu"],
+      "termes": ["Commune"],
+      "cible": "MUNI"
+    },
+    {
+      "colonnes": ["type_lieu"],
+      "termes": ["Département"],
+      "cible": "MDS"
+    },
+    {
+      "colonnes": ["type_lieu"],
+      "termes": ["MSAP"],
+      "cible": "MSAP"
+    }
+  ],
+  "publics_specifiquement_adresses": [
     {
       "colonnes": ["public_cible"],
-      "termes": ["tout public", "tous les publics", "tous publics", "etudiants", "jeunes", "16/29 ans", "16-25 ans"],
-      "cible": "Jeunes (16-26 ans)"
+      "termes": ["16/29 ans", "16-25 ans", "Jeunes"],
+      "cible": "Jeunes"
     },
     {
       "colonnes": ["public_cible"],
-      "termes": ["tout public", "tous les publics", "tous publics"],
-      "cible": "Familles/enfants"
+      "termes": ["Etudiants"],
+      "cible": "Étudiants"
     },
     {
       "colonnes": ["public_cible"],
-      "termes": ["tout public", "tous les publics", "tous publics", "adultes"],
-      "cible": "Adultes"
+      "termes": ["Familles", "Enfants"],
+      "cible": "Familles et/ou enfants"
     },
     {
       "colonnes": ["public_cible"],
-      "termes": ["tout public", "séniors", "tous les publics", "tous publics"],
-      "cible": "Seniors (+ 65 ans)"
-    },
-    {
-      "colonnes": ["public_cible"],
-      "termes": ["handicap psychique"],
-      "cible": "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales"
-    },
-    {
-      "colonnes": ["public_cible"],
-      "termes": ["illétrés"],
-      "cible": "Personnes en situation d'illettrisme"
-    },
-    {
-      "colonnes": ["public_cible"],
-      "termes": ["migrants"],
-      "cible": "Public langues étrangères"
-    },
+      "termes": ["Séniors"],
+      "cible": "Seniors"
+    }
+  ],
+  "prise_en_charge_specifique": [
     {
       "colonnes": ["public_cible"],
       "termes": ["personnes avec handicap"],
@@ -109,8 +129,23 @@
     },
     {
       "colonnes": ["public_cible"],
-      "termes": ["personnes avec handicap"],
-      "cible": "Handicaps mentaux : déficiences limitant les activités d'une personne"
+      "termes": ["handicap psychique", "personnes avec handicap"],
+      "cible": "Handicaps mentaux"
+    },
+    {
+      "colonnes": ["public_cible"],
+      "termes": ["Analaphabètes", "Illétrés"],
+      "cible": "Illettrisme"
+    },
+    {
+      "colonnes": ["public_cible"],
+      "termes": ["Migrants"],
+      "cible": "Langues étrangères (anglais)"
+    },
+    {
+      "colonnes": ["public_cible"],
+      "termes": ["Migrants"],
+      "cible": "Langues étrangères (autres)"
     },
     {
       "colonnes": ["public_cible"],
@@ -121,82 +156,79 @@
   "modalites_accompagnement": [
     {
       "colonnes": ["modalites_accompagnement"],
-      "termes": ["individuel"],
-      "cible": "Seul : j'ai accès à du matériel et une connexion"
+      "termes": ["Individuel"],
+      "cible": "En autonomie"
     },
     {
       "colonnes": ["modalites_accompagnement"],
-      "termes": ["collectif"],
-      "cible": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
+      "termes": ["Collectif"],
+      "cible": "Dans un atelier collectif"
     },
     {
       "colonnes": ["services"],
       "termes": ["accompagnement"],
-      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+      "cible": "Accompagnement individuel"
     }
   ],
-  "conditions_acces": [
+  "frais_a_charge": [
     {
       "colonnes": ["tarifs"],
       "termes": ["gratuit"],
-      "cible": "Gratuit : Je peux accéder gratuitement au lieu et à ses services"
-    },
-    {
-      "colonnes": ["modalites_acces", "public_cible"],
-      "termes": ["adhésion", "adhérents"],
-      "cible": "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"
+      "cible": "Gratuit"
     },
     {
       "colonnes": ["tarifs"],
-      "termes": ["€"],
-      "cible": "Payant : L'accès au lieu et/ou à ses services est payant"
+      "termes": ["€", "adhésion", "adhérents", "tarif libre"],
+      "cible": "Payant"
     }
   ],
   "services": [
     {
+      "colonnes": ["services", "description"],
+      "termes": ["accompagnement aux démarches administratives", "démarches administratives", "accompagnement dans les démarches", "plateformes administratives"],
+      "cible": "Aide aux démarches administratives"
+    },
+    {
+      "colonnes": ["services", "description"],
+      "termes": ["acquisition de compétences numériques", "evaluation des compétences numériques", "montée en compétences numérique", "découverte", "Formation et accompagnement", "pratique de l’informatique"],
+      "cible": "Maîtrise des outils numériques du quotidien"
+    },
+    {
+      "colonnes": ["services", "description"],
+      "termes": ["formation certifiante", "accompagnement pour l’emploi"],
+      "cible": "Insertion professionnelle via le numérique"
+    },
+    {
       "colonnes": ["description"],
-      "termes": ["connexion internet", "wifi"],
-      "cible": "Accéder à une connexion internet"
+      "termes": ["accompagnement à la parentalité"],
+      "cible": "Parentalité et éducation avec le numérique"
+    },
+    {
+      "colonnes": ["description"],
+      "termes": ["création collaborative", "impression 3D", "jeu vidéo", "Retouches photos"],
+      "cible": "Loisirs et créations numériques"
     },
     {
       "colonnes": ["services"],
-      "termes": ["mise à disposition de matériel informatique"],
-      "cible": "Accéder à du matériel"
+      "termes": ["acquisition de compétences numériques", "evaluation des compétences numériques", "montée en compétences numérique", "Formation et accompagnement", "pratique de l’informatique", "Open Source"],
+      "cible": "Compréhension du monde numérique"
     },
     {
-      "colonnes": ["services"],
-      "termes": ["acquisition de compétences numériques", "evaluation des compétences numériques"],
-      "cible": "Approfondir ma culture numérique"
+      "colonnes": ["services", "modalites_accompagnement", "description"],
+      "termes": ["connexion internet", "accès gratuit à internet", "wifi", "Accès WI-FI", "connexion gratuite", "matériel informatique", "postes informatiques", "mise à disposition d'un ordinateur", "mise à disposition de matériel", "mise à disposition de matériel", "postes informatique", "ordinateurs", "imprimante", "scanneur", "visio"],
+      "cible": "Accès internet et matériel informatique"
+    }
+  ],
+  "autres_formations_labels": [
+    {
+      "colonnes": ["labels"],
+      "termes": ["LandesMail"],
+      "cible": "LandesMail"
     },
     {
-      "colonnes": ["services"],
-      "termes": ["acquisition de compétences numériques", "evaluation des compétences numériques"],
-      "cible": "Utiliser le numérique au quotidien"
-    },
-    {
-      "colonnes": ["services"],
-      "termes": ["acquisition de compétences numériques", "evaluation des compétences numériques"],
-      "cible": "Promouvoir la citoyenneté numérique"
-    },
-    {
-      "colonnes": ["services"],
-      "termes": ["accompagnement aux démarches administratives"],
-      "cible": "Réaliser des démarches administratives avec un accompagnement"
-    },
-    {
-      "colonnes": ["services"],
-      "termes": ["accompagnement aux démarches administratives"],
-      "cible": "Accompagner les démarches de santé"
-    },
-    {
-      "colonnes": ["services"],
-      "termes": ["accompagnement aux démarches administratives"],
-      "cible": "Devenir autonome dans les démarches administratives"
-    },
-    {
-      "colonnes": ["services"],
-      "termes": ["formation certifiante"],
-      "cible": "Favoriser mon insertion professionnelle"
+      "colonnes": ["labels"],
+      "termes": ["Ordi Pin40"],
+      "cible": "Ordi Pin40"
     }
   ],
   "horaires": {

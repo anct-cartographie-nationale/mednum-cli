@@ -58,6 +58,7 @@ L'interface vous pose un ensemble de questions afin de recevoir les paramètres 
 ? Nom du territoire couvert par les données à transformer
   Auvergne-Rhône-Alpes
 ```
+
 - La source peut être un fichier ou un URL avec un contenu au format `csv` ou `json`
 - Le [fichier de configuration](#fichier-de-configuration) décrit l'ensemble des colonnes et les valeurs à associer
 - Le chemin du dossier de sortie contiendra les 5 fichiers générés par l'opération de transformation
@@ -67,8 +68,9 @@ L'interface vous pose un ensemble de questions afin de recevoir les paramètres 
 #### Description des fichiers générés
 
 Une fois l'exécution terminée, le dossier de dossier indiqué comme chemin de sortie contient :
-- Un fichier `CSV` avec l'ensemble des données transformées respectant le [schéma de données des lieux de médiation numérique](https://lamednum.coop/schema-de-donnees-des-lieux-de-mediation-numerique-2/) 
-- Un fichier `JSON` au même nom que le fichier `CSV` avec l'ensemble des données transformées respectant le [schéma de données des lieux de médiation numérique](https://lamednum.coop/schema-de-donnees-des-lieux-de-mediation-numerique-2/) 
+
+- Un fichier `CSV` avec l'ensemble des données transformées respectant le [schéma de données des lieux de médiation numérique](https://lamednum.coop/schema-de-donnees-des-lieux-de-mediation-numerique-2/)
+- Un fichier `JSON` au même nom que le fichier `CSV` avec l'ensemble des données transformées respectant le [schéma de données des lieux de médiation numérique](https://lamednum.coop/schema-de-donnees-des-lieux-de-mediation-numerique-2/)
 - Un fichier `JSON` avec le prefix `structures-inclusion` avec les informations des structures transformées respectant le [schéma des structures de l'inclusion](https://www.data.inclusion.beta.gouv.fr/schemas-de-donnees-de-loffre/schema-des-structures-et-services-dinsertion#schema-structure)
 - Un fichier `JSON` avec le prefix `services-inclusion` avec les informations des services transformées respectant le [schéma des services de l'inclusion](https://www.data.inclusion.beta.gouv.fr/schemas-de-donnees-de-loffre/schema-des-structures-et-services-dinsertion#schema-service)
 - Un fichier `publier.json` qui contient les métadonnées pour la publication d'un jeu de données sur data.gouv avec les références des 4 fichiers décrits précédemment en tant que ressources
@@ -84,7 +86,9 @@ La source originale qui contient les données à transformer selon le schéma de
 ```bash
 npx @gouvfr-anct/mednum transformer --source https://api.conseiller-numerique.gouv.fr/permanences
 ```
+
 ou
+
 ```bash
 npx @gouvfr-anct/mednum transformer -s https://api.conseiller-numerique.gouv.fr/permanences
 ```
@@ -96,7 +100,9 @@ Le chemin vers le fichier de configuration contenant les instructions de transfo
 ```bash
 npx @gouvfr-anct/mednum transformer --config-file ./assets/input/conseiller-numerique/conseiller-numerique.config.json
 ```
+
 ou
+
 ```bash
 npx @gouvfr-anct/mednum transformer -c ./assets/input/conseiller-numerique/conseiller-numerique.config.json
 ```
@@ -108,7 +114,9 @@ Le dossier dans lequel écrire les fichiers transformés.
 ```bash
 npx @gouvfr-anct/mednum transformer --output-directory ./assets/output/conseiller-numerique
 ```
+
 ou
+
 ```bash
 npx @gouvfr-anct/mednum transformer -o ./assets/output/conseiller-numerique
 ```
@@ -120,7 +128,9 @@ Le nom de l'entité source à l'origine de la collecte des données.
 ```bash
 npx @gouvfr-anct/mednum transformer --source-name conseiller-numerique
 ```
+
 ou
+
 ```bash
 npx @gouvfr-anct/mednum transformer -n conseiller-numerique
 ```
@@ -130,11 +140,13 @@ npx @gouvfr-anct/mednum transformer -n conseiller-numerique
 Le nom du territoire couvert par les données.
 
 ```bash
-npx @gouvfr-anct/mednum transformer -t National 
+npx @gouvfr-anct/mednum transformer -t National
 ```
+
 ou
+
 ```bash
-npx @gouvfr-anct/mednum transformer --territory National 
+npx @gouvfr-anct/mednum transformer --territory National
 ```
 
 ##### Utilisation partielle des options
@@ -144,11 +156,13 @@ Si certaines options ne sont pas définies, les questions qui correspondent aux 
 ##### Exemple complet
 
 ```bash
-npx @gouvfr-anct/mednum transformer -s https://api.conseiller-numerique.gouv.fr/permanences -c ./assets/input/conseiller-numerique/conseiller-numerique.config.json -o ./assets/output/conseiller-numerique -n conseiller-numerique -t National 
+npx @gouvfr-anct/mednum transformer -s https://api.conseiller-numerique.gouv.fr/permanences -c ./assets/input/conseiller-numerique/conseiller-numerique.config.json -o ./assets/output/conseiller-numerique -n conseiller-numerique -t National
 ```
+
 ou
+
 ```bash
-npx @gouvfr-anct/mednum transformer --source https://api.conseiller-numerique.gouv.fr/permanences --config-file ./assets/input/conseiller-numerique/conseiller-numerique.config.json --output-directory ./assets/output/conseiller-numerique --source-name conseiller-numerique --territory National 
+npx @gouvfr-anct/mednum transformer --source https://api.conseiller-numerique.gouv.fr/permanences --config-file ./assets/input/conseiller-numerique/conseiller-numerique.config.json --output-directory ./assets/output/conseiller-numerique --source-name conseiller-numerique --territory National
 ```
 
 #### Fichier de configuration
@@ -156,6 +170,7 @@ npx @gouvfr-anct/mednum transformer --source https://api.conseiller-numerique.go
 Le fichier de configuration contient les instructions pour les transformations à effectuer à partir de la source pour la faire correspondre au schéma cible.
 
 Il s'agit d'un fichier JSON dont les clés sont l'ensemble des champs autorisés par le [schéma de données des lieux de médiation numérique](https://lamednum.coop/schema-de-donnees-des-lieux-de-mediation-numerique-2/) :
+
 - `id`
 - `nom`
 - `pivot`
@@ -191,6 +206,7 @@ Les champs `id`, `nom`, `pivot`, `commune`, `code_postal`, `code_insee`, `adress
   ...
 }
 ```
+
 Ici toutes les valeurs de la colonne `Nom de la structure` se retrouverons dans la colonne `nom` à l'issue de la transformation
 
 - Si le champ `id` n'est pas renseigné, le numéro de la ligne sera assigné en tant qu'id
@@ -200,6 +216,7 @@ Ici toutes les valeurs de la colonne `Nom de la structure` se retrouverons dans 
 ##### Adresse sur deux colonnes
 
 Il est possible de trouver certaines sources avec le numéro de rue dans une colonne et le libellé, dans ce cas il est possible de faire une fusion de colonnes :
+
 ```json
 ...
 "adresse": {
@@ -210,11 +227,13 @@ Il est possible de trouver certaines sources avec le numéro de rue dans une col
 }
 ...
 ```
+
 Ici si on a `4` dans la colonne `Numéro` et `rue de la République` dans la colonne `Adresse`, le résultat sera `4 rue de la République` dans la colonne `adresse` à l'issue de la transformation.
 
 ##### Latitude et longitude dans une seule colonne
 
 Il est possible de trouver certaines sources avec la latitude et longitude dans une seule colonne, dans ce cas il est possible de faire une séparation de colonnes :
+
 ```json
 ...
 "latitude": {
@@ -256,7 +275,9 @@ Les champs `labels_nationaux`, `conditions_acces`, `modalites_accompagnement`, `
 ]
 ...
 ```
+
 Il est possible de rechercher dans plusieurs colonnes :
+
 ```json
 ...
 "publics_accueillis": [
@@ -273,7 +294,9 @@ Il est possible de rechercher dans plusieurs colonnes :
 ]
 ...
 ```
+
 Il est possible de rechercher plusieurs termes :
+
 ```json
 ...
 "publics_accueillis": [
@@ -290,7 +313,9 @@ Il est possible de rechercher plusieurs termes :
 ]
 ...
 ```
+
 Il est possible de combiner plusieurs colonnes et plusieurs termes :
+
 ```json
 ...
 "publics_accueillis": [
@@ -310,9 +335,10 @@ Il est possible de combiner plusieurs colonnes et plusieurs termes :
 
 ##### Correspondance des horaires
 
-Le champ `horaires` doit contenir les [horaires d'ouvertures au format OSM](https://wiki.openstreetmap.org/wiki/Key:opening_hours/specification) 
+Le champ `horaires` doit contenir les [horaires d'ouvertures au format OSM](https://wiki.openstreetmap.org/wiki/Key:opening_hours/specification)
 
 Si dans la source originale les horaires sont définis pour chaque jour, il est possible d'indiquer à quel jour de la semaine correspond chacune des colonnes au format OSM : `Mo` pour lundi, `Tu` pour mardi, `We` pour mercredi, `Th` pour jeudi, `Fr` pour vendredi, `Sa` pour samedi et `Su` pour dimanche.
+
 ```json
 ...
 "horaires": {
@@ -349,6 +375,7 @@ Si dans la source originale les horaires sont définis pour chaque jour, il est 
 }
 ...
 ```
+
 Par exemple ici pour les colonnes `horaires lundi` et `horaires mardi`, avec la valeur `de 9h00 à 12h00, puis de 14h00 à 17h00` on obtient l'équivalent au format OSM dans la colonne `horaires` : `Mo-Tu 09:00-12:00,14:00-17:00`.
 
 Si les horaires sont saisis pour toute la semaine dans une même colonne, il est également possible de faire la correspondance en utilisant le champ `semaine` :
@@ -360,6 +387,7 @@ Si les horaires sont saisis pour toute la semaine dans une même colonne, il est
 }
 ...
 ```
+
 Par exemple ici pour la colonne `Horaires ouverture`, avec la valeur `lundi et mardi : de 9h00 à 12h00, puis de 14h00 à 17h00` on obtient l'équivalent au format OSM dans la colonne `horaires` : `Mo-Tu 09:00-12:00,14:00-17:00`.
 
 Il est possible d'utiliser les champs `jours` et `semaine` en même temps si des colonnes avec des horaires pour chaque jour et pour toute la semaine coexistent dans la source originale.
@@ -398,6 +426,7 @@ L'interface vous pose un ensemble de questions afin de recevoir les paramètres 
 ? La zone couverte par le jeu de données, exemple pour Maine-et-Loire : fr:departement:49
   fr:region:84
 ```
+
 - La clé d'API qui permet à la commande d'effectuer des requêtes sur l'API nécessitant une authentification en votre nom
 - Le type d'id qui permet de publier un jeu de données soit en votre nom, soit au nom d'une organisation
 - La valeur de l'id qui correspond au type choisi
@@ -411,7 +440,7 @@ L'interface vous pose un ensemble de questions afin de recevoir les paramètres 
   - Dans le champ `Couverture spatiale`, entrez en entier le territoire que vous voulez par exemple `Métropole de Lyon`
   - Plusieurs requêtes sont envoyées au fur et à mesure que vous tapez
   - Observer la réponse au fromat json : c'est le champ id qui correspond à la valeur attendue par data.gouv.fr, ne gardez que la partie avant `@`
-  - Par exemple pour `Métropole de Lyon`, il y a le champ `id	"fr:epci:200046977@2015-01-01"`, la valeur à récupérer est : `fr:epci:200046977`
+  - Par exemple pour `Métropole de Lyon`, il y a le champ `id "fr:epci:200046977@2015-01-01"`, la valeur à récupérer est : `fr:epci:200046977`
 
 #### Options disponibles pour la commande publier
 
@@ -424,19 +453,23 @@ L'URL de l'API data.gouv utilisé pour la publication. La valeur par défaut est
 ```bash
 npx @gouvfr-anct/mednum publier -u https://demo.data.gouv.fr/api/1
 ```
+
 ou
+
 ```bash
 npx @gouvfr-anct/mednum publier --data-gouv-api-url https://demo.data.gouv.fr/api/1
 ```
 
 ##### La clé d'API `-k, --data-gouv-api-key <api-key>`
 
-Une clé d'API data.gouv est nécessaire pour que l'outil ait les droits nécessaires à la publication des données en votre nom en utilisant l'API (https://doc.data.gouv.fr/api/intro/#autorisations).  
+Une clé d'API data.gouv est nécessaire pour que l'outil ait les droits nécessaires à la publication des données en votre nom en utilisant l'API (https://doc.data.gouv.fr/api/intro/#autorisations).
 
 ```bash
 npx @gouvfr-anct/mednum publier -k eyJhbGciOiJIUzUxMiJ9.eyJ1...A0fQ.-mCovxzx9-MjO-T_ynjky-Frl03fjjAL_AQlzQOPWpg8w_wvbzpz5KciStA
 ```
+
 ou
+
 ```bash
 npx @gouvfr-anct/mednum publier --data-gouv-api-key eyJhbGciOiJIUzUxMiJ9.eyJ1...A0fQ.-mCovxzx9-MjO-T_ynjky-Frl03fjjAL_AQlzQOPWpg8w_wvbzpz5KciStA
 ```
@@ -450,7 +483,9 @@ Il n'existe que deux valeurs possibles : `owner` et `organization`
 ```bash
 npx @gouvfr-anct/mednum publier -t organization
 ```
+
 ou
+
 ```bash
 npx @gouvfr-anct/mednum publier --data-gouv-id-type organization
 ```
@@ -462,7 +497,9 @@ La valeur de l'id est nécessaire pour rattacher les données à publier à un u
 ```bash
 npx @gouvfr-anct/mednum publier -v 6396e6363a1ab130371ff777
 ```
+
 ou
+
 ```bash
 npx @gouvfr-anct/mednum publier --data-gouv-id-value 6396e6363a1ab130371ff777
 ```
@@ -474,7 +511,9 @@ La zone est nécessaire pour indiquer quel est le territoire couvert par le jeu 
 ```bash
 npx @gouvfr-anct/mednum publier -z country:fr
 ```
+
 ou
+
 ```bash
 npx @gouvfr-anct/mednum publier --data-gouv-zone country:fr
 ```
@@ -486,7 +525,9 @@ Le chemin vers le fichier de métadonnées permet de savoir quel est le jeu de d
 ```bash
 npx @gouvfr-anct/mednum publier -m ./assets/output/conseiller-numerique/publier.json
 ```
+
 ou
+
 ```bash
 npx @gouvfr-anct/mednum publier --data-gouv-metadata-file ./assets/output/conseiller-numerique/publier.json
 ```
@@ -500,7 +541,9 @@ Si certaines options ne sont pas définies, les questions qui correspondent aux 
 ```bash
 npx @gouvfr-anct/mednum publier -u https://demo.data.gouv.fr/api/1 -k eyJhbGciOiJIUzUxMiJ9.eyJ1...A0fQ.-mCovxzx9-MjO-T_ynjky-Frl03fjjAL_AQlzQOPWpg8w_wvbzpz5KciStA -t organization -v 6396e6363a1ab130371ff777 -z country:fr -m ./assets/output/conseiller-numerique/publier.json
 ```
+
 ou
+
 ```bash
 npx @gouvfr-anct/mednum publier --data-gouv-api-url https://demo.data.gouv.fr/api/1 --data-gouv-api-key eyJhbGciOiJIUzUxMiJ9.eyJ1...A0fQ.-mCovxzx9-MjO-T_ynjky-Frl03fjjAL_AQlzQOPWpg8w_wvbzpz5KciStA --data-gouv-id-type organization --data-gouv-id-type organization --data-gouv-zone country:fr --data-gouv-metadata-file ./assets/output/conseiller-numerique/publier.json
 ```
@@ -520,7 +563,6 @@ Voir le [guide de contribution](./CONTRIBUTING.md) du dépôt.
 Afin de maintenir un cycle de publication clair et de favoriser la rétrocompatibilité, la dénomination des versions suit la spécification décrite par la [Gestion sémantique de version](https://semver.org/lang/fr/)
 
 Les versions disponibles ainsi que les journaux décrivant les changements apportés sont disponibles depuis [la page des Releases](https://github.com/anct-cartographie-nationale/mednum-cli/releases).
-
 
 ## Licence
 

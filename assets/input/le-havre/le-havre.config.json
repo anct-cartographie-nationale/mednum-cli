@@ -32,7 +32,7 @@
   "telephone": {
     "colonne": "telephone"
   },
-  "courriel": {
+  "courriels": {
     "colonne": "courriel"
   },
   "site_web": {
@@ -44,7 +44,7 @@
   "prise_rdv": {
     "colonne": "prise_rdv"
   },
-  "accessibilite": {
+  "fiche_acces_libre": {
     "colonne": "accessibilite"
   },
   "structure_parente": {
@@ -56,123 +56,168 @@
   "presentation_detail": {
     "colonne": "presentation_detail"
   },
-  "source": {
-    "colonne": "source"
-  },
   "typologie": [
     {
-      "colonnes": ["properties.typologie"],
+      "colonnes": ["typologie"],
       "termes": ["Association"],
       "cible": "ASSO"
     },
     {
-      "colonnes": ["properties.typologie"],
+      "colonnes": ["typologie"],
       "termes": ["Bibliothèque", "Médiathèque"],
       "cible": "BIB"
     },
     {
-      "colonnes": ["properties.typologie"],
+      "colonnes": ["typologie"],
+      "termes": ["BIJ", "PIJ"],
+      "cible": "PIJ_BIJ"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["Bureau de poste"],
+      "cible": "LA_POSTE"
+    },
+    {
+      "colonnes": ["typologie"],
       "termes": ["CCAS"],
       "cible": "CCAS"
     },
     {
-      "colonnes": ["properties.typologie"],
+      "colonnes": ["typologie"],
       "termes": ["Centre social"],
       "cible": "CS"
     },
     {
-      "colonnes": ["properties.typologie"],
+      "colonnes": ["typologie"],
+      "termes": ["CMS"],
+      "cible": "CMS"
+    },
+    {
+      "colonnes": ["typologie"],
       "termes": ["EPCI"],
       "cible": "EPCI"
     },
     {
-      "colonnes": ["properties.typologie"],
+      "colonnes": ["typologie"],
+      "termes": ["Espace de cowworking"],
+      "cible": "TIERS_LIEUX"
+    },
+    {
+      "colonnes": ["typologie"],
       "termes": ["Mission locale"],
       "cible": "ML"
     },
     {
-      "colonnes": ["properties.typologie"],
-      "termes": ["Mairie"],
+      "colonnes": ["typologie"],
+      "termes": ["Mairie", "Maison municipale"],
       "cible": "MUNI"
     },
     {
-      "colonnes": ["properties.typologie"],
+      "colonnes": ["typologie"],
       "termes": ["Sous Prefecture"],
       "cible": "PREF"
     }
   ],
-  "labels_nationaux": [
+  "dispositif_programmes_nationaux": [
     {
-      "colonnes": ["labels_nationaux"],
-      "termes": ["France Services"],
-      "cible": "France Services"
+      "colonnes": ["labels_autres"],
+      "termes": ["certification PIX"],
+      "cible": "Certification PIX"
     }
   ],
-  "labels_autres": [
+  "formations_labels": [
     {
-      "colonnes": ["labels_autres"]
+      "colonnes": ["labels_autres"],
+      "termes": ["Fabriques de Territoire"],
+      "cible": "Fabriques de Territoire"
     }
   ],
-  "conditions_acces": [
+  "autres_formations_labels": [
     {
-      "colonnes": ["conditions_acces"],
-      "termes": ["Gratuit"],
-      "cible": "Gratuit : Je peux accéder gratuitement au lieu et à ses services"
+      "colonnes": ["labels_autres"],
+      "termes": ["EPN Normandie"],
+      "cible": "EPN Normandie"
     },
     {
+      "colonnes": ["labels_autres"],
+      "termes": ["Label Mission locale"],
+      "cible": "Label Mission locale"
+    },
+    {
+      "colonnes": ["labels_autres"],
+      "termes": ["Normandie Connecté"],
+      "cible": "Normandie Connecté"
+    },
+    {
+      "colonnes": ["labels_autres"],
+      "termes": ["Qualiopi"],
+      "cible": "Qualiopi"
+    }
+  ],
+  "frais_a_charge": [
+    {
       "colonnes": ["conditions_acces"],
-      "termes": ["Adhésion"],
-      "cible": "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"
+      "termes": ["Gratuit", "Adhésion"],
+      "cible": "Gratuit"
     },
     {
       "colonnes": ["conditions_acces"],
       "termes": ["Payant"],
-      "cible": "Payant : L'accès au lieu et/ou à ses services est payant"
+      "cible": "Payant"
     }
   ],
   "modalites_accompagnement": [
     {
       "colonnes": ["modalites_accompagnement"],
-      "termes": ["Dans un atelier :"],
-      "cible": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
+      "termes": ["Dans un atelier"],
+      "cible": "Dans un atelier collectif"
     },
     {
       "colonnes": ["modalites_accompagnement"],
-      "termes": ["A ma place :"],
-      "cible": "A ma place : une personne habilitée fait les démarches à ma place"
+      "termes": ["Avec de l’aide", "A ma place", "Accompagnement individuel"],
+      "cible": "Accompagnement individuel"
     },
     {
       "colonnes": ["modalites_accompagnement"],
-      "termes": ["Avec de l’aide :"],
-      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
-    },
-    {
-      "colonnes": ["modalites_accompagnement"],
-      "termes": ["Seul :"],
-      "cible": "Seul : j'ai accès à du matériel et une connexion"
+      "termes": ["Seul", "En autonomie"],
+      "cible": "En autonomie"
     }
   ],
-  "publics_accueillis": [
+  "modalites_acces": [
     {
-      "colonnes": ["publics_accueillis"],
-      "termes": ["Adultes"],
-      "cible": "Adultes"
+      "colonnes": ["services"],
+      "termes": ["Prise de rendez-vous par téléphone"],
+      "cible": "Téléphoner"
     },
     {
-      "colonnes": ["publics_accueillis"],
-      "termes": ["famille", "enfant"],
-      "cible": "Familles/enfants"
-    },
+      "colonnes": ["services"],
+      "termes": ["présentation en guichet"],
+      "cible": "Se présenter"
+    }
+  ],
+  "publics_specifiquement_adresses": [
     {
       "colonnes": ["publics_accueillis"],
       "termes": ["Jeunes"],
-      "cible": "Jeunes (16-26 ans)"
+      "cible": "Jeunes"
     },
     {
       "colonnes": ["publics_accueillis"],
       "termes": ["Seniors"],
-      "cible": "Seniors (+ 65 ans)"
+      "cible": "Seniors"
+    }
+  ,    {
+      "colonnes": ["publics_accueillis"],
+      "termes": ["Familles", "enfant"],
+      "cible": "Familles et/ou enfants"
     },
+    {
+      "colonnes": ["publics_accueillis"],
+      "termes": ["femmes"],
+      "cible": "Femmes"
+    }
+  ],
+  "prise_en_charge_specifique": [
     {
       "colonnes": ["publics_accueillis"],
       "termes": ["Surdité"],
@@ -180,110 +225,80 @@
     },
     {
       "colonnes": ["publics_accueillis"],
-      "termes": ["Handicaps mentaux"],
-      "cible": "Handicaps mentaux : déficiences limitant les activités d'une personne"
+      "termes": ["Déficiance visuelle", "Déficience visuelle"],
+      "cible": "Déficience visuelle"
     },
     {
       "colonnes": ["publics_accueillis"],
       "termes": ["illettrisme"],
-      "cible": "Personnes en situation d'illettrisme"
+      "cible": "Illettrisme"
     },
     {
       "colonnes": ["publics_accueillis"],
-      "termes": ["langues étrangères"],
-      "cible": "Public langues étrangères"
+      "termes": ["Handicaps moteurs"],
+      "cible": "Handicaps moteurs"
     },
     {
       "colonnes": ["publics_accueillis"],
-      "termes": ["Uniquement femmes"],
-      "cible": "Uniquement femmes"
+      "termes": ["Handicaps mentaux", "Handicaps psychiques"],
+      "cible": "Handicaps mentaux"
     },
     {
       "colonnes": ["publics_accueillis"],
-      "termes": ["Handicaps psychiques"],
-      "cible": "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales"
+      "termes": ["Public langues étrangères"],
+      "cible": "Langues étrangères (anglais)"
     },
     {
       "colonnes": ["publics_accueillis"],
-      "termes": ["visuelle"],
-      "cible": "Déficience visuelle"
+      "termes": ["Public langues étrangères"],
+      "cible": "Langues étrangères (autres)"
     }
   ],
   "services": [
     {
       "colonnes": ["services"],
-      "termes": ["Devenir autonome", "Aide aux démarches administratives"],
-      "cible": "Devenir autonome dans les démarches administratives"
+      "termes": ["Devenir autonome", "démarche"],
+      "cible": "Aide aux démarches administratives"
     },
     {
       "colonnes": ["services"],
-      "termes": ["Réaliser des démarches"],
-      "cible": "Réaliser des démarches administratives avec un accompagnement"
+      "termes": ["quotidien", "Prendre en main"],
+      "cible": "Maîtrise des outils numériques du quotidien"
     },
     {
       "colonnes": ["services"],
-      "termes": ["smartphone"],
-      "cible": "Prendre en main un smartphone ou une tablette"
+      "termes": ["Insertion professionnelle", "développer mon entreprise"],
+      "cible": "Insertion professionnelle via le numérique"
     },
     {
       "colonnes": ["services"],
-      "termes": ["Prendre en main un ordinateur"],
-      "cible": "Prendre en main un ordinateur"
-    },
-    {
-      "colonnes": ["services"],
-      "termes": ["quotidien"],
-      "cible": "Utiliser le numérique au quotidien"
-    },
-    {
-      "colonnes": ["services"],
-      "termes": ["culture numérique", "monde numérique"],
-      "cible": "Approfondir ma culture numérique"
-    },
-    {
-      "colonnes": ["services"],
-      "termes": ["Insertion professionnelle"],
-      "cible": "Favoriser mon insertion professionnelle"
-    },
-    {
-      "colonnes": ["services"],
-      "termes": ["connexion internet", "internet"],
-      "cible": "Accéder à une connexion internet"
-    },
-    {
-      "colonnes": ["services"],
-      "termes": ["matériel"],
-      "cible": "Accéder à du matériel"
-    },
-    {
-      "colonnes": ["services"],
-      "termes": ["S'équiper en matériel informatique"],
-      "cible": "S'équiper en matériel informatique"
-    },
-    {
-      "colonnes": ["services"],
-      "termes": ["Créer et développer mon entreprise"],
-      "cible": "Créer et développer mon entreprise"
-    },
-    {
-      "colonnes": ["services"],
-      "termes": ["Créer avec le numérique", "créations numériques"],
-      "cible": "Créer avec le numérique"
-    },
-    {
-      "colonnes": ["services"],
-      "termes": ["démarches de santé"],
-      "cible": "Réaliser des démarches administratives avec un accompagnement"
-    },
-    {
-      "colonnes": ["services"],
-      "termes": ["citoyenneté numérique", "Utilisation sécurisée du numérique"],
-      "cible": "Promouvoir la citoyenneté numérique"
+      "termes": ["Utilisation sécurisée du numérique"],
+      "cible": "Utilisation sécurisée du numérique"
     },
     {
       "colonnes": ["services"],
       "termes": ["parentalité"],
-      "cible": "Soutenir la parentalité et l'éducation avec le numérique"
+      "cible": "Parentalité et éducation avec le numérique"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["Créer avec le numérique", "créations numériques", "Loisirs et créations numériques"],
+      "cible": "Loisirs et créations numériques"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["culture numérique", "monde numérique", "citoyenneté numérique", "Comprehension du monde numérique"],
+      "cible": "Compréhension du monde numérique"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["connexion Internet", "Accéder à du matériel", "Accès internet"],
+      "cible": "Accès internet et matériel informatique"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["équiper en matériel informatique", "prix solidaire"],
+      "cible": "Acquisition de matériel informatique à prix solidaire"
     }
   ],
   "horaires": {

@@ -18,15 +18,15 @@
     "colonne": "adresse"
   },
   "latitude": {
-    "colonne": "location.0"
+    "colonne": "location.lat"
   },
   "longitude": {
-    "colonne": "location.1"
+    "colonne": "location.lon"
   },
   "telephone": {
     "colonne": "telephone"
   },
-  "courriel": {
+  "courriels": {
     "colonne": "mail_porteur"
   },
   "site_web": {
@@ -38,131 +38,228 @@
   "date_maj": {
     "colonne": "date_modif"
   },
-  "conditions_acces": [
+  "typologie": [
+    {
+      "colonnes": ["type_porteur"],
+      "termes": ["Association"],
+      "cible": "ASSO"
+    },
+    {
+      "colonnes": ["type_porteur"],
+      "termes": ["Bibliothèque", "Médiathèque"],
+      "cible": "BIB"
+    },
+    {
+      "colonnes": ["type_porteur"],
+      "termes": ["Centre social"],
+      "cible": "CS"
+    },
+    {
+      "colonnes": ["type_porteur"],
+      "termes": ["Espace de vie sociale"],
+      "cible": "EVS"
+    },
+    {
+      "colonnes": ["type_porteur"],
+      "termes": ["France Travail"],
+      "cible": "FT"
+    },
+    {
+      "colonnes": ["type_porteur"],
+      "termes": ["La Poste"],
+      "cible": "LA_POSTE"
+    },
+    {
+      "colonnes": ["type_porteur"],
+      "termes": ["Maison de quartier"],
+      "cible": "MQ"
+    },
+    {
+      "colonnes": ["type_porteur"],
+      "termes": ["Maison de service au public"],
+      "cible": "MSAP"
+    }
+  ],
+  "modalites_accompagnement": [
+    {
+      "colonnes": ["poste_libre_service"],
+      "termes": ["1"],
+      "cible": "En autonomie"
+    },
+    {
+      "colonnes": ["complement_activite"],
+      "termes": ["Collectif", "Atelier"],
+      "cible": "Dans un atelier collectif"
+    },
+    {
+      "colonnes": ["accompagnement_usages", "accompagnement_edemarches", "accompagnement_emploi", "complement_activite", "médiateur numérique", "conseiller numérique"],
+      "termes": ["1", "Accompagnement", "aide et conseil", "soutien d'un agent", "individuellement", "Personne sur place pour aide numérique", "animateurs"],
+      "cible": "Accompagnement individuel"
+    }
+  ],
+  "frais_a_charge": [
     {
       "colonnes": ["tarifs", "gratuit"],
       "termes": ["gratuit", "oui"],
-      "cible": "Gratuit : Je peux accéder gratuitement au lieu et à ses services"
+      "cible": "Gratuit"
     },
     {
-      "colonnes": ["gratuit"],
-      "termes": ["non"],
-      "cible": "Payant : L'accès au lieu et/ou à ses services est payant"
-    },
-    {
-      "colonnes": ["tarifs"],
-      "termes": ["adhésion"],
-      "cible": "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"
-    },
-    {
-      "colonnes": ["pass_numerique"],
-      "termes": ["chèque aptic"],
-      "cible": "Accepte le Pass numérique : Il est possible d'utiliser un Pass numérique pour accéder au lieu"
+      "colonnes": ["tarifs", "gratuit"],
+      "termes": ["non", "adhésion", "€", "euros", "Abonnement", "de l'heure", "payant", "cotisation annuelle"],
+      "cible": "Payant"
     }
   ],
-  "publics_accueillis": [
+  "publics_specifiquement_adresses": [
     {
-      "colonnes": ["public", "public_precisions"],
-      "termes": ["tout public", "demandeurs d'emploi", "chefs d'entreprise", "salariés", "adultes"],
-      "cible": "Adultes"
-    },
-
-    {
-      "colonnes": ["public"],
-      "termes": ["tout public"],
-      "cible": "Familles/enfants"
+      "colonnes": ["public.0", "public_precisions"],
+      "termes": ["jeunes", "16-25 ans", "11-17 ans", "11- 25ans", "11-25 ans", "14-18 ans", "15-25 ans", "16-25 ans", "16- 25 ans"],
+      "cible": "Jeunes"
     },
     {
-      "colonnes": ["public", "public_precisions"],
-      "termes": ["tout public", "demandeurs d'emploi", "jeunes", "16-25 ans", "11-17 ans", "chefs d'entreprise", "salariés"],
-      "cible": "Jeunes (16-26 ans)"
+      "colonnes": ["public.0"],
+      "termes": ["Familles", "enfants", "avec un adulte"],
+      "cible": "Familles et/ou enfants"
     },
     {
-      "colonnes": ["public", "public_precisions"],
-      "termes": ["tout public", "demandeurs d'emploi", "chefs d'entreprise", "salariés"],
-      "cible": "Seniors (+ 65 ans)"
-    },
+      "colonnes": ["public.0"],
+      "termes": ["seniors", "60 ans et plus"],
+      "cible": "Seniors"
+    }
+  ],
+  "prise_en_charge_specifique": [
     {
-      "colonnes": ["accessibilite_pmr"],
-      "termes": ["oui"],
+      "colonnes": ["handicaps_precisions"],
+      "termes": ["des signes"],
       "cible": "Surdité"
     },
     {
-      "colonnes": ["accessibilite_pmr"],
-      "termes": ["oui"],
-      "cible": "Handicaps mentaux : déficiences limitant les activités d'une personne"
+      "colonnes": ["accessibilite_pmr", "handicaps_precisions"],
+      "termes": ["oui", "PMR", "fauteuil roulant", "mobilité rédui", "Rampe"],
+      "cible": "Handicaps moteurs"
     },
     {
-      "colonnes": ["accessibilite_pmr"],
-      "termes": ["oui"],
-      "cible": "Personnes en situation d'illettrisme"
+      "colonnes": ["public.0"],
+      "termes": ["ne parlant pas le français"],
+      "cible": "Langues étrangères (anglais)"
     },
     {
-      "colonnes": ["accessibilite_pmr"],
-      "termes": ["oui"],
-      "cible": "Public langues étrangères"
+      "colonnes": ["public.0"],
+      "termes": ["ne parlant pas le français"],
+      "cible": "Langues étrangères (autres)"
     },
     {
-      "colonnes": ["public"],
-      "termes": ["tout public"],
-      "cible": "Uniquement femmes"
-    },
-    {
-      "colonnes": ["accessibilite_pmr"],
-      "termes": ["oui"],
-      "cible": "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales"
-    },
-    {
-      "colonnes": ["accessibilite_pmr"],
-      "termes": ["oui"],
+      "colonnes": ["complement_equipement", "handicaps_precisions"],
+      "termes": ["mal-voyantes", "aveugles", "dispositif de guidage", "formateur non voyant", "déficience visuelle", "lecteur d'écran", "machine à lire", "assistants vocaux"],
       "cible": "Déficience visuelle"
     }
   ],
   "services": [
     {
-      "colonnes": ["activites", "wifi_libelle"],
-      "termes": ["wi-fi", "wifi"],
-      "cible": "Accéder à une connexion internet"
+      "colonnes": ["accompagnement_edemarches"],
+      "termes": ["1"],
+      "cible": "Aide aux démarches administratives"
     },
     {
-      "colonnes": ["activites", "imprimantes_libelle"],
-      "termes": ["postes informatiques", "poste informatique", "imprimante(s)", "imprimantes"],
-      "cible": "Accéder à du matériel"
+      "colonnes": ["accompagnement_edemarches_libelle", "descriptif", "restriction_usage", "complement_activite", "activites.0", "activites.1", "activites.2", "activites.3", "activites.4", "activites.5"],
+      "termes": ["démarches administratives", "démarche administrative", "formulaires administratifs"],
+      "cible": "Aide aux démarches administratives"
     },
     {
-      "colonnes": ["public", "accompagnement_emploi_libelle"],
-      "termes": ["demandeurs d'emploi", "recherche d'emploi"],
-      "cible": "Favoriser mon insertion professionnelle"
+      "colonnes": ["formation", "accompagnement_usages"],
+      "termes": ["1"],
+      "cible": "Maîtrise des outils numériques du quotidien"
     },
     {
-      "colonnes": ["accompagnement_usages_libelle"],
-      "termes": ["usages numériques"],
-      "cible": "Approfondir ma culture numérique"
+      "colonnes": ["complement_activite", "activites.0", "activites.1", "activites.2", "activites.3", "activites.4", "activites.5"],
+      "termes": ["Accompagnement aux usages numériques", "Formation", "tous les niveaux", "éseaux sociaux", "boîte mail", "initiation", "bureautique", "cours d'informatique", "cours collectifs"],
+      "cible": "Maîtrise des outils numériques du quotidien"
     },
     {
-      "colonnes": ["accompagnement_usages_libelle"],
-      "termes": ["usages numériques"],
-      "cible": "Utiliser le numérique au quotidien"
+      "colonnes": ["complement_activite"],
+      "termes": ["cybersécurité", "mots de passe"],
+      "cible": "Utilisation sécurisée du numérique"
     },
     {
-      "colonnes": ["accompagnement_usages_libelle"],
-      "termes": ["usages numériques"],
-      "cible": "Promouvoir la citoyenneté numérique"
+      "colonnes": ["accompagnement_emploi"],
+      "termes": ["1"],
+      "cible": "Insertion professionnelle via le numérique"
     },
     {
-      "colonnes": ["equipements"],
-      "termes": ["tablettes", "tablette", "tablette(s)"],
-      "cible": "Prendre en main un smartphone ou une tablette"
+      "colonnes": ["public", "accompagnement_emploi_libelle", "restriction_usage", "complement_activite", "activites.0", "activites.1", "activites.2", "activites.3", "activites.4", "activites.5"],
+      "termes": ["demandeurs d'emploi", "recherche d'emploi", "démarches d'emploi", "Accompagnement des demandeurs d’emploi", "bilan de compétences", "Rédaction de CV"],
+      "cible": "Insertion professionnelle via le numérique"
     },
     {
-      "colonnes": ["accompagnement_edemarches_libelle", "descriptif"],
-      "termes": ["démarches administratives", "démarches"],
-      "cible": "Devenir autonome dans les démarches administratives"
+      "colonnes": ["complement_equipement", "complement_activite"],
+      "termes": ["Console Switch", "imprimante 3D", "gravure laser", "fraiseuse", "arduino", "travail du bois", "jeux vidéo", "découpeuse", "brodeuse numérique", "création de site web"],
+      "cible": "Loisirs et créations numériques"
     },
     {
-      "colonnes": ["accompagnement_edemarches_libelle", "descriptif"],
-      "termes": ["démarches administratives", "démarches"],
-      "cible": "Réaliser des démarches administratives avec un accompagnement"
+      "colonnes": ["formation", "accompagnement_usages"],
+      "termes": ["1"],
+      "cible": "Compréhension du monde numérique"
+    },
+    {
+      "colonnes": ["complement_activite", "activites.0", "activites.1", "activites.2", "activites.3", "activites.4"],
+      "termes": ["Accompagnement aux usages numériques", "Formation", "tous les niveaux", "éseaux sociaux", "boîte mail", "perfectionnement", "bureautique", "cours d'informatique", "cours collectifs"],
+      "cible": "Compréhension du monde numérique"
+    },
+    {
+      "colonnes": ["tablettes", "scanners", "imprimantes", "borne_caf", "wifi"],
+      "termes": ["1"],
+      "cible": "Accès internet et matériel informatique"
+    },
+    {
+      "colonnes": ["fourniture_equipement", "poste_libre_service"],
+      "termes": ["1"],
+      "cible": "Accès internet et matériel informatique"
+    },
+    {
+      "colonnes": ["complement_equipement", "equipements.0", "equipements.1", "equipements.2", "equipements.3"],
+      "termes": ["postes informatique", "poste informatique", "imprimante", "ordinateur", "TV mobile", "liseuse", "PC", "tablette", "scanner", "vidéoprojecteur", "vidéo projecteur", "wifi", "Wi-Fi", "borne", "Internet", "photocopieuses", "Apple", "Impression", "bureautique", "smartphone", "téléphone"],
+      "cible": "Accès internet et matériel informatique"
+    },
+    {
+      "colonnes": ["tarifs", "complement_equipement"],
+      "termes": ["ordinateur vendu", "Unités centrales à partir de", "PC portables à partir de", "Service de prêt", "disponible en prêt", "empruntable", "Prêt d"],
+      "cible": "Acquisition de matériel informatique à prix solidaire"
+    }
+  ],
+  "autres_formations_labels": [
+    {
+      "colonnes": ["labels"],
+      "termes": ["Cyber-base emploi"],
+      "cible": "Cyber-base emploi"
+    },
+    {
+      "colonnes": ["labels"],
+      "termes": ["Net Public"],
+      "cible": "Net Public"
+    },
+    {
+      "colonnes": ["labels"],
+      "termes": ["Esus"],
+      "cible": "Esus"
+    },
+    {
+      "colonnes": ["labels"],
+      "termes": ["Qualiopi"],
+      "cible": "Qualiopi"
+    },
+    {
+      "colonnes": ["labels"],
+      "termes": ["NetPublic"],
+      "cible": "NetPublic"
+    },
+    {
+      "colonnes": ["labels"],
+      "termes": ["Guid'asso"],
+      "cible": "Guid'asso"
+    },
+    {
+      "colonnes": ["labels"],
+      "termes": ["Ordi 3.0"],
+      "cible": "Ordi 3.0"
     }
   ],
   "horaires": {
@@ -190,6 +287,10 @@
       {
         "colonne": "horaire_samedi",
         "osm": "Sa"
+      },
+      {
+        "colonne": "horaire_dimanche",
+        "osm": "Su"
       }
     ]
   }

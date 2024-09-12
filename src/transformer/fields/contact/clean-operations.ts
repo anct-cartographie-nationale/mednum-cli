@@ -40,12 +40,6 @@ const replaceDoubleDotBySingleDotInWebsites = (field: string): CleanOperation =>
   fix: (toFix: string): string => toFix.replace(/www:/gu, 'www.')
 });
 
-const removeHttpOnlyWebsites = (field: string): CleanOperation => ({
-  name: 'http only websites',
-  selector: /^http:\/\/$/u,
-  field
-});
-
 const removeWebsitesStartingWithAt = (field: string): CleanOperation => ({
   name: 'remove url starting by at',
   selector: /^@/u,
@@ -66,9 +60,9 @@ const removeMissingExtensionWebsites = (field: string): CleanOperation => ({
 
 const fixMissingHttpWebsitesWithMultipleUrl = (field: string): CleanOperation => ({
   name: 'missing http websites',
-  selector: /;((?!http[s]?:\/\/)[^;]+)/gu,
+  selector: /\|((?!http[s]?:\/\/)[^|]+)/gu,
   field,
-  fix: (toFix: string): string => toFix.replace(/;((?!http[s]?:\/\/)[^;]+)/gu, ';http://$1')
+  fix: (toFix: string): string => toFix.replace(/\|((?!http[s]?:\/\/)[^|]+)/gu, '|http://$1')
 });
 
 const fixMissingHttpWebsites = (field: string): CleanOperation => ({
@@ -85,6 +79,13 @@ const fixUppercaseWebsites = (field: string): CleanOperation => ({
   fix: (toFix: string): string => toFix.toLowerCase()
 });
 
+const fixMisplacedColonInWebsite = (field: string): CleanOperation => ({
+  name: 'missing colon websites',
+  selector: /https\/\/:/u,
+  field,
+  fix: (toFix: string): string => toFix.replace(/https\/\/:/u, 'https://')
+});
+
 const fixMissingColonWebsites = (field: string): CleanOperation => ({
   name: 'missing colon websites',
   selector: /(https?)(\/\/)/u,
@@ -94,9 +95,9 @@ const fixMissingColonWebsites = (field: string): CleanOperation => ({
 
 const fixMultipleUrlNotSeparatedWebsites = (field: string): CleanOperation => ({
   name: 'missing separator between url',
-  selector: /(https?:\/\/(?:[^;]+)(?!;))(https?:\/\/)/gu,
+  selector: /(https?:\/\/[^|]+(?!\|))(https?:\/\/)/gu,
   field,
-  fix: (toFix: string): string => toFix.replace(/(https?:\/\/(?:[^;]+)(?!;))(https?:\/\/)/gu, '$1;$2')
+  fix: (toFix: string): string => toFix.replace(/(https?:\/\/[^|]+(?!\|))(https?:\/\/)/gu, '$1|$2')
 });
 
 const fixDuplicateHttpWebsites = (field: string): CleanOperation => ({
@@ -106,11 +107,11 @@ const fixDuplicateHttpWebsites = (field: string): CleanOperation => ({
   fix: (toFix: string): string => toFix.replace(/^https?:\/\/https?:\/\//u, 'https://')
 });
 
-const fixMultipleWebsitesSeparator = (field: string): CleanOperation => ({
-  name: 'multipe websites separator',
-  selector: /^.*\s(?:ou|\/)\s.*$/u,
+const fixWebsitesSeparator = (field: string): CleanOperation => ({
+  name: 'websites separator',
+  selector: /;|\s(?:ou|\/|;)\s/u,
   field,
-  fix: (toFix: string): string => toFix.replace(/\s(?:ou|\/)\s/u, ';')
+  fix: (toFix: string): string => toFix.replace(/;|\s(?:ou|\/|;)\s/u, '|')
 });
 
 const fixWebsitesWithComaInsteadOfDot = (field: string): CleanOperation => ({
@@ -240,6 +241,20 @@ const keepFirstNumberIfMultiple = (field: string): CleanOperation => ({
   fix: (toFix: string): string => /^(?<phone>[^\n]+)/u.exec(toFix)?.groups?.['phone'] ?? ''
 });
 
+const fixSpaceBeforeDotInEmail = (field: string): CleanOperation => ({
+  name: 'remove space before dot.',
+  selector: /\w\s\./u,
+  field,
+  fix: (toFix: string): string => toFix.replace(/(\w)\s\./u, '$1.')
+});
+
+const removeTextPrecededByWrongCharacterInEmail = (field: string): CleanOperation => ({
+  name: 'text preceded by wrong wharacter',
+  selector: /^\w+[;\s]/u,
+  field,
+  fix: (toFix: string): string => toFix.replace(/^\w+[;\s]/u, '')
+});
+
 const removeEmailStartingWithWww = (field: string): CleanOperation => ({
   name: 'email starts with www.',
   selector: /^www\./u,
@@ -287,11 +302,11 @@ const fixStartingWithDotEmail = (field: string): CleanOperation => ({
   fix: (toFix: string): string => toFix.replace(/^\.([^@]+)@/u, '$1@')
 });
 
-const fixUnexpectedEmailList = (field: string): CleanOperation => ({
-  name: 'unexpected email list',
+const fixUnexpectedEmailSeparator = (field: string): CleanOperation => ({
+  name: 'unexpected email separator',
   selector: /\S\s?(?:et|ou|;|\s|\/)\s?\S/u,
   field,
-  fix: (toFix: string): string => toFix.split(/\s?(?:et|ou|;|\s|\/)\s?/u)[0] ?? ''
+  fix: (toFix: string): string => toFix.replace(/\s?(?:et|ou|;|\s|\/)\s?/gu, '|')
 });
 
 const fixObfuscatedAtInEmail = (field: string): CleanOperation => ({
@@ -352,13 +367,11 @@ export const cleanOperations = (
 ): CleanOperation[] => [
   ...cleanOperationIfAny(replaceNewlineInWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(replaceDoubleDotBySingleDotInWebsites, matching.site_web?.colonne),
-  ...cleanOperationIfAny(removeDashEmail, matching.courriel?.colonne),
   ...cleanOperationIfAny(removeWebsitesStartingWithAt, matching.site_web?.colonne),
+  ...cleanOperationIfAny(fixWebsitesSeparator, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixDuplicateHttpWebsites, matching.site_web?.colonne),
-  ...cleanOperationIfAny(fixMultipleWebsitesSeparator, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixUppercaseWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixMultipleUrlNotSeparatedWebsites, matching.site_web?.colonne),
-  ...cleanOperationIfAny(removeHttpOnlyWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(removeWebsitesWithAccentedCharacters, matching.site_web?.colonne),
   ...cleanOperationIfAny(removeMissingExtensionWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixWebsitesWithComaInsteadOfDot, matching.site_web?.colonne),
@@ -367,6 +380,7 @@ export const cleanOperations = (
   ...cleanOperationIfAny(fixWebsitesWithCodedSpacesAndParenthese, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixMissingHttpWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixMissingHttpWebsitesWithMultipleUrl, matching.site_web?.colonne),
+  ...cleanOperationIfAny(fixMisplacedColonInWebsite, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixMissingColonWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(removeStartingByTwoZeroInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(removeNoValidNumbersInPhone, matching.telephone?.colonne),
@@ -377,24 +391,27 @@ export const cleanOperations = (
   ...cleanOperationIfAny(fixWrongCharsInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(fixPhoneWithoutStarting0, matching.telephone?.colonne, codePostal),
   ...cleanOperationIfAny(fixShortCafPhone, matching.telephone?.colonne),
+  ...cleanOperationIfAny(removeDashEmail, matching.courriels?.colonne),
   ...cleanOperationIfAny(fixShortAssuranceRetraitePhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(removeTooFewDigitsInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(removeTooManyDigitsInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(removeOnly0ValueInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(keepFirstNumberIfMultiple, matching.telephone?.colonne),
   ...cleanOperationIfAny(fixMissingPlusCharAtStartingPhone, matching.telephone?.colonne),
-  ...cleanOperationIfAny(removeEmailStartingWithWww, matching.courriel?.colonne),
-  ...cleanOperationIfAny(removeEmailStartingWithAt, matching.courriel?.colonne),
-  ...cleanOperationIfAny(trimEmail, matching.courriel?.colonne),
-  ...cleanOperationIfAny(fixMissingAccentuatedEInEmail, matching.courriel?.colonne),
-  ...cleanOperationIfAny(fixMissingAccentuatedCInEmail, matching.courriel?.colonne),
-  ...cleanOperationIfAny(fixEmailWithTwoArobase, matching.courriel?.colonne),
-  ...cleanOperationIfAny(fixStartingWithDotEmail, matching.courriel?.colonne),
-  ...cleanOperationIfAny(fixEmailStartingWithMailTo, matching.courriel?.colonne),
-  ...cleanOperationIfAny(fixUnexpectedEmailLabel, matching.courriel?.colonne),
-  ...cleanOperationIfAny(fixUnexpectedEmailList, matching.courriel?.colonne),
-  ...cleanOperationIfAny(fixObfuscatedAtInEmail, matching.courriel?.colonne),
-  ...cleanOperationIfAny(fixMissingEmailExtension, matching.courriel?.colonne),
-  ...cleanOperationIfAny(removeMissingAtInEmail, matching.courriel?.colonne),
-  ...cleanOperationIfAny(removeMultipleAtEmail, matching.courriel?.colonne)
+  ...cleanOperationIfAny(fixSpaceBeforeDotInEmail, matching.courriels?.colonne),
+  ...cleanOperationIfAny(removeEmailStartingWithWww, matching.courriels?.colonne),
+  ...cleanOperationIfAny(removeEmailStartingWithAt, matching.courriels?.colonne),
+  ...cleanOperationIfAny(trimEmail, matching.courriels?.colonne),
+  ...cleanOperationIfAny(fixMissingAccentuatedEInEmail, matching.courriels?.colonne),
+  ...cleanOperationIfAny(fixMissingAccentuatedCInEmail, matching.courriels?.colonne),
+  ...cleanOperationIfAny(fixEmailWithTwoArobase, matching.courriels?.colonne),
+  ...cleanOperationIfAny(fixStartingWithDotEmail, matching.courriels?.colonne),
+  ...cleanOperationIfAny(fixEmailStartingWithMailTo, matching.courriels?.colonne),
+  ...cleanOperationIfAny(fixUnexpectedEmailLabel, matching.courriels?.colonne),
+  ...cleanOperationIfAny(removeTextPrecededByWrongCharacterInEmail, matching.courriels?.colonne),
+  ...cleanOperationIfAny(fixUnexpectedEmailSeparator, matching.courriels?.colonne),
+  ...cleanOperationIfAny(fixObfuscatedAtInEmail, matching.courriels?.colonne),
+  ...cleanOperationIfAny(fixMissingEmailExtension, matching.courriels?.colonne),
+  ...cleanOperationIfAny(removeMissingAtInEmail, matching.courriels?.colonne),
+  ...cleanOperationIfAny(removeMultipleAtEmail, matching.courriels?.colonne)
 ];

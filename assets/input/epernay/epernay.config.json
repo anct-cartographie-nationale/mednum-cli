@@ -5,11 +5,11 @@
   "nom": {
     "colonne": "Nom de votre structure"
   },
-  "code_postal": {
+  "commune": {
     "colonne": ""
   },
-  "commune": {
-    "colonne": "commune"
+  "code_postal": {
+    "colonne": ""
   },
   "adresse": {
     "colonne": "Adresse de la structure"
@@ -17,7 +17,7 @@
   "telephone": {
     "colonne": "Numéro de téléphone de la structure"
   },
-  "courriel": {
+  "courriels": {
     "colonne": "Adresse mail de la structure"
   },
   "site_web": {
@@ -32,179 +32,195 @@
   "date_maj": {
     "colonne": "EditDate"
   },
-  "labels_nationaux": [
+  "itinerance": [
     {
-      "colonnes": ["Possédez-vous des labels nationaux ou régionaux ?"],
-      "termes": ["CNFS"],
-      "cible": "CNFS"
+      "colonnes": ["Organisez-vous des actions itinérantes ou 'hors les murs' en dehors de votre structure ?"],
+      "termes": ["Oui", "OUI", "Constamment", "Hors les murs", "ateliers collectifs itinérants"],
+      "cible": "Itinérant"
     },
     {
-      "colonnes": ["Possédez-vous des labels nationaux ou régionaux ?"],
-      "termes": ["France_Services"],
-      "cible": "France Services"
-    },
+      "colonnes": ["Organisez-vous des actions itinérantes ou 'hors les murs' en dehors de votre structure ?"],
+      "termes": ["Non", "non", "NON"],
+      "cible": "Fixe"
+    }
+  ],
+  "dispositif_programmes_nationaux": [
     {
       "colonnes": ["Possédez-vous des labels nationaux ou régionaux ?"],
       "termes": ["Point_relais_CAF"],
-      "cible": "Point relais CAF"
+      "cible": "Point d'accès numérique CAF"
     }
   ],
   "modalites_accompagnement": [
     {
-      "colonnes": ["Quel(s) type(s) d'acteur êtes-vous ?"],
-      "termes": ["J'assiste_et_j'accompagne_les_u"],
-      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+      "colonnes": ["Quels sont vos équipements numériques ?", "Quelles sont vos modalités d'accompagnement ?"],
+      "termes": ["accueil libre", "accès libre", "Accès-libre"],
+      "cible": "En autonomie"
+    },
+    {
+      "colonnes": ["Quelles sont vos modalités d'accompagnement ?"],
+      "termes": ["Assistance_individuelle", "Ateliers_individuels", "Formation_courte", "Formation_longue"],
+      "cible": "Accompagnement individuel"
+    },
+    {
+      "colonnes": ["Quels sont vos équipements numériques ?", "Quelles sont vos modalités d'accompagnement ?"],
+      "termes": ["ateliers collectifs", "Ateliers ponctuels", "Ateliers_collectifs", "1_atelier"],
+      "cible": "Dans un atelier collectif"
     }
   ],
-  "publics_accueillis": [
+  "modalites_acces": [
     {
-      "colonnes": ["Quel(s) type(s) de public accompagnez-vous  ?"],
-      "termes": ["Tout_public", "Jeunes_(16-26_ans)"],
-      "cible": "Jeunes (16-26 ans)"
+      "colonnes": ["Doit-on prendre rendez-vous pour accéder à vos services ? Et si oui, comment ?__1"],
+      "termes": ["Non", "Guichet_d'accueil"],
+      "cible": "Se présenter"
+    },
+    {
+      "colonnes": ["Doit-on prendre rendez-vous pour accéder à vos services ? Et si oui, comment ?__1"],
+      "termes": ["Téléphone"],
+      "cible": "Téléphoner"
+    },
+    {
+      "colonnes": ["Doit-on prendre rendez-vous pour accéder à vos services ? Et si oui, comment ?__1"],
+      "termes": ["Mail"],
+      "cible": "Contacter par mail"
+    },
+    {
+      "colonnes": ["Doit-on prendre rendez-vous pour accéder à vos services ? Et si oui, comment ?__1"],
+      "termes": ["Site_en_ligne"],
+      "cible": "Prendre un RDV en ligne"
+    },
+    {
+      "colonnes": ["Quels sont vos équipements numériques ?"],
+      "termes": ["La structure n'accueille plus de publics"],
+      "cible": "Ce lieu n'accueille pas de public"
+    }
+  ],
+  "publics_specifiquement_adresses": [
+    {
+      "colonnes": ["Quel(s) type(s) de public accompagnez-vous  ?", "Autre - Quelles sont vos conditions d'accès ?"],
+      "termes": ["Jeunes_(16-26_ans)", "Avoir entre 16 et moins de 26 ans"],
+      "cible": "Jeunes"
     },
     {
       "colonnes": ["Quel(s) type(s) de public accompagnez-vous  ?"],
-      "termes": ["Tout_public", "Familles/enfants"],
-      "cible": "Familles/enfants"
+      "termes": ["Familles/enfants"],
+      "cible": "Familles et/ou enfants"
     },
     {
       "colonnes": ["Quel(s) type(s) de public accompagnez-vous  ?"],
-      "termes": ["Tout_public", "Adultes"],
-      "cible": "Adultes"
+      "termes": ["Seniors_(+_65_ans)"],
+      "cible": "Seniors"
+    }
+  ],
+  "prise_en_charge_specifique": [
+    {
+      "colonnes": ["Quel(s) type(s) de public accompagnez-vous  ?"],
+      "termes": ["Public_langues_étrangères"],
+      "cible": "Langues étrangères (anglais)"
     },
     {
       "colonnes": ["Quel(s) type(s) de public accompagnez-vous  ?"],
-      "termes": ["Tout_public", "Seniors_(+_65_ans)"],
-      "cible": "Seniors (+ 65 ans)"
+      "termes": ["Public_langues_étrangères"],
+      "cible": "Langues étrangères (autres)"
     },
     {
       "colonnes": ["Quel(s) type(s) de public accompagnez-vous  ?"],
-      "termes": ["Tout_public", "Public_langues_étrangères"],
-      "cible": "Public langues étrangères"
+      "termes": ["Personnes_en_situation_d'illett"],
+      "cible": "Illettrisme"
     },
     {
       "colonnes": ["Quel(s) type(s) de public accompagnez-vous  ?"],
-      "termes": ["Tout_public", "Handicaps_psychiques_:_troubles"],
-      "cible": "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales"
-    },
-    {
-      "colonnes": ["Quel(s) type(s) de public accompagnez-vous  ?"],
-      "termes": ["Tout_public", "Personnes_en_situation_d'illett"],
-      "cible": "Personnes en situation d'illettrisme"
-    },
-    {
-      "colonnes": ["Quel(s) type(s) de public accompagnez-vous  ?"],
-      "termes": ["Tout_public", "Surdité"],
+      "termes": ["Surdité"],
       "cible": "Surdité"
     },
     {
       "colonnes": ["Quel(s) type(s) de public accompagnez-vous  ?"],
-      "termes": ["Tout_public", "Handicaps_mentaux_:_déficiences"],
-      "cible": "Handicaps mentaux : déficiences limitant les activités d'une personne"
+      "termes": ["Déficience_visuelle"],
+      "cible": "Déficience visuelle"
     },
     {
       "colonnes": ["Quel(s) type(s) de public accompagnez-vous  ?"],
-      "termes": ["Tout_public", "Déficience_visuelle"],
-      "cible": "Déficience visuelle"
+      "termes": ["Handicaps_psychiques_:_troubles", "Handicaps_mentaux_:_déficiences"],
+      "cible": "Handicaps mentaux"
     }
   ],
-  "conditions_acces": [
+  "frais_a_charge": [
     {
       "colonnes": ["Quelles sont vos conditions d'accès ?"],
       "termes": ["Gratuit"],
-      "cible": "Gratuit : Je peux accéder gratuitement au lieu et à ses services"
+      "cible": "Gratuit"
     },
     {
       "colonnes": ["Quelles sont vos conditions d'accès ?"],
-      "termes": ["Adhésion"],
-      "cible": "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"
-    },
-    {
-      "colonnes": ["Quelles sont vos conditions d'accès ?"],
-      "termes": ["Payant"],
-      "cible": "Payant : L'accès au lieu et/ou à ses services est payant"
+      "termes": ["Payant", "Adhésion"],
+      "cible": "Payant"
     },
     {
       "colonnes": ["Quelles sont vos conditions d'accès ?"],
       "termes": ["Gratuit_sous_condition_"],
-      "cible": "Gratuit sous condition : La gratuité est conditionnée à des critères (situation familiale, convention avec un organisme social...)"
+      "cible": "Gratuit sous condition"
     }
   ],
   "services": [
     {
-      "colonnes": ["Qu'apportez vous aux usagers qui viennent à votre rencontre ?"],
-      "termes": ["Devenir_autonome_dans_les_démar"],
-      "cible": "Devenir autonome dans les démarches administratives"
+      "colonnes": ["Quel(s) type(s) d'acteur êtes-vous ?", "Qu'apportez vous aux usagers qui viennent à votre rencontre ?"],
+      "termes": ["Je_forme_les_usagers_aux_usages", "Prendre_en_main_un_smartphone_o", "Utiliser_le_numérique_au_quotid"],
+      "cible": "Maîtrise des outils numériques du quotidien"
+    },
+    {
+      "colonnes": ["Quel(s) type(s) d'acteur êtes-vous ?", "Quels sont vos équipements numériques ?", "Qu'apportez vous aux usagers qui viennent à votre rencontre ?", "Quelles sont vos modalités d'accompagnement ?"],
+      "termes": ["Je_mets_à_disposition_des_équip", "tablette", "PC équipé", "imprimante", "PC Portable", "Ordinateur portable", "ordinateurs", "2 PC", "4 PC", "postes informatiques", "Accéder_à_une_connexion_interne", "Accéder_à_du_matériel", "Accès-libre_à_une_connexion"],
+      "cible": "Accès internet et matériel informatique"
+    },
+    {
+      "colonnes": ["Quel(s) type(s) d'acteur êtes-vous ?"],
+      "termes": ["'équipe_les_usagers_(dons_prêt"],
+      "cible": "Acquisition de matériel informatique à prix solidaire"
+    },
+    {
+      "colonnes": ["Quels sont vos équipements numériques ?"],
+      "termes": ["Programmation", "Robotique", "Table de mixage", "PC Montage vidéo", "Studio d'enregistrement", "Switch", "PS5", "Jeux Vidéo", "Machine à coudre", "Imprimante 3D", "Découpeuse vinyle", "ARDUINO", "RASPBERRY", "Espace libre service", "bornes à disposition", "scanner", "ordinateur du secrétariat"],
+      "cible": "Loisirs et créations numériques"
+    },
+    {
+      "colonnes": ["Quel(s) type(s) d'acteur êtes-vous ?"],
+      "termes": ["demandeurs d'emploi"],
+      "cible": "Insertion professionnelle via le numérique"
     },
     {
       "colonnes": ["Qu'apportez vous aux usagers qui viennent à votre rencontre ?"],
-      "termes": ["Réaliser_des_démarches_administ"],
-      "cible": "Réaliser des démarches administratives avec un accompagnement"
-    },
-    {
-      "colonnes": ["Qu'apportez vous aux usagers qui viennent à votre rencontre ?"],
-      "termes": ["Prendre_en_main_un_smartphone_o"],
-      "cible": "Prendre en main un smartphone ou une tablette"
-    },
-    {
-      "colonnes": ["Qu'apportez vous aux usagers qui viennent à votre rencontre ?", "Quels sont vos équipements numériques ?"],
-      "termes": ["Accéder_à_du_matériel_", "ordinateur"],
-      "cible": "Prendre en main un ordinateur"
-    },
-    {
-      "colonnes": ["Qu'apportez vous aux usagers qui viennent à votre rencontre ?"],
-      "termes": ["Utiliser_le_numérique_au_quotid"],
-      "cible": "Utiliser le numérique au quotidien"
+      "termes": ["Devenir_autonome_dans_les_démar", "Réaliser_des_démarches_administ", "Accompagner_les_démarches_de_sa"],
+      "cible": "Aide aux démarches administratives"
     },
     {
       "colonnes": ["Qu'apportez vous aux usagers qui viennent à votre rencontre ?"],
       "termes": ["_Approfondir_ma_culture_numériq"],
-      "cible": "Approfondir ma culture numérique"
+      "cible": "Utilisation sécurisée du numérique"
     },
     {
       "colonnes": ["Qu'apportez vous aux usagers qui viennent à votre rencontre ?"],
-      "termes": ["_Favoriser_mon_insertion_profes"],
-      "cible": "Favoriser mon insertion professionnelle"
+      "termes": ["_Approfondir_ma_culture_numériq", "Promouvoir_la_citoyenneté_numér"],
+      "cible": "Compréhension du monde numérique"
     },
     {
       "colonnes": ["Qu'apportez vous aux usagers qui viennent à votre rencontre ?"],
-      "termes": ["Accéder_à_une_connexion_interne"],
-      "cible": "Accéder à une connexion internet"
+      "termes": ["__Favoriser_mon_insertion_profes", "Créer_et_développer_mon_entrepr"],
+      "cible": "Insertion professionnelle via le numérique"
     },
     {
       "colonnes": ["Qu'apportez vous aux usagers qui viennent à votre rencontre ?"],
-      "termes": ["Accéder_à_du_matériel_"],
-      "cible": "Accéder à du matériel"
-    },
-    {
-      "colonnes": ["Qu'apportez vous aux usagers qui viennent à votre rencontre ?"],
-      "termes": ["numerique--s-equiper-en-materiel-informatique"],
-      "cible": "S'équiper en matériel informatique"
-    },
-    {
-      "colonnes": ["Qu'apportez vous aux usagers qui viennent à votre rencontre ?"],
-      "termes": ["Créer_et_développer_mon_entrepr"],
-      "cible": "Créer et développer mon entreprise"
+      "termes": ["S'équiper_en_matériel"],
+      "cible": "Acquisition de matériel informatique à prix solidaire"
     },
     {
       "colonnes": ["Qu'apportez vous aux usagers qui viennent à votre rencontre ?"],
       "termes": ["Créer_avec_le_numérique"],
-      "cible": "Créer avec le numérique"
-    },
-    {
-      "colonnes": ["Qu'apportez vous aux usagers qui viennent à votre rencontre ?"],
-      "termes": ["Accompagner_les_démarches_de_sa"],
-      "cible": "Accompagner les démarches de santé"
-    },
-    {
-      "colonnes": ["Qu'apportez vous aux usagers qui viennent à votre rencontre ?"],
-      "termes": ["Promouvoir_la_citoyenneté_numér"],
-      "cible": "Promouvoir la citoyenneté numérique"
+      "cible": "Loisirs et créations numériques"
     },
     {
       "colonnes": ["Qu'apportez vous aux usagers qui viennent à votre rencontre ?"],
       "termes": ["Soutenir_la_parentalité_et_l'éd"],
-      "cible": "Soutenir la parentalité et l'éducation avec le numérique"
+      "cible": "Parentalité et éducation avec le numérique"
     }
   ],
   "horaires": {
@@ -252,6 +268,21 @@
       "cible": "CSAPA"
     },
     {
+      "colonnes": ["Autre - Typologie de la structure"],
+      "termes": ["Direction générale des finances publiques"],
+      "cible": "CFP"
+    },
+    {
+      "colonnes": ["Autre - Typologie de la structure"],
+      "termes": ["La Poste"],
+      "cible": "LA_POSTE"
+    },
+    {
+      "colonnes": ["Autre - Typologie de la structure"],
+      "termes": ["CPAM"],
+      "cible": "CPAM"
+    },
+    {
       "colonnes": ["Typologie de la structure"],
       "termes": ["Maison de l'emploi"],
       "cible": "MDE"
@@ -271,11 +302,10 @@
       "termes": ["Préfecture", "Sous-préfecture"],
       "cible": "PREF"
     },
-
     {
       "colonnes": ["Typologie de la structure"],
-      "termes": ["Réseau France Services"],
-      "cible": "RFS"
+      "termes": ["Points et bureaux information"],
+      "cible": "PI"
     }
   ]
 }

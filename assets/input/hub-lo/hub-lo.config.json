@@ -5,6 +5,9 @@
   "nom": {
     "colonne": "c_nom"
   },
+  "pivot": {
+    "colonne": "c_siren_site"
+  },
   "code_postal": {
     "colonne": "c_postcode"
   },
@@ -23,7 +26,7 @@
   "telephone": {
     "colonne": "c_telephone"
   },
-  "courriel": {
+  "courriels": {
     "colonne": "c_courriel"
   },
   "site_web": {
@@ -35,249 +38,176 @@
   "date_maj": {
     "colonne": "c__edit_datemaj"
   },
-  "conditions_acces": [
+  "itinerance": [
+    {
+      "colonnes": ["c_formation_detail"],
+      "termes": ["itinérance"],
+      "cible": "Itinérant"
+    }
+  ],
+  "typologie": [
+    {
+      "colonnes": ["c_statut_juridique"],
+      "termes": ["Associatif"],
+      "cible": "ASSO"
+    },
+    {
+      "colonnes": ["c_etiquettes"],
+      "termes": ["msap"],
+      "cible": "MSAP"
+    },
+    {
+      "colonnes": ["c_etiquettes", "c_epn", "c_club_info"],
+      "termes": ["Club Info", "EPN", "True"],
+      "cible": "EPN"
+    },
+    {
+      "colonnes": ["c_etiquettes", "c_mediatheque"],
+      "termes": ["Médiathèque", "True"],
+      "cible": "BIB"
+    },
+    {
+      "colonnes": ["c_etiquettes", "c_coworking"],
+      "termes": ["CoWorking", "True"],
+      "cible": "TIERS_LIEUX"
+    },
+    {
+      "colonnes": ["c_etiquettes", "c_fablab"],
+      "termes": ["FabLab", "True"],
+      "cible": "FABLAB"
+    },
+    {
+      "colonnes": ["c_etiquettes", "c_mairie"],
+      "termes": ["Mairie", "True"],
+      "cible": "MUNI"
+    },
+    {
+      "colonnes": ["c_etiquettes", "c_msap"],
+      "termes": ["MSAP", "True"],
+      "cible": "MSAP"
+    }
+  ],
+  "dispositif_programmes_nationaux": [
+    {
+      "colonnes": ["c_etiquettes", "c_promeneur"],
+      "termes": ["Promeneur du Net", "True"],
+      "cible": "Promeneurs du net"
+    }
+  ],
+  "frais_a_charge": [
     {
       "colonnes": ["c_formation_detail", "c_materiel_info_detail", "c_accompagnement_teletravail"],
       "termes": ["gratuites", "gratuits", "gratuit", "gratuitement"],
       "sauf": ["abonnés"],
-      "cible": "Gratuit : Je peux accéder gratuitement au lieu et à ses services"
+      "cible": "Gratuit"
     },
     {
       "colonnes": ["c_formation_detail", "c_materiel_info_detail"],
       "termes": ["payantes", "€"],
-      "cible": "Payant : L'accès au lieu et/ou à ses services est payant"
+      "cible": "Payant "
     },
     {
       "colonnes": ["c_formation_detail", "c_materiel_info_detail", "c_accompagnement_teletravail"],
       "termes": ["abonnés"],
-      "cible": "Gratuit sous condition : La gratuité est conditionnée à des critères (situation familiale, convention avec un organisme social...)"
+      "cible": "Gratuit sous condition"
     }
   ],
-  "publics_accueillis": [
+  "publics_specifiquement_adresses": [
     {
-      "colonnes": ["c_varchar_public_cible", "c_acces_pmr"],
-      "termes": [
-        "3-99 ans",
-        "tout public",
-        "tous publics",
-        "tous public",
-        "créateurs",
-        "entrepreneurs",
-        "télétravailleurs",
-        "demandeurs emploi",
-        "salariés",
-        "porteurs de projet",
-        "tout",
-        "indépendant.e.s",
-        "télétravailleurs.euses"
-      ],
-      "cible": "Adultes"
+      "colonnes": ["c_varchar_public_cible", "c_accompagnement_personnel_detail"],
+      "termes": ["12 - 30 ans", "12-25 ans", "16-25 ans", "jeunes", "collégiens", "lycéens", "Accompagnement des jeunes"],
+      "cible": "Jeunes"
     },
+    {
+      "colonnes": ["c_varchar_public_cible"],
+      "termes": ["étudiants"],
+      "cible": "Étudiants"
+    },
+    {
+      "colonnes": ["c_varchar_public_cible"],
+      "termes": ["familles", "Enfants"],
+      "cible": "Familles et/ou enfants"
+    },
+    {
+      "colonnes": ["c_varchar_public_cible"],
+      "termes": ["retraités", "Séniors"],
+      "cible": "Seniors"
+    }
+  ],
+  "prise_en_charge_specifique": [
     {
       "colonnes": ["c_acces_pmr"],
       "termes": ["oui"],
-      "cible": "Adultes"
-    },
-    {
-      "colonnes": ["c_varchar_public_cible"],
-      "termes": ["3-99 ans", "tout public", "tous public", "tous publics", "familles", "tout"],
-      "cible": "Familles/enfants"
-    },
-    {
-      "colonnes": ["c_varchar_public_cible"],
-      "termes": [
-        "3-99 ans",
-        "tout public",
-        "Jeunes",
-        "étudiants",
-        "Créateurs",
-        "entrepreneurs",
-        "télétravailleurs",
-        "demandeurs emploi",
-        "salariés",
-        "porteurs de projet",
-        "12-25 ans",
-        "tous public",
-        "tous publics",
-        "tout",
-        "étudiant.e.s"
-      ],
-      "cible": "Jeunes (16-26 ans)"
-    },
-    {
-      "colonnes": ["c_varchar_public_cible"],
-      "termes": [
-        "3-99 ans",
-        "tout public",
-        "créateurs",
-        "entrepreneurs",
-        "télétravailleurs",
-        "demandeurs emploi",
-        "salariés",
-        "retraités",
-        "porteurs de projet",
-        "tous public",
-        "tous publics",
-        "tout",
-        "indépendant.e.s",
-        "télétravailleurs.euses"
-      ],
-      "cible": "Seniors (+ 65 ans)"
-    },
-    {
-      "colonnes": ["c_acces_pmr"],
-      "termes": ["oui"],
-      "cible": "Seniors (+ 65 ans)"
-    },
-    {
-      "colonnes": ["c_acces_pmr", "c_varchar_public_cible"],
-      "termes": ["oui", "tout public", "tous public", "tous publics", "tout"],
-      "cible": "Surdité"
-    },
-    {
-      "colonnes": ["c_acces_pmr", "c_varchar_public_cible"],
-      "termes": ["oui", "tout public", "tous public", "tous publics", "tout"],
-      "cible": "Handicaps mentaux : déficiences limitant les activités d'une personne"
-    },
-    {
-      "colonnes": ["c_acces_pmr", "c_varchar_public_cible"],
-      "termes": ["oui", "tout public", "tous public", "tous publics", "tout"],
-      "cible": "Personnes en situation d'illettrisme"
-    },
-    {
-      "colonnes": ["c_acces_pmr", "c_varchar_public_cible"],
-      "termes": ["oui", "tout public", "tous public", "tous publics", "tout", "réfugiés"],
-      "cible": "Public langues étrangères"
-    },
-    {
-      "colonnes": ["c_varchar_public_cible"],
-      "termes": ["3-99 ans", "tout public", "tous public", "tous publics", "tout"],
-      "cible": "Uniquement femmes"
-    },
-    {
-      "colonnes": ["c_acces_pmr", "c_varchar_public_cible"],
-      "termes": ["oui", "tout public", "tous public", "tous publics", "tout"],
-      "cible": "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales"
-    },
-    {
-      "colonnes": ["c_acces_pmr", "c_varchar_public_cible"],
-      "termes": ["oui", "tout public", "tous public", "tous publics", "tout"],
-      "cible": "Déficience visuelle"
+      "cible": "Handicaps moteurs"
     }
   ],
   "modalites_accompagnement": [
     {
-      "colonnes": ["c_accompagnement_personnel_detail"],
-      "termes": ["collectif"],
-      "cible": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
+      "colonnes": ["c_accompagnement_personnel_detail", "c_formation_detail"],
+      "termes": ["collectif", "ateliers de 1er niveau", "Ateliers informatique", "ateliers numériques", "ateliers d'animation", "Ateliers CV", "Ateliers avec interventants", "Atelier collectif", "Atelier et accompagnement", "Ateliers artistiques", "Ateliers \"Les bons clics\"", "Ateliers : Numérisation vidéo", "Ateliers : Découverte", "Ateliers d'initation", "Ateliers de reprise", "Ateliers débutants", "Ateliers en présentiel", "Ateliers et formations", "Ateliers mis en place", "multimédia"],
+      "cible": "Dans un atelier collectif"
     },
     {
       "colonnes": ["c_accompagnement_personnel", "c_accompagnement_personnel_detail"],
-      "termes": ["oui", "individuel"],
-      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+      "termes": ["oui", "individuel", "Agent", "animateur", "tuteurs", "accompagnement dédié", "Accompagnement individuel", "Accompagnement sur demande", "Accompagnement personnel", "accompagnement personnalisé", "accompagnements personnalisés", "Médiateurs Numériques", "Les agents d'accueil peuvent accompagner", "Médiatrice numérique", "Conseillers Numériques"],
+      "cible": "Accompagnement individuel"
     },
     {
-      "colonnes": ["c_accompagnement_personnel_detail", "c_accompagnement_personnel"],
-      "termes": ["individuel", "non"],
-      "cible": "Seul : j'ai accès à du matériel et une connexion"
+      "colonnes": ["c_accompagnement_personnel_detail", "c_accompagnement_personnel", "c_materiel_info_detail"],
+      "termes": ["individuel", "non", "à disposition", "à la disposition", "ouvert au public", "libre service", "ouverts au public", "Mise à disposition", "PC disponibles au public", "en accès libre", "en accès gratuit"],
+      "cible": "En autonomie"
+    },
+    {
+      "colonnes": ["c_accompagnement_personnel_detail"],
+      "termes": ["à distance"],
+      "cible": "À distance"
     }
   ],
   "services": [
     {
-      "colonnes": ["c_materiel_info", "c_espace_teletravail", "c_epn", "c_mediatheque", "c_coworking", "c_fablab", "c_msap"],
-      "termes": ["oui", "True"],
-      "cible": "Accéder à une connexion internet"
+      "colonnes": ["c_accompagnement_personnel_detail"],
+      "termes": ["Accompagnement aux démarches", "application CAF", "Accompagnement aux services publics", "démarche en ligne", "accompagner le public dans les démarches", "démarches administratives", "aide administratives", "accompagner les usagers dans leurs démarches", "orientation dans les démarches et recherches d'informations", "accompagnés dans leurs démarches", "accompagner sur différentes démarches", "Soutien administratif", "gestion administrative"],
+      "cible": "Aide aux démarches administratives"
     },
     {
-      "colonnes": ["c_materiel_info_detail", "c_etiquettes", "c_accompagnement_teletravail", "connexion Fibre", "coworking"],
-      "termes": ["postes informatiques", "FabLab", "EPN", "ordinateurs", "PC", "accès à internet", "internet"],
-      "cible": "Accéder à une connexion internet"
-    },
-    {
-      "colonnes": ["c_materiel_info_detail", "c_etiquettes"],
-      "termes": ["postes informatiques", "ordinateurs", "FabLab", "PC", "imprimante", "scanner"],
-      "cible": "Accéder à du matériel"
-    },
-    {
-      "colonnes": ["c_materiel_info", "c_epn", "c_fablab", "c_msap", "c_mediatheque"],
-      "termes": ["oui", "True"],
-      "cible": "Accéder à du matériel"
+      "colonnes": ["c_accompagnement_personnel_detail", "c_formation_detail"],
+      "termes": ["utilisation d'internet", "Créer un email", "ateliers de 1er niveau", "gagner en autonomie", "Bureautique", "Apports théoriques", "exercices pratiques", "Ateliers informatiques", "utilisation de l’outil numérique", "orientation dans les démarches et recherches d'informations", "club informatique", "Découverte de l'ordinateur", "Maintenance de l'ordinateur", "Traitement de texte", "Tableur", "Réseaux sociaux", "Photo numérique", "Accompagner à l'utilisation des nouveaux outils numériques", "Aide à l’utilisation de l’outil numérique", "maitrise des outils numériques", "utilisation de l'ordinateur", "initiation", "débutant", "bases d'informatique", "formations autour du numérique"],
+      "cible": "Maîtrise des outils numériques du quotidien"
     },
     {
       "colonnes": ["c_formation_detail", "c_accompagnement_personnel_detail", "c_accompagnement_personnel_detail"],
-      "termes": ["curriculum vitae", "cv", "lettre de motivation", "démarches d'emploi"],
-      "cible": "Favoriser mon insertion professionnelle"
+      "termes": ["curriculum vitae", "cv", "lettre de motivation", "soutien dans l'accès à l'emploi", "démarches d'emploi", "Accompagnement à l'insertion sociale et professionnelle", "insertion professionnelle", "Ateliers CV et lettres de motivations"],
+      "cible": "Insertion professionnelle via le numérique"
     },
     {
       "colonnes": ["c_formation_detail"],
-      "termes": [
-        "bases d'informatique",
-        "intitiation au codage",
-        "entretien du matériel",
-        "initiation",
-        "formation numériques",
-        "cours informatiques",
-        "accès aux droits",
-        "acces aux droits",
-        "numériques",
-        "ateliers informatique",
-        "ateliers",
-        "découverte"
-      ],
-      "cible": "Approfondir ma culture numérique"
+      "termes": ["fake news", "prévention usages des réseaux sociaux", "sécurité"],
+      "cible": "Utilisation sécurisée du numérique"
     },
     {
       "colonnes": ["c_formation_detail"],
-      "termes": [
-        "bases d'informatique",
-        "entretien du matériel",
-        "initiation",
-        "formation numériques",
-        "cours informatiques",
-        "accès aux droits",
-        "acces aux droits",
-        "numériques",
-        "ateliers informatique",
-        "ateliers",
-        "découverte"
-      ],
-      "cible": "Utiliser le numérique au quotidien"
+      "termes": ["ateliers enfants"],
+      "cible": "Parentalité et éducation avec le numérique"
+    },
+    {
+      "colonnes": ["c_accompagnement_personnel_detail", "c_formation_detail", "c_materiel_info_detail", "c_materiel_info_detail"],
+      "termes": ["robotique", "Robots pédagogiques", "Imprimante 3D", "Découpeuse", "studio de tournage", "consoles de jeux", "3D", "modélisation", "Ateliers MAO", "Numérisation vidéo", "montage films", "retouche photo", "jeu vidéo", "Minecraft", "codage", "scratch", "Coding-Gouter"],
+      "cible": "Loisirs et créations numériques"
     },
     {
       "colonnes": ["c_formation_detail"],
-      "termes": [
-        "bases d'informatique",
-        "initiation",
-        "formation numériques",
-        "cours informatiques",
-        "accès aux droits",
-        "acces aux droits",
-        "numériques",
-        "ateliers informatique",
-        "ateliers",
-        "découverte"
-      ],
-      "cible": "Promouvoir la citoyenneté numérique"
+      "termes": ["prévention aux écrans", "Bureautique", "formations autour du numérique", "Ateliers informatiques", "club informatique", "Maintenance de l'ordinateur", "Traitement de texte", "Tableur", "Réseaux sociaux", "Photo numérique"],
+      "cible": "Compréhension du monde numérique"
     },
     {
-      "colonnes": ["c_formation"],
-      "termes": ["oui"],
-      "cible": "Promouvoir la citoyenneté numérique"
+      "colonnes": ["c_materiel_info", "c_espace_teletravail", "c_epn", "c_mediatheque", "c_coworking", "c_fablab"],
+      "termes": ["oui", "True"],
+      "cible": "Accès internet et matériel informatique"
     },
     {
-      "colonnes": ["c_materiel_info_detail", "c_formation_detail"],
-      "termes": ["tablettes", "tablette"],
-      "cible": "Prendre en main un smartphone ou une tablette"
-    },
-    {
-      "colonnes": ["c_accompagnement_personnel_detail"],
-      "termes": ["démarches", "administratifs", "administratives", "autonomie"],
-      "cible": "Devenir autonome dans les démarches administratives"
-    },
-    {
-      "colonnes": ["c_accompagnement_personnel_detail"],
-      "termes": ["démarches", "administratifs", "administratives", "accompagnement"],
-      "cible": "Réaliser des démarches administratives avec un accompagnement"
+      "colonnes": ["c_materiel_info_detail", "c_etiquettes", "c_accompagnement_teletravail", "connexion Fibre", "coworking", "c_accompagnement_personnel_detail", "c_formation_detail"],
+      "termes": ["1 poste", "postes informatiques", "FabLab", "découpe", "matériel", "studio de tournage", "Découpeuse", "robotique", "salles équipées", "imprimantes 3D", "Photocopieur", "Webcams", "EPN", "ordinateurs", "Visioconférence", "scanner", "PC", "accès à internet", "internet", "Wifi", "Borne", "espace numérique", "salle informatique", "Consultation gratuite d’Internet", "Tablettes", "liseuses", "Accès internet", "imprimante"],
+      "cible": "Accès internet et matériel informatique"
     }
   ],
   "horaires": {

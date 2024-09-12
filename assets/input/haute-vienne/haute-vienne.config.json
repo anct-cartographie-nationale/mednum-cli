@@ -17,7 +17,7 @@
   "telephone": {
     "colonne": "properties.tel_fixe"
   },
-  "courriel": {
+  "courriels": {
     "colonne": "properties.mail"
   },
   "site_web": {
@@ -35,161 +35,133 @@
   "presentation_detail": {
     "colonne": "properties.commentaires"
   },
-  "labels_nationaux": [
+  "itinerance": [
     {
-      "colonnes": ["properties.label"],
-      "termes": ["France Services"],
-      "cible": "France Services"
-    },
-    {
-      "colonnes": ["properties.cheque"],
-      "termes": ["oui"],
-      "cible": "APTIC"
+      "colonnes": ["properties.commentaires"],
+      "termes": ["intinérance", "à domicile"],
+      "cible": "Itinérant"
     }
   ],
-  "conditions_acces": [
+  "typologie": [
+    {
+      "colonnes": ["properties.label"],
+      "termes": ["Association"],
+      "cible": "ASSO"
+    },
+    {
+      "colonnes": ["properties.label"],
+      "termes": ["CCAS"],
+      "cible": "CCAS"
+    },
+    {
+      "colonnes": ["properties.label"],
+      "termes": ["Mairie"],
+      "cible": "MUNI"
+    },
+    {
+      "colonnes": ["properties.label"],
+      "termes": ["Médiathèque/bibliothèque"],
+      "cible": "BIB"
+    },
+    {
+      "colonnes": ["properties.label"],
+      "termes": ["Espace public numérique"],
+      "cible": "EPN"
+    }
+  ],
+  "frais_a_charge": [
     {
       "colonnes": ["properties.condition", "properties.commentaires"],
       "termes": ["accès libre", "gratuite", "gratuit"],
-      "cible": "Gratuit : Je peux accéder gratuitement au lieu et à ses services"
+      "cible": "Gratuit",
+      "sauf": ["Gratuit pour les adhérents"]
     },
     {
       "colonnes": ["properties.commentaires"],
-      "termes": ["payantes"],
-      "cible": "Payant : L'accès au lieu et/ou à ses services est payant"
+      "termes": ["Eligible au CPF"],
+      "cible": "Gratuit sous condition"
     },
     {
-      "colonnes": ["properties.commentaires", "properties.public"],
-      "termes": ["adhésion", "adhérent"],
-      "cible": "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"
-    },
-    {
-      "colonnes": ["properties.cheque"],
-      "termes": ["oui"],
-      "cible": "Accepte le Pass numérique : Il est possible d'utiliser un Pass numérique pour accéder au lieu"
+      "colonnes": ["properties.commentaires", "properties.cheque"],
+      "termes": ["payant", "adhésion", "adhérent", "oui"],
+      "cible": "Payant"
     }
   ],
   "modalites_accompagnement": [
     {
-      "colonnes": ["properties.assistance"],
-      "termes": ["non"],
-      "cible": "Seul : j'ai accès à du matériel et une connexion"
+      "colonnes": ["properties.assistance", "properties.commentaires"],
+      "termes": ["non", "à disposition", "ordinateurs et bornes", "en autonomie", "Espace multimédia", "espace multi-service"],
+      "cible": "En autonomie"
     },
     {
-      "colonnes": ["properties.commentaires"],
-      "termes": ["ateliers"],
-      "cible": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
+      "colonnes": ["properties.commentaires", "properties.format"],
+      "termes": ["atelier", "Organisation de parcours de formation courte"],
+      "cible": "Dans un atelier collectif",
+      "sauf": ["Ateliers individuels"]
     },
     {
-      "colonnes": ["properties.assistance"],
-      "termes": ["oui"],
-      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+      "colonnes": ["properties.assistance", "properties.format", "properties.mediateur", "properties.commentaires"],
+      "termes": ["oui", "Assistance ponctuelle", "Accompagnement dans les démarches", "Accompagnement réalisé par un travailleur social", "L'assistance est réalisée par un accordeur", "Ateliers individuels", "être accompagnés par une équipe dédiée"],
+      "cible": "Accompagnement individuel"
     }
   ],
-  "publics_accueillis": [
+  "publics_specifiquement_adresses": [
     {
       "colonnes": ["properties.public"],
-      "termes": ["tout public", "tous publics", "demandeurs d'emploi", "recherche d'emploi", "tout public", "jeunes"],
-      "cible": "Jeunes (16-26 ans)"
+      "termes": ["Jeunes", "Moins de 35 ans"],
+      "cible": "Jeunes"
     },
     {
       "colonnes": ["properties.public"],
-      "termes": ["tout public", "tous publics", "tout public"],
-      "cible": "Familles/enfants"
+      "termes": ["Parents"],
+      "cible": "Familles et/ou enfants"
     },
     {
       "colonnes": ["properties.public"],
-      "termes": ["tout public", "tous publics", "demandeurs d'emploi", "recherche d'emploi", "tout public", "adulte"],
-      "cible": "Adultes"
-    },
-    {
-      "colonnes": ["properties.public"],
-      "termes": ["tout public", "tous publics", "public senior", "tout public"],
-      "cible": "Seniors (+ 65 ans)"
-    },
-    {
-      "colonnes": ["properties.public"],
-      "termes": ["situation de handicap"],
-      "cible": "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales"
-    },
-    {
-      "colonnes": ["properties.public"],
-      "termes": ["situation de handicap"],
-      "cible": "Personnes en situation d'illettrisme"
-    },
-    {
-      "colonnes": ["properties.public"],
-      "termes": ["situation de handicap"],
-      "cible": "Surdité"
-    },
-    {
-      "colonnes": ["properties.public"],
-      "termes": ["situation de handicap"],
-      "cible": "Handicaps mentaux : déficiences limitant les activités d'une personne"
-    },
-    {
-      "colonnes": ["properties.public"],
-      "termes": ["situation de handicap"],
-      "cible": "Déficience visuelle"
+      "termes": ["Senior"],
+      "cible": "Seniors"
     }
   ],
   "services": [
     {
-      "colonnes": ["properties.service"],
-      "termes": ["Accès à Internet"],
-      "cible": "Accéder à une connexion internet"
+      "colonnes": ["properties.service", "properties.commentaires"],
+      "termes": ["Aide aux démarches administratives dématérialisées et accès aux droits", "Atelier numérique sur caf.fr"],
+      "cible": "Aide aux démarches administratives"
     },
     {
-      "colonnes": ["properties.service"],
-      "termes": ["Accès à du matériel (PC, tablettes, smartphones…)", "Accès à une imprimante / scanner"],
-      "cible": "Accéder à du matériel"
+      "colonnes": ["properties.service", "properties.commentaires"],
+      "termes": ["Autre accompagnement", "application sur smartphone et tablette", "traitement de texte", "Pack office", "Initiation", "Découverte d'internet, des réseaux sociaux et de l'usage de la messagerie", "Découverte de l'ordinateur-tablette- smartphone", "Découverte des logiciels bureautiques", "Niveaux débutant et perfectionnement"],
+      "cible": "Maîtrise des outils numériques du quotidien"
     },
     {
-      "colonnes": ["properties.service"],
-      "termes": [
-        "Compétences numérique avancées (développement, communication…)",
-        "Découverte des logiciels bureautiques  ( l'ordinateur/tablettes, traitement de texte, tableur…)"
-      ],
-      "cible": "Créer avec le numérique"
+      "colonnes": ["properties.service", "properties.commentaires"],
+      "termes": ["Aide à la recherche d'emploi", "dans le cadre du retour à l'emploi"],
+      "cible": "Insertion professionnelle via le numérique"
     },
     {
-      "colonnes": ["properties.service"],
-      "termes": [
-        "Découverte d'internet, des réseaux sociaux et de l'usage de la messagerie   (sites grand public, réseaux sociaux, messagerie)",
-        "Dépannage, conseils",
-        "Pratiques d'activités numériques récréatives"
-      ],
-      "cible": "Utiliser le numérique au quotidien"
+      "colonnes": ["properties.service", "properties.commentaires"],
+      "termes": ["Initiation à la culture numérique", "cybersécurité", "e-réputation"],
+      "cible": "Utilisation sécurisée du numérique"
     },
     {
-      "colonnes": ["properties.service"],
-      "termes": ["Aide aux démarches administratives dématérialisées et accès aux droits ( impôts, caf, …)"],
-      "cible": "Réaliser des démarches administratives avec un accompagnement"
+      "colonnes": ["properties.service", "properties.commentaires"],
+      "termes": ["Pratiques d'activités numériques récréatives", "Robotique", "codage", "console WII", "Casques de réalité virtuelle"],
+      "cible": "Loisirs et créations numériques"
     },
     {
-      "colonnes": ["properties.service"],
-      "termes": ["Aide à la recherche d'emploi"],
-      "cible": "Favoriser mon insertion professionnelle"
+      "colonnes": ["properties.service", "properties.commentaires"],
+      "termes": ["Compétences numérique avancées", "Dépannage, conseils", "Initiation à la culture numérique", "perfectionnement", "Référencement internet", "cybersécurité", "Mise en conformité au RGPD", "réseaux sociaux", "webmarketing", "wordpress", "e-réputation", "Woocommerce"],
+      "cible": "Compréhension du monde numérique"
     },
     {
-      "colonnes": ["properties.service"],
-      "termes": ["Découverte de l'ordinateur-tablette- smartphone"],
-      "cible": "Prendre en main un ordinateur"
-    },
-    {
-      "colonnes": ["properties.service"],
-      "termes": ["Découverte de l'ordinateur-tablette- smartphone"],
-      "cible": "Prendre en main un smartphone ou une tablette"
+      "colonnes": ["properties.service", "properties.categorie"],
+      "termes": ["Accès au matériel et à Internet", "Accès à du matériel", "Accès à Internet", "Accès à une imprimante / scanner"],
+      "cible": "Accès internet et matériel informatique"
     },
     {
       "colonnes": ["properties.service"],
       "termes": ["Don, prêt matériel"],
-      "cible": "S'équiper en matériel informatique"
-    },
-    {
-      "colonnes": ["properties.service"],
-      "termes": ["Initiation à la culture numérique (ex. protection des données, détection des fake news, etc.)"],
-      "cible": "Approfondir ma culture numérique"
+      "cible": "Acquisition de matériel informatique à prix solidaire"
     }
   ],
   "horaires": {

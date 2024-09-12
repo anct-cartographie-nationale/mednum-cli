@@ -29,7 +29,7 @@
   "telephone": {
     "colonne": "telephone"
   },
-  "courriel": {
+  "courriels": {
     "colonne": "courriel"
   },
   "site_web": {
@@ -53,118 +53,95 @@
   "presentation_detail": {
     "colonne": "presentation_detail"
   },
-  "labels_nationaux": [
+  "dispositif_programmes_nationaux": [
     {
       "colonnes": ["labels_nationaux"],
-      "termes": ["conseiller-numerique"],
-      "cible": "CNFS"
+      "termes": ["bibliotheques-numerique-de-reference"],
+      "cible": "Bibliothèques numérique de référence"
     },
     {
       "colonnes": ["labels_nationaux"],
-      "termes": ["france-service"],
-      "cible": "France Services"
+      "termes": ["certification-pix"],
+      "cible": "Certification PIX"
     },
     {
       "colonnes": ["labels_nationaux"],
-      "termes": ["aptic"],
-      "cible": "APTIC"
-    },
-    {
-      "colonnes": ["labels_nationaux"],
-      "termes": ["campus-connecte"],
-      "cible": "Campus connecté"
-    },
-    {
-      "colonnes": ["labels_nationaux"],
-      "termes": ["fabrique-de-territoire"],
-      "cible": "Fabriques de Territoire"
-    },
-    {
-      "colonnes": ["labels_nationaux"],
-      "termes": ["french-tech"],
-      "cible": "French Tech"
+      "termes": ["emmaus-connect"],
+      "cible": "Emmaüs Connect"
     },
     {
       "colonnes": ["labels_nationaux"],
       "termes": ["grandes-ecoles-du-numerique"],
-      "cible": "Grandes écoles du numérique"
+      "cible": "Grande école du numérique"
+    },
+    {
+      "colonnes": ["labels_nationaux"],
+      "termes": ["la-croix-rouge"],
+      "cible": "La Croix Rouge"
     }
   ],
-  "labels_autres": [
+  "autres_formations_labels": [
     {
       "colonnes": ["labels_autres"]
     }
   ],
-  "conditions_acces": [
+  "frais_a_charge": [
     {
       "colonnes": ["frais"],
       "termes": ["gratuit"],
-      "cible": "Gratuit : Je peux accéder gratuitement au lieu et à ses services"
+      "cible": "Gratuit"
     },
     {
       "colonnes": ["frais"],
       "termes": ["gratuit-sous-conditions"],
-      "cible": "Gratuit sous condition : La gratuité est conditionnée à des critères (situation familiale, convention avec un organisme social...)"
+      "cible": "Gratuit sous condition"
     },
     {
       "colonnes": ["frais"],
-      "termes": ["adhesion"],
-      "cible": "Adhésion : L'accès au lieu et/ou à ses services nécessite d'y adhérer"
-    },
-    {
-      "colonnes": ["frais"],
-      "termes": ["payant"],
-      "cible": "Payant : L'accès au lieu et/ou à ses services est payant"
-    },
-    {
-      "colonnes": ["frais"],
-      "termes": ["pass-numerique"],
-      "cible": "Accepte le Pass numérique : Il est possible d'utiliser un Pass numérique pour accéder au lieu"
+      "termes": ["payant", "adhesion"],
+      "cible": "Payant"
     }
   ],
   "modalites_accompagnement": [
     {
       "colonnes": ["types"],
       "termes": ["atelier"],
-      "cible": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
+      "cible": "Dans un atelier collectif"
     },
     {
       "colonnes": ["types"],
-      "termes": ["delegation"],
-      "cible": "A ma place : une personne habilitée fait les démarches à ma place"
-    },
-    {
-      "colonnes": ["types"],
-      "termes": ["accompagnement"],
-      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+      "termes": ["delegation", "accompagnement"],
+      "cible": "Accompagnement individuel"
     },
     {
       "colonnes": ["types"],
       "termes": ["autonomie"],
-      "cible": "Seul : j'ai accès à du matériel et une connexion"
+      "cible": "En autonomie"
     }
   ],
-  "publics_accueillis": [
-    {
-      "colonnes": ["profils"],
-      "termes": ["adultes"],
-      "cible": "Adultes"
-    },
+  "publics_specifiquement_adresses": [
     {
       "colonnes": ["profils"],
       "termes": ["familles-enfants"],
-      "cible": "Familles/enfants"
+      "cible": "Familles et/ou enfants"
     },
     {
       "colonnes": ["profils"],
       "termes": ["jeunes-16-26"],
-      "cible": "Jeunes (16-26 ans)"
+      "cible": "Jeunes"
     },
     {
       "colonnes": ["profils"],
       "termes": ["seniors-65"],
-      "cible": "Seniors (+ 65 ans)"
+      "cible": "Seniors"
     },
+    {
+      "colonnes": ["profils"],
+      "termes": ["femmes"],
+      "cible": "Femmes"
+    }
+  ],
+  "prise_en_charge_specifique": [
     {
       "colonnes": ["profils"],
       "termes": ["surdite"],
@@ -172,28 +149,23 @@
     },
     {
       "colonnes": ["profils"],
-      "termes": ["handicaps-mentaux"],
-      "cible": "Handicaps mentaux : déficiences limitant les activités d'une personne"
+      "termes": ["handicaps-mentaux", "handicaps-psychiques"],
+      "cible": "Handicaps mentaux"
     },
     {
       "colonnes": ["profils"],
       "termes": ["personnes-en-situation-illettrisme"],
-      "cible": "Personnes en situation d'illettrisme"
+      "cible": "Illettrisme"
     },
     {
       "colonnes": ["profils"],
       "termes": ["public-langues-etrangeres"],
-      "cible": "Public langues étrangères"
+      "cible": "Langues étrangères (anglais)"
     },
     {
       "colonnes": ["profils"],
-      "termes": ["femmes"],
-      "cible": "Uniquement femmes"
-    },
-    {
-      "colonnes": ["profils"],
-      "termes": ["handicaps-psychiques"],
-      "cible": "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales"
+      "termes": ["public-langues-etrangeres"],
+      "cible": "Langues étrangères (autres)"
     },
     {
       "colonnes": ["profils"],
@@ -204,78 +176,65 @@
   "services": [
     {
       "colonnes": ["thematiques"],
-      "termes": ["numerique--devenir-autonome-dans-les-demarches-administratives"],
-      "cible": "Devenir autonome dans les démarches administratives"
+      "termes": [
+        "numerique--devenir-autonome-dans-les-demarches-administratives",
+        "numerique--realiser-des-demarches-administratives-avec-un-accompagnement",
+        "numerique--accompagner-les-demarches-de-sante"
+      ],
+      "cible": "Aide aux démarches administratives"
     },
     {
       "colonnes": ["thematiques"],
-      "termes": ["numerique--realiser-des-demarches-administratives-avec-un-accompagnement"],
-      "cible": "Réaliser des démarches administratives avec un accompagnement"
+      "termes": [
+        "numerique--prendre-en-main-un-smartphone-ou-une-tablette",
+        "numerique--prendre-en-main-un-ordinateur",
+        "numerique--utiliser-le-numerique-au-quotidien"
+      ],
+      "cible": "Maîtrise des outils numériques du quotidien"
     },
     {
       "colonnes": ["thematiques"],
-      "termes": ["numerique--prendre-en-main-un-smartphone-ou-une-tablette"],
-      "cible": "Prendre en main un smartphone ou une tablette"
-    },
-    {
-      "colonnes": ["thematiques"],
-      "termes": ["numerique--prendre-en-main-un-ordinateur"],
-      "cible": "Prendre en main un ordinateur"
-    },
-    {
-      "colonnes": ["thematiques"],
-      "termes": ["numerique--utiliser-le-numerique-au-quotidien"],
-      "cible": "Utiliser le numérique au quotidien"
+      "termes": [
+        "numerique--approfondir-ma-culture-numerique",
+        "numerique--promouvoir-la-citoyennete-numerique"
+      ],
+      "cible": "Compréhension du monde numérique"
     },
     {
       "colonnes": ["thematiques"],
       "termes": ["numerique--approfondir-ma-culture-numerique"],
-      "cible": "Approfondir ma culture numérique"
+      "cible": "Utilisation sécurisée du numérique"
     },
     {
       "colonnes": ["thematiques"],
-      "termes": ["numerique--favoriser-mon-insertion-professionnelle"],
-      "cible": "Favoriser mon insertion professionnelle"
+      "termes": [
+        "numerique--favoriser-mon-insertion-professionnelle",
+        "numerique--creer-et-developper-mon-entreprise"
+      ],
+      "cible": "Insertion professionnelle via le numérique"
     },
     {
       "colonnes": ["thematiques"],
-      "termes": ["numerique--acceder-a-une-connexion-internet"],
-      "cible": "Accéder à une connexion internet"
-    },
-    {
-      "colonnes": ["thematiques"],
-      "termes": ["numerique--acceder-a-du-materiel"],
-      "cible": "Accéder à du matériel"
+      "termes": [
+        "numerique--acceder-a-une-connexion-internet",
+        "numerique--acceder-a-du-materiel"
+      ],
+      "cible": "Accès internet et matériel informatique"
     },
     {
       "colonnes": ["thematiques"],
       "termes": ["numerique--s-equiper-en-materiel-informatique"],
-      "cible": "S'équiper en matériel informatique"
-    },
-    {
-      "colonnes": ["thematiques"],
-      "termes": ["numerique--creer-et-developper-mon-entreprise"],
-      "cible": "Créer et développer mon entreprise"
+      "cible": "Acquisition de matériel informatique à prix solidaire"
     },
     {
       "colonnes": ["thematiques"],
       "termes": ["numerique--creer-avec-le-numerique"],
-      "cible": "Créer avec le numérique"
-    },
-    {
-      "colonnes": ["thematiques"],
-      "termes": ["numerique--accompagner-les-demarches-de-sante"],
-      "cible": "Accompagner les démarches de santé"
-    },
-    {
-      "colonnes": ["thematiques"],
-      "termes": ["numerique--promouvoir-la-citoyennete-numerique"],
-      "cible": "Promouvoir la citoyenneté numérique"
+      "cible": "Loisirs et créations numériques"
     },
     {
       "colonnes": ["thematiques"],
       "termes": ["numerique--soutenir-la-parentalite-et-l-education-avec-le-numerique"],
-      "cible": "Soutenir la parentalité et l'éducation avec le numérique"
+      "cible": "Parentalité et éducation avec le numérique"
     }
   ],
   "horaires": {
@@ -321,6 +280,11 @@
       "colonnes": ["typologie"],
       "termes": ["Autre"],
       "cible": "Autre"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["AVIP"],
+      "cible": "AVIP"
     },
     {
       "colonnes": ["typologie"],
@@ -374,6 +338,16 @@
     },
     {
       "colonnes": ["typologie"],
+      "termes": ["CDAS"],
+      "cible": "CDAS"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CFP"],
+      "cible": "CFP"
+    },
+    {
+      "colonnes": ["typologie"],
       "termes": ["CHRS"],
       "cible": "CHRS"
     },
@@ -399,6 +373,21 @@
     },
     {
       "colonnes": ["typologie"],
+      "termes": ["CMP"],
+      "cible": "CMP"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CMS"],
+      "cible": "CMS"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CPAM"],
+      "cible": "CPAM"
+    },
+    {
+      "colonnes": ["typologie"],
       "termes": ["CPH"],
       "cible": "CPH"
     },
@@ -411,6 +400,11 @@
       "colonnes": ["typologie"],
       "termes": ["CSAPA"],
       "cible": "CSAPA"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CSC"],
+      "cible": "CSC"
     },
     {
       "colonnes": ["typologie"],
@@ -454,13 +448,33 @@
     },
     {
       "colonnes": ["typologie"],
+      "termes": ["ENM"],
+      "cible": "ENM"
+    },
+    {
+      "colonnes": ["typologie"],
       "termes": ["EPCI"],
       "cible": "EPCI"
     },
     {
       "colonnes": ["typologie"],
+      "termes": ["EPI"],
+      "cible": "EPI"
+    },
+    {
+      "colonnes": ["typologie"],
       "termes": ["EPIDE"],
       "cible": "EPIDE"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["EPN"],
+      "cible": "EPN"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["ES"],
+      "cible": "ES"
     },
     {
       "colonnes": ["typologie"],
@@ -474,8 +488,23 @@
     },
     {
       "colonnes": ["typologie"],
+      "termes": ["EVS"],
+      "cible": "EVS"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["FABLAB"],
+      "cible": "FABLAB"
+    },
+    {
+      "colonnes": ["typologie"],
       "termes": ["FAIS"],
       "cible": "FAIS"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["FT"],
+      "cible": "FT"
     },
     {
       "colonnes": ["typologie"],
@@ -486,6 +515,11 @@
       "colonnes": ["typologie"],
       "termes": ["HUDA"],
       "cible": "HUDA"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["LA_POSTE"],
+      "cible": "LA_POSTE"
     },
     {
       "colonnes": ["typologie"],
@@ -529,6 +563,11 @@
     },
     {
       "colonnes": ["typologie"],
+      "termes": ["MSAP"],
+      "cible": "MSAP"
+    },
+    {
+      "colonnes": ["typologie"],
       "termes": ["MUNI"],
       "cible": "MUNI"
     },
@@ -565,12 +604,17 @@
     {
       "colonnes": ["typologie"],
       "termes": ["PE"],
-      "cible": "PE"
+      "cible": "FT"
     },
     {
       "colonnes": ["typologie"],
       "termes": ["PENSION"],
       "cible": "PENSION"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["PI"],
+      "cible": "PI"
     },
     {
       "colonnes": ["typologie"],
@@ -606,6 +650,11 @@
       "colonnes": ["typologie"],
       "termes": ["REG"],
       "cible": "REG"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["RESSOURCERIE"],
+      "cible": "RESSOURCERIE"
     },
     {
       "colonnes": ["typologie"],
