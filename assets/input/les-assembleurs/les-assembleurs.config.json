@@ -118,7 +118,7 @@
     {
       "colonnes": ["Coût accès équipement", "Coût accès médiation numérique", "Coût accès démarches"],
       "termes": ["payant", "payante", "abonnement", "tarifs", "€", "euros", "adhésion"],
-      "cible": "Payant "
+      "cible": "Payant"
     }
   ],
   "modalites_accompagnement": [
