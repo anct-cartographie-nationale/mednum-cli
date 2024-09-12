@@ -31,9 +31,6 @@
   "code_postal": {
     "colonne": "code_postal"
   },
-  "code_insee": {
-    "colonne": "code_insee"
-  },
   "adresse": {
     "colonne": "adresse"
   },
@@ -49,7 +46,7 @@
   "telephone": {
     "colonne": "telephone"
   },
-  "courriel": {
+  "courriels": {
     "colonne": "courriel"
   },
   "site_web": {
@@ -58,118 +55,43 @@
   "date_maj": {
     "colonne": "date_maj"
   },
-  "source": {
-    "colonne": "source"
-  },
-  "prise_rdv": {
-    "colonne": "prise_rdv"
-  },
-  "presentation_detail": {
-    "colonne": "presentation_detail"
-  },
-  "presentation_resume": {
-    "colonne": "presentation_resume"
-  },
   "modalites_accompagnement": [
     {
       "colonnes": ["modalites_accompagnement"],
       "termes": ["Dans un atelier : j'apprends collectivement à utiliser le numérique"],
-      "cible": "Dans un atelier : j'apprends collectivement à utiliser le numérique"
+      "cible": "Dans un atelier collectif"
     },
     {
       "colonnes": ["modalites_accompagnement"],
-      "termes": ["A ma place : une personne habilitée fait les démarches à ma place"],
-      "cible": "A ma place : une personne habilitée fait les démarches à ma place"
-    },
-    {
-      "colonnes": ["modalites_accompagnement"],
-      "termes": ["Avec de l'aide : je suis accompagné seul dans l'usage du numérique"],
-      "cible": "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"
+      "termes": ["A ma place : une personne habilitée fait les démarches à ma place", "Avec de l'aide : je suis accompagné seul dans l'usage du numérique"],
+      "cible": "Accompagnement individuel"
     },
     {
       "colonnes": ["modalites_accompagnement"],
       "termes": ["Seul : j'ai accès à du matériel et une connexion"],
-      "cible": "Seul : j'ai accès à du matériel et une connexion"
+      "cible": "En autonomie"
     }
   ],
   "services": [
     {
       "colonnes": ["services"],
       "termes": ["Devenir autonome dans les démarches administratives"],
-      "cible": "Devenir autonome dans les démarches administratives"
+      "cible": "Aide aux démarches administratives"
     },
     {
       "colonnes": ["services"],
-      "termes": ["Réaliser des démarches administratives avec un accompagnement"],
-      "cible": "Réaliser des démarches administratives avec un accompagnement"
-    },
-    {
-      "colonnes": ["services"],
-      "termes": ["Prendre en main un smartphone ou une tablette"],
-      "cible": "Prendre en main un smartphone ou une tablette"
-    },
-    {
-      "colonnes": ["services"],
-      "termes": ["Prendre en main un ordinateur"],
-      "cible": "Prendre en main un ordinateur"
-    },
-    {
-      "colonnes": ["services"],
-      "termes": ["Utiliser le numérique au quotidien"],
-      "cible": "Utiliser le numérique au quotidien"
-    },
-    {
-      "colonnes": ["services"],
-      "termes": ["Approfondir ma culture numérique"],
-      "cible": "Approfondir ma culture numérique"
-    },
-    {
-      "colonnes": ["services"],
-      "termes": ["Favoriser mon insertion professionnelle"],
-      "cible": "Favoriser mon insertion professionnelle"
-    },
-    {
-      "colonnes": ["services"],
-      "termes": ["Accéder à une connexion internet"],
-      "cible": "Accéder à une connexion internet"
-    },
-    {
-      "colonnes": ["services"],
-      "termes": ["Accéder à du matériel"],
-      "cible": "Accéder à du matériel"
-    },
-    {
-      "colonnes": ["services"],
-      "termes": ["S'équiper en matériel informatique"],
-      "cible": "S'équiper en matériel informatique"
-    },
-    {
-      "colonnes": ["services"],
-      "termes": ["Créer et développer mon entreprise"],
-      "cible": "Créer et développer mon entreprise"
+      "termes": ["Prendre en main un ordinateur", "Prendre en main un smartphone ou une tablette", "Utiliser le numérique au quotidien"],
+      "cible": "Maîtrise des outils numériques du quotidien"
     },
     {
       "colonnes": ["services"],
       "termes": ["Créer avec le numérique"],
-      "cible": "Créer avec le numérique"
+      "cible": "Loisirs et créations numériques"
     },
     {
       "colonnes": ["services"],
-      "termes": ["Accompagner les démarches de santé"],
-      "cible": "Accompagner les démarches de santé"
-    },
-    {
-      "colonnes": ["services"],
-      "termes": ["Promouvoir la citoyenneté numérique"],
-      "cible": "Promouvoir la citoyenneté numérique"
-    },
-    {
-      "colonnes": ["services"],
-      "termes": ["Soutenir la parentalité et l'éducation avec le numérique"],
-      "cible": "Soutenir la parentalité et l'éducation avec le numérique"
+      "termes": ["Approfondir ma culture numérique"],
+      "cible": "Compréhension du monde numérique"
     }
-  ],
-  "horaires": {
-    "osm": "horaires"
-  }
+  ]
 }

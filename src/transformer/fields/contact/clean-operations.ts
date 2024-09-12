@@ -248,6 +248,13 @@ const fixSpaceBeforeDotInEmail = (field: string): CleanOperation => ({
   fix: (toFix: string): string => toFix.replace(/(\w)\s\./u, '$1.')
 });
 
+const fixSpaceInEmail = (field: string): CleanOperation => ({
+  name: 'remove space in email.',
+  selector: /^\w+@\w+\s\w+\.\w+$/u,
+  field,
+  fix: (toFix: string): string => toFix.replace(/\s/u, '')
+});
+
 const removeTextPrecededByWrongCharacterInEmail = (field: string): CleanOperation => ({
   name: 'text preceded by wrong wharacter',
   selector: /^\w+[;\s]/u,
@@ -281,11 +288,11 @@ const trimEmail = (field: string): CleanOperation => ({
   fix: (toFix: string): string => toFix.trim()
 });
 
-const fixEmailStartingWithMailTo = (field: string): CleanOperation => ({
-  name: 'email starts with mailto:',
-  selector: /^mailto:/u,
+const fixEmailStartingWithMailToOrColon = (field: string): CleanOperation => ({
+  name: 'email starts with mailto: or colon',
+  selector: /^mailto:|:/u,
   field,
-  fix: (toFix: string): string => toFix.replace('mailto:', '')
+  fix: (toFix: string): string => toFix.replace(/^mailto:|:/u, '')
 });
 
 const fixUnexpectedEmailLabel = (field: string): CleanOperation => ({
@@ -399,6 +406,7 @@ export const cleanOperations = (
   ...cleanOperationIfAny(keepFirstNumberIfMultiple, matching.telephone?.colonne),
   ...cleanOperationIfAny(fixMissingPlusCharAtStartingPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(fixSpaceBeforeDotInEmail, matching.courriels?.colonne),
+  ...cleanOperationIfAny(fixSpaceInEmail, matching.courriels?.colonne),
   ...cleanOperationIfAny(removeEmailStartingWithWww, matching.courriels?.colonne),
   ...cleanOperationIfAny(removeEmailStartingWithAt, matching.courriels?.colonne),
   ...cleanOperationIfAny(trimEmail, matching.courriels?.colonne),
@@ -406,7 +414,7 @@ export const cleanOperations = (
   ...cleanOperationIfAny(fixMissingAccentuatedCInEmail, matching.courriels?.colonne),
   ...cleanOperationIfAny(fixEmailWithTwoArobase, matching.courriels?.colonne),
   ...cleanOperationIfAny(fixStartingWithDotEmail, matching.courriels?.colonne),
-  ...cleanOperationIfAny(fixEmailStartingWithMailTo, matching.courriels?.colonne),
+  ...cleanOperationIfAny(fixEmailStartingWithMailToOrColon, matching.courriels?.colonne),
   ...cleanOperationIfAny(fixUnexpectedEmailLabel, matching.courriels?.colonne),
   ...cleanOperationIfAny(removeTextPrecededByWrongCharacterInEmail, matching.courriels?.colonne),
   ...cleanOperationIfAny(fixUnexpectedEmailSeparator, matching.courriels?.colonne),
