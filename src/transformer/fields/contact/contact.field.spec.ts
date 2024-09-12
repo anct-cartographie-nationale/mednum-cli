@@ -734,6 +734,21 @@ describe('contact field', (): void => {
     expect(contact).toStrictEqual<Contact>(Contact({}));
   });
 
+  it('should fix space in email', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        [EMAIL_FIELD]: 'contact@latelierde malauzat.fr'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(
+      Contact({
+        courriels: [Courriel('contact@latelierdemalauzat.fr')]
+      })
+    );
+  });
+
   it('should have only one email - "ou" separator', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {

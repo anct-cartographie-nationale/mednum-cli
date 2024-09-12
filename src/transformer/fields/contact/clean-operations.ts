@@ -248,6 +248,13 @@ const fixSpaceBeforeDotInEmail = (field: string): CleanOperation => ({
   fix: (toFix: string): string => toFix.replace(/(\w)\s\./u, '$1.')
 });
 
+const fixSpaceInEmail = (field: string): CleanOperation => ({
+  name: 'remove space in email.',
+  selector: /^\w+@\w+\s\w+\.\w+$/u,
+  field,
+  fix: (toFix: string): string => toFix.replace(/\s/u, '')
+});
+
 const removeTextPrecededByWrongCharacterInEmail = (field: string): CleanOperation => ({
   name: 'text preceded by wrong wharacter',
   selector: /^\w+[;\s]/u,
@@ -399,6 +406,7 @@ export const cleanOperations = (
   ...cleanOperationIfAny(keepFirstNumberIfMultiple, matching.telephone?.colonne),
   ...cleanOperationIfAny(fixMissingPlusCharAtStartingPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(fixSpaceBeforeDotInEmail, matching.courriels?.colonne),
+  ...cleanOperationIfAny(fixSpaceInEmail, matching.courriels?.colonne),
   ...cleanOperationIfAny(removeEmailStartingWithWww, matching.courriels?.colonne),
   ...cleanOperationIfAny(removeEmailStartingWithAt, matching.courriels?.colonne),
   ...cleanOperationIfAny(trimEmail, matching.courriels?.colonne),
