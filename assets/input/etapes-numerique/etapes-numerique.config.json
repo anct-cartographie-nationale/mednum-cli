@@ -26,6 +26,11 @@
   "date_maj": {
     "colonne": ""
   },
+  "formations_labels": [
+    {
+      "cible": "Étapes numériques (La Poste)"
+    }
+  ],
   "services": [
     {
       "cible": "Maîtrise des outils numériques du quotidien"
