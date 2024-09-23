@@ -1,0 +1,820 @@
+{
+  "id": {
+    "colonne": "id"
+  },
+  "pivot": {
+    "colonne": "pivot"
+  },
+  "nom": {
+    "colonne": "nom"
+  },
+  "commune": {
+    "colonne": "commune"
+  },
+  "code_postal": {
+    "colonne": "code_postal"
+  },
+  "code_insee": {
+    "colonne": "code_insee"
+  },
+  "adresse": {
+    "colonne": "adresse"
+  },
+  "complement_adresse": {
+    "colonne": "complement_adresse"
+  },
+  "latitude": {
+    "colonne": "latitude"
+  },
+  "longitude": {
+    "colonne": "longitude"
+  },
+  "telephone": {
+    "colonne": "telephone"
+  },
+  "courriels": {
+    "colonne": "courriels"
+  },
+  "site_web": {
+    "colonne": "site_web"
+  },
+  "date_maj": {
+    "colonne": "date_maj"
+  },
+  "source": {
+    "colonne": "source"
+  },
+  "prise_rdv": {
+    "colonne": "prise_rdv"
+  },
+  "presentation_resume": {
+    "colonne": "presentation_resume"
+  },
+  "presentation_detail": {
+    "colonne": "presentation_detail"
+  },
+  "fiche_acces_libre": {
+    "colonne": "presentation_detail"
+  },
+  "structure_parente": {
+    "colonne": "structure_parente"
+  },
+  "typologie": [
+    {
+      "colonnes": ["typologie"],
+      "termes": ["ACI"],
+      "cible": "ACI"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["ACIPHC"],
+      "cible": "ACIPHC"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["AFPA"],
+      "cible": "AFPA"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["AI"],
+      "cible": "AI"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["ASE"],
+      "cible": "ASE"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["ASSO"],
+      "cible": "ASSO"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["ASSO_CHOMEUR"],
+      "cible": "ASSO_CHOMEUR"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["Autre"],
+      "cible": "Autre"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["AVIP"],
+      "cible": "AVIP"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["BIB"],
+      "cible": "BIB"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CAARUD"],
+      "cible": "CAARUD"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CADA"],
+      "cible": "CADA"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CAF"],
+      "cible": "CAF"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CAP_EMPLOI"],
+      "cible": "CAP_EMPLOI"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CAVA"],
+      "cible": "CAVA"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CC"],
+      "cible": "CC"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CCAS"],
+      "cible": "CCAS"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CCONS"],
+      "cible": "CCONS"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CD"],
+      "cible": "CD"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CDAS"],
+      "cible": "CDAS"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CFP"],
+      "cible": "CFP"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CHRS"],
+      "cible": "CHRS"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CHU"],
+      "cible": "CHU"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CIAS"],
+      "cible": "CIAS"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CIDFF"],
+      "cible": "CIDFF"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CITMET"],
+      "cible": "CITMET"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CMP"],
+      "cible": "CMP"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CMS"],
+      "cible": "CMS"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CPAM"],
+      "cible": "CPAM"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CPH"],
+      "cible": "CPH"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CS"],
+      "cible": "CS"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CSAPA"],
+      "cible": "CSAPA"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CSC"],
+      "cible": "CSC"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["DEETS"],
+      "cible": "DEETS"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["DEPT"],
+      "cible": "DEPT"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["DIPLP"],
+      "cible": "DIPLP"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["E2C"],
+      "cible": "E2C"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["EA"],
+      "cible": "EA"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["EATT"],
+      "cible": "EATT"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["EI"],
+      "cible": "EI"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["EITI"],
+      "cible": "EITI"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["ENM"],
+      "cible": "ENM"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["EPCI"],
+      "cible": "EPCI"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["EPI"],
+      "cible": "EPI"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["EPIDE"],
+      "cible": "EPIDE"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["EPN"],
+      "cible": "EPN"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["ES"],
+      "cible": "ES"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["ESS"],
+      "cible": "ESS"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["ETTI"],
+      "cible": "ETTI"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["EVS"],
+      "cible": "EVS"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["FABLAB"],
+      "cible": "FABLAB"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["FAIS"],
+      "cible": "FAIS"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["FT"],
+      "cible": "FT"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["GEIQ"],
+      "cible": "GEIQ"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["HUDA"],
+      "cible": "HUDA"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["LA_POSTE"],
+      "cible": "LA_POSTE"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["MDE"],
+      "cible": "MDE"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["MDEF"],
+      "cible": "MDEF"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["MDPH"],
+      "cible": "MDPH"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["MDS"],
+      "cible": "MDS"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["MJC"],
+      "cible": "MJC"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["ML"],
+      "cible": "ML"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["MQ"],
+      "cible": "MQ"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["MSA"],
+      "cible": "MSA"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["MSAP"],
+      "cible": "MSAP"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["MUNI"],
+      "cible": "MUNI"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["OACAS"],
+      "cible": "OACAS"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["ODC"],
+      "cible": "ODC"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["OF"],
+      "cible": "OF"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["OIL"],
+      "cible": "OIL"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["OPCS"],
+      "cible": "OPCS"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["PAD"],
+      "cible": "PAD"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["PE"],
+      "cible": "FT"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["PENSION"],
+      "cible": "PENSION"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["PI"],
+      "cible": "PI"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["PIJ_BIJ"],
+      "cible": "PIJ_BIJ"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["PIMMS"],
+      "cible": "PIMMS"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["PJJ"],
+      "cible": "PJJ"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["PLIE"],
+      "cible": "PLIE"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["PREF"],
+      "cible": "PREF"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["PREVENTION"],
+      "cible": "PREVENTION"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["REG"],
+      "cible": "REG"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["RESSOURCERIE"],
+      "cible": "RESSOURCERIE"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["RFS"],
+      "cible": "RFS"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["RS_FJT"],
+      "cible": "RS_FJT"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["SCP"],
+      "cible": "SCP"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["SPIP"],
+      "cible": "SPIP"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["TIERS_LIEUX"],
+      "cible": "TIERS_LIEUX"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["UDAF"],
+      "cible": "UDAF"
+    }
+  ],
+  "itinerance": [
+    {
+      "colonnes": ["itinerance"],
+      "termes": ["Itinérant"],
+      "cible": "Itinérant"
+    },
+    {
+      "colonnes": ["itinerance"],
+      "termes": ["Fixe"],
+      "cible": "Fixe"
+    }
+  ],
+  "frais_a_charge": [
+    {
+      "colonnes": ["frais_a_charge"],
+      "termes": ["Gratuit"],
+      "cible": "Gratuit"
+    },
+    {
+      "colonnes": ["frais_a_charge"],
+      "termes": ["Gratuit sous condition"],
+      "cible": "Gratuit sous condition"
+    },
+    {
+      "colonnes": ["frais_a_charge"],
+      "termes": ["Payant"],
+      "cible": "Payant"
+    }
+  ],
+  "modalites_accompagnement": [
+    {
+      "colonnes": ["modalites_accompagnement"],
+      "termes": ["En autonomie"],
+      "cible": "En autonomie"
+    },
+    {
+      "colonnes": ["modalites_accompagnement"],
+      "termes": ["Accompagnement individuel"],
+      "cible": "Accompagnement individuel"
+    },
+    {
+      "colonnes": ["modalites_accompagnement"],
+      "termes": ["Dans un atelier collectif"],
+      "cible": "Dans un atelier collectif"
+    },
+    {
+      "colonnes": ["modalites_accompagnement"],
+      "termes": ["À distance"],
+      "cible": "À distance"
+    }
+  ],
+  "modalites_acces": [
+    {
+      "colonnes": ["modalites_acces"],
+      "termes": ["Se présenter"],
+      "cible": "Se présenter"
+    },
+    {
+      "colonnes": ["modalites_acces"],
+      "termes": ["Téléphoner"],
+      "cible": "Téléphoner"
+    },
+    {
+      "colonnes": ["modalites_acces"],
+      "termes": ["Contacter par mail"],
+      "cible": "Contacter par mail"
+    },
+    {
+      "colonnes": ["modalites_acces"],
+      "termes": ["Prendre un RDV en ligne"],
+      "cible": "Prendre un RDV en ligne"
+    },
+    {
+      "colonnes": ["modalites_acces"],
+      "termes": ["Ce lieu n'accueille pas de public"],
+      "cible": "Ce lieu n'accueille pas de public"
+    },
+    {
+      "colonnes": ["modalites_acces"],
+      "termes": ["Envoyer un mail avec une fiche de prescription"],
+      "cible": "Envoyer un mail avec une fiche de prescription"
+    }
+  ],
+  "publics_specifiquement_adresses": [
+    {
+      "colonnes": ["publics_specifiquement_adresses"],
+      "termes": ["Jeunes"],
+      "cible": "Jeunes"
+    },
+    {
+      "colonnes": ["publics_specifiquement_adresses"],
+      "termes": ["Étudiants"],
+      "cible": "Étudiants"
+    },
+    {
+      "colonnes": ["publics_specifiquement_adresses"],
+      "termes": ["Familles et/ou enfants"],
+      "cible": "Familles et/ou enfants"
+    },
+    {
+      "colonnes": ["publics_specifiquement_adresses"],
+      "termes": ["Seniors"],
+      "cible": "Seniors"
+    },
+    {
+      "colonnes": ["publics_specifiquement_adresses"],
+      "termes": ["Femmes"],
+      "cible": "Femmes"
+    }
+  ],
+  "prise_en_charge_specifique": [
+    {
+      "colonnes": ["prise_en_charge_specifique"],
+      "termes": ["Surdité"],
+      "cible": "Surdité"
+    },
+    {
+      "colonnes": ["prise_en_charge_specifique"],
+      "termes": ["Handicaps moteurs"],
+      "cible": "Handicaps moteurs"
+    },
+    {
+      "colonnes": ["prise_en_charge_specifique"],
+      "termes": ["Handicaps mentaux"],
+      "cible": "Handicaps mentaux"
+    },
+    {
+      "colonnes": ["prise_en_charge_specifique"],
+      "termes": ["Illettrisme"],
+      "cible": "Illettrisme"
+    },
+    {
+      "colonnes": ["prise_en_charge_specifique"],
+      "termes": ["Langues étrangères (anglais)"],
+      "cible": "Langues étrangères (anglais)"
+    },
+    {
+      "colonnes": ["prise_en_charge_specifique"],
+      "termes": ["Langues étrangères (autres)"],
+      "cible": "Langues étrangères (autres)"
+    },
+    {
+      "colonnes": ["prise_en_charge_specifique"],
+      "termes": ["Déficience visuelle"],
+      "cible": "Déficience visuelle"
+    }
+  ],
+  "services": [
+    {
+      "colonnes": ["services"],
+      "termes": ["Aide aux démarches administratives"],
+      "cible": "Aide aux démarches administratives"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["Maîtrise des outils numériques du quotidien"],
+      "cible": "Maîtrise des outils numériques du quotidien"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["Insertion professionnelle via le numérique"],
+      "cible": "Insertion professionnelle via le numérique"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["Utilisation sécurisée du numérique"],
+      "cible": "Utilisation sécurisée du numérique"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["Parentalité et éducation avec le numérique"],
+      "cible": "Parentalité et éducation avec le numérique"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["Loisirs et créations numériques"],
+      "cible": "Loisirs et créations numériques"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["Compréhension du monde numérique"],
+      "cible": "Compréhension du monde numérique"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["Accès internet et matériel informatique"],
+      "cible": "Accès internet et matériel informatique"
+    },
+    {
+      "colonnes": ["services"],
+      "termes": ["Acquisition de matériel informatique à prix solidaire"],
+      "cible": "Acquisition de matériel informatique à prix solidaire"
+    }
+  ],
+  "dispositif_programmes_nationaux": [
+    {
+      "colonnes": ["dispositif_programmes_nationaux"],
+      "termes": ["Aidants Connect"],
+      "cible": "Aidants Connect"
+    },
+    {
+      "colonnes": ["dispositif_programmes_nationaux"],
+      "termes": ["Bibliothèques numérique de référence"],
+      "cible": "Bibliothèques numérique de référence"
+    },
+    {
+      "colonnes": ["dispositif_programmes_nationaux"],
+      "termes": ["Certification PIX"],
+      "cible": "Certification PIX"
+    },
+    {
+      "colonnes": ["dispositif_programmes_nationaux"],
+      "termes": ["Conseillers numériques"],
+      "cible": "Conseillers numériques"
+    },
+    {
+      "colonnes": ["dispositif_programmes_nationaux"],
+      "termes": ["Emmaüs Connect"],
+      "cible": "Emmaüs Connect"
+    },
+    {
+      "colonnes": ["dispositif_programmes_nationaux"],
+      "termes": ["France Services"],
+      "cible": "France Services"
+    },
+    {
+      "colonnes": ["dispositif_programmes_nationaux"],
+      "termes": ["Grande école du numérique"],
+      "cible": "Grande école du numérique"
+    },
+    {
+      "colonnes": ["dispositif_programmes_nationaux"],
+      "termes": ["La Croix Rouge"],
+      "cible": "La Croix Rouge"
+    },
+    {
+      "colonnes": ["dispositif_programmes_nationaux"],
+      "termes": ["Point d'accès numérique CAF"],
+      "cible": "Point d'accès numérique CAF"
+    },
+    {
+      "colonnes": ["dispositif_programmes_nationaux"],
+      "termes": ["Promeneurs du net"],
+      "cible": "Promeneurs du net"
+    },
+    {
+      "colonnes": ["dispositif_programmes_nationaux"],
+      "termes": ["Relais numérique (Emmaüs Connect)"],
+      "cible": "Relais numérique (Emmaüs Connect)"
+    }
+  ],
+  "formations_labels": [
+    {
+      "colonnes": ["formations_labels"],
+      "termes": ["Formé à « Mon Espace Santé »"],
+      "cible": "Formé à « Mon Espace Santé »"
+    },
+    {
+      "colonnes": ["formations_labels"],
+      "termes": ["Formé à « DUPLEX » (illettrisme)"],
+      "cible": "Formé à « DUPLEX » (illettrisme)"
+    },
+    {
+      "colonnes": ["formations_labels"],
+      "termes": ["Arnia/MedNum BFC (Bourgogne-Franche-Comté)"],
+      "cible": "Arnia/MedNum BFC (Bourgogne-Franche-Comté)"
+    },
+    {
+      "colonnes": ["formations_labels"],
+      "termes": ["Collectif ressources et acteurs réemploi (Normandie)"],
+      "cible": "Collectif ressources et acteurs réemploi (Normandie)"
+    },
+    {
+      "colonnes": ["formations_labels"],
+      "termes": ["Étapes numériques (La Poste)"],
+      "cible": "Étapes numériques (La Poste)"
+    },
+    {
+      "colonnes": ["formations_labels"],
+      "termes": ["Fabriques de Territoire"],
+      "cible": "Fabriques de Territoire"
+    },
+    {
+      "colonnes": ["formations_labels"],
+      "termes": ["Les Éclaireurs du numérique (Drôme)"],
+      "cible": "Les Éclaireurs du numérique (Drôme)"
+    },
+    {
+      "colonnes": ["formations_labels"],
+      "termes": ["Mes Papiers (Métropole de Lyon)"],
+      "cible": "Mes Papiers (Métropole de Lyon)"
+    },
+    {
+      "colonnes": ["formations_labels"],
+      "termes": ["ORDI 3.0"],
+      "cible": "ORDI 3.0"
+    },
+    {
+      "colonnes": ["formations_labels"],
+      "termes": ["SUD LABS (PACA)"],
+      "cible": "SUD LABS (PACA)"
+    }
+  ],
+  "autres_formations_labels": [
+    {
+      "colonnes": ["autres_formations_labels"]
+    }
+  ],
+  "horaires": {
+    "osm": "horaires"
+  }
+}
