@@ -46,16 +46,20 @@ jobs:
     environment: production
     steps:
       - name: Checkout mednum-cli repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
         with:
-          node-version: 'latest'
-          cache: 'yarn'
+          version: 9
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+          cache: 'pnpm'
       - name: Install dependencies
-        run: yarn
+        run: pnpm install
       - name: 'Create env file'
         run: |
           touch .env
@@ -67,11 +71,11 @@ jobs:
           echo CARTOGRAPHIE_NATIONALE_API_KEY="${{ secrets.CARTOGRAPHIE_NATIONALE_API_KEY }}" >> .env
           echo DATA_INCLUSION_API_KEY="${{ secrets.DATA_INCLUSION_API_KEY }}" >> .env
       - name: Transform
-        run: yarn transformer.${{ matrix.source }}
+        run: pnpm transformer.${{ matrix.source }}
       - name: Publish
-        run: yarn publier.${{ matrix.source }}
+        run: pnpm publier.${{ matrix.source }}
       - name: Deduplicate
-        run: yarn dedupliquer.${{ matrix.source }}
+        run: pnpm dedupliquer.${{ matrix.source }}
 
   deduplicate:
     name: Merge all duplicates between sources
@@ -80,17 +84,21 @@ jobs:
     needs:
       - transform-and-publish
     steps:
-      - name: Checkout client-application repository
-        uses: actions/checkout@v3
+      - name: Checkout mednum-cli repository
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
         with:
-          node-version: 'latest'
-          cache: 'yarn'
+          version: 9
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+          cache: 'pnpm'
       - name: Install dependencies
-        run: yarn
+        run: pnpm install
       - name: 'Create env file'
         run: |
           touch .env
@@ -101,7 +109,7 @@ jobs:
           echo CARTOGRAPHIE_NATIONALE_API_URL="${{ secrets.CARTOGRAPHIE_NATIONALE_API_URL }}" >> .env
           echo CARTOGRAPHIE_NATIONALE_API_KEY="${{ secrets.CARTOGRAPHIE_NATIONALE_API_KEY }}" >> .env
       - name: Deduplicate
-        run: yarn dedupliquer.all
+        run: pnpm dedupliquer.all
 
   extract-and-publish:
     name: Extract and publish to data.gouv
@@ -117,16 +125,20 @@ jobs:
         run: sleep 300s
         shell: bash
       - name: Checkout mednum-cli repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
         with:
-          node-version: 'latest'
-          cache: 'yarn'
+          version: 9
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+          cache: 'pnpm'
       - name: Install dependencies
-        run: yarn
+        run: pnpm install
       - name: 'Create env file'
         run: |
           touch .env
@@ -136,9 +148,9 @@ jobs:
           echo DATA_GOUV_REFERENCE_TYPE="${{ secrets.DATA_GOUV_REFERENCE_TYPE }}" >> .env
           echo CARTOGRAPHIE_NATIONALE_API_URL="${{ secrets.CARTOGRAPHIE_NATIONALE_API_URL }}" >> .env
       - name: Extract
-        run: yarn extract.${{ matrix.source }}
+        run: pnpm extract.${{ matrix.source }}
       - name: Publish
-        run: yarn publier.${{ matrix.source }}
+        run: pnpm publier.${{ matrix.source }}
 
   publish-to-data-gouv:
     name: Get lieux from API and publish to data.gouv
@@ -151,16 +163,20 @@ jobs:
         run: sleep 300s
         shell: bash
       - name: Checkout mednum-cli repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
         with:
-          node-version: 'latest'
-          cache: 'yarn'
+          version: 9
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+          cache: 'pnpm'
       - name: Install dependencies
-        run: yarn
+        run: pnpm install
       - name: 'Create env file'
         run: |
           touch .env
@@ -170,9 +186,9 @@ jobs:
           echo DATA_GOUV_REFERENCE_TYPE="${{ secrets.DATA_GOUV_REFERENCE_TYPE }}" >> .env
           echo CARTOGRAPHIE_NATIONALE_API_URL="${{ secrets.CARTOGRAPHIE_NATIONALE_API_URL }}" >> .env
       - name: Extract
-        run: yarn extract.all
+        run: pnpm extract.all
       - name: Publish
-        run: yarn publier.all
+        run: pnpm publier.all
 
   publish-to-s3:
     name: Get lieux from API and publish to S3
