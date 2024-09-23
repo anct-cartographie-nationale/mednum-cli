@@ -43,7 +43,7 @@ const openingHoursFromDays = (matching: LieuxMediationNumeriqueMatching, source:
             currentValue.osm,
             Array.isArray(currentValue.colonne)
               ? currentValue.colonne.map((col: string): string | undefined => source[col]?.toString()).join(', ')
-              : source[currentValue.colonne]?.toString() ?? ''
+              : (source[currentValue.colonne]?.toString() ?? '')
           )
         ],
         []

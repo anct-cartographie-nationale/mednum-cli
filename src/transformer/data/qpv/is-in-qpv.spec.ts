@@ -1,5 +1,5 @@
 import { Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { Polygon } from '@turf/helpers/dist/js/lib/geojson';
+import { Polygon } from '@turf/turf';
 import { QpvShapesMap } from '../../fields';
 import { isInQpv } from './is-in-qpv';
 

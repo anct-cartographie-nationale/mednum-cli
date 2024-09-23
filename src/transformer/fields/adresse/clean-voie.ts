@@ -51,7 +51,7 @@ const isColonne = (colonneToTest: Partial<Colonne> & Partial<Jonction>): colonne
 
 export const voieField = (source: DataSource, voie: Jonction & Partial<Colonne>): string =>
   isColonne(voie)
-    ? source[voie.colonne]?.toString() ?? ''
+    ? (source[voie.colonne]?.toString() ?? '')
     : voie.joindre.colonnes
         .reduce((voiePart: string, colonne: string): string => [voiePart, source[colonne]].join(voie.joindre.séparateur), '')
         .trim();
