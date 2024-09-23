@@ -81,10 +81,32 @@ jobs:
         run: pnpm publier.${{ matrix.source }}
       - name: Internal deduplication
         run: pnpm dedupliquer.${{ matrix.source }}
-
   build:
-    uses: romain-cambonie/serenity-workflows/.github/workflows/_build-and-upload-artifact.reusable.yml@master
-
+    name: Build and upload artifact
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout mednum-cli repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
+      - name: Upload build bundle as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bundle
+          path: |
+            package.json
+            dist
   publish:
     name: Publish package to npm
     runs-on: ubuntu-latest
