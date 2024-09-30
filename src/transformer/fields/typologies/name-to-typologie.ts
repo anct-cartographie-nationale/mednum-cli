@@ -9,7 +9,11 @@ export const TYPOLOGIE_MATCHERS: TypologieMatcher[] = [
     matchers: [/mairie/iu, /commune/iu, /^ville d[eu]/iu, /h[oô]tel de ville/iu]
   },
   {
-    typologie: Typologie.PE,
+    typologie: Typologie.FT,
+    matchers: [/france travail/iu]
+  },
+  {
+    typologie: Typologie.FT,
     matchers: [/p[ôo]le emploi/iu]
   },
   {
