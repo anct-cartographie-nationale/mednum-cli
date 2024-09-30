@@ -41,9 +41,6 @@
   "date_maj": {
     "colonne": "date_maj"
   },
-  "source": {
-    "colonne": "source"
-  },
   "prise_rdv": {
     "colonne": "prise_rdv"
   },
@@ -54,7 +51,7 @@
     "colonne": "presentation_detail"
   },
   "fiche_acces_libre": {
-    "colonne": "presentation_detail"
+    "colonne": "fiche_acces_libre"
   },
   "structure_parente": {
     "colonne": "structure_parente"
