@@ -15,7 +15,7 @@ const toLocalisation = (response: AxiosResponse): Localisation =>
 
 export const localisationByGeocode = (adresse: Adresse) => async (): Promise<Localisation> => {
   const response: AxiosResponse = await axios.get(
-    `https://wxs.ign.fr/essentiels/geoportail/geocodage/rest/0.1/search?q=${adresse.voie}&postcode=${adresse.code_postal}&city=${adresse.commune}`
+    `https://data.geopf.fr/geocodage/search?q=${adresse.voie} ${adresse.code_postal} ${adresse.commune}`
   );
 
   return isValid(adresse, response) ? toLocalisation(response) : NO_LOCALISATION;
