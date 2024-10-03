@@ -147,7 +147,7 @@ describe('find duplicates', (): void => {
     ]);
   });
 
-  it('should not need to deduplicate when only lieu 1 has RFS typologie', (): void => {
+  it('should not deduplicate when only lieu 1 has RFS typologie', (): void => {
     const lieux: SchemaLieuMediationNumerique[] = [
       {
         id: '574-mediation-numerique-hinaura',
@@ -175,6 +175,64 @@ describe('find duplicates', (): void => {
     const duplicates: CommuneDuplications[] = findDuplicates(lieux, false);
 
     expect(duplicates).toStrictEqual([]);
+  });
+
+  it('should allow deduplicate when both lieux contain "France Service" in the name', (): void => {
+    const lieux: SchemaLieuMediationNumerique[] = [
+      {
+        id: '574-mediation-numerique-hinaura',
+        nom: "France services d'Etrechy",
+        adresse: '26 rue Jean Moulin',
+        code_postal: '38000',
+        commune: 'Grenoble',
+        latitude: 45.186115,
+        longitude: 5.716962,
+        source: 'conseiller-numerique'
+      } as SchemaLieuMediationNumerique,
+      {
+        id: '2848-mediation-numerique-france-services',
+        nom: "France services d'Etrechy",
+        adresse: '26 rue Jean Moulin',
+        code_postal: '38000',
+        commune: 'Grenoble',
+        latitude: 45.186115,
+        longitude: 5.716962,
+        typologie: Typologie.RFS,
+        source: 'france-services'
+      } as SchemaLieuMediationNumerique
+    ];
+
+    const duplicates: CommuneDuplications[] = findDuplicates(lieux, false);
+
+    expect(duplicates).toStrictEqual([
+      {
+        codePostal: '38000',
+        lieux: [
+          {
+            id: '574-mediation-numerique-hinaura',
+            duplicates: [
+              {
+                id: '2848-mediation-numerique-france-services',
+                distanceScore: 100,
+                nomFuzzyScore: 100,
+                voieFuzzyScore: 100
+              }
+            ]
+          },
+          {
+            id: '2848-mediation-numerique-france-services',
+            duplicates: [
+              {
+                id: '574-mediation-numerique-hinaura',
+                distanceScore: 100,
+                nomFuzzyScore: 100,
+                voieFuzzyScore: 100
+              }
+            ]
+          }
+        ]
+      }
+    ]);
   });
 
   it('should not need to deduplicate when only lieu 1 has RFS typologie in lieux to deduplicate', (): void => {
