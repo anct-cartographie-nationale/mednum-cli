@@ -1,3 +1,4 @@
+import { Presentation as PresentationField } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 
 const cleanPresentationFormat = (presentation: string): string =>
@@ -9,10 +10,16 @@ const resumeIfAny = (source: DataSource, colonne?: string): { resume?: string } 
 const detailIfAny = (source: DataSource, colonne?: string): { detail?: string } =>
   colonne == null ? {} : { detail: cleanPresentationFormat(source[colonne]?.toString() ?? '') };
 
-export const processPresentation = (
-  source: DataSource,
-  matching: LieuxMediationNumeriqueMatching
-): { resume?: string; detail?: string } => ({
-  ...resumeIfAny(source, matching.presentation_resume?.colonne),
-  ...detailIfAny(source, matching.presentation_detail?.colonne)
-});
+const PRESENTATION_RESUME_MAX_LENGTH: 280 = 280 as const;
+
+const shouldMoveLongResumeToDetails = (presentations: PresentationField): presentations is { resume: string } =>
+  (presentations.detail?.length ?? 0) === 0 && (presentations.resume?.length ?? 0) > PRESENTATION_RESUME_MAX_LENGTH;
+
+const fixPresentationOrder = (presentations: PresentationField): PresentationField =>
+  shouldMoveLongResumeToDetails(presentations) ? { detail: presentations.resume } : presentations;
+
+export const processPresentation = (source: DataSource, matching: LieuxMediationNumeriqueMatching): PresentationField =>
+  fixPresentationOrder({
+    ...resumeIfAny(source, matching.presentation_resume?.colonne),
+    ...detailIfAny(source, matching.presentation_detail?.colonne)
+  });
