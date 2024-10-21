@@ -1,307 +1,253 @@
 {
   "id": {
-    "colonne": "id"
+    "colonne": "Identifiant unique local du lieu"
   },
   "nom": {
-    "colonne": "nom"
+    "colonne": "Nom"
   },
   "pivot": {
-    "colonne": "pivot"
+    "colonne": "SIRET ou RNA"
   },
   "commune": {
-    "colonne": "commune"
+    "colonne": "Commune"
   },
   "code_postal": {
-    "colonne": "code_postal"
+    "colonne": "Code postal"
   },
   "code_insee": {
-    "colonne": "code_insee"
+    "colonne": "Code INSEE"
   },
   "adresse": {
-    "colonne": "adresse"
+    "colonne": "Adresse"
   },
   "complement_adresse": {
-    "colonne": "complement_adresse"
+    "colonne": "Compl�ment d'adresse"
   },
   "latitude": {
-    "colonne": "latitude"
+    "colonne": "Latitude"
   },
   "longitude": {
-    "colonne": "longitude"
+    "colonne": "Longitude"
   },
   "telephone": {
-    "colonne": "telephone"
+    "colonne": "Num�ro de t�l�phone"
   },
   "courriels": {
-    "colonne": "courriel"
-  },
-  "site_web": {
-    "colonne": "site_web"
+    "colonne": "Courriel"
   },
   "date_maj": {
-    "colonne": "date_maj"
-  },
-  "prise_rdv": {
-    "colonne": "prise_rdv"
-  },
-  "fiche_acces_libre": {
-    "colonne": "accessibilite"
+    "colonne": "Date de mise � jour"
   },
   "structure_parente": {
-    "colonne": "structure_parente"
+    "colonne": "Structure parente"
   },
   "presentation_resume": {
-    "colonne": "presentation_resume"
+    "colonne": "Pr�sentation r�sum�"
   },
   "presentation_detail": {
-    "colonne": "presentation_detail"
+    "colonne": "Pr�sentation d�taill�e"
   },
+  "itinerance": [
+    {
+      "colonnes": ["Propri�t� itin�rence"],
+      "termes": ["Fixe"],
+      "cible": "Fixe"
+    }
+  ],
   "typologie": [
     {
-      "colonnes": ["typologie"],
-      "termes": ["Association"],
-      "cible": "ASSO"
-    },
-    {
-      "colonnes": ["typologie"],
-      "termes": ["Bibliothèque", "Médiathèque"],
+      "colonnes": ["Typologie"],
+      "termes": ["Biblioth�que", "M�diath�que"],
       "cible": "BIB"
     },
     {
-      "colonnes": ["typologie"],
-      "termes": ["BIJ", "PIJ"],
-      "cible": "PIJ_BIJ"
-    },
-    {
-      "colonnes": ["typologie"],
-      "termes": ["Bureau de poste"],
-      "cible": "LA_POSTE"
-    },
-    {
-      "colonnes": ["typologie"],
+      "colonnes": ["Typologie"],
       "termes": ["CCAS"],
       "cible": "CCAS"
     },
     {
-      "colonnes": ["typologie"],
+      "colonnes": ["Typologie"],
       "termes": ["Centre social"],
       "cible": "CS"
     },
     {
-      "colonnes": ["typologie"],
-      "termes": ["CMS"],
-      "cible": "CMS"
-    },
-    {
-      "colonnes": ["typologie"],
+      "colonnes": ["Typologie"],
       "termes": ["EPCI"],
       "cible": "EPCI"
     },
     {
-      "colonnes": ["typologie"],
-      "termes": ["Espace de cowworking"],
-      "cible": "TIERS_LIEUX"
-    },
-    {
-      "colonnes": ["typologie"],
-      "termes": ["Mission locale"],
-      "cible": "ML"
-    },
-    {
-      "colonnes": ["typologie"],
+      "colonnes": ["Typologie"],
       "termes": ["Mairie", "Maison municipale"],
       "cible": "MUNI"
     },
     {
-      "colonnes": ["typologie"],
-      "termes": ["Sous Prefecture"],
-      "cible": "PREF"
-    }
-  ],
-  "dispositif_programmes_nationaux": [
-    {
-      "colonnes": ["labels_autres"],
-      "termes": ["certification PIX"],
-      "cible": "Certification PIX"
+      "colonnes": ["Typologie"],
+      "termes": ["Bureau information Jeunesse"],
+      "cible": "PIJ_BIJ"
     }
   ],
   "formations_labels": [
     {
-      "colonnes": ["labels_autres"],
-      "termes": ["Fabriques de Territoire"],
+      "colonnes": ["Formations et labels"],
+      "termes": ["Fabrique de Territoire"],
       "cible": "Fabriques de Territoire"
     }
   ],
   "autres_formations_labels": [
     {
-      "colonnes": ["labels_autres"],
-      "termes": ["EPN Normandie"],
-      "cible": "EPN Normandie"
-    },
-    {
-      "colonnes": ["labels_autres"],
-      "termes": ["Label Mission locale"],
-      "cible": "Label Mission locale"
-    },
-    {
-      "colonnes": ["labels_autres"],
-      "termes": ["Normandie Connecté"],
-      "cible": "Normandie Connecté"
-    },
-    {
-      "colonnes": ["labels_autres"],
-      "termes": ["Qualiopi"],
-      "cible": "Qualiopi"
+      "colonnes": ["Autres formations et labels"],
+      "termes": ["Label Infojeunes"],
+      "cible": "Label Infojeunes"
     }
   ],
   "frais_a_charge": [
     {
-      "colonnes": ["conditions_acces"],
-      "termes": ["Gratuit", "Adhésion"],
+      "colonnes": ["Frais � charge"],
+      "termes": ["Gratuit"],
       "cible": "Gratuit"
     },
     {
-      "colonnes": ["conditions_acces"],
+      "colonnes": ["Frais � charge"],
+      "termes": ["Gratuit sous condition"],
+      "cible": "Gratuit sous condition"
+    },
+    {
+      "colonnes": ["Frais � charge"],
       "termes": ["Payant"],
       "cible": "Payant"
     }
   ],
   "modalites_accompagnement": [
     {
-      "colonnes": ["modalites_accompagnement"],
-      "termes": ["Dans un atelier"],
+      "colonnes": ["Modalit�s d'accompagnement"],
+      "termes": ["Dans un atelier collectif"],
       "cible": "Dans un atelier collectif"
     },
     {
-      "colonnes": ["modalites_accompagnement"],
-      "termes": ["Avec de l’aide", "A ma place", "Accompagnement individuel"],
+      "colonnes": ["Modalit�s d'accompagnement"],
+      "termes": [" Accompagnement individuel"],
       "cible": "Accompagnement individuel"
     },
     {
-      "colonnes": ["modalites_accompagnement"],
-      "termes": ["Seul", "En autonomie"],
+      "colonnes": ["Modalit�s d'accompagnement"],
+      "termes": ["En autonomie"],
       "cible": "En autonomie"
     }
   ],
   "modalites_acces": [
     {
-      "colonnes": ["services"],
-      "termes": ["Prise de rendez-vous par téléphone"],
+      "colonnes": ["Modalit� d'acc�s"],
+      "termes": ["T�l�phoner"],
       "cible": "Téléphoner"
     },
     {
-      "colonnes": ["services"],
-      "termes": ["présentation en guichet"],
+      "colonnes": ["Modalit� d'acc�s"],
+      "termes": ["Se pr�senter"],
       "cible": "Se présenter"
+    },
+    {
+      "colonnes": ["Modalit� d'acc�s"],
+      "termes": ["Contacter par mail"],
+      "cible": "Contacter par mail"
     }
   ],
   "publics_specifiquement_adresses": [
     {
-      "colonnes": ["publics_accueillis"],
+      "colonnes": ["Publics sp�cifiquement adress�s"],
       "termes": ["Jeunes"],
       "cible": "Jeunes"
     },
     {
-      "colonnes": ["publics_accueillis"],
+      "colonnes": ["Publics sp�cifiquement adress�s"],
       "termes": ["Seniors"],
       "cible": "Seniors"
-    }
-  ,    {
-      "colonnes": ["publics_accueillis"],
-      "termes": ["Familles", "enfant"],
-      "cible": "Familles et/ou enfants"
     },
     {
-      "colonnes": ["publics_accueillis"],
-      "termes": ["femmes"],
-      "cible": "Femmes"
+      "colonnes": ["Publics sp�cifiquement adress�s"],
+      "termes": ["Familles et/ou enfants"],
+      "cible": "Familles et/ou enfants"
     }
   ],
   "prise_en_charge_specifique": [
     {
-      "colonnes": ["publics_accueillis"],
-      "termes": ["Surdité"],
+      "colonnes": ["Prise en charge sp�cifique"],
+      "termes": ["Surdit�"],
       "cible": "Surdité"
     },
     {
-      "colonnes": ["publics_accueillis"],
-      "termes": ["Déficiance visuelle", "Déficience visuelle"],
+      "colonnes": ["Prise en charge sp�cifique"],
+      "termes": ["D�ficience visuelle"],
       "cible": "Déficience visuelle"
     },
     {
-      "colonnes": ["publics_accueillis"],
+      "colonnes": ["Prise en charge sp�cifique"],
       "termes": ["illettrisme"],
       "cible": "Illettrisme"
     },
     {
-      "colonnes": ["publics_accueillis"],
+      "colonnes": ["Prise en charge sp�cifique"],
       "termes": ["Handicaps moteurs"],
       "cible": "Handicaps moteurs"
     },
     {
-      "colonnes": ["publics_accueillis"],
-      "termes": ["Handicaps mentaux", "Handicaps psychiques"],
+      "colonnes": ["Prise en charge sp�cifique"],
+      "termes": ["Handicaps mentaux"],
       "cible": "Handicaps mentaux"
     },
     {
-      "colonnes": ["publics_accueillis"],
-      "termes": ["Public langues étrangères"],
+      "colonnes": ["Prise en charge sp�cifique"],
+      "termes": ["Langues �trang�res (anglais)"],
       "cible": "Langues étrangères (anglais)"
     },
     {
-      "colonnes": ["publics_accueillis"],
-      "termes": ["Public langues étrangères"],
+      "colonnes": ["Prise en charge sp�cifique"],
+      "termes": ["Langues �trang�res (autres)"],
       "cible": "Langues étrangères (autres)"
     }
   ],
   "services": [
     {
-      "colonnes": ["services"],
-      "termes": ["Devenir autonome", "démarche"],
+      "colonnes": ["Services"],
+      "termes": ["Aide aux d�marches administratives"],
       "cible": "Aide aux démarches administratives"
     },
     {
-      "colonnes": ["services"],
-      "termes": ["quotidien", "Prendre en main"],
+      "colonnes": ["Services"],
+      "termes": ["Ma�trise des outils num�riques du quotidien"],
       "cible": "Maîtrise des outils numériques du quotidien"
     },
     {
-      "colonnes": ["services"],
-      "termes": ["Insertion professionnelle", "développer mon entreprise"],
+      "colonnes": ["Services"],
+      "termes": ["Insertion professionnelle via le num�rique"],
       "cible": "Insertion professionnelle via le numérique"
     },
     {
-      "colonnes": ["services"],
-      "termes": ["Utilisation sécurisée du numérique"],
+      "colonnes": ["Services"],
+      "termes": ["Utilisation s�curis�e du num�rique"],
       "cible": "Utilisation sécurisée du numérique"
     },
     {
-      "colonnes": ["services"],
-      "termes": ["parentalité"],
+      "colonnes": ["Services"],
+      "termes": ["Parentalit� et �ducation avec le num�rique"],
       "cible": "Parentalité et éducation avec le numérique"
     },
     {
-      "colonnes": ["services"],
-      "termes": ["Créer avec le numérique", "créations numériques", "Loisirs et créations numériques"],
+      "colonnes": ["Services"],
+      "termes": ["Loisirs et cr�ations num�riques"],
       "cible": "Loisirs et créations numériques"
     },
     {
-      "colonnes": ["services"],
-      "termes": ["culture numérique", "monde numérique", "citoyenneté numérique", "Comprehension du monde numérique"],
+      "colonnes": ["Services"],
+      "termes": ["Compr�hension du monde num�rique"],
       "cible": "Compréhension du monde numérique"
     },
     {
-      "colonnes": ["services"],
-      "termes": ["connexion Internet", "Accéder à du matériel", "Accès internet"],
+      "colonnes": ["Services"],
+      "termes": ["Acc�s internet et mat�riel informatique"],
       "cible": "Accès internet et matériel informatique"
-    },
-    {
-      "colonnes": ["services"],
-      "termes": ["équiper en matériel informatique", "prix solidaire"],
-      "cible": "Acquisition de matériel informatique à prix solidaire"
     }
   ],
   "horaires": {
-    "osm": "horaires"
+    "osm": "Horaires"
   }
 }
