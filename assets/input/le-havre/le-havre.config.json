@@ -21,7 +21,7 @@
     "colonne": "Adresse"
   },
   "complement_adresse": {
-    "colonne": "Compl�ment d'adresse"
+    "colonne": "Complément d'adresse"
   },
   "latitude": {
     "colonne": "Latitude"
@@ -30,26 +30,26 @@
     "colonne": "Longitude"
   },
   "telephone": {
-    "colonne": "Num�ro de t�l�phone"
+    "colonne": "Numéro de téléphone"
   },
   "courriels": {
     "colonne": "Courriel"
   },
   "date_maj": {
-    "colonne": "Date de mise � jour"
+    "colonne": "Date de mise à jour"
   },
   "structure_parente": {
     "colonne": "Structure parente"
   },
   "presentation_resume": {
-    "colonne": "Pr�sentation r�sum�"
+    "colonne": "Présentation résumé"
   },
   "presentation_detail": {
-    "colonne": "Pr�sentation d�taill�e"
+    "colonne": "Présentation détaillée"
   },
   "itinerance": [
     {
-      "colonnes": ["Propri�t� itin�rence"],
+      "colonnes": ["Propriété itinérence"],
       "termes": ["Fixe"],
       "cible": "Fixe"
     }
@@ -57,7 +57,7 @@
   "typologie": [
     {
       "colonnes": ["Typologie"],
-      "termes": ["Biblioth�que", "M�diath�que"],
+      "termes": ["Bibliothèque", "Médiathèque"],
       "cible": "BIB"
     },
     {
@@ -102,148 +102,148 @@
   ],
   "frais_a_charge": [
     {
-      "colonnes": ["Frais � charge"],
+      "colonnes": ["Frais à charge"],
       "termes": ["Gratuit"],
       "cible": "Gratuit"
     },
     {
-      "colonnes": ["Frais � charge"],
+      "colonnes": ["Frais à charge"],
       "termes": ["Gratuit sous condition"],
       "cible": "Gratuit sous condition"
     },
     {
-      "colonnes": ["Frais � charge"],
+      "colonnes": ["Frais à charge"],
       "termes": ["Payant"],
       "cible": "Payant"
     }
   ],
   "modalites_accompagnement": [
     {
-      "colonnes": ["Modalit�s d'accompagnement"],
+      "colonnes": ["Modalités d'accompagnement"],
       "termes": ["Dans un atelier collectif"],
       "cible": "Dans un atelier collectif"
     },
     {
-      "colonnes": ["Modalit�s d'accompagnement"],
+      "colonnes": ["Modalités d'accompagnement"],
       "termes": [" Accompagnement individuel"],
       "cible": "Accompagnement individuel"
     },
     {
-      "colonnes": ["Modalit�s d'accompagnement"],
+      "colonnes": ["Modalités d'accompagnement"],
       "termes": ["En autonomie"],
       "cible": "En autonomie"
     }
   ],
   "modalites_acces": [
     {
-      "colonnes": ["Modalit� d'acc�s"],
-      "termes": ["T�l�phoner"],
+      "colonnes": ["Modalité d'accès"],
+      "termes": ["Téléphoner"],
       "cible": "Téléphoner"
     },
     {
-      "colonnes": ["Modalit� d'acc�s"],
-      "termes": ["Se pr�senter"],
+      "colonnes": ["Modalité d'accès"],
+      "termes": ["Se présenter"],
       "cible": "Se présenter"
     },
     {
-      "colonnes": ["Modalit� d'acc�s"],
+      "colonnes": ["Modalité d'accès"],
       "termes": ["Contacter par mail"],
       "cible": "Contacter par mail"
     }
   ],
   "publics_specifiquement_adresses": [
     {
-      "colonnes": ["Publics sp�cifiquement adress�s"],
+      "colonnes": ["Publics spécifiquement adressés"],
       "termes": ["Jeunes"],
       "cible": "Jeunes"
     },
     {
-      "colonnes": ["Publics sp�cifiquement adress�s"],
+      "colonnes": ["Publics spécifiquement adressés"],
       "termes": ["Seniors"],
       "cible": "Seniors"
     },
     {
-      "colonnes": ["Publics sp�cifiquement adress�s"],
+      "colonnes": ["Publics spécifiquement adressés"],
       "termes": ["Familles et/ou enfants"],
       "cible": "Familles et/ou enfants"
     }
   ],
   "prise_en_charge_specifique": [
     {
-      "colonnes": ["Prise en charge sp�cifique"],
-      "termes": ["Surdit�"],
+      "colonnes": ["Prise en charge spécifique"],
+      "termes": ["Surdité"],
       "cible": "Surdité"
     },
     {
-      "colonnes": ["Prise en charge sp�cifique"],
-      "termes": ["D�ficience visuelle"],
+      "colonnes": ["Prise en charge spécifique"],
+      "termes": ["Déficience visuelle"],
       "cible": "Déficience visuelle"
     },
     {
-      "colonnes": ["Prise en charge sp�cifique"],
+      "colonnes": ["Prise en charge spécifique"],
       "termes": ["illettrisme"],
       "cible": "Illettrisme"
     },
     {
-      "colonnes": ["Prise en charge sp�cifique"],
+      "colonnes": ["Prise en charge spécifique"],
       "termes": ["Handicaps moteurs"],
       "cible": "Handicaps moteurs"
     },
     {
-      "colonnes": ["Prise en charge sp�cifique"],
+      "colonnes": ["Prise en charge spécifique"],
       "termes": ["Handicaps mentaux"],
       "cible": "Handicaps mentaux"
     },
     {
-      "colonnes": ["Prise en charge sp�cifique"],
-      "termes": ["Langues �trang�res (anglais)"],
+      "colonnes": ["Prise en charge spécifique"],
+      "termes": ["Langues étrangères (anglais)"],
       "cible": "Langues étrangères (anglais)"
     },
     {
-      "colonnes": ["Prise en charge sp�cifique"],
-      "termes": ["Langues �trang�res (autres)"],
+      "colonnes": ["Prise en charge spécifique"],
+      "termes": ["Langues étrangères (autres)"],
       "cible": "Langues étrangères (autres)"
     }
   ],
   "services": [
     {
       "colonnes": ["Services"],
-      "termes": ["Aide aux d�marches administratives"],
+      "termes": ["Aide aux démarches administratives"],
       "cible": "Aide aux démarches administratives"
     },
     {
       "colonnes": ["Services"],
-      "termes": ["Ma�trise des outils num�riques du quotidien"],
+      "termes": ["Maîtrise des outils numériques du quotidien"],
       "cible": "Maîtrise des outils numériques du quotidien"
     },
     {
       "colonnes": ["Services"],
-      "termes": ["Insertion professionnelle via le num�rique"],
+      "termes": ["Insertion professionnelle via le numérique"],
       "cible": "Insertion professionnelle via le numérique"
     },
     {
       "colonnes": ["Services"],
-      "termes": ["Utilisation s�curis�e du num�rique"],
+      "termes": ["Utilisation sécurisée du numérique"],
       "cible": "Utilisation sécurisée du numérique"
     },
     {
       "colonnes": ["Services"],
-      "termes": ["Parentalit� et �ducation avec le num�rique"],
+      "termes": ["Parentalité et éducation avec le numérique"],
       "cible": "Parentalité et éducation avec le numérique"
     },
     {
       "colonnes": ["Services"],
-      "termes": ["Loisirs et cr�ations num�riques"],
+      "termes": ["Loisirs et créations numériques"],
       "cible": "Loisirs et créations numériques"
     },
     {
       "colonnes": ["Services"],
-      "termes": ["Compr�hension du monde num�rique"],
+      "termes": ["Compréhension du monde numérique"],
       "cible": "Compréhension du monde numérique"
     },
     {
       "colonnes": ["Services"],
-      "termes": ["Acc�s internet et mat�riel informatique"],
+      "termes": ["Accès internet et matériel informatique"],
       "cible": "Accès internet et matériel informatique"
     }
   ],
