@@ -1,10 +1,11 @@
 import * as dotenv from 'dotenv';
 import { Command } from 'commander';
-import { addDataInclusionCommandTo } from './data-inclusion/cli';
 import { addPublierCommandTo } from './publier';
 import { addTransformerCommandTo } from './transformer';
 import { addExtractCommandTo } from './extract';
 import { addDedupliquerCommandTo } from './dedupliquer';
+import { addDataInclusionCommandTo } from './data-inclusion/cli';
+import { addFusionnerCommandTo } from './fusionner';
 
 dotenv.config();
 
@@ -19,5 +20,6 @@ addPublierCommandTo(PROGRAM);
 addExtractCommandTo(PROGRAM);
 addDedupliquerCommandTo(PROGRAM);
 addDataInclusionCommandTo(PROGRAM);
+addFusionnerCommandTo(PROGRAM);
 
 PROGRAM.parse();

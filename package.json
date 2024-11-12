@@ -161,12 +161,14 @@
     "dedupliquer.rhin-occ": "tsx src/index.ts dedupliquer -s \"https://cartographie.societenumerique.gouv.fr/api/v0/lieux-inclusion-numerique/with-duplicates?deduplicated[exists]=false&source[eq]=RhinOcc\" -b \"https://cartographie.societenumerique.gouv.fr/api/v0/lieux-inclusion-numerique/with-duplicates?mergedIds[exists]=false&source[eq]=RhinOcc\" -n \"RhinOcc\" -t \"Occitanie\" -o \"./assets/output/rhin-occ\" -i true",
     "dedupliquer.res-in": "tsx src/index.ts dedupliquer -s \"https://cartographie.societenumerique.gouv.fr/api/v0/lieux-inclusion-numerique/with-duplicates?deduplicated[exists]=false&source[eq]=Res-in\" -b \"https://cartographie.societenumerique.gouv.fr/api/v0/lieux-inclusion-numerique/with-duplicates?mergedIds[exists]=false&source[eq]=Res-in\" -n \"Res-in\" -t \"Lyon\" -o \"./assets/output/res-in\" -i true",
     "dedupliquer.sarthe": "tsx src/index.ts dedupliquer -s \"https://cartographie.societenumerique.gouv.fr/api/v0/lieux-inclusion-numerique/with-duplicates?deduplicated[exists]=false&source[eq]=La Sarthe\" -b \"https://cartographie.societenumerique.gouv.fr/api/v0/lieux-inclusion-numerique/with-duplicates?mergedIds[exists]=false&source[eq]=La Sarthe\" -n \"La Sarthe\" -t \"Pays de la Loire\" -o \"./assets/output/sarthe\" -i true",
-    "dedupliquer.ultra-num": "tsx src/index.ts dedupliquer -s \"https://cartographie.societenumerique.gouv.fr/api/v0/lieux-inclusion-numerique/with-duplicates?deduplicated[exists]=false&source[eq]=Ultra-numerique\" -b \"https://cartographie.societenumerique.gouv.fr/api/v0/lieux-inclusion-numerique/with-duplicates?mergedIds[exists]=false&source[eq]=Ultra-numerique\" -n \"Ultra-numerique\" -t \"La Reunion\" -o \"./assets/output/ultra-num\" -i true"
+    "dedupliquer.ultra-num": "tsx src/index.ts dedupliquer -s \"https://cartographie.societenumerique.gouv.fr/api/v0/lieux-inclusion-numerique/with-duplicates?deduplicated[exists]=false&source[eq]=Ultra-numerique\" -b \"https://cartographie.societenumerique.gouv.fr/api/v0/lieux-inclusion-numerique/with-duplicates?mergedIds[exists]=false&source[eq]=Ultra-numerique\" -n \"Ultra-numerique\" -t \"La Reunion\" -o \"./assets/output/ultra-num\" -i true",
+    "fusionner": "tsx src/index.ts fusionner -i \"./assets/to-merge/**/*.csv\" -o \"./assets/merged\""
   },
   "devDependencies": {
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
     "@turf/helpers": "^7.1.0",
+    "@types/glob": "^8.1.0",
     "@types/inquirer": "^9.0.3",
     "@types/jest": "^29.1.1",
     "@types/node": "^20.14.6",
@@ -193,10 +195,13 @@
     "axios-retry": "^4.5.0",
     "commander": "^10.0.0",
     "crypto": "^1.0.1",
+    "csv-parse": "^5.5.6",
+    "csv-stringify": "^6.5.1",
     "csvtojson": "^2.0.10",
     "dotenv": "^16.0.3",
     "flat": "^5.0.2",
     "fuzzball": "^2.1.2",
+    "glob": "^10.4.5",
     "inquirer": "^8.0.0",
     "proj4": "^2.9.0",
     "typescript": "^5.4.5"
