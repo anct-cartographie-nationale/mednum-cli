@@ -8,19 +8,10 @@
   "pivot": {
     "colonne": "bf_siret"
   },
+  "structure_parente": {
+    "colonne": "bf_structure_parente"
+  },
   "typologie": [
-    {
-      "colonnes": ["checkboxListeTypelieu"],
-      "termes": ["1", "2"],
-      "sauf": ["10", "11", "12", "13", "14", "15", "16", "17"],
-      "cible": "EPN"
-    },
-    {
-      "colonnes": ["checkboxListeTypelieu"],
-      "termes": ["3"],
-      "sauf": ["13"],
-      "cible": "MSAP"
-    },
     {
       "colonnes": ["checkboxListeTypelieu"],
       "termes": ["5"],
@@ -47,8 +38,7 @@
     },
     {
       "colonnes": ["checkboxListeTypelieu"],
-      "termes": ["9","10"],
-      "sauf": ["19"],
+      "termes": ["10"],
       "cible": "ASSO"
     },
     {
@@ -58,35 +48,120 @@
     },
     {
       "colonnes": ["checkboxListeTypelieu"],
-      "termes": ["12", "13"],
+      "termes": ["13"],
       "cible": "TIERS_LIEUX"
     },
     {
       "colonnes": ["checkboxListeTypelieu"],
       "termes": ["14"],
       "cible": "RESSOURCERIE"
+    },
+    {
+      "colonnes": ["checkboxListeTypelieu"],
+      "termes": ["18"],
+      "cible": "MJC"
+    },
+    {
+      "colonnes": ["checkboxListeTypelieu"],
+      "termes": ["19"],
+      "cible": "ML"
+    },
+    {
+      "colonnes": ["checkboxListeTypelieu"],
+      "termes": ["20"],
+      "cible": "MQ"
     }
   ],
   "dispositif_programmes_nationaux": [
     {
-      "colonnes": ["checkboxListeTypelieu"],
-      "termes": ["17"],
+      "colonnes": ["checkboxListeDispositifsEtProgrammesNationauxbf_checkbox_group"],
+      "termes": ["10"],
       "cible": "Promeneurs du net"
     },
     {
-      "colonnes": ["checkboxListeTypelieu"],
-      "termes": ["16"],
+      "colonnes": ["checkboxListeDispositifsEtProgrammesNationauxbf_checkbox_group"],
+      "termes": ["2"],
+      "sauf": ["12"],
       "cible": "Bibliothèques numérique de référence"
+    },
+    {
+      "colonnes": ["checkboxListeDispositifsEtProgrammesNationauxbf_checkbox_group"],
+      "termes": ["3"],
+      "sauf": ["13"],
+      "cible": "Certification PIX"
+    },
+    {
+      "colonnes": ["checkboxListeDispositifsEtProgrammesNationauxbf_checkbox_group"],
+      "termes": ["5"],
+      "sauf": ["15"],
+      "cible": "Emmaüs Connect"
+    },
+    {
+      "colonnes": ["checkboxListeDispositifsEtProgrammesNationauxbf_checkbox_group"],
+      "termes": ["7"],
+      "sauf": ["17"],
+      "cible": "Grande école du numérique"
+    },
+    {
+      "colonnes": ["checkboxListeDispositifsEtProgrammesNationauxbf_checkbox_group"],
+      "termes": ["8"],
+      "sauf": ["18"],
+      "cible": "La Croix Rouge"
+    },
+    {
+      "colonnes": ["checkboxListeDispositifsEtProgrammesNationauxbf_checkbox_group"],
+      "termes": ["9"],
+      "sauf": ["19"],
+      "cible": "Point d'accès numérique CAF"
+    },
+    {
+      "colonnes": ["checkboxListeDispositifsEtProgrammesNationauxbf_checkbox_group"],
+      "termes": ["44"],
+      "sauf": ["4"],
+      "cible": "Relais numérique (Emmaüs Connect)"
+    }
+  ],
+  "formations_labels": [
+    {
+      "colonnes": ["checkboxListeFormationsEtLabelsbf_checkbox_group"],
+      "termes": ["1"],
+      "cible": "Formé à « Mon Espace Santé »"
+    },
+    {
+      "colonnes": ["checkboxListeFormationsEtLabelsbf_checkbox_group"],
+      "termes": ["2"],
+      "cible": "Formé à « DUPLEX » (illettrisme)"
+    },
+    {
+      "colonnes": ["checkboxListeFormationsEtLabelsbf_checkbox_group"],
+      "termes": ["3"],
+      "cible": "Fabriques de Territoire"
+    },
+    {
+      "colonnes": ["checkboxListeFormationsEtLabelsbf_checkbox_group"],
+      "termes": ["4"],
+      "cible": "Les Éclaireurs du numérique (Drôme)"
+    }
+  ],
+  "autres_formations_labels": [
+    {
+      "colonnes": ["bf_autrelabel"]
     }
   ],
   "code_postal": {
     "colonne": "bf_code_postal"
+  },
+  "code_insee": {
+    "colonne": "bf_codeinsee"
   },
   "commune": {
     "colonne": "bf_ville"
   },
   "adresse": {
     "colonne": "bf_adresse1"
+  },
+  "complement_adresse": {
+    "colonne": "bf_adresse2"
   },
   "latitude": {
     "colonne": "bf_latitude"
@@ -113,7 +188,7 @@
     "colonne": "bf_infos_div"
   },
   "presentation_resume": {
-    "colonne": "bf_resume"
+    "colonne": "bf_resume2"
   },
   "frais_a_charge": [
     {
@@ -122,41 +197,63 @@
       "cible": "Gratuit"
     },
     {
-      "colonnes": ["checkboxListeTypeoperateur"],
-      "termes": ["1", "2"],
-      "cible": "Gratuit"
+      "colonnes": ["checkboxListeTarifs"],
+      "termes": ["2"],
+      "cible": "Payant"
     },
     {
       "colonnes": ["checkboxListeTarifs"],
-      "termes": ["5", "4", "6"],
+      "termes": ["5"],
       "cible": "Gratuit sous condition"
-    },
-    {
-      "colonnes": ["checkboxListeTarifs"],
-      "termes": ["2", "3", "4"],
-      "cible": "Payant"
-    },
-    {
-      "colonnes": ["checkboxListeTypeoperateur"],
-      "termes": ["4"],
-      "cible": "Payant"
     }
   ],
   "modalites_accompagnement": [
     {
-      "colonnes": ["bf_infos_div"],
-      "termes": ["en autonomie"],
+      "colonnes": ["checkboxListeTypeaccompagnement"],
+      "termes": ["5"],
       "cible": "En autonomie"
     },
     {
       "colonnes": ["checkboxListeTypeaccompagnement"],
-      "termes": ["1", "2", "5", "9"],
+      "termes": ["1"],
       "cible": "Accompagnement individuel"
     },
     {
       "colonnes": ["checkboxListeTypeaccompagnement"],
-      "termes": ["3", "4"],
+      "termes": ["3"],
       "cible": "Dans un atelier collectif"
+    },
+    {
+      "colonnes": ["checkboxListeTypeaccompagnement"],
+      "termes": ["9"],
+      "cible": "À distance"
+    }
+  ],
+  "modalites_acces": [
+    {
+      "colonnes": ["checkboxListeModalitesDAccesbf_checkbox_group"],
+      "termes": ["2"],
+      "cible": "Téléphoner"
+    },
+    {
+      "colonnes": ["checkboxListeModalitesDAccesbf_checkbox_group"],
+      "termes": ["3"],
+      "cible": "Contacter par mail"
+    },
+    {
+      "colonnes": ["checkboxListeModalitesDAccesbf_checkbox_group"],
+      "termes": ["4"],
+      "cible": "Prendre un RDV en ligne"
+    },
+    {
+      "colonnes": ["checkboxListeModalitesDAccesbf_checkbox_group"],
+      "termes": ["5"],
+      "cible": "Ce lieu n'accueille pas de public"
+    },
+    {
+      "colonnes": ["checkboxListeModalitesDAccesbf_checkbox_group"],
+      "termes": ["6"],
+      "cible": "Envoyer un mail avec une fiche de prescription"
     }
   ],
   "date_maj": {
@@ -164,25 +261,31 @@
   },
   "publics_specifiquement_adresses": [
     {
-      "colonnes": ["checkboxListeTypepublic"],
-      "termes": ["5"],
+      "colonnes": ["checkboxListeTypepublic22"],
+      "termes": ["5", "6"],
       "cible": "Jeunes"
     },
     {
-      "colonnes": ["checkboxListeTypepublic"],
-      "termes": ["3", "4"],
+      "colonnes": ["checkboxListeTypepublic22"],
+      "termes": ["4"],
       "cible": "Familles et/ou enfants"
     },
     {
-      "colonnes": ["checkboxListeTypepublic"],
+      "colonnes": ["checkboxListeTypepublic22"],
       "termes": ["2"],
       "cible": "Seniors"
+    },
+    {
+      "colonnes": ["checkboxListeTypepublic22"],
+      "termes": ["7"],
+      "cible": "Femmes"
     }
   ],
   "prise_en_charge_specifique": [
     {
       "colonnes": ["checkboxListeTypepublicscecifiques"],
-      "termes": ["1", "5"],
+      "termes": ["1"],
+      "sauf": ["10"],
       "cible": "Illettrisme"
     },
     {
@@ -192,96 +295,74 @@
     },
     {
       "colonnes": ["checkboxListeTypepublicscecifiques"],
-      "termes": ["3", "5"],
+      "termes": ["3"],
       "cible": "Langues étrangères (autres)"
     },
     {
-      "colonnes": ["checkboxListeHandicap"],
-      "termes": ["1"],
+      "colonnes": ["checkboxListeTypepublicscecifiques"],
+      "termes": ["7"],
       "cible": "Surdité"
     },
     {
-      "colonnes": ["checkboxListeHandicap"],
-      "termes": ["2"],
+      "colonnes": ["checkboxListeTypepublicscecifiques"],
+      "termes": ["8"],
       "cible": "Handicaps moteurs"
     },
     {
-      "colonnes": ["checkboxListeHandicap"],
-      "termes": ["3"],
+      "colonnes": ["checkboxListeTypepublicscecifiques"],
+      "termes": ["9"],
       "cible": "Déficience visuelle"
     },
     {
-      "colonnes": ["checkboxListeHandicap"],
-      "termes": ["4"],
+      "colonnes": ["checkboxListeTypepublicscecifiques"],
+      "termes": ["10"],
       "cible": "Handicaps mentaux"
     }
   ],
   "services": [
     {
-      "colonnes": ["checkboxListeTypeformdroits"],
-      "termes": ["1", "2", "3", "4", "5", "6", "7"],
+      "colonnes": ["checkboxListeTypeservice"],
+      "termes": ["1"],
       "cible": "Aide aux démarches administratives"
     },
     {
-      "colonnes": ["checkboxListeTypeaccompagnementenligne"],
-      "termes": ["1", "2", "3", "4", "5", "6", "7", "8"],
-      "cible": "Aide aux démarches administratives"
-    },
-    {
-      "colonnes": ["checkboxListeTypeaccompagnement"],
-      "termes": ["9"],
-      "cible": "Aide aux démarches administratives"
-    },
-    {
-      "colonnes": ["checkboxListeTypeformationcomp"],
-      "termes": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"],
+      "colonnes": ["checkboxListeTypeservice"],
+      "termes": ["2"],
       "cible": "Maîtrise des outils numériques du quotidien"
     },
     {
-      "colonnes": ["checkboxListeTypeculturenum"],
-      "termes": ["9"],
+      "colonnes": ["checkboxListeTypeservice"],
+      "termes": ["3"],
       "cible": "Insertion professionnelle via le numérique"
     },
     {
-      "colonnes": ["checkboxListeTypeculturenum"],
-      "termes": ["1", "4", "5"],
-      "sauf": ["10"],
+      "colonnes": ["checkboxListeTypeservice"],
+      "termes": ["4"],
       "cible": "Utilisation sécurisée du numérique"
     },
     {
-      "colonnes": ["checkboxListeTypeformationcomp"],
-      "termes": ["9"],
-      "cible": "Utilisation sécurisée du numérique"
-    },
-    {
-      "colonnes": ["checkboxListeTypeculturenum"],
-      "termes": ["6", "7", "8"],
+      "colonnes": ["checkboxListeTypeservice"],
+      "termes": ["5"],
       "cible": "Parentalité et éducation avec le numérique"
     },
     {
-      "colonnes": ["checkboxListeTypeculturenum"],
-      "termes": ["2"],
+      "colonnes": ["checkboxListeTypeservice"],
+      "termes": ["6"],
       "cible": "Loisirs et créations numériques"
     },
     {
-      "colonnes": ["checkboxListeTypeculturenum"],
-      "termes": ["1", "3", "4", "5"],
-      "sauf": ["10"],
+      "colonnes": ["checkboxListeTypeservice"],
+      "termes": ["7"],
       "cible": "Compréhension du monde numérique"
     },
     {
-      "colonnes": ["checkboxListeTypeacces"],
-      "termes": ["1", "3", "4", "5"],
-      "cible": "Accès internet et matériel informatique"
-    },
-    {
-      "colonnes": ["checkboxListeTypeaccompagnement"],
+      "colonnes": ["checkboxListeTypeservice"],
       "termes": ["8"],
       "cible": "Accès internet et matériel informatique"
     },
     {
-      "colonnes": ["checkboxListeTypeaccompagnement"],
-      "termes": ["6", "7"],
+      "colonnes": ["checkboxListeTypeservice"],
+      "termes": ["9"],
       "cible": "Acquisition de matériel informatique à prix solidaire"
     }
   ],
