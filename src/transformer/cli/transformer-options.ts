@@ -8,7 +8,8 @@ import {
   sourceNameOption,
   encodingOption,
   delimiterOption,
-  apiKeyOption
+  apiKeyOption,
+  forceOption
 } from './options';
 import { configFileQuestion, outputDirectoryQuestion, sourceQuestion, sourceNameQuestion } from './questions';
 import { territoryOption } from './options/territory.option';
@@ -21,11 +22,13 @@ export type TransformerOptions = SourceSettings & {
   territory: string;
   cartographieNationaleApiUrl?: string;
   cartographieNationaleApiKey?: string;
+  force: boolean;
 };
 
 export const TRANSFORMER_OPTIONS: ((program: Command) => Command)[] = [
   sourceOption,
   configFileOption,
+  forceOption,
   outputDirectoryOption,
   sourceNameOption,
   territoryOption,
