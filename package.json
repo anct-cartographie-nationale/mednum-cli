@@ -162,7 +162,7 @@
     "dedupliquer.res-in": "tsx src/index.ts dedupliquer -s \"https://cartographie.societenumerique.gouv.fr/api/v0/lieux-inclusion-numerique/with-duplicates?deduplicated[exists]=false&source[eq]=Res-in\" -b \"https://cartographie.societenumerique.gouv.fr/api/v0/lieux-inclusion-numerique/with-duplicates?mergedIds[exists]=false&source[eq]=Res-in\" -n \"Res-in\" -t \"Lyon\" -o \"./assets/output/res-in\" -i true",
     "dedupliquer.sarthe": "tsx src/index.ts dedupliquer -s \"https://cartographie.societenumerique.gouv.fr/api/v0/lieux-inclusion-numerique/with-duplicates?deduplicated[exists]=false&source[eq]=La Sarthe\" -b \"https://cartographie.societenumerique.gouv.fr/api/v0/lieux-inclusion-numerique/with-duplicates?mergedIds[exists]=false&source[eq]=La Sarthe\" -n \"La Sarthe\" -t \"Pays de la Loire\" -o \"./assets/output/sarthe\" -i true",
     "dedupliquer.ultra-num": "tsx src/index.ts dedupliquer -s \"https://cartographie.societenumerique.gouv.fr/api/v0/lieux-inclusion-numerique/with-duplicates?deduplicated[exists]=false&source[eq]=Ultra-numerique\" -b \"https://cartographie.societenumerique.gouv.fr/api/v0/lieux-inclusion-numerique/with-duplicates?mergedIds[exists]=false&source[eq]=Ultra-numerique\" -n \"Ultra-numerique\" -t \"La Reunion\" -o \"./assets/output/ultra-num\" -i true",
-    "fusionner": "tsx src/index.ts fusionner -i \"./assets/to-merge/**/*.csv\" -o \"./assets/merged\""
+    "fusionner": "tsx src/index.ts fusionner -i \"./assets/output/**/*.csv\" -o \"./assets/merged\""
   },
   "devDependencies": {
     "@commitlint/cli": "^19.3.0",

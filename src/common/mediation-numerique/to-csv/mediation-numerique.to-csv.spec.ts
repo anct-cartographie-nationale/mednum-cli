@@ -186,7 +186,8 @@ describe('output', (): void => {
         pivot: '00000000000000',
         commune: 'Saint Palais',
         code_postal: '64120',
-        adresse: 'Maison France Service',
+        adresse: 'Maison France Service " St Palais "',
+        complement_adresse: 'Bâtiment " La Bobine créative "',
         latitude: 43.323496,
         longitude: -1.037223,
         courriels: 'ape.64062@pole-emploi.fr',
@@ -197,13 +198,15 @@ describe('output', (): void => {
         frais_a_charge: [Frais.Gratuit].join('|'),
         modalites_accompagnement: "Avec de l'aide : je suis accompagné seul dans l'usage du numérique",
         source: 'Fibre 64',
-        date_maj: '1969-12-31'
+        date_maj: '1969-12-31',
+        autres_formations_labels:
+          'Structure relai du dispositif "Territoire Numérique Educatif" en partenariat avec les orKs-Grand Poitiers et la Trousse à Projets.'
       }
     ]);
 
     expect(csv).toBe(
       '"id","pivot","nom","commune","code_postal","code_insee","adresse","complement_adresse","latitude","longitude","typologie","telephone","courriels","site_web","horaires","presentation_resume","presentation_detail","source","itinerance","structure_parente","date_maj","services","publics_specifiquement_adresses","prise_en_charge_specifique","frais_a_charge","dispositif_programmes_nationaux","formations_labels","autres_formations_labels","modalites_acces","modalites_accompagnement","fiche_acces_libre","prise_rdv"\n' +
-        '"36","00000000000000","Pole Emploi Biarritz (permanence St Palais)","Saint Palais","64120",,"Maison France Service",,"43.323496","-1.037223",,,"ape.64062@pole-emploi.fr","https://www.pole-emploi.fr/",,,"2 postes en libre acces avec imprimantes - scanners. Acces aux principaux sites de services publics.Ateliers d\'utilisation de pole-emploi.frPrescription de formation HSP socle - les savoirs","Fibre 64",,,"1969-12-31","Accès internet et matériel informatique|Maîtrise des outils numériques du quotidien|Loisirs et créations numériques|Utilisation sécurisée du numérique|Insertion professionnelle via le numérique","Jeunes|Seniors",,"Gratuit",,,,,"Avec de l\'aide : je suis accompagné seul dans l\'usage du numérique",,'
+        '"36","00000000000000","Pole Emploi Biarritz (permanence St Palais)","Saint Palais","64120",,"Maison France Service St Palais","Bâtiment La Bobine créative","43.323496","-1.037223",,,"ape.64062@pole-emploi.fr","https://www.pole-emploi.fr/",,,"2 postes en libre acces avec imprimantes - scanners. Acces aux principaux sites de services publics.Ateliers d\'utilisation de ＂pole-emploi.fr＂Prescription de formation ＂HSP socle - les savoirs","Fibre 64",,,"1969-12-31","Accès internet et matériel informatique|Maîtrise des outils numériques du quotidien|Loisirs et créations numériques|Utilisation sécurisée du numérique|Insertion professionnelle via le numérique","Jeunes|Seniors",,"Gratuit",,,"Structure relai du dispositif ＂Territoire Numérique Educatif＂ en partenariat avec les orKs-Grand Poitiers et la Trousse à Projets.",,"Avec de l\'aide : je suis accompagné seul dans l\'usage du numérique",,'
     );
   });
 
