@@ -36,23 +36,31 @@ const lieuxToTransform = (sourceItems: DataSource[], diffSinceLastTransform: Dif
 const nothingToTransform = (itemsToTransform: DiffSinceLastTransform): boolean =>
   canTransform(itemsToTransform) && itemsToTransform.toDelete.length === 0 && itemsToTransform.toUpsert.length === 0;
 
+const shouldAbortWhenHashIsUnchanged =
+  (transformerOptions: TransformerOptions) =>
+  async (sourceHash: string): Promise<boolean> => {
+    if (transformerOptions.force) {
+      console.log('1. La vérification de la différence par rapport au hash de la transformation précédente est désactivée');
+      return false;
+    }
+    console.log('1. Vérification de la différence par rapport au hash de la transformation précédente');
+
+    if ((await sourcesFromCartographieNationaleApi(transformerOptions)).get(transformerOptions.sourceName) === sourceHash) {
+      console.log("2. Il n'y a pas de différence par rapport à la transformation précédente");
+      return true;
+    }
+
+    return false;
+  };
+
 /* eslint-disable-next-line max-statements, max-lines-per-function */
 export const transformerAction = async (transformerOptions: TransformerOptions): Promise<void> => {
   const maxTransform: number | undefined = process.env['MAX_TRANSFORM'] == null ? undefined : +process.env['MAX_TRANSFORM'];
 
   const source: string = await sourceATransformer(transformerOptions);
-
-  console.log('1. Vérification de la différence par rapport au hash de la transformation précédente');
-
-  const previousSourceHash: string | undefined = (await sourcesFromCartographieNationaleApi(transformerOptions)).get(
-    transformerOptions.sourceName
-  );
   const sourceHash: string = createHash('sha256').update(source).digest('hex');
 
-  if (previousSourceHash === sourceHash) {
-    console.log("2. Il n'y a pas de différence par rapport à la transformation précédente");
-    return;
-  }
+  if (await shouldAbortWhenHashIsUnchanged(transformerOptions)(sourceHash)) return;
 
   const sourceItems: DataSource[] = JSON.parse(replaceNullWithEmptyString(source)).slice(0, maxTransform);
 
@@ -84,6 +92,8 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
 
   console.log('6. Sauvegarde des sorties');
   await repository.saveOutputs(lieuxDeMediationNumerique);
+
+  if (transformerOptions.force) return;
 
   console.log('7. Sauvegarde des empruntes');
   await repository.saveFingerprints(diffSinceLastTransform);
