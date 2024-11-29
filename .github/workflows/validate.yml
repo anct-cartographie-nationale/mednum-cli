@@ -72,18 +72,19 @@ jobs:
             haute-vienne,
             hinaura,
             hub-lo,
-            maine-et-loire,
-            mednum-bfc,
-            mulhouse,
-            vendee,
             la-creuse,
             le-havre,
             les-assembleurs,
             les-landes,
-            paca,
             loire-atlantique,
-            sarthe,
-            nouvelle-caledonie
+            maine-et-loire,
+            mednum-bfc,
+            mulhouse,
+            nouvelle-caledonie,
+            vendee,
+            paca,
+            rhin-occ,
+            sarthe
           ]
     runs-on: ubuntu-latest
     environment: demo
