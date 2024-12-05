@@ -59,7 +59,7 @@ const removeMissingExtensionWebsites = (field: string): CleanOperation => ({
 });
 
 const fixMissingHttpWebsitesWithMultipleUrl = (field: string): CleanOperation => ({
-  name: 'missing http websites',
+  name: 'missing http websites with multiple url',
   selector: /\|((?!http[s]?:\/\/)[^|]+)/gu,
   field,
   fix: (toFix: string): string => toFix.replace(/\|((?!http[s]?:\/\/)[^|]+)/gu, '|http://$1')
@@ -112,6 +112,20 @@ const fixWebsitesSeparator = (field: string): CleanOperation => ({
   selector: /;|\s(?:ou|\/|;)\s/u,
   field,
   fix: (toFix: string): string => toFix.replace(/;|\s(?:ou|\/|;)\s/u, '|')
+});
+
+const fixWebsitesWithSingleSlash = (field: string): CleanOperation => ({
+  name: 'website without colon and slash',
+  selector: /^https?:\/www/u,
+  field,
+  fix: (toFix: string): string => toFix.replace(/:\/www/u, '://www')
+});
+
+const fixWebsitesWithoutColonAndSlash = (field: string): CleanOperation => ({
+  name: 'website without colon and slash',
+  selector: /^https?\/www/u,
+  field,
+  fix: (toFix: string): string => toFix.replace(/^https?\/www/u, 'https://www')
 });
 
 const fixWebsitesWithComaInsteadOfDot = (field: string): CleanOperation => ({
@@ -381,6 +395,8 @@ export const cleanOperations = (
   ...cleanOperationIfAny(fixMultipleUrlNotSeparatedWebsites, matching.site_web?.colonne),
   ...cleanOperationIfAny(removeWebsitesWithAccentedCharacters, matching.site_web?.colonne),
   ...cleanOperationIfAny(removeMissingExtensionWebsites, matching.site_web?.colonne),
+  ...cleanOperationIfAny(fixWebsitesWithSingleSlash, matching.site_web?.colonne),
+  ...cleanOperationIfAny(fixWebsitesWithoutColonAndSlash, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixWebsitesWithComaInsteadOfDot, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixWebsitesWithMissingSlashAfterHttp, matching.site_web?.colonne),
   ...cleanOperationIfAny(removeWebsitesWithSpaces, matching.site_web?.colonne),

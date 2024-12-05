@@ -32,7 +32,6 @@ jobs:
             hub-lo,
             la-creuse,
             le-havre,
-            les-assembleurs,
             les-landes,
             loire-atlantique,
             maine-et-loire,
@@ -42,7 +41,8 @@ jobs:
             vendee,
             paca,
             rhin-occ,
-            sarthe
+            sarthe,
+            siilab
           ]
     runs-on: ubuntu-latest
     environment: production
