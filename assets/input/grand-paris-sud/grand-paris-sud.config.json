@@ -1,0 +1,146 @@
+{
+  "id": {
+    "colonne": "id"
+  },
+  "pivot": {
+    "colonne": "siret"
+  },
+  "nom": {
+    "colonne": "nom"
+  },
+  "commune": {
+    "colonne": "commune"
+  },
+  "code_postal": {
+    "colonne": "code_postal"
+  },
+  "code_insee": {
+    "colonne": "code_insee"
+  },
+  "adresse": {
+    "colonne": "adresse"
+  },
+  "complement_adresse": {
+    "colonne": "complement_adresse"
+  },
+  "latitude": {
+    "colonne": "geopoint.lat"
+  },
+  "longitude": {
+    "colonne": "geopoint.lon"
+  },
+  "telephone": {
+    "colonne": "telephone"
+  },
+  "courriels": {
+    "colonne": "courriel"
+  },
+  "site_web": {
+    "colonne": "site_web"
+  },
+  "date_maj": {
+    "colonne": "date_maj"
+  },
+  "presentation_resume": {
+    "colonne": "presentation_resume"
+  },
+  "presentation_detail": {
+    "colonne": "presentation_detail"
+  },
+  "typologie": [
+    {
+      "colonnes": ["typologie"],
+      "termes": ["Associations"],
+      "cible": "ASSO"
+    }
+  ],
+  "frais_a_charge": [
+    {
+      "colonnes": ["frais"],
+      "termes": ["gratuit"],
+      "cible": "Gratuit"
+    },
+    {
+      "colonnes": ["frais"],
+      "termes": ["gratuit-sous-conditions"],
+      "cible": "Gratuit sous condition"
+    },
+    {
+      "colonnes": ["frais"],
+      "termes": ["payant", "adhesion"],
+      "cible": "Payant"
+    }
+  ],
+  "services": [
+    {
+      "colonnes": ["thematiques"],
+      "termes": [
+        "Numérique /Devenir autonome dans les démarches administratives",
+        "Numérique /Réaliser des démarches administratives avec un accompagnement",
+        "Numérique /Accompagner les démarches de santé"
+      ],
+      "cible": "Aide aux démarches administratives"
+    },
+    {
+      "colonnes": ["thematiques"],
+      "termes": [
+        "Numérique /Prendre en main un smartphone ou une tablette",
+        "Numérique /Prendre en main un ordinateur",
+        "Numérique /Utiliser le numérique au quotidien"
+      ],
+      "cible": "Maîtrise des outils numériques du quotidien"
+    },
+    {
+      "colonnes": ["thematiques"],
+      "termes": [
+        "Numérique /Approfondir ma culture numérique",
+        "Numérique /Promouvoir la citoyenneté numérique"
+      ],
+      "cible": "Compréhension du monde numérique"
+    },
+    {
+      "colonnes": ["thematiques"],
+      "termes": ["Numérique /Approfondir ma culture numérique"],
+      "cible": "Utilisation sécurisée du numérique"
+    },
+    {
+      "colonnes": ["thematiques"],
+      "termes": [
+        "Numérique /Favoriser mon insertion professionnelle",
+        "Numérique /Créer et développer mon entreprise"
+      ],
+      "cible": "Insertion professionnelle via le numérique"
+    },
+    {
+      "colonnes": ["thematiques"],
+      "termes": [
+        "Numérique /Accéder à une connexion internet",
+        "Numérique /Accéder à du matériel"
+      ],
+      "cible": "Accès internet et matériel informatique"
+    },
+    {
+      "colonnes": ["thematiques"],
+      "termes": ["Numérique /S'équiper en matériel informatique"],
+      "cible": "Acquisition de matériel informatique à prix solidaire"
+    },
+    {
+      "colonnes": ["thematiques"],
+      "termes": ["Numérique /Créer avec le numérique"],
+      "cible": "Loisirs et créations numériques"
+    },
+    {
+      "colonnes": ["thematiques"],
+      "termes": ["Numérique /Soutenir la parentalité et l’éducation avec le numérique"],
+      "cible": "Parentalité et éducation avec le numérique"
+    }
+  ],
+  "autres_formations_labels": [
+    {
+      "colonnes": ["labels_autres"]
+    }
+  ],
+  "horaires": {
+    "semaine": "horaires_ouverture"
+  }
+}
