@@ -14,7 +14,7 @@ type GetDatasetRessource = {
   last_modified: Date;
   mime: string;
   published: Date;
-  schema: { name: string };
+  schema?: { name: string };
   title: string;
   type: string;
 };
@@ -36,10 +36,10 @@ type GetDataset = {
 };
 
 const toRessource = (getDatasetRessource: GetDatasetRessource): Ressource => ({
-  description: getDatasetRessource.description,
   id: getDatasetRessource.id,
   name: getDatasetRessource.title,
-  schema: getDatasetRessource.schema.name
+  description: getDatasetRessource.description,
+  ...(getDatasetRessource.schema == null ? {} : { schema: getDatasetRessource.schema.name })
 });
 
 const toDataset = (getDatasetTransfer: GetDataset): Dataset => ({
