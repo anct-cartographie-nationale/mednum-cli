@@ -24,10 +24,10 @@
     "colonne": "complement_adresse"
   },
   "latitude": {
-    "colonne": "geopoint.lat"
+    "colonne": "latitude"
   },
   "longitude": {
-    "colonne": "geopoint.lon"
+    "colonne": "longitude"
   },
   "telephone": {
     "colonne": "telephone"
@@ -50,25 +50,50 @@
   "typologie": [
     {
       "colonnes": ["typologie"],
-      "termes": ["Associations"],
+      "termes": ["Associations", "associatif"],
       "cible": "ASSO"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["Bibliothèque"],
+      "cible": "BIB"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["CCAS"],
+      "cible": "CCAS"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["Centre Social"],
+      "cible": "CS"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["Mairie"],
+      "cible": "MUNI"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["Maison de quartier"],
+      "cible": "MQ"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["MSAP"],
+      "cible": "MSAP"
     }
   ],
-  "frais_a_charge": [
+  "prise_en_charge_specifique": [
     {
-      "colonnes": ["frais"],
-      "termes": ["gratuit"],
-      "cible": "Gratuit"
+      "colonnes": ["thematiques"],
+      "termes": ["Apprendre le français"],
+      "cible": "Langues étrangères (anglais)"
     },
     {
-      "colonnes": ["frais"],
-      "termes": ["gratuit-sous-conditions"],
-      "cible": "Gratuit sous condition"
-    },
-    {
-      "colonnes": ["frais"],
-      "termes": ["payant", "adhesion"],
-      "cible": "Payant"
+      "colonnes": ["thematiques"],
+      "termes": ["Apprendre le français"],
+      "cible": "Langues étrangères (autres)"
     }
   ],
   "services": [
@@ -106,6 +131,7 @@
     {
       "colonnes": ["thematiques"],
       "termes": [
+        "Apprendre le français /Accompagnement vers l’insertion professionnelle",
         "Numérique /Favoriser mon insertion professionnelle",
         "Numérique /Créer et développer mon entreprise"
       ],
