@@ -1,5 +1,3 @@
-/* eslint-disable max-lines */
-
 import { Typologie } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { TypologieMatcher } from './typologies.field';
 

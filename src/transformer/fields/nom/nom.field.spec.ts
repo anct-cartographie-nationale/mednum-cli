@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { processNom } from './nom.field';
 

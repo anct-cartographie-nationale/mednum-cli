@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention, camelcase */
-
-/* eslint-disable-next-line @typescript-eslint/no-shadow */
 import { Presentation } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { processPresentation } from './presentation.field';

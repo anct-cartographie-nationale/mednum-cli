@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention, camelcase */
-
 import { Adresse } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { DataSource, LieuxMediationNumeriqueMatching } from '../../input';
 import { getNewCommune } from './anciennes-communes';

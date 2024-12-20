@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention, camelcase */
-
 import { errorReportToCsv } from './error-report.to-csv';
 
 describe('output', (): void => {

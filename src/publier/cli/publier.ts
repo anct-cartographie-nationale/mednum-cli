@@ -8,7 +8,6 @@ const promptAndRun = async (publierOptions: PublierOptions): Promise<void> =>
     .prompt(publierOptionsQuestions(publierOptions))
     .then((mednumAnswers: Answers): void => publierAction({ ...publierOptions, ...mednumAnswers }))
     .catch((error: Error): void => {
-      /* eslint-disable-next-line no-console */
       console.error(error.message);
     });
 

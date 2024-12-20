@@ -1,5 +1,3 @@
-/* eslint-disable max-lines, max-lines-per-function, prefer-named-capture-group, no-control-regex */
-
 import { LieuxMediationNumeriqueMatching } from '../../input';
 
 export type CleanOperation = {
@@ -48,6 +46,7 @@ const removeWebsitesStartingWithAt = (field: string): CleanOperation => ({
 
 const removeWebsitesWithAccentedCharacters = (field: string): CleanOperation => ({
   name: 'websites with accented characters',
+  // eslint-disable-next-line no-control-regex
   selector: /[^\x00-\x7F]+/gu,
   field
 });

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/default-param-last, max-lines */
-
 export type CleanOperation = {
   selector: RegExp;
   fix: (...matches: string[]) => string;

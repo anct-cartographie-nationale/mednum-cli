@@ -8,7 +8,6 @@ const promptAndRun = async (extractOptions: ExtractOptions): Promise<void> =>
     .prompt(extractOptionsQuestions(extractOptions))
     .then(async (mednumAnswers: Answers): Promise<void> => extractAction({ ...extractOptions, ...mednumAnswers }))
     .catch((error: Error): void => {
-      /* eslint-disable-next-line no-console */
       console.error(error.message);
     });
 

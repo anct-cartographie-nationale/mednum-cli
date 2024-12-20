@@ -1,5 +1,3 @@
-/* eslint-disable max-lines-per-function */
-
 import { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
 
 const HEADERS: (keyof SchemaLieuMediationNumerique)[] = [

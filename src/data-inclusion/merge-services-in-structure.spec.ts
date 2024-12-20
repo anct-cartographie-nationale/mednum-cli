@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention, camelcase */
-
 import {
   SchemaServiceDataInclusion,
   SchemaStructureDataInclusion,

@@ -1,18 +1,13 @@
 import axios, { AxiosResponse } from 'axios';
-/* eslint-disable-next-line @typescript-eslint/no-restricted-imports */
 import * as fs from 'fs';
+import iconv from 'iconv-lite';
+import csv from 'csvtojson';
 
 export type SourceSettings = {
   source: string;
   encoding?: string;
   delimiter?: string;
 };
-
-/* eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/typedef, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
-const iconv = require('iconv-lite');
-/* eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/typedef, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
-const csv = require('csvtojson');
-
 const fromJson = <T>(response: Record<string, T>, key?: string): T[] =>
   key == null ? Object.values(response) : Object.values(response[key] ?? {});
 
@@ -55,7 +50,7 @@ const streamFromAPI = async (response: AxiosResponse, encoding?: string, delimit
   let notJson: boolean = false;
   try {
     JSON.parse(Buffer.concat(chunks).toString());
-  } catch (_) {
+  } catch {
     notJson = !inputIsJson(response);
   }
 

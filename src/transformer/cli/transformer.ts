@@ -13,7 +13,6 @@ const promptAndRun = async (transformerOptions: TransformerOptions): Promise<voi
     .prompt(transformerOptionsQuestions(transformerOptions))
     .then(async (mednumAnswers: Answers): Promise<void> => transformerAction({ ...transformerOptions, ...mednumAnswers }))
     .catch((error: Error): void => {
-      /* eslint-disable-next-line no-console */
       console.error(error.message);
     });
 

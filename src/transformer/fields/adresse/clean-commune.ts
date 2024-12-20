@@ -1,5 +1,3 @@
-/* eslint-disable max-lines */
-
 import { CleanOperation } from './clean-operations';
 
 const FIX_WRONG_ACCENT_CHARS: CleanOperation = {

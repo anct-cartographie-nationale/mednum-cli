@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention, camelcase */
-
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { processPriseRdv } from './prise-rdv.field';
 

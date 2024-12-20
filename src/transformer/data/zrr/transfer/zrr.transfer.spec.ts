@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention, camelcase */
-
 import { zrrMapFromTransfer, ZrrTransfer } from './zrr.transfer';
 
 describe('zrr transfer', (): void => {

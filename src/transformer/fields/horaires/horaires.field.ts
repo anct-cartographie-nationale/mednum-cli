@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-condition  */
-import { OsmDaysOfWeek, OsmOpeningHours, toOsmOpeningHours } from '@gouvfr-anct/timetable-to-osm-opening-hours';
+import { OsmDaysOfWeek, OsmOpeningHours, fromTimetableOsmOpeningHours } from '@gouvfr-anct/timetable-to-osm-opening-hours';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { toOsmHours } from '../../to-osm-hours/to-osm-hours';
 import { InvalidHoursError } from './errors/invalid-hours-error';
@@ -32,7 +31,7 @@ const processDay = (day: OsmDaysOfWeek, hours?: string): [] | [OsmOpeningHours] 
 
 const openingHoursFromDays = (matching: LieuxMediationNumeriqueMatching, source: DataSource): OsmOpeningHoursString =>
   osmOpeningHoursString(
-    toOsmOpeningHours([
+    fromTimetableOsmOpeningHours([
       ...(matching.horaires?.jours?.reduce(
         (
           processedDay: OsmOpeningHours[],

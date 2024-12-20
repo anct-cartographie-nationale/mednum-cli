@@ -1,4 +1,4 @@
-import { OsmDaysOfWeek, OsmOpeningHours, toOsmOpeningHours } from '@gouvfr-anct/timetable-to-osm-opening-hours';
+import { OsmDaysOfWeek, OsmOpeningHours, fromTimetableOsmOpeningHours } from '@gouvfr-anct/timetable-to-osm-opening-hours';
 import { mergeMultipleHoursRanges } from '../../merge-hours-ranges/merge-hours-ranges';
 import { OPENING_HOURS_EXTRACTION, OpeningHoursExtraction } from './horaires.field.extract-operations';
 import { HORAIRES_FIELD_CLEAN_OPERATIONS, HorairesFieldCleanOperation } from './horaires.field.clean-operations';
@@ -88,7 +88,7 @@ export const openingHoursFromWeek = (horairesSingleField?: string): OsmOpeningHo
   ((singleStringOpeningHours: OsmOpeningHoursString): OsmOpeningHoursString =>
     isValidOdmHours(singleStringOpeningHours) ? NO_OSM_OPENING_HOURS : singleStringOpeningHours)(
     osmOpeningHoursString(
-      toOsmOpeningHours(
+      fromTimetableOsmOpeningHours(
         processOpeningHours(
           HORAIRES_FIELD_CLEAN_OPERATIONS.reduce(
             (horaires: OsmOpeningHoursString, cleanOperation: HorairesFieldCleanOperation): string | undefined =>

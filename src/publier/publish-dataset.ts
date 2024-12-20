@@ -1,4 +1,3 @@
-/* eslint-disable prefer-named-capture-group */
 import { Dataset, PublishDataset, PublishRessource, Reference, Ressource } from './models';
 import { PublishDatasetRepository } from './repositories';
 
@@ -44,16 +43,18 @@ const updateExistingDataset =
   (datasetRepository: PublishDatasetRepository) =>
   async (postDataset: PublishDataset, dataset: Dataset): Promise<void> => {
     await datasetRepository.update(postDataset, dataset);
-    postDataset.ressources.length > 0 &&
-      (await Promise.all(postDataset.ressources.map(toRessourceToUpload(dataset, datasetRepository))));
+    if (postDataset.ressources.length > 0) {
+      await Promise.all(postDataset.ressources.map(toRessourceToUpload(dataset, datasetRepository)));
+    }
   };
 
 const createNewDataset =
   (datasetRepository: PublishDatasetRepository, reference: Reference) =>
   async (postDataset: PublishDataset): Promise<void> => {
     const dataset: Dataset = await datasetRepository.post(postDataset, reference);
-    postDataset.ressources.length > 0 &&
-      (await Promise.all(postDataset.ressources.map(datasetRepository.addRessourceTo(dataset))));
+    if (postDataset.ressources.length > 0) {
+      await Promise.all(postDataset.ressources.map(datasetRepository.addRessourceTo(dataset)));
+    }
   };
 
 export const publishDataset =

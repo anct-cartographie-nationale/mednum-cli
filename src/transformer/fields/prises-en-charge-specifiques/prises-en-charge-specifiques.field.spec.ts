@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention, camelcase */
-
 import { PriseEnChargeSpecifique, PrisesEnChargeSpecifiques } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching } from '../../input';
 import { processPrisesEnChargeSpecifiques } from './prises-en-charge-specifiques.field';

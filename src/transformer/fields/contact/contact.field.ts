@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention, camelcase */
-
 import { Contact, Courriel, Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { Recorder } from '../../report';
@@ -44,6 +42,7 @@ const shouldApplyFix = (cleanOperation: CleanOperation, property?: string): bool
 const applyRemoveFix =
   (recorder: Recorder) =>
   (cleanOperation: CleanOperation, valueToFix: string, source: DataSource): DataSource => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { [cleanOperation.field]: removedProperty, ...filteredProperties }: DataSource = source;
     recorder.fix({
       apply: cleanOperation.name,

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention, camelcase */
-
 import { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Output } from '../../output-file';
 import { generatePublishMetadata, PublishMetadata } from './generate-publish-metadata';

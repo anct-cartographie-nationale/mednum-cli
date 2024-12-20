@@ -44,7 +44,6 @@ const onlyPotentialDuplicates =
 
 const MINIMAL_CARTESIAN_DISTANCE: 0.0004 = 0.0004 as const;
 
-/* eslint-disable-next-line no-mixed-operators */
 const computeDistanceScore = (cartesianDistance: number): number => 100 / (cartesianDistance * 1000 + 1);
 
 const distanceScore = (cartesianDistance: number): number =>
@@ -55,7 +54,6 @@ const hasDefinedCoordinates = (
 ): lieu is SchemaLieuMediationNumerique & { latitude: number; longitude: number } =>
   lieu.latitude != null && lieu.longitude != null;
 
-/* eslint-disable-next-line no-mixed-operators */
 const pythagore = (x1: number, x2: number, y1: number, y2: number): number => Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2);
 
 const cartesianDistanceBetween = (lieu: SchemaLieuMediationNumerique, cible: SchemaLieuMediationNumerique): number =>

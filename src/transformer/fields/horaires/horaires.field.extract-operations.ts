@@ -1,5 +1,3 @@
-/* eslint-disable max-lines */
-
 import { OsmDaysOfWeek, OsmOpeningHours } from '@gouvfr-anct/timetable-to-osm-opening-hours';
 import { toOsmHours } from '../../to-osm-hours/to-osm-hours';
 
@@ -8,7 +6,6 @@ export type OpeningHoursExtraction = {
   extract: (osmOpeningHours: OsmOpeningHours[], ...matches: string[]) => OsmOpeningHours[];
 };
 
-/* eslint-disable-next-line @typescript-eslint/sort-type-union-intersection-members */
 type FrDaysOfWeek = 'lundi' | 'mardi' | 'mercredi' | 'jeudi' | 'vendredi' | 'samedi' | 'dimanche';
 
 type FrDayOfWeekMatch = { frDay: FrDaysOfWeek; enDay: OsmDaysOfWeek };

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention, camelcase */
-
 import { SourceMap, sourceMapFromTransfer, SourceTransfer } from './source.transfer';
 
 describe('source transfer', (): void => {

@@ -1,4 +1,3 @@
-/* eslint-disable-next-line @typescript-eslint/no-restricted-imports */
 import axios from 'axios';
 import { Fingerprint } from '../../cli/diff-since-last-transform';
 import { TransformerOptions } from '../../cli/transformer-options';

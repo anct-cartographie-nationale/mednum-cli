@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention, camelcase */
-
 import { SchemaLieuMediationNumerique, Service } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Groups } from '../group-duplicates/group-duplicates';
 import { removeMerged } from './remove-merged';

@@ -1,11 +1,11 @@
 import axios from 'axios';
-/* eslint-disable-next-line @typescript-eslint/no-restricted-imports */
 import * as fs from 'fs';
-/* eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/naming-convention, @typescript-eslint/typedef, @typescript-eslint/no-shadow, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
-const FormData = require('form-data');
 import { Api, authHeader, headers } from '../../common';
 import { Dataset, PublishDataset, PublishRessource, Reference, Ressource } from '../models';
 import { getDataset, postDataset, updateDataset } from './publish-dataset';
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const FormData = require('form-data');
 
 export type PublishDatasetRepository = {
   get: (reference: Reference) => Promise<Dataset[]>;

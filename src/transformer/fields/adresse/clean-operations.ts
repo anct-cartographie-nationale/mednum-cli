@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
-
 import { DataSource } from '../../input';
 
 export type CleanOperation = {

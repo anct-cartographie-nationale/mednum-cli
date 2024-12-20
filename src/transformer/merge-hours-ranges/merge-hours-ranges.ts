@@ -1,5 +1,4 @@
 const compareTimes = ([hoursA, minutesA]: [string, string], [hoursB, minutesB]: [string, string]): number =>
-  /* eslint-disable-next-line no-mixed-operators */
   hoursA === hoursB && minutesA === minutesB ? 0 : +hoursA * 60 + +minutesA - (+hoursB * 60 + +minutesB);
 
 const combineHoursAndMinutes = ([hours, minutes]: [string, string]): string => `${hours}:${minutes}`;

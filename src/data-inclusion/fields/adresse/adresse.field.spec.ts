@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention, camelcase */
-
 import { processCommune, processVoie } from './adresse.field';
 
 describe('adresse field', (): void => {
