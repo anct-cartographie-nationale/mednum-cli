@@ -195,7 +195,7 @@
     "tsx": "^4.19.1"
   },
   "dependencies": {
-    "@gouvfr-anct/lieux-de-mediation-numerique": "^2.0.1",
+    "@gouvfr-anct/lieux-de-mediation-numerique": "^2.1.0",
     "@gouvfr-anct/timetable-to-osm-opening-hours": "^1.0.1",
     "@turf/turf": "^6.5.0",
     "axios": "^1.7.7",
