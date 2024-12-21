@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { CLEAN_COMMUNE, communeField } from './clean-commune';
 import { toCleanField } from './clean-operations';
 

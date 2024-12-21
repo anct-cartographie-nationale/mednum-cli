@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-
+import { describe, it, expect } from 'vitest';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { processSource } from './source.field';
 

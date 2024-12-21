@@ -1,4 +1,3 @@
-/* eslint-disable-next-line @typescript-eslint/no-restricted-imports */
 import * as fs from 'fs';
 import axios, { AxiosResponse } from 'axios';
 import { SchemaServiceDataInclusion, SchemaStructureDataInclusion } from '@gouvfr-anct/lieux-de-mediation-numerique';

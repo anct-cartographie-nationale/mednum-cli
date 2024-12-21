@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 import * as fs from 'node:fs';
 import { parse } from 'csv-parse/sync';
 import { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
@@ -65,7 +63,6 @@ const loadData = async (source: string): Promise<SchemaLieuMediationNumerique[]>
   return loaderConfig.loader(source);
 };
 
-/* eslint-disable-next-line max-statements */
 export const dedupliquerAction = async (dedupliquerOptions: DedupliquerOptions): Promise<void> => {
   try {
     const repository: DeduplicationRepository = deduplicationRepository(dedupliquerOptions);

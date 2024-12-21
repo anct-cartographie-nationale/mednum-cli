@@ -1,8 +1,6 @@
 import { Localisation, LocalisationToValidate, isValidLocalisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import proj4 from 'proj4';
 import { Colonne, Dissociation, LieuxMediationNumeriqueMatching, DataSource } from '../../input';
-
-/* eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/typedef, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
-const proj4 = require('proj4');
 
 type NoLocalisation = { noLocalisation: true } & null;
 export const NO_LOCALISATION: Localisation = null as NoLocalisation;

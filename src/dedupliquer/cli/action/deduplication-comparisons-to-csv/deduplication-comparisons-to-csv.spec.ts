@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/naming-convention, camelcase */
-
+import { describe, it, expect } from 'vitest';
 import { SchemaLieuMediationNumerique, Typologie } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { duplicationComparisons } from '../../../steps';
 import { formatToCSV } from './deduplication-comparisons-to-csv';

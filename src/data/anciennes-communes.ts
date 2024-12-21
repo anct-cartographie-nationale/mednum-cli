@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention, max-lines */
-
 import { Commune } from '../transformer/fields';
 
 export type NewCommune = Commune & { date: string };

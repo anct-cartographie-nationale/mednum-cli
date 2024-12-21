@@ -13,7 +13,6 @@ const promptAndRun = async (dedupliquerOptions: DedupliquerOptions): Promise<voi
     .prompt(dedupliquerOptionsQuestions(dedupliquerOptions))
     .then(async (mednumAnswers: Answers): Promise<void> => dedupliquerAction({ ...dedupliquerOptions, ...mednumAnswers }))
     .catch((error: Error): void => {
-      /* eslint-disable-next-line no-console */
       console.error(error.message);
     });
 

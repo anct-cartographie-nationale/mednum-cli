@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { DuplicationComparison } from '../duplication-comparisons';
 import { groupDuplicates, Groups } from './group-duplicates';
 

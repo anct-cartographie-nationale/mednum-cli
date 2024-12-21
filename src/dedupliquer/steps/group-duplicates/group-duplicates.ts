@@ -1,4 +1,4 @@
-import { createHash } from 'crypto';
+import { createHash } from 'node:crypto';
 import { DuplicationComparison } from '../duplication-comparisons';
 
 export type Groups = {
@@ -53,9 +53,9 @@ const useIdsInGroupsHashesAsGroupIds = (groups: Groups): Groups => {
   };
 
   groups.mergeGroupsMap.forEach((ids: string[]): void => {
-    const hash: string = createHash('sha256').update(ids.toString()).digest('hex');
-    groupsWithHashes.mergeGroupsMap.set(hash, ids);
-    ids.forEach((id: string): Map<string, string> => groupsWithHashes.itemGroupMap.set(id, hash));
+    const idsHash: string = createHash('sha256').update(ids.toString()).digest('hex');
+    groupsWithHashes.mergeGroupsMap.set(idsHash, ids);
+    ids.forEach((id: string): Map<string, string> => groupsWithHashes.itemGroupMap.set(id, idsHash));
   });
 
   return groupsWithHashes;

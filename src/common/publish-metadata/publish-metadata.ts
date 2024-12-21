@@ -1,4 +1,3 @@
-/* eslint-disable-next-line @typescript-eslint/no-restricted-imports */
 import * as fs from 'fs';
 import { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { createFolderIfNotExist, Output, throwWriteFileError } from '../output-file';

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-
 import axios from 'axios';
 import { Api, headers } from '../../../common';
 import { Dataset, Reference, Ressource } from '../../models';

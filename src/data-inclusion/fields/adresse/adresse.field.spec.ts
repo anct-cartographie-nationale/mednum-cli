@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/naming-convention, camelcase */
-
+import { describe, it, expect } from 'vitest';
 import { processCommune, processVoie } from './adresse.field';
 
 describe('adresse field', (): void => {

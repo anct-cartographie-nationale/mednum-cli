@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { mergeHoursRanges, mergeMultipleHoursRanges } from './merge-hours-ranges';
 
 describe('merge hours ranges', (): void => {

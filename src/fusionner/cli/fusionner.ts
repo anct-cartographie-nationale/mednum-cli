@@ -8,7 +8,6 @@ const promptAndRun = async (fusionnerOptions: FusionnerOptions): Promise<void> =
     .prompt(fusionnerOptionsQuestions(fusionnerOptions))
     .then((mednumAnswers: Answers): void => fusionnerAction({ ...fusionnerOptions, ...mednumAnswers }))
     .catch((error: Error): void => {
-      /* eslint-disable-next-line no-console */
       console.error(error.message);
     });
 

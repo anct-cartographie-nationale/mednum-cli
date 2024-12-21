@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/default-param-last, max-lines */
-
 export type CleanOperation = {
   selector: RegExp;
   fix: (...matches: string[]) => string;
@@ -14,17 +12,17 @@ const addMissing0 = (hours: string): string => (hours.length === 1 ? `0${hours}`
 const formatTime = (hours: string, minutes?: string): string => `${addMissing0(hours)}${setMinutesIfDefined(minutes)}`;
 
 const UNIFORMIZE_HYPHEN_SEPARATOR: CleanOperation = {
-  selector: /–/gu,
+  selector: /–/g,
   fix: (): string => '-'
 };
 
 const REMOVE_MULTIPLE_SPACES: CleanOperation = {
-  selector: /\s\s+/gu,
+  selector: /\s\s+/g,
   fix: (): string => ' '
 };
 
 const ADD_MISSING_TIME_RANGE_SEPARATOR: CleanOperation = {
-  selector: /(?<startHour>[0-2]?\d)[hH](?<endHour>[0-2]?\d)[hH]/gu,
+  selector: /(?<startHour>[0-2]?\d)[hH](?<endHour>[0-2]?\d)[hH]/g,
   fix: (_: string, startHour: string, endHour: string): string => `${startHour}h-${endHour}h`
 };
 
@@ -46,38 +44,38 @@ const REMOVE_FORMAT_SPACE_TIME_SEPARATOR: CleanOperation = {
 };
 
 const REMOVE_H_FOR_HOURS_ONLY_RANGE: CleanOperation = {
-  selector: /(?<startHour>[0-2]?\d)[hH]\s?(?<endHour>[0-2]?\d)[hH](?<nextCharacter>\D)/gu,
+  selector: /(?<startHour>[0-2]?\d)[hH]\s?(?<endHour>[0-2]?\d)[hH](?<nextCharacter>\D)/g,
   fix: (_: string, startHour: string, endHour: string, nextCharacter: string): string =>
     `${startHour}:00 ${endHour}:00${nextCharacter}`
 };
 
 const REMOVE_H_FOR_HOURS_ONLY_RANGE_SINGLE_H: CleanOperation = {
-  selector: /(?<startHour>[0-2]\d)\s(?<endHour>[0-2]?\d)\s*[hH](?<after>\D|$)/gu,
+  selector: /(?<startHour>[0-2]\d)\s(?<endHour>[0-2]?\d)\s*[hH](?<after>\D|$)/g,
   fix: (_: string, startHour: string, endHour: string, after: string): string => `${startHour}:00 ${endHour}:00${after}`
 };
 
 const REMOVE_H_FOLLOWED_BY_HOURS: CleanOperation = {
-  selector: /[hH]\s?(?<hour>[0-2]?\d)[hH]\s?(?<minute>[0-5]\d)?/gu,
+  selector: /[hH]\s?(?<hour>[0-2]?\d)[hH]\s?(?<minute>[0-5]\d)?/g,
   fix: (_: string, hour: string, minute?: string): string => `-${formatTime(hour, minute)}`
 };
 
 const REMOVE_H_FOLLOWED_BY_MINUTES: CleanOperation = {
-  selector: /[hH]\s?(?<hourLastNumber>\d)/gu,
+  selector: /[hH]\s?(?<hourLastNumber>\d)/g,
   fix: (_: string, hourLastNumber: string): string => `:${hourLastNumber}`
 };
 
 const REMOVE_H_FOLLOWED_BY_A_SPACE: CleanOperation = {
-  selector: /[hH]\s/gu,
+  selector: /[hH]\s/g,
   fix: (): string => ' '
 };
 
 const REMOVE_H_FOLLOWED_BY_A_SEPARATOR: CleanOperation = {
-  selector: /[hH](?<separator>[-/à])/gu,
+  selector: /[hH](?<separator>[-/à])/g,
   fix: (_: string, separator: string): string => separator
 };
 
 const REMOVE_WHITE_SPACES: CleanOperation = {
-  selector: /\s/gu,
+  selector: /\s/g,
   fix: (): string => ''
 };
 
@@ -116,12 +114,12 @@ const FORMAT_LITERARY_TIME_SEPARATORS_NO_RANGE_SEPARATOR: CleanOperation = {
 };
 
 const REPLACE_LITERARY_TIME_SEPARATORS: CleanOperation = {
-  selector: /(?<previous>\d.*?\d?)\s*[àèa]\s*(?<next>\d.*\d)/gu,
+  selector: /(?<previous>\d.*?\d?)\s*[àèa]\s*(?<next>\d.*\d)/g,
   fix: (_: string, previous: string, next: string): string => `${previous}-${next}`
 };
 
 const REMOVE_SEPARATOR_IN_TEXT: CleanOperation = {
-  selector: /[a-zA-ZÀ-ú*.'_]+-[a-zA-ZÀ-ú*.'_]+/gu,
+  selector: /[a-zA-ZÀ-ú*.'_]+-[a-zA-ZÀ-ú*.'_]+/g,
   fix: (): string => ''
 };
 
@@ -131,12 +129,12 @@ const REMOVE_ADDITIONAL_INFORMATION_TEXT_IN_PARENTHESIS: CleanOperation = {
 };
 
 const REMOVE_NUMBERS_IN_ADDITIONAL_INFORMATION_TEXT: CleanOperation = {
-  selector: /1er|\d?\d\sjours|[0-3]\d\/[01][1-9]\/\d\d\d\d|\d\s*[a-z]+\s*(?:\/|sur)\s*\d/gu,
+  selector: /1er|\d?\d\sjours|[0-3]\d\/[01][1-9]\/\d\d\d\d|\d\s*[a-z]+\s*(?:\/|sur)\s*\d/g,
   fix: (): string => ''
 };
 
 const REMOVE_ADDITIONAL_INFORMATION_TEXT: CleanOperation = {
-  selector: /[a-zA-ZÀ-úû*.'_(|>]+/gu,
+  selector: /[a-zA-ZÀ-úû*.'_(|>]+/g,
   fix: (): string => ''
 };
 
@@ -157,7 +155,7 @@ const TRIM: CleanOperation = {
 };
 
 const FORMAT_MISSING_MINUTE_SEPARATOR: CleanOperation = {
-  selector: /(?<hour>[0-2]\d)(?<minute>[0-5]\d)/gu,
+  selector: /(?<hour>[0-2]\d)(?<minute>[0-5]\d)/g,
   fix: (_: string, hour: string, minute: string): string => `${hour}:${minute}`
 };
 
@@ -168,7 +166,7 @@ const FORMAT_MISSING_TIME_SEPARATOR: CleanOperation = {
 
 const FORMAT_SPACE_RANGES_SEPARATORS: CleanOperation = {
   selector:
-    /^(?<startTimeStartRange>\d?.*\d)\s?[-/\s]\s?(?<startTimeEndRange>.+\d)\s+(?<endTimeStartRange>\d.+\d)\s?[-/\s]\s?(?<endTimeEndRange>.+\d)$/u,
+    /^(?<startTimeStartRange>\d?.*\d)\s?[-/\s]\s?(?<startTimeEndRange>.+\d)\s+(?<endTimeStartRange>\d.+\d)\s?[-/\s]\s?(?<endTimeEndRange>.+\d)$/,
   fix: (
     _: string,
     startTimeStartRange: string,
@@ -180,7 +178,7 @@ const FORMAT_SPACE_RANGES_SEPARATORS: CleanOperation = {
 
 const FORMAT_SPACE_TIMES_SEPARATORS: CleanOperation = {
   selector:
-    /^(?<startTimeStartRange>\d\d:\d\d)\s(?<startTimeEndRange>\d\d:\d\d)\s-\s(?<endTimeStartRange>\d\d:\d\d)\s(?<endTimeEndRange>\d\d:\d\d)$/u,
+    /^(?<startTimeStartRange>\d\d:\d\d)\s(?<startTimeEndRange>\d\d:\d\d)\s-\s(?<endTimeStartRange>\d\d:\d\d)\s(?<endTimeEndRange>\d\d:\d\d)$/,
   fix: (
     _: string,
     startTimeStartRange: string,
@@ -207,7 +205,7 @@ const FORMAT_HYPHEN_RANGES_SEPARATORS: CleanOperation = {
 };
 
 const REMOVE_MULTIPLE_SAME_SEPARATOR: CleanOperation = {
-  selector: /(?<separator>[-/,:])+/gu,
+  selector: /(?<separator>[-/,:])+/g,
   fix: (_: string, separator: string): string => `${separator}`
 };
 
@@ -222,12 +220,12 @@ const REMOVE_TRAILING_SEPARATOR: CleanOperation = {
 };
 
 const REMOVE_TIME_SEPARATOR_AFTER_RANGE_SEPARATOR: CleanOperation = {
-  selector: /,:/gu,
+  selector: /,:/g,
   fix: (): string => ','
 };
 
 const REMOVE_USELESS_TIME_SEPARATOR: CleanOperation = {
-  selector: /:(?<nonDigitChar>\D)/gu,
+  selector: /:(?<nonDigitChar>\D)/g,
   fix: (_: string, nonDigitChar: string): string => `${nonDigitChar}`
 };
 
@@ -263,12 +261,12 @@ const FORMAT_TWO_TIMES_RANGES: CleanOperation = {
 };
 
 const REMOVE_NO_TIME_RANGE: CleanOperation = {
-  selector: /^[0-2]?\d(?::[0-5]\d)?$/u,
+  selector: /^[0-2]?\d(?::[0-5]\d)?$/,
   fix: (): string => ''
 };
 
 const REMOVE_TIME_EXTRA_DIGITS: CleanOperation = {
-  selector: /(?<digitsToKeep>\d\d)\d/gu,
+  selector: /(?<digitsToKeep>\d\d)\d/g,
   fix: (_: string, digitsToKeep: string): string => digitsToKeep
 };
 

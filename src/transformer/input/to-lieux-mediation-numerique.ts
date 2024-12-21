@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention, camelcase, max-lines-per-function, max-lines */
-
 import {
   Adresse,
   CodePostalError,
@@ -165,7 +163,6 @@ const isErrorToReport = (error: unknown): error is ModelError<LieuMediationNumer
   error instanceof NomError;
 
 const logAndSkip = (error: AxiosError): LieuMediationNumerique | undefined => {
-  /* eslint-disable-next-line no-console */
   console.log(error);
   return undefined;
 };

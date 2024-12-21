@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-
 type Headers<T> = Record<string, T>;
 
 export type Api = {

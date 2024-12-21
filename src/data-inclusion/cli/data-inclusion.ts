@@ -16,7 +16,6 @@ const promptAndRun = async (dataInclusionOptions: DataInclusionOptions): Promise
         dataInclusionAction({ ...dataInclusionOptions, ...dataInclusionAnswers })
     )
     .catch((error: Error): void => {
-      /* eslint-disable-next-line no-console */
       console.error(error.message);
     });
 

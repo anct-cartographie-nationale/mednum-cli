@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention, camelcase */
-
 import axios, { AxiosResponse } from 'axios';
 import { Api, authHeader, headers } from '../../../common';
 import { Dataset, PublishDataset, Reference } from '../../models';

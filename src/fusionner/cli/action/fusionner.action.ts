@@ -1,6 +1,4 @@
-/* eslint-disable-next-line @typescript-eslint/no-restricted-imports */
 import * as fs from 'fs';
-/* eslint-disable-next-line @typescript-eslint/no-restricted-imports */
 import * as path from 'path';
 import { glob } from 'glob';
 import { parse } from 'csv-parse/sync';
@@ -24,7 +22,6 @@ const toCsvToMerge = (file: string): unknown[] => parse(fs.readFileSync(file, 'u
 const mergeCsvFiles = (files: string[], outputDirectory: string): void => {
   const outputFilePath: string = path.join(outputDirectory, 'merged_output.csv');
   fs.writeFileSync(outputFilePath, stringify(files.flatMap(toCsvToMerge), { header: true }), 'utf-8');
-  /* eslint-disable-next-line no-console */
   console.log(`Les fichiers CSV fusionnés ont été sauvegardés dans ${outputFilePath}`);
 };
 
@@ -33,7 +30,6 @@ const toJsonToMerge = (file: string): unknown[] => JSON.parse(fs.readFileSync(fi
 const mergeJsonFiles = (files: string[], outputDirectory: string): void => {
   const outputFilePath: string = path.join(outputDirectory, 'merged_output.json');
   fs.writeFileSync(outputFilePath, JSON.stringify(files.map(toJsonToMerge), null, 2), 'utf-8');
-  /* eslint-disable-next-line no-console */
   console.log(`Les fichiers JSON fusionnés ont été sauvegardés dans ${outputFilePath}`);
 };
 

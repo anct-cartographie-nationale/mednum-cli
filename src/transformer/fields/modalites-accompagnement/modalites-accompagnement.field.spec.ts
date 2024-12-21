@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/naming-convention, camelcase */
-
+import { describe, it, expect } from 'vitest';
 import { ModaliteAccompagnement, ModalitesAccompagnement } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching } from '../../input';
 import { processModalitesAccompagnement } from './modalites-accompagnement.field';
