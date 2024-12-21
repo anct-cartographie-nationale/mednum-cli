@@ -11,7 +11,7 @@ const validateInputFilesPattern = (input?: string): InputFilesPatternValidationM
 export const inputFilesPatternDirectoryQuestion = (
   mednumImportProperties: FusionnerOptions
 ): InputQuestion & { name: keyof FusionnerOptions } => ({
-  message: 'Maque des chemins à fusionner',
+  message: 'Masque des chemins à fusionner',
   name: 'inputFilesPattern',
   validate: validateInputFilesPattern,
   when: (): boolean => validateInputFilesPattern(mednumImportProperties.inputFilesPattern) !== true,

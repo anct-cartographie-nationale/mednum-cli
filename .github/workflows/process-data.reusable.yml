@@ -1,0 +1,174 @@
+---
+name: Reusable Data transform, merge, deduplicate and publish
+
+on:
+  workflow_call:
+    inputs:
+      sources:
+        description: List of sources to process
+        required: true
+        type: string
+      environment:
+        description: Environment to deploy to
+        required: true
+        type: string
+      max_transform:
+        description: Maximum number of lines to transform
+        required: false
+        type: number
+    secrets:
+      DATA_INCLUSION_API_KEY:
+        required: true
+      DATA_GOUV_API_URL:
+        required: true
+      DATA_GOUV_API_KEY:
+        required: true
+      DATA_GOUV_REFERENCE_ID:
+        required: true
+      DATA_GOUV_REFERENCE_TYPE:
+        required: true
+
+jobs:
+  transform:
+    name: Transform
+    strategy:
+      matrix:
+        source: ${{ fromJSON(inputs.sources) }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: false
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
+      - name: 'Create env file'
+        run: |
+          touch .env
+          echo DATA_INCLUSION_API_KEY="${{ secrets.DATA_INCLUSION_API_KEY }}" >> .env
+      - name: Transform
+        run: pnpm transformer.${{ matrix.source }} -f
+      - name: Deduplicate
+        run: pnpm dedupliquer.${{ matrix.source }}
+      - name: Upload transformed data
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.source }}
+          path: assets/output/${{ matrix.source }}
+
+  publish:
+    name: Publish to data.gouv
+    strategy:
+      matrix:
+        source: ${{ fromJSON(inputs.sources) }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    needs: transform
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: false
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
+      - name: 'Create env file'
+        run: |
+          touch .env
+          echo DATA_GOUV_API_URL="${{ secrets.DATA_GOUV_API_URL }}" >> .env
+          echo DATA_GOUV_API_KEY="${{ secrets.DATA_GOUV_API_KEY }}" >> .env
+          echo DATA_GOUV_REFERENCE_ID="${{ secrets.DATA_GOUV_REFERENCE_ID }}" >> .env
+          echo DATA_GOUV_REFERENCE_TYPE="${{ secrets.DATA_GOUV_REFERENCE_TYPE }}" >> .env
+      - name: Download transformed data
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ matrix.source }}
+          path: assets/output/${{ matrix.source }}
+      - name: Rename files to publish
+        run: sed -i 's/-sans-doublons//g' ./assets/output/${{ matrix.source }}/publier.json
+      - name: Publish
+        run: pnpm publier.${{ matrix.source }}
+
+  merge:
+    name: Merge
+    runs-on: ubuntu-latest
+    needs: transform
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: false
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
+      - name: Download all transformed data
+        uses: actions/download-artifact@v4
+        with:
+          path: to-merge
+          merge-multiple: true
+      - name: Remove useless files
+        run: |
+          rm to-merge/services-*
+          rm to-merge/structures-*
+      - name: Merge transformed data
+        run: pnpm fusionner
+      - name: Upload merged data
+        uses: actions/upload-artifact@v4
+        with:
+          name: merged
+          path: merged
+
+  deduplicate:
+    name: Deduplicate
+    runs-on: ubuntu-latest
+    needs: merge
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: false
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
+      - name: Download merged data
+        uses: actions/download-artifact@v4
+        with:
+          name: merged
+          path: assets/to-deduplicate
+      - name: Deduplicate merged data
+        run: pnpm dedupliquer.merged-json
+      - name: Upload deduplicated data
+        uses: actions/upload-artifact@v4
+        with:
+          name: deduplicated
+          path: assets/deduplicated

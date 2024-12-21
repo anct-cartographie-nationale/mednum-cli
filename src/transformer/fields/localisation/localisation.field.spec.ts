@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { NO_LOCALISATION, processLocalisation } from './localisation.field';

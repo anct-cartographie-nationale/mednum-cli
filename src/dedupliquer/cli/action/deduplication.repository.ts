@@ -1,6 +1,6 @@
 import { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { saveInFiles, saveWithApi } from '../data';
-import { Groups, MergedLieuxByGroupMap } from '../../steps';
+import { DuplicationComparison, Groups, MergedLieuxByGroupMap } from '../../steps';
 import { DeduplicationRepository } from '../../repositories';
 import { DedupliquerOptions } from '../dedupliquer-options';
 
@@ -8,10 +8,11 @@ export const deduplicationRepository = (dedupliquerOptions: DedupliquerOptions):
   save: async (
     groups: Groups,
     merged: MergedLieuxByGroupMap,
-    lieuxToDeduplicate: SchemaLieuMediationNumerique[] = []
+    lieuxToDeduplicate: SchemaLieuMediationNumerique[] = [],
+    duplications: DuplicationComparison[] = []
   ): Promise<void> => {
     if (dedupliquerOptions.cartographieNationaleApiKey == null) {
-      saveInFiles(dedupliquerOptions)(lieuxToDeduplicate, groups, merged);
+      saveInFiles(dedupliquerOptions)(lieuxToDeduplicate, groups, merged, duplications);
     } else {
       await saveWithApi(dedupliquerOptions)(groups, merged);
     }

@@ -8,10 +8,10 @@ import { openingHoursFromWeek } from './opening-hours-from-week';
 const SEMAINE_IMPAIRE: string = 'week 1-53/2 ';
 const SEMAINE_PAIRE: string = 'week 2-52/2 ';
 
-const OPENING_HOURS_REGEXP: RegExp = /^\d{2}:\d{2}-\d{2}:\d{2}(?:,\d{2}:\d{2}-\d{2}:\d{2})?$/u;
+const OPENING_HOURS_REGEXP: RegExp = /^\d{2}:\d{2}-\d{2}:\d{2}(?:,\d{2}:\d{2}-\d{2}:\d{2})?$/;
 
 const OSM_OPENING_HOURS_TRIVIAL_REGEXP: RegExp =
-  /^(?:(?:Mo|Tu|We|Th|Fr|Sa|Su)(?:[-,](?:Mo|Tu|We|Th|Fr|Sa|Su))?\s)?(?:[0-1]\d|2[0-3]):[0-5]\d-(?:[0-1]\d|2[0-3]):[0-5]\d.*/u;
+  /^(?:(?:Mo|Tu|We|Th|Fr|Sa|Su)(?:[-,](?:Mo|Tu|We|Th|Fr|Sa|Su))?\s)?(?:[0-1]\d|2[0-3]):[0-5]\d-(?:[0-1]\d|2[0-3]):[0-5]\d.*/;
 
 const throwInvalidHours = (osmHours: string, day: OsmDaysOfWeek, hours: string): OsmOpeningHours => {
   throw new InvalidHoursError(osmHours, hours, day);

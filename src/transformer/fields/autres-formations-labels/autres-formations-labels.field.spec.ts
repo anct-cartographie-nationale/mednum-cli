@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { Adresse, Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { type Polygon } from 'geojson';
 import { isInQpv, isInZrr } from '../../data';

@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { extractQueryString } from './extract-query-string';
 
 describe('build api url', (): void => {

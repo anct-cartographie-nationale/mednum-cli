@@ -72,7 +72,7 @@ const mergeId = (lieu1: SchemaLieuMediationNumerique, lieu2: SchemaLieuMediation
   [lieu1.id, lieu2.id]
     .sort()
     .join('__')
-    .replace(/-?mediation-numerique-?/gu, '');
+    .replace(/-?mediation-numerique-?/g, '');
 
 const ignoreDefaultPivot = (lieu1: SchemaLieuMediationNumerique, lieu2: SchemaLieuMediationNumerique): { pivot: string } => ({
   pivot: lieu1.pivot === '00000000000000' ? lieu2.pivot : lieu1.pivot

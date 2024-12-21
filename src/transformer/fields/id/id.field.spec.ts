@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { processId } from './id.field';
 
@@ -6,16 +7,20 @@ describe('id field', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
       id: {
         colonne: 'ID'
+      },
+      source: {
+        colonne: 'source'
       }
     } as LieuxMediationNumeriqueMatching;
 
     const source: DataSource = {
-      ID: 'a91cae7af848a1c65'
+      ID: 'a91cae7af848a1c65',
+      source: 'Hinaura'
     };
 
-    const id: string = processId(source, matching, 0);
+    const id: string = processId(source, matching, 0, 'Default');
 
-    expect(id).toBe('a91cae7af848a1c65');
+    expect(id).toBe('Hinaura_a91cae7af848a1c65');
   });
 
   it('should get index as id when no id in matching information', (): void => {
@@ -23,8 +28,8 @@ describe('id field', (): void => {
 
     const source: DataSource = {};
 
-    const id: string = processId(source, matching, 0);
+    const id: string = processId(source, matching, 0, 'Default');
 
-    expect(id).toBe('0');
+    expect(id).toBe('Default_0');
   });
 });

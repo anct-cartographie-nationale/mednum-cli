@@ -29,7 +29,8 @@ const toJsonToMerge = (file: string): unknown[] => JSON.parse(fs.readFileSync(fi
 
 const mergeJsonFiles = (files: string[], outputDirectory: string): void => {
   const outputFilePath: string = path.join(outputDirectory, 'merged_output.json');
-  fs.writeFileSync(outputFilePath, JSON.stringify(files.map(toJsonToMerge), null, 2), 'utf-8');
+  if (!fs.existsSync(outputDirectory)) fs.mkdirSync(outputDirectory, { recursive: true });
+  fs.writeFileSync(outputFilePath, JSON.stringify(files.flatMap(toJsonToMerge), null, 2), 'utf-8');
   console.log(`Les fichiers JSON fusionnés ont été sauvegardés dans ${outputFilePath}`);
 };
 

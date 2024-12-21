@@ -189,7 +189,7 @@ La branche `main`, ainsi que l'ensemble des branches de travail avec un préfixe
 
 #### CLI
 
-- [Jest](https://jestjs.io/) est une boîte à outils pour écrire des tests automatisés en JavaScript
+- [Vitest](https://vitest.dev/) est une boîte à outils pour écrire des tests automatisés en JavaScript
 - [Eslint](https://eslint.org/) est un analyseur statique de JavaScript
 - [Prettier](https://prettier.io/) est un magnificateur de code source en JavaScript
 - [Husky](https://typicode.github.io/husky/#/) est un outil qui permet d'effectuer des vérifications automatiques avant de publier des contributions.

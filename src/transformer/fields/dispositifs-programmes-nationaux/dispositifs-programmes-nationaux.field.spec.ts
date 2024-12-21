@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { DispositifProgrammeNational, DispositifProgrammesNationaux } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching } from '../../input';
 import { processDispositifProgrammeNationaux } from './dispositifs-programmes-nationaux.field';

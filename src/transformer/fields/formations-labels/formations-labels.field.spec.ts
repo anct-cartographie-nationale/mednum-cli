@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { FormationLabel, FormationsLabels } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching } from '../../input';
 import { processFormationsLabels } from './formations-labels.field';

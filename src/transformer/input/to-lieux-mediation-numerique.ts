@@ -116,7 +116,7 @@ const lieuDeMediationNumerique = async (
   if (isPrive(dataSource, matching)) return undefined;
 
   const lieuMediationNumerique: LieuMediationNumerique = {
-    id: processId(dataSource, matching, index),
+    id: processId(dataSource, matching, index, sourceName),
     pivot: processPivot(dataSource, matching),
     nom: processNom(dataSource, matching),
     adresse,

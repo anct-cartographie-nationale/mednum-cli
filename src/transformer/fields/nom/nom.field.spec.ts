@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { processNom } from './nom.field';
 

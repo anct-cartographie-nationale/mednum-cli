@@ -28,8 +28,8 @@ const DATASET_TAGS: string[] = [
 const mendumJsonRessource = (output: Output, date: Date, suffix?: string): PublishRessource => ({
   source: `${output.path}/${mediationNumeriqueFileName(
     date,
-    output.name.toLowerCase().replace(/\s/gu, '-'),
-    output.territoire.toLowerCase().replace(/\s/gu, '-'),
+    output.name.toLowerCase().replace(/\s/g, '-'),
+    output.territoire.toLowerCase().replace(/\s/g, '-'),
     'csv',
     suffix
   )}`,
@@ -40,8 +40,8 @@ const mendumJsonRessource = (output: Output, date: Date, suffix?: string): Publi
 const mendumCsvRessource = (output: Output, date: Date, suffix?: string): PublishRessource => ({
   source: `${output.path}/${mediationNumeriqueFileName(
     date,
-    output.name.toLowerCase().replace(/\s/gu, '-'),
-    output.territoire.toLowerCase().replace(/\s/gu, '-'),
+    output.name.toLowerCase().replace(/\s/g, '-'),
+    output.territoire.toLowerCase().replace(/\s/g, '-'),
     'json',
     suffix
   )}`,
@@ -52,7 +52,7 @@ const mendumCsvRessource = (output: Output, date: Date, suffix?: string): Publis
 const dataInclusionServicesRessource = (output: Output, date: Date, suffix?: string): PublishRessource => ({
   source: `${output.path}/${dataInclusionFileName(
     date,
-    output.name.toLowerCase().replace(/\s/gu, '-'),
+    output.name.toLowerCase().replace(/\s/g, '-'),
     'services',
     'json',
     suffix
@@ -64,7 +64,7 @@ const dataInclusionServicesRessource = (output: Output, date: Date, suffix?: str
 const dataInclusionStructuresRessource = (output: Output, date: Date, suffix?: string): PublishRessource => ({
   source: `${output.path}/${dataInclusionFileName(
     date,
-    output.name.toLowerCase().replace(/\s/gu, '-'),
+    output.name.toLowerCase().replace(/\s/g, '-'),
     'structures',
     'json',
     suffix

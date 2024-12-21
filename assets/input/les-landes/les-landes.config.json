@@ -27,21 +27,13 @@
     }
   },
   "latitude": {
-    "dissocier": {
-      "colonne": ["geometry"],
-      "séparateur": " ",
-      "partie": 1
-    }
+    "colonne": "lat"
   },
   "longitude": {
-    "dissocier": {
-      "colonne": ["geometry"],
-      "séparateur": " ",
-      "partie": 0
-    }
+    "colonne": "lon"
   },
   "date_maj": {
-    "colonne": [""]
+    "colonne": []
   },
   "telephone": {
     "colonne": "contact_telephone"

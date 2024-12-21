@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { type Polygon } from 'geojson';
 import { QpvShapesMap } from '../../fields';

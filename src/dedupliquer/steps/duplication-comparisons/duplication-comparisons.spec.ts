@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { SchemaLieuMediationNumerique, Typologie } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { DuplicationComparison, duplicationComparisons } from './duplication-comparisons';
 
@@ -9,11 +10,12 @@ describe('deduplication comparison', (): void => {
         nom: 'Numerinaute',
         adresse: '12 Rue Joseph Rey (chez Aconit)',
         code_postal: '38000',
+        code_insee: '38185',
         commune: 'Grenoble',
         latitude: 45.186115,
         longitude: 5.716962,
         source: 'hinaura',
-        typologie: Typologie.TIERS_LIEUX,
+        typologie: Typologie.ESS,
         date_maj: '2020-09-08'
       } as SchemaLieuMediationNumerique,
       {
@@ -21,6 +23,7 @@ describe('deduplication comparison', (): void => {
         nom: 'La Turbine.Coop',
         adresse: '5 esplanade Andry Farcy',
         code_postal: '38000',
+        code_insee: '38185',
         commune: 'Grenoble',
         latitude: 45.187654,
         longitude: 5.704953,
@@ -48,7 +51,7 @@ describe('deduplication comparison', (): void => {
         localisation2: '45.187654 : 5.704953',
         source1: 'hinaura',
         source2: 'res-in',
-        typologie1: 'TIERS_LIEUX',
+        typologie1: 'ESS',
         typologie2: 'ESS'
       }
     ]);
@@ -61,6 +64,7 @@ describe('deduplication comparison', (): void => {
         nom: 'Numerinaute',
         adresse: '12 Rue Joseph Rey (chez Aconit)',
         code_postal: '38000',
+        code_insee: '38185',
         commune: 'Grenoble'
       } as SchemaLieuMediationNumerique,
       {
@@ -68,6 +72,7 @@ describe('deduplication comparison', (): void => {
         nom: 'La Turbine.Coop',
         adresse: '5 esplanade Andry Farcy',
         code_postal: '38000',
+        code_insee: '38185',
         commune: 'Grenoble'
       } as SchemaLieuMediationNumerique
     ];
@@ -84,6 +89,7 @@ describe('deduplication comparison', (): void => {
         nom: 'Maison Des Habitants Centre-Ville',
         commune: 'GRENOBLE',
         code_postal: '38100',
+        code_insee: '38185',
         adresse: '2 Rue du vieux temple',
         latitude: 45.193684,
         longitude: 5.733633,
@@ -96,6 +102,7 @@ describe('deduplication comparison', (): void => {
         nom: 'Espace Personnes Agées Bouchayer',
         commune: 'GRENOBLE',
         code_postal: '38100',
+        code_insee: '38185',
         adresse: '70 BIS rue Joseph Bouchayer',
         latitude: 45.177784,
         longitude: 5.707327,
@@ -108,6 +115,7 @@ describe('deduplication comparison', (): void => {
         nom: 'Maison des Habitant.es Anatole France',
         commune: 'GRENOBLE',
         code_postal: '38100',
+        code_insee: '38185',
         adresse: '68bis rue Anatole France',
         latitude: 45.172522,
         longitude: 5.704961,
@@ -120,6 +128,7 @@ describe('deduplication comparison', (): void => {
         nom: 'Maison Des Habitant.es Les Baladins',
         commune: 'GRENOBLE',
         code_postal: '38100',
+        code_insee: '38185',
         adresse: '31 Place des Géants',
         latitude: 45.162266,
         longitude: 5.738204,
@@ -132,6 +141,7 @@ describe('deduplication comparison', (): void => {
         nom: 'Maison Des Habitant.es Prémol',
         commune: 'GRENOBLE',
         code_postal: '38100',
+        code_insee: '38185',
         adresse: '7 Rue Henri Duhamel',
         latitude: 45.163403,
         longitude: 5.727504,

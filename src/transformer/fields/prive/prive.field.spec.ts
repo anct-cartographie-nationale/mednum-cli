@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { ModaliteAcces } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching } from '../../input';
 import { isPrive } from './prive.field';

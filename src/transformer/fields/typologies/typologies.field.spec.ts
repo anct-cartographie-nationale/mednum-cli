@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { Typologie, Typologies } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching } from '../../input';
 import { processTypologies } from './typologies.field';
@@ -59,14 +60,29 @@ describe('typologies field', (): void => {
     }
   );
 
-  it('should get CADA when name starts with CADA', (): void => {
+  it.each([
+    ['CADA / HUDT'],
+    ["Centre d'Accueil Demandeur d'Asile"],
+    ["centre d'accueil pour demandeur d'Asile des Rives de l'Yonne"],
+    ["Centre d'Accueil pour Demandeurs d'Asile / Oise actions jeunes /  Oise actions jeunes réfugiés"]
+  ])('should get CADA when name contains %s', (nom: string): void => {
     const matching: LieuxMediationNumeriqueMatching = {
       nom: { colonne: 'name' }
     } as LieuxMediationNumeriqueMatching;
 
-    const typologies: Typologies = processTypologies({ name: 'CADA / HUDA' }, matching);
+    const typologies: Typologies = processTypologies({ name: nom }, matching);
 
     expect(typologies).toStrictEqual([Typologie.CADA]);
+  });
+
+  it('should get CAARUD when name contains CAARUD', (): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      nom: { colonne: 'name' }
+    } as LieuxMediationNumeriqueMatching;
+
+    const typologies: Typologies = processTypologies({ name: 'CAARUD' }, matching);
+
+    expect(typologies).toStrictEqual([Typologie.CAARUD]);
   });
 
   it.each([
@@ -87,7 +103,7 @@ describe('typologies field', (): void => {
     expect(typologies).toStrictEqual([Typologie.CCAS]);
   });
 
-  it.each([["CONSEIL DEP DE L'ACCES AU DROIT"], ['COSEIL DEPATEMENTAL DES YVELINES SERVICE MNA'], ['CDAD Ardennes']])(
+  it.each([["CONSEIL DEP DE L'ACCES AU SERVICE SOCIAUX"], ['COSEIL DEPATEMENTAL DES YVELINES SERVICE MNA'], ['CDAD Ardennes']])(
     'should get CD when name contains %s',
     (nom: string): void => {
       const matching: LieuxMediationNumeriqueMatching = {
@@ -100,7 +116,7 @@ describe('typologies field', (): void => {
     }
   );
 
-  it.each([['CIAS le phare', "Centre intercommunal d'actions sociales du Pays de Craon"]])(
+  it.each([['CIAS le phare'], ["Centre intercommunal d'actions sociales du Pays de Craon"]])(
     'should get CIAS when name contains %s',
     (nom: string): void => {
       const matching: LieuxMediationNumeriqueMatching = {
@@ -158,10 +174,12 @@ describe('typologies field', (): void => {
     ['CENTRE MEDICO SOCIAL BRIONNE'],
     ['Centre médico-social'],
     ['CMS- Centre Medicaux Sociaux'],
+    ['Centre-médico social Conseil des XV'],
     ['PMS Cran-Gevrier'],
     ['POLE MEDICO-SOCIAL  DE CHAMONIX'],
     ['Pôle Médico-Social Balmettes'],
-    ["Relais médico-social d'Alby-sur-Chéran"]
+    ["Relais médico-social d'Alby-sur-Chéran"],
+    ['Permanence Médico-Social de Lussac les Châteaux']
   ])('should get CMP when name contains %s', (nom: string): void => {
     const matching: LieuxMediationNumeriqueMatching = {
       nom: { colonne: 'name' }
@@ -174,6 +192,7 @@ describe('typologies field', (): void => {
 
   it.each([
     ["Accueil CAISSE PRIMAIRE D'ASSURANCE MALADIE DE LA LOIRE"],
+    ['Caisse Primaire d’Assurance Maladie'],
     ['CAISSE PRIMAIRE ASSURANCE MALADIE'],
     ['CAISSE PRIMAIRE D ASSURANCE MALADIE - CPAM - DES LANDES'],
     ['CPAM'],
@@ -189,20 +208,24 @@ describe('typologies field', (): void => {
     expect(typologies).toStrictEqual([Typologie.CPAM]);
   });
 
-  it.each([['CPH - lab Fraternel']])('should get CPH when name contains %s', (nom: string): void => {
-    const matching: LieuxMediationNumeriqueMatching = {
-      nom: { colonne: 'name' }
-    } as LieuxMediationNumeriqueMatching;
+  it.each([['CPH - lab Fraternel'], ["Centre provisoire d'Hébergement"]])(
+    'should get CPH when name contains %s',
+    (nom: string): void => {
+      const matching: LieuxMediationNumeriqueMatching = {
+        nom: { colonne: 'name' }
+      } as LieuxMediationNumeriqueMatching;
 
-    const typologies: Typologies = processTypologies({ name: nom }, matching);
+      const typologies: Typologies = processTypologies({ name: nom }, matching);
 
-    expect(typologies).toStrictEqual([Typologie.CPH]);
-  });
+      expect(typologies).toStrictEqual([Typologie.CPH]);
+    }
+  );
 
   it.each([
     ['CENTRE SOC FAMILIAL ST GABRIEL'],
     ['CENTRE SOCIAL DE BAGATELLE'],
     ['CTRE SOCIAL ESPACE ST GILLES'],
+    ['Centres Sociaux Fidesiens'],
     ['CS Capelette'],
     ['Espace Social Commun Blosne']
   ])('should get CS when name contains %s', (nom: string): void => {
@@ -283,18 +306,18 @@ describe('typologies field', (): void => {
     expect(typologies).toStrictEqual([Typologie.EI]);
   });
 
-  it('should get ENM when name contains Bus', (): void => {
+  it.each([["Bus It'In"], ['Antilly/ CCPV Van numérique']])('should get ENM when name contains %s', (nom: string): void => {
     const matching: LieuxMediationNumeriqueMatching = {
       nom: { colonne: 'name' }
     } as LieuxMediationNumeriqueMatching;
 
-    const typologies: Typologies = processTypologies({ name: "Bus It'In" }, matching);
+    const typologies: Typologies = processTypologies({ name: nom }, matching);
 
     expect(typologies).toStrictEqual([Typologie.ENM]);
   });
 
-  it.each([['EPI'], ['Espace Public Internet Gagarine'], ['Espace Public Informatique Monmousseau']])(
-    'should get EPI when name contains %s',
+  it.each([['EPCI'], ['Intercommunalité La Vicomté-sur-Rance, Pleudihen-sur-Rance, Saint-Helen']])(
+    'should get EPCI when name contains %s',
     (nom: string): void => {
       const matching: LieuxMediationNumeriqueMatching = {
         nom: { colonne: 'name' }
@@ -302,9 +325,26 @@ describe('typologies field', (): void => {
 
       const typologies: Typologies = processTypologies({ name: nom }, matching);
 
-      expect(typologies).toStrictEqual([Typologie.EPI]);
+      expect(typologies).toStrictEqual([Typologie.EPCI]);
     }
   );
+
+  it.each([
+    ['EPI'],
+    ['Espace Public Internet Gagarine'],
+    ['Espace Public Informatique Monmousseau'],
+    ['Borne Esp@ce Internet  - Métro'],
+    ['Esp@ce informatique'],
+    ['Espace connecté de Bourail']
+  ])('should get EPI when name contains %s', (nom: string): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      nom: { colonne: 'name' }
+    } as LieuxMediationNumeriqueMatching;
+
+    const typologies: Typologies = processTypologies({ name: nom }, matching);
+
+    expect(typologies).toStrictEqual([Typologie.EPI]);
+  });
 
   it('should get EPIDE when name contains EPIDE', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
@@ -375,25 +415,41 @@ describe('typologies field', (): void => {
     expect(typologies).toStrictEqual([Typologie.ESS]);
   });
 
-  it.each([['EVS'], ['Espace de Vie Sociale']])('should get EVS when name contains %s', (nom: string): void => {
+  it('should get ETTI when name contains travail temporaire', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
       nom: { colonne: 'name' }
     } as LieuxMediationNumeriqueMatching;
 
-    const typologies: Typologies = processTypologies({ name: nom }, matching);
+    const typologies: Typologies = processTypologies({ name: 'OCITO Travail Temporaire' }, matching);
 
-    expect(typologies).toStrictEqual([Typologie.EVS]);
+    expect(typologies).toStrictEqual([Typologie.ETTI]);
   });
 
-  it.each([['Fablab'], ['Fab Lab'], ["FAB'AT"]])('should get FABLAB when name contains %s', (nom: string): void => {
-    const matching: LieuxMediationNumeriqueMatching = {
-      nom: { colonne: 'name' }
-    } as LieuxMediationNumeriqueMatching;
+  it.each([['EVS'], ['Espace de Vie Sociale'], ['Centre de Vie Sociale Gassicourt']])(
+    'should get EVS when name contains %s',
+    (nom: string): void => {
+      const matching: LieuxMediationNumeriqueMatching = {
+        nom: { colonne: 'name' }
+      } as LieuxMediationNumeriqueMatching;
 
-    const typologies: Typologies = processTypologies({ name: nom }, matching);
+      const typologies: Typologies = processTypologies({ name: nom }, matching);
 
-    expect(typologies).toStrictEqual([Typologie.FABLAB]);
-  });
+      expect(typologies).toStrictEqual([Typologie.EVS]);
+    }
+  );
+
+  it.each([['Fablab'], ['Fab Lab'], ["FAB'AT"], ['Atelier de fabrication numérique']])(
+    'should get FABLAB when name contains %s',
+    (nom: string): void => {
+      const matching: LieuxMediationNumeriqueMatching = {
+        nom: { colonne: 'name' }
+      } as LieuxMediationNumeriqueMatching;
+
+      const typologies: Typologies = processTypologies({ name: nom }, matching);
+
+      expect(typologies).toStrictEqual([Typologie.FABLAB]);
+    }
+  );
 
   it.each([['Pôle emploi'], ['Pole Emploi Blaye']])('should get FT when name contains %s', (nom: string): void => {
     const matching: LieuxMediationNumeriqueMatching = {
@@ -403,6 +459,16 @@ describe('typologies field', (): void => {
     const typologies: Typologies = processTypologies({ name: nom }, matching);
 
     expect(typologies).toStrictEqual([Typologie.FT]);
+  });
+
+  it.each([['HUDA PETIT CERF']])('should get HUDA when name contains %s', (nom: string): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      nom: { colonne: 'name' }
+    } as LieuxMediationNumeriqueMatching;
+
+    const typologies: Typologies = processTypologies({ name: nom }, matching);
+
+    expect(typologies).toStrictEqual([Typologie.HUDA]);
   });
 
   it.each([
@@ -442,18 +508,20 @@ describe('typologies field', (): void => {
     expect(typologies).toStrictEqual([Typologie.MDE]);
   });
 
-  it.each([['Maison des Habitants Abbaye'], ['Maison des Habitant.es Anatole France']])(
-    'should get MDH when name contains %s',
-    (nom: string): void => {
-      const matching: LieuxMediationNumeriqueMatching = {
-        nom: { colonne: 'name' }
-      } as LieuxMediationNumeriqueMatching;
+  it.each([
+    ['Maison des Habitants Abbaye'],
+    ['Maison des Habitant.es Anatole France'],
+    ['MJH Andard - Maison des Jeunes et Habitants'],
+    ['MDH Village-Sud']
+  ])('should get MDH when name contains %s', (nom: string): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      nom: { colonne: 'name' }
+    } as LieuxMediationNumeriqueMatching;
 
-      const typologies: Typologies = processTypologies({ name: nom }, matching);
+    const typologies: Typologies = processTypologies({ name: nom }, matching);
 
-      expect(typologies).toStrictEqual([Typologie.MDH]);
-    }
-  );
+    expect(typologies).toStrictEqual([Typologie.MDH]);
+  });
 
   it.each([['MDPH 32'], ['GIP MAISON DEP PERSONNES HANDICAPEES'], ['Maison Départementale des Personnes Handicapées']])(
     'should get MDPH when name contains %s',
@@ -478,7 +546,8 @@ describe('typologies field', (): void => {
     ['Maison départementale de proximité de Cadours'],
     ['Maison Départementale de Solidarité de Blaye'],
     ['Maison Départementales des Solidarités de DECAZEVILLE'],
-    ['Maison Des Solidarités Départementales']
+    ['Maison Des Solidarités Départementales'],
+    ['EDS Alfortville']
   ])('should get MSD when name contains %s', (nom: string): void => {
     const matching: LieuxMediationNumeriqueMatching = {
       nom: { colonne: 'name' }
@@ -533,6 +602,16 @@ describe('typologies field', (): void => {
     expect(typologies).toStrictEqual([Typologie.MSAP]);
   });
 
+  it.each([['MSA'], ['Mutualité Sociale Agricole']])('should get MSA when name contains %s', (nom: string): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      nom: { colonne: 'name' }
+    } as LieuxMediationNumeriqueMatching;
+
+    const typologies: Typologies = processTypologies({ name: nom }, matching);
+
+    expect(typologies).toStrictEqual([Typologie.MSA]);
+  });
+
   it.each([
     ['Mairie de Saint Alban'],
     ['Maire'],
@@ -543,7 +622,9 @@ describe('typologies field', (): void => {
     ['Communauté Agglomération La Rochelle'],
     ["Communauté d'Agglomération Bergeracoise"],
     ['CONCARNEAU CORNOUAILLE AGGLOMERATION'],
-    ["Municipalité d'Annay"]
+    ["Municipalité d'Annay"],
+    ["Ville d'Alès"],
+    ['Marie de Lugrin']
   ])('should get MUNI when name contains %s', (nom: string): void => {
     const matching: LieuxMediationNumeriqueMatching = {
       nom: { colonne: 'name' }
@@ -554,8 +635,8 @@ describe('typologies field', (): void => {
     expect(typologies).toStrictEqual([Typologie.MUNI]);
   });
 
-  it.each([["Point d'Accès au Droit"], ['Accès au Droit Nord Morbihan']])(
-    'should get PAD when name contains %s',
+  it.each([["Service d'intermédiation locative de la croix marine Auvergne Rhône Alpes"]])(
+    'should get OIL when name contains %s',
     (nom: string): void => {
       const matching: LieuxMediationNumeriqueMatching = {
         nom: { colonne: 'name' }
@@ -563,9 +644,36 @@ describe('typologies field', (): void => {
 
       const typologies: Typologies = processTypologies({ name: nom }, matching);
 
-      expect(typologies).toStrictEqual([Typologie.PAD]);
+      expect(typologies).toStrictEqual([Typologie.OIL]);
     }
   );
+
+  it.each([
+    ["Point d'Accès au Droit"],
+    ['Accès au Droit Nord Morbihan'],
+    ['Accès Aux Droits'],
+    ['POINT D ACCES AU DROIT DU TRIBUNAL JUDICIAIRE DE PONTOISE'],
+    ['Maison de la Justice et du Droit'],
+    ['Maison du droit et de la Famille']
+  ])('should get PAD when name contains %s', (nom: string): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      nom: { colonne: 'name' }
+    } as LieuxMediationNumeriqueMatching;
+
+    const typologies: Typologies = processTypologies({ name: nom }, matching);
+
+    expect(typologies).toStrictEqual([Typologie.PAD]);
+  });
+
+  it.each([['Pension de famille -YUTZ']])('should get PENSION when name contains %s', (nom: string): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      nom: { colonne: 'name' }
+    } as LieuxMediationNumeriqueMatching;
+
+    const typologies: Typologies = processTypologies({ name: nom }, matching);
+
+    expect(typologies).toStrictEqual([Typologie.PENSION]);
+  });
 
   it.each([["Point d'information ISOLA", 'Point Info 14']])('should get PI when name contains %s', (nom: string): void => {
     const matching: LieuxMediationNumeriqueMatching = {
@@ -600,6 +708,29 @@ describe('typologies field', (): void => {
     expect(typologies).toStrictEqual([Typologie.PIMMS]);
   });
 
+  it('should get PJJ when name contains JUDICIAIRE JEUNESSE', (): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      nom: { colonne: 'name' }
+    } as LieuxMediationNumeriqueMatching;
+
+    const typologies: Typologies = processTypologies(
+      { name: 'DIRECTION TERRITORIALE PROTECTION JUDICIAIRE JEUNESSE TARN AVEYRON' },
+      matching
+    );
+
+    expect(typologies).toStrictEqual([Typologie.PJJ]);
+  });
+
+  it.each([['EFS'], ['Maison france services'], ['MFS']])('should get RFS when name contains %s', (nom: string): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      nom: { colonne: 'name' }
+    } as LieuxMediationNumeriqueMatching;
+
+    const typologies: Typologies = processTypologies({ name: nom }, matching);
+
+    expect(typologies).toStrictEqual([Typologie.RFS]);
+  });
+
   it('should get PLIE when name contains PLIE', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
       nom: { colonne: 'name' }
@@ -610,18 +741,20 @@ describe('typologies field', (): void => {
     expect(typologies).toStrictEqual([Typologie.PLIE]);
   });
 
-  it.each([['Préfecture'], ['Prefecture de la Vienne'], ["Sous-préfecture - Point d'accueil numérique"]])(
-    'should get PREF when name contains %s',
-    (nom: string): void => {
-      const matching: LieuxMediationNumeriqueMatching = {
-        nom: { colonne: 'name' }
-      } as LieuxMediationNumeriqueMatching;
+  it.each([
+    ['Préfecture'],
+    ['Prefecture de la Vienne'],
+    ["Sous-préfecture - Point d'accueil numérique"],
+    ["Point d'Accueil Numérique Sous-Préfecture d'Albertville"]
+  ])('should get PREF when name contains %s', (nom: string): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      nom: { colonne: 'name' }
+    } as LieuxMediationNumeriqueMatching;
 
-      const typologies: Typologies = processTypologies({ name: nom }, matching);
+    const typologies: Typologies = processTypologies({ name: nom }, matching);
 
-      expect(typologies).toStrictEqual([Typologie.PREF]);
-    }
-  );
+    expect(typologies).toStrictEqual([Typologie.PREF]);
+  });
 
   it('should get REG when name contains Région', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
@@ -643,6 +776,42 @@ describe('typologies field', (): void => {
     expect(typologies).toStrictEqual([Typologie.RESSOURCERIE]);
   });
 
+  it.each([['Résidence Sociale Toits de Vie'], ['FOYER DES JEUNES TRAVAILLEURS']])(
+    'should get RS_FJT when name contains %s',
+    (nom: string): void => {
+      const matching: LieuxMediationNumeriqueMatching = {
+        nom: { colonne: 'name' }
+      } as LieuxMediationNumeriqueMatching;
+
+      const typologies: Typologies = processTypologies({ name: nom }, matching);
+
+      expect(typologies).toStrictEqual([Typologie.RS_FJT]);
+    }
+  );
+
+  it.each([['Club prévention']])('should get SCP when name contains %s', (nom: string): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      nom: { colonne: 'name' }
+    } as LieuxMediationNumeriqueMatching;
+
+    const typologies: Typologies = processTypologies({ name: nom }, matching);
+
+    expect(typologies).toStrictEqual([Typologie.SCP]);
+  });
+
+  it.each([['SPIP'], ["Service Pénitentiaire D'Insertion et de Probation d'Indre-et-Loire"]])(
+    'should get SPIP when name contains %s',
+    (nom: string): void => {
+      const matching: LieuxMediationNumeriqueMatching = {
+        nom: { colonne: 'name' }
+      } as LieuxMediationNumeriqueMatching;
+
+      const typologies: Typologies = processTypologies({ name: nom }, matching);
+
+      expect(typologies).toStrictEqual([Typologie.SPIP]);
+    }
+  );
+
   it('should get UDAF when name contains UDAF', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
       nom: { colonne: 'name' }
@@ -653,20 +822,25 @@ describe('typologies field', (): void => {
     expect(typologies).toStrictEqual([Typologie.UDAF]);
   });
 
-  it.each([['CDAS de Combourg']])('should get CDAS when name contains %s', (nom: string): void => {
-    const matching: LieuxMediationNumeriqueMatching = {
-      nom: { colonne: 'name' }
-    } as LieuxMediationNumeriqueMatching;
+  it.each([['CDAS de Combourg'], ["Maison Départementale d'Action Sociale"]])(
+    'should get CDAS when name contains %s',
+    (nom: string): void => {
+      const matching: LieuxMediationNumeriqueMatching = {
+        nom: { colonne: 'name' }
+      } as LieuxMediationNumeriqueMatching;
 
-    const typologies: Typologies = processTypologies({ name: nom }, matching);
+      const typologies: Typologies = processTypologies({ name: nom }, matching);
 
-    expect(typologies).toStrictEqual([Typologie.CDAS]);
-  });
+      expect(typologies).toStrictEqual([Typologie.CDAS]);
+    }
+  );
 
   it.each([
     ['Communauté de Commune de la Dombes'],
     ['Communauté de Communes Anjou Loir et Sarthe'],
-    ["Communauté des Communes Rurales de l'Entre-2-Mers"]
+    ["Communauté des Communes Rurales de l'Entre-2-Mers"],
+    ["COMMUNAUTE COM DU VAL D'AMOUR"],
+    ['COMMUNAUTE INTERCOMMUNALE DES VILLES SOLIDAIRES CIVIS']
   ])('should get CC when name contains %s', (nom: string): void => {
     const matching: LieuxMediationNumeriqueMatching = {
       nom: { colonne: 'name' }
@@ -685,6 +859,20 @@ describe('typologies field', (): void => {
     const typologies: Typologies = processTypologies({ name: 'CONSULAT GENERAL DE FRANCE A LOS ANGELES' }, matching);
 
     expect(typologies).toStrictEqual([Typologie.CCONS]);
+  });
+
+  it.each([
+    ["Centre d'hébergement d'urgence le Cairn"],
+    ["centre d'hebergement d'urgence"],
+    ["Centre hébergement urgence l'Elan"]
+  ])('should get CHU when name contains %s', (nom: string): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      nom: { colonne: 'name' }
+    } as LieuxMediationNumeriqueMatching;
+
+    const typologies: Typologies = processTypologies({ name: nom }, matching);
+
+    expect(typologies).toStrictEqual([Typologie.CHU]);
   });
 
   it.each([['Finances Publiques'], ['Centre des Finances Public de Cholet']])(
@@ -753,7 +941,8 @@ describe('typologies field', (): void => {
     ['Blue Fox Coffee - café associatif'],
     ['Coallia'],
     ['FAMILLE RURALE'],
-    ['LIGUE ENSEIGNEMENT TARN GARONNE']
+    ['LIGUE ENSEIGNEMENT TARN GARONNE'],
+    ['Les Restaurants du Coeur']
   ])('should get ASSO when name contains %s', (nom: string): void => {
     const matching: LieuxMediationNumeriqueMatching = {
       nom: { colonne: 'name' }
@@ -770,6 +959,17 @@ describe('typologies field', (): void => {
     } as LieuxMediationNumeriqueMatching;
 
     const typologies: Typologies = processTypologies({ name: 'CPAM / CAF du Gers' }, matching);
+
+    expect(typologies).toStrictEqual([Typologie.CAF, Typologie.CPAM]);
+  });
+
+  it('should infer typologies from name, even if typologie mapping is present in configuration file', () => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      nom: { colonne: 'name' },
+      typologie: [{ colonnes: ['checkboxListeTypelieu'], termes: ['1'], cible: Typologie.CAF }]
+    } as LieuxMediationNumeriqueMatching;
+
+    const typologies: Typologies = processTypologies({ name: 'CPAM / CAF du Gers', checkboxListeTypelieu: '1' }, matching);
 
     expect(typologies).toStrictEqual([Typologie.CAF, Typologie.CPAM]);
   });

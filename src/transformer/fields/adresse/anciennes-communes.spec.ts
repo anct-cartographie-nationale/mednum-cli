@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { getNewCommune } from './anciennes-communes';
 import { Commune } from './find-commune';
 

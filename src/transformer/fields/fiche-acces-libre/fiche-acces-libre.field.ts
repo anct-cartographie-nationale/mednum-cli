@@ -44,7 +44,7 @@ const getAccessibiliteFromAccesLibre = (
 const canProcessAccessibilite = (source: DataSource, accessibilite?: Colonne): accessibilite is Colonne =>
   accessibilite?.colonne != null && source[accessibilite.colonne] != null && source[accessibilite.colonne] !== '';
 
-const fixUrl = (url: string): string => url.replace(/\(/gu, '%28').replace(/\)/gu, '%29');
+const fixUrl = (url: string): string => url.replace(/\(/g, '%28').replace(/\)/g, '%29');
 
 export const processFicheAccesLibre = (
   source: DataSource,

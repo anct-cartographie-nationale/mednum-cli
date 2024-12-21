@@ -81,4 +81,4 @@ export const processTypologies = (source: DataSource, matching: LieuxMediationNu
     !typologiesArePreset(matching)) ||
   matching.typologie?.at(0)?.cible == null
     ? inferTypologies(source, matching)
-    : Typologies(Array.from(new Set(matching.typologie.reduce(appendTypologies(source), []))));
+    : Typologies(Array.from(new Set(matching.typologie.reduce(appendTypologies(source), inferTypologies(source, matching)))));

@@ -4,346 +4,387 @@ import { TypologieMatcher } from './typologies.field';
 export const TYPOLOGIE_MATCHERS: TypologieMatcher[] = [
   {
     typologie: Typologie.BIB,
-    matchers: [
-      /m[ée]diath[èeé]que/iu,
-      /bibl?ioth[èeé]que/iu,
-      /Mediathquete/iu,
-      /Mediathque/iu,
-      /Médiathqèue/iu,
-      /Médiatthèque/iu
-    ]
+    matchers: [/m[ée]diath[èeé]que/i, /bibl?ioth[èeé]que/i, /Mediathquete/i, /Mediathque/i, /Médiathqèue/i, /Médiatthèque/i]
   },
   {
     typologie: Typologie.TIERS_LIEUX,
-    matchers: [/tiers[\s-]lieu/iu, /cowork/iu]
+    matchers: [/tiers[\s-]lieu/i, /cowork/i]
   },
   {
     typologie: Typologie.ML,
-    matchers: [/mission locale/iu, /mis local/iu]
+    matchers: [/mission locale/i, /mis local/i]
   },
   {
     typologie: Typologie.MDS,
     matchers: [
-      /(?:^|\W)MDSI?(?:\W|$)/iu,
-      /(?:^|\W)MSD(?:\W|$)/iu,
-      /maison du d[ée]partement/iu,
-      /(?:maison|espace|centre) d[eé]partementale?s? des? (?:la )?solidarit[eé]s?/iu,
-      /(?:maison|espace|centre) d[eé]partementale?s? de proximit[eé]/iu,
-      /(?:maison|espace|centre) des? (?:la )?solidarit[eé]s? d[eé]partementale?s?/iu
+      /(?:^|\W)MDSI?(?:\W|$)/i,
+      /(?:^|\W)MSD(?:\W|$)/i,
+      /(?:^|\W)EDS(?:\W|$)/i,
+      /maison du d[ée]partement/i,
+      /(?:maison|espace|centre) d[eé]partementale?s? des? (?:la )?solidarit[eé]s?/i,
+      /(?:maison|espace|centre) d[eé]partementale?s? de proximit[eé]/i,
+      /(?:maison|espace|centre) des? (?:la )?solidarit[eé]s? d[eé]partementale?s?/i
     ]
   },
   {
     typologie: Typologie.CHRS,
-    matchers: [/centre d'h[eé]bergement et de r[eé]insertion sociale/iu]
+    matchers: [/centre d'h[eé]bergement et de r[eé]insertion sociale/i]
   },
   {
     typologie: Typologie.CHU,
-    matchers: [/(?:^|\W)CHU(?:\W|$)/iu]
+    matchers: [/Centre (?:d')?h[ée]bergement (?:d')?urgence/i]
   },
   {
     typologie: Typologie.CAF,
-    matchers: [/caisse d[’'\s]allocations familiales/iu, /(?:^|\s)CAF(?:\s|@|$)/iu]
+    matchers: [/caisse d[’'\s]allocations familiales/i, /(?:^|\s)CAF(?:\s|@|$)/i]
   },
   {
     typologie: Typologie.CADA,
-    matchers: [/CADA\s/iu]
+    matchers: [/CADA\s/i, /centre d'accueil (?:pour )?demandeurs? d'Asile/i]
+  },
+  {
+    typologie: Typologie.CAARUD,
+    matchers: [/CAARUD/i]
   },
   {
     typologie: Typologie.CD,
-    matchers: [/^CON?SEIL DEP/iu, /CDAD/iu]
+    matchers: [/^CON?SEIL DEP/i, /CDAD/i]
   },
   {
     typologie: Typologie.CDAS,
-    matchers: [/^CDAS(?:\s|$)/iu]
+    matchers: [/^CDAS(?:\s|$)/i, /Maison Départementale d'Action Sociale/i]
   },
   {
     typologie: Typologie.CFP,
-    matchers: [/Finances Publiques/iu, /Finances Public/iu]
+    matchers: [/Finances Publiques/i, /Finances Public/i]
   },
   {
     typologie: Typologie.RS_FJT,
-    matchers: [/(?:^|\W)FJT(?:\W|$)/iu]
+    matchers: [/(?:^|\W)FJT(?:\W|$)/i]
   },
   {
     typologie: Typologie.ACI,
-    matchers: [/^ACI\s/iu, /Chantier d'Insertion/iu]
+    matchers: [/^ACI\s/i, /Chantier d'Insertion/i]
   },
   {
     typologie: Typologie.ASSO,
     matchers: [
-      /(?:^|\W)ASS(?:\W|$)/iu,
-      /(?:^|\W)ASSOC(?:\W|$)/iu,
-      /association/iu,
-      /emma[üu]s/iu,
-      /secours populaire/iu,
-      /croix[\s-]Rouge/iu,
-      /secours catholique/iu,
-      /restos du c(?:oe|œ)ur/iu,
-      /familles? rurales?/iu,
-      /LIGUE (?:DE L[\s']|D')?ENSEIGNEMENT/iu,
-      /Konexio/iu,
-      /Groupe SOS/iu,
-      /APF\s/iu,
-      /ASSO\s/iu,
-      /associatif/iu,
-      /Coallia/iu,
-      /(?:^|\W)AFR(?:\W|$)/iu
+      /(?:^|\W)ASS(?:\W|$)/i,
+      /(?:^|\W)ASSOC(?:\W|$)/i,
+      /association/i,
+      /emma[üu]s/i,
+      /secours populaire/i,
+      /croix[\s-]Rouge/i,
+      /secours catholique/i,
+      /restos du c(?:oe|œ)ur/i,
+      /familles? rurales?/i,
+      /LIGUE (?:DE L[\s']|D')?ENSEIGNEMENT/i,
+      /Konexio/i,
+      /Groupe SOS/i,
+      /APF\s/i,
+      /ASSO\s/i,
+      /associatif/i,
+      /Coallia/i,
+      /Restaurants du Coeur/i,
+      /(?:^|\W)AFR(?:\W|$)/i
     ]
   },
   {
     typologie: Typologie.CD,
-    matchers: [/conseil d[eé]partemental/iu]
+    matchers: [/conseil d[eé]partemental/i]
   },
   {
     typologie: Typologie.CC,
-    matchers: [/^communaut[ée] des? com(?:munes?)?/iu, /^cdc(?:\W|$)/iu, /^cc(?:\W|$)/iu]
+    matchers: [/^communaut[ée] (?:des? )?(?:inter)?com(?:munes?)?/i, /^cdc(?:\W|$)/i, /^cc(?:\W|$)/i]
   },
   {
     typologie: Typologie.CCAS,
     matchers: [
-      /(?:^|\W)ccas(?:\W|$)/iu,
-      /(?:^|\W)c\.c\.a\.s(?:\W|$)/iu,
-      /c(?:en)?tr?e com(?:munal)? action social/iu,
-      /centre communal.? d[’'\s]action social/iu
+      /(?:^|\W)ccas(?:\W|$)/i,
+      /(?:^|\W)c\.c\.a\.s(?:\W|$)/i,
+      /c(?:en)?tr?e com(?:munal)? action social/i,
+      /centre communal.? d[’'\s]action social/i
     ]
   },
   {
     typologie: Typologie.CCONS,
-    matchers: [/CONSULAT/iu]
+    matchers: [/CONSULAT/i]
   },
   {
     typologie: Typologie.CIAS,
-    matchers: [/(?:^|\W)CIAS(?:\W|$)/iu, /centre intercommunal d[’'\s]action sociale/iu]
+    matchers: [/(?:^|\W)CIAS(?:\W|$)/i, /centre intercommunal d[’'\s]actions? sociale/i]
   },
   {
     typologie: Typologie.CIDFF,
-    matchers: [/(?:^|\W)CIDFF(?:\W|\d|$)/iu]
+    matchers: [/(?:^|\W)CIDFF(?:\W|\d|$)/i]
   },
   {
     typologie: Typologie.CITMET,
-    matchers: [/Cit[ée] de l'Emploi/iu, /CJM/iu, /Cit[ée] des M[ée]tiers/iu]
+    matchers: [/Cit[ée] de l'Emploi/i, /CJM/i, /Cit[ée] des M[ée]tiers/i]
   },
   {
     typologie: Typologie.CMP,
-    matchers: [/(?:^|\W)CMP(?:\W|\d|$)/iu, /Centre Médico Psychologique/iu]
+    matchers: [/(?:^|\W)CMP(?:\W|\d|$)/i, /Centre Médico Psychologique/i]
   },
   {
     typologie: Typologie.CMS,
-    matchers: [/^CMS(?:\s|$)/iu, /^PMS(?:\s|$)/iu, /(?:Centre|P[oô]le|Relais) m[ée]dic(?:o|aux)\WSocia(?:l|ux)/iu]
+    matchers: [/^CMS(?:\s|$)/i, /^PMS(?:\s|$)/i, /(?:Centre|P[oô]le|Relais|Permanence)\Wm[ée]dic(?:o|aux)\WSocia(?:l|ux)/i]
   },
   {
     typologie: Typologie.CPAM,
-    matchers: [/(?:^|\W)CPAM(?:\W|$)/iu, /CAISSE PRIMAIRE D?[' ]?ASSURANCE MALADIE/iu]
+    matchers: [/(?:^|\W)CPAM(?:\W|$)/i, /CAISSE PRIMAIRE D?[’' ]?ASSURANCE MALADIE/i]
   },
   {
     typologie: Typologie.CPH,
-    matchers: [/(?:^|\W)CPH(?:\W|$)/iu]
+    matchers: [/(?:^|\W)CPH(?:\W|$)/i, /Centre provisoire d'Hébergement/i]
   },
   {
     typologie: Typologie.CS,
-    matchers: [/(?:^|\W)CS(?:\W|$)/iu, /(?:espace|c(?:en)?tre) (?:socia(?:l|ux)|soc\W)/iu]
+    matchers: [/(?:^|\W)CS(?:\W|$)/i, /(?:espace|c(?:en)?tre)s? (?:socia(?:l|ux)|soc\W)/i]
   },
   {
     typologie: Typologie.CSAPA,
-    matchers: [/(?:^|\W)CSAPA(?:\W|$)/iu]
+    matchers: [/(?:^|\W)CSAPA(?:\W|$)/i]
   },
   {
     typologie: Typologie.CSC,
     matchers: [
-      /(?:^|\W)CSC(?:\W|$)/iu,
-      /soci(?:o|al)\W?cul?turel/iu,
-      /Sociale? et Culturel(?:le)?/iu,
-      /Culturel(?:le)? et Sociale?/iu,
-      /Centres? Culturels?/iu
+      /(?:^|\W)CSC(?:\W|$)/i,
+      /soci(?:o|al)\W?cul?turel/i,
+      /Sociale? et Culturel(?:le)?/i,
+      /Culturel(?:le)? et Sociale?/i,
+      /Centres? Culturels?/i
     ]
   },
   {
     typologie: Typologie.DEPT,
-    matchers: [/(?:^|\W)DPT(?:\W|$)/iu, /^D[ée]partement(?:\W|$)/iu]
+    matchers: [/(?:^|\W)DPT(?:\W|$)/i, /^D[ée]partement(?:\W|$)/i]
   },
   {
     typologie: Typologie.E2C,
-    matchers: [/(?:^|\W)[ée]cole deuxième chance(?:\W|$)/iu]
+    matchers: [/(?:^|\W)[ée]cole deuxième chance(?:\W|$)/i]
   },
   {
     typologie: Typologie.EI,
-    matchers: [/(?:^|\W)EI(?:\W|$)/iu]
+    matchers: [/(?:^|\W)EI(?:\W|$)/i]
   },
   {
     typologie: Typologie.ENM,
-    matchers: [/(?:^|\W)Bus(?:\W|$)/iu]
+    matchers: [/(?:^|\W)Bus(?:\W|$)/i, /Van numérique/i]
+  },
+  {
+    typologie: Typologie.EPCI,
+    matchers: [/(?:^|\W)EPCI(?:\W|$)/i, /Intercommunalité/i]
   },
   {
     typologie: Typologie.EPI,
-    matchers: [/(?:^|\W)EPI(?:\W|$)/iu, /Espace Public (?:Internet|Informatique)/iu]
+    matchers: [/(?:^|\W)EPI(?:\W|$)/i, /Esp[a@]ce (?:Public )?(?:Internet|Informatique|Connecté)/i]
   },
   {
     typologie: Typologie.EPIDE,
-    matchers: [/(?:^|\W)EPIDE(?:\W|$)/iu]
+    matchers: [/(?:^|\W)EPIDE(?:\W|$)/i]
   },
   {
     typologie: Typologie.EPN,
     matchers: [
-      /(?:^|\W)EPN(?:\W|$)/iu,
-      /(?:Espace|[ée]tablissement)s?(?: Publi(?:c|que))? (?:Multim[ée]dia|Num[ée]riques?)/iu,
-      /Cyber\W?(?:base|centre)/iu
+      /(?:^|\W)EPN(?:\W|$)/i,
+      /(?:Espace|[ée]tablissement)s?(?: Publi(?:c|que))? (?:Multim[ée]dia|Num[ée]riques?)/i,
+      /Cyber\W?(?:base|centre)/i
     ]
   },
   {
     typologie: Typologie.ES,
-    matchers: [/[ée]picerie (?:bar|sociale|solidaire)/iu]
+    matchers: [/[ée]picerie (?:bar|sociale|solidaire)/i]
   },
   {
     typologie: Typologie.ESAT,
-    matchers: [/(?:^|\W)ESAT(?:\W|$)/iu]
+    matchers: [/(?:^|\W)ESAT(?:\W|$)/i]
   },
   {
     typologie: Typologie.ESS,
-    matchers: [/[ée]conomique Social et Solidaire/iu]
+    matchers: [/[ée]conomique Social et Solidaire/i]
+  },
+  {
+    typologie: Typologie.ETTI,
+    matchers: [/travail temporaire/i]
   },
   {
     typologie: Typologie.EVS,
-    matchers: [/(?:^|\W)EVS(?:\W|$)/iu, /Espace de Vie Sociale/iu]
+    matchers: [/(?:^|\W)EVS(?:\W|$)/i, /(?:Espace|Centre) de Vie Sociale/i]
   },
   {
     typologie: Typologie.FABLAB,
-    matchers: [/(?:^|\W)FAB\W?(?:LAB|AT)(?:\W|$)/iu]
+    matchers: [/(?:^|\W)FAB\W?(?:LAB|AT)(?:\W|$)/i, /Atelier de fabrication numérique/i]
   },
   {
     typologie: Typologie.FT,
-    matchers: [/france travail/iu, /p[ôo]le emploi/iu]
+    matchers: [/france travail/i, /p[ôo]le emploi/i]
   },
   {
     typologie: Typologie.GEIQ,
-    matchers: [/Groupement (?:local )?(?:d')?Employeurs/iu, /Groupement pour l'Insertion/iu]
+    matchers: [/Groupement (?:local )?(?:d')?Employeurs/i, /Groupement pour l'Insertion/i]
+  },
+  {
+    typologie: Typologie.HUDA,
+    matchers: [/(?:^|\W)HUDA(?:\W|$)/i]
   },
   {
     typologie: Typologie.LA_POSTE,
-    matchers: [/la\s?poste/iu, /poste\s/iu, /Agence (?:communale )?postale/iu, /Bureau de poste/iu]
+    matchers: [/la\s?poste/i, /poste\s/i, /Agence (?:communale )?postale/i, /Bureau de poste/i]
   },
   {
     typologie: Typologie.MDE,
-    matchers: [/Maison de l'emploi/iu, /Maison de l'économie/iu]
+    matchers: [/Maison de l'emploi/i, /Maison de l'économie/i]
   },
   {
     typologie: Typologie.MDH,
-    matchers: [/Maison des Habitant/iu]
+    matchers: [/Maison des Habitant/i, /(?:^|\W)MJH(?:\W|$)/i, /(?:^|\W)MDH(?:\W|$)/i]
   },
   {
     typologie: Typologie.MDPH,
-    matchers: [/(?:^|\W)MDPH(?:\W|$)/iu, /Maison D[ée]p(?:artementale des)? Personnes Handicap[ée]es/iu]
+    matchers: [/(?:^|\W)MDPH(?:\W|$)/i, /Maison D[ée]p(?:artementale des)? Personnes Handicap[ée]es/i]
   },
   {
     typologie: Typologie.MJC,
     matchers: [
-      /(?:^|\W)MJC(?:\W|$)/iu,
-      /(?:^|\W)M\.J\.C(?:\W|$)/iu,
-      /maison (?:des? )?jeunes,? (?:et |& )?(?:de )?(?:la )?culture/iu
+      /(?:^|\W)MJC(?:\W|$)/i,
+      /(?:^|\W)M\.J\.C(?:\W|$)/i,
+      /maison (?:des? )?jeunes,? (?:et |& )?(?:de )?(?:la )?culture/i
     ]
   },
   {
     typologie: Typologie.MQ,
-    matchers: [/maison de quartier/iu]
+    matchers: [/maison de quartier/i]
   },
   {
     typologie: Typologie.MSAP,
-    matchers: [/(?:^|\W)MSAP(?:\W|$)/iu, /(?:Maison|Relais) des? Services?/iu]
+    matchers: [/(?:^|\W)MSAP(?:\W|$)/i, /(?:Maison|Relais) des? Services?/i]
+  },
+  {
+    typologie: Typologie.MSA,
+    matchers: [/(?:^|\W)MSA(?:\W|$)/i, /Mutualité Sociale Agricole/i]
   },
   {
     typologie: Typologie.MUNI,
     matchers: [
-      /(?:^|\W)Municipalité(?:\W|$)/iu,
-      /(?:^|\W)mairie(?:\W|$)/iu,
-      /(?:^|\W)maire(?:\W|$)/iu,
-      /^commune(?:\W|$)/iu,
-      /^CA\s/iu,
-      /\sAgglo(?:m[ée]ration)?$/iu,
-      /Agglom[ée]ration d/iu,
-      /Communaut[ée] (?:d\W)?Agglom[ée]ration/iu,
-      /^ville d[eu]/iu,
-      /h[oô]tel de ville/iu
+      /(?:^|\W)Municipalité(?:\W|$)/i,
+      /(?:^|\W)mairie(?:\W|$)/i,
+      /(?:^|\W)maire(?:\W|$)/i,
+      /^commune(?:\W|$)/i,
+      /^CA\s/i,
+      /\sAgglo(?:m[ée]ration)?$/i,
+      /Agglom[ée]ration d/i,
+      /Communaut[ée] (?:d\W)?Agglom[ée]ration/i,
+      /^ville d[eu']/i,
+      /h[oô]tel de ville/i,
+      /marie de\s/i
     ]
   },
   {
+    typologie: Typologie.OIL,
+    matchers: [/intermédiation locative/i]
+  },
+  {
     typologie: Typologie.PAD,
-    matchers: [/Accès au Droit/iu]
+    matchers: [/Acc[èe]s aux? Droit/i, /Justice et du Droit/i, /Maison du droit/i]
+  },
+  {
+    typologie: Typologie.PENSION,
+    matchers: [/Pension de famille/i]
   },
   {
     typologie: Typologie.PI,
-    matchers: [/Point d'information/iu, /Point Info/iu]
+    matchers: [/Point d'information/i, /Point Info/i]
   },
   {
     typologie: Typologie.PIJ_BIJ,
     matchers: [
-      /(?:^|\W)BIJ(?:\W|$)/iu,
-      /info(?:rmation)?s? jeune/iu,
-      /(?:^|\W)PIJ(?:\W|$)/iu,
-      /(?:^|\W)CRIJ(?:\W|$)/iu,
-      /point accueil jeunesse/iu,
-      /Espace jeune/iu
+      /(?:^|\W)BIJ(?:\W|$)/i,
+      /info(?:rmation)?s? jeune/i,
+      /(?:^|\W)PIJ(?:\W|$)/i,
+      /(?:^|\W)CRIJ(?:\W|$)/i,
+      /point accueil jeunesse/i,
+      /Espace jeune/i
     ]
   },
   {
     typologie: Typologie.PIMMS,
-    matchers: [/(?:^|\W)PIMMS(?:\W|$)/iu, /point information mediation multi services/iu]
+    matchers: [/(?:^|\W)PIMMS(?:\W|$)/i, /point information mediation multi services/i]
+  },
+  {
+    typologie: Typologie.PJJ,
+    matchers: [/JUDICIAIRE JEUNESSE/i]
   },
   {
     typologie: Typologie.PLIE,
-    matchers: [/^PLIE(?:\W|$)/iu]
+    matchers: [/^PLIE(?:\W|$)/i]
   },
   {
     typologie: Typologie.PREF,
-    matchers: [/^Pr[ée]fecture/iu, /^sous[-\s]pr[ée]fecture/iu]
+    matchers: [/Pr[ée]fecture/i]
   },
   {
     typologie: Typologie.REG,
-    matchers: [/^R[ée]gion/iu]
+    matchers: [/^R[ée]gion/i]
   },
   {
     typologie: Typologie.RESSOURCERIE,
-    matchers: [/Ressourcerie/iu]
+    matchers: [/Ressourcerie/i]
+  },
+  {
+    typologie: Typologie.RS_FJT,
+    matchers: [/Résidence Sociale/i, /Foyer des? Jeunes Travailleurs/i]
+  },
+  {
+    typologie: Typologie.SCP,
+    matchers: [/Club prévention/i]
+  },
+  {
+    typologie: Typologie.SPIP,
+    matchers: [/(?:^|\W)SPIP(?:\W|$)/i, /Service Pénitentiaire D'Insertion et de Probation/i]
   },
   {
     typologie: Typologie.UDAF,
-    matchers: [/(?:^|\W)UDAF(?:\W|\d|$)/iu]
+    matchers: [/(?:^|\W)UDAF(?:\W|\d|$)/i]
   },
   {
     typologie: Typologie.AFPA,
-    matchers: [/(?:^|\W)AFPA(?:\W|$)/iu]
+    matchers: [/(?:^|\W)AFPA(?:\W|$)/i]
   },
   {
     typologie: Typologie.CHRS,
-    matchers: [/(?:^|\W)CHRS(?:\W|$)/iu]
+    matchers: [/(?:^|\W)CHRS(?:\W|$)/i]
   },
   {
     typologie: Typologie.MDE,
-    matchers: [/(?:^|\W)MDE(?:\W|$)/iu, /maison[\w\s',]+de l[’'\s]emploi/iu]
+    matchers: [/(?:^|\W)MDE(?:\W|$)/i, /maison[\w\s',]+de l[’'\s]emploi/i]
   },
   {
     typologie: Typologie.CCONS,
     matchers: [
-      /chambre[\w\s']+agriculture/iu,
-      /chambre[\w\s']+m[ée]tiers[\w\s']+artisanat/iu,
-      /chambre[\w\s']+commerce[\w\s']+industrie/iu,
-      /(?:^|\W)CCI(?:\W|$)/iu
+      /chambre[\w\s']+agriculture/i,
+      /chambre[\w\s']+m[ée]tiers[\w\s']+artisanat/i,
+      /chambre[\w\s']+commerce[\w\s']+industrie/i,
+      /(?:^|\W)CCI(?:\W|$)/i
     ]
   },
   {
     typologie: Typologie.CAP_EMPLOI,
-    matchers: [/cap emploi/iu]
+    matchers: [/cap emploi/i]
   },
   {
     typologie: Typologie.UDAF,
-    matchers: [/(?:^|\W)UDAF(?:\W|$)/iu, /union des associations familiales/iu]
+    matchers: [/(?:^|\W)UDAF(?:\W|$)/i, /union des associations familiales/i]
   },
   {
     typologie: Typologie.RFS,
     matchers: [
-      /(?:^|\W)EFS(?:\W|$)/iu,
-      /frances?[\s-]services?/iu,
-      /Fixe Bruay-sur-l'Escaut\s{2}\( D[ée]partement du Nord\)/iu,
-      /Folschviller - Antenne de L'H[ôo]pital/iu,
-      /Communaut[eé] de communes Vaison Ventoux/iu
+      /(?:^|\W)EFS(?:\W|$)/i,
+      /(?:^|\W)MFS(?:\W|$)/i,
+      /frances?[\s-]services?/i,
+      /Fixe Bruay-sur-l'Escaut\s{2}\( D[ée]partement du Nord\)/i,
+      /Folschviller - Antenne de L'H[ôo]pital/i,
+      /Communaut[eé] de communes Vaison Ventoux/i
     ]
   }
 ];

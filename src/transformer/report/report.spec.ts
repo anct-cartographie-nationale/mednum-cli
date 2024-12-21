@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { Recorder, Report } from './report';
 
 describe('report', (): void => {

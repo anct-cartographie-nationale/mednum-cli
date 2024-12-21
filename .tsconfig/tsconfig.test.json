@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "display": "Test configuration for Jest testing framework",
+  "display": "Test configuration for Vitest testing framework",
   "extends": "./tsconfig.base.json",
   "include": ["../src/**/*.test.ts", "../src/**/*.spec.ts"]
 }

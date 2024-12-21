@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { errorReportToCsv } from './error-report.to-csv';
 
 describe('output', (): void => {

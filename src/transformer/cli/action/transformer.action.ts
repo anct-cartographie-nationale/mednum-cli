@@ -1,3 +1,4 @@
+import { flatten } from 'flat';
 import {
   fromSchemaLieuDeMediationNumerique,
   LieuMediationNumerique,
@@ -17,9 +18,6 @@ import { TransformationRepository } from '../../repositories';
 import { canTransform, DiffSinceLastTransform } from '../diff-since-last-transform';
 import { TransformerOptions } from '../transformer-options';
 import { transformationRespository } from './transformation.respository';
-
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const flatten = require('flat');
 
 const REPORT: Report = Report();
 
@@ -76,7 +74,11 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
 
   console.log('4. Transformation des données vers le schéma des lieux de mediation numérique');
   const lieuxDeMediationNumerique: LieuMediationNumerique[] = (
-    await Promise.all(lieux.map(flatten).map(toLieuxMediationNumerique(repository, transformerOptions.sourceName, REPORT)))
+    await Promise.all(
+      lieux
+        .map((dataSource: DataSource) => flatten(dataSource, { safe: true }))
+        .map(toLieuxMediationNumerique(repository, transformerOptions.sourceName, REPORT))
+    )
   ).filter(validValuesOnly);
 
   if (diffSinceLastTransform != null) {

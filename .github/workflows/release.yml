@@ -48,7 +48,6 @@ jobs:
             vendee,
             paca,
             rhin-occ,
-            sarthe,
             siilab
           ]
     runs-on: ubuntu-latest

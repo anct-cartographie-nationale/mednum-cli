@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { idTypeQuestion } from './id-type.question';
 
 describe('id type option for cli import', (): void => {

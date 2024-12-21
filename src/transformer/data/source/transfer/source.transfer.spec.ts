@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { SourceMap, sourceMapFromTransfer, SourceTransfer } from './source.transfer';
 
 describe('source transfer', (): void => {
