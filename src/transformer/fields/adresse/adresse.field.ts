@@ -22,7 +22,7 @@ type SourceAddress = {
 const nouvelleCaledonieException = (codePostal: string): boolean => codePostal.startsWith('98');
 
 export const complementAdresseIfAny = (complementAdresse?: string): { complement_adresse?: string } =>
-  complementAdresse == null ? {} : { complement_adresse: complementAdresse.replace(/\s+/gu, ' ').trim() };
+  complementAdresse == null ? {} : { complement_adresse: complementAdresse.replace(/\s+/g, ' ').trim() };
 
 const codeInseeIfAny = (code_insee?: string): { code_insee?: string } => (code_insee == null ? {} : { code_insee });
 

@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { Adresse, VoieError } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { processAdresse } from './adresse.field';

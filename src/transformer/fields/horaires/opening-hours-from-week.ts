@@ -82,7 +82,7 @@ const processOpeningHours = (singleStringOpeningHours?: string): OsmOpeningHours
         .sort(byDayOfWeek);
 
 const isValidOdmHours = (osmOpeningHours: OsmOpeningHoursString): boolean =>
-  /(?:Mo|Tu|We|Th|Fr|Sa|Su)\s?;|(?:Mo|Tu|We|Th|Fr|Sa|Su)\s?$/gu.test(osmOpeningHours ?? '');
+  /(?:Mo|Tu|We|Th|Fr|Sa|Su)\s?;|(?:Mo|Tu|We|Th|Fr|Sa|Su)\s?$/g.test(osmOpeningHours ?? '');
 
 export const openingHoursFromWeek = (horairesSingleField?: string): OsmOpeningHoursString =>
   ((singleStringOpeningHours: OsmOpeningHoursString): OsmOpeningHoursString =>

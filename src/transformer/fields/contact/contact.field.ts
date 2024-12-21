@@ -5,7 +5,7 @@ import { cleanOperations, CleanOperation } from './clean-operations';
 
 type FixedContact = DataSource | undefined;
 
-const toInternationalFormat = (phone: string): string => (/^0\d{9}$/u.test(phone) ? `+33${phone.slice(1)}` : phone);
+const toInternationalFormat = (phone: string): string => (/^0\d{9}$/.test(phone) ? `+33${phone.slice(1)}` : phone);
 
 const telephoneField = (telephone?: number | string): Pick<Contact, 'telephone'> =>
   telephone == null
@@ -14,7 +14,7 @@ const telephoneField = (telephone?: number | string): Pick<Contact, 'telephone'>
         telephone: toInternationalFormat(
           telephone
             .toString()
-            .replace(/[\s,.-]/gu, '')
+            .replace(/[\s,.-]/g, '')
             .replace('(0)', '')
             .trim()
         )

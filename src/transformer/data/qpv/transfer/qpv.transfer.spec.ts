@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { type MultiPolygon, type Polygon } from 'geojson';
 import { QpvShapesMap } from '../../../fields';
 import { qpvShapesMapFromTransfer, QpvTransfer } from './qpv.transfer';

@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { Typologie, Typologies } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching } from '../../input';
 import { processTypologies } from './typologies.field';

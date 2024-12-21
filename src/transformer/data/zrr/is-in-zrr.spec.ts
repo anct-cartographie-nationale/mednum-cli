@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { ZrrMap } from '../../fields';
 import { isInZrr } from './is-in-zrr';
 

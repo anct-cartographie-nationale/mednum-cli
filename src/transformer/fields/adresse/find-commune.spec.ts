@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { Commune, findCommune } from './find-commune';
 
 const BEGLES: Commune = {

@@ -6,7 +6,7 @@ type DatasetToPublishActions = {
   exist?: (datasetToUpdate: PublishDataset, datasetFound: Dataset) => Promise<void>;
 };
 
-const DATE_FORMAT_CHECK: RegExp = /\d{8}|(\d{4})-(\d{2})-(\d{2})/gu;
+const DATE_FORMAT_CHECK: RegExp = /\d{8}|(\d{4})-(\d{2})-(\d{2})/g;
 
 const datasetFound = (dataset: Dataset | undefined): dataset is Dataset => dataset != null;
 

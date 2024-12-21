@@ -24,7 +24,7 @@ const isCompatibleForFranceServices = (
   lieuToDeduplicate: SchemaLieuMediationNumerique
 ): boolean =>
   (hasRFSCompatibleTypology(lieu) && hasRFSCompatibleTypology(lieuToDeduplicate)) ||
-  (/france services?/giu.test(lieu.nom.toLowerCase()) && /france services?/giu.test(lieuToDeduplicate.nom.toLowerCase()));
+  (/france services?/gi.test(lieu.nom.toLowerCase()) && /france services?/gi.test(lieuToDeduplicate.nom.toLowerCase()));
 
 const compatibilitySpecialCases = (
   lieu: SchemaLieuMediationNumerique,

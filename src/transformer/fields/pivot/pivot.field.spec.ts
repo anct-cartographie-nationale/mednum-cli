@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { processPivot } from './pivot.field';
 import { Pivot } from '@gouvfr-anct/lieux-de-mediation-numerique';

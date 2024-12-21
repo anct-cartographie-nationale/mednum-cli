@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { shouldMarkAsDeduplicated } from './save-with-api';
 
 describe('save merged lieux with API', (): void => {

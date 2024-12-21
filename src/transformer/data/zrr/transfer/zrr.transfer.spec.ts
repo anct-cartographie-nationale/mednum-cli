@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { zrrMapFromTransfer, ZrrTransfer } from './zrr.transfer';
 
 describe('zrr transfer', (): void => {

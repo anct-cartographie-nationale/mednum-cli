@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { SchemaLieuMediationNumerique, Typologie } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { DuplicationComparison, duplicationComparisons } from './duplication-comparisons';
 

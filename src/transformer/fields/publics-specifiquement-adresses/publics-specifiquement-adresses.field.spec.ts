@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { PublicSpecifiquementAdresse } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching } from '../../input';
 import { processPublicsSpecifiquementAdresses } from './publics-specifiquement-adresses.field';

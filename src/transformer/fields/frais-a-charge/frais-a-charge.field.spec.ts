@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { Frais, FraisACharge } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { processFraisACharge } from './frais-a-charge.field';

@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { SchemaLieuMediationNumerique, Service } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Groups } from '../group-duplicates/group-duplicates';
 import { removeMerged } from './remove-merged';
