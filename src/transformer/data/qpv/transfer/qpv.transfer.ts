@@ -46,9 +46,11 @@ const upsertQpvToShapesMap = (
 
 const hasGeoShape = (qpv: QpvTransfer): qpv is FieldsWithShape => qpv.geo_shape != null;
 
-export const qpvShapesMapFromTransfer = (qpvTransfer: QpvTransfer[]): QpvShapesMap =>
-  qpvTransfer.reduce(
+export const qpvShapesMapFromTransfer = (qpvTransfer: QpvTransfer[]): QpvShapesMap => {
+  console.log(qpvTransfer);
+  return qpvTransfer.reduce(
     (qpvShapesMap: QpvShapesMap, qpv: QpvTransfer): QpvShapesMap =>
       hasGeoShape(qpv) ? upsertQpvToShapesMap(qpvShapesMap.get(qpv.list_com_2023) ?? [], qpvShapesMap, qpv) : qpvShapesMap,
     new Map<string, Polygon[]>()
   );
+};
