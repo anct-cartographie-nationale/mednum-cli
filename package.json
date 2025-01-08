@@ -79,6 +79,8 @@
     "transformer.res-in": "tsx src/index.ts transformer -n \"Res-in\" -t \"Lyon\" -s \"https://resin.grandlyon.com/api/structures\" -c \"./assets/input/res-in/res-in.config.json\" -o \"./assets/output/res-in\"",
     "transformer.siilab": "tsx src/index.ts transformer -n \"Siilab\" -t \"Hauts-de-France\" -s \"https://cdonline.articque.com/download/434922/SIILAB_HDF_standard_med_num.csv\" -c \"./assets/input/siilab/siilab.config.json\" -o \"./assets/output/siilab\" -d \";\"",
     "transformer.ultra-num": "tsx src/index.ts transformer -n \"Ultra-numerique\" -t \"La Reunion\" -s \"./assets/input/ultra-num/ultra-num.json\" -c \"./assets/input/ultra-num/ultra-num.config.json\" -o \"./assets/output/ultra-num\"",
+    "extract.all": "tsx src/index.ts extract -n \"Data Inclusion\" -o ./assets/output-extraction/data-inclusion -t National -c false",
+    "publier.all": "tsx src/index.ts publier -z country:fr -m ./assets/output-extraction/data-inclusion/publier.json",
     "publier.aidants-connect": "tsx src/index.ts publier -z \"country:fr\" -m \"./assets/output/aidants-connect/publier.json\"",
     "publier.aix-en-provence": "tsx src/index.ts publier -z \"fr:commune:13001\" -m \"./assets/output/aix-en-provence/publier.json\"",
     "publier.angers": "tsx src/index.ts publier -z \"fr:commune:49007\" -m \"./assets/output/angers/publier.json\"",
