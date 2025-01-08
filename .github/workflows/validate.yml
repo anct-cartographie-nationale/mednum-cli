@@ -174,39 +174,3 @@ jobs:
       DATA_GOUV_API_KEY: ${{ secrets.DATA_GOUV_API_KEY }}
       DATA_GOUV_REFERENCE_ID: ${{ secrets.DATA_GOUV_REFERENCE_ID }}
       DATA_GOUV_REFERENCE_TYPE: ${{ secrets.DATA_GOUV_REFERENCE_TYPE }}
-#   extract-and-publish:
-#     name: Extract and publish to data.gouv
-#     strategy:
-#       matrix:
-#         source: [extract-eure-et-loir, extract-mednum-hub-antilles, extract-numi, extract-paca, extract-savoie, extract-vendee]
-#     runs-on: ubuntu-latest
-#     environment: demo
-#     needs:
-#       - transform-and-publish
-#     steps:
-#       - name: Checkout mednum-cli repository
-#         uses: actions/checkout@v4
-#         with:
-#           fetch-depth: 0
-#       - name: Install pnpm
-#         uses: pnpm/action-setup@v4
-#         with:
-#           version: 9
-#       - name: Set up Node.js
-#         uses: actions/setup-node@v4
-#         with:
-#           node-version: latest
-#           cache: 'pnpm'
-#       - name: Install dependencies
-#         run: pnpm install
-#       - name: 'Create env file'
-#         run: |
-#           touch .env
-#           echo DATA_GOUV_API_URL="${{ secrets.DATA_GOUV_API_URL }}" >> .env
-#           echo DATA_GOUV_API_KEY="${{ secrets.DATA_GOUV_API_KEY }}" >> .env
-#           echo DATA_GOUV_REFERENCE_ID="${{ secrets.DATA_GOUV_REFERENCE_ID }}" >> .env
-#           echo DATA_GOUV_REFERENCE_TYPE="${{ secrets.DATA_GOUV_REFERENCE_TYPE }}" >> .env
-#       - name: Extract
-#         run: pnpm extract.${{ matrix.source }}
-#       - name: Publish
-#         run: pnpm publier.${{ matrix.source }}
