@@ -54,13 +54,18 @@ const toTypologieMatchingName =
   (source: DataSource, matching: LieuxMediationNumeriqueMatching) =>
   (typologies: Typologies, typologieMatcher: TypologieMatcher): Typologies =>
     typologieMatcher.matchers.reduce(matchWithName(source, matching), false)
-      ? Typologies([typologieMatcher.typologie])
+      ? Typologies(Array.from(new Set([...typologies, typologieMatcher.typologie])))
       : typologies;
 
 const inferTypologies = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Typologies =>
-  processDispositifProgrammeNationaux(source, matching).includes(DispositifProgrammeNational.FranceServices)
-    ? Typologies([Typologie.RFS])
-    : TYPOLOGIE_MATCHERS.reduce(toTypologieMatchingName(source, matching), Typologies([]));
+  TYPOLOGIE_MATCHERS.reduce(
+    toTypologieMatchingName(source, matching),
+    Typologies(
+      processDispositifProgrammeNationaux(source, matching).includes(DispositifProgrammeNational.FranceServices)
+        ? [Typologie.RFS]
+        : []
+    )
+  );
 
 const checkingTypologieSourceValues = (source: DataSource, matching: LieuxMediationNumeriqueMatching): boolean[] | undefined =>
   matching.typologie?.map(
@@ -76,4 +81,4 @@ export const processTypologies = (source: DataSource, matching: LieuxMediationNu
     !typologiesArePreset(matching)) ||
   matching.typologie?.at(0)?.cible == null
     ? inferTypologies(source, matching)
-    : Typologies(Array.from(new Set(matching.typologie.reduce(appendTypologies(source), []))));
+    : Typologies(Array.from(new Set(matching.typologie.reduce(appendTypologies(source), inferTypologies(source, matching)))));

@@ -1,5 +1,3 @@
-/* eslint-disable max-lines, max-lines-per-function, prefer-named-capture-group, no-control-regex */
-
 import { LieuxMediationNumeriqueMatching } from '../../input';
 
 export type CleanOperation = {
@@ -28,352 +26,353 @@ const setPhoneCodeWhenDomTom = (codePostal?: string): string => {
 
 const replaceNewlineInWebsites = (field: string): CleanOperation => ({
   name: 'replace newline in websites',
-  selector: /\n/u,
+  selector: /\n/,
   field,
-  fix: (toFix: string): string => toFix.replace(/\n/u, '')
+  fix: (toFix: string): string => toFix.replace(/\n/, '')
 });
 
 const replaceDoubleDotBySingleDotInWebsites = (field: string): CleanOperation => ({
   name: ': instead of . after www',
-  selector: /www:/gu,
+  selector: /www:/g,
   field,
-  fix: (toFix: string): string => toFix.replace(/www:/gu, 'www.')
+  fix: (toFix: string): string => toFix.replace(/www:/g, 'www.')
 });
 
 const removeWebsitesStartingWithAt = (field: string): CleanOperation => ({
   name: 'remove url starting by at',
-  selector: /^@/u,
+  selector: /^@/,
   field
 });
 
 const removeWebsitesWithAccentedCharacters = (field: string): CleanOperation => ({
   name: 'websites with accented characters',
-  selector: /[^\x00-\x7F]+/gu,
+  // eslint-disable-next-line no-control-regex
+  selector: /[^\x00-\x7F]+/g,
   field
 });
 
 const removeMissingExtensionWebsites = (field: string): CleanOperation => ({
   name: 'missing extension websites',
-  selector: /^.*(?<!\.\w+\/?)$/u,
+  selector: /^.*(?<!\.\w+\/?)$/,
   field
 });
 
 const fixMissingHttpWebsitesWithMultipleUrl = (field: string): CleanOperation => ({
   name: 'missing http websites with multiple url',
-  selector: /\|((?!http[s]?:\/\/)[^|]+)/gu,
+  selector: /\|((?!http[s]?:\/\/)[^|]+)/g,
   field,
-  fix: (toFix: string): string => toFix.replace(/\|((?!http[s]?:\/\/)[^|]+)/gu, '|http://$1')
+  fix: (toFix: string): string => toFix.replace(/\|((?!http[s]?:\/\/)[^|]+)/g, '|http://$1')
 });
 
 const fixMissingHttpWebsites = (field: string): CleanOperation => ({
   name: 'missing http websites',
-  selector: /^(?!http).*/u,
+  selector: /^(?!http).*/,
   field,
   fix: (toFix: string): string => `http://${toFix}`
 });
 
 const fixUppercaseWebsites = (field: string): CleanOperation => ({
   name: 'uppercase in websites',
-  selector: /[A-Z]/u,
+  selector: /[A-Z]/,
   field,
   fix: (toFix: string): string => toFix.toLowerCase()
 });
 
 const fixMisplacedColonInWebsite = (field: string): CleanOperation => ({
   name: 'missing colon websites',
-  selector: /https\/\/:/u,
+  selector: /https\/\/:/,
   field,
-  fix: (toFix: string): string => toFix.replace(/https\/\/:/u, 'https://')
+  fix: (toFix: string): string => toFix.replace(/https\/\/:/, 'https://')
 });
 
 const fixMissingColonWebsites = (field: string): CleanOperation => ({
   name: 'missing colon websites',
-  selector: /(https?)(\/\/)/u,
+  selector: /(https?)(\/\/)/,
   field,
-  fix: (toFix: string): string => toFix.replace(/(https?)(\/\/)/u, '$1:$2')
+  fix: (toFix: string): string => toFix.replace(/(https?)(\/\/)/, '$1:$2')
 });
 
 const fixMultipleUrlNotSeparatedWebsites = (field: string): CleanOperation => ({
   name: 'missing separator between url',
-  selector: /(https?:\/\/[^|]+(?!\|))(https?:\/\/)/gu,
+  selector: /(https?:\/\/[^|]+(?!\|))(https?:\/\/)/g,
   field,
-  fix: (toFix: string): string => toFix.replace(/(https?:\/\/[^|]+(?!\|))(https?:\/\/)/gu, '$1|$2')
+  fix: (toFix: string): string => toFix.replace(/(https?:\/\/[^|]+(?!\|))(https?:\/\/)/g, '$1|$2')
 });
 
 const fixDuplicateHttpWebsites = (field: string): CleanOperation => ({
   name: 'duplicate http websites',
-  selector: /^https?:\/\/https?:\/\/.*/u,
+  selector: /^https?:\/\/https?:\/\/.*/,
   field,
-  fix: (toFix: string): string => toFix.replace(/^https?:\/\/https?:\/\//u, 'https://')
+  fix: (toFix: string): string => toFix.replace(/^https?:\/\/https?:\/\//, 'https://')
 });
 
 const fixWebsitesSeparator = (field: string): CleanOperation => ({
   name: 'websites separator',
-  selector: /;|\s(?:ou|\/|;)\s/u,
+  selector: /;|\s(?:ou|\/|;)\s/,
   field,
-  fix: (toFix: string): string => toFix.replace(/;|\s(?:ou|\/|;)\s/u, '|')
+  fix: (toFix: string): string => toFix.replace(/;|\s(?:ou|\/|;)\s/, '|')
 });
 
 const fixWebsitesWithSingleSlash = (field: string): CleanOperation => ({
   name: 'website without colon and slash',
-  selector: /^https?:\/www/u,
+  selector: /^https?:\/www/,
   field,
-  fix: (toFix: string): string => toFix.replace(/:\/www/u, '://www')
+  fix: (toFix: string): string => toFix.replace(/:\/www/, '://www')
 });
 
 const fixWebsitesWithoutColonAndSlash = (field: string): CleanOperation => ({
   name: 'website without colon and slash',
-  selector: /^https?\/www/u,
+  selector: /^https?\/www/,
   field,
-  fix: (toFix: string): string => toFix.replace(/^https?\/www/u, 'https://www')
+  fix: (toFix: string): string => toFix.replace(/^https?\/www/, 'https://www')
 });
 
 const fixWebsitesWithComaInsteadOfDot = (field: string): CleanOperation => ({
   name: 'website with coma instead of dot',
-  selector: /^http:\/\/www,/u,
+  selector: /^http:\/\/www,/,
   field,
-  fix: (toFix: string): string => toFix.replace(/^http:\/\/www,/u, 'http://www.')
+  fix: (toFix: string): string => toFix.replace(/^http:\/\/www,/, 'http://www.')
 });
 
 const fixWebsitesWithMissingSlashAfterHttp = (field: string): CleanOperation => ({
   name: 'website with coma instead of dot',
-  selector: /^http:\/[^/]/u,
+  selector: /^http:\/[^/]/,
   field,
-  fix: (toFix: string): string => toFix.replace(/^http:\//u, 'http://')
+  fix: (toFix: string): string => toFix.replace(/^http:\//, 'http://')
 });
 
 const removeWebsitesWithSpaces = (field: string): CleanOperation => ({
   name: 'websites with spaces',
-  selector: /\s/u,
+  selector: /\s/,
   field
 });
 
 const fixWebsitesWithCodedSpacesAndParenthese = (field: string): CleanOperation => ({
   name: 'websites with coded spaces',
-  selector: /[()]/gu,
+  selector: /[()]/g,
   field,
-  fix: (toFix: string): string => toFix.replace(/[()]/gu, (match: string): string => (match === '(' ? '%28' : '%29'))
+  fix: (toFix: string): string => toFix.replace(/[()]/g, (match: string): string => (match === '(' ? '%28' : '%29'))
 });
 
 const fixDetailsInParenthesisInPhone = (field: string): CleanOperation => ({
   name: 'trailing details in phone',
-  selector: /\s\(.*\)$/gu,
+  selector: /\s\(.*\)$/g,
   field,
-  fix: (toFix: string): string => toFix.replace(/\s\(.*\)$/gu, '')
+  fix: (toFix: string): string => toFix.replace(/\s\(.*\)$/g, '')
 });
 
 const fixHeadingDetailsInPhone = (field: string): CleanOperation => ({
   name: 'heading details in phone',
-  selector: /^\D{3,}/gu,
+  selector: /^\D{3,}/g,
   field,
-  fix: (toFix: string): string => toFix.replace(/^\D{3,}/gu, '')
+  fix: (toFix: string): string => toFix.replace(/^\D{3,}/g, '')
 });
 
 const fixTrailingDetailsInPhone = (field: string): CleanOperation => ({
   name: 'trailing details in phone',
-  selector: /\s[A-Za-z].*$/gu,
+  selector: /\s[A-Za-z].*$/g,
   field,
-  fix: (toFix: string): string => toFix.replace(/\s[A-Za-z].*$/gu, '')
+  fix: (toFix: string): string => toFix.replace(/\s[A-Za-z].*$/g, '')
 });
 
 const fixWrongCharsInPhone = (field: string): CleanOperation => ({
   name: 'wrong chars in phone',
-  selector: /(?!\w|\+)./gu,
+  selector: /(?!\w|\+)./g,
   field,
-  fix: (toFix: string): string => toFix.replace(/(?!\w|\+)./gu, '')
+  fix: (toFix: string): string => toFix.replace(/(?!\w|\+)./g, '')
 });
 
 const fixUnexpectedPhoneList = (field: string): CleanOperation => ({
   name: 'unexpected phone list',
-  selector: /\d{10}\/\/?\d{10}/u,
+  selector: /\d{10}\/\/?\d{10}/,
   field,
   fix: (toFix: string): string => toFix.split('/')[0] ?? ''
 });
 
 const fixPhoneWithoutStarting0 = (field: string, codePostal?: string): CleanOperation => ({
   name: 'phone without starting 0',
-  selector: /^[1-9]\d{8}$/u,
+  selector: /^[1-9]\d{8}$/,
   field,
   fix: (toFix: string): string => setPhoneCodeWhenDomTom(codePostal) + toFix
 });
 
 const fixShortCafPhone = (field: string): CleanOperation => ({
   name: 'short CAF phone',
-  selector: /3230/u,
+  selector: /3230/,
   field,
   fix: (): string => '+33969322121'
 });
 
 const fixShortAssuranceRetraitePhone = (field: string): CleanOperation => ({
   name: 'short assurance retraite phone',
-  selector: /3960/u,
+  selector: /3960/,
   field,
   fix: (): string => '+33971103960'
 });
 
 const fixMissingPlusCharAtStartingPhone = (field: string): CleanOperation => ({
   name: 'fix missing + at starting phone number',
-  selector: /^33(\d+)/u,
+  selector: /^33(\d+)/,
   field,
-  fix: (toFix: string): string => toFix.replace(/^33(\d+)/u, '+33$1')
+  fix: (toFix: string): string => toFix.replace(/^33(\d+)/, '+33$1')
 });
 
 const removeTooFewDigitsInPhone = (field: string): CleanOperation => ({
   name: 'too few digits in phone',
-  selector: /^.{0,9}$/u,
+  selector: /^.{0,9}$/,
   field
 });
 
 const removeTooManyDigitsInPhone = (field: string): CleanOperation => ({
   name: 'too many digits in phone',
-  selector: /^0.{10,}/u,
+  selector: /^0.{10,}/,
   field
 });
 
 const removeOnly0ValueInPhone = (field: string): CleanOperation => ({
   name: 'fake number in phone',
-  selector: /^0{10}$/u,
+  selector: /^0{10}$/,
   field
 });
 
 const removeNoValidNumbersInPhone = (field: string): CleanOperation => ({
   name: 'fake number in phone',
-  selector: /^[1-9]\d{9}$/u,
+  selector: /^[1-9]\d{9}$/,
   field
 });
 
 const removeStartingByTwoZeroInPhone = (field: string): CleanOperation => ({
   name: 'fake number in phone',
-  selector: /^00.+/u,
+  selector: /^00.+/,
   field
 });
 
 const keepFirstNumberIfMultiple = (field: string): CleanOperation => ({
   name: 'keep only the first phone number',
-  selector: /\n/u,
+  selector: /\n/,
   field,
   fix: (toFix: string): string => /^(?<phone>[^\n]+)/u.exec(toFix)?.groups?.['phone'] ?? ''
 });
 
 const fixSpaceBeforeDotInEmail = (field: string): CleanOperation => ({
   name: 'remove space before dot.',
-  selector: /\w\s\./u,
+  selector: /\w\s\./,
   field,
-  fix: (toFix: string): string => toFix.replace(/(\w)\s\./u, '$1.')
+  fix: (toFix: string): string => toFix.replace(/(\w)\s\./, '$1.')
 });
 
 const fixSpaceInEmail = (field: string): CleanOperation => ({
   name: 'remove space in email.',
-  selector: /^\w+@\w+\s\w+\.\w+$/u,
+  selector: /^\w+@\w+\s\w+\.\w+$/,
   field,
-  fix: (toFix: string): string => toFix.replace(/\s/u, '')
+  fix: (toFix: string): string => toFix.replace(/\s/, '')
 });
 
 const removeTextPrecededByWrongCharacterInEmail = (field: string): CleanOperation => ({
   name: 'text preceded by wrong wharacter',
-  selector: /^\w+[;\s]/u,
+  selector: /^\w+[;\s]/,
   field,
-  fix: (toFix: string): string => toFix.replace(/^\w+[;\s]/u, '')
+  fix: (toFix: string): string => toFix.replace(/^\w+[;\s]/, '')
 });
 
 const removeEmailStartingWithWww = (field: string): CleanOperation => ({
   name: 'email starts with www.',
-  selector: /^www\./u,
+  selector: /^www\./,
   field
 });
 
 const removeEmailStartingWithAt = (field: string): CleanOperation => ({
   name: 'email starts with @',
-  selector: /^@/u,
+  selector: /^@/,
   field
 });
 
 const fixEmailWithTwoArobase = (field: string): CleanOperation => ({
   name: 'email with two @',
-  selector: /@@/u,
+  selector: /@@/,
   field,
-  fix: (toFix: string): string => toFix.replace(/@@/u, '@')
+  fix: (toFix: string): string => toFix.replace(/@@/, '@')
 });
 
 const trimEmail = (field: string): CleanOperation => ({
   name: 'email starts with mailto:',
-  selector: /^\s+|\s+$/u,
+  selector: /^\s+|\s+$/,
   field,
   fix: (toFix: string): string => toFix.trim()
 });
 
 const fixEmailStartingWithMailToOrColon = (field: string): CleanOperation => ({
   name: 'email starts with mailto: or colon',
-  selector: /^mailto:|:/u,
+  selector: /^mailto:|:/,
   field,
-  fix: (toFix: string): string => toFix.replace(/^mailto:|:/u, '')
+  fix: (toFix: string): string => toFix.replace(/^mailto:|:/, '')
 });
 
 const fixUnexpectedEmailLabel = (field: string): CleanOperation => ({
   name: 'unexpected email label',
-  selector: /\S\s:\s\S/u,
+  selector: /\S\s:\s\S/,
   field,
-  fix: (toFix: string): string => toFix.split(/\s:\s/u)[1] ?? ''
+  fix: (toFix: string): string => toFix.split(/\s:\s/)[1] ?? ''
 });
 
 const fixStartingWithDotEmail = (field: string): CleanOperation => ({
   name: 'email starting with dot',
-  selector: /^\.([^@]+)@/u,
+  selector: /^\.([^@]+)@/,
   field,
-  fix: (toFix: string): string => toFix.replace(/^\.([^@]+)@/u, '$1@')
+  fix: (toFix: string): string => toFix.replace(/^\.([^@]+)@/, '$1@')
 });
 
 const fixUnexpectedEmailSeparator = (field: string): CleanOperation => ({
   name: 'unexpected email separator',
-  selector: /\S\s?(?:et|ou|;|\s|\/)\s?\S/u,
+  selector: /\S\s?(?:et|ou|;|\s|\/)\s?\S/,
   field,
-  fix: (toFix: string): string => toFix.replace(/\s?(?:et|ou|;|\s|\/)\s?/gu, '|')
+  fix: (toFix: string): string => toFix.replace(/\s?(?:et|ou|;|\s|\/)\s?/g, '|')
 });
 
 const fixObfuscatedAtInEmail = (field: string): CleanOperation => ({
   name: 'obfuscated @ in email',
-  selector: /\[a\]/gu,
+  selector: /\[a\]/g,
   field,
   fix: (toFix: string): string => toFix.replace('[a]', '@')
 });
 
 const removeMissingAtInEmail = (field: string): CleanOperation => ({
   name: 'missing @ in email',
-  selector: /^[^@]+$/gu,
+  selector: /^[^@]+$/g,
   field
 });
 
 const fixMissingEmailExtension = (field: string): CleanOperation => ({
   name: 'missing dot suffix in email',
-  selector: /\.[a-z]{2,3}$/u,
+  selector: /\.[a-z]{2,3}$/,
   field,
   negate: true
 });
 
 const removeDashEmail = (field: string): CleanOperation => ({
   name: 'dash email',
-  selector: /^-+$/u,
+  selector: /^-+$/,
   field
 });
 
 const removeMultipleAtEmail = (field: string): CleanOperation => ({
   name: 'multiple at',
-  selector: /@.+@/u,
+  selector: /@.+@/,
   field
 });
 
 const fixMissingAccentuatedEInEmail = (field: string): CleanOperation => ({
   name: 'fix accentuated chars',
-  selector: /[éè]/u,
+  selector: /[éè]/,
   field,
-  fix: (toFix: string): string => toFix.replace(/[éè]/gu, 'e')
+  fix: (toFix: string): string => toFix.replace(/[éè]/g, 'e')
 });
 
 const fixMissingAccentuatedCInEmail = (field: string): CleanOperation => ({
   name: 'fix accentuated chars',
-  selector: /ç/u,
+  selector: /ç/,
   field,
-  fix: (toFix: string): string => toFix.replace(/ç/gu, 'c')
+  fix: (toFix: string): string => toFix.replace(/ç/g, 'c')
 });
 
 const cleanOperationIfAny = (

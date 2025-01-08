@@ -1,4 +1,3 @@
-/* eslint-disable-next-line @typescript-eslint/no-restricted-imports */
 import * as fs from 'fs';
 import {
   fromSchemaLieuxDeMediationNumerique,
@@ -14,7 +13,7 @@ import {
   writeServicesDataInclusionJsonOutput,
   writeStructuresDataInclusionJsonOutput
 } from '../../../../common';
-import { duplicationComparisons, Groups, MergedLieuxByGroupMap, removeMerged } from '../../../steps';
+import { DuplicationComparison, Groups, MergedLieuxByGroupMap, removeMerged } from '../../../steps';
 import { formatToCSV } from '../../action/deduplication-comparisons-to-csv';
 import { DedupliquerOptions } from '../../dedupliquer-options';
 
@@ -33,7 +32,12 @@ const writeOutputFiles = (
 
 export const saveInFiles =
   (dedupliquerOptions: DedupliquerOptions) =>
-  (lieuxToDeduplicate: SchemaLieuMediationNumerique[], groups: Groups, merged: MergedLieuxByGroupMap): void => {
+  (
+    lieuxToDeduplicate: SchemaLieuMediationNumerique[],
+    groups: Groups,
+    merged: MergedLieuxByGroupMap,
+    duplications: DuplicationComparison[]
+  ): void => {
     const lieuxWithLessDuplicates: SchemaLieuMediationNumerique[] = [
       ...removeMerged(lieuxToDeduplicate, groups),
       ...Array.from(merged.values())
@@ -49,9 +53,5 @@ export const saveInFiles =
       fromSchemaLieuxDeMediationNumerique(lieuxWithLessDuplicates)
     );
 
-    fs.writeFileSync(
-      `${dedupliquerOptions.outputDirectory}/duplications.csv`,
-      formatToCSV(duplicationComparisons(lieuxToDeduplicate, false)),
-      'utf8'
-    );
+    fs.writeFileSync(`${dedupliquerOptions.outputDirectory}/duplications.csv`, formatToCSV(duplications), 'utf8');
   };

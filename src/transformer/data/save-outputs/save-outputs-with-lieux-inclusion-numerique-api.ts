@@ -12,8 +12,8 @@ const onlyDefined = <T>(nullable?: T): nullable is T => nullable != null;
 export const saveOutputsWithLieuxInclusionNumeriqueApi =
   (transformerOptions: TransformerOptions) =>
   async (lieuxMediationNumerique: LieuMediationNumerique[]): Promise<void> => {
-    transformerOptions.cartographieNationaleApiKey != null &&
-      (await axios.patch<unknown, AxiosResponse, SchemaLieuMediationNumerique[]>(
+    if (transformerOptions.cartographieNationaleApiKey != null) {
+      await axios.patch<unknown, AxiosResponse, SchemaLieuMediationNumerique[]>(
         `${transformerOptions.cartographieNationaleApiUrl}/lieux-inclusion-numerique`,
         lieuxMediationNumerique
           .filter(onlyDefined)
@@ -22,5 +22,6 @@ export const saveOutputsWithLieuxInclusionNumeriqueApi =
               toSchemaLieuMediationNumerique(lieuMediationNumerique)
           ),
         headers(authHeader(transformerOptions.cartographieNationaleApiKey))
-      ));
+      );
+    }
   };

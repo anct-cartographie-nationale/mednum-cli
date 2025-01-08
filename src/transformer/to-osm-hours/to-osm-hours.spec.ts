@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { toOsmHours } from './to-osm-hours';
 
 describe('to osm hours', (): void => {

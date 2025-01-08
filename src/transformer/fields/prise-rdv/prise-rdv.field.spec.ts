@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/naming-convention, camelcase */
-
+import { describe, it, expect } from 'vitest';
 import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { processPriseRdv } from './prise-rdv.field';
 

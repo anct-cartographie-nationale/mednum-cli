@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-
 import { ZrrMap } from '../../../fields';
 
 export type ZrrTransfer = {

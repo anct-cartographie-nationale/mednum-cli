@@ -1,4 +1,3 @@
-/* eslint-disable-next-line @typescript-eslint/no-restricted-imports */
 import * as fs from 'fs';
 import { Api } from '../../../common';
 import ErrnoException = NodeJS.ErrnoException;
@@ -24,7 +23,6 @@ export const publierAction = (publierOptions: PublierOptions): void => {
     'utf8',
     async (_: ErrnoException | null, dataString?: string): Promise<void> => {
       if (dataString == null) {
-        /* eslint-disable-next-line no-console */
         console.log('Nothing to publish');
         return;
       }

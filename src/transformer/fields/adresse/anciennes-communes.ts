@@ -5,6 +5,7 @@ const onlyDefined = <T>(entry: T | undefined): entry is T => entry != null;
 
 const communeMapEntry = (newCommune: NewCommune | undefined, communeName: string): [string, Commune] | undefined => {
   if (newCommune == null) return undefined;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { date, ...commune }: NewCommune = newCommune;
   return [communeName.toLowerCase(), commune];
 };

@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { dataInclusionFileName } from './data-inclusion.file-name';
 
 describe('data inclusion file name', (): void => {

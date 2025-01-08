@@ -29,7 +29,6 @@ export type Report = {
 
 const lastValueOf = <T>(array: T[]): T | undefined => array[array.length - 1];
 
-/* eslint-disable-next-line @typescript-eslint/naming-convention */
 const Recorder = (index: number, records: Record[], errors: RecordError[] = []): Recorder => ({
   record: (field: number | string | symbol, message: string, entryName: string): Recorder => {
     errors.push({ field, message, entryName, fixes: [] });
@@ -40,12 +39,12 @@ const Recorder = (index: number, records: Record[], errors: RecordError[] = []):
     return Recorder(index, records, errors);
   },
   commit: (): Report => {
-    errors.length > 0 && records.push({ index, errors });
+    if (errors.length > 0) records.push({ index, errors });
+
     return Report(records);
   }
 });
 
-/* eslint-disable-next-line @typescript-eslint/naming-convention */
 export const Report = (records: Record[] = []): Report => ({
   entry: (index: number): Recorder => Recorder(index, records),
   records: (): Record[] => records

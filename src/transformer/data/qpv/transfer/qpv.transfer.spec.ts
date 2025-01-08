@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/naming-convention, camelcase */
-
-import { MultiPolygon, Polygon } from '@turf/turf';
+import { describe, it, expect } from 'vitest';
+import { type MultiPolygon, type Polygon } from 'geojson';
 import { QpvShapesMap } from '../../../fields';
 import { qpvShapesMapFromTransfer, QpvTransfer } from './qpv.transfer';
 

@@ -1,4 +1,3 @@
-/* eslint-disable-next-line @typescript-eslint/no-restricted-imports */
 import * as fs from 'fs';
 import axios, { AxiosResponse } from 'axios';
 import { SchemaServiceDataInclusion, SchemaStructureDataInclusion } from '@gouvfr-anct/lieux-de-mediation-numerique';
@@ -40,12 +39,12 @@ const fetchFromDataInclusionApi = async <T>({ key, url }: Api): Promise<T[]> => 
 export const dataInclusionAction = async (dataInclusionOptions: DataInclusionOptions): Promise<void> => {
   const responseStructures: SchemaStructureDataInclusion[] = await fetchFromDataInclusionApi({
     key: dataInclusionOptions.dataInclusionApiKey,
-    url: 'https://api.data.inclusion.beta.gouv.fr/api/v0/structures?sources=dora'
+    url: `https://api.data.inclusion.beta.gouv.fr/api/v0/structures?sources=${dataInclusionOptions.filter}`
   });
 
   const responseServices: SchemaServiceDataInclusion[] = await fetchFromDataInclusionApi({
     key: dataInclusionOptions.dataInclusionApiKey,
-    url: 'https://api.data.inclusion.beta.gouv.fr/api/v0/services?sources=dora'
+    url: `https://api.data.inclusion.beta.gouv.fr/api/v0/services?sources=${dataInclusionOptions.filter}`
   });
 
   fs.writeFileSync(

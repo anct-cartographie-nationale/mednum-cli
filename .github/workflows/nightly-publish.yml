@@ -43,7 +43,6 @@ jobs:
             vendee,
             paca,
             rhin-occ,
-            sarthe,
             siilab
           ]
     runs-on: ubuntu-latest
@@ -60,7 +59,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22.x'
+          node-version: latest
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
@@ -99,7 +98,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22.x'
+          node-version: latest
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
@@ -139,7 +138,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22.x'
+          node-version: latest
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
@@ -177,7 +176,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22.x'
+          node-version: latest
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install

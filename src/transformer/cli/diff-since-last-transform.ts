@@ -1,4 +1,4 @@
-import { createHash } from 'crypto';
+import { createHash } from 'node:crypto';
 import { DataSource } from '../input';
 
 export type DiffSinceLastTransformWithoutId = null;
@@ -28,7 +28,6 @@ const hasSameHash = (currentHash: string | undefined, item: DataSource): boolean
 const toInnerProperty = (source: DataSource | string, key: string): DataSource | string =>
   typeof source === 'string' ? source : (source[key] as DataSource | string);
 
-/* eslint-disable-next-line @typescript-eslint/no-base-to-string */
 const getId = (idKey: string, item: DataSource): string => idKey.split('.').reduce(toInnerProperty, item).toString();
 
 const onlyMatchingItemIds =

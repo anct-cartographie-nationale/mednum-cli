@@ -1,7 +1,6 @@
-/* eslint-disable no-console */
-
 import * as fs from 'node:fs';
 import { parse } from 'csv-parse/sync';
+import { glob } from 'glob';
 import { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { paginate } from '../../../common';
 import { DeduplicationRepository } from '../../repositories';
@@ -47,11 +46,11 @@ const DATA_TYPES: DataType[] = [
   },
   {
     selector: (source: string): boolean => source.endsWith('.json'),
-    loader: (source: string): SchemaLieuMediationNumerique[] => readJsonFile(source)
+    loader: (source: string): SchemaLieuMediationNumerique[] => readJsonFile(glob.sync(source).at(0) ?? source)
   },
   {
     selector: (source: string): boolean => source.endsWith('.csv'),
-    loader: (source: string): SchemaLieuMediationNumerique[] => readCsvFile(source)
+    loader: (source: string): SchemaLieuMediationNumerique[] => readCsvFile(glob.sync(source).at(0) ?? source)
   }
 ];
 
@@ -65,7 +64,6 @@ const loadData = async (source: string): Promise<SchemaLieuMediationNumerique[]>
   return loaderConfig.loader(source);
 };
 
-/* eslint-disable-next-line max-statements */
 export const dedupliquerAction = async (dedupliquerOptions: DedupliquerOptions): Promise<void> => {
   try {
     const repository: DeduplicationRepository = deduplicationRepository(dedupliquerOptions);
@@ -74,15 +72,17 @@ export const dedupliquerAction = async (dedupliquerOptions: DedupliquerOptions):
     const allLieuxWithDuplicates: SchemaLieuMediationNumerique[] = await loadData(dedupliquerOptions.baseSource);
     const lieuxToDeduplicate: SchemaLieuMediationNumerique[] = await loadData(dedupliquerOptions.source);
 
-    console.log('2. recherche des doublons');
-    const duplicationComparisonsToGroup: DuplicationComparison[] = duplicationComparisons(
+    console.log(`2. recherche des doublons parmi les ${allLieuxWithDuplicates.length} lieux`);
+    const duplications: DuplicationComparison[] = duplicationComparisons(
       allLieuxWithDuplicates,
       dedupliquerOptions.allowInternal,
       lieuxToDeduplicate
-    ).filter(onlyMoreThanDuplicationScoreThreshold(dedupliquerOptions.allowInternal));
+    );
 
-    console.log('3. groupement des doublons');
-    const groups: Groups = groupDuplicates(duplicationComparisonsToGroup);
+    const filteredDuplications = duplications.filter(onlyMoreThanDuplicationScoreThreshold(dedupliquerOptions.allowInternal));
+
+    console.log(`3. groupement des doublons selon les ${filteredDuplications.length} groupes identifiés`);
+    const groups: Groups = groupDuplicates(filteredDuplications);
 
     console.log('4. fusion des doublons');
     const merged: MergedLieuxByGroupMap = mergeDuplicates(new Date())(allLieuxWithDuplicates, groups);
@@ -90,7 +90,7 @@ export const dedupliquerAction = async (dedupliquerOptions: DedupliquerOptions):
     console.log('- lieux fusionnés à enregistrer :', merged.size);
 
     console.log('5. sauvegarde des données dédupliquées');
-    await repository.save(groups, merged, allLieuxWithDuplicates);
+    await repository.save(groups, merged, allLieuxWithDuplicates, duplications);
   } catch (error) {
     console.log(error);
   }

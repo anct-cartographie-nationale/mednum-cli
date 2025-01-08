@@ -22,11 +22,53 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  prettier:
+    name: Prettier
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: false
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
+      - name: Run Prettier check
+        run: pnpm prettier.ci
+
+  eslint:
+    name: ESLint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: false
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
+      - name: Run ESLint
+        run: pnpm lint.es
+
   commitlint:
     name: CommitLint
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout mednum-cli repository
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -34,125 +76,101 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 9
-      - name: Set up Node.js
+          run_install: false
+      - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22.x'
+          node-version: 22
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
-      - name: commitlint
+      - name: Run Commitlint
         run: pnpm lint.commit
-  validation-matrix:
-    uses: romain-cambonie/serenity-workflows/.github/workflows/_validation-matrix.reusable.yml@master
+
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: false
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
+      - name: Run Tests
+        run: pnpm test
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: false
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
+      - name: Build
+        run: pnpm build
+
+  process_data:
+    name: Process data
+    uses: ./.github/workflows/process-data.reusable.yml
     with:
-      commands-as-comma-separated-string: 'lint.all,prettier.check,test,build'
-
-  transform-and-publish:
-    name: Transform and publish to data.gouv
-    strategy:
-      matrix:
-        source:
-          [
-            aidants-connect,
-            aix-en-provence,
-            angers,
-            bus-france-services-charente,
-            charente-maritime,
-            conseiller-numerique,
-            coop-numerique,
-            corse,
-            dora,
-            epernay,
-            etapes-numerique,
-            fibre-64,
-            france-services,
-            francil-in,
-            gironde,
-            grand-paris-sud,
-            haute-vienne,
-            hinaura,
-            hub-bretagne,
-            hub-lo,
-            la-creuse,
-            le-havre,
-            les-landes,
-            loire-atlantique,
-            maine-et-loire,
-            mednum-bfc,
-            mulhouse,
-            nouvelle-caledonie,
-            vendee,
-            paca,
-            rhin-occ,
-            sarthe,
-            siilab
-          ]
-    runs-on: ubuntu-latest
-    environment: demo
-    steps:
-      - name: Checkout mednum-cli repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22.x'
-          cache: 'pnpm'
-      - name: Install dependencies
-        run: pnpm install
-      - name: 'Create env file'
-        run: |
-          touch .env
-          echo DATA_GOUV_API_URL="${{ secrets.DATA_GOUV_API_URL }}" >> .env
-          echo DATA_GOUV_API_KEY="${{ secrets.DATA_GOUV_API_KEY }}" >> .env
-          echo DATA_GOUV_REFERENCE_ID="${{ secrets.DATA_GOUV_REFERENCE_ID }}" >> .env
-          echo DATA_GOUV_REFERENCE_TYPE="${{ secrets.DATA_GOUV_REFERENCE_TYPE }}" >> .env
-          echo DATA_INCLUSION_API_KEY="${{ secrets.DATA_INCLUSION_API_KEY }}" >> .env
-          echo MAX_TRANSFORM=1000 >> .env
-      - name: Transform
-        run: pnpm transformer.${{ matrix.source }}
-      - name: Publish
-        run: pnpm publier.${{ matrix.source }}
-
-  extract-and-publish:
-    name: Extract and publish to data.gouv
-    strategy:
-      matrix:
-        source: [extract-eure-et-loir, extract-mednum-hub-antilles, extract-numi, extract-paca, extract-savoie, extract-vendee]
-    runs-on: ubuntu-latest
-    environment: demo
-    needs:
-      - transform-and-publish
-    steps:
-      - name: Checkout mednum-cli repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22.x'
-          cache: 'pnpm'
-      - name: Install dependencies
-        run: pnpm install
-      - name: 'Create env file'
-        run: |
-          touch .env
-          echo DATA_GOUV_API_URL="${{ secrets.DATA_GOUV_API_URL }}" >> .env
-          echo DATA_GOUV_API_KEY="${{ secrets.DATA_GOUV_API_KEY }}" >> .env
-          echo DATA_GOUV_REFERENCE_ID="${{ secrets.DATA_GOUV_REFERENCE_ID }}" >> .env
-          echo DATA_GOUV_REFERENCE_TYPE="${{ secrets.DATA_GOUV_REFERENCE_TYPE }}" >> .env
-      - name: Extract
-        run: pnpm extract.${{ matrix.source }}
-      - name: Publish
-        run: pnpm publier.${{ matrix.source }}
+      sources: '[
+        "aidants-connect",
+        "aix-en-provence",
+        "angers",
+        "bus-france-services-charente",
+        "charente-maritime",
+        "conseiller-numerique",
+        "coop-numerique",
+        "corse",
+        "dora",
+        "epernay",
+        "etapes-numerique",
+        "fibre-64",
+        "france-services",
+        "francil-in",
+        "gironde",
+        "grand-paris-sud",
+        "haute-vienne",
+        "hinaura",
+        "hub-bretagne",
+        "hub-lo",
+        "la-creuse",
+        "le-havre",
+        "les-landes",
+        "loire-atlantique",
+        "maine-et-loire",
+        "mednum-bfc",
+        "mulhouse",
+        "nouvelle-caledonie",
+        "vendee",
+        "paca",
+        "rhin-occ",
+        "siilab"
+        ]'
+      environment: demo
+    secrets:
+      DATA_INCLUSION_API_KEY: ${{ secrets.DATA_INCLUSION_API_KEY }}
+      DATA_GOUV_API_URL: ${{ secrets.DATA_GOUV_API_URL }}
+      DATA_GOUV_API_KEY: ${{ secrets.DATA_GOUV_API_KEY }}
+      DATA_GOUV_REFERENCE_ID: ${{ secrets.DATA_GOUV_REFERENCE_ID }}
+      DATA_GOUV_REFERENCE_TYPE: ${{ secrets.DATA_GOUV_REFERENCE_TYPE }}

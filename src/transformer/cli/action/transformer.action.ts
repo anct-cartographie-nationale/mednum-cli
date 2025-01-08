@@ -1,11 +1,10 @@
-/* eslint-disable no-console */
-
+import { flatten } from 'flat';
 import {
   fromSchemaLieuDeMediationNumerique,
   LieuMediationNumerique,
   SchemaLieuMediationNumerique
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { createHash } from 'crypto';
+import { createHash } from 'node:crypto';
 import { paginate } from '../../../common';
 import {
   saveOutputsInFiles,
@@ -19,9 +18,6 @@ import { TransformationRepository } from '../../repositories';
 import { canTransform, DiffSinceLastTransform } from '../diff-since-last-transform';
 import { TransformerOptions } from '../transformer-options';
 import { transformationRespository } from './transformation.respository';
-
-/* eslint-disable-next-line @typescript-eslint/no-restricted-imports, @typescript-eslint/naming-convention, @typescript-eslint/typedef, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
-const flatten = require('flat');
 
 const REPORT: Report = Report();
 
@@ -53,7 +49,6 @@ const shouldAbortWhenHashIsUnchanged =
     return false;
   };
 
-/* eslint-disable-next-line max-statements, max-lines-per-function */
 export const transformerAction = async (transformerOptions: TransformerOptions): Promise<void> => {
   const maxTransform: number | undefined = process.env['MAX_TRANSFORM'] == null ? undefined : +process.env['MAX_TRANSFORM'];
 
@@ -79,13 +74,17 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
 
   console.log('4. Transformation des données vers le schéma des lieux de mediation numérique');
   const lieuxDeMediationNumerique: LieuMediationNumerique[] = (
-    await Promise.all(lieux.map(flatten).map(toLieuxMediationNumerique(repository, transformerOptions.sourceName, REPORT)))
+    await Promise.all(
+      lieux
+        .map((dataSource: DataSource) => flatten(dataSource, { safe: true }))
+        .map(toLieuxMediationNumerique(repository, transformerOptions.sourceName, REPORT))
+    )
   ).filter(validValuesOnly);
 
-  /* eslint-disable-next-line no-console */
-  diffSinceLastTransform != null && console.log('Lieux à ajouter :', diffSinceLastTransform.toUpsert.length);
-  /* eslint-disable-next-line no-console */
-  diffSinceLastTransform != null && console.log('Lieux à supprimer :', diffSinceLastTransform.toDelete.length);
+  if (diffSinceLastTransform != null) {
+    console.log('Lieux à ajouter :', diffSinceLastTransform.toUpsert.length);
+    console.log('Lieux à supprimer :', diffSinceLastTransform.toDelete.length);
+  }
 
   console.log("5. Sauvegarde du rapport d'erreur");
   repository.saveErrors(REPORT);

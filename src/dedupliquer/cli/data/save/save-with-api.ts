@@ -1,5 +1,3 @@
-/* eslint-disable max-lines-per-function, max-statements, no-await-in-loop, no-console */
-
 import axios, { AxiosResponse } from 'axios';
 import axiosRetry from 'axios-retry';
 import { authHeader, headers, paginate } from '../../../../common';
@@ -73,14 +71,14 @@ export const saveWithApi =
 
       console.log('Marquage des lieux comme dédupliqués');
 
-      shouldMarkAsDeduplicated(groups.mergeGroupsMap) &&
-        (await axios.patch<unknown, AxiosResponse>(
+      if (shouldMarkAsDeduplicated(groups.mergeGroupsMap)) {
+        await axios.patch<unknown, AxiosResponse>(
           `${dedupliquerOptions.cartographieNationaleApiUrl}/lieux-inclusion-numerique/mark-all-as-deduplicated`,
           null,
           headers(authHeader(dedupliquerOptions.cartographieNationaleApiKey))
-        ));
+        );
+      }
     } catch (error) {
-      /* eslint-disable-next-line no-console */
       console.log(error);
     }
   };

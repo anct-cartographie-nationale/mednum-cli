@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/naming-convention, camelcase */
-
+import { describe, it, expect } from 'vitest';
 import { Adresse, Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { Polygon } from '@turf/turf';
+import { type Polygon } from 'geojson';
 import { isInQpv, isInZrr } from '../../data';
 import { LieuxMediationNumeriqueMatching } from '../../input';
 import { processAutresFormationsLabels } from './autres-formations-labels.field';

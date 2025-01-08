@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/naming-convention, camelcase */
-
+import { describe, it, expect } from 'vitest';
 import {
   DispositifProgrammeNational,
   PublicSpecifiquementAdresse,
@@ -92,6 +91,7 @@ describe('find duplicates', (): void => {
         nom: 'Numerinaute',
         adresse: '12 Rue Joseph Rey (chez Aconit)',
         code_postal: '38000',
+        code_insee: '38185',
         commune: 'Grenoble',
         latitude: 45.186115,
         longitude: 5.716962,
@@ -105,6 +105,7 @@ describe('find duplicates', (): void => {
         nom: 'numerinaute',
         adresse: '12 Rue Joseph Rey',
         code_postal: '38000',
+        code_insee: '38185',
         commune: 'Grenoble',
         latitude: 45.186117,
         longitude: 5.716961,
@@ -118,7 +119,7 @@ describe('find duplicates', (): void => {
 
     expect(duplicates).toStrictEqual([
       {
-        codePostal: '38000',
+        code_insee: '38185',
         lieux: [
           {
             id: '574-mediation-numerique-conseiller-numerique',
@@ -177,64 +178,6 @@ describe('find duplicates', (): void => {
     expect(duplicates).toStrictEqual([]);
   });
 
-  it('should allow deduplicate when both lieux contain "France Service" in the name', (): void => {
-    const lieux: SchemaLieuMediationNumerique[] = [
-      {
-        id: '574-mediation-numerique-hinaura',
-        nom: "France services d'Etrechy",
-        adresse: '26 rue Jean Moulin',
-        code_postal: '38000',
-        commune: 'Grenoble',
-        latitude: 45.186115,
-        longitude: 5.716962,
-        source: 'conseiller-numerique'
-      } as SchemaLieuMediationNumerique,
-      {
-        id: '2848-mediation-numerique-france-services',
-        nom: "France services d'Etrechy",
-        adresse: '26 rue Jean Moulin',
-        code_postal: '38000',
-        commune: 'Grenoble',
-        latitude: 45.186115,
-        longitude: 5.716962,
-        typologie: Typologie.RFS,
-        source: 'france-services'
-      } as SchemaLieuMediationNumerique
-    ];
-
-    const duplicates: CommuneDuplications[] = findDuplicates(lieux, false);
-
-    expect(duplicates).toStrictEqual([
-      {
-        codePostal: '38000',
-        lieux: [
-          {
-            id: '574-mediation-numerique-hinaura',
-            duplicates: [
-              {
-                id: '2848-mediation-numerique-france-services',
-                distanceScore: 100,
-                nomFuzzyScore: 100,
-                voieFuzzyScore: 100
-              }
-            ]
-          },
-          {
-            id: '2848-mediation-numerique-france-services',
-            duplicates: [
-              {
-                id: '574-mediation-numerique-hinaura',
-                distanceScore: 100,
-                nomFuzzyScore: 100,
-                voieFuzzyScore: 100
-              }
-            ]
-          }
-        ]
-      }
-    ]);
-  });
-
   it('should not need to deduplicate when only lieu 1 has RFS typologie in lieux to deduplicate', (): void => {
     const lieuxToDeduplicate: SchemaLieuMediationNumerique[] = [
       {
@@ -269,7 +212,7 @@ describe('find duplicates', (): void => {
         nom: 'Maison des Services saint Laurent de chamousset',
         services: [Service.AccesInternetEtMaterielInformatique].join('|'),
         pivot: '00000000000000',
-        typologie: 'RFS',
+        typologie: Typologie.RFS,
         commune: 'Saint-Laurent-de-Chamousset',
         code_postal: '69930',
         adresse: '122 avenue des 4 cantons',
@@ -302,6 +245,7 @@ describe('find duplicates', (): void => {
         nom: 'Numerinaute',
         adresse: '12 Rue Joseph Rey (chez Aconit)',
         code_postal: '38000',
+        code_insee: '38185',
         commune: 'Grenoble',
         latitude: 45.186115,
         longitude: 5.716962,
@@ -313,6 +257,7 @@ describe('find duplicates', (): void => {
         nom: 'La Turbine.Coop',
         adresse: '5 esplanade Andry Farcy 38000 Grenoble',
         code_postal: '38000',
+        code_insee: '38185',
         commune: 'Grenoble',
         latitude: 45.187654,
         longitude: 5.704953,
@@ -325,7 +270,7 @@ describe('find duplicates', (): void => {
 
     expect(duplicates).toStrictEqual<CommuneDuplications[]>([
       {
-        codePostal: '38000',
+        code_insee: '38185',
         lieux: [
           {
             id: '574-mediation-numerique-hinaura',
@@ -360,7 +305,7 @@ describe('find duplicates', (): void => {
         id: '574-mediation-numerique-hinaura',
         nom: 'Numerinaute',
         adresse: '12 Rue Joseph Rey (chez Aconit)',
-        code_postal: '38000',
+        code_insee: '38185',
         commune: 'Grenoble',
         latitude: 45.186115,
         longitude: 5.716962,
@@ -371,7 +316,7 @@ describe('find duplicates', (): void => {
         id: '537-mediation-numerique-hinaura',
         nom: 'La Turbine.Coop',
         adresse: '5 esplanade Andry Farcy 38000 Grenoble',
-        code_postal: '38000',
+        code_insee: '38185',
         commune: 'Grenoble',
         latitude: 45.187654,
         longitude: 5.704953,
@@ -384,7 +329,7 @@ describe('find duplicates', (): void => {
 
     expect(duplicates).toStrictEqual<CommuneDuplications[]>([
       {
-        codePostal: '38000',
+        code_insee: '38185',
         lieux: [
           {
             id: '574-mediation-numerique-hinaura',
@@ -413,6 +358,37 @@ describe('find duplicates', (): void => {
     ]);
   });
 
+  it('should not allow dedulpication for lieux without common typologie', () => {
+    const lieux: SchemaLieuMediationNumerique[] = [
+      {
+        id: '574-mediation-numerique-hinaura',
+        nom: 'Numerinaute',
+        adresse: '12 Rue Joseph Rey (chez Aconit)',
+        code_postal: '38000',
+        commune: 'Grenoble',
+        latitude: 45.186115,
+        longitude: 5.716962,
+        source: 'conseiller-numerique',
+        typologie: [Typologie.TIERS_LIEUX, Typologie.ASSO].join('|')
+      } as SchemaLieuMediationNumerique,
+      {
+        id: '2848-mediation-numerique-france-services',
+        nom: "France services d'Etrechy",
+        adresse: '26 rue Jean Moulin',
+        code_postal: '38000',
+        commune: 'Grenoble',
+        latitude: 48.487691,
+        longitude: 2.186761,
+        source: 'hinaura',
+        typologie: Typologie.CCAS
+      } as SchemaLieuMediationNumerique
+    ];
+
+    const duplicates: CommuneDuplications[] = findDuplicates(lieux, false);
+
+    expect(duplicates).toStrictEqual([]);
+  });
+
   it('should get deduplication data for two lieux in same commune', (): void => {
     const lieux: SchemaLieuMediationNumerique[] = [
       {
@@ -420,6 +396,7 @@ describe('find duplicates', (): void => {
         nom: 'Numerinaute',
         adresse: '12 Rue Joseph Rey (chez Aconit)',
         code_postal: '38000',
+        code_insee: '38185',
         commune: 'Grenoble',
         latitude: 45.186115,
         longitude: 5.716962,
@@ -430,6 +407,7 @@ describe('find duplicates', (): void => {
         nom: 'La Turbine.Coop',
         adresse: '5 esplanade Andry Farcy 38000 Grenoble',
         code_postal: '38000',
+        code_insee: '38185',
         commune: 'Grenoble',
         latitude: 45.187654,
         longitude: 5.704953,
@@ -441,7 +419,7 @@ describe('find duplicates', (): void => {
 
     expect(duplicates).toStrictEqual<CommuneDuplications[]>([
       {
-        codePostal: '38000',
+        code_insee: '38185',
         lieux: [
           {
             id: '574-mediation-numerique-hinaura',
@@ -477,6 +455,7 @@ describe('find duplicates', (): void => {
         nom: 'LA POSTE',
         adresse: '8 Av du Mal de Lattre de Tassigny',
         code_postal: '88000',
+        code_insee: '88160',
         commune: 'EPINAL',
         latitude: 48.176748,
         longitude: 6.444835,
@@ -487,6 +466,7 @@ describe('find duplicates', (): void => {
         nom: 'LA POSTE',
         adresse: '20 PL D AVRINSART',
         code_postal: '88000',
+        code_insee: '88160',
         commune: 'EPINAL',
         latitude: 48.183401,
         longitude: 6.45588,
@@ -498,7 +478,7 @@ describe('find duplicates', (): void => {
 
     expect(duplicates).toStrictEqual<CommuneDuplications[]>([
       {
-        codePostal: '88000',
+        code_insee: '88160',
         lieux: [
           {
             id: '1',
@@ -534,6 +514,7 @@ describe('find duplicates', (): void => {
         nom: 'Mediatheque Municipale de Bailleul',
         adresse: "41 Rue D 'Ypres",
         code_postal: '59270',
+        code_insee: '59043',
         commune: 'Bailleul',
         latitude: 50.740045,
         longitude: 2.737217,
@@ -544,6 +525,7 @@ describe('find duplicates', (): void => {
         nom: 'CCAS de Bailleul',
         adresse: "22 Bis Rue d'Ypres",
         code_postal: '59270',
+        code_insee: '59043',
         commune: 'Bailleul',
         latitude: 50.740407,
         longitude: 2.737429,
@@ -555,7 +537,7 @@ describe('find duplicates', (): void => {
 
     expect(duplicates).toStrictEqual<CommuneDuplications[]>([
       {
-        codePostal: '59270',
+        code_insee: '59043',
         lieux: [
           {
             id: '1',
@@ -591,6 +573,7 @@ describe('find duplicates', (): void => {
         nom: 'Maison des Solidarités de Cournon',
         commune: "Cournon d'Auvergne",
         code_postal: '63800',
+        code_insee: '63124',
         adresse: '34 place Jean Jaurès',
         latitude: 45.729599225,
         longitude: 3.1899082661,
@@ -605,6 +588,7 @@ describe('find duplicates', (): void => {
         nom: 'MDS Cournon',
         commune: "Cournon-d'Auvergne",
         code_postal: '63800',
+        code_insee: '63124',
         adresse: '34 place Jean Jaurès',
         latitude: 45.729544,
         longitude: 3.190005,
@@ -616,6 +600,7 @@ describe('find duplicates', (): void => {
         nom: 'DEPARTEMENT DU PUY DE DOME',
         commune: "Cournon-d'Auvergne",
         code_postal: '63800',
+        code_insee: '63124',
         adresse: '34 Place Jean Jaurès',
         latitude: 45.728941,
         longitude: 3.188564,
@@ -630,6 +615,7 @@ describe('find duplicates', (): void => {
         nom: 'Maison des Solidarités',
         commune: "COURNON D'AUVERGNE",
         code_postal: '63800',
+        code_insee: '63124',
         adresse: '34 Place Jean Jaurès',
         latitude: 45.728941,
         longitude: 3.188564,
@@ -645,8 +631,8 @@ describe('find duplicates', (): void => {
         typologie: 'RFS',
         commune: "Cournon-d'Auvergne",
         code_postal: '63800',
-        adresse: '15 Impasse des Dômes',
         code_insee: '63124',
+        adresse: '15 Impasse des Dômes',
         latitude: 45.73156,
         longitude: 3.192711,
         dispositif_programmes_nationaux: `${DispositifProgrammeNational.FranceServices}`,
@@ -658,7 +644,7 @@ describe('find duplicates', (): void => {
 
     expect(duplicates).toStrictEqual([
       {
-        codePostal: '63800',
+        code_insee: '63124',
         lieux: [
           {
             duplicates: [

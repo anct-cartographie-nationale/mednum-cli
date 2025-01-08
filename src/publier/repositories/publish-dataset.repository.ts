@@ -1,11 +1,9 @@
 import axios from 'axios';
-/* eslint-disable-next-line @typescript-eslint/no-restricted-imports */
 import * as fs from 'fs';
-/* eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/naming-convention, @typescript-eslint/typedef, @typescript-eslint/no-shadow, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
-const FormData = require('form-data');
 import { Api, authHeader, headers } from '../../common';
 import { Dataset, PublishDataset, PublishRessource, Reference, Ressource } from '../models';
 import { getDataset, postDataset, updateDataset } from './publish-dataset';
+import FormData from 'form-data';
 
 export type PublishDatasetRepository = {
   get: (reference: Reference) => Promise<Dataset[]>;
@@ -21,7 +19,7 @@ const addRessourceTo =
   (api: Api) =>
   (dataset: Dataset) =>
   async (ressource: PublishRessource): Promise<void> => {
-    const formData: typeof FormData = new FormData();
+    const formData = new FormData();
     formData.append('file', fs.readFileSync(`${ressource.source}`), extractNameFromPath(ressource.source.split('/')));
 
     const ressourceId: string = (
@@ -46,7 +44,7 @@ const updateRessourceFor =
   (api: Api) =>
   (dataset: Dataset) =>
   async (ressource: PublishRessource, ressourceId?: string): Promise<void> => {
-    const formData: typeof FormData = new FormData();
+    const formData = new FormData();
     formData.append('file', fs.readFileSync(`${ressource.source}`), extractNameFromPath(ressource.source.split('/')));
 
     await axios.post<Ressource>(

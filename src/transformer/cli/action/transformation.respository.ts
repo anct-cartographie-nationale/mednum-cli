@@ -1,4 +1,3 @@
-/* eslint-disable-next-line @typescript-eslint/no-restricted-imports */
 import * as fs from 'fs';
 import {
   communeFromGeoApi,
@@ -21,7 +20,6 @@ import { TransformationRepository } from '../../repositories';
 import { diffSinceLastTransform, Fingerprint } from '../diff-since-last-transform';
 import { TransformerOptions } from '../transformer-options';
 
-/* eslint-disable-next-line max-lines-per-function */
 export const transformationRespository = async (transformerOptions: TransformerOptions): Promise<TransformationRepository> => {
   const useFile: boolean = transformerOptions.cartographieNationaleApiKey == null;
   const config: LieuxMediationNumeriqueMatching = JSON.parse(
