@@ -60,6 +60,8 @@ jobs:
         with:
           node-version: 22
           cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
       - name: Download release artifact
         uses: actions/download-artifact@v4
         with:
@@ -145,8 +147,8 @@ jobs:
     needs:
       - upload-to-database
     steps:
-      - name: Sleep for 5 minutes
-        run: sleep 300s
+      - name: Sleep for 4 minutes
+        run: sleep 240s
         shell: bash
       - name: Checkout mednum-cli repository
         uses: actions/checkout@v4
@@ -182,8 +184,8 @@ jobs:
     needs:
       - upload-to-database
     steps:
-      - name: Sleep for 5 minutes
-        run: sleep 300s
+      - name: Sleep for 4 minutes
+        run: sleep 240s
         shell: bash
       - name: Prepare lieux inclusion numerique file
         run: |
