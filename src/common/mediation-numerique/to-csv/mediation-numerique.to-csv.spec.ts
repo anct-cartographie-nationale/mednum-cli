@@ -7,6 +7,7 @@ import {
   ModaliteAccompagnement,
   PriseEnChargeSpecifique,
   PublicSpecifiquementAdresse,
+  SchemaLieuMediationNumerique,
   Service,
   Typologie
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
@@ -167,6 +168,26 @@ describe('output', (): void => {
     expect(csv).toBe(
       '"id","pivot","nom","commune","code_postal","code_insee","adresse","complement_adresse","latitude","longitude","typologie","telephone","courriels","site_web","horaires","presentation_resume","presentation_detail","source","itinerance","structure_parente","date_maj","services","publics_specifiquement_adresses","prise_en_charge_specifique","frais_a_charge","dispositif_programmes_nationaux","formations_labels","autres_formations_labels","modalites_acces","modalites_accompagnement","fiche_acces_libre","prise_rdv"\n' +
         '"structure-2","43497452600012","Médiation république MRPP","Paris","75013",,"51 rue de la république",,,,,,,,,,,,,,"2022-11-07",,,,,,,,,,,'
+    );
+  });
+
+  it('should convert schema de la médiation numérique single data to CSV with extra field out of schema', (): void => {
+    const csv: string = mediationNumeriqueToCsv([
+      {
+        adresse: '51 rue de la république',
+        code_postal: '75013',
+        commune: 'Paris',
+        date_maj: '2022-11-07',
+        id: 'structure-2',
+        nom: 'Médiation république',
+        pivot: '43497452600012',
+        extraField: 'extra'
+      } as SchemaLieuMediationNumerique
+    ]);
+
+    expect(csv).toBe(
+      '"id","pivot","nom","commune","code_postal","code_insee","adresse","complement_adresse","latitude","longitude","typologie","telephone","courriels","site_web","horaires","presentation_resume","presentation_detail","source","itinerance","structure_parente","date_maj","services","publics_specifiquement_adresses","prise_en_charge_specifique","frais_a_charge","dispositif_programmes_nationaux","formations_labels","autres_formations_labels","modalites_acces","modalites_accompagnement","fiche_acces_libre","prise_rdv","extraField"\n' +
+        '"structure-2","43497452600012","Médiation république","Paris","75013",,"51 rue de la république",,,,,,,,,,,,,,"2022-11-07",,,,,,,,,,,,"extra"'
     );
   });
 

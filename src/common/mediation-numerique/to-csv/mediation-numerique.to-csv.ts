@@ -74,8 +74,27 @@ const fieldsArrayFrom = (lieuMediationNumerique: SchemaLieuMediationNumerique): 
 
 export const csvLineFrom = (cells: (string | undefined)[]): string => cells.map(toDoubleQuoted).join(',');
 
-const toLieuMediationNumeriqueCsvLine = (lieuMediationNumerique: SchemaLieuMediationNumerique): string =>
-  csvLineFrom(fieldsArrayFrom(lieuMediationNumerique));
+const toExtraFieldValueFrom =
+  (lieuMediationNumerique: Record<string, unknown>) =>
+  (field: string): string =>
+    String(lieuMediationNumerique[field]);
 
-export const mediationNumeriqueToCsv = (lieuxMediationNumerique: SchemaLieuMediationNumerique[]): string =>
-  `${csvLineFrom(HEADERS)}\n${lieuxMediationNumerique.map(toLieuMediationNumeriqueCsvLine).join('\n')}`;
+const toLieuMediationNumeriqueCsvLine =
+  (extraFields: string[]) =>
+  (lieuMediationNumerique: SchemaLieuMediationNumerique): string =>
+    csvLineFrom([
+      ...fieldsArrayFrom(lieuMediationNumerique),
+      ...extraFields.map(toExtraFieldValueFrom(lieuMediationNumerique))
+    ]);
+
+const notInSchemaLieuMediationNumerique = (field: string) => !(HEADERS as string[]).includes(field);
+
+const toObjectFields = (fields: string[], obj: Record<string, unknown>) => [...fields, ...Object.keys(obj)];
+
+const extraFieldsFor = (lieuxMediationNumerique: SchemaLieuMediationNumerique[]): string[] =>
+  Array.from(new Set(lieuxMediationNumerique.reduce(toObjectFields, []).filter(notInSchemaLieuMediationNumerique)));
+
+export const mediationNumeriqueToCsv = (lieuxMediationNumerique: SchemaLieuMediationNumerique[]): string => {
+  const extraFields: string[] = extraFieldsFor(lieuxMediationNumerique);
+  return `${csvLineFrom([...HEADERS, ...extraFields])}\n${lieuxMediationNumerique.map(toLieuMediationNumeriqueCsvLine(extraFields)).join('\n')}`;
+};
