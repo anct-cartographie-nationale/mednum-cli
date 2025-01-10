@@ -77,7 +77,7 @@ export const csvLineFrom = (cells: (string | undefined)[]): string => cells.map(
 const toExtraFieldValueFrom =
   (lieuMediationNumerique: Record<string, unknown>) =>
   (field: string): string =>
-    String(lieuMediationNumerique[field]);
+    lieuMediationNumerique[field]?.toString() ?? '';
 
 const toLieuMediationNumeriqueCsvLine =
   (extraFields: string[]) =>
