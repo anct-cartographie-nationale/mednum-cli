@@ -174,6 +174,15 @@ describe('output', (): void => {
   it('should convert schema de la médiation numérique single data to CSV with extra field out of schema', (): void => {
     const csv: string = mediationNumeriqueToCsv([
       {
+        adresse: '12 BIS RUE DE LECLERCQ',
+        code_postal: '51100',
+        commune: 'Reims',
+        date_maj: '2022-06-02',
+        id: 'structure-1',
+        nom: 'Anonymal',
+        pivot: '43493312300029'
+      },
+      {
         adresse: '51 rue de la république',
         code_postal: '75013',
         commune: 'Paris',
@@ -187,6 +196,7 @@ describe('output', (): void => {
 
     expect(csv).toBe(
       '"id","pivot","nom","commune","code_postal","code_insee","adresse","complement_adresse","latitude","longitude","typologie","telephone","courriels","site_web","horaires","presentation_resume","presentation_detail","source","itinerance","structure_parente","date_maj","services","publics_specifiquement_adresses","prise_en_charge_specifique","frais_a_charge","dispositif_programmes_nationaux","formations_labels","autres_formations_labels","modalites_acces","modalites_accompagnement","fiche_acces_libre","prise_rdv","extraField"\n' +
+        '"structure-1","43493312300029","Anonymal","Reims","51100",,"12 BIS RUE DE LECLERCQ",,,,,,,,,,,,,,"2022-06-02",,,,,,,,,,,,""\n' +
         '"structure-2","43497452600012","Médiation république","Paris","75013",,"51 rue de la république",,,,,,,,,,,,,,"2022-11-07",,,,,,,,,,,,"extra"'
     );
   });
