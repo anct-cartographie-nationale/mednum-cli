@@ -1,6 +1,6 @@
 import { Adresse, Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { LieuxMediationNumeriqueMatching, DataSource, Colonne } from '../../input';
 import { ratio } from 'fuzzball';
+import { LieuxMediationNumeriqueMatching, DataSource, Colonne } from '../../input';
 
 export type Erp = {
   name: string;
@@ -41,8 +41,14 @@ const getAccessibiliteFromAccesLibre = (
   return accesLibreUrl == null ? undefined : Url(accesLibreUrl);
 };
 
-const canProcessAccessibilite = (source: DataSource, accessibilite?: Colonne): accessibilite is Colonne =>
-  accessibilite?.colonne != null && source[accessibilite.colonne] != null && source[accessibilite.colonne] !== '';
+const canProcessAccessibilite = (source: DataSource, accessibilite?: Colonne): accessibilite is Colonne => {
+  return (
+    accessibilite?.colonne != null &&
+    source[accessibilite.colonne] != null &&
+    source[accessibilite.colonne] !== '' &&
+    !(source[accessibilite.colonne] as string).startsWith('https://acceslibre.beta.gouv.fr/static/js/widget.js')
+  );
+};
 
 const fixUrl = (url: string): string => url.replace(/\(/g, '%28').replace(/\)/g, '%29');
 

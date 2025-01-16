@@ -66,6 +66,30 @@ describe('accessibilite field', (): void => {
     } as Adresse;
 
     const source: DataSource = {
+      bf_accessibilit_: 'https://acceslibre.beta.gouv.fr/static/js/widget.js'
+    };
+
+    const accesLibreData: Erp[] = [];
+
+    const accessibilite: string | undefined = processFicheAccesLibre(source, matching, accesLibreData, adresseProcessed);
+
+    expect(accessibilite).toBeUndefined();
+  });
+
+  it('should not get accessibilite url from data source if not valid', (): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      fiche_acces_libre: {
+        colonne: 'bf_accessibilit_'
+      }
+    } as LieuxMediationNumeriqueMatching;
+
+    const adresseProcessed: Adresse = {
+      voie: '',
+      code_postal: '',
+      commune: ''
+    } as Adresse;
+
+    const source: DataSource = {
       bf_accessibilit_:
         'https://acceslibre.beta.gouv.fr/recherche/?what=&where=Saint-Nazaire-le-D%C3%A9sert%20(26)&lat=44.569759&lon=5.275761&code=26321'
     };
