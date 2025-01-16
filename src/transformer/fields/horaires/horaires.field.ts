@@ -11,7 +11,9 @@ const SEMAINE_PAIRE: string = 'week 2-52/2 ';
 const OPENING_HOURS_REGEXP: RegExp = /^\d{2}:\d{2}-\d{2}:\d{2}(?:,\d{2}:\d{2}-\d{2}:\d{2})?$/;
 
 const OSM_OPENING_HOURS_TRIVIAL_REGEXP: RegExp =
-  /^(?:(?:Mo|Tu|We|Th|Fr|Sa|Su)(?:[-,](?:Mo|Tu|We|Th|Fr|Sa|Su))?\s)?(?:[0-1]\d|2[0-3]):[0-5]\d-(?:[0-1]\d|2[0-3]):[0-5]\d.*/;
+  /(?:(?:Mo|Tu|We|Th|Fr|Sa|Su)(?:[-,](?:Mo|Tu|We|Th|Fr|Sa|Su))?\s)?(?:[0-1]\d|2[0-3]):[0-5]\d-(?:[0-1]\d|2[0-3]):[0-5]\d.*/;
+
+const fixOsmHours = (osmHours?: string): string => osmHours?.replace(/,\s/g, ',').replace(/(\d)h(\d)/g, '$1:$2') ?? '';
 
 const throwInvalidHours = (osmHours: string, day: OsmDaysOfWeek, hours: string): OsmOpeningHours => {
   throw new InvalidHoursError(osmHours, hours, day);
@@ -59,13 +61,13 @@ const applyWeekOpeningIfAny = (osmHoraires?: string, weekOpening?: string): OsmO
 const alreadyHaveOsmOpeningHours = (matching: LieuxMediationNumeriqueMatching, source: DataSource): boolean =>
   matching.horaires?.osm != null &&
   source[matching.horaires.osm] != null &&
-  OSM_OPENING_HOURS_TRIVIAL_REGEXP.test(source[matching.horaires.osm]?.toString() ?? '');
+  OSM_OPENING_HOURS_TRIVIAL_REGEXP.test(fixOsmHours(source[matching.horaires.osm]?.toString() ?? ''));
 
 export const processHoraires = (source: DataSource, matching: LieuxMediationNumeriqueMatching): OsmOpeningHoursString => {
   try {
     if (alreadyHaveOsmOpeningHours(matching, source)) {
       return applyWeekOpeningIfAny(
-        source[matching.horaires?.osm ?? '']?.toString(),
+        fixOsmHours(source[matching.horaires?.osm ?? '']?.toString()),
         source[matching.semaine_ouverture?.colonne ?? '']?.toString()
       );
     }
