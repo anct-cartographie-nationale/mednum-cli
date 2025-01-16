@@ -651,6 +651,21 @@ describe('horaires field', (): void => {
     expect(openingHours).toBe('Tu,Th 14:00-18:30; We,Fr 10:00-18:30; Sa 10:00-18:00');
   });
 
+  it('should fix extra spaces in osm hours', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      { OSM: 'Tu, Th, Fr 13:30-18:00; We, Sa 10:30-12:30, 13:30-18:00' },
+      matching
+    );
+
+    expect(openingHours).toBe('Tu,Th,Fr 13:30-18:00; We,Sa 10:30-12:30,13:30-18:00');
+  });
+
+  it('should fix h instead of : in osm hours', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires({ OSM: 'Mo-Fr 14h00-19h00;Sa 14h00-18h00' }, matching);
+
+    expect(openingHours).toBe('Mo-Fr 14:00-19:00;Sa 14:00-18:00');
+  });
+
   it('should replace unexpected charactere like + and newline by single comma', (): void => {
     const openingHours: OsmOpeningHoursString = processHoraires(
       {
