@@ -77,6 +77,11 @@
     },
     {
       "colonnes": ["Typologie"],
+      "termes": ["Fabrique"],
+      "cible": "FABRIQUE"
+    },
+    {
+      "colonnes": ["Typologie"],
       "termes": ["Mairie", "Maison municipale"],
       "cible": "MUNI"
     },
@@ -84,6 +89,11 @@
       "colonnes": ["Typologie"],
       "termes": ["Bureau information Jeunesse"],
       "cible": "PIJ_BIJ"
+    },
+    {
+      "colonnes": ["Typologie"],
+      "termes": ["Relais lecture"],
+      "cible": "RELAIS_LECTURE"
     }
   ],
   "formations_labels": [
