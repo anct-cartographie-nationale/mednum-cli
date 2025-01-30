@@ -700,11 +700,6 @@
   "dispositif_programmes_nationaux": [
     {
       "colonnes": ["dispositif_programmes_nationaux"],
-      "termes": ["Aidants Connect"],
-      "cible": "Aidants Connect"
-    },
-    {
-      "colonnes": ["dispositif_programmes_nationaux"],
       "termes": ["Bibliothèques numérique de référence"],
       "cible": "Bibliothèques numérique de référence"
     },
@@ -722,11 +717,6 @@
       "colonnes": ["dispositif_programmes_nationaux"],
       "termes": ["Emmaüs Connect"],
       "cible": "Emmaüs Connect"
-    },
-    {
-      "colonnes": ["dispositif_programmes_nationaux"],
-      "termes": ["France Services"],
-      "cible": "France Services"
     },
     {
       "colonnes": ["dispositif_programmes_nationaux"],
