@@ -12,7 +12,6 @@ jobs:
     with:
       sources: '[
         "charente-maritime",
-        "conseiller-numerique",
         "coop-numerique",
         "dora",
         "france-services",
