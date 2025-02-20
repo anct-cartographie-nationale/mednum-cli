@@ -289,4 +289,28 @@ describe('labels autres field', (): void => {
 
     expect(labelsAutres).toStrictEqual(['QPV']);
   });
+
+  it('should not duplicate formation label', () => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      autres_formations_labels: [
+        {
+          colonnes: ['label_1', 'label_2']
+        }
+      ]
+    } as LieuxMediationNumeriqueMatching;
+
+    const labelsAutres: string[] = processAutresFormationsLabels(
+      {
+        label_1: 'QPV|ZRR|QPV|ZRR',
+        label_2: 'ZRR'
+      },
+      matching,
+      isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
+      isInZrr(new Map([['02691', true]])),
+      ADRESSE_IN_QPV,
+      LOCALISATION_IN_QPV
+    );
+
+    expect(labelsAutres).toStrictEqual(['QPV', 'ZRR']);
+  });
 });
