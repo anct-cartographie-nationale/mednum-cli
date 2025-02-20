@@ -92,6 +92,8 @@ const labelsFromSource = (matching: LieuxMediationNumeriqueMatching, source: Dat
     onlyNonEmptyLabels
   );
 
+const labelWithPipe = (label: string) => label.split('|');
+
 export const processAutresFormationsLabels = (
   source: DataSource,
   matching: LieuxMediationNumeriqueMatching,
@@ -100,5 +102,9 @@ export const processAutresFormationsLabels = (
   adresse?: Adresse,
   localisation?: Localisation
 ): string[] => [
-  ...Array.from(new Set(appendExtraLabels(isInQpv, isInZrr)(labelsFromSource(matching, source), adresse, localisation)))
+  ...Array.from(
+    new Set(
+      appendExtraLabels(isInQpv, isInZrr)(labelsFromSource(matching, source).flatMap(labelWithPipe), adresse, localisation)
+    )
+  )
 ];

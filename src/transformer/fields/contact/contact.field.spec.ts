@@ -1205,4 +1205,15 @@ describe('contact field', (): void => {
 
     expect(contact).toStrictEqual<Contact>(Contact({ telephone: '+33782358117' }));
   });
+
+  it('should add replace leading 0 with 33 for phone numbers stating with +0', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        Téléphone: '+0618202236'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(Contact({ telephone: '+33618202236' }));
+  });
 });

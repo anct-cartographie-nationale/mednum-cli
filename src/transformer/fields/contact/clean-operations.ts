@@ -217,6 +217,13 @@ const fixMissingPlusCharAtStartingPhone = (field: string): CleanOperation => ({
   fix: (toFix: string): string => toFix.replace(/^33(\d+)/, '+33$1')
 });
 
+const fixReplaceLeading0With33InPhoneNumberStatingWithPlus = (field: string): CleanOperation => ({
+  name: 'fix missing + at starting phone number',
+  selector: /^\+0(\d{9})/,
+  field,
+  fix: (toFix: string): string => toFix.replace(/^\+0(\d{9})/, '+33$1')
+});
+
 const removeTooFewDigitsInPhone = (field: string): CleanOperation => ({
   name: 'too few digits in phone',
   selector: /^.{0,9}$/,
@@ -420,6 +427,7 @@ export const cleanOperations = (
   ...cleanOperationIfAny(removeOnly0ValueInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(keepFirstNumberIfMultiple, matching.telephone?.colonne),
   ...cleanOperationIfAny(fixMissingPlusCharAtStartingPhone, matching.telephone?.colonne),
+  ...cleanOperationIfAny(fixReplaceLeading0With33InPhoneNumberStatingWithPlus, matching.telephone?.colonne),
   ...cleanOperationIfAny(fixSpaceBeforeDotInEmail, matching.courriels?.colonne),
   ...cleanOperationIfAny(fixSpaceInEmail, matching.courriels?.colonne),
   ...cleanOperationIfAny(removeEmailStartingWithWww, matching.courriels?.colonne),
