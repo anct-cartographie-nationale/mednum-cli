@@ -115,9 +115,9 @@ const fixWebsitesSeparator = (field: string): CleanOperation => ({
 
 const fixWebsitesWithSingleSlash = (field: string): CleanOperation => ({
   name: 'website without colon and slash',
-  selector: /^https?:\/www/,
+  selector: /^https?:\/[a-zA-Z0-9]/,
   field,
-  fix: (toFix: string): string => toFix.replace(/:\/www/, '://www')
+  fix: (toFix: string): string => toFix.replace(/:\/([a-zA-Z0-9])/, '://$1')
 });
 
 const fixWebsitesWithoutColonAndSlash = (field: string): CleanOperation => ({

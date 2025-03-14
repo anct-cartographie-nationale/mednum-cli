@@ -1,0 +1,236 @@
+{
+  "nom": {
+    "colonne": "NOM STRUCTURE"
+  },
+  "code_postal": {
+    "colonne": "CODE POSTAL"
+  },
+  "commune": {
+    "colonne": ""
+  },
+  "adresse": {
+    "colonne": "Adresse"
+  },
+  "latitude": {
+    "dissocier": {
+      "colonne" : ["geo_point_2d"],
+      "séparateur": ",",
+      "partie": 0
+    }
+  },
+  "longitude": {
+    "dissocier": {
+      "colonne" : ["geo_point_2d"],
+      "séparateur": ",",
+      "partie": 1
+    }
+  },
+  "telephone": {
+    "colonne": "Téléphone"
+  },
+  "courriels": {
+    "colonne": "ADRESSE MAIL"
+  },
+  "site_web": {
+    "colonne": "SITE WEB"
+  },
+  "date_maj": {
+    "colonne": ""
+  },
+  "presentation_resume": {
+    "colonne": "Remarque accomagnement dématérialisé"
+  },
+  "presentation_detail": {
+    "colonne": "Remarque formation public"
+  },
+  "typologie": [
+    {
+      "colonnes": ["TYPE STRUCTURE"],
+      "termes": ["Association"],
+      "cible": "ASSO"
+    },
+    {
+      "colonnes": ["TYPE STRUCTURE"],
+      "termes": ["Bibliothèque / médiathèque"],
+      "cible": "BIB"
+    },
+    {
+      "colonnes": ["TYPE STRUCTURE", "Type de structure (Catégorie 3)", "Type de structure (Catégorie 4)"],
+      "termes": ["CAF de Paris", "Point CAF"],
+      "cible": "CAF"
+    },
+    {
+      "colonnes": ["TYPE STRUCTURE"],
+      "termes": ["CPAM"],
+      "cible": "CPAM"
+    },
+    {
+      "colonnes": ["TYPE STRUCTURE"],
+      "termes": ["Centre social"],
+      "cible": "CS"
+    },
+    {
+      "colonnes": ["Type de structure (Catégorie 3)"],
+      "termes": ["Espace Public Numérique"],
+      "cible": "EPN"
+    },
+    {
+      "colonnes": ["TYPE STRUCTURE"],
+      "termes": ["Pôle Emploi Paris"],
+      "cible": "FT"
+    },
+    {
+      "colonnes": ["TYPE STRUCTURE"],
+      "termes": ["La Poste"],
+      "cible": "LA_POSTE"
+    },
+    {
+      "colonnes": ["TYPE STRUCTURE"],
+      "termes": ["MDPH"],
+      "cible": "MDPH"
+    },
+    {
+      "colonnes": ["TYPE STRUCTURE"],
+      "termes": ["Mission Locale de Paris"],
+      "cible": "ML"
+    },
+    {
+      "colonnes": ["TYPE STRUCTURE"],
+      "termes": ["Mairie d'arrondissement", "Mairie Mobile de Paris"],
+      "cible": "MUNI"
+    },
+    {
+      "colonnes": ["TYPE STRUCTURE"],
+      "termes": ["Espace Paris Jeunes", "PIJ"],
+      "cible": "PIJ_BIJ"
+    },
+    {
+      "colonnes": ["TYPE STRUCTURE"],
+      "termes": ["PIMMS"],
+      "cible": "PIMMS"
+    },
+    {
+      "colonnes": ["Type de structure (Catégorie 3)"],
+      "termes": ["Point France Services"],
+      "cible": "RFS"
+    }
+  ],
+  "frais_a_charge": [
+    {
+      "colonnes": ["Gratuit"],
+      "termes": ["Oui"],
+      "cible": "Gratuit"
+    },
+    {
+      "colonnes": ["Participation financière"],
+      "termes": ["Oui"],
+      "cible": "Payant"
+    }
+  ],
+  "modalites_accompagnement": [
+    {
+      "colonnes": ["ACCES LIBRE"],
+      "termes": ["Autonome"],
+      "cible": "En autonomie"
+    },
+    {
+      "colonnes": ["ACCES LIBRE"],
+      "termes": ["Accompagné"],
+      "cible": "Accompagnement individuel"
+    }
+  ],
+  "publics_specifiquement_adresses": [
+    {
+      "colonnes": ["Tout public", "Jeunes (16-25 ans)"],
+      "termes": ["Oui"],
+      "cible": "Jeunes"
+    },
+    {
+      "colonnes": ["Tout public"],
+      "termes": ["Oui"],
+      "cible": "Étudiants"
+    },
+    {
+      "colonnes": ["Tout public", "Parents", "Familles", "Adolescents (moins de 16 ans)"],
+      "termes": ["Oui"],
+      "cible": "Familles et/ou enfants"
+    },
+    {
+      "colonnes": ["Tout public", "Seniors (pré-retraités et retraités)"],
+      "termes": ["Oui"],
+      "cible": "Seniors"
+    }
+  ],
+  "prise_en_charge_specifique": [
+    {
+      "colonnes": ["Services accessibles aux personnes déficientes auditives"],
+      "termes": ["Oui"],
+      "cible": "Surdité"
+    },
+    {
+      "colonnes": ["Local accessible pour les Personnes à Mobilité Réduite"],
+      "termes": ["Oui"],
+      "cible": "Handicaps moteurs"
+    },
+    {
+      "colonnes": ["Services accessibles aux personnes déficientes intellectuelles ou avec des troubles psychiques"],
+      "termes": ["Oui"],
+      "cible": "Handicaps mentaux"
+    },
+    {
+      "colonnes": ["Services accessibles aux personnes déficientes visuelles"],
+      "termes": ["Oui"],
+      "cible": "Déficience visuelle"
+    }
+  ],
+  "services": [
+    {
+      "colonnes": ["Accompagnement aux démarches administratives dématérialisées"],
+      "termes": ["Oui"],
+      "cible": "Aide aux démarches administratives"
+    },
+    {
+      "colonnes": ["Education au numérique"],
+      "termes": ["Oui"],
+      "cible": "Maîtrise des outils numériques du quotidien"
+    },
+    {
+      "colonnes": ["Sensibilisation aux métiers du numérique"],
+      "termes": ["Oui"],
+      "cible": "Insertion professionnelle via le numérique"
+    },
+    {
+      "colonnes": ["Prévention des risques liés aux mauvais usages du numérique"],
+      "termes": ["Oui"],
+      "cible": "Utilisation sécurisée du numérique"
+    },
+    {
+      "colonnes": ["Parentalité et numérique"],
+      "termes": ["Oui"],
+      "cible": "Parentalité et éducation avec le numérique"
+    },
+    {
+      "colonnes": ["Imprimantes 3D", "Casques de réalité virtuelle"],
+      "termes": ["Oui"],
+      "cible": "Loisirs et créations numériques"
+    },
+    {
+      "colonnes": ["Développement de la culture numérique"],
+      "termes": ["Oui"],
+      "cible": "Compréhension du monde numérique"
+    },
+    {
+      "colonnes": ["WI-FI ouvert au public", "Matériels informatiques adaptés", "Ordinateurs", "Tablettes", "Smartphones", "Bornes", "Ecrans tactiles", "Imprimantes", "Scanners", "Vidéoprojecteurs", "Bornes multiservices", "Liseuses", "Tableaux numériques"],
+      "termes": ["Oui"],
+      "cible": "Accès internet et matériel informatique"
+    },
+    {
+      "colonnes": ["Distribution de matériels de connexion à internet", "Ventes de matériels informatiques reconditionnés", "Dons de matériels informatiques reconditionnés"],
+      "termes": ["Oui"],
+      "cible": "Acquisition de matériel informatique à prix solidaire"
+    }
+  ],
+  "horaires": {
+    "semaine": "Jours et horaires d'ouverture"
+  }
+}
