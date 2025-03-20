@@ -1,263 +1,261 @@
 {
   "id": {
-    "colonne": "Identifiant unique local du lieu"
+    "colonne": "id"
   },
   "nom": {
-    "colonne": "Nom"
+    "colonne": "nom"
   },
   "pivot": {
-    "colonne": "SIRET ou RNA"
+    "colonne": "pivot"
   },
   "commune": {
-    "colonne": "Commune"
+    "colonne": "commune"
   },
   "code_postal": {
-    "colonne": "Code postal"
+    "colonne": "code_postal"
   },
   "code_insee": {
-    "colonne": "Code INSEE"
+    "colonne": "code_insee"
   },
   "adresse": {
-    "colonne": "Adresse"
+    "colonne": "adresse"
   },
   "complement_adresse": {
-    "colonne": "Complément d'adresse"
+    "colonne": "complement_adresse"
   },
   "latitude": {
-    "colonne": "Latitude"
+    "colonne": "latitude"
   },
   "longitude": {
-    "colonne": "Longitude"
+    "colonne": "longitude"
   },
-  "telephone": {
-    "colonne": "Numéro de téléphone"
-  },
-  "courriels": {
-    "colonne": "Courriel"
-  },
-  "date_maj": {
-    "colonne": "Date de mise à jour"
-  },
-  "structure_parente": {
-    "colonne": "Structure parente"
-  },
-  "presentation_resume": {
-    "colonne": "Présentation résumé"
-  },
-  "presentation_detail": {
-    "colonne": "Présentation détaillée"
-  },
-  "itinerance": [
-    {
-      "colonnes": ["Propriété itinérence"],
-      "termes": ["Fixe"],
-      "cible": "Fixe"
-    }
-  ],
   "typologie": [
     {
-      "colonnes": ["Typologie"],
-      "termes": ["Bibliothèque", "Médiathèque"],
+      "colonnes": ["typologie"],
+      "termes": ["BIB"],
       "cible": "BIB"
     },
     {
-      "colonnes": ["Typologie"],
+      "colonnes": ["typologie"],
       "termes": ["CCAS"],
       "cible": "CCAS"
     },
     {
-      "colonnes": ["Typologie"],
-      "termes": ["Centre social"],
-      "cible": "CS"
-    },
-    {
-      "colonnes": ["Typologie"],
+      "colonnes": ["typologie"],
       "termes": ["EPCI"],
       "cible": "EPCI"
     },
     {
-      "colonnes": ["Typologie"],
-      "termes": ["Fabrique"],
+      "colonnes": ["typologie"],
+      "termes": ["FABRIQUE"],
       "cible": "FABRIQUE"
     },
     {
-      "colonnes": ["Typologie"],
-      "termes": ["Mairie", "Maison municipale"],
+      "colonnes": ["typologie"],
+      "termes": ["Mairie", "Mairie Annexe", "Maison municipale"],
       "cible": "MUNI"
     },
     {
-      "colonnes": ["Typologie"],
-      "termes": ["Bureau information Jeunesse"],
+      "colonnes": ["typologie"],
+      "termes": ["MJD"],
+      "cible": "PAD"
+    },
+    {
+      "colonnes": ["typologie"],
+      "termes": ["PIJ_BIJ"],
       "cible": "PIJ_BIJ"
     },
     {
-      "colonnes": ["Typologie"],
-      "termes": ["Relais lecture"],
+      "colonnes": ["typologie"],
+      "termes": ["RELAIS_LECTURE"],
       "cible": "RELAIS_LECTURE"
+    }
+  ],
+  "telephone": {
+    "colonne": "telephone"
+  },
+  "courriels": {
+    "colonne": "courriels"
+  },
+  "date_maj": {
+    "colonne": "date_maj"
+  },
+  "structure_parente": {
+    "colonne": "structure_parente"
+  },
+  "presentation_resume": {
+    "colonne": "presentation_resume"
+  },
+  "presentation_detail": {
+    "colonne": "presentation_detail"
+  },
+  "itinerance": [
+    {
+      "colonnes": ["itinerance"],
+      "termes": ["Fixe"],
+      "cible": "Fixe"
     }
   ],
   "formations_labels": [
     {
-      "colonnes": ["Formations et labels"],
-      "termes": ["Fabrique de Territoire"],
+      "colonnes": ["formations_labels"],
+      "termes": ["Fabriques de Territoire"],
       "cible": "Fabriques de Territoire"
     }
   ],
   "autres_formations_labels": [
     {
-      "colonnes": ["Autres formations et labels"],
-      "termes": ["Label Infojeunes"],
-      "cible": "Label Infojeunes"
+      "colonnes": ["autres_formations_labels"]
     }
   ],
   "frais_a_charge": [
     {
-      "colonnes": ["Frais à charge"],
+      "colonnes": ["frais_a_charge"],
       "termes": ["Gratuit"],
       "cible": "Gratuit"
     },
     {
-      "colonnes": ["Frais à charge"],
+      "colonnes": ["frais_a_charge"],
       "termes": ["Gratuit sous condition"],
       "cible": "Gratuit sous condition"
     },
     {
-      "colonnes": ["Frais à charge"],
+      "colonnes": ["frais_a_charge"],
       "termes": ["Payant"],
       "cible": "Payant"
     }
   ],
   "modalites_accompagnement": [
     {
-      "colonnes": ["Modalités d'accompagnement"],
+      "colonnes": ["modalites_accompagnement"],
       "termes": ["Dans un atelier collectif"],
       "cible": "Dans un atelier collectif"
     },
     {
-      "colonnes": ["Modalités d'accompagnement"],
+      "colonnes": ["modalites_accompagnement"],
       "termes": [" Accompagnement individuel"],
       "cible": "Accompagnement individuel"
     },
     {
-      "colonnes": ["Modalités d'accompagnement"],
+      "colonnes": ["modalites_accompagnement"],
       "termes": ["En autonomie"],
       "cible": "En autonomie"
     }
   ],
   "modalites_acces": [
     {
-      "colonnes": ["Modalité d'accès"],
+      "colonnes": ["modalites_acces"],
       "termes": ["Téléphoner"],
       "cible": "Téléphoner"
     },
     {
-      "colonnes": ["Modalité d'accès"],
+      "colonnes": ["modalites_acces"],
       "termes": ["Se présenter"],
       "cible": "Se présenter"
     },
     {
-      "colonnes": ["Modalité d'accès"],
+      "colonnes": ["modalites_acces"],
       "termes": ["Contacter par mail"],
       "cible": "Contacter par mail"
     }
   ],
   "publics_specifiquement_adresses": [
     {
-      "colonnes": ["Publics spécifiquement adressés"],
+      "colonnes": ["publics_specifiquement_adresses"],
       "termes": ["Jeunes"],
       "cible": "Jeunes"
     },
     {
-      "colonnes": ["Publics spécifiquement adressés"],
+      "colonnes": ["publics_specifiquement_adresses"],
       "termes": ["Seniors"],
       "cible": "Seniors"
     },
     {
-      "colonnes": ["Publics spécifiquement adressés"],
+      "colonnes": ["publics_specifiquement_adresses"],
       "termes": ["Familles et/ou enfants"],
       "cible": "Familles et/ou enfants"
     }
   ],
   "prise_en_charge_specifique": [
     {
-      "colonnes": ["Prise en charge spécifique"],
+      "colonnes": ["prise_en_charge_specifique"],
       "termes": ["Surdité"],
       "cible": "Surdité"
     },
     {
-      "colonnes": ["Prise en charge spécifique"],
+      "colonnes": ["prise_en_charge_specifique"],
       "termes": ["Déficience visuelle"],
       "cible": "Déficience visuelle"
     },
     {
-      "colonnes": ["Prise en charge spécifique"],
-      "termes": ["illettrisme"],
+      "colonnes": ["prise_en_charge_specifique"],
+      "termes": ["Illettrisme"],
       "cible": "Illettrisme"
     },
     {
-      "colonnes": ["Prise en charge spécifique"],
+      "colonnes": ["prise_en_charge_specifique"],
       "termes": ["Handicaps moteurs"],
       "cible": "Handicaps moteurs"
     },
     {
-      "colonnes": ["Prise en charge spécifique"],
+      "colonnes": ["prise_en_charge_specifique"],
       "termes": ["Handicaps mentaux"],
       "cible": "Handicaps mentaux"
     },
     {
-      "colonnes": ["Prise en charge spécifique"],
+      "colonnes": ["prise_en_charge_specifique"],
       "termes": ["Langues étrangères (anglais)"],
       "cible": "Langues étrangères (anglais)"
     },
     {
-      "colonnes": ["Prise en charge spécifique"],
+      "colonnes": ["prise_en_charge_specifique"],
       "termes": ["Langues étrangères (autres)"],
       "cible": "Langues étrangères (autres)"
     }
   ],
   "services": [
     {
-      "colonnes": ["Services"],
+      "colonnes": ["services"],
       "termes": ["Aide aux démarches administratives"],
       "cible": "Aide aux démarches administratives"
     },
     {
-      "colonnes": ["Services"],
+      "colonnes": ["services"],
       "termes": ["Maîtrise des outils numériques du quotidien"],
       "cible": "Maîtrise des outils numériques du quotidien"
     },
     {
-      "colonnes": ["Services"],
+      "colonnes": ["services"],
       "termes": ["Insertion professionnelle via le numérique"],
       "cible": "Insertion professionnelle via le numérique"
     },
     {
-      "colonnes": ["Services"],
+      "colonnes": ["services"],
       "termes": ["Utilisation sécurisée du numérique"],
       "cible": "Utilisation sécurisée du numérique"
     },
     {
-      "colonnes": ["Services"],
+      "colonnes": ["services"],
       "termes": ["Parentalité et éducation avec le numérique"],
       "cible": "Parentalité et éducation avec le numérique"
     },
     {
-      "colonnes": ["Services"],
+      "colonnes": ["services"],
       "termes": ["Loisirs et créations numériques"],
       "cible": "Loisirs et créations numériques"
     },
     {
-      "colonnes": ["Services"],
+      "colonnes": ["services"],
       "termes": ["Compréhension du monde numérique"],
       "cible": "Compréhension du monde numérique"
     },
     {
-      "colonnes": ["Services"],
+      "colonnes": ["services"],
       "termes": ["Accès internet et matériel informatique"],
       "cible": "Accès internet et matériel informatique"
     }
   ],
   "horaires": {
-    "osm": "Horaires"
+    "osm": "horaires"
   }
 }
