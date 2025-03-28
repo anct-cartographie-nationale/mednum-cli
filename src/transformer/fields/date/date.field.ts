@@ -6,11 +6,15 @@ type RegexResult = {
   day: string;
   time: string;
   timestamp: string;
+  timezone: string;
 };
 
 const STANDARD_DATE_REG_EXP: RegExp = /^(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})$/u;
 
 const STANDARD_DATE_TIME_REG_EXP: RegExp = /^(?<year>\d{4})[-/](?<month>\d{2})[-/](?<day>\d{2}) (?<time>\d{2}:\d{2}:\d{2})$/u;
+
+const STANDARD_DATE_TIME_WITH_TIMEZONE_REG_EXP: RegExp =
+  /^(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2}) (?<time>\d{2}:\d{2}:\d{2})\+(?<timezone>\d{2}:\d{2})$/u;
 
 const FRENCH_DATE_REG_EXP: RegExp = /^(?<day>\d{2})\/(?<month>\d{1,2})\/(?<year>\d{4})$/u;
 
@@ -21,6 +25,7 @@ const TIMESTAMP_REG_EXP: RegExp = /^(?<timestamp>\d{10})/u;
 const DATE_REGEXP: RegExp[] = [
   STANDARD_DATE_REG_EXP,
   STANDARD_DATE_TIME_REG_EXP,
+  STANDARD_DATE_TIME_WITH_TIMEZONE_REG_EXP,
   FRENCH_DATE_TIME_REG_EXP,
   FRENCH_DATE_REG_EXP,
   TIMESTAMP_REG_EXP
@@ -32,7 +37,9 @@ const addMissing0 = (month: string | undefined): string => (month?.length === 1 
 
 const toDate = (date?: Partial<RegexResult>): Date =>
   date?.timestamp == null
-    ? new Date(`${date?.year}-${addMissing0(date?.month)}${date?.month}-${date?.day}T${date?.time}`)
+    ? new Date(
+        `${date?.year}-${addMissing0(date?.month)}${date?.month}-${date?.day}T${date?.time}+${date?.timezone ?? '00:00'}`
+      )
     : new Date(+date.timestamp * 1000);
 
 const dateRegexpResultFrom = (dateRegexp: RegExp, sourceDate: string): Partial<RegexResult> => ({
@@ -56,4 +63,4 @@ const dateFromSource = (source: DataSource, matching: LieuxMediationNumeriqueMat
     : (source[matching.date_maj.colonne]?.toString().replace(/\.\d+/u, '') ?? '');
 
 export const processDate = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Date =>
-  DATE_REGEXP.reduce(toFormattedDate(removeInvalidChars(dateFromSource(source, matching))), new Date(1970, 0, 1));
+  DATE_REGEXP.reduce(toFormattedDate(removeInvalidChars(dateFromSource(source, matching))), new Date(0));
