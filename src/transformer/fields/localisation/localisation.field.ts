@@ -1,6 +1,6 @@
-import { Localisation, LocalisationToValidate, isValidLocalisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { isValidLocalisation, Localisation, LocalisationToValidate } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import proj4 from 'proj4';
-import { Colonne, Dissociation, LieuxMediationNumeriqueMatching, DataSource } from '../../input';
+import { Colonne, DataSource, Dissociation, LieuxMediationNumeriqueMatching } from '../../input';
 
 type NoLocalisation = { noLocalisation: true } & null;
 export const NO_LOCALISATION: Localisation = null as NoLocalisation;
@@ -63,8 +63,7 @@ export const processLocalisation = async (
   source: DataSource,
   matching: LieuxMediationNumeriqueMatching,
   geocodeAddress: () => Promise<Localisation>
-): Promise<Localisation> => {
-  if (!isValidLocalisationatching(matching)) return geocodeAddress();
-  const localisation: Localisation = validateLocalisationField(localisationFromMatching(source, matching));
-  return localisation === NO_LOCALISATION ? geocodeAddress() : localisation;
-};
+): Promise<Localisation> =>
+  !isValidLocalisationatching(matching)
+    ? geocodeAddress()
+    : validateLocalisationField(localisationFromMatching(source, matching));

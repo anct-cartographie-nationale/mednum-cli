@@ -36,6 +36,7 @@ jobs:
         ]'
       environment: production
     secrets:
+      COOP_API_KEY: ${{ secrets.COOP_API_KEY }}
       DATA_INCLUSION_API_KEY: ${{ secrets.DATA_INCLUSION_API_KEY }}
       DATA_GOUV_API_URL: ${{ secrets.DATA_GOUV_API_URL }}
       DATA_GOUV_API_KEY: ${{ secrets.DATA_GOUV_API_KEY }}

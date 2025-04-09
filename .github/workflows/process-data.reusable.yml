@@ -17,6 +17,8 @@ on:
         required: false
         type: number
     secrets:
+      COOP_API_KEY:
+        required: true
       DATA_INCLUSION_API_KEY:
         required: true
       DATA_GOUV_API_URL:
@@ -54,6 +56,7 @@ jobs:
       - name: 'Create env file'
         run: |
           touch .env
+          echo COOP_API_KEY="${{ secrets.COOP_API_KEY }}" >> .env
           echo DATA_INCLUSION_API_KEY="${{ secrets.DATA_INCLUSION_API_KEY }}" >> .env
       - name: Transform
         run: pnpm transformer.${{ matrix.source }} -f

@@ -160,42 +160,6 @@ describe('localisation field', (): void => {
     );
   });
 
-  it('should geocode even if source colonne are missing', async (): Promise<void> => {
-    const source: DataSource = {
-      commune: 'Paris',
-      code_postal: '75007',
-      adresse: '20 Avenue de Ségur'
-    };
-
-    const localisation: Localisation = await processLocalisation(source, GEOCODE_MATCHING, GEOCODE_ADDRESS_SUCCESS);
-
-    expect(localisation).toStrictEqual<Localisation>(
-      Localisation({
-        latitude: 48.850699,
-        longitude: 2.308628
-      })
-    );
-  });
-
-  it('should geocode if source are empty string', async (): Promise<void> => {
-    const source: DataSource = {
-      bf_latitude: '',
-      bf_longitude: '',
-      commune: 'Paris',
-      code_postal: '75007',
-      adresse: '20 Avenue de Ségur'
-    };
-
-    const localisation: Localisation = await processLocalisation(source, GEOCODE_MATCHING, GEOCODE_ADDRESS_SUCCESS);
-
-    expect(localisation).toStrictEqual<Localisation>(
-      Localisation({
-        latitude: 48.850699,
-        longitude: 2.308628
-      })
-    );
-  });
-
   it('should return NO_LOCALISATION if geocode return undefined', async (): Promise<void> => {
     const source: DataSource = {
       bf_latitude: '',
