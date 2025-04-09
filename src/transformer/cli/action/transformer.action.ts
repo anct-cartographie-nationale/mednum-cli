@@ -85,7 +85,6 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
     console.log('Lieux à ajouter :', diffSinceLastTransform.toUpsert.length);
     console.log('Lieux à supprimer :', diffSinceLastTransform.toDelete.length);
   }
-
   console.log("5. Sauvegarde du rapport d'erreur");
   repository.saveErrors(REPORT);
 

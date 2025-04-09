@@ -47,4 +47,22 @@ describe('prise rdv field', (): void => {
 
     expect(priseRdv).toBeUndefined();
   });
+
+  it('should fix invalid urls', (): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      prise_rdv: {
+        colonne: 'PriseRdv'
+      }
+    } as LieuxMediationNumeriqueMatching;
+
+    const source: DataSource = {
+      PriseRdv:
+        'https://www.rdv-solidarites.fr/prendre_rdv?departement=03&city_code=03048&street_ban_id=&latitude=46.620992&longitude=2.811847&address=Cérilly%2C+03350&button='
+    };
+    const priseRdv: string | undefined = processPriseRdv(source, matching);
+
+    expect(priseRdv).toBe(
+      'https://www.rdv-solidarites.fr/prendre_rdv?departement=03&city_code=03048&street_ban_id=&latitude=46.620992&longitude=2.811847&address=Cerilly%2C+03350&button='
+    );
+  });
 });

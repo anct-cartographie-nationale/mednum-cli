@@ -7,6 +7,7 @@ export type SourceSettings = {
   source: string;
   encoding?: string;
   delimiter?: string;
+  apiEnvKey?: string;
 };
 const fromJson = <T>(response: Record<string, T>, key?: string): T[] =>
   key == null ? Object.values(response) : Object.values(response[key] ?? {});
@@ -57,9 +58,19 @@ const streamFromAPI = async (response: AxiosResponse, encoding?: string, delimit
   return streamPromise(notJson, chunks, response, encoding, delimiter);
 };
 
-const fetchFrom = async ([source, key]: string[], encoding?: string, delimiter?: string): Promise<string[]> => {
+const fetchFrom = async (
+  [source, key]: string[],
+  encoding?: string,
+  delimiter?: string,
+  apiEnvKey?: string
+): Promise<string[]> => {
+  const bearerToken: string | undefined = apiEnvKey != null ? process.env[apiEnvKey] : undefined;
+
   const response: { next?: string } = await streamFromAPI(
-    await axios.get(source ?? '', { responseType: 'stream' }),
+    await axios.get(source ?? '', {
+      responseType: 'stream',
+      ...(bearerToken ? { headers: { Authorization: `Bearer ${bearerToken}` } } : {})
+    }),
     encoding,
     delimiter
   );
@@ -74,7 +85,12 @@ const fetchFrom = async ([source, key]: string[], encoding?: string, delimiter?:
 const readFrom = async ([source, key]: string[]): Promise<string> =>
   JSON.stringify(fromJson(JSON.parse(await fs.promises.readFile(source ?? '', 'utf-8')), key));
 
-export const sourceATransformer = async ({ source, encoding = '', delimiter = '' }: SourceSettings): Promise<string> =>
+export const sourceATransformer = async ({
+  source,
+  encoding = '',
+  delimiter = '',
+  apiEnvKey
+}: SourceSettings): Promise<string> =>
   source.startsWith('http')
-    ? JSON.stringify(await fetchFrom(source.split('@'), encoding, delimiter))
+    ? JSON.stringify(await fetchFrom(source.split('@'), encoding, delimiter, apiEnvKey))
     : readFrom(source.split('@'));
