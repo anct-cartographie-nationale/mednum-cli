@@ -147,15 +147,16 @@ jobs:
         "hub-bretagne",
         "mednum-bfc",
         "mulhouse",
-        "vendee",
         "le-havre",
         "les-landes",
+        "loire-atlantique",
         "paca",
         "paris",
-        "loire-atlantique",
         "res-in",
         "rhin-occ",
-        "siilab"
+        "siilab",
+        "soliguide",
+        "vendee"
         ]'
       environment: demo
     secrets:
