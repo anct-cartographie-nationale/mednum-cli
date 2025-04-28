@@ -212,9 +212,9 @@ const fixShortAssuranceRetraitePhone = (field: string): CleanOperation => ({
 
 const fixMissingPlusCharAtStartingPhone = (field: string): CleanOperation => ({
   name: 'fix missing + at starting phone number',
-  selector: /^33(\d+)/,
+  selector: /^(33|262|590|594|596)(\d+)/,
   field,
-  fix: (toFix: string): string => toFix.replace(/^33(\d+)/, '+33$1')
+  fix: (toFix: string): string => toFix.replace(/^(33|262|590|594|596)(\d+)/, '+$1$2')
 });
 
 const fixReplaceLeading0With33InPhoneNumberStatingWithPlus = (field: string): CleanOperation => ({

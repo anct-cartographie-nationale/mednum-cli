@@ -1206,6 +1206,17 @@ describe('contact field', (): void => {
     expect(contact).toStrictEqual<Contact>(Contact({ telephone: '+33782358117' }));
   });
 
+  it('should add + at the start of the phone number from la réunion if missing', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        Téléphone: '262693484434'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(Contact({ telephone: '+262693484434' }));
+  });
+
   it('should add replace leading 0 with 33 for phone numbers stating with +0', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
