@@ -70,8 +70,8 @@ jobs:
     needs:
       - upload-to-database
     steps:
-      - name: Sleep for 4 minutes
-        run: sleep 240s
+      - name: Sleep for 3 minutes
+        run: sleep 180s
         shell: bash
       - name: Checkout mednum-cli repository
         uses: actions/checkout@v4
@@ -107,8 +107,8 @@ jobs:
     needs:
       - upload-to-database
     steps:
-      - name: Sleep for 1 hour
-        run: sleep 3600s
+      - name: Sleep for 3 minutes
+        run: sleep 180s
         shell: bash
       - name: Prepare lieux inclusion numerique file
         run: |
