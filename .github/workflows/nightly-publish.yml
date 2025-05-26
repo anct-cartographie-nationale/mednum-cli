@@ -2,8 +2,7 @@
 name: Nightly publish
 
 on:
-  schedule:
-    - cron: '15 4 * * *' # every day at 04:15 AM
+  workflow_dispatch:
 
 jobs:
   process-data:
