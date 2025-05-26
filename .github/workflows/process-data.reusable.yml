@@ -70,6 +70,7 @@ jobs:
 
   publish:
     name: Publish to data.gouv
+    continue-on-error: true
     strategy:
       matrix:
         source: ${{ fromJSON(inputs.sources) }}
