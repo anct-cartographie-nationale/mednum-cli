@@ -152,7 +152,7 @@
     "vitest": "^2.1.8"
   },
   "dependencies": {
-    "@gouvfr-anct/lieux-de-mediation-numerique": "^2.2.0",
+    "@gouvfr-anct/lieux-de-mediation-numerique": "^2.2.1",
     "@gouvfr-anct/timetable-to-osm-opening-hours": "^2.1.0",
     "@turf/turf": "^7.1.0",
     "axios": "^1.7.7",
