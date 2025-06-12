@@ -93,7 +93,6 @@ jobs:
         "hub-bretagne",
         "mednum-bfc",
         "mulhouse",
-        "le-havre",
         "les-landes",
         "loire-atlantique",
         "numi",
@@ -124,6 +123,9 @@ jobs:
         with:
           path: deduplicated
           merge-multiple: true
+      - name: Count lieux to upload
+        run: |
+          echo "Number of lieux to upload: $(jq 'length' deduplicated/dynamo-import/cartographie-nationale.lieux-inclusion-numerique.json)"
       - name: Publish to dynamoDB via S3
         uses: kersvers/s3-sync-with-cloudfront-invalidation@v1.0.0
         env:
