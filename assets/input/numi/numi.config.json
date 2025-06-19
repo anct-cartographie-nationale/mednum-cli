@@ -152,22 +152,22 @@
   ],
   "modalites_accompagnement": [
     {
-      "colonnes": ["modalites_accompagnement"],
+      "colonnes": ["Modalités d'accompagnement"],
       "termes": ["En autonomie"],
       "cible": "En autonomie"
     },
     {
-      "colonnes": ["modalites_accompagnement"],
+      "colonnes": ["Modalités d'accompagnement"],
       "termes": ["Accompagnement individuel"],
       "cible": "Accompagnement individuel"
     },
     {
-      "colonnes": ["modalites_accompagnement"],
+      "colonnes": ["Modalités d'accompagnement"],
       "termes": ["Dans un atelier collectif"],
       "cible": "Dans un atelier collectif"
     },
     {
-      "colonnes": ["modalites_accompagnement"],
+      "colonnes": ["Modalités d'accompagnement"],
       "termes": ["À distance"],
       "cible": "À distance"
     }
