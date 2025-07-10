@@ -12,6 +12,23 @@ const STANDARD_MATCHING: LieuxMediationNumeriqueMatching = {
   }
 } as LieuxMediationNumeriqueMatching;
 
+const ARRAY_MATCHING: LieuxMediationNumeriqueMatching = {
+  latitude: {
+    dissocier: {
+      colonne: 'geometry.coordinates',
+      séparateur: ',',
+      partie: 0
+    }
+  },
+  longitude: {
+    dissocier: {
+      colonne: 'geometry.coordinates',
+      séparateur: ',',
+      partie: 1
+    }
+  }
+} as LieuxMediationNumeriqueMatching;
+
 const JOINED_LATITUDE_AND_LONGITUDE_MATCHING: LieuxMediationNumeriqueMatching = {
   latitude: {
     dissocier: {
@@ -107,6 +124,21 @@ describe('localisation field', (): void => {
     );
   });
 
+  it('should process localisation with array location form source', async (): Promise<void> => {
+    const source: DataSource = {
+      'geometry.coordinates': [48.906579, 2.442389]
+    };
+
+    const localisation: Localisation = await processLocalisation(source, ARRAY_MATCHING, GEOCODE_ADDRESS_SUCCESS);
+
+    expect(localisation).toStrictEqual<Localisation>(
+      Localisation({
+        latitude: 48.906579,
+        longitude: 2.442389
+      })
+    );
+  });
+
   it('should process localisation form source with associated latitude and longitude', async (): Promise<void> => {
     const source: DataSource = {
       'Geo Point': '47.29212184845607,0.02176010906045345'
@@ -126,7 +158,7 @@ describe('localisation field', (): void => {
     );
   });
 
-  it('should process localisation form source with associated latitude and longitude and others charactere in it', async (): Promise<void> => {
+  it('should process localisation form source with associated latitude and longitude and others characters in it', async (): Promise<void> => {
     const source: DataSource = {
       'Geo Point': 'POINT (-0.49316 43.89695)'
     };
