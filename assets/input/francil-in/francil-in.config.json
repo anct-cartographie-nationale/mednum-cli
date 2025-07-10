@@ -15,10 +15,18 @@
     "colonne": "properties.adresse"
   },
   "latitude": {
-    "colonne": "geometry.coordinates.1"
+    "dissocier": {
+      "colonne": "geometry.coordinates",
+      "séparateur": ",",
+      "partie": 1
+    }
   },
   "longitude": {
-    "colonne": "geometry.coordinates.0"
+    "dissocier": {
+      "colonne": "geometry.coordinates",
+      "séparateur": ",",
+      "partie": 0
+    }
   },
   "telephone": {
     "colonne": "properties.telephone"
