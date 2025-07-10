@@ -20,12 +20,24 @@
   "code_insee": {
     "colonne": "address.inseeCode"
   },
+
+
   "latitude": {
-    "colonne": "coord.1"
+    "dissocier": {
+      "colonne": "address.coordinates",
+      "séparateur": ",",
+      "partie": 1
+    }
   },
   "longitude": {
-    "colonne": "coord.0"
+    "dissocier": {
+      "colonne": "address.coordinates",
+      "séparateur": ",",
+      "partie": 0
+    }
   },
+
+
   "telephone": {
     "colonne": "contactPhone"
   },
