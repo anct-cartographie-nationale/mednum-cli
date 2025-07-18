@@ -1,0 +1,351 @@
+{
+  "id": {
+    "colonne": "code_service"
+  },
+  "pivot": {
+    "colonne": "pivot"
+  },
+  "nom": {
+    "colonne": "lib_long_service"
+  },
+  "commune": {
+    "colonne": "nom_comm"
+  },
+  "code_postal": {
+    "colonne": "lieu_code_postal"
+  },
+  "code_insee": {
+    "colonne": "num_insee_comm_service"
+  },
+  "adresse": {
+    "colonne": "adresse"
+  },
+  "latitude": {
+    "colonne": "geopoint.lat"
+  },
+  "longitude": {
+    "colonne": "geopoint.lon"
+  },
+  "telephone": {
+    "colonne": "tabservice_tel_service"
+  },
+  "courriels": {
+    "colonne": "tabservice_mail_service"
+  },
+  "site_web": {
+    "colonne": "site_internet_service"
+  },
+  "date_maj": {
+    "colonne": "date_maj"
+  },
+  "presentation_detail": {
+    "colonne": "infos_complementaires"
+  },
+  "typologie": [
+    {
+      "colonnes": [
+        "lib_long_type",
+        "administration"
+      ],
+      "termes": [
+        "Caisse d'allocations familiales",
+        "Allocations Familiales CAF"
+      ],
+      "cible": "CAF"
+    },
+    {
+      "colonnes": [
+        "administration"
+      ],
+      "termes": [
+        "Services des impôts DGFIP"
+      ],
+      "cible": "CFP"
+    },
+    {
+      "colonnes": [
+        "lib_long_type",
+        "administration"
+      ],
+      "termes": [
+        "Caisse Primaire d'Assurance Maladie",
+        "Assurance Maladie CPAM"
+      ],
+      "cible": "CPAM"
+    },
+    {
+      "colonnes": [
+        "lib_long_type"
+      ],
+      "termes": [
+        "Espace de médiation numérique",
+        "Lieux d'accès multimédia",
+        "Point d'accueil numérique"
+      ],
+      "cible": "EPN"
+    },
+    {
+      "colonnes": [
+        "lib_long_type"
+      ],
+      "termes": [
+        "France Services"
+      ],
+      "cible": "RFS"
+    },
+    {
+      "colonnes": [
+        "lib_long_type",
+        "administration"
+      ],
+      "termes": [
+        "France Travail",
+        "Pôle Emploi"
+      ],
+      "cible": "FT"
+    },
+    {
+      "colonnes": [
+        "administration"
+      ],
+      "termes": [
+        "La Poste"
+      ],
+      "cible": "LA_POSTE"
+    },
+    {
+      "colonnes": [
+        "lib_long_type",
+        "administration"
+      ],
+      "termes": [
+        "Mutualité Sociale Agricole"
+      ],
+      "cible": "MSA"
+    },
+    {
+      "colonnes": [
+        "administration"
+      ],
+      "termes": [
+        "Services ministère de la Justice"
+      ],
+      "cible": "PAD"
+    }
+  ],
+  "itinerance": [
+    {
+      "colonnes": [
+        "itinerance"
+      ],
+      "termes": [
+        "1"
+      ],
+      "cible": "Itinérant"
+    },
+    {
+      "colonnes": [
+        "itinerance"
+      ],
+      "termes": [
+        "0"
+      ],
+      "cible": "Fixe"
+    }
+  ],
+  "frais_a_charge": [
+    {
+      "colonnes": [
+        "cond_acces"
+      ],
+      "termes": [
+        "Gratuit"
+      ],
+      "cible": "Gratuit"
+    },
+    {
+      "colonnes": [
+        "cond_acces"
+      ],
+      "termes": [
+        "Payant"
+      ],
+      "cible": "Payant"
+    }
+  ],
+  "modalites_accompagnement": [
+    {
+      "colonnes": [
+        "mod_acces",
+        "borne_libre_service"
+      ],
+      "termes": [
+        "Espace ou borne en libre accès",
+        "1"
+      ],
+      "cible": "En autonomie"
+    },
+    {
+      "colonnes": [
+        "mod_acces"
+      ],
+      "termes": [
+        "Espace avec un accompagnement en individuel",
+        "Espace avec un accompagnement à  la formation à  l'informatique"
+      ],
+      "cible": "Accompagnement individuel"
+    },
+    {
+      "colonnes": [
+        "mod_acces"
+      ],
+      "termes": [
+        "Espace avec un accompagnement collectif"
+      ],
+      "cible": "Dans un atelier collectif"
+    }
+  ],
+  "modalites_acces": [
+    {
+      "colonnes": [
+        "cond_acces"
+      ],
+      "termes": [
+        "Sans Rendez-Vous"
+      ],
+      "cible": "Se présenter"
+    }
+  ],
+  "publics_specifiquement_adresses": [
+    {
+      "colonnes": [
+        "publics"
+      ],
+      "termes": [
+        "Jeune"
+      ],
+      "cible": "Jeunes"
+    },
+    {
+      "colonnes": [
+        "publics"
+      ],
+      "termes": [
+        "Stagiaire en formation"
+      ],
+      "cible": "Étudiants"
+    },
+    {
+      "colonnes": [
+        "publics"
+      ],
+      "termes": [
+        "Retraité"
+      ],
+      "cible": "Seniors"
+    }
+  ],
+  "prise_en_charge_specifique": [
+    {
+      "colonnes": [
+        "publics"
+      ],
+      "termes": [
+        "Personne en situation de handicap"
+      ],
+      "cible": "Surdité"
+    },
+    {
+      "colonnes": [
+        "publics",
+        "accueil_pmr"
+      ],
+      "termes": [
+        "Personne en situation de handicap",
+        "1"
+      ],
+      "cible": "Handicaps moteurs"
+    },
+    {
+      "colonnes": [
+        "publics"
+      ],
+      "termes": [
+        "Personne en situation de handicap"
+      ],
+      "cible": "Handicaps mentaux"
+    },
+    {
+      "colonnes": [
+        "publics"
+      ],
+      "termes": [
+        "Personne en situation de handicap"
+      ],
+      "cible": "Déficience visuelle"
+    }
+  ],
+  "services": [
+    {
+      "colonnes": [
+        "demarches",
+        "usages"
+      ],
+      "termes": [
+        "Démarches",
+        "Aide à  la mobilité",
+        "Accès au logement",
+        "Faire une demande ou une déclaration en ligne",
+        "Faire valoir un droit"
+      ],
+      "cible": "Aide aux démarches administratives"
+    },
+    {
+      "colonnes": [
+        "demarches",
+        "usages"
+      ],
+      "termes": [
+        "Accéder à  l'information en ligne",
+        "Créer et utiliser un compte de messagerie",
+        "Effectuer des connexions réseaux",
+        "Imprimer ou scanner un document",
+        "Télécharger un document",
+        "Envoyer des courriels et joindre des fichiers",
+        "Géolocaliser un service ou un lieu"
+      ],
+      "cible": "Maîtrise des outils numériques du quotidien"
+    },
+    {
+      "colonnes": [
+        "demarches",
+        "usages"
+      ],
+      "termes": [
+        "Préparer et passer une certification"
+      ],
+      "cible": "Insertion professionnelle via le numérique"
+    },
+    {
+      "colonnes": [
+        "demarches",
+        "usages"
+      ],
+      "termes": [
+        "Services internet ouverts au public",
+        "Imprimer ou scanner un document"
+      ],
+      "cible": "Accès internet et matériel informatique"
+    }
+  ],
+  "autres_formations_labels": [
+    {
+      "colonnes": [
+        "reseau"
+      ]
+    }
+  ],
+  "horaires": {
+    "osm": "horaires"
+  }
+}
