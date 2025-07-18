@@ -65,4 +65,20 @@ describe('pivot field', (): void => {
 
     expect(pivot).toBe('00000000000000');
   });
+
+  it('should get dummy pivot when SIRET is to short excluding point', (): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      pivot: {
+        colonne: 'SIRET'
+      }
+    } as LieuxMediationNumeriqueMatching;
+
+    const source: DataSource = {
+      SIRET: '776.398.968.00'
+    };
+
+    const pivot: Pivot = processPivot(source, matching);
+
+    expect(pivot).toBe('00000000000000');
+  });
 });
