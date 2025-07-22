@@ -433,6 +433,39 @@ describe('adresse field', (): void => {
     }).toThrow(new VoieError(''));
   });
 
+  it.each(['C/O A.THEVENIER LAFARGE73 AVENUE DU MONT BLANCBAT B', 'null null', 'Rue', '-'])(
+    'should not process invalid postal address with invalid value "%s"',
+    (adresseIncorrecte): void => {
+      const source: DataSource = {
+        'Code postal': '75020',
+        'Ville *': 'Paris',
+        'Adresse postale *': adresseIncorrecte,
+        nom: 'test'
+      };
+
+      expect((): void => {
+        processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
+      }).toThrow(new VoieError(''));
+    }
+  );
+
+  it.each(['00', '0'])('should fix incorrect number in voie when starting with "%s"', (number): void => {
+    const source: DataSource = {
+      'Adresse postale *': `${number} Rue Roger Salengro`,
+      'Code postal': '87000',
+      'Ville *': 'Limoges'
+    };
+
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
+
+    expect(adresse).toStrictEqual({
+      voie: 'Rue Roger Salengro',
+      commune: 'Limoges',
+      code_postal: '87000',
+      code_insee: '87085'
+    });
+  });
+
   it('should fix value with code postal in adresse postale field instead of Code postal field', (): void => {
     const source: DataSource = {
       'Adresse postale *': '5, rue Malakoff,\n38000 Grenoble \n\n-\n\\n29, bis rue Colonel Bougault, 38100 Grenoble',
