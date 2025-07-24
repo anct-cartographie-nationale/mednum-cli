@@ -12,7 +12,7 @@ export const deduplicationRepository = (dedupliquerOptions: DedupliquerOptions):
     duplications: DuplicationComparison[] = []
   ): Promise<void> => {
     if (dedupliquerOptions.cartographieNationaleApiKey == null) {
-      saveInFiles(dedupliquerOptions)(lieuxToDeduplicate, groups, merged, duplications);
+      saveInFiles(dedupliquerOptions)(groups, merged, lieuxToDeduplicate, duplications);
     } else {
       await saveWithApi(dedupliquerOptions)(groups, merged);
     }
