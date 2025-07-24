@@ -33,9 +33,9 @@ const writeOutputFiles = (
 export const saveInFiles =
   (dedupliquerOptions: DedupliquerOptions) =>
   (
-    lieuxToDeduplicate: SchemaLieuMediationNumerique[],
     groups: Groups,
     merged: MergedLieuxByGroupMap,
+    lieuxToDeduplicate: SchemaLieuMediationNumerique[],
     duplications: DuplicationComparison[]
   ): void => {
     const lieuxWithLessDuplicates: SchemaLieuMediationNumerique[] = [

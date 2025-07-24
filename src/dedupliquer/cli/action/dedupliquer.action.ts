@@ -14,6 +14,7 @@ import {
 } from '../../steps';
 import { DedupliquerOptions } from '../dedupliquer-options';
 import { deduplicationRepository } from './deduplication.repository';
+import { appendCoopId } from './append-coop-id';
 
 const INTERNAL_DUPLICATION_SCORE_THRESHOLD: 90 = 90 as const;
 const DUPLICATION_SCORE_THRESHOLD: 60 = 60 as const;
@@ -69,14 +70,14 @@ export const dedupliquerAction = async (dedupliquerOptions: DedupliquerOptions):
     const repository: DeduplicationRepository = deduplicationRepository(dedupliquerOptions);
 
     console.log('1. chargement des données');
-    const allLieuxWithDuplicates: SchemaLieuMediationNumerique[] = await loadData(dedupliquerOptions.baseSource);
-    const lieuxToDeduplicate: SchemaLieuMediationNumerique[] = await loadData(dedupliquerOptions.source);
+    const lieuxToDeduplicate: SchemaLieuMediationNumerique[] = await loadData(dedupliquerOptions.baseSource);
+    const lieuxMediationNumerique: SchemaLieuMediationNumerique[] = await loadData(dedupliquerOptions.source);
 
-    console.log(`2. recherche des doublons parmi les ${allLieuxWithDuplicates.length} lieux`);
+    console.log(`2. recherche des doublons parmi les ${lieuxToDeduplicate.length} lieux`);
     const duplications: DuplicationComparison[] = duplicationComparisons(
-      allLieuxWithDuplicates,
+      lieuxToDeduplicate,
       dedupliquerOptions.allowInternal,
-      lieuxToDeduplicate
+      lieuxMediationNumerique
     );
 
     const filteredDuplications = duplications.filter(onlyMoreThanDuplicationScoreThreshold(dedupliquerOptions.allowInternal));
@@ -85,12 +86,15 @@ export const dedupliquerAction = async (dedupliquerOptions: DedupliquerOptions):
     const groups: Groups = groupDuplicates(filteredDuplications);
 
     console.log('4. fusion des doublons');
-    const merged: MergedLieuxByGroupMap = mergeDuplicates(new Date())(allLieuxWithDuplicates, groups);
+    const merged: MergedLieuxByGroupMap = mergeDuplicates(new Date())(lieuxToDeduplicate, groups);
     console.log('- lieux concernés par une fusion :', groups.itemGroupMap.size);
     console.log('- lieux fusionnés à enregistrer :', merged.size);
 
-    console.log('5. sauvegarde des données dédupliquées');
-    await repository.save(groups, merged, allLieuxWithDuplicates, duplications);
+    console.log("5. ajout de l'identifiant de de référence de la coop de la médiation numérique");
+    const lieuxToDeduplicateWithCoopId: SchemaLieuMediationNumerique[] = lieuxToDeduplicate.map(appendCoopId);
+
+    console.log('6. sauvegarde des données dédupliquées');
+    await repository.save(groups, merged, lieuxToDeduplicateWithCoopId, duplications);
   } catch (error) {
     console.log(error);
   }
