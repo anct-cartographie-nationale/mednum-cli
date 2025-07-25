@@ -50,7 +50,11 @@ describe('pivot field', (): void => {
     expect(pivot).toBe('00000000000000');
   });
 
-  it('should get dummy pivot when SIRET is to short excluding spaces', (): void => {
+  it.each([
+    { name: 'spaces', value: '842 887 408 00' },
+    { name: 'point', value: '776.398.968.00' },
+    { name: 'dash', value: '213-801-111-00' }
+  ])('should get dummy pivot when SIRET is to short excluding $name', ({ value }): void => {
     const matching: LieuxMediationNumeriqueMatching = {
       pivot: {
         colonne: 'SIRET'
@@ -58,23 +62,7 @@ describe('pivot field', (): void => {
     } as LieuxMediationNumeriqueMatching;
 
     const source: DataSource = {
-      SIRET: '842 887 408 00'
-    };
-
-    const pivot: Pivot = processPivot(source, matching);
-
-    expect(pivot).toBe('00000000000000');
-  });
-
-  it('should get dummy pivot when SIRET is to short excluding point', (): void => {
-    const matching: LieuxMediationNumeriqueMatching = {
-      pivot: {
-        colonne: 'SIRET'
-      }
-    } as LieuxMediationNumeriqueMatching;
-
-    const source: DataSource = {
-      SIRET: '776.398.968.00'
+      SIRET: value
     };
 
     const pivot: Pivot = processPivot(source, matching);
