@@ -33,7 +33,7 @@ const REMOVE_MULTILINES_IN_VOIE: CleanOperation = {
 
 const REMOVE_INCOMPLETE_ADDRESS_IN_VOIE: CleanOperation = {
   name: 'remove incomplete address in voie',
-  selector: /^(C\/O A\.THEVENIER LAFARGE73 AVENUE DU MONT BLANCBAT B|Rue|null null|-)$/,
+  selector: /^(C\/O A\.THEVENIER LAFARGE73 AVENUE DU MONT BLANCBAT B|Rue|Grande Rue|null null|-)$/,
   fix: (): string => ''
 };
 

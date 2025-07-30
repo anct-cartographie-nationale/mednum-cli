@@ -433,7 +433,7 @@ describe('adresse field', (): void => {
     }).toThrow(new VoieError(''));
   });
 
-  it.each(['C/O A.THEVENIER LAFARGE73 AVENUE DU MONT BLANCBAT B', 'null null', 'Rue', '-'])(
+  it.each(['C/O A.THEVENIER LAFARGE73 AVENUE DU MONT BLANCBAT B', 'null null', 'Rue', 'Grande Rue', '-'])(
     'should not process invalid postal address with invalid value "%s"',
     (adresseIncorrecte): void => {
       const source: DataSource = {
