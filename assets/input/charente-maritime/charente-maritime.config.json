@@ -1,278 +1,278 @@
 {
   "id": {
-    "colonne": "properties.id"
+    "colonne": "id"
   },
   "nom": {
-    "colonne": "properties.nom"
+    "colonne": "nom"
   },
   "pivot": {
-    "colonne": "properties.pivot"
+    "colonne": "pivot"
   },
   "commune": {
-    "colonne": "properties.commune"
+    "colonne": "commune"
   },
   "adresse": {
-    "colonne": "properties.adresse"
+    "colonne": "adresse"
   },
   "complement_adresse": {
-    "colonne": "properties.complement_adresse"
+    "colonne": "complement_adresse"
   },
   "code_postal": {
-    "colonne": "properties.code_postal"
+    "colonne": "code_postal"
   },
   "code_insee": {
-    "colonne": "properties.code_insee"
+    "colonne": "code_insee"
   },
   "telephone": {
-    "colonne": "properties.telephone"
+    "colonne": "telephone"
   },
   "courriels": {
-    "colonne": "properties.courriel"
+    "colonne": "courriel"
   },
   "site_web": {
-    "colonne": "properties.site_web"
+    "colonne": "site_web"
   },
   "latitude": {
-    "colonne": "properties.latitude"
+    "colonne": "latitude"
   },
   "longitude": {
-    "colonne": "properties.longitude"
+    "colonne": "longitude"
   },
   "date_maj": {
-    "colonne": "properties.date_maj"
+    "colonne": "date_maj"
   },
   "source": {
-    "colonne": "properties.source"
+    "colonne": "source"
   },
   "presentation_detail": {
-    "colonne": "properties.presentation_detail"
+    "colonne": "presentation_detail"
   },
   "presentation_resume": {
-    "colonne": "properties.presentation_resume"
+    "colonne": "presentation_resume"
   },
   "prise_rdv": {
-    "colonne": "properties.prise_rdv"
+    "colonne": "prise_rdv"
   },
   "accessibilite": {
-    "colonne": "properties.accessibilite"
+    "colonne": "accessibilite"
   },
   "frais_a_charge": [
     {
-      "colonnes": ["properties.conditions_acces"],
+      "colonnes": ["conditions_acces"],
       "termes": ["Gratuit"],
       "cible": "Gratuit"
     },
     {
-      "colonnes": ["properties.conditions_acces"],
-      "termes": ["Adhésion", "Contribution par prestation"],
+      "colonnes": ["conditions_acces"],
+      "termes": ["Adhésion", "Contribution par prestation", "Payant"],
       "cible": "Payant"
     }
   ],
   "modalites_accompagnement": [
     {
-      "colonnes": ["properties.modalites_accompagnement"],
-      "termes": ["Seul"],
+      "colonnes": ["modalites_accompagnement"],
+      "termes": ["Seul", "En autonomie"],
       "cible": "En autonomie"
     },
     {
-      "colonnes": ["properties.modalites_accompagnement"],
-      "termes": ["Dans un atelier"],
+      "colonnes": ["modalites_accompagnement"],
+      "termes": ["Dans un atelier", "Dans un atelier collectif"],
       "cible": "Dans un atelier collectif"
     },
     {
-      "colonnes": ["properties.modalites_accompagnement"],
-      "termes": ["Avec de l'aide"],
+      "colonnes": ["modalites_accompagnement"],
+      "termes": ["Avec de l'aide", "Accompagnement individuel"],
       "cible": "Accompagnement individuel"
     }
   ],
   "publics_specifiquement_adresses": [
     {
-      "colonnes": ["properties.publics_accueillis"],
+      "colonnes": ["publics_accueillis"],
       "termes": ["Jeunes"],
       "cible": "Jeunes"
     },
     {
-      "colonnes": ["properties.publics_accueillis"],
+      "colonnes": ["publics_accueillis"],
       "termes": ["Seniors"],
       "cible": "Seniors"
     }
   ],
   "prise_en_charge_specifique": [
     {
-      "colonnes": ["properties.publics_accueillis"],
-      "termes": ["Public langues étrangères"],
+      "colonnes": ["publics_accueillis"],
+      "termes": ["Public langues étrangères", "Langues étrangères (anglais)"],
       "cible": "Langues étrangères (anglais)"
     },
     {
-      "colonnes": ["properties.publics_accueillis"],
-      "termes": ["Public langues étrangères"],
+      "colonnes": ["publics_accueillis"],
+      "termes": ["Public langues étrangères", "Langues étrangères (autres)"],
       "cible": "Langues étrangères (autres)"
     }
   ],
   "services": [
     {
-      "colonnes": ["properties.services"],
-      "termes": ["Accéder à une connexion internet", "Accéder à du matériel"],
+      "colonnes": ["services"],
+      "termes": ["Accéder à une connexion internet", "Accéder à du matériel", "Accès internet et matériel informatique"],
       "cible": "Accès internet et matériel informatique"
     },
     {
-      "colonnes": ["properties.services"],
-      "termes": ["Utiliser le numérique au quotidien", "Prendre en main un ordinateur", "Prendre en main un smartphone ou une tablette", "Tous apprentissage de l informatique", "Accompagnement vers l'autonomie sur les outils numériques", "envoyer un mail"],
+      "colonnes": ["services"],
+      "termes": ["Utiliser le numérique au quotidien", "Prendre en main un ordinateur", "Prendre en main un smartphone ou une tablette", "Tous apprentissage de l informatique", "Accompagnement vers l'autonomie sur les outils numériques", "envoyer un mail", "Maîtrise des outils numériques du quotidien"],
       "cible": "Maîtrise des outils numériques du quotidien"
     },
     {
-      "colonnes": ["properties.services"],
-      "termes": ["Soutenir la parentalité et l'éducation avec le numérique", "Continuité éducative"],
+      "colonnes": ["services"],
+      "termes": ["Soutenir la parentalité et l'éducation avec le numérique", "Continuité éducative", "Parentalité et éducation avec le numérique"],
       "cible": "Parentalité et éducation avec le numérique"
     },
     {
-      "colonnes": ["properties.services"],
-      "termes": ["Accès aux droits et a l information"],
+      "colonnes": ["services"],
+      "termes": ["Accès aux droits et a l information", "Compréhension du monde numérique"],
       "cible": "Compréhension du monde numérique"
     },
     {
-      "colonnes": ["properties.services"],
-      "termes": ["Réaliser des démarches administratives avec un accompagnement", "Démarches postales de service public"],
+      "colonnes": ["services"],
+      "termes": ["Réaliser des démarches administratives avec un accompagnement", "Démarches postales de service public", "Aide aux démarches administratives"],
       "cible": "Aide aux démarches administratives"
     },
     {
-      "colonnes": ["properties.services"],
-      "termes": ["Favoriser mon insertion professionnelle", "écrire un cv"],
+      "colonnes": ["services"],
+      "termes": ["Favoriser mon insertion professionnelle", "écrire un cv", "Insertion professionnelle via le numérique"],
       "cible": "Insertion professionnelle via le numérique"
     },
     {
-      "colonnes": ["properties.services"],
-      "termes": ["décharger des photos", "retoucher des photos", "initiation à la robotique"],
+      "colonnes": ["services"],
+      "termes": ["décharger des photos", "retoucher des photos", "initiation à la robotique", "Loisirs et créations numériques"],
       "cible": "Loisirs et créations numériques"
     },
     {
-      "colonnes": ["properties.services"],
+      "colonnes": ["services", "Sensibilisation au cyberharcèlement"],
       "termes": ["Sensibilisation au cyberharcèlement", "comment protéger ses données"],
       "cible": "Utilisation sécurisée du numérique"
     }
   ],
   "horaires": {
-    "osm": "properties.horaires"
+    "osm": "horaires"
   },
   "typologie": [
     {
-      "colonnes": ["properties.typologie"],
-      "termes": ["ASSOCIATION", "SALLE ASSOCIATIVE", "CLUB INFORMATIQUE"],
+      "colonnes": ["typologie"],
+      "termes": ["ASSOCIATION", "SALLE ASSOCIATIVE", "CLUB INFORMATIQUE", "ASSO"],
       "cible": "ASSO"
     },
     {
-      "colonnes": ["properties.typologie"],
-      "termes": ["AUTRE"],
+      "colonnes": ["typologie"],
+      "termes": ["AUTRE", "Autre"],
       "cible": "Autre"
     },
     {
-      "colonnes": ["properties.typologie"],
-      "termes": ["BIBLIOTHÈQUE", "MÉDIATHÈQUE"],
+      "colonnes": ["typologie"],
+      "termes": ["BIBLIOTHÈQUE", "MÉDIATHÈQUE", "BIB"],
       "cible": "BIB"
     },
     {
-      "colonnes": ["properties.typologie"],
+      "colonnes": ["typologie"],
       "termes": ["CCAS"],
       "cible": "CCAS"
     },
     {
-      "colonnes": ["properties.typologie"],
+      "colonnes": ["typologie"],
       "termes": ["CIAS"],
       "cible": "CIAS"
     },
     {
-      "colonnes": ["properties.typologie"],
-      "termes": ["CENTRE SOCIAL"],
+      "colonnes": ["typologie"],
+      "termes": ["CENTRE SOCIAL", "CS"],
       "cible": "CS"
     },
     {
-      "colonnes": ["properties.typologie"],
-      "termes": ["CENTRE CULTUREL"],
+      "colonnes": ["typologie"],
+      "termes": ["CENTRE CULTUREL", "CSC"],
       "cible": "CSC"
     },
     {
-      "colonnes": ["properties.typologie"],
+      "colonnes": ["typologie"],
       "termes": ["CPAM"],
       "cible": "CPAM"
     },
     {
-      "colonnes": ["properties.typologie"],
-      "termes": ["ACCUEIL D’ACTION SOCIALE DU DÉPARTEMENT"],
+      "colonnes": ["typologie"],
+      "termes": ["ACCUEIL D’ACTION SOCIALE DU DÉPARTEMENT", "CDAS"],
       "cible": "CDAS"
     },
     {
-      "colonnes": ["properties.typologie"],
-      "termes": ["CHANTIER D'INSERTION"],
+      "colonnes": ["typologie"],
+      "termes": ["CHANTIER D'INSERTION", "EI"],
       "cible": "EI"
     },
     {
-      "colonnes": ["properties.typologie"],
-      "termes": ["ITINÉRANT"],
+      "colonnes": ["typologie"],
+      "termes": ["ITINÉRANT", "ENM"],
       "cible": "ENM"
     },
     {
-      "colonnes": ["properties.typologie"],
-      "termes": ["AGENCE PÔLE EMPLOI"],
+      "colonnes": ["typologie"],
+      "termes": ["AGENCE PÔLE EMPLOI", "FT"],
       "cible": "FT"
     },
     {
-      "colonnes": ["properties.typologie"],
-      "termes": ["MAISON DE L'EMPLOI"],
+      "colonnes": ["typologie"],
+      "termes": ["MAISON DE L'EMPLOI", "MDE"],
       "cible": "MDE"
     },
     {
-      "colonnes": ["properties.typologie"],
-      "termes": ["MISSION LOCALE"],
+      "colonnes": ["typologie"],
+      "termes": ["MISSION LOCALE", "ML"],
       "cible": "ML"
     },
     {
-      "colonnes": ["properties.typologie"],
-      "termes": ["MAISON DE QUARTIER"],
+      "colonnes": ["typologie"],
+      "termes": ["MAISON DE QUARTIER", "MQ"],
       "cible": "MQ"
     },
     {
-      "colonnes": ["properties.typologie"],
+      "colonnes": ["typologie"],
       "termes": ["MSAP"],
       "cible": "MSAP"
     },
     {
-      "colonnes": ["properties.typologie"],
-      "termes": ["ACCUEIL D’UNE COMMUNE", "MAIRIE"],
+      "colonnes": ["typologie"],
+      "termes": ["ACCUEIL D’UNE COMMUNE", "MAIRIE", "MUNI"],
       "cible": "MUNI"
     },
     {
-      "colonnes": ["properties.typologie"],
-      "termes": ["BUREAU DE POSTE", "AGENCE POSTALE"],
+      "colonnes": ["typologie"],
+      "termes": ["BUREAU DE POSTE", "AGENCE POSTALE", "LA_POSTE"],
       "cible": "LA_POSTE"
     },
     {
-      "colonnes": ["properties.typologie"],
-      "termes": ["ORGANISME DE FORMATION"],
+      "colonnes": ["typologie"],
+      "termes": ["ORGANISME DE FORMATION", "OF"],
       "cible": "OF"
     },
     {
-      "colonnes": ["properties.typologie"],
-      "termes": ["BUREAU INFORMATION JEUNESSE", "CENTRE INFORMATION JEUNESSE"],
+      "colonnes": ["typologie"],
+      "termes": ["BUREAU INFORMATION JEUNESSE", "CENTRE INFORMATION JEUNESSE", "PIJ_BIJ"],
       "cible": "PIJ_BIJ"
     },
     {
-      "colonnes": ["properties.typologie"],
-      "termes": ["PRÉFECTURE", "SOUS-PRÉFECTURE"],
+      "colonnes": ["typologie"],
+      "termes": ["PRÉFECTURE", "SOUS-PRÉFECTURE", "PREF"],
       "cible": "PREF"
     },
     {
-      "colonnes": ["properties.typologie"],
-      "termes": ["ZONE D'ACCÈS WIFI PUBLIQUE"],
+      "colonnes": ["typologie"],
+      "termes": ["ZONE D'ACCÈS WIFI PUBLIQUE", "EPI"],
       "cible": "EPI"
     },
     {
-      "colonnes": ["properties.typologie"],
-      "termes": ["INTERCOMMUNALITÉ"],
+      "colonnes": ["typologie"],
+      "termes": ["INTERCOMMUNALITÉ", "EPCI"],
       "cible": "EPCI"
     },
     {
-      "colonnes": ["properties.typologie"],
-      "termes": ["TIERS-LIEU"],
+      "colonnes": ["typologie"],
+      "termes": ["TIERS-LIEU", "TIERS_LIEUX"],
       "cible": "TIERS_LIEUX"
     }
   ]
