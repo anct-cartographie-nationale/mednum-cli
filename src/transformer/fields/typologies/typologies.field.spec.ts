@@ -708,6 +708,16 @@ describe('typologies field', (): void => {
     expect(typologies).toStrictEqual([Typologie.PIMMS]);
   });
 
+  it('should get PIMMS and PI when name contains point information', (): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      nom: { colonne: 'name' }
+    } as LieuxMediationNumeriqueMatching;
+
+    const typologies: Typologies = processTypologies({ name: 'point information mediation multi services' }, matching);
+
+    expect(typologies).toStrictEqual([Typologie.PI, Typologie.PIMMS]);
+  });
+
   it('should get PJJ when name contains JUDICIAIRE JEUNESSE', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
       nom: { colonne: 'name' }
