@@ -63,7 +63,7 @@ const pythagore = (x1: number, x2: number, y1: number, y2: number): number => Ma
 const cartesianDistanceBetween = (lieu: SchemaLieuMediationNumerique, cible: SchemaLieuMediationNumerique): number =>
   hasDefinedCoordinates(lieu) && hasDefinedCoordinates(cible)
     ? pythagore(lieu.latitude, cible.latitude, lieu.longitude, cible.longitude)
-    : NaN;
+    : 0;
 
 const duplicatesWithScores =
   (lieux: SchemaLieuMediationNumerique[]) =>
