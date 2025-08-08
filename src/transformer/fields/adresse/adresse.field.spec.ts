@@ -433,21 +433,27 @@ describe('adresse field', (): void => {
     }).toThrow(new VoieError(''));
   });
 
-  it.each(['C/O A.THEVENIER LAFARGE73 AVENUE DU MONT BLANCBAT B', 'null null', 'Rue', 'Grande Rue', '-'])(
-    'should not process invalid postal address with invalid value "%s"',
-    (adresseIncorrecte): void => {
-      const source: DataSource = {
-        'Code postal': '75020',
-        'Ville *': 'Paris',
-        'Adresse postale *': adresseIncorrecte,
-        nom: 'test'
-      };
+  it.each([
+    'C/O A.THEVENIER LAFARGE73 AVENUE DU MONT BLANCBAT B',
+    'null null',
+    'Rue',
+    'Grande Rue',
+    'Grand Rue',
+    '-',
+    '1 - 3',
+    'Residence les 3 C'
+  ])('should not process invalid postal address with invalid value "%s"', (adresseIncorrecte): void => {
+    const source: DataSource = {
+      'Code postal': '75020',
+      'Ville *': 'Paris',
+      'Adresse postale *': adresseIncorrecte,
+      nom: 'test'
+    };
 
-      expect((): void => {
-        processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
-      }).toThrow(new VoieError(''));
-    }
-  );
+    expect((): void => {
+      processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
+    }).toThrow(new VoieError(''));
+  });
 
   it.each(['00', '0'])('should fix incorrect number in voie when starting with "%s"', (number): void => {
     const source: DataSource = {

@@ -73,4 +73,51 @@ describe('deduplication comparison to csv', (): void => {
       'Score;Typologie 1;Typologie 2;Score Nom;Nom 1;Nom 2;Score Adresse;Adresse 1;Adresse 2;Score Distance;Localisation 1;Localisation 2;Source 1;Source 2\n27;ESS;ESS,CAF,TIERS_LIEUX;38;Numerinaute;La Turbine.Coop;38;12 Rue Joseph Rey  chez Aconit 38000 Grenoble;5 esplanade Andry Farcy 38000 Grenoble;7;45.186115 : 5.716962;45.187654 : 5.704953;res-in;hinaura'
     );
   });
+
+  it('Should have a score of 100 when two identical locations have without coordinates.', (): void => {
+    const lieux: SchemaLieuMediationNumerique[] = [
+      {
+        id: 'Haute-Vienne_134',
+        nom: 'BFM Centre Ville',
+        pivot: '00000000000000',
+        services: 'Maîtrise des outils numériques du quotidien|Compréhension du monde numérique',
+        commune: 'Limoges',
+        code_postal: '87000',
+        adresse: '2 Place Aimé césaire',
+        code_insee: '87085',
+        telephone: '+33555459600',
+        courriels: 'bfm@limoges.fr',
+        site_web: 'https://bfm.limoges.fr/bfm-centre-ville',
+        presentation_detail: 'Espace multimédia. Inscription à la BFM obligatoire.',
+        modalites_accompagnement: 'En autonomie|Accompagnement individuel',
+        horaires: 'Mo-Sa 14:00-18:00',
+        source: 'Haute-Vienne',
+        date_maj: '1970-01-01'
+      } as SchemaLieuMediationNumerique,
+      {
+        id: 'Haute-Vienne_135',
+        nom: 'BFM Centre Ville',
+        pivot: '00000000000000',
+        services: 'Maîtrise des outils numériques du quotidien',
+        commune: 'Limoges',
+        code_postal: '87000',
+        adresse: '2 Place Aimé césaire',
+        code_insee: '87085',
+        telephone: '+33555459600',
+        courriels: 'bfm@limoges.fr',
+        site_web: 'https://bfm.limoges.fr/bfm-centre-ville',
+        presentation_detail: 'Espace multimédia. Inscription à la BFM obligatoire.',
+        modalites_accompagnement: 'En autonomie|Accompagnement individuel',
+        horaires: 'Mo-Sa 14:00-18:00',
+        source: 'Haute-Vienne',
+        date_maj: '1970-01-01'
+      } as SchemaLieuMediationNumerique
+    ];
+
+    const duplicationComparisonCSV: string = formatToCSV(duplicationComparisons(lieux, true));
+
+    expect(duplicationComparisonCSV).toBe<string>(
+      'Score;Typologie 1;Typologie 2;Score Nom;Nom 1;Nom 2;Score Adresse;Adresse 1;Adresse 2;Score Distance;Localisation 1;Localisation 2;Source 1;Source 2\n100;;;100;BFM Centre Ville;BFM Centre Ville;100;2 Place Aimé césaire 87000 Limoges;2 Place Aimé césaire 87000 Limoges;100;undefined : undefined;undefined : undefined;Haute-Vienne;Haute-Vienne'
+    );
+  });
 });
