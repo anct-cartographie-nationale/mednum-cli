@@ -151,6 +151,19 @@ export const validValuesOnly = (
   lieuDeMediationNumeriqueToValidate?: LieuMediationNumerique
 ): lieuDeMediationNumeriqueToValidate is LieuMediationNumerique => lieuDeMediationNumeriqueToValidate != null;
 
+export const isFlatten = (repository: LieuxMediationNumeriqueMatching): boolean => {
+  const regex = /\.\d+\./;
+  const keysConfig = Object.keys(repository).map((key) => {
+    const value = repository[key];
+    if (Array.isArray(value)) {
+      return value.flatMap((v) => v.colonnes);
+    }
+    return value.colonne;
+  });
+
+  return keysConfig.flat().find((value) => regex.test(value)) ? false : true;
+};
+
 const entryIdentification = (dataSource: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
   dataSource[matching.nom.colonne]?.toString() ?? '';
 

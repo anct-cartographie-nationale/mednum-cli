@@ -10,7 +10,6 @@ import {
   delimiterOption,
   apiKeyOption,
   forceOption,
-  nestedOption,
   envKeyOption
 } from './options';
 import { configFileQuestion, outputDirectoryQuestion, sourceQuestion, sourceNameQuestion } from './questions';
@@ -26,7 +25,6 @@ export type TransformerOptions = SourceSettings & {
   cartographieNationaleApiUrl?: string;
   cartographieNationaleApiKey?: string;
   force: boolean;
-  nested: boolean;
 };
 
 export const TRANSFORMER_OPTIONS: ((program: Command) => Command)[] = [
@@ -36,7 +34,6 @@ export const TRANSFORMER_OPTIONS: ((program: Command) => Command)[] = [
   encodingOption,
   envKeyOption,
   forceOption,
-  nestedOption,
   outputDirectoryOption,
   sourceOption,
   sourceNameOption,

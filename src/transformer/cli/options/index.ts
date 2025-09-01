@@ -4,7 +4,6 @@ export * from './delimiter.option';
 export * from './encoding.option';
 export * from './env-key.option';
 export * from './force.option';
-export * from './nested.option';
 export * from './output-directory.option';
 export * from './source.option';
 export * from './source-name.option';
