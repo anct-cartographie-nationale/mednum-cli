@@ -12,7 +12,7 @@ import {
   sourcesFromCartographieNationaleApi,
   updateSourceWithCartographieNationaleApi
 } from '../../data';
-import { DataSource, toLieuxMediationNumerique, validValuesOnly } from '../../input';
+import { DataSource, toLieuxMediationNumerique, validValuesOnly, isFlatten } from '../../input';
 import { Report } from '../../report';
 import { TransformationRepository } from '../../repositories';
 import { canTransform, DiffSinceLastTransform } from '../diff-since-last-transform';
@@ -76,7 +76,7 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
   const lieuxDeMediationNumerique: LieuMediationNumerique[] = (
     await Promise.all(
       lieux
-        .map((dataSource: DataSource) => flatten(dataSource, { safe: true }))
+        .map((dataSource: DataSource) => flatten(dataSource, { safe: isFlatten(repository.config) }))
         .map(toLieuxMediationNumerique(repository, transformerOptions.sourceName, REPORT))
     )
   ).filter(validValuesOnly);
@@ -85,7 +85,7 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
     console.log('Lieux à ajouter :', diffSinceLastTransform.toUpsert.length);
     console.log('Lieux à supprimer :', diffSinceLastTransform.toDelete.length);
   }
-  console.log("5. Sauvegarde du rapport d'erreur");
+  console.log("5. Sauvegarde du rapport d'erreur", REPORT.records().length);
   repository.saveErrors(REPORT);
 
   console.log('6. Sauvegarde des sorties');
