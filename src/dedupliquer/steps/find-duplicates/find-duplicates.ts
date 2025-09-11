@@ -21,8 +21,8 @@ const compatibleTypologies: [Typologie, Typologie][] = [[Typologie.RFS, Typologi
 const toTypologies = ({ typologie }: { typologie?: string }): Typologies =>
   Typologies((typologie?.split('|') as Typologies) ?? []);
 
-const allEmpty = (lieuTypologies: Typologies, lieuToDeduplicateTypologies: Typologies) =>
-  lieuTypologies.length === 0 && lieuToDeduplicateTypologies.length === 0;
+const anyEmpty = (lieuTypologies: Typologies, lieuToDeduplicateTypologies: Typologies) =>
+  lieuTypologies.length === 0 || lieuToDeduplicateTypologies.length === 0;
 
 const hasSameTypologieIn = (lieuToDeduplicateTypologies: Typologies) => (typologie: Typologie) =>
   lieuToDeduplicateTypologies.includes(typologie);
@@ -34,7 +34,7 @@ const hasCompatibleTypologiesFor =
     (lieuTypologies.includes(typologyB) && lieuToDeduplicateTypologies.includes(typologyA));
 
 const sameTypologie = (lieuTypologies: Typologies, lieuToDeduplicateTypologies: Typologies): boolean =>
-  allEmpty(lieuTypologies, lieuToDeduplicateTypologies) ||
+  anyEmpty(lieuTypologies, lieuToDeduplicateTypologies) ||
   lieuTypologies.some(hasSameTypologieIn(lieuToDeduplicateTypologies)) ||
   compatibleTypologies.some(hasCompatibleTypologiesFor(lieuTypologies, lieuToDeduplicateTypologies));
 

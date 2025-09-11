@@ -178,7 +178,7 @@ describe('find duplicates', (): void => {
     expect(duplicates).toStrictEqual([]);
   });
 
-  it('should not need to deduplicate when only lieu 1 has RFS typologie in lieux to deduplicate', (): void => {
+  it('should deduplicate when only lieu 1 has RFS typologie in lieux to deduplicate and the other has no typologie', (): void => {
     const lieuxToDeduplicate: SchemaLieuMediationNumerique[] = [
       {
         id: 'd490fc66-6a42-5001-ba98-d3fc9eb01006',
@@ -235,7 +235,24 @@ describe('find duplicates', (): void => {
 
     const duplicates: CommuneDuplications[] = findDuplicates(lieux, false, lieuxToDeduplicate);
 
-    expect(duplicates).toStrictEqual([]);
+    expect(duplicates).toStrictEqual([
+      {
+        code_insee: '69220',
+        lieux: [
+          {
+            duplicates: [
+              {
+                distanceScore: 100,
+                id: 'e265f967-a340-54a6-ab7d-6753cbb97fcc',
+                nomFuzzyScore: 100,
+                voieFuzzyScore: 100
+              }
+            ],
+            id: 'd490fc66-6a42-5001-ba98-d3fc9eb01006'
+          }
+        ]
+      }
+    ]);
   });
 
   it('should get deduplication data for lieu 1 with RFS typologie and lieu 2 with PIMMS typologie', (): void => {
@@ -665,6 +682,12 @@ describe('find duplicates', (): void => {
                 id: 'mediation-numerique-conseiller-numerique-62ab1e578255a806e299c93e-mediation-numerique',
                 nomFuzzyScore: 80,
                 voieFuzzyScore: 100
+              },
+              {
+                distanceScore: 22,
+                id: 'mediation-numerique-france-services-2234-mediation-numerique',
+                nomFuzzyScore: 56,
+                voieFuzzyScore: 40
               }
             ],
             id: 'mediation-numerique-hinaura-MaisonDesSolidaritesDeCournon-mediation-numerique'
@@ -688,6 +711,12 @@ describe('find duplicates', (): void => {
                 id: 'mediation-numerique-conseiller-numerique-62ab1e578255a806e299c93e-mediation-numerique',
                 nomFuzzyScore: 36,
                 voieFuzzyScore: 100
+              },
+              {
+                distanceScore: 22,
+                id: 'mediation-numerique-france-services-2234-mediation-numerique',
+                nomFuzzyScore: 32,
+                voieFuzzyScore: 40
               }
             ],
             id: 'mediation-numerique-aidants-connect-318-mediation-numerique'
@@ -711,6 +740,12 @@ describe('find duplicates', (): void => {
                 id: 'mediation-numerique-conseiller-numerique-62ab1e578255a806e299c93e-mediation-numerique',
                 nomFuzzyScore: 29,
                 voieFuzzyScore: 100
+              },
+              {
+                distanceScore: 16,
+                id: 'mediation-numerique-france-services-2234-mediation-numerique',
+                nomFuzzyScore: 36,
+                voieFuzzyScore: 40
               }
             ],
             id: '8eeeafab-4de8-4829-b042-52a94177411d'
@@ -734,9 +769,44 @@ describe('find duplicates', (): void => {
                 id: '8eeeafab-4de8-4829-b042-52a94177411d',
                 nomFuzzyScore: 29,
                 voieFuzzyScore: 100
+              },
+              {
+                distanceScore: 16,
+                id: 'mediation-numerique-france-services-2234-mediation-numerique',
+                nomFuzzyScore: 41,
+                voieFuzzyScore: 40
               }
             ],
             id: 'mediation-numerique-conseiller-numerique-62ab1e578255a806e299c93e-mediation-numerique'
+          },
+          {
+            duplicates: [
+              {
+                distanceScore: 22,
+                id: 'mediation-numerique-hinaura-MaisonDesSolidaritesDeCournon-mediation-numerique',
+                nomFuzzyScore: 56,
+                voieFuzzyScore: 40
+              },
+              {
+                distanceScore: 22,
+                id: 'mediation-numerique-aidants-connect-318-mediation-numerique',
+                nomFuzzyScore: 32,
+                voieFuzzyScore: 40
+              },
+              {
+                distanceScore: 16,
+                id: '8eeeafab-4de8-4829-b042-52a94177411d',
+                nomFuzzyScore: 36,
+                voieFuzzyScore: 40
+              },
+              {
+                distanceScore: 16,
+                id: 'mediation-numerique-conseiller-numerique-62ab1e578255a806e299c93e-mediation-numerique',
+                nomFuzzyScore: 41,
+                voieFuzzyScore: 40
+              }
+            ],
+            id: 'mediation-numerique-france-services-2234-mediation-numerique'
           }
         ]
       }
