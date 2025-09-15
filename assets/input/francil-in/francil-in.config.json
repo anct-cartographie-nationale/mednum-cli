@@ -42,24 +42,24 @@
   },
   "autres_formations_labels": [
     {
-      "colonnes": ["properties.label.0", "properties.label.1", "properties.label.2", "properties.label.3", "properties.label.4"],
+      "colonnes": ["properties.label"],
       "termes": ["3"],
       "cible": "NetPublic (Cyber-base et Espace Public Numérique)"
     }
   ],
   "modalites_accompagnement": [
     {
-      "colonnes": ["properties.aide.0", "properties.aide.1", "properties.aide.2", "properties.aide.3"],
+      "colonnes": ["properties.aide"],
       "termes": ["4"],
       "cible": "Dans un atelier collectif"
     },
     {
-      "colonnes": ["properties.aide.0", "properties.aide.1", "properties.aide.2", "properties.aide.3"],
+      "colonnes": ["properties.aide"],
       "termes": ["3", "2"],
       "cible": "Accompagnement individuel"
     },
     {
-      "colonnes": ["properties.aide.0", "properties.aide.1", "properties.aide.2", "properties.aide.3"],
+      "colonnes": ["properties.aide"],
       "termes": ["1"],
       "cible": "En autonomie"
     }
