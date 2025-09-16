@@ -40,19 +40,19 @@ jobs:
     environment: ${{ inputs.environment }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: latest
           run_install: false
-      - name: Install Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
         with:
-          node-version: 22
+          node-version: latest
           cache: 'pnpm'
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
       - name: 'Create env file'
         run: |
           touch .env
@@ -79,19 +79,19 @@ jobs:
     needs: transform
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: latest
           run_install: false
-      - name: Install Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
         with:
-          node-version: 22
+          node-version: latest
           cache: 'pnpm'
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
       - name: 'Create env file'
         run: |
           touch .env
@@ -100,7 +100,7 @@ jobs:
           echo DATA_GOUV_REFERENCE_ID="${{ secrets.DATA_GOUV_REFERENCE_ID }}" >> .env
           echo DATA_GOUV_REFERENCE_TYPE="${{ secrets.DATA_GOUV_REFERENCE_TYPE }}" >> .env
       - name: Download transformed data
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: ${{ matrix.source }}
           path: assets/output/${{ matrix.source }}
@@ -115,21 +115,21 @@ jobs:
     needs: transform
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: latest
           run_install: false
-      - name: Install Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
         with:
-          node-version: 22
+          node-version: latest
           cache: 'pnpm'
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
       - name: Download all transformed data
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           path: to-merge
           merge-multiple: true
@@ -151,21 +151,21 @@ jobs:
     needs: merge
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: latest
           run_install: false
-      - name: Install Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
         with:
-          node-version: 22
+          node-version: latest
           cache: 'pnpm'
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
       - name: Download merged data
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: merged
           path: assets/to-deduplicate
