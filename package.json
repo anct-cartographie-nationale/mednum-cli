@@ -68,7 +68,7 @@
     "transformer.rhin-occ": "tsx src/index.ts transformer -n \"RhinOcc\" -t \"Occitanie\" -s \"https://rhinoccc.gogocarto.fr/api/elements.json?categories=&excludeExternal=true?@data\" -c \"./assets/input/rhin-occ/rhin-occ.config.json\" -o \"./assets/output/rhin-occ\"",
     "transformer.siilab": "tsx src/index.ts transformer -n \"Siilab\" -t \"Hauts-de-France\" -s \"https://cdonline.articque.com/download/434922/SIILAB_HDF_standard_med_num.csv\" -c \"./assets/input/siilab/siilab.config.json\" -o \"./assets/output/siilab\" -d \";\"",
     "transformer.soliguide": "yarn start.data-inclusion -o \"./assets/input/soliguide/soliguide.json\" -f \"soliguide\" && tsx src/index.ts transformer -n \"soliguide\" -t \"National\" -s \"./assets/input/soliguide/soliguide.json\" -c \"./assets/input/soliguide/soliguide.config.json\" -o \"./assets/output/soliguide\"",
-    "transformer.vendee": "tsx src/index.ts transformer -n \"Vendée\" -t \"Vendée\" -s \"https://www.data.gouv.fr/fr/datasets/r/d2877549-0ac9-4c1d-96bf-ede948e980fb\" -c \"./assets/input/vendee/vendee.config.json\" -o \"./assets/output/vendee\" -d \"\t\"",
+    "transformer.vendee": "tsx src/index.ts transformer -n \"Vendée\" -t \"Vendée\" -s \"https://www.data.gouv.fr/fr/datasets/r/d2877549-0ac9-4c1d-96bf-ede948e980fb\" -c \"./assets/input/vendee/vendee.config.json\" -o \"./assets/output/vendee\" -d \",\"",
     "extract.all": "tsx src/index.ts extract -n \"Data Inclusion\" -o ./assets/output-extraction/data-inclusion -t National -c false",
     "publier.all": "tsx src/index.ts publier -z country:fr -m ./assets/output-extraction/data-inclusion/publier.json",
     "publier.charente-maritime": "tsx src/index.ts publier -z \"fr:departement:17\" -m \"./assets/output/charente-maritime/publier.json\"",
