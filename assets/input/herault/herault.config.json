@@ -21,10 +21,10 @@
     "colonne": "adresse"
   },
   "latitude": {
-    "colonne": "geopoint.lat"
+    "colonne": "lieu_lat84"
   },
   "longitude": {
-    "colonne": "geopoint.lon"
+    "colonne": "lieu_long84"
   },
   "telephone": {
     "colonne": "tabservice_tel_service"

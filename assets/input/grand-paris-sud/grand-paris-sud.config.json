@@ -24,10 +24,10 @@
     "colonne": "complement_adresse"
   },
   "latitude": {
-    "colonne": "latitude"
+    "colonne": "geopoint.lat"
   },
   "longitude": {
-    "colonne": "longitude"
+    "colonne": "geopoint.lon"
   },
   "telephone": {
     "colonne": "telephone"

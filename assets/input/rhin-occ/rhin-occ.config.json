@@ -49,37 +49,135 @@
   },
   "typologie": [
     {
-      "colonnes": ["categories"],
+      "colonnes": [
+        "categories.0",
+        "categories.1",
+        "categories.2",
+        "categories.3",
+        "categories.4",
+        "categories.5",
+        "categories.6",
+        "categories.7",
+        "categories.8",
+        "categories.9",
+        "categories.10",
+        "categories.11",
+        "categories.12"
+      ],
       "termes": ["Association", "associatif"],
       "cible": "ASSO"
     },
     {
-      "colonnes": ["categories"],
+      "colonnes": [
+        "categories.0",
+        "categories.1",
+        "categories.2",
+        "categories.3",
+        "categories.4",
+        "categories.5",
+        "categories.6",
+        "categories.7",
+        "categories.8",
+        "categories.9",
+        "categories.10",
+        "categories.11",
+        "categories.12"
+      ],
       "termes": ["Centre social"],
       "cible": "CS"
     },
     {
-      "colonnes": ["categories"],
+      "colonnes": [
+        "categories.0",
+        "categories.1",
+        "categories.2",
+        "categories.3",
+        "categories.4",
+        "categories.5",
+        "categories.6",
+        "categories.7",
+        "categories.8",
+        "categories.9",
+        "categories.10",
+        "categories.11",
+        "categories.12"
+      ],
       "termes": ["France Services"],
       "cible": "RFS"
     },
     {
-      "colonnes": ["categories"],
+      "colonnes": [
+        "categories.0",
+        "categories.1",
+        "categories.2",
+        "categories.3",
+        "categories.4",
+        "categories.5",
+        "categories.6",
+        "categories.7",
+        "categories.8",
+        "categories.9",
+        "categories.10",
+        "categories.11",
+        "categories.12"
+      ],
       "termes": ["CAF"],
       "cible": "CAF"
     },
     {
-      "colonnes": ["categories"],
+      "colonnes": [
+        "categories.0",
+        "categories.1",
+        "categories.2",
+        "categories.3",
+        "categories.4",
+        "categories.5",
+        "categories.6",
+        "categories.7",
+        "categories.8",
+        "categories.9",
+        "categories.10",
+        "categories.11",
+        "categories.12"
+      ],
       "termes": ["Espace Public Numérique"],
       "cible": "EPN"
     },
     {
-      "colonnes": ["categories"],
+      "colonnes": [
+        "categories.0",
+        "categories.1",
+        "categories.2",
+        "categories.3",
+        "categories.4",
+        "categories.5",
+        "categories.6",
+        "categories.7",
+        "categories.8",
+        "categories.9",
+        "categories.10",
+        "categories.11",
+        "categories.12"
+      ],
       "termes": ["Tiers lieu"],
       "cible": "TIERS_LIEUX"
     },
     {
-      "colonnes": ["categories"],
+      "colonnes": [
+        "categories.0",
+        "categories.1",
+        "categories.2",
+        "categories.3",
+        "categories.4",
+        "categories.5",
+        "categories.6",
+        "categories.7",
+        "categories.8",
+        "categories.9",
+        "categories.10",
+        "categories.11",
+        "categories.12"
+      ],
       "termes": ["FabLab"],
       "cible": "FABLAB"
     }
@@ -104,7 +202,21 @@
   ],
   "modalites_accompagnement": [
     {
-      "colonnes": ["categories"],
+      "colonnes": [
+        "categories.0",
+        "categories.1",
+        "categories.2",
+        "categories.3",
+        "categories.4",
+        "categories.5",
+        "categories.6",
+        "categories.7",
+        "categories.8",
+        "categories.9",
+        "categories.10",
+        "categories.11",
+        "categories.12"
+      ],
       "termes": ["avec un accompagnement"],
       "cible": "Accompagnement individuel"
     },
@@ -139,103 +251,369 @@
   ],
   "publics_specifiquement_adresses": [
     {
-      "colonnes": ["categories"],
+      "colonnes": [
+        "categories.0",
+        "categories.1",
+        "categories.2",
+        "categories.3",
+        "categories.4",
+        "categories.5",
+        "categories.6",
+        "categories.7",
+        "categories.8",
+        "categories.9",
+        "categories.10",
+        "categories.11",
+        "categories.12"
+      ],
       "termes": ["Jeunes (16-26 ans)"],
       "cible": "Jeunes"
     },
     {
-      "colonnes": ["categories"],
+      "colonnes": [
+        "categories.0",
+        "categories.1",
+        "categories.2",
+        "categories.3",
+        "categories.4",
+        "categories.5",
+        "categories.6",
+        "categories.7",
+        "categories.8",
+        "categories.9",
+        "categories.10",
+        "categories.11",
+        "categories.12"
+      ],
       "termes": ["Enfants (-16 ans)", "Famille"],
       "cible": "Familles et/ou enfants"
     },
     {
-      "colonnes": ["categories"],
+      "colonnes": [
+        "categories.0",
+        "categories.1",
+        "categories.2",
+        "categories.3",
+        "categories.4",
+        "categories.5",
+        "categories.6",
+        "categories.7",
+        "categories.8",
+        "categories.9",
+        "categories.10",
+        "categories.11",
+        "categories.12"
+      ],
       "termes": ["Séniors (+65 ans)"],
       "cible": "Seniors"
     },
     {
-      "colonnes": ["categories"],
+      "colonnes": [
+        "categories.0",
+        "categories.1",
+        "categories.2",
+        "categories.3",
+        "categories.4",
+        "categories.5",
+        "categories.6",
+        "categories.7",
+        "categories.8",
+        "categories.9",
+        "categories.10",
+        "categories.11",
+        "categories.12"
+      ],
       "termes": ["Uniquement femmes"],
       "cible": "Femmes"
     }
   ],
   "prise_en_charge_specifique": [
     {
-      "colonnes": ["categories"],
+      "colonnes": [
+        "categories.0",
+        "categories.1",
+        "categories.2",
+        "categories.3",
+        "categories.4",
+        "categories.5",
+        "categories.6",
+        "categories.7",
+        "categories.8",
+        "categories.9",
+        "categories.10",
+        "categories.11",
+        "categories.12"
+      ],
       "termes": ["Surdité"],
       "cible": "Surdité"
     },
     {
-      "colonnes": ["categories"],
+      "colonnes": [
+        "categories.0",
+        "categories.1",
+        "categories.2",
+        "categories.3",
+        "categories.4",
+        "categories.5",
+        "categories.6",
+        "categories.7",
+        "categories.8",
+        "categories.9",
+        "categories.10",
+        "categories.11",
+        "categories.12"
+      ],
       "termes": ["Handicaps moteurs"],
       "cible": "Handicaps moteurs"
     },
     {
-      "colonnes": ["categories"],
+      "colonnes": [
+        "categories.0",
+        "categories.1",
+        "categories.2",
+        "categories.3",
+        "categories.4",
+        "categories.5",
+        "categories.6",
+        "categories.7",
+        "categories.8",
+        "categories.9",
+        "categories.10",
+        "categories.11",
+        "categories.12"
+      ],
       "termes": ["Handicaps psychiques"],
       "cible": "Handicaps mentaux"
     },
     {
-      "colonnes": ["categories"],
+      "colonnes": [
+        "categories.0",
+        "categories.1",
+        "categories.2",
+        "categories.3",
+        "categories.4",
+        "categories.5",
+        "categories.6",
+        "categories.7",
+        "categories.8",
+        "categories.9",
+        "categories.10",
+        "categories.11",
+        "categories.12"
+      ],
       "termes": ["Personnes en situation d'illettrisme"],
       "cible": "Illettrisme"
     },
     {
-      "colonnes": ["categories"],
+      "colonnes": [
+        "categories.0",
+        "categories.1",
+        "categories.2",
+        "categories.3",
+        "categories.4",
+        "categories.5",
+        "categories.6",
+        "categories.7",
+        "categories.8",
+        "categories.9",
+        "categories.10",
+        "categories.11",
+        "categories.12"
+      ],
       "termes": ["Public langues étrangères"],
       "cible": "Langues étrangères (autres)"
     },
     {
-      "colonnes": ["categories"],
+      "colonnes": [
+        "categories.0",
+        "categories.1",
+        "categories.2",
+        "categories.3",
+        "categories.4",
+        "categories.5",
+        "categories.6",
+        "categories.7",
+        "categories.8",
+        "categories.9",
+        "categories.10",
+        "categories.11",
+        "categories.12"
+      ],
       "termes": ["Déficience visuelle"],
       "cible": "Déficience visuelle"
     }
   ],
   "services": [
     {
-      "colonnes": ["categories"],
+      "colonnes": [
+        "categories.0",
+        "categories.1",
+        "categories.2",
+        "categories.3",
+        "categories.4",
+        "categories.5",
+        "categories.6",
+        "categories.7",
+        "categories.8",
+        "categories.9",
+        "categories.10",
+        "categories.11",
+        "categories.12"
+      ],
       "termes": ["démarches administratives", "Utiliser le numérique au quotidien", "Accompagner les démarches de santé"],
       "cible": "Aide aux démarches administratives"
     },
     {
-      "colonnes": ["categories"],
+      "colonnes": [
+        "categories.0",
+        "categories.1",
+        "categories.2",
+        "categories.3",
+        "categories.4",
+        "categories.5",
+        "categories.6",
+        "categories.7",
+        "categories.8",
+        "categories.9",
+        "categories.10",
+        "categories.11",
+        "categories.12"
+      ],
       "termes": ["Prendre en main un ordinateur", "Prendre en main un smartphone ou une tablette", "Initiation à la bureautique"],
       "cible": "Maîtrise des outils numériques du quotidien"
     },
     {
-      "colonnes": ["categories"],
+      "colonnes": [
+        "categories.0",
+        "categories.1",
+        "categories.2",
+        "categories.3",
+        "categories.4",
+        "categories.5",
+        "categories.6",
+        "categories.7",
+        "categories.8",
+        "categories.9",
+        "categories.10",
+        "categories.11",
+        "categories.12"
+      ],
       "termes": ["Créer et développer une entreprise", "Favoriser l'insertion professionnelle", "Formations  numériques professionnalisantes", "Formation des professionnels"],
       "cible": "Insertion professionnelle via le numérique"
     },
     {
-      "colonnes": ["categories"],
+      "colonnes": [
+        "categories.0",
+        "categories.1",
+        "categories.2",
+        "categories.3",
+        "categories.4",
+        "categories.5",
+        "categories.6",
+        "categories.7",
+        "categories.8",
+        "categories.9",
+        "categories.10",
+        "categories.11",
+        "categories.12"
+      ],
       "termes": ["Soutenir la parentalité et l'éducation avec le numérique "],
       "cible": "Parentalité et éducation avec le numérique"
     },
     {
-      "colonnes": ["categories"],
+      "colonnes": [
+        "categories.0",
+        "categories.1",
+        "categories.2",
+        "categories.3",
+        "categories.4",
+        "categories.5",
+        "categories.6",
+        "categories.7",
+        "categories.8",
+        "categories.9",
+        "categories.10",
+        "categories.11",
+        "categories.12"
+      ],
       "termes": ["Créer avec le numérique", "fabrication numérique"],
       "cible": "Loisirs et créations numériques"
     },
     {
-      "colonnes": ["categories"],
+      "colonnes": [
+        "categories.0",
+        "categories.1",
+        "categories.2",
+        "categories.3",
+        "categories.4",
+        "categories.5",
+        "categories.6",
+        "categories.7",
+        "categories.8",
+        "categories.9",
+        "categories.10",
+        "categories.11",
+        "categories.12"
+      ],
       "termes": ["Approfondir la culture numérique", "Promouvoir la citoyenneté numérique "],
       "cible": "Compréhension du monde numérique"
     },
     {
-      "colonnes": ["categories"],
+      "colonnes": [
+        "categories.0",
+        "categories.1",
+        "categories.2",
+        "categories.3",
+        "categories.4",
+        "categories.5",
+        "categories.6",
+        "categories.7",
+        "categories.8",
+        "categories.9",
+        "categories.10",
+        "categories.11",
+        "categories.12"
+      ],
       "termes": ["postes informatiques", "connexion internet"],
       "cible": "Accès internet et matériel informatique"
     },
     {
-      "colonnes": ["categories"],
+      "colonnes": [
+        "categories.0",
+        "categories.1",
+        "categories.2",
+        "categories.3",
+        "categories.4",
+        "categories.5",
+        "categories.6",
+        "categories.7",
+        "categories.8",
+        "categories.9",
+        "categories.10",
+        "categories.11",
+        "categories.12"
+      ],
       "termes": ["S'équiper en matériel informatique reconditionné"],
       "cible": "Acquisition de matériel informatique à prix solidaire"
     }
   ],
   "dispositif_programmes_nationaux": [
     {
-      "colonnes": ["categories"],
+      "colonnes": [
+        "categories.0",
+        "categories.1",
+        "categories.2",
+        "categories.3",
+        "categories.4",
+        "categories.5",
+        "categories.6",
+        "categories.7",
+        "categories.8",
+        "categories.9",
+        "categories.10",
+        "categories.11",
+        "categories.12"
+      ],
       "termes": ["Point Relais CAF", "Point Numérique CAF"],
       "cible": "Point d'accès numérique CAF"
     }

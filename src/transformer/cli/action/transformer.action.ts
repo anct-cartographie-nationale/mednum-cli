@@ -87,8 +87,13 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
   }
   console.log("5. Sauvegarde du rapport d'erreur", REPORT.records().length);
   repository.saveErrors(REPORT);
-
-  console.log('6. Sauvegarde des sorties');
+  console.log(
+    '6. Sauvegarde des sorties : ',
+    lieuxDeMediationNumerique.length,
+    '(dont lieux sans localisation : ',
+    lieuxDeMediationNumerique.filter((l) => !l.localisation).length,
+    ')'
+  );
   await repository.saveOutputs(lieuxDeMediationNumerique);
 
   if (transformerOptions.force) return;
