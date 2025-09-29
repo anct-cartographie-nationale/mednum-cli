@@ -152,7 +152,7 @@ export const validValuesOnly = (
 ): lieuDeMediationNumeriqueToValidate is LieuMediationNumerique => lieuDeMediationNumeriqueToValidate != null;
 
 export const isFlatten = (repository: Record<string, unknown>): boolean => {
-  const regex = /\.\d+\./;
+  const regex = /\.\d+(\.|$)/;
   const keysConfig = Object.keys(repository).map((key: string) => {
     const value = repository[key];
     if (Array.isArray(value)) {
