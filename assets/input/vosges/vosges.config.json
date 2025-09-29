@@ -1,0 +1,349 @@
+{
+    "id": {
+        "colonne": "id"
+    },
+    "pivot": {
+        "colonne": "pivot"
+    },
+    "nom": {
+        "colonne": "nom"
+    },
+    "commune": {
+        "colonne": "commune"
+    },
+    "code_postal": {
+        "colonne": "code_postal"
+    },
+    "code_insee": {
+        "colonne": "code_insee"
+    },
+    "adresse": {
+        "colonne": "adresse"
+    },
+    "complement_adresse": {
+        "colonne": "complement_adresse"
+    },
+    "latitude": {
+        "colonne": "latitude"
+    },
+    "longitude": {
+        "colonne": "longitude"
+    },
+    "typologies": [
+        {
+            "colonnes": [
+                "typologie"
+            ],
+            "termes": [
+                "ASSO"
+            ],
+            "cible": "ASSO"
+        },
+        {
+            "colonnes": [
+                "typologie"
+            ],
+            "termes": [
+                "BIB"
+            ],
+            "cible": "BIB"
+        },
+        {
+            "colonnes": [
+                "typologie"
+            ],
+            "termes": [
+                "CC"
+            ],
+            "cible": "CC"
+        },
+        {
+            "colonnes": [
+                "typologie"
+            ],
+            "termes": [
+                "CCAS"
+            ],
+            "cible": "CCAS"
+        },
+        {
+            "colonnes": [
+                "typologie"
+            ],
+            "termes": [
+                "CD"
+            ],
+            "cible": "CD"
+        },
+        {
+            "colonnes": [
+                "typologie"
+            ],
+            "termes": [
+                "CS"
+            ],
+            "cible": "CS"
+        },
+        {
+            "colonnes": [
+                "typologie"
+            ],
+            "termes": [
+                "MDS"
+            ],
+            "cible": "MDS"
+        },
+        {
+            "colonnes": [
+                "typologie"
+            ],
+            "termes": [
+                "ML|RFS"
+            ],
+            "cible": "ML"
+        },
+        {
+            "colonnes": [
+                "typologie"
+            ],
+            "termes": [
+                "ML|RFS"
+            ],
+            "cible": "RFS"
+        },
+        {
+            "colonnes": [
+                "typologie"
+            ],
+            "termes": [
+                "PIJ_BIJ"
+            ],
+            "cible": "PIJ_BIJ"
+        },
+        {
+            "colonnes": [
+                "typologie"
+            ],
+            "termes": [
+                "RFS"
+            ],
+            "cible": "RFS"
+        }
+    ],
+    "telephone": {
+        "colonne": "telephone"
+    },
+    "courriels": {
+        "colonne": "courriels"
+    },
+    "site_web": {
+        "colonne": "site_web"
+    },
+    "horaires": {
+        "osm": "horaires"
+    },
+    "presentation_resume": {
+        "colonne": "presentation_resume"
+    },
+    "presentation_detail": {
+        "colonne": "presentation_detail"
+    },
+    "source": {
+        "colonne": "source"
+    },
+    "itinerance": [
+        {
+            "colonnes": [
+                "itinerance"
+            ],
+            "termes": [
+                "Fixe"
+            ],
+            "cible": "Fixe"
+        }
+    ],
+    "date_maj": {
+        "colonne": "date_maj"
+    },
+    "services": [
+        {
+            "colonnes": [
+                "services"
+            ],
+            "termes": [
+                "Aide aux démarches administratives"
+            ],
+            "cible": "Aide aux démarches administratives"
+        },
+        {
+            "colonnes": [
+                "services"
+            ],
+            "termes": [
+                "Maîtrise des outils numériques du quotidien"
+            ],
+            "cible": "Maîtrise des outils numériques du quotidien"
+        },
+        {
+            "colonnes": [
+                "services"
+            ],
+            "termes": [
+                "Insertion professionnelle via le numérique"
+            ],
+            "cible": "Insertion professionnelle via le numérique"
+        },
+        {
+            "colonnes": [
+                "services"
+            ],
+            "termes": [
+                "Utilisation sécurisée du numérique"
+            ],
+            "cible": "Utilisation sécurisée du numérique"
+        },
+        {
+            "colonnes": [
+                "services"
+            ],
+            "termes": [
+                "Parentalité et éducation avec le numérique"
+            ],
+            "cible": "Parentalité et éducation avec le numérique"
+        },
+        {
+            "colonnes": [
+                "services"
+            ],
+            "termes": [
+                "Loisirs et créations numériques"
+            ],
+            "cible": "Loisirs et créations numériques"
+        },
+        {
+            "colonnes": [
+                "services"
+            ],
+            "termes": [
+                "Compréhension du monde numérique"
+            ],
+            "cible": "Compréhension du monde numérique"
+        },
+        {
+            "colonnes": [
+                "services"
+            ],
+            "termes": [
+                "Accès internet et matériel informatique"
+            ],
+            "cible": "Accès internet et matériel informatique"
+        }
+    ],
+    "frais_a_charge": [
+        {
+            "colonnes": [
+                "frais_a_charge"
+            ],
+            "termes": [
+                "Gratuit"
+            ],
+            "cible": "Gratuit"
+        }
+    ],
+    "dispositif_programmes_nationaux": [
+        {
+            "colonnes": [
+                "dispositif_programmes_nationaux"
+            ],
+            "termes": [
+                "Conseillers numériques"
+            ],
+            "cible": "Conseillers numériques"
+        },
+        {
+            "colonnes": [
+                "dispositif_programmes_nationaux"
+            ],
+            "termes": [
+                "Aidants Connect"
+            ],
+            "cible": "Aidants Connect"
+        },
+        {
+            "colonnes": [
+                "dispositif_programmes_nationaux"
+            ],
+            "termes": [
+                "France Services"
+            ],
+            "cible": "France Services"
+        },
+        {
+            "colonnes": [
+                "dispositif_programmes_nationaux"
+            ],
+            "termes": [
+                "Promeneurs du net"
+            ],
+            "cible": "Promeneurs du net"
+        }
+    ],
+    "modalites_acces": [
+        {
+            "colonnes": [
+                "modalites_acces"
+            ],
+            "termes": [
+                "Se présenter"
+            ],
+            "cible": "Se présenter"
+        },
+        {
+            "colonnes": [
+                "modalites_acces"
+            ],
+            "termes": [
+                "Téléphoner"
+            ],
+            "cible": "Téléphoner"
+        },
+        {
+            "colonnes": [
+                "modalites_acces"
+            ],
+            "termes": [
+                "Contacter par mail"
+            ],
+            "cible": "Contacter par mail"
+        }
+    ],
+    "modalites_accompagnement": [
+        {
+            "colonnes": [
+                "modalites_accompagnement"
+            ],
+            "termes": [
+                "En autonomie"
+            ],
+            "cible": "En autonomie"
+        },
+        {
+            "colonnes": [
+                "modalites_accompagnement"
+            ],
+            "termes": [
+                "Accompagnement individuel"
+            ],
+            "cible": "Accompagnement individuel"
+        },
+        {
+            "colonnes": [
+                "modalites_accompagnement"
+            ],
+            "termes": [
+                "Dans un atelier collectif"
+            ],
+            "cible": "Dans un atelier collectif"
+        }
+    ]
+}
