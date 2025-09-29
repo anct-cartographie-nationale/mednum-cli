@@ -83,7 +83,7 @@ const byDateMajDesc = (
   lieuMediationNumeriqueB: LieuMediationNumerique
 ): number => lieuMediationNumeriqueB.date_maj.getTime() - lieuMediationNumeriqueA.date_maj.getTime();
 
-const formatDate = (date: Date | undefined): string => date?.toISOString().split('T').at(0) ?? '';
+const formatDate = (date: Date | undefined): string => date?.toISOString().split('T')[0] ?? '';
 
 export const generatePublishMetadata = (
   output: Output,
@@ -97,8 +97,8 @@ export const generatePublishMetadata = (
   frequency: 'daily',
   license: 'lov2',
   granularity: 'poi',
-  start: formatDate(lieuxDeMediationNumerique.sort(byDateMajAsc).at(0)?.date_maj),
-  end: formatDate(lieuxDeMediationNumerique.sort(byDateMajDesc).at(0)?.date_maj),
+  start: formatDate(lieuxDeMediationNumerique.sort(byDateMajAsc)[0]?.date_maj),
+  end: formatDate(lieuxDeMediationNumerique.sort(byDateMajDesc)[0]?.date_maj),
   ressources: [
     mendumJsonRessource(output, date, suffix),
     mendumCsvRessource(output, date, suffix),

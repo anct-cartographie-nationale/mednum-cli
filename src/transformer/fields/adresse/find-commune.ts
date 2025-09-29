@@ -106,7 +106,7 @@ const parNomEtCodePostalLePlusProcheDuDepartement =
   (communes: Commune[]) =>
   (nom: string, codePostal: string): Commune | undefined => {
     const communesFound: Commune[] = communes.filter(onlySameNameInCodePostalDepartement(nom, codePostal));
-    return communesFound.length === 1 ? communesFound.at(0) : undefined;
+    return communesFound.length === 1 ? communesFound[0] : undefined;
   };
 
 export const findCommune = (communes: Commune[]): FindCommune => ({
