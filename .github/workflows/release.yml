@@ -101,7 +101,8 @@ jobs:
         "rhin-occ",
         "siilab",
         "soliguide",
-        "vendee"
+        "vendee",
+        "vosges"
         ]'
       environment: production
     secrets:
