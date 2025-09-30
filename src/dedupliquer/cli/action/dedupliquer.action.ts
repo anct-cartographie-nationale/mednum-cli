@@ -47,11 +47,11 @@ const DATA_TYPES: DataType[] = [
   },
   {
     selector: (source: string): boolean => source.endsWith('.json'),
-    loader: (source: string): SchemaLieuMediationNumerique[] => readJsonFile(glob.sync(source).at(0) ?? source)
+    loader: (source: string): SchemaLieuMediationNumerique[] => readJsonFile(glob.sync(source)[0] ?? source)
   },
   {
     selector: (source: string): boolean => source.endsWith('.csv'),
-    loader: (source: string): SchemaLieuMediationNumerique[] => readCsvFile(glob.sync(source).at(0) ?? source)
+    loader: (source: string): SchemaLieuMediationNumerique[] => readCsvFile(glob.sync(source)[0] ?? source)
   }
 ];
 

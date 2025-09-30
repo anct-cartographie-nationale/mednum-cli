@@ -79,6 +79,6 @@ const typologiesArePreset = (matching: LieuxMediationNumeriqueMatching): boolean
 export const processTypologies = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Typologies =>
   ((checkingTypologieSourceValues(source, matching) ?? []).some((check: boolean): boolean => !check) &&
     !typologiesArePreset(matching)) ||
-  matching.typologie?.at(0)?.cible == null
+  matching.typologie?.[0]?.cible == null
     ? inferTypologies(source, matching)
     : Typologies(Array.from(new Set(matching.typologie.reduce(appendTypologies(source), inferTypologies(source, matching)))));

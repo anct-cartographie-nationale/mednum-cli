@@ -7,7 +7,7 @@ import { DedupliquerOptions } from '../../dedupliquer-options';
 
 axiosRetry(axios, { retries: 3 });
 
-const toSourceFromId = (id: string): string | undefined => id.split('_').at(0);
+const toSourceFromId = (id: string): string | undefined => id.split('_')[0];
 
 export const shouldMarkAsDeduplicated = (mergeGroupsMap: Map<string, string[]>): boolean =>
   Array.from(new Set(Array.from(mergeGroupsMap.values()).flat().map(toSourceFromId))).length > 1;

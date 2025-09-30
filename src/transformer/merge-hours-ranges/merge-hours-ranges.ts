@@ -24,11 +24,11 @@ const isValidSplitTime = (times?: [string | undefined, string | undefined]): tim
 const formatSplitTime = (times?: [string | undefined, string | undefined]): [string, string] =>
   isValidSplitTime(times) ? times : throwSplitTimeError(times);
 
-const splitTime = (hourRanges?: string[]): [string, string] => formatSplitTime([hourRanges?.at(0), hourRanges?.at(1)]);
+const splitTime = (hourRanges?: string[]): [string, string] => formatSplitTime([hourRanges?.[0], hourRanges?.[1]]);
 
-const rangeToStartingTime = (hoursRangeB: string): [string, string] => splitTime(hoursRangeB.split('-').at(0)?.split(':'));
+const rangeToStartingTime = (hoursRangeB: string): [string, string] => splitTime(hoursRangeB.split('-')[0]?.split(':'));
 
-const rangeToEndingTime = (hoursRangeA: string): [string, string] => splitTime(hoursRangeA.split('-').at(1)?.split(':'));
+const rangeToEndingTime = (hoursRangeA: string): [string, string] => splitTime(hoursRangeA.split('-')[1]?.split(':'));
 
 const orderByEarlierStartingHours = (hoursRangeA: string, hoursRangeB: string): [string, string] =>
   isEarlierTimeFirst(rangeToEndingTime(hoursRangeA), rangeToStartingTime(hoursRangeB))
@@ -58,12 +58,12 @@ const isValidHourRange = (hourRange?: string): hourRange is string => hourRange 
 
 const startRange = (startMerged: string): string =>
   ((splitStartHoursRange?: string): string => (isValidHourRange(splitStartHoursRange) ? splitStartHoursRange : startMerged))(
-    startMerged.split(',').at(0)
+    startMerged.split(',')[0]
   );
 
 const endRange = (endMerged: string): string =>
   ((splitEndHoursRange?: string): string => (isValidHourRange(splitEndHoursRange) ? splitEndHoursRange : endMerged))(
-    endMerged.split(',').at(1)
+    endMerged.split(',')[1]
   );
 
 export const mergeMultipleHoursRanges = (hoursRanges1: string, hoursRanges2: string): string =>
