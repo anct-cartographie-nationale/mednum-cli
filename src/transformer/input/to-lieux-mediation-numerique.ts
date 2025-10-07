@@ -19,7 +19,9 @@ import {
   ServicesError,
   Typologies,
   Url,
-  VoieError
+  UrlError,
+  VoieError,
+  CourrielError
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { AxiosError } from 'axios';
 import { Recorder, Report } from '../report';
@@ -173,7 +175,9 @@ const isErrorToReport = (error: unknown): error is ModelError<LieuMediationNumer
   error instanceof VoieError ||
   error instanceof CommuneError ||
   error instanceof CodePostalError ||
-  error instanceof NomError;
+  error instanceof NomError ||
+  error instanceof UrlError ||
+  error instanceof CourrielError;
 
 const logAndSkip = (error: AxiosError): LieuMediationNumerique | undefined => {
   console.log(error);
