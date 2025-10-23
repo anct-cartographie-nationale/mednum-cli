@@ -177,8 +177,7 @@ const isErrorToReport = (error: unknown): error is ModelError<LieuMediationNumer
   error instanceof CodePostalError ||
   error instanceof NomError ||
   error instanceof UrlError ||
-  error instanceof CourrielError ||
-  error instanceof NomError;
+  error instanceof CourrielError;
 
 const logAndSkip = (error: AxiosError): LieuMediationNumerique | undefined => {
   console.log(error);

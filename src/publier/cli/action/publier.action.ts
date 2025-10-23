@@ -22,10 +22,11 @@ export const publierAction = (publierOptions: PublierOptions): void => {
     publierOptions.dataGouvMetadataFile,
     'utf8',
     async (_: ErrnoException | null, dataString?: string): Promise<void> => {
-      if (dataString == null) {
-        console.log('Nothing to publish');
-        return;
-      }
+      if (dataString == null) return console.log('Nothing to publish because data is null');
+
+      const json = JSON.parse(dataString);
+      const data = fs.readFileSync(json?.ressources[1]?.source, 'utf8');
+      if (JSON.parse(data).length === 0) return console.log('Nothing to publish because the ressource is at 0 lieux');
 
       await publishDataset(
         publishDatasetRepository(getApi(publierOptions)),
