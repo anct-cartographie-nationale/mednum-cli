@@ -435,11 +435,13 @@ describe('adresse field', (): void => {
 
   it.each([
     'C/O A.THEVENIER LAFARGE73 AVENUE DU MONT BLANCBAT B',
+    'Médiathèque de Champagney Grande rue',
     'null null',
     'Rue',
     'Grande Rue',
     'Grand Rue',
     'Grand’Rue',
+    "Grand' Rue",
     'GRANDE RUE',
     "Mairie - Grand'Rue",
     'null Grande Rue',
