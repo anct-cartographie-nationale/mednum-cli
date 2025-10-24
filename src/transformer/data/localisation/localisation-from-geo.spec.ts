@@ -1,17 +1,11 @@
 import { describe, it, expect, vi, beforeEach, MockedFunction } from 'vitest';
 import axios from 'axios';
-import { coordinatesByGeocode } from './localisation-from-geo';
+import { getAddressData } from './localisation-from-geo';
 import { NO_LOCALISATION } from '../../fields';
 import { DataSource, LieuxMediationNumeriqueMatching } from '../../input';
-import { AddresseRecord } from '../../history';
+import { AddressRecord } from '../../storage';
 
 vi.mock('axios');
-
-const data: DataSource = {
-  'Code postal': '75002',
-  'Ville *': 'Paris',
-  'Adresse postale *': '10 rue de la paix'
-};
 
 const STANDARD_MATCHING: LieuxMediationNumeriqueMatching = {
   code_postal: {
@@ -37,7 +31,7 @@ const STANDARD_MATCHING: LieuxMediationNumeriqueMatching = {
   }
 } as LieuxMediationNumeriqueMatching;
 
-const AddressesBan: AddresseRecord[] = [
+const AddressesBan: AddressRecord[] = [
   {
     dateDeTraitement: new Date('2025-10-10T14:50:47.738Z'),
     addresseOriginale: '18 boulevard rené bazin 85300 Challans',
@@ -93,17 +87,23 @@ const DATASEARCH = {
   }
 };
 
+const data: DataSource = {
+  'Code postal': '75002',
+  'Ville *': 'Paris',
+  'Adresse postale *': '10 rue de la paix'
+};
+
 const axiosGetDouble = axios.get as MockedFunction<typeof axios.get>;
 
-describe('localisationByGeocode', () => {
+describe('localisation-from-geo', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it('retourne une localisation corrigé si les coordonée nont pas était banifié et ne faisant pas partie de ceux déjà corrigé', async () => {
+  it('should return a location and a standardized address when the address does not exist in addresses.json and the address API is called', async () => {
     axiosGetDouble.mockResolvedValue({ data: { features: [DATASEARCH] } });
 
-    const result = await coordinatesByGeocode(data, STANDARD_MATCHING)(AddressesBan);
+    const result = await getAddressData(data, STANDARD_MATCHING)(AddressesBan);
 
     expect(axiosGetDouble).toHaveBeenCalledTimes(1);
     expect(result).toEqual({
@@ -116,19 +116,19 @@ describe('localisationByGeocode', () => {
         'Code INSEE': '75102'
       },
       responses: { features: [DATASEARCH] },
-      statut: 'corrigé'
+      statut: 'from_api'
     });
   });
 
-  it('retourne une localisation corrigé si les coordonée nont pas était banifié en cas de non résultat ', async () => {
+  it('should return null when the address does not exist in addresses.json and the address API returns no result', async () => {
     axiosGetDouble.mockResolvedValue({ data: { features: [] } });
 
-    const result = await coordinatesByGeocode(data, STANDARD_MATCHING)(AddressesBan);
+    const result = await getAddressData(data, STANDARD_MATCHING)(AddressesBan);
 
     expect(result).toEqual({ statut: NO_LOCALISATION });
   });
 
-  it('dans le cas où le score est inférieur à 9 ne pas renvoyer  ', async () => {
+  it('should return null when the address does not exist in addresses.json and the first score in the API response is lower than 9', async () => {
     axiosGetDouble.mockResolvedValue({
       data: {
         features: [
@@ -143,7 +143,7 @@ describe('localisationByGeocode', () => {
       }
     });
 
-    const result = await coordinatesByGeocode(data, STANDARD_MATCHING)(AddressesBan);
+    const result = await getAddressData(data, STANDARD_MATCHING)(AddressesBan);
 
     expect(axiosGetDouble).toHaveBeenCalledTimes(1);
     expect(result).toEqual({
@@ -151,8 +151,8 @@ describe('localisationByGeocode', () => {
     });
   });
 
-  it('dans le cas déjà corrigé alors renvoyer la data corrigé du fichier', async () => {
-    const data2: DataSource = {
+  it('should return a location and a standardized address when the address exists in addresses.json and the address API is not called', async () => {
+    const dataSource: DataSource = {
       latitude: 6649679.61,
       longitude: 328145.77,
       'Adresse postale *': '18 boulevard rené bazin',
@@ -160,7 +160,7 @@ describe('localisationByGeocode', () => {
       'Ville *': 'Challans',
       'Code INSEE': '85047'
     };
-    const result = await coordinatesByGeocode(data2, STANDARD_MATCHING)(AddressesBan);
+    const result = await getAddressData(dataSource, STANDARD_MATCHING)(AddressesBan);
 
     expect(axiosGetDouble).not.toHaveBeenCalled();
     expect(result).toEqual({
@@ -172,7 +172,7 @@ describe('localisationByGeocode', () => {
         'Ville *': 'Challans',
         'Code INSEE': '85047'
       },
-      statut: 'déjà traité'
+      statut: 'from_storage'
     });
   });
 });

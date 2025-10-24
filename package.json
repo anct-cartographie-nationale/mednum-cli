@@ -36,6 +36,7 @@
   "bin": "./bin/mednum",
   "type": "module",
   "scripts": {
+    "ts.check": "tsc --project .tsconfig/tsconfig.json --noEmit",
     "lint.es": "eslint ./src/",
     "lint.commit": "npx commitlint --from origin/main",
     "lint.staged": "lint-staged",

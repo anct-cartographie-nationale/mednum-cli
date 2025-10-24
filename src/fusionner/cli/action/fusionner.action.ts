@@ -30,7 +30,7 @@ const toJsonToMerge = (file: string): unknown[] => JSON.parse(fs.readFileSync(fi
 const mergeJsonFiles = (files: string[], outputDirectory: string): void => {
   let name: string = 'merged_output.json';
   const ADDRESSES_REGEXP: RegExp = /-addresses\.json$/;
-  if (ADDRESSES_REGEXP.test(files[0])) {
+  if (ADDRESSES_REGEXP.test(files[0] ?? '')) {
     name = 'addresses.json';
   }
   const outputFilePath: string = path.join(outputDirectory, name);

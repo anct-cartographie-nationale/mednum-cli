@@ -6,16 +6,16 @@ import {
   Output,
   throwWriteFileError
 } from '../../../../common';
-import { AddresseRecord, AddresseReport } from '../../../history';
+import { AddressRecord, AddressReport } from '../../../storage';
 import { Feature } from '../../../data/localisation/localisation-from-geo';
 
-export type AddresseOutput = {
+export type AddressOutput = {
   dateDeTraitement: Date;
   addresseOriginale: string;
   responseBan?: Feature;
 };
 
-const writeReportAddressesJsonOutput = (producer: Output, addresses: AddresseOutput[]): void => {
+const writeReportAddressesJsonOutput = (producer: Output, addresses: AddressOutput[]): void => {
   fs.writeFile(
     `${createFolderIfNotExist(producer.path)}/${mediationNumeriqueFileName(
       new Date(),
@@ -31,13 +31,13 @@ const writeReportAddressesJsonOutput = (producer: Output, addresses: AddresseOut
 
 export const writeAddresesOutputFiles =
   (producer: Output) =>
-  (addresseReport: AddresseReport): void => {
-    const addresses: AddresseOutput[] = [];
-    addresseReport.records().forEach((addresseEntry: AddresseRecord): void => {
-      const log: AddresseOutput = {
+  (addressReport: AddressReport): void => {
+    const addresses: AddressOutput[] = [];
+    addressReport.records().forEach((addressEntry: AddressRecord): void => {
+      const log: AddressOutput = {
         dateDeTraitement: new Date(),
-        addresseOriginale: addresseEntry?.addresseOriginale ?? '',
-        responseBan: addresseEntry?.responseBan
+        addresseOriginale: addressEntry?.addresseOriginale ?? '',
+        ...(addressEntry.responseBan && { responseBan: addressEntry.responseBan })
       };
       addresses.push(log);
     });

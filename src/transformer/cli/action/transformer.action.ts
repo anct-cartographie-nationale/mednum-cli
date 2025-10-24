@@ -14,15 +14,15 @@ import {
 } from '../../data';
 import { DataSource, toLieuxMediationNumerique, validValuesOnly, isFlatten } from '../../input';
 import { Report } from '../../report';
-import { AddresseReport } from '../../history';
+import { AddressReport } from '../../storage';
 import { TransformationRepository } from '../../repositories';
 import { canTransform, DiffSinceLastTransform } from '../diff-since-last-transform';
 import { TransformerOptions } from '../transformer-options';
 import { transformationRespository } from './transformation.respository';
 
 const REPORT: Report = Report();
-const ADDRESSESREPORT: AddresseReport = AddresseReport();
-const BATCH_SIZE = 2;
+const ADDRESSESREPORT: AddressReport = AddressReport();
+const BATCH_SIZE = 10;
 const PAUSE_MS = 1000;
 
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));

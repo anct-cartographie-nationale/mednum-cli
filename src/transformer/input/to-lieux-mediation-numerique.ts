@@ -53,8 +53,8 @@ import {
 } from '../fields';
 import { TransformationRepository } from '../repositories';
 import { DataSource, LieuxMediationNumeriqueMatching } from './lieux-mediation-numerique-matching';
-import { label, coordinatesByGeocode, Feature, LOCATION_ENRICHIE } from '../data/localisation/localisation-from-geo';
-import { AddresseRecord, AddresseReport } from '../history';
+import { label, getAddressData, Feature, LOCATION_ENRICHED } from '../data/localisation/localisation-from-geo';
+import { AddressRecord, AddressReport } from '../storage';
 import addressesBan from '../../../assets/input/addresses.json';
 
 const isFilled = <T>(nullable?: T[]): nullable is T[] => nullable != null && nullable.length > 0;
@@ -175,7 +175,7 @@ const addresseLog = (
   dataSource: DataSource,
   matching: LieuxMediationNumeriqueMatching,
   addresseBan: Feature
-): AddresseRecord => {
+): AddressRecord => {
   return {
     dateDeTraitement: new Date(),
     addresseOriginale: label(dataSource, matching),
@@ -199,28 +199,27 @@ const logAndSkip = (error: AxiosError): LieuMediationNumerique | undefined => {
 };
 
 export const toLieuxMediationNumerique =
-  (repository: TransformationRepository, sourceName: string, report: Report, addresseReport: AddresseReport) =>
+  (repository: TransformationRepository, sourceName: string, report: Report, addresseReport: AddressReport) =>
   async (dataSource: unknown, index: number): Promise<LieuMediationNumerique | undefined> => {
     try {
-      const enrichieResult: LOCATION_ENRICHIE = await coordinatesByGeocode(
+      const enhancedData: LOCATION_ENRICHED = await getAddressData(
         dataSource as DataSource,
         repository.config
-      )(addressesBan as unknown as AddresseRecord[]);
-
-      const dataSourceEnrichie = {
+      )(addressesBan as unknown as AddressRecord[]);
+      const dataSourceEnriched = {
         ...(dataSource as DataSource),
-        ...(enrichieResult?.statut === 'corrigé' && enrichieResult.responses?.features && enrichieResult.data)
+        ...(enhancedData?.data && enhancedData.data)
       } as DataSource;
-      if (enrichieResult?.statut === 'corrigé') {
-        console.log(`Adresse corrigée pour l'élément ${entryIdentification(dataSource as DataSource, repository.config)}`);
+
+      if (enhancedData?.statut === 'from_api') {
         addresseReport
           .entry(index)
-          .record(addresseLog(dataSource as DataSource, repository.config, enrichieResult.responses?.features?.[0] as Feature))
+          .record(addresseLog(dataSource as DataSource, repository.config, enhancedData.responses?.features?.[0] as Feature))
           .commit();
       }
       return await lieuDeMediationNumerique(
         index,
-        dataSourceEnrichie as DataSource,
+        dataSourceEnriched as DataSource,
         sourceName,
         report.entry(index),
         repository

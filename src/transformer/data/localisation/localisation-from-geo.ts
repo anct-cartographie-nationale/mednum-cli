@@ -2,8 +2,9 @@ import { Adresse, Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique
 import axios, { AxiosResponse } from 'axios';
 import { NO_LOCALISATION } from '../../fields';
 import { DataSource, LieuxMediationNumeriqueMatching } from '../../input';
-import { voieField } from '../../fields/adresse/clean-voie';
-import { AddresseRecord } from '../../history';
+import { CLEAN_VOIE, voieField } from '../../fields/adresse/clean-voie';
+import { AddressRecord } from '../../storage';
+import { toCleanField } from '../../fields/adresse/clean-operations';
 
 const isValid = (adresse: Adresse, response: AxiosResponse): boolean =>
   response.data.features[0]?.geometry?.coordinates != null &&
@@ -15,12 +16,12 @@ const toLocalisation = (response: AxiosResponse): Localisation =>
     latitude: response.data.features[0].geometry.coordinates[1],
     longitude: response.data.features[0].geometry.coordinates[0]
   });
-const addresseBanifier = (response: AxiosResponse): Adresse =>
+const addressBan = (response: AxiosResponse): Adresse =>
   Adresse({
     voie: response.data.features[0].properties.name,
     code_postal: response.data.features[0].properties.postcode,
     commune: response.data.features[0].properties.city,
-    code_insee: response.data.features[0].properties.citycode || undefined // code_insee n'est pas toujours fourni
+    code_insee: response.data.features[0].properties.citycode
   });
 export const localisationByGeocode = (adresse: Adresse) => async (): Promise<Localisation> => {
   const response: AxiosResponse = await axios.get(
@@ -30,60 +31,59 @@ export const localisationByGeocode = (adresse: Adresse) => async (): Promise<Loc
   return isValid(adresse, response) ? toLocalisation(response) : NO_LOCALISATION;
 };
 
-export type LOCATION_ENRICHIE = {
+export type LOCATION_ENRICHED = {
   data?: DataSource;
   responses?: FeatureCollection;
-  statut: 'déjà traité' | 'corrigé' | Localisation;
+  statut: 'from_storage' | 'from_api' | Localisation;
 };
 export const label = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
   `${String(matching.adresse?.colonne ? source[matching.adresse.colonne] : '')} ${String(matching.code_postal?.colonne ? source[matching.code_postal.colonne] : '')} ${String(matching.commune?.colonne ? source[matching.commune.colonne] : '')}`;
 
-export const coordinatesByGeocode =
+export const getAddressData =
   (source: DataSource, matching: LieuxMediationNumeriqueMatching) =>
-  async (arrayDejaTraiter: AddresseRecord[]): Promise<LOCATION_ENRICHIE> => {
-    const addresseSource = label(source, matching);
-    const lieuExistant = arrayDejaTraiter.find((item) => item.addresseOriginale === addresseSource);
+  async (arrayFromStorage: AddressRecord[]): Promise<LOCATION_ENRICHED> => {
+    const addressSource = label(source, matching);
+    const existingLieu = arrayFromStorage.find((item) => item.addresseOriginale === addressSource);
 
-    if (lieuExistant) {
+    if (existingLieu) {
       const coordinates = Localisation({
-        latitude: lieuExistant.responseBan?.geometry.coordinates[0] ?? 0,
-        longitude: lieuExistant.responseBan?.geometry.coordinates[1] ?? 0
+        latitude: existingLieu.responseBan?.geometry.coordinates[0] ?? 0,
+        longitude: existingLieu.responseBan?.geometry.coordinates[1] ?? 0
       });
 
       return {
-        data: lieuExistant.responseBan
+        data: existingLieu.responseBan
           ? ({
               ...source,
-              ...{ [matching.adresse.colonne as string]: lieuExistant.responseBan.properties.name },
-              ...{ [matching.code_postal?.colonne as string]: lieuExistant.responseBan.properties.postcode },
-              ...{ [matching.code_insee?.colonne as string]: lieuExistant.responseBan.properties.citycode },
-              ...{ [matching.commune?.colonne as string]: lieuExistant.responseBan.properties.city },
+              ...{ [matching.adresse.colonne as string]: existingLieu.responseBan.properties.name },
+              ...{ [matching.code_postal?.colonne as string]: existingLieu.responseBan.properties.postcode },
+              ...{ [matching.code_insee?.colonne as string]: existingLieu.responseBan.properties.citycode },
+              ...{ [matching.commune?.colonne as string]: existingLieu.responseBan.properties.city },
               ...{ [matching.latitude?.colonne as string]: coordinates.latitude },
               ...{ [matching.longitude?.colonne as string]: coordinates.longitude }
             } as DataSource)
           : source,
-        statut: 'déjà traité'
+        statut: 'from_storage'
       };
     }
+    const querySearch: string = `${CLEAN_VOIE.reduce(toCleanField, voieField(source, matching.adresse))} ${source[matching.code_postal.colonne]} ${source[matching.commune.colonne]}`;
 
-    const response: AxiosResponse = await axios.get(
-      `https://api-adresse.data.gouv.fr/search?q=${voieField(source, matching.adresse)} ${source[matching.code_postal.colonne]} ${source[matching.commune.colonne]}`
-    );
+    const response = await axios.get(`https://api-adresse.data.gouv.fr/search?q=${querySearch}`);
 
     if (response?.data?.features?.length === 0 || response?.data?.features[0].properties.score <= 0.9)
       return { statut: NO_LOCALISATION };
 
     return {
       data: {
-        [matching.adresse?.colonne as string]: addresseBanifier(response).voie,
-        [matching.code_postal?.colonne as string]: addresseBanifier(response).code_postal,
-        [matching.code_insee?.colonne as string]: addresseBanifier(response).code_insee,
-        [matching.commune?.colonne as string]: addresseBanifier(response).commune,
+        [matching.adresse?.colonne as string]: addressBan(response).voie,
+        [matching.code_postal?.colonne as string]: addressBan(response).code_postal,
+        [matching.code_insee?.colonne as string]: addressBan(response).code_insee,
+        [matching.commune?.colonne as string]: addressBan(response).commune,
         [matching.latitude?.colonne as string]: toLocalisation(response).latitude,
         [matching.longitude?.colonne as string]: toLocalisation(response).longitude
       },
       responses: response.data as FeatureCollection,
-      statut: 'corrigé'
+      statut: 'from_api'
     };
   };
 
