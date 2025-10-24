@@ -14,12 +14,18 @@ import {
 } from '../../data';
 import { DataSource, toLieuxMediationNumerique, validValuesOnly, isFlatten } from '../../input';
 import { Report } from '../../report';
+import { AddressReport } from '../../storage';
 import { TransformationRepository } from '../../repositories';
 import { canTransform, DiffSinceLastTransform } from '../diff-since-last-transform';
 import { TransformerOptions } from '../transformer-options';
 import { transformationRespository } from './transformation.respository';
 
 const REPORT: Report = Report();
+const ADDRESSESREPORT: AddressReport = AddressReport();
+const BATCH_SIZE = 10;
+const PAUSE_MS = 1000;
+
+const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 const replaceNullWithEmptyString = (jsonString: string): string => {
   const replacer = (_: string, values?: string): string => values ?? '';
@@ -73,13 +79,18 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
   const lieux: DataSource[] = lieuxToTransform(sourceItems, diffSinceLastTransform);
 
   console.log('4. Transformation des données vers le schéma des lieux de mediation numérique');
-  const lieuxDeMediationNumerique: LieuMediationNumerique[] = (
-    await Promise.all(
-      lieux
+  const lieuxDeMediationNumerique: LieuMediationNumerique[] = [];
+  for (let i = 0; i < lieux.length; i += BATCH_SIZE) {
+    const batch = lieux.slice(i, i + BATCH_SIZE);
+
+    const result = await Promise.all(
+      batch
         .map((dataSource: DataSource) => flatten(dataSource, { safe: isFlatten(repository.config) }))
-        .map(toLieuxMediationNumerique(repository, transformerOptions.sourceName, REPORT))
-    )
-  ).filter(validValuesOnly);
+        .map(toLieuxMediationNumerique(repository, transformerOptions.sourceName, REPORT, ADDRESSESREPORT))
+    );
+    lieuxDeMediationNumerique.push(...result.filter(validValuesOnly));
+    if (i + BATCH_SIZE < lieux.length) await delay(PAUSE_MS);
+  }
 
   if (diffSinceLastTransform != null) {
     console.log('Lieux à ajouter :', diffSinceLastTransform.toUpsert.length);
@@ -96,14 +107,17 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
   );
   await repository.saveOutputs(lieuxDeMediationNumerique);
 
+  console.log("7. Sauvegarde de l'historique: +", ADDRESSESREPORT.records().length);
+  repository.saveAddresses(ADDRESSESREPORT);
+
   if (transformerOptions.force) return;
 
-  console.log('7. Sauvegarde des empruntes');
+  console.log('8. Sauvegarde des empruntes');
   await repository.saveFingerprints(diffSinceLastTransform);
 
   if (transformerOptions.cartographieNationaleApiKey == null) return;
 
-  console.log('8. Sauvegarde du hash de la source');
+  console.log('9. Sauvegarde du hash de la source');
   await updateSourceWithCartographieNationaleApi(transformerOptions)(sourceHash);
 
   const lieuxToPublish: LieuMediationNumerique[] = (
@@ -113,6 +127,6 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
     )
   ).map(fromSchemaLieuDeMediationNumerique);
 
-  console.log('9. Sauvegarde des fichiers de sortie');
+  console.log('10. Sauvegarde des fichiers de sortie');
   await saveOutputsInFiles(transformerOptions)(lieuxToPublish);
 };

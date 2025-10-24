@@ -6,7 +6,8 @@
     "outDir": "../dist",
     "module": "commonjs",
     "target": "es2023",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "resolveJsonModule": true
   },
   "include": ["../src/**/*"],
   "exclude": ["../src/**/*.spec.ts", "../src/**/*.test.ts"]
