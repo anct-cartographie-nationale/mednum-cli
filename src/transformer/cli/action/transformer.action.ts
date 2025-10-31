@@ -14,14 +14,16 @@ import {
 } from '../../data';
 import { DataSource, toLieuxMediationNumerique, validValuesOnly, isFlatten } from '../../input';
 import { Report } from '../../report';
-import { AddressReport } from '../../storage';
+import { AddressCache, AddressRecord } from '../../storage';
 import { TransformationRepository } from '../../repositories';
 import { canTransform, DiffSinceLastTransform } from '../diff-since-last-transform';
 import { TransformerOptions } from '../transformer-options';
 import { transformationRespository } from './transformation.respository';
+import addressesBan from '../../../../assets/input/addresses.json';
+import { label } from '../../data/localisation/localisation-from-geo';
 
 const REPORT: Report = Report();
-const ADDRESSESREPORT: AddressReport = AddressReport();
+const ADDRESSESREPORT: AddressCache = AddressCache();
 const BATCH_SIZE = 10;
 const PAUSE_MS = 1000;
 
@@ -82,13 +84,22 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
   const lieuxDeMediationNumerique: LieuMediationNumerique[] = [];
   for (let i = 0; i < lieux.length; i += BATCH_SIZE) {
     const batch = lieux.slice(i, i + BATCH_SIZE);
+    const adressesOriginaleMatching: boolean[] = batch.map((lieu) =>
+      (addressesBan as unknown as AddressRecord[]).find(
+        (storage: AddressRecord) => label(lieu, repository.config) === storage?.addresseOriginale
+      )
+        ? true
+        : false
+    );
 
     const result = await Promise.all(
       batch
         .map((dataSource: DataSource) => flatten(dataSource, { safe: isFlatten(repository.config) }))
         .map(toLieuxMediationNumerique(repository, transformerOptions.sourceName, REPORT, ADDRESSESREPORT))
     );
+
     lieuxDeMediationNumerique.push(...result.filter(validValuesOnly));
+    if ((adressesOriginaleMatching.filter(Boolean).length / batch.length) * 100 >= 50) continue;
     if (i + BATCH_SIZE < lieux.length) await delay(PAUSE_MS);
   }
 
@@ -106,7 +117,6 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
     ')'
   );
   await repository.saveOutputs(lieuxDeMediationNumerique);
-
   console.log("7. Sauvegarde de l'historique: +", ADDRESSESREPORT.records().length);
   repository.saveAddresses(ADDRESSESREPORT);
 

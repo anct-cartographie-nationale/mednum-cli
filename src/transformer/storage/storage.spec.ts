@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { AddressRecord, AddressReport } from './index';
+import { AddressRecord, AddressCache } from './index';
 import { Properties } from '../data';
 
 describe('addresses', (): void => {
   it('should create a address report with empty records', (): void => {
-    const report = AddressReport();
+    const report = AddressCache();
     expect(report.records()).toStrictEqual([]);
   });
 
@@ -31,7 +31,7 @@ describe('addresses', (): void => {
         } as Properties
       }
     };
-    const address: AddressReport = AddressReport();
+    const address: AddressCache = AddressCache();
     const storage = address.entry(0).record(data).commit();
     address.entry(1).record(data).commit();
     expect(storage.records()).toStrictEqual([

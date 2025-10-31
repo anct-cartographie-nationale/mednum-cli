@@ -34,18 +34,22 @@ export const localisationByGeocode = (adresse: Adresse) => async (): Promise<Loc
 export type LOCATION_ENRICHED = {
   data?: DataSource;
   responses?: FeatureCollection;
-  statut: 'from_storage' | 'from_api' | Localisation;
+  addresseOriginale?: string;
+  statut: 'no_from_storage' | 'from_storage' | 'from_api';
 };
 export const label = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
-  `${String(matching.adresse?.colonne ? source[matching.adresse.colonne] : '')} ${String(matching.code_postal?.colonne ? source[matching.code_postal.colonne] : '')} ${String(matching.commune?.colonne ? source[matching.commune.colonne] : '')}`;
+  `${String(voieField(source, matching.adresse))} ${String(matching.code_postal?.colonne ? source[matching.code_postal.colonne] : '')} ${String(matching.commune?.colonne ? source[matching.commune.colonne] : '')}`;
 
 export const getAddressData =
   (source: DataSource, matching: LieuxMediationNumeriqueMatching) =>
   async (arrayFromStorage: AddressRecord[]): Promise<LOCATION_ENRICHED> => {
     const addressSource = label(source, matching);
     const existingLieu = arrayFromStorage.find((item) => item.addresseOriginale === addressSource);
+    const addresseOriginale: string = `${source[matching?.adresse?.colonne ?? '']} ${source[matching.code_postal.colonne]} ${source[matching.commune.colonne]}`;
 
-    if (existingLieu) {
+    if (existingLieu && !existingLieu?.responseBan) return { statut: 'from_storage', addresseOriginale };
+
+    if (existingLieu?.responseBan) {
       const coordinates = Localisation({
         latitude: existingLieu.responseBan?.geometry.coordinates[0] ?? 0,
         longitude: existingLieu.responseBan?.geometry.coordinates[1] ?? 0
@@ -67,11 +71,21 @@ export const getAddressData =
       };
     }
     const querySearch: string = `${CLEAN_VOIE.reduce(toCleanField, voieField(source, matching.adresse))} ${source[matching.code_postal.colonne]} ${source[matching.commune.colonne]}`;
+    let response: AxiosResponse;
 
-    const response = await axios.get(`https://api-adresse.data.gouv.fr/search?q=${querySearch}`);
+    if (querySearch.trim() === '') return { statut: 'no_from_storage', addresseOriginale };
+
+    try {
+      response = await axios.get(`https://api-adresse.data.gouv.fr/search?q=${querySearch}`);
+    } catch {
+      console.log(
+        `Erreur lors de la requête à l'API adresse pour la recherche : ${querySearch}, id: ${source[matching?.id?.colonne ?? '']?.toString() ?? 'inconnu'}`
+      );
+      return { statut: 'no_from_storage', addresseOriginale };
+    }
 
     if (response?.data?.features?.length === 0 || response?.data?.features[0].properties.score <= 0.9)
-      return { statut: NO_LOCALISATION };
+      return { statut: 'no_from_storage', addresseOriginale };
 
     return {
       data: {
@@ -82,6 +96,7 @@ export const getAddressData =
         [matching.latitude?.colonne as string]: toLocalisation(response).latitude,
         [matching.longitude?.colonne as string]: toLocalisation(response).longitude
       },
+      addresseOriginale,
       responses: response.data as FeatureCollection,
       statut: 'from_api'
     };

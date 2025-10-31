@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach, MockedFunction } from 'vitest';
 import axios from 'axios';
 import { getAddressData } from './localisation-from-geo';
-import { NO_LOCALISATION } from '../../fields';
 import { DataSource, LieuxMediationNumeriqueMatching } from '../../input';
 import { AddressRecord } from '../../storage';
 
@@ -34,7 +33,7 @@ const STANDARD_MATCHING: LieuxMediationNumeriqueMatching = {
 const AddressesBan: AddressRecord[] = [
   {
     dateDeTraitement: new Date('2025-10-10T14:50:47.738Z'),
-    addresseOriginale: '18 boulevard rené bazin 85300 Challans',
+    addresseOriginale: '- 18 boulevard rené bazin 85300 Challans',
     responseBan: {
       type: 'Feature',
       geometry: {
@@ -58,6 +57,10 @@ const AddressesBan: AddressRecord[] = [
         street: 'Boulevard rené bazin'
       }
     }
+  },
+  {
+    dateDeTraitement: new Date('2025-10-10T14:50:47.738Z'),
+    addresseOriginale: '- 15 rue des Lilas 75008 Paris'
   }
 ];
 
@@ -90,7 +93,7 @@ const DATASEARCH = {
 const data: DataSource = {
   'Code postal': '75002',
   'Ville *': 'Paris',
-  'Adresse postale *': '10 rue de la paix'
+  'Adresse postale *': '- 10 rue de la paix'
 };
 
 const axiosGetDouble = axios.get as MockedFunction<typeof axios.get>;
@@ -100,23 +103,83 @@ describe('localisation-from-geo', () => {
     vi.clearAllMocks();
   });
 
-  it('should return a location and a standardized address when the address does not exist in addresses.json and the address API is called', async () => {
-    axiosGetDouble.mockResolvedValue({ data: { features: [DATASEARCH] } });
+  it('should return the original, unbanned address when the address exists in addresses.json and the address API is not called', async () => {
+    const dataSource: DataSource = {
+      latitude: 6649679.61,
+      longitude: 328145.77,
+      'Adresse postale *': '- 15 rue des Lilas',
+      'Code postal': '75008',
+      'Ville *': 'Paris',
+      'Code INSEE': '75108'
+    };
+    const result = await getAddressData(dataSource, STANDARD_MATCHING)(AddressesBan);
 
-    const result = await getAddressData(data, STANDARD_MATCHING)(AddressesBan);
+    expect(axiosGetDouble).not.toHaveBeenCalled();
+    expect(result).toEqual({
+      statut: 'from_storage',
+      addresseOriginale: '- 15 rue des Lilas 75008 Paris'
+    });
+  });
+
+  it('should return a location and a standardized address when the address exists in addresses.json and the address API is not called', async () => {
+    const dataSource: DataSource = {
+      latitude: 6649679.61,
+      longitude: 328145.77,
+      'Adresse postale *': '- 18 boulevard rené bazin',
+      'Code postal': '85300',
+      'Ville *': 'Challans',
+      'Code INSEE': '85047'
+    };
+    const result = await getAddressData(dataSource, STANDARD_MATCHING)(AddressesBan);
+
+    expect(axiosGetDouble).not.toHaveBeenCalled();
+    expect(result).toEqual({
+      data: {
+        latitude: -1.882688,
+        longitude: 46.843771,
+        'Adresse postale *': '18 Boulevard rené bazin',
+        'Code postal': '85300',
+        'Ville *': 'Challans',
+        'Code INSEE': '85047'
+      },
+      statut: 'from_storage'
+    });
+  });
+
+  it('should return the original, unbanned address when the address does not exist in addresses.json and the address API is called', async () => {
+    const dataSource: DataSource = {
+      latitude: 6649679.61,
+      longitude: 328145.77,
+      'Adresse postale *': '-',
+      'Code postal': ' ',
+      'Ville *': ' ',
+      'Code INSEE': '75108'
+    };
+    const result = await getAddressData(dataSource, STANDARD_MATCHING)(AddressesBan);
+
+    expect(axiosGetDouble).toHaveBeenCalledTimes(0);
+    expect(result).toEqual({
+      statut: 'no_from_storage',
+      addresseOriginale: '-    '
+    });
+  });
+
+  it('should return the original, unbanned address when the address does not exist in addresses.json and the address API is called, but it generates an error.', async () => {
+    axiosGetDouble.mockRejectedValue(new Error('Network error'));
+    const dataSource: DataSource = {
+      latitude: 6649679.61,
+      longitude: 328145.77,
+      'Adresse postale *': 'ex. 15 rue des Lilas',
+      'Code postal': '75008',
+      'Ville *': 'Paris',
+      'Code INSEE': '75108'
+    };
+    const result = await getAddressData(dataSource, STANDARD_MATCHING)(AddressesBan);
 
     expect(axiosGetDouble).toHaveBeenCalledTimes(1);
     expect(result).toEqual({
-      data: {
-        latitude: 48.868989,
-        longitude: 2.33115,
-        'Adresse postale *': '10 Rue de la Paix',
-        'Code postal': '75002',
-        'Ville *': 'Paris',
-        'Code INSEE': '75102'
-      },
-      responses: { features: [DATASEARCH] },
-      statut: 'from_api'
+      statut: 'no_from_storage',
+      addresseOriginale: 'ex. 15 rue des Lilas 75008 Paris'
     });
   });
 
@@ -125,7 +188,11 @@ describe('localisation-from-geo', () => {
 
     const result = await getAddressData(data, STANDARD_MATCHING)(AddressesBan);
 
-    expect(result).toEqual({ statut: NO_LOCALISATION });
+    expect(axiosGetDouble).toHaveBeenCalledTimes(1);
+    expect(result).toEqual({
+      statut: 'no_from_storage',
+      addresseOriginale: '- 10 rue de la paix 75002 Paris'
+    });
   });
 
   it('should return null when the address does not exist in addresses.json and the first score in the API response is lower than 9', async () => {
@@ -147,32 +214,29 @@ describe('localisation-from-geo', () => {
 
     expect(axiosGetDouble).toHaveBeenCalledTimes(1);
     expect(result).toEqual({
-      statut: NO_LOCALISATION
+      statut: 'no_from_storage',
+      addresseOriginale: '- 10 rue de la paix 75002 Paris'
     });
   });
 
-  it('should return a location and a standardized address when the address exists in addresses.json and the address API is not called', async () => {
-    const dataSource: DataSource = {
-      latitude: 6649679.61,
-      longitude: 328145.77,
-      'Adresse postale *': '18 boulevard rené bazin',
-      'Code postal': '85300',
-      'Ville *': 'Challans',
-      'Code INSEE': '85047'
-    };
-    const result = await getAddressData(dataSource, STANDARD_MATCHING)(AddressesBan);
+  it('should return a location and a standardized address when the address does not exist in addresses.json and the address API is called', async () => {
+    axiosGetDouble.mockResolvedValue({ data: { features: [DATASEARCH] } });
 
-    expect(axiosGetDouble).not.toHaveBeenCalled();
+    const result = await getAddressData(data, STANDARD_MATCHING)(AddressesBan);
+
+    expect(axiosGetDouble).toHaveBeenCalledTimes(1);
     expect(result).toEqual({
       data: {
-        latitude: -1.882688,
-        longitude: 46.843771,
-        'Adresse postale *': '18 Boulevard rené bazin',
-        'Code postal': '85300',
-        'Ville *': 'Challans',
-        'Code INSEE': '85047'
+        latitude: 48.868989,
+        longitude: 2.33115,
+        'Adresse postale *': '10 Rue de la Paix',
+        'Code postal': '75002',
+        'Ville *': 'Paris',
+        'Code INSEE': '75102'
       },
-      statut: 'from_storage'
+      responses: { features: [DATASEARCH] },
+      addresseOriginale: '- 10 rue de la paix 75002 Paris',
+      statut: 'from_api'
     });
   });
 });

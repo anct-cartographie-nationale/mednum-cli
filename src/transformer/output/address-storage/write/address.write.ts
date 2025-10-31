@@ -6,7 +6,7 @@ import {
   Output,
   throwWriteFileError
 } from '../../../../common';
-import { AddressRecord, AddressReport } from '../../../storage';
+import { AddressRecord, AddressCache } from '../../../storage';
 import { Feature } from '../../../data/localisation/localisation-from-geo';
 
 export type AddressOutput = {
@@ -31,7 +31,7 @@ const writeReportAddressesJsonOutput = (producer: Output, addresses: AddressOutp
 
 export const writeAddresesOutputFiles =
   (producer: Output) =>
-  (addressReport: AddressReport): void => {
+  (addressReport: AddressCache): void => {
     const addresses: AddressOutput[] = [];
     addressReport.records().forEach((addressEntry: AddressRecord): void => {
       const log: AddressOutput = {

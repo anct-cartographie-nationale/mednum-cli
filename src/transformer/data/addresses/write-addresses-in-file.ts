@@ -1,10 +1,10 @@
 import { TransformerOptions } from '../../cli/transformer-options';
 import { writeAddresesOutputFiles } from '../../output';
-import { AddressReport } from '../../storage';
+import { AddressCache } from '../../storage';
 
 export const writeAddressesInFiles =
   (transformerOptions: TransformerOptions) =>
-  (addresseReport: AddressReport): void => {
+  (addresseReport: AddressCache): void => {
     writeAddresesOutputFiles({
       path: transformerOptions.outputDirectory,
       name: transformerOptions.sourceName,

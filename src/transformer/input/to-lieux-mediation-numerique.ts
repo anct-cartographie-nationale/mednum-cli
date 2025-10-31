@@ -54,7 +54,7 @@ import {
 import { TransformationRepository } from '../repositories';
 import { DataSource, LieuxMediationNumeriqueMatching } from './lieux-mediation-numerique-matching';
 import { label, getAddressData, Feature, LOCATION_ENRICHED } from '../data/localisation/localisation-from-geo';
-import { AddressRecord, AddressReport } from '../storage';
+import { AddressRecord, AddressCache } from '../storage';
 import addressesBan from '../../../assets/input/addresses.json';
 
 const isFilled = <T>(nullable?: T[]): nullable is T[] => nullable != null && nullable.length > 0;
@@ -177,7 +177,7 @@ const addresseLog = (
   addresseBan: Feature
 ): AddressRecord => {
   return {
-    dateDeTraitement: new Date(),
+    dateDeTraitement: new Date().toLocaleDateString('fr-FR'),
     addresseOriginale: label(dataSource, matching),
     responseBan: addresseBan
   };
@@ -199,7 +199,7 @@ const logAndSkip = (error: AxiosError): LieuMediationNumerique | undefined => {
 };
 
 export const toLieuxMediationNumerique =
-  (repository: TransformationRepository, sourceName: string, report: Report, addresseReport: AddressReport) =>
+  (repository: TransformationRepository, sourceName: string, report: Report, addresseReport: AddressCache) =>
   async (dataSource: unknown, index: number): Promise<LieuMediationNumerique | undefined> => {
     try {
       const enhancedData: LOCATION_ENRICHED = await getAddressData(
@@ -211,7 +211,7 @@ export const toLieuxMediationNumerique =
         ...(enhancedData?.data && enhancedData.data)
       } as DataSource;
 
-      if (enhancedData?.statut === 'from_api') {
+      if (enhancedData?.statut === 'from_api' || enhancedData?.statut === 'no_from_storage') {
         addresseReport
           .entry(index)
           .record(addresseLog(dataSource as DataSource, repository.config, enhancedData.responses?.features?.[0] as Feature))

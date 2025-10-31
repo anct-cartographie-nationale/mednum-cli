@@ -7,27 +7,27 @@ export type AddressRecord = {
 };
 
 export type AddressRecorder = {
-  commit: () => AddressReport;
-  record: (addresse: Omit<AddressRecord, 'fixes'>) => AddressRecorder;
+  commit: () => AddressCache;
+  record: (addresse: AddressRecord) => AddressRecorder;
 };
 
-export type AddressReport = {
+export type AddressCache = {
   entry: (index: number) => AddressRecorder;
   records: () => AddressRecord[];
 };
 
 const AddressRecorder = (index: number, records: AddressRecord[], addresses: AddressRecord[]): AddressRecorder => ({
-  record: (address: Omit<AddressRecord, 'fixes'>): AddressRecorder => {
+  record: (address: AddressRecord): AddressRecorder => {
     addresses.push({ ...address });
     return AddressRecorder(index, records, addresses);
   },
-  commit: (): AddressReport => {
+  commit: (): AddressCache => {
     if (addresses.length > 0) records.push(...addresses);
-    return AddressReport(records);
+    return AddressCache(records);
   }
 });
 
-export const AddressReport = (records: AddressRecord[] = []): AddressReport => ({
+export const AddressCache = (records: AddressRecord[] = []): AddressCache => ({
   entry: (index: number): AddressRecorder => AddressRecorder(index, records, []),
   records: (): AddressRecord[] => records
 });
