@@ -33,9 +33,10 @@ const mergeJsonFiles = (files: string[], outputDirectory: string): void => {
   console.log('name: >>>>>>>>>>>>>>>>>>', name);
 
   const outputFilePath: string = path.join(outputDirectory, name);
-  const addresses = JSON.parse(fs.readFileSync(outputFilePath, 'utf-8'));
   const dataJsonMerge =
-    name === 'addresses.json' ? [...(addresses ?? []), ...files.flatMap(toJsonToMerge)] : files.flatMap(toJsonToMerge);
+    name === 'addresses.json'
+      ? [...(JSON.parse(fs.readFileSync(outputFilePath, 'utf-8')) ?? []), ...files.flatMap(toJsonToMerge)]
+      : files.flatMap(toJsonToMerge);
 
   console.log('!fs.existsSync(outputDirectory): >>>>>>>>>>>>>>>>>>', !fs.existsSync(outputDirectory));
   if (!fs.existsSync(outputDirectory)) fs.mkdirSync(outputDirectory, { recursive: true });
