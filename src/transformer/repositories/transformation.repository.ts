@@ -13,7 +13,7 @@ export type TransformationRepository = {
   geocode: Geocode;
   fingerprints: Fingerprint[];
   saveErrors: (report: Report) => void;
-  saveAddresses: (addressReport: AddressCache) => void;
+  saveAddresses: (addressCache: AddressCache) => void;
   saveOutputs: (lieuxDeMediationNumerique: LieuMediationNumerique[]) => Promise<void>;
   diffSinceLastTransform: (sourceItems: DataSource[]) => DiffSinceLastTransform;
   saveFingerprints: (diffSinceLastTransform: DiffSinceLastTransform) => Promise<void>;

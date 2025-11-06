@@ -23,8 +23,8 @@ import addressesBan from '../../../../assets/input/addresses.json';
 import { label } from '../../data/localisation/localisation-from-geo';
 
 const REPORT: Report = Report();
-const ADDRESSESREPORT: AddressCache = AddressCache();
-const BATCH_SIZE = 10;
+const ADDRESSESCACHE: AddressCache = AddressCache();
+const BATCH_SIZE = 50;
 const PAUSE_MS = 1000;
 
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
@@ -95,7 +95,7 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
     const result = await Promise.all(
       batch
         .map((dataSource: DataSource) => flatten(dataSource, { safe: isFlatten(repository.config) }))
-        .map(toLieuxMediationNumerique(repository, transformerOptions.sourceName, REPORT, ADDRESSESREPORT))
+        .map(toLieuxMediationNumerique(repository, transformerOptions.sourceName, REPORT, ADDRESSESCACHE))
     );
 
     lieuxDeMediationNumerique.push(...result.filter(validValuesOnly));
@@ -117,8 +117,8 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
     ')'
   );
   await repository.saveOutputs(lieuxDeMediationNumerique);
-  console.log("7. Sauvegarde de l'historique: +", ADDRESSESREPORT.records().length);
-  repository.saveAddresses(ADDRESSESREPORT);
+  console.log("7. Sauvegarde de l'historique: +", ADDRESSESCACHE.records().length);
+  repository.saveAddresses(ADDRESSESCACHE);
 
   if (transformerOptions.force) return;
 

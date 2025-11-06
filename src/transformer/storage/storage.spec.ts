@@ -3,9 +3,9 @@ import { AddressRecord, AddressCache } from './index';
 import { Properties } from '../data';
 
 describe('addresses', (): void => {
-  it('should create a address report with empty records', (): void => {
-    const report = AddressCache();
-    expect(report.records()).toStrictEqual([]);
+  it('should create a address cache with empty records', (): void => {
+    const cache = AddressCache();
+    expect(cache.records()).toStrictEqual([]);
   });
 
   it('should return as many logs as addresses requested from the address AP', (): void => {

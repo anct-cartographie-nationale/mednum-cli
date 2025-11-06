@@ -199,7 +199,7 @@ const logAndSkip = (error: AxiosError): LieuMediationNumerique | undefined => {
 };
 
 export const toLieuxMediationNumerique =
-  (repository: TransformationRepository, sourceName: string, report: Report, addresseReport: AddressCache) =>
+  (repository: TransformationRepository, sourceName: string, report: Report, addressCache: AddressCache) =>
   async (dataSource: unknown, index: number): Promise<LieuMediationNumerique | undefined> => {
     try {
       const enhancedData: LOCATION_ENRICHED = await getAddressData(
@@ -212,7 +212,7 @@ export const toLieuxMediationNumerique =
       } as DataSource;
 
       if (enhancedData?.statut === 'from_api' || enhancedData?.statut === 'no_from_storage') {
-        addresseReport
+        addressCache
           .entry(index)
           .record(addresseLog(dataSource as DataSource, repository.config, enhancedData.responses?.features?.[0] as Feature))
           .commit();

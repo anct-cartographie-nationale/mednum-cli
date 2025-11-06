@@ -5,6 +5,7 @@ import { DataSource, LieuxMediationNumeriqueMatching } from '../../input';
 import { CLEAN_VOIE, voieField } from '../../fields/adresse/clean-voie';
 import { AddressRecord } from '../../storage';
 import { toCleanField } from '../../fields/adresse/clean-operations';
+import { CLEAN_COMMUNE } from '../../fields/adresse/clean-commune';
 
 const isValid = (adresse: Adresse, response: AxiosResponse): boolean =>
   response.data.features[0]?.geometry?.coordinates != null &&
@@ -70,7 +71,10 @@ export const getAddressData =
         statut: 'from_storage'
       };
     }
-    const querySearch: string = `${CLEAN_VOIE.reduce(toCleanField, voieField(source, matching.adresse))} ${source[matching.code_postal.colonne]} ${source[matching.commune.colonne]}`;
+    const querySearch: string = `${CLEAN_VOIE.reduce(toCleanField, voieField(source, matching.adresse))} ${source[matching.code_postal.colonne]} ${CLEAN_COMMUNE.reduce(
+      toCleanField,
+      source[matching.commune.colonne] as string
+    )}`;
     let response: AxiosResponse;
 
     if (querySearch.trim() === '') return { statut: 'no_from_storage', addresseOriginale };

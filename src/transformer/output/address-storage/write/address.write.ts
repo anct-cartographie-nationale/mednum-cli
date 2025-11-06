@@ -15,7 +15,7 @@ export type AddressOutput = {
   responseBan?: Feature;
 };
 
-const writeReportAddressesJsonOutput = (producer: Output, addresses: AddressOutput[]): void => {
+const writeCacheAddressesJsonOutput = (producer: Output, addresses: AddressOutput[]): void => {
   fs.writeFile(
     `${createFolderIfNotExist(producer.path)}/${mediationNumeriqueFileName(
       new Date(),
@@ -31,9 +31,9 @@ const writeReportAddressesJsonOutput = (producer: Output, addresses: AddressOutp
 
 export const writeAddresesOutputFiles =
   (producer: Output) =>
-  (addressReport: AddressCache): void => {
+  (addressCache: AddressCache): void => {
     const addresses: AddressOutput[] = [];
-    addressReport.records().forEach((addressEntry: AddressRecord): void => {
+    addressCache.records().forEach((addressEntry: AddressRecord): void => {
       const log: AddressOutput = {
         dateDeTraitement: new Date(),
         addresseOriginale: addressEntry?.addresseOriginale ?? '',
@@ -42,5 +42,5 @@ export const writeAddresesOutputFiles =
       addresses.push(log);
     });
 
-    writeReportAddressesJsonOutput(producer, addresses);
+    writeCacheAddressesJsonOutput(producer, addresses);
   };

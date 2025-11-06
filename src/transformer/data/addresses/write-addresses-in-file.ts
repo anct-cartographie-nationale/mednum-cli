@@ -4,10 +4,10 @@ import { AddressCache } from '../../storage';
 
 export const writeAddressesInFiles =
   (transformerOptions: TransformerOptions) =>
-  (addresseReport: AddressCache): void => {
+  (addresseCache: AddressCache): void => {
     writeAddresesOutputFiles({
       path: transformerOptions.outputDirectory,
       name: transformerOptions.sourceName,
       territoire: transformerOptions.territory
-    })(addresseReport);
+    })(addresseCache);
   };
