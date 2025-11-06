@@ -63,7 +63,7 @@ jobs:
       - name: Deduplicate
         run: pnpm dedupliquer.${{ matrix.source }}
       - name: Upload transformed data
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: ${{ matrix.source }}
           path: assets/output/${{ matrix.source }}
@@ -140,7 +140,7 @@ jobs:
       - name: Merge transformed data
         run: pnpm fusionner
       - name: Upload merged data
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: merged
           path: merged
@@ -172,7 +172,7 @@ jobs:
       - name: Deduplicate merged data
         run: pnpm dedupliquer.merged-json
       - name: Upload deduplicated data
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: deduplicated
           path: assets/deduplicated

@@ -34,7 +34,7 @@ jobs:
       - name: Build
         run: pnpm build
       - name: Upload build bundle as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: bundle
           path: |
