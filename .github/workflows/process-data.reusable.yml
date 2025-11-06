@@ -139,8 +139,6 @@ jobs:
           rm to-merge/structures-*
       - name: Merge transformed data
         run: pnpm fusionner
-      - name: Show directories
-        run: ls -l to-merge
       - name: Upload merged data
         uses: actions/upload-artifact@v5
         with:
