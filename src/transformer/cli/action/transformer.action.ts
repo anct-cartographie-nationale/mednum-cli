@@ -95,7 +95,9 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
     const result = await Promise.all(
       batch
         .map((dataSource: DataSource) => flatten(dataSource, { safe: isFlatten(repository.config) }))
-        .map(toLieuxMediationNumerique(repository, transformerOptions.sourceName, REPORT, ADDRESSESCACHE))
+        .map((lieu, index) =>
+          toLieuxMediationNumerique(repository, transformerOptions.sourceName, REPORT, ADDRESSESCACHE)(lieu, i + index)
+        )
     );
 
     lieuxDeMediationNumerique.push(...result.filter(validValuesOnly));
