@@ -6,6 +6,7 @@ import {
   isInZrr,
   qpvFromDataGouv,
   writeErrorsInFiles,
+  writeAddressesInFiles,
   zrrFromEquipementsSportsGouvApi,
   saveFingerprintsWithLieuxMediationNumeriqueApi,
   saveOutputsWithLieuxInclusionNumeriqueApi,
@@ -38,6 +39,7 @@ export const transformationRespository = async (transformerOptions: TransformerO
     geocode: localisationByGeocode,
     fingerprints,
     saveErrors: writeErrorsInFiles(transformerOptions),
+    saveAddresses: writeAddressesInFiles(transformerOptions),
     saveOutputs: useFile
       ? saveOutputsInFiles(transformerOptions)
       : saveOutputsWithLieuxInclusionNumeriqueApi(transformerOptions),

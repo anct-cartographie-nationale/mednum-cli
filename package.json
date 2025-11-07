@@ -36,6 +36,7 @@
   "bin": "./bin/mednum",
   "type": "module",
   "scripts": {
+    "ts.check": "tsc --project .tsconfig/tsconfig.json --noEmit",
     "lint.es": "eslint ./src/",
     "lint.commit": "npx commitlint --from origin/main",
     "lint.staged": "lint-staged",
@@ -123,6 +124,7 @@
     "dedupliquer.merged-json": "tsx src/index.ts dedupliquer -s ./assets/to-deduplicate/merged_output.json -b ./assets/to-deduplicate/merged_output.json -n \"Données dédupliquées\" -t National -o ./assets/deduplicated",
     "dedupliquer.merged-csv": "tsx src/index.ts dedupliquer -s ./merged_output.csv -b ./merged_output.csv -n \"Données dédupliquées\" -t National -o ./assets/deduplicated",
     "fusionner": "tsx src/index.ts fusionner -i \"./to-merge/*-sans-doublons.json\" -o \"./merged\"",
+    "fusion-addresses": "tsx src/index.ts fusionner -i \"./assets/output/*/*-addresses.json\" -o \"./assets/input\"",
     "prepare": "husky"
   },
   "devDependencies": {

@@ -53,6 +53,9 @@ import {
 } from '../fields';
 import { TransformationRepository } from '../repositories';
 import { DataSource, LieuxMediationNumeriqueMatching } from './lieux-mediation-numerique-matching';
+import { label, getAddressData, Feature, LOCATION_ENRICHED } from '../data/localisation/localisation-from-geo';
+import { AddressRecord, AddressCache } from '../storage';
+import addressesBan from '../../../assets/input/addresses.json';
 
 const isFilled = <T>(nullable?: T[]): nullable is T[] => nullable != null && nullable.length > 0;
 
@@ -114,7 +117,6 @@ const lieuDeMediationNumerique = async (
 ): Promise<LieuMediationNumerique | undefined> => {
   const adresse: Adresse = processAdresse(findCommune)(dataSource, matching);
   const localisation: Localisation | undefined = await processLocalisation(dataSource, matching, geocode(adresse));
-
   if (isPrive(dataSource, matching)) return undefined;
 
   const lieuMediationNumerique: LieuMediationNumerique = {
@@ -169,6 +171,18 @@ export const isFlatten = (repository: Record<string, unknown>): boolean => {
 const entryIdentification = (dataSource: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
   dataSource[matching.nom.colonne]?.toString() ?? '';
 
+const addresseLog = (
+  dataSource: DataSource,
+  matching: LieuxMediationNumeriqueMatching,
+  addresseBan: Feature
+): AddressRecord => {
+  return {
+    dateDeTraitement: new Date().toLocaleDateString('fr-FR'),
+    addresseOriginale: label(dataSource, matching),
+    responseBan: addresseBan
+  };
+};
+
 const isErrorToReport = (error: unknown): error is ModelError<LieuMediationNumerique> =>
   error instanceof IdError ||
   error instanceof ServicesError ||
@@ -185,10 +199,31 @@ const logAndSkip = (error: AxiosError): LieuMediationNumerique | undefined => {
 };
 
 export const toLieuxMediationNumerique =
-  (repository: TransformationRepository, sourceName: string, report: Report) =>
+  (repository: TransformationRepository, sourceName: string, report: Report, addressCache: AddressCache) =>
   async (dataSource: unknown, index: number): Promise<LieuMediationNumerique | undefined> => {
     try {
-      return await lieuDeMediationNumerique(index, dataSource as DataSource, sourceName, report.entry(index), repository);
+      const enhancedData: LOCATION_ENRICHED = await getAddressData(
+        dataSource as DataSource,
+        repository.config
+      )(addressesBan as unknown as AddressRecord[]);
+      const dataSourceEnriched = {
+        ...(dataSource as DataSource),
+        ...(enhancedData?.data && enhancedData.data)
+      } as DataSource;
+
+      if (enhancedData?.statut === 'from_api' || enhancedData?.statut === 'no_from_storage') {
+        addressCache
+          .entry(index)
+          .record(addresseLog(dataSource as DataSource, repository.config, enhancedData.responses?.features?.[0] as Feature))
+          .commit();
+      }
+      return await lieuDeMediationNumerique(
+        index,
+        dataSourceEnriched as DataSource,
+        sourceName,
+        report.entry(index),
+        repository
+      );
     } catch (error: unknown) {
       if (isErrorToReport(error)) {
         report
