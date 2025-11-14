@@ -232,7 +232,7 @@ const removeTooFewDigitsInPhone = (field: string): CleanOperation => ({
 
 const removeTooManyDigitsInPhone = (field: string): CleanOperation => ({
   name: 'too many digits in phone',
-  selector: /^0.{10,}/,
+  selector: /^\+?\d{1,2}?\d{10,}$/,
   field
 });
 
@@ -411,6 +411,7 @@ export const cleanOperations = (
   ...cleanOperationIfAny(fixMissingHttpWebsitesWithMultipleUrl, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixMisplacedColonInWebsite, matching.site_web?.colonne),
   ...cleanOperationIfAny(fixMissingColonWebsites, matching.site_web?.colonne),
+  ...cleanOperationIfAny(fixMissingPlusCharAtStartingPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(removeStartingByTwoZeroInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(removeNoValidNumbersInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(fixUnexpectedPhoneList, matching.telephone?.colonne),
@@ -426,7 +427,6 @@ export const cleanOperations = (
   ...cleanOperationIfAny(removeTooManyDigitsInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(removeOnly0ValueInPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(keepFirstNumberIfMultiple, matching.telephone?.colonne),
-  ...cleanOperationIfAny(fixMissingPlusCharAtStartingPhone, matching.telephone?.colonne),
   ...cleanOperationIfAny(fixReplaceLeading0With33InPhoneNumberStatingWithPlus, matching.telephone?.colonne),
   ...cleanOperationIfAny(fixSpaceBeforeDotInEmail, matching.courriels?.colonne),
   ...cleanOperationIfAny(fixSpaceInEmail, matching.courriels?.colonne),

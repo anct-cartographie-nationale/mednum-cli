@@ -84,12 +84,11 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
   const lieuxDeMediationNumerique: LieuMediationNumerique[] = [];
   for (let i = 0; i < lieux.length; i += BATCH_SIZE) {
     const batch = lieux.slice(i, i + BATCH_SIZE);
-    const adressesOriginaleMatching: boolean[] = batch.map((lieu) =>
-      (addressesBan as unknown as AddressRecord[]).find(
-        (storage: AddressRecord) => label(lieu, repository.config) === storage?.addresseOriginale
-      )
-        ? true
-        : false
+    const adressesOriginaleMatching: boolean[] = batch.map(
+      (lieu) =>
+        !!(addressesBan as unknown as AddressRecord[]).find(
+          (storage: AddressRecord) => label(lieu, repository.config) === storage?.addresseOriginale
+        )
     );
 
     const result = await Promise.all(
