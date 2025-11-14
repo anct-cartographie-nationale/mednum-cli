@@ -577,6 +577,17 @@ describe('contact field', (): void => {
     );
   });
 
+  it('should fix very long phones', (): void => {
+    const contact: Contact = processContact(Report().entry(0))(
+      {
+        Téléphone: '+331495778500607457816'
+      } as DataSource,
+      matching
+    );
+
+    expect(contact).toStrictEqual<Contact>(Contact({}));
+  });
+
   it('should have only one phone number / separator', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
