@@ -52,8 +52,8 @@ export const getAddressData =
 
     if (existingLieu?.responseBan) {
       const coordinates = Localisation({
-        latitude: existingLieu.responseBan?.geometry.coordinates[0] ?? 0,
-        longitude: existingLieu.responseBan?.geometry.coordinates[1] ?? 0
+        latitude: existingLieu.responseBan?.geometry.coordinates[1] ?? 0,
+        longitude: existingLieu.responseBan?.geometry.coordinates[0] ?? 0
       });
 
       return {

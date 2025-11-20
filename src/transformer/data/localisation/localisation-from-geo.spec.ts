@@ -135,8 +135,8 @@ describe('localisation-from-geo', () => {
     expect(axiosGetDouble).not.toHaveBeenCalled();
     expect(result).toEqual({
       data: {
-        latitude: -1.882688,
-        longitude: 46.843771,
+        latitude: 46.843771,
+        longitude: -1.882688,
         'Adresse postale *': '18 Boulevard rené bazin',
         'Code postal': '85300',
         'Ville *': 'Challans',
