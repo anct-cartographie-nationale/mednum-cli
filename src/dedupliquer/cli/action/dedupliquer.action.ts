@@ -16,8 +16,8 @@ import { DedupliquerOptions } from '../dedupliquer-options';
 import { deduplicationRepository } from './deduplication.repository';
 import { appendCoopId } from './append-coop-id';
 
-const INTERNAL_DUPLICATION_SCORE_THRESHOLD: 90 = 90 as const;
-const DUPLICATION_SCORE_THRESHOLD: 60 = 60 as const;
+const INTERNAL_DUPLICATION_SCORE_THRESHOLD = 90 as const;
+const DUPLICATION_SCORE_THRESHOLD = 83 as const;
 
 const onlyMoreThanDuplicationScoreThreshold =
   (allowInternalMerge: boolean) =>
