@@ -96,6 +96,12 @@
       "sauf": ["15"],
       "cible": "Emmaüs Connect"
     },
+     {
+      "colonnes": ["checkboxListeDispositifsEtProgrammesNationauxbf_checkbox_group"],
+      "termes": ["6"],
+      "sauf": ["16"],
+      "cible": "France Services"
+    },
     {
       "colonnes": ["checkboxListeDispositifsEtProgrammesNationauxbf_checkbox_group"],
       "termes": ["7"],

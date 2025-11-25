@@ -151,6 +151,35 @@
       "cible": "Utilisation sécurisée du numérique"
     }
   ],
+  "dispositif_programmes_nationaux": [
+    {
+      "colonnes": [
+        "dispositif_programmes_nationaux"
+      ],
+      "termes": [
+        "Aidants Connect"
+      ],
+      "cible": "Aidants Connect"
+    },
+    {
+      "colonnes": [
+        "dispositif_programmes_nationaux"
+      ],
+      "termes": [
+        "Conseillers numériques"
+      ],
+      "cible": "Conseillers numériques"
+    },
+    {
+      "colonnes": [
+        "dispositif_programmes_nationaux"
+      ],
+      "termes": [
+        "France Services"
+      ],
+      "cible": "France Services"
+    }
+  ],
   "horaires": {
     "osm": "horaires"
   },

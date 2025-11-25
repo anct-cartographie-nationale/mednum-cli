@@ -225,6 +225,17 @@
       "cible": "Acquisition de matériel informatique à prix solidaire"
     }
   ],
+  "dispositif_programmes_nationaux": [
+    {
+      "colonnes": [
+        "label"
+      ],
+      "termes": [
+        "France services"
+      ],
+      "cible": "France Services"
+    }
+  ],
   "autres_formations_labels": [
     {
       "colonnes": ["labels"],

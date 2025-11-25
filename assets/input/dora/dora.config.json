@@ -78,6 +78,24 @@
       "colonnes": ["labels_nationaux"],
       "termes": ["la-croix-rouge"],
       "cible": "La Croix Rouge"
+    },
+    {
+      "colonnes": [
+        "labels_nationaux"
+      ],
+      "termes": [
+        "france-service"
+      ],
+      "cible": "France Services"
+    },
+    {
+      "colonnes": [
+        "labels_nationaux"
+      ],
+      "termes": [
+        "conseiller-numerique"
+      ],
+      "cible": "Conseillers numériques"
     }
   ],
   "autres_formations_labels": [

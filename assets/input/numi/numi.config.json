@@ -278,6 +278,26 @@
       "cible": "Acquisition de matériel informatique à prix solidaire"
     }
   ],
+    "dispositif_programmes_nationaux": [
+      {
+        "colonnes": [
+          "dispositif_programmes_nationaux"
+        ],
+        "termes": [
+          "Conseillers numériques"
+        ],
+        "cible": "Conseillers numériques"
+      },
+      {
+        "colonnes": [
+          "dispositif_programmes_nationaux"
+        ],
+        "termes": [
+          "France Services"
+        ],
+        "cible": "France Services"
+      }
+    ],
   "autres_formations_labels": [
     {
       "colonnes": ["autres_formations_labels"]

@@ -616,6 +616,28 @@
       ],
       "termes": ["Point Relais CAF", "Point Numérique CAF"],
       "cible": "Point d'accès numérique CAF"
+    },
+    {
+      "colonnes": [
+        "categories.0",
+        "categories.1",
+        "categories.2",
+        "categories.3",
+        "categories.4",
+        "categories.5",
+        "categories.6",
+        "categories.7",
+        "categories.8",
+        "categories.9",
+        "categories.10",
+        "categories.11",
+        "categories.12"
+      ],
+      "termes": [
+        "France Services ",
+        "France Services"
+      ],
+      "cible": "France Services"
     }
   ],
   "formations_labels": [

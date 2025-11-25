@@ -742,6 +742,11 @@
       "colonnes": ["dispositif_programmes_nationaux"],
       "termes": ["Relais numérique (Emmaüs Connect)"],
       "cible": "Relais numérique (Emmaüs Connect)"
+    },
+    {
+      "colonnes": ["dispositif_programmes_nationaux"],
+      "termes": ["France Services"],
+      "cible": "France Services"
     }
   ],
   "formations_labels": [

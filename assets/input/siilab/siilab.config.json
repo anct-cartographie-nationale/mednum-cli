@@ -306,6 +306,11 @@
       "colonnes": ["dispositif_programmes_nationaux"],
       "termes": ["La Croix Rouge"],
       "cible": "La Croix Rouge"
+    },
+    {
+      "colonnes": ["dispositif_programmes_nationaux"],
+      "termes": ["France Services"],
+      "cible": "France Services"
     }
   ],
   "formations_labels": [
