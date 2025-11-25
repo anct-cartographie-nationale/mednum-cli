@@ -1,7 +1,9 @@
 import { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
 
 const mergeArrayStrings = (arrayString1: string, arrayString2: string): string =>
-  Array.from(new Set([...arrayString1.split('|'), ...arrayString2.split('|')])).join('|');
+  Array.from(new Set([...arrayString1.split('|'), ...arrayString2.split('|')]))
+    .filter(Boolean)
+    .join('|');
 
 const mergeServices = (services1?: string, services2?: string): { services?: string } =>
   services1 == null || services2 == null ? {} : { services: mergeArrayStrings(services1, services2) };
@@ -42,9 +44,14 @@ const mergeDispositifProgrammesNationaux = (
   dispositifProgrammesNationaux1?: string,
   dispositifProgrammesNationaux2?: string
 ): { dispositif_programmes_nationaux?: string } =>
-  dispositifProgrammesNationaux1 == null || dispositifProgrammesNationaux2 == null
+  dispositifProgrammesNationaux1 == null && dispositifProgrammesNationaux2 == null
     ? {}
-    : { dispositif_programmes_nationaux: mergeArrayStrings(dispositifProgrammesNationaux1, dispositifProgrammesNationaux2) };
+    : {
+        dispositif_programmes_nationaux: mergeArrayStrings(
+          dispositifProgrammesNationaux1 ?? '',
+          dispositifProgrammesNationaux2 ?? ''
+        )
+      };
 
 const mergeFormationsLabels = (formationsLabels1?: string, formationsLabels2?: string): { formations_labels?: string } =>
   formationsLabels1 == null || formationsLabels2 == null
