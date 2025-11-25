@@ -1184,4 +1184,97 @@ describe('remove duplicates', (): void => {
       ])
     );
   });
+
+  it('should keep national labels even if the lieu does not come from the source dispositif', (): void => {
+    const lieux: SchemaLieuMediationNumerique[] = [
+      {
+        id: 'France-Services_939',
+        nom: 'France services Briouze',
+        pivot: '00000000000000',
+        services:
+          'Aide aux démarches administratives|Insertion professionnelle via le numérique|Maîtrise des outils numériques du quotidien|Compréhension du monde numérique',
+        typologie: 'RFS',
+        commune: 'Briouze',
+        code_postal: '61220',
+        adresse: '5 Place du Général de Gaulle',
+        code_insee: '61063',
+        complement_adresse: 'Espace culturel du Houlme',
+        latitude: 48.697978,
+        longitude: -0.367817,
+        telephone: '+33233628153',
+        courriels: 'franceservicesbriouze@flers-agglo.fr',
+        presentation_detail: 'Sur rendez-vous le jeudi et vendredi après-midi',
+        frais_a_charge: 'Gratuit',
+        itinerance: 'Fixe',
+        modalites_acces: 'Téléphoner|Contacter par mail',
+        dispositif_programmes_nationaux: DispositifProgrammeNational.FranceServices,
+        autres_formations_labels: 'ZRR',
+        horaires: 'Mo-Fr 09:00-12:30,14:00-17:00; Tu,We 09:00-12:30,14:00-18:00',
+        source: 'France Services',
+        date_maj: '2020-09-01'
+      },
+      {
+        id: 'Numi_France-Services_939',
+        nom: 'France services Briouze',
+        pivot: '00000000000000',
+        services: 'Aide aux démarches administratives|Insertion professionnelle via le numérique',
+        typologie: 'RFS',
+        commune: 'Briouze',
+        code_postal: '61220',
+        adresse: '5 Place du Général de Gaulle',
+        code_insee: '61063',
+        complement_adresse: 'Espace culturel du Houlme',
+        latitude: 48.697978,
+        longitude: -0.367817,
+        telephone: '+33233628153',
+        courriels: 'franceservicesbriouze@flers-agglo.fr',
+        presentation_detail: 'Sur rendez-vous le jeudi et vendredi après-midi',
+        frais_a_charge: 'Gratuit',
+        itinerance: 'Fixe',
+        modalites_acces: 'Téléphoner|Contacter par mail',
+        autres_formations_labels: 'ZRR',
+        horaires: 'Mo-Fr 09:00-12:30,14:00-17:00',
+        source: 'Numi',
+        date_maj: '2025-05-09'
+      }
+    ];
+
+    const lieuxWithoutDuplicates: MergedLieuxByGroupMap = mergeDuplicates(new Date('2023-05-30'))(
+      lieux,
+      groupDuplicates(duplicationComparisons(lieux, false))
+    );
+
+    expect(lieuxWithoutDuplicates).toStrictEqual(
+      new Map<string, SchemaLieuMediationNumerique>([
+        [
+          '2424fbf79b547f3075aeee10cc7800a4bb8efda6bf5e76a3791cfe6399cfd7fb',
+          {
+            adresse: '5 Place du Général de Gaulle',
+            autres_formations_labels: 'ZRR',
+            code_insee: '61063',
+            code_postal: '61220',
+            commune: 'Briouze',
+            complement_adresse: 'Espace culturel du Houlme',
+            courriels: 'franceservicesbriouze@flers-agglo.fr',
+            date_maj: '2025-05-09',
+            frais_a_charge: 'Gratuit',
+            horaires: 'Mo-Fr 09:00-12:30,14:00-17:00',
+            id: 'France-Services_939__Numi_France-Services_939',
+            itinerance: 'Fixe',
+            latitude: 48.697978,
+            longitude: -0.367817,
+            modalites_acces: 'Téléphoner|Contacter par mail',
+            nom: 'France services Briouze',
+            pivot: '00000000000000',
+            presentation_detail: 'Sur rendez-vous le jeudi et vendredi après-midi',
+            services: `${Service.AideAuxDemarchesAdministratives}|${Service.InsertionProfessionnelleViaLeNumerique}`,
+            source: 'Numi',
+            dispositif_programmes_nationaux: DispositifProgrammeNational.FranceServices,
+            telephone: '+33233628153',
+            typologie: 'RFS'
+          }
+        ]
+      ])
+    );
+  });
 });
