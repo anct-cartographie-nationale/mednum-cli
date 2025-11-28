@@ -30,7 +30,7 @@ jobs:
           node-version: latest
           cache: 'pnpm'
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --ignore-scripts
       - name: Build
         run: pnpm build
       - name: Upload build bundle as artifact
@@ -61,7 +61,7 @@ jobs:
           node-version: latest
           cache: 'pnpm'
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --ignore-scripts
       - name: Download release artifact
         uses: actions/download-artifact@v5
         with:
@@ -159,7 +159,7 @@ jobs:
           node-version: latest
           cache: 'pnpm'
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --ignore-scripts
       - name: 'Create env file'
         run: |
           touch .env

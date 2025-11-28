@@ -41,7 +41,7 @@ jobs:
           node-version: latest
           cache: 'pnpm'
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --ignore-scripts
       - name: Run Prettier check
         run: pnpm prettier.ci
 
@@ -64,7 +64,7 @@ jobs:
           node-version: latest
           cache: 'pnpm'
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --ignore-scripts
       - name: Run ESLint
         run: pnpm lint.es
 
@@ -87,7 +87,7 @@ jobs:
           node-version: latest
           cache: 'pnpm'
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --ignore-scripts
       - name: Run Commitlint
         run: pnpm lint.commit
 
@@ -110,7 +110,7 @@ jobs:
           node-version: latest
           cache: 'pnpm'
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --ignore-scripts
       - name: Run Tests
         run: pnpm test
 
@@ -133,7 +133,7 @@ jobs:
           node-version: latest
           cache: 'pnpm'
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --ignore-scripts
       - name: Build
         run: pnpm build
 
