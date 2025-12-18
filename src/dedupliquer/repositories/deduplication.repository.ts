@@ -8,4 +8,5 @@ export type DeduplicationRepository = {
     lieuxToDeduplicate?: SchemaLieuMediationNumerique[],
     duplications?: DuplicationComparison[]
   ) => Promise<void>;
+  isIncluded: (lieu: SchemaLieuMediationNumerique) => boolean;
 };
