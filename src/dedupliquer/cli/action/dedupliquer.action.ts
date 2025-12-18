@@ -93,8 +93,11 @@ export const dedupliquerAction = async (dedupliquerOptions: DedupliquerOptions):
     console.log("5. ajout de l'identifiant de de référence de la coop de la médiation numérique");
     const lieuxToDeduplicateWithCoopId: SchemaLieuMediationNumerique[] = lieuxToDeduplicate.map(appendCoopId);
 
-    console.log('6. sauvegarde des données dédupliquées');
-    await repository.save(groups, merged, lieuxToDeduplicateWithCoopId, duplications);
+    console.log('6. exclusion des lieux selon les critères définis');
+    const lieuxWithoutExcluded = lieuxToDeduplicateWithCoopId.filter(repository.isIncluded);
+
+    console.log('7. sauvegarde des données dédupliquées');
+    await repository.save(groups, merged, lieuxWithoutExcluded, duplications);
   } catch (error) {
     console.log(error);
   }

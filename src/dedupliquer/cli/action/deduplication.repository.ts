@@ -3,6 +3,7 @@ import { saveInFiles, saveWithApi } from '../data';
 import { DuplicationComparison, Groups, MergedLieuxByGroupMap } from '../../steps';
 import { DeduplicationRepository } from '../../repositories';
 import { DedupliquerOptions } from '../dedupliquer-options';
+import { excludeById } from './exclude-by-id/exclude-by-id';
 
 export const deduplicationRepository = (dedupliquerOptions: DedupliquerOptions): DeduplicationRepository => ({
   save: async (
@@ -16,5 +17,7 @@ export const deduplicationRepository = (dedupliquerOptions: DedupliquerOptions):
     } else {
       await saveWithApi(dedupliquerOptions)(groups, merged);
     }
-  }
+  },
+  isIncluded: (lieu: SchemaLieuMediationNumerique): boolean =>
+    excludeById(['Coop-numérique_fb1fa128-9b9a-49e2-8f19-3c9751c80f68'])(lieu)
 });
