@@ -13,7 +13,11 @@ const OPENING_HOURS_REGEXP: RegExp = /^\d{2}:\d{2}-\d{2}:\d{2}(?:,\d{2}:\d{2}-\d
 const OSM_OPENING_HOURS_TRIVIAL_REGEXP: RegExp =
   /(?:(?:Mo|Tu|We|Th|Fr|Sa|Su)(?:[-,](?:Mo|Tu|We|Th|Fr|Sa|Su))?\s)?(?:[0-1]\d|2[0-3]):[0-5]\d-(?:[0-1]\d|2[0-3]):[0-5]\d.*/;
 
-const fixOsmHours = (osmHours?: string): string => osmHours?.replace(/,\s/g, ',').replace(/(\d)h(\d)/g, '$1:$2') ?? '';
+const fixOsmHours = (osmHours?: string): string =>
+  osmHours
+    ?.replace(/,\s/g, ',')
+    .replace(/(\d)h(\d)/g, '$1:$2')
+    .replace(/\b(\d):(\d{2})\b/g, '0$1:$2') ?? '';
 
 const throwInvalidHours = (osmHours: string, day: OsmDaysOfWeek, hours: string): OsmOpeningHours => {
   throw new InvalidHoursError(osmHours, hours, day);
