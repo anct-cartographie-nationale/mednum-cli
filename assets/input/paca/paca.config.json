@@ -262,6 +262,7 @@
     }
   ],
   "horaires": {
+    "osm": "horaires_ouverture_brut",
     "semaine": "horaires_ouverture_brut"
   }
 }

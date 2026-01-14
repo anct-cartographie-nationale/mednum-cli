@@ -630,6 +630,30 @@ describe('horaires field', (): void => {
     expect(openingHours).toBe('Mo 14:00-07:00; Fr 09:00-12:00');
   });
 
+  it('should return OSM hours when opening hours are already in OSM format', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        'Horaires ouverture': 'Mo-Fr 09:00-11:45,13:30-16:30',
+        OSM: 'Mo-Fr 09:00-11:45,13:30-16:30'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('Mo-Fr 09:00-11:45,13:30-16:30');
+  });
+
+  it('should normalize and return OSM hours from no OSM formatted opening hours', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        'Horaires ouverture': 'lundi 13h30 -17h30 mardi 8h -12h et 13h30- 17h30 jeudi 8h-12h et 13h30 -17h30 vendredi 8h-12h',
+        OSM: 'lundi 13h30 -17h30 mardi 8h -12h et 13h30- 17h30 jeudi 8h-12h et 13h30 -17h30 vendredi 8h-12h'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('Tu,Th 08:00-12:00,13:30-17:30; Mo 13:30-17:30; Fr 08:00-12:00');
+  });
+
   it('Should format complex schedule with off days', (): void => {
     const openingHours: OsmOpeningHoursString = processHoraires(
       {
