@@ -630,6 +630,17 @@ describe('horaires field', (): void => {
     expect(openingHours).toBe('Mo 14:00-07:00; Fr 09:00-12:00');
   });
 
+  it('Should format complex schedule with off days', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        'Horaires ouverture': 'Ouvert du Lundi au Vendredi de 8h30 à 12h00 et de 13h00 à 16h30Samedi et Dimanche fermé '
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('Mo-Fr 08:30-12:00,13:00-16:30');
+  });
+
   it('should format ">" day separator', (): void => {
     const openingHours: OsmOpeningHoursString = processHoraires(
       {

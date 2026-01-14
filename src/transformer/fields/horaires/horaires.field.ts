@@ -72,8 +72,9 @@ export const processHoraires = (source: DataSource, matching: LieuxMediationNume
       );
     }
     const osmOpeningHours: OsmOpeningHoursString = openingHoursFromDays(matching, source);
-    return osmOpeningHours === NO_OSM_OPENING_HOURS && matching.horaires?.semaine != null
-      ? openingHoursFromWeek(source[matching.horaires.semaine]?.toString())
+
+    return osmOpeningHours === NO_OSM_OPENING_HOURS && (matching.horaires?.semaine != null || matching.horaires?.osm != null)
+      ? openingHoursFromWeek(source[matching.horaires?.semaine ?? matching.horaires?.osm ?? '']?.toString())
       : osmOpeningHours;
   } catch (error: unknown) {
     if (error instanceof InvalidHoursError) return NO_OSM_OPENING_HOURS;

@@ -20,10 +20,15 @@ const byDayOfWeek = (
   valueB: { day: OsmDaysOfWeek; osmHours: string }
 ): number => OSM_DAYS_OF_WEEK.indexOf(valueA.day) - OSM_DAYS_OF_WEEK.indexOf(valueB.day);
 
-const toDayWithOsmHours = (openingHoursToMerge: DayWithOsmHoursToMerge): DayWithOsmHours => ({
-  osmHours: mergeDuplicatedDaysOpeningHours(openingHoursToMerge.osmHours),
-  day: openingHoursToMerge.day
-});
+const toDayWithOsmHours = (openingHoursToMerge: DayWithOsmHoursToMerge): DayWithOsmHours => {
+  const daysOpeningHours = mergeDuplicatedDaysOpeningHours(openingHoursToMerge.osmHours);
+  return {
+    osmHours: daysOpeningHours === '' ? 'off' : daysOpeningHours,
+    day: openingHoursToMerge.day
+  };
+};
+
+const hasOsmHours = (value: { osmHours: string }): boolean => value.osmHours !== 'off';
 
 const matchingDay =
   (day: string) =>
@@ -79,6 +84,7 @@ const processOpeningHours = (singleStringOpeningHours?: string): OsmOpeningHours
     : OPENING_HOURS_EXTRACTION.reduce(toExtractedOsmOpeningHours(singleStringOpeningHours), [])
         .reduce(toDayWithOsmHoursToMerge, [])
         .map(toDayWithOsmHours)
+        .filter(hasOsmHours)
         .sort(byDayOfWeek);
 
 const isValidOdmHours = (osmOpeningHours: OsmOpeningHoursString): boolean =>
