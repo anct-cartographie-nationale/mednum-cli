@@ -630,6 +630,17 @@ describe('horaires field', (): void => {
     expect(openingHours).toBe('Mo 14:00-07:00; Fr 09:00-12:00');
   });
 
+  it('should normalize and return OSM hours when leading zeros are missing in AM times', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        OSM: 'Mo-Th 9:00-16:00'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('Mo-Th 09:00-16:00');
+  });
+
   it('should return OSM hours when opening hours are already in OSM format', (): void => {
     const openingHours: OsmOpeningHoursString = processHoraires(
       {
