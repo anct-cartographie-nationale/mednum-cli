@@ -3,38 +3,43 @@ export type HorairesFieldCleanOperation = {
   fix: (...matches: string[]) => string;
 };
 
+const INSERT_SPACE_AFTER_H_OR_HEURE: HorairesFieldCleanOperation = {
+  selector: /(heure|h)(?=[A-Za-z])/gu,
+  fix: (match: string) => `${match} `
+};
+
 const REPLACE_SHORT_LUNDI: HorairesFieldCleanOperation = {
-  selector: /(?:^|\s)lu?(?<afterDay>\s|\d)/gu,
+  selector: /(?:^|\s)l(?:un?)?(?<afterDay>\s|\d)/gu,
   fix: (_: string, afterDay: string): string => ` lundi ${afterDay}`
 };
 
 const REPLACE_SHORT_MARDI: HorairesFieldCleanOperation = {
-  selector: /(?:^|\s)ma(?<afterDay>\s|\d)/gu,
+  selector: /(?:^|\s)m(?:ar?)(?<afterDay>\s|\d)/gu,
   fix: (_: string, afterDay: string): string => ` mardi ${afterDay}`
 };
 
 const REPLACE_SHORT_MERCREDI: HorairesFieldCleanOperation = {
-  selector: /(?:^|\s)me(?<afterDay>\s|\d)/gu,
+  selector: /(?:^|\s)m(?:er?)(?<afterDay>\s|\d)/gu,
   fix: (_: string, afterDay: string): string => ` mercredi ${afterDay}`
 };
 
 const REPLACE_SHORT_JEUDI: HorairesFieldCleanOperation = {
-  selector: /(?:^|\s)je?(?<afterDay>\s|\d)/gu,
+  selector: /(?:^|\s)j(?:eu?)?(?<afterDay>\s|\d)/gu,
   fix: (_: string, afterDay: string): string => ` jeudi ${afterDay}`
 };
 
 const REPLACE_SHORT_VENDREDI: HorairesFieldCleanOperation = {
-  selector: /(?:^|\s)ve?(?<afterDay>\s|\d)/gu,
+  selector: /(?:^|\s)v(?:en?)?(?<afterDay>\s|\d)/gu,
   fix: (_: string, afterDay: string): string => ` vendredi ${afterDay}`
 };
 
 const REPLACE_SHORT_SAMEDI: HorairesFieldCleanOperation = {
-  selector: /(?:^|\s)sa?(?<afterDay>\s|\d)/gu,
+  selector: /(?:^|\s)s(?:am?)?(?<afterDay>\s|\d)/gu,
   fix: (_: string, afterDay: string): string => ` samedi ${afterDay}`
 };
 
 const REPLACE_SHORT_DIMANCHE: HorairesFieldCleanOperation = {
-  selector: /(?:^|\s)di?(?<afterDay>\s|\d)/gu,
+  selector: /(?:^|\s)d(?:im?)?(?<afterDay>\s|\d)/gu,
   fix: (_: string, afterDay: string): string => ` dimanche ${afterDay}`
 };
 
@@ -107,6 +112,7 @@ const REPLACE_DASH_BY_DOUBLE_DOT_ONLY_IF_IT_IS_TIME: HorairesFieldCleanOperation
 };
 
 export const REPLACE_SHORT_DAYS: HorairesFieldCleanOperation[] = [
+  INSERT_SPACE_AFTER_H_OR_HEURE,
   REPLACE_SHORT_LUNDI,
   REPLACE_SHORT_MARDI,
   REPLACE_SHORT_MERCREDI,
