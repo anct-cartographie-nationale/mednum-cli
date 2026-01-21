@@ -664,6 +664,17 @@ describe('horaires field', (): void => {
     expect(openingHours).toBe('Mo-Fr 09:00-11:45,13:30-16:30');
   });
 
+  it('should return OSM hours when words "entre" and "et" are present', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        'Horaires ouverture': 'mardi entre 10h et 12h'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('Tu 10:00-12:00');
+  });
+
   it('should normalize and return OSM hours from no OSM formatted opening hours', (): void => {
     const openingHours: OsmOpeningHoursString = processHoraires(
       {

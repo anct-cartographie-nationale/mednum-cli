@@ -74,6 +74,11 @@ const REPLACE_0_INSTEAD_OF_ACCENTED_A_TYPO: HorairesFieldCleanOperation = {
   fix: (): string => ' à '
 };
 
+const REPLACE_ENTRE_ET_WITH_DE_A: HorairesFieldCleanOperation = {
+  selector: /\sentre\s+(?<startTime>[0-2]?\dh?(?:[0-5]?\d)?)\s+et\s+/giu,
+  fix: (startTime: string): string => `de ${startTime} à`
+};
+
 const INSERT_DAYS_SEPARATOR_BETWEEN_H_AND_DU: HorairesFieldCleanOperation = {
   selector: /h\sdu/gu,
   fix: (): string => 'h / du'
@@ -137,5 +142,6 @@ export const HORAIRES_FIELD_CLEAN_OPERATIONS: HorairesFieldCleanOperation[] = [
   INSERT_DAYS_SEPARATOR_BETWEEN_H_AND_DU,
   FIX_REVERSE_AU,
   FIX_REVERSE_SINGLE_DAY,
-  INSERT_DAYS_SEPARATOR_BETWEEN_HOURS_AND_DAY
+  INSERT_DAYS_SEPARATOR_BETWEEN_HOURS_AND_DAY,
+  REPLACE_ENTRE_ET_WITH_DE_A
 ];
