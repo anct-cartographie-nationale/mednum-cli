@@ -675,6 +675,18 @@ describe('horaires field', (): void => {
     expect(openingHours).toBe('Tu 10:00-12:00');
   });
 
+  it('should return the OSM times when the words are reversed', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        'Horaires ouverture':
+          'A partir du 4 septembre permanences au 18bis rue des 4 Freres Peignot 75015 Paris de 10h à 12h et de 14h à 18h du lundi à vendredi'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('Mo-Fr 10:00-12:00,14:00-18:00');
+  });
+
   it('should normalize and return OSM hours from no OSM formatted opening hours', (): void => {
     const openingHours: OsmOpeningHoursString = processHoraires(
       {
