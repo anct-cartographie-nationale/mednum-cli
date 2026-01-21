@@ -121,6 +121,11 @@ const REMOVE_TEXT_NO_CONFORM: HorairesFieldCleanOperation = {
   fix: () => ''
 };
 
+const REPLACE_DAYS_DEFAULT: HorairesFieldCleanOperation = {
+  selector: /(?<text>tous les jours)/giu,
+  fix: (): string => 'du lundi au vendredi'
+};
+
 const REORDER_HOURS_BEFORE_DAYS: HorairesFieldCleanOperation = {
   selector: /^(?<hours>[^/]+(?:à|-)[^/]+)\s*\/\s*(?<days>du\s+\w+\s+(?:à|au)\s+\w+)$/giu,
   fix: (_: string, hours: string, days: string) => `${days} / ${hours}`
@@ -155,5 +160,6 @@ export const HORAIRES_FIELD_CLEAN_OPERATIONS: HorairesFieldCleanOperation[] = [
   INSERT_DAYS_SEPARATOR_BETWEEN_HOURS_AND_DAY,
   REPLACE_ENTRE_ET_WITH_DE_A,
   REMOVE_TEXT_NO_CONFORM,
-  REORDER_HOURS_BEFORE_DAYS
+  REORDER_HOURS_BEFORE_DAYS,
+  REPLACE_DAYS_DEFAULT
 ];

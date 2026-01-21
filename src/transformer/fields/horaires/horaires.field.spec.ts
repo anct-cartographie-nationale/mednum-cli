@@ -675,6 +675,17 @@ describe('horaires field', (): void => {
     expect(openingHours).toBe('Tu 10:00-12:00');
   });
 
+  it('should return the OSM Mo-Fr when "tous les jours" is present', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        'Horaires ouverture': 'Tous les jours 9h-20h'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('Mo-Fr 09:00-20:00');
+  });
+
   it('should return the OSM times when the words are reversed', (): void => {
     const openingHours: OsmOpeningHoursString = processHoraires(
       {
