@@ -630,6 +630,63 @@ describe('horaires field', (): void => {
     expect(openingHours).toBe('Mo 14:00-07:00; Fr 09:00-12:00');
   });
 
+  it('should insert spaces between hours and day abbreviations when missing', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        'Horaires ouverture': 'Mar : 14h-19hMer :14h-18hJeu : 14h-18hVen : 14h-18h'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('We-Fr 14:00-18:00; Tu 14:00-19:00');
+  });
+
+  it('should normalize and return OSM hours when leading zeros are missing in AM times', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        OSM: 'Mo-Th 9:00-16:00'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('Mo-Th 09:00-16:00');
+  });
+
+  it('should return OSM hours when opening hours are already in OSM format', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        'Horaires ouverture': 'Mo-Fr 09:00-11:45,13:30-16:30',
+        OSM: 'Mo-Fr 09:00-11:45,13:30-16:30'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('Mo-Fr 09:00-11:45,13:30-16:30');
+  });
+
+  it('should normalize and return OSM hours from no OSM formatted opening hours', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        'Horaires ouverture': 'lundi 13h30 -17h30 mardi 8h -12h et 13h30- 17h30 jeudi 8h-12h et 13h30 -17h30 vendredi 8h-12h',
+        OSM: 'lundi 13h30 -17h30 mardi 8h -12h et 13h30- 17h30 jeudi 8h-12h et 13h30 -17h30 vendredi 8h-12h'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('Tu,Th 08:00-12:00,13:30-17:30; Mo 13:30-17:30; Fr 08:00-12:00');
+  });
+
+  it('Should format complex schedule with off days', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        'Horaires ouverture': 'Ouvert du Lundi au Vendredi de 8h30 à 12h00 et de 13h00 à 16h30Samedi et Dimanche fermé '
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('Mo-Fr 08:30-12:00,13:00-16:30');
+  });
+
   it('should format ">" day separator', (): void => {
     const openingHours: OsmOpeningHoursString = processHoraires(
       {
