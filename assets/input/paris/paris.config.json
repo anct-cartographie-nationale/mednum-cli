@@ -1,9 +1,12 @@
 {
+  "id": {
+    "colonne": "identifiant"
+  },
   "nom": {
-    "colonne": "NOM STRUCTURE"
+    "colonne": "Nom de structure"
   },
   "code_postal": {
-    "colonne": "CODE POSTAL"
+    "colonne": "Code postal"
   },
   "commune": {
     "colonne": ""
@@ -29,10 +32,10 @@
     "colonne": "Téléphone"
   },
   "courriels": {
-    "colonne": "ADRESSE MAIL"
+    "colonne": "Adresse mail"
   },
   "site_web": {
-    "colonne": "SITE WEB"
+    "colonne": "Site web"
   },
   "date_maj": {
     "colonne": ""
@@ -45,27 +48,27 @@
   },
   "typologie": [
     {
-      "colonnes": ["TYPE STRUCTURE"],
+      "colonnes": ["Type de structure"],
       "termes": ["Association"],
       "cible": "ASSO"
     },
     {
-      "colonnes": ["TYPE STRUCTURE"],
+      "colonnes": ["Type de structure"],
       "termes": ["Bibliothèque / médiathèque"],
       "cible": "BIB"
     },
     {
-      "colonnes": ["TYPE STRUCTURE", "Type de structure (Catégorie 3)", "Type de structure (Catégorie 4)"],
+      "colonnes": ["Type de structure", "Type de structure (Catégorie 3)", "Type de structure (Catégorie 4)"],
       "termes": ["CAF de Paris", "Point CAF"],
       "cible": "CAF"
     },
     {
-      "colonnes": ["TYPE STRUCTURE"],
+      "colonnes": ["Type de structure"],
       "termes": ["CPAM"],
       "cible": "CPAM"
     },
     {
-      "colonnes": ["TYPE STRUCTURE"],
+      "colonnes": ["Type de structure"],
       "termes": ["Centre social"],
       "cible": "CS"
     },
@@ -75,37 +78,37 @@
       "cible": "EPN"
     },
     {
-      "colonnes": ["TYPE STRUCTURE"],
+      "colonnes": ["Type de structure"],
       "termes": ["Pôle Emploi Paris"],
       "cible": "FT"
     },
     {
-      "colonnes": ["TYPE STRUCTURE"],
+      "colonnes": ["Type de structure"],
       "termes": ["La Poste"],
       "cible": "LA_POSTE"
     },
     {
-      "colonnes": ["TYPE STRUCTURE"],
+      "colonnes": ["Type de structure"],
       "termes": ["MDPH"],
       "cible": "MDPH"
     },
     {
-      "colonnes": ["TYPE STRUCTURE"],
+      "colonnes": ["Type de structure"],
       "termes": ["Mission Locale de Paris"],
       "cible": "ML"
     },
     {
-      "colonnes": ["TYPE STRUCTURE"],
+      "colonnes": ["Type de structure"],
       "termes": ["Mairie d'arrondissement", "Mairie Mobile de Paris"],
       "cible": "MUNI"
     },
     {
-      "colonnes": ["TYPE STRUCTURE"],
+      "colonnes": ["Type de structure"],
       "termes": ["Espace Paris Jeunes", "PIJ"],
       "cible": "PIJ_BIJ"
     },
     {
-      "colonnes": ["TYPE STRUCTURE"],
+      "colonnes": ["Type de structure"],
       "termes": ["PIMMS"],
       "cible": "PIMMS"
     },
@@ -129,12 +132,12 @@
   ],
   "modalites_accompagnement": [
     {
-      "colonnes": ["ACCES LIBRE"],
+      "colonnes": ["Accès libre"],
       "termes": ["Autonome"],
       "cible": "En autonomie"
     },
     {
-      "colonnes": ["ACCES LIBRE"],
+      "colonnes": ["Accès libre"],
       "termes": ["Accompagné"],
       "cible": "Accompagnement individuel"
     }
