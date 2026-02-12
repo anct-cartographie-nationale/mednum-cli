@@ -1,132 +1,152 @@
 {
   "id": {
-    "colonne": "recordid"
+    "colonne": ""
   },
   "nom": {
-    "colonne": "fields.nom_structure"
+    "colonne": "nom_structure"
   },
   "commune": {
-    "colonne": "fields.commune"
+    "colonne": "commune"
   },
   "code_postal": {
-    "colonne": "fields.code_postal"
+    "colonne": "code_postal"
   },
   "adresse": {
-    "colonne": "fields.adresse"
+    "colonne": "adresse"
   },
   "complement_adresse": {
-    "colonne": "fields.compl_adresse"
+    "colonne": "compl_adresse"
   },
   "latitude": {
-    "colonne": "geometry.coordinates.1"
+    "colonne": "geom.lat"
   },
   "longitude": {
-    "colonne": "geometry.coordinates.0"
+    "colonne": "geom.lon"
   },
   "telephone": {
-    "colonne": "fields.telephone"
+    "colonne": "telephone"
   },
   "courriels": {
-    "colonne": "fields.adresse_mail"
+    "colonne": "adresse_mail"
   },
   "site_web": {
-    "colonne": "fields.site_web"
+    "colonne": "site_web"
   },
   "date_maj": {
-    "colonne": "record_timestamp"
+    "colonne": ""
   },
   "horaires": {
-    "semaine": "fields.jours_horaires_ouverture"
+    "semaine": "jours_horaires_ouverture"
   },
   "typologie": [
     {
-      "colonnes": ["fields.type_de_structure"],
+      "colonnes": ["type_de_structure"],
       "termes": ["Association"],
       "cible": "ASSO"
     },
     {
-      "colonnes": ["fields.type_de_structure"],
+      "colonnes": ["type_de_structure"],
       "termes": ["Centre social"],
       "cible": "CS"
     },
     {
-      "colonnes": ["fields.type_de_structure"],
+      "colonnes": ["type_de_structure"],
       "termes": ["Médiathèque", "Bibliothèque"],
       "cible": "BIB"
     }
   ],
   "publics_specifiquement_adresses": [
     {
-      "colonnes": ["fields.type_public"],
-      "termes": ["10-21 ans"],
+      "colonnes": ["type_public"],
+      "termes": ["10-21 ans", "8-15 ans", "Enfants et parents", "7-18 ans et tout public","Tout public", "Tout public pour un accompagnement social, m\u00e9dico-social", "El\u00e8ves de la 6\u00e8me \u00e0 la 3\u00e8me et parents"],
       "cible": "Jeunes"
+    },
+    {
+      "colonnes": ["type_public"],
+      "termes": ["El\u00e8ves et enseignants", "Tout public", "Apprenants inscrits dans les formations linguistiques du CIDFF (FLI/FLEX)", "Tout public pour un accompagnement social, m\u00e9dico-social", "7-18 ans et tout public", "El\u00e8ves et enseignants"],
+      "cible": "Étudiants"
+    },
+    {
+      "colonnes": ["type_public"],
+      "termes": ["Tout public", "Public d'origine \u00e9trang\u00e8re", "Tout public d'origine nomade/GDV", "Locataires Mulhouse Habitat", "Tout public pour un accompagnement social, m\u00e9dico-social", "7-18 ans et tout public", "El\u00e8ves de la 6\u00e8me \u00e0 la 3\u00e8me et parents", "Enfants et parents"],
+      "cible": "Familles et/ou enfants"
+    },
+    {
+      "colonnes": ["type_public"],
+      "termes": ["Seniors", "Tout public", "Tout public pour un accompagnement social, m\u00e9dico-social", "7-18 ans et tout public"],
+      "cible": "Seniors"
+    },
+    {
+      "colonnes": ["type_public"],
+      "termes": ["Tout public", "Tout public pour un accompagnement social, m\u00e9dico-social", "7-18 ans et tout public"],
+      "cible": "Femmes"
     }
   ],
   "modalites_acces": [
     {
-      "colonnes": ["fields.modalites_d_acces_formations_ateliers"],
+      "colonnes": ["modalites_d_acces_formations_ateliers"],
       "termes": ["par téléphone", "contacter le"],
       "cible": "Téléphoner"
     },
     {
-      "colonnes": ["fields.modalites_d_acces_formations_ateliers"],
+      "colonnes": ["modalites_d_acces_formations_ateliers"],
       "termes": ["écrire à l'adresse"],
       "cible": "Contacter par mail"
     }
   ],
   "modalites_accompagnement": [
     {
-      "colonnes": ["fields.acces_equipement_numerique_et_internet"],
+      "colonnes": ["acces_equipement_numerique_et_internet"],
       "termes": ["Oui"],
       "cible": "En autonomie"
     },
     {
-      "colonnes": ["fields.formations_ateliers"],
+      "colonnes": ["formations_ateliers"],
       "termes": ["Oui"],
       "cible": "Dans un atelier collectif"
     },
     {
-      "colonnes": ["fields.accompagnement_pour_des_demarches_en_ligne"],
+      "colonne": ["accompagnement_pour_des_demarches_en_ligne"],
       "termes": ["Oui"],
       "cible": "Accompagnement individuel"
     }
   ],
   "frais_a_charge": [
     {
-      "colonnes": ["fields.tarif_acces_equipement", "fields.tarif_accompagnement_pour_des_demarches_en_ligne", "frais.tarif_formations_ateliers"],
+      "colonnes": ["tarif_acces_equipement", "tarif_accompagnement_pour_des_demarches_en_ligne", "frais.tarif_formations_ateliers"],
       "termes": ["Gratuit"],
       "cible": "Gratuit",
       "sauf": ["Gratuit pour les adhérents"]
     },
     {
-      "colonnes": ["fields.tarif_acces_equipement", "fields.tarif_accompagnement_pour_des_demarches_en_ligne", "frais.tarif_formations_ateliers"],
+      "colonnes": ["tarif_acces_equipement", "tarif_accompagnement_pour_des_demarches_en_ligne", "frais.tarif_formations_ateliers"],
       "termes": ["adhérents", "Adhésion"],
       "cible": "Payant"
     }
   ],
   "services": [
     {
-      "colonnes": ["fields.accompagnement_pour_des_demarches_en_ligne"],
+      "colonnes": ["accompagnement_pour_des_demarches_en_ligne"],
       "termes": ["Oui"],
       "cible": "Aide aux démarches administratives"
     },
     {
-      "colonnes": ["fields.formations_ateliers", "fields.contenu_niveau_formations_ateliers"],
+      "colonnes": ["formations_ateliers", "contenu_niveau_formations_ateliers"],
       "termes": ["oui", "Initiation", "base"],
       "cible": "Maîtrise des outils numériques du quotidien"
     },
     {
-      "colonnes": ["fields.type_equipement", "fields.contenu_niveau_formations_ateliers"],
+      "colonnes": ["type_equipement", "contenu_niveau_formations_ateliers"],
       "termes": ["Xbox", "gaming", "codage"],
       "cible": "Loisirs et créations numériques"
     },
     {
-      "colonnes": ["fields.formations_ateliers", "fields.contenu_niveau_formations_ateliers"],
+      "colonnes": ["formations_ateliers", "contenu_niveau_formations_ateliers"],
       "termes": ["Oui", "perfectionner"],
       "cible": "Compréhension du monde numérique"
     },
     {
-      "colonnes": ["fields.type_equipement", "fields.acces_equipement_numerique_et_internet"],
+      "colonnes": ["type_equipement", "acces_equipement_numerique_et_internet"],
       "termes": ["Oui", "Ordinateur", "imprimante", "téléphone", "écran tactile", "scanner"],
       "cible": "Accès internet et matériel informatique"
     }
