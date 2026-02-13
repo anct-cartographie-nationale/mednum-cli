@@ -675,6 +675,17 @@ describe('horaires field', (): void => {
     expect(openingHours).toBe('Tu 10:00-12:00');
   });
 
+  it('should return the OSM when 24/7', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        OSM: '24/7'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('24/7');
+  });
+
   it('should return the OSM Mo-Fr when "tous les jours" is present', (): void => {
     const openingHours: OsmOpeningHoursString = processHoraires(
       {
@@ -719,6 +730,17 @@ describe('horaires field', (): void => {
     );
 
     expect(openingHours).toBe('Mo-Fr 08:30-12:00,13:00-16:30');
+  });
+
+  it('should remove the time slots', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        OSM: 'Mo-Fr 09:00-17 :00'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('Mo-Fr 09:00-17:00');
   });
 
   it('should format ">" day separator', (): void => {
