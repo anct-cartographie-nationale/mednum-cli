@@ -74,6 +74,11 @@ const REPLACE_0_INSTEAD_OF_ACCENTED_A_TYPO: HorairesFieldCleanOperation = {
   fix: (): string => ' à '
 };
 
+const REPLACE_ENTRE_ET_WITH_DE_A: HorairesFieldCleanOperation = {
+  selector: /\sentre\s+(?<startTime>[0-2]?\dh?(?:[0-5]?\d)?)\s+et\s+/giu,
+  fix: (startTime: string): string => `de ${startTime} à`
+};
+
 const INSERT_DAYS_SEPARATOR_BETWEEN_H_AND_DU: HorairesFieldCleanOperation = {
   selector: /h\sdu/gu,
   fix: (): string => 'h / du'
@@ -111,6 +116,21 @@ const REPLACE_DASH_BY_DOUBLE_DOT_ONLY_IF_IT_IS_TIME: HorairesFieldCleanOperation
   fix: (time: string): string => time.replace('/', ':')
 };
 
+const REMOVE_TEXT_NO_CONFORM: HorairesFieldCleanOperation = {
+  selector: /(?<text>a partir du 4 septembre permanences au 18bis rue des 4 freres peignot 75015 paris)/giu,
+  fix: () => ''
+};
+
+const REPLACE_DAYS_DEFAULT: HorairesFieldCleanOperation = {
+  selector: /(?<text>tous les jours)/giu,
+  fix: (): string => 'du lundi au vendredi'
+};
+
+const REORDER_HOURS_BEFORE_DAYS: HorairesFieldCleanOperation = {
+  selector: /^(?<hours>[^/]+(?:à|-)[^/]+)\s*\/\s*(?<days>du\s+\w+\s+(?:à|au)\s+\w+)$/giu,
+  fix: (_: string, hours: string, days: string) => `${days} / ${hours}`
+};
+
 export const REPLACE_SHORT_DAYS: HorairesFieldCleanOperation[] = [
   INSERT_SPACE_AFTER_H_OR_HEURE,
   REPLACE_SHORT_LUNDI,
@@ -137,5 +157,9 @@ export const HORAIRES_FIELD_CLEAN_OPERATIONS: HorairesFieldCleanOperation[] = [
   INSERT_DAYS_SEPARATOR_BETWEEN_H_AND_DU,
   FIX_REVERSE_AU,
   FIX_REVERSE_SINGLE_DAY,
-  INSERT_DAYS_SEPARATOR_BETWEEN_HOURS_AND_DAY
+  INSERT_DAYS_SEPARATOR_BETWEEN_HOURS_AND_DAY,
+  REPLACE_ENTRE_ET_WITH_DE_A,
+  REMOVE_TEXT_NO_CONFORM,
+  REORDER_HOURS_BEFORE_DAYS,
+  REPLACE_DAYS_DEFAULT
 ];
