@@ -39,12 +39,12 @@ const fetchFromDataInclusionApi = async <T>({ key, url }: Api): Promise<T[]> => 
 export const dataInclusionAction = async (dataInclusionOptions: DataInclusionOptions): Promise<void> => {
   const responseStructures: SchemaStructureDataInclusion[] = await fetchFromDataInclusionApi({
     key: dataInclusionOptions.dataInclusionApiKey,
-    url: `https://api.data.inclusion.beta.gouv.fr/api/v0/structures?sources=${dataInclusionOptions.filter}`
+    url: `https://api.data.inclusion.beta.gouv.fr/api/v1/structures?sources=${dataInclusionOptions.filter}`
   });
 
   const responseServices: SchemaServiceDataInclusion[] = await fetchFromDataInclusionApi({
     key: dataInclusionOptions.dataInclusionApiKey,
-    url: `https://api.data.inclusion.beta.gouv.fr/api/v0/services?sources=${dataInclusionOptions.filter}`
+    url: `https://api.data.inclusion.beta.gouv.fr/api/v1/services?sources=${dataInclusionOptions.filter}`
   });
 
   fs.writeFileSync(
