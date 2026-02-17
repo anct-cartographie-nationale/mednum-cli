@@ -675,7 +675,7 @@ describe('horaires field', (): void => {
     expect(openingHours).toBe('Tu 10:00-12:00');
   });
 
-  it('should return the OSM when 24/7', (): void => {
+  it('should return the OSM format when the value is 24/7', (): void => {
     const openingHours: OsmOpeningHoursString = processHoraires(
       {
         OSM: '24/7'
@@ -683,7 +683,7 @@ describe('horaires field', (): void => {
       matching
     );
 
-    expect(openingHours).toBe('24/7');
+    expect(openingHours).toBe('Mo-Sun 00:00-00:00');
   });
 
   it('should return the OSM Mo-Fr when "tous les jours" is present', (): void => {
