@@ -664,6 +664,51 @@ describe('horaires field', (): void => {
     expect(openingHours).toBe('Mo-Fr 09:00-11:45,13:30-16:30');
   });
 
+  it('should return OSM hours when words "entre" and "et" are present', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        'Horaires ouverture': 'mardi entre 10h et 12h'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('Tu 10:00-12:00');
+  });
+
+  it('should return the OSM when 24/7', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        OSM: '24/7'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('24/7');
+  });
+
+  it('should return the OSM Mo-Fr when "tous les jours" is present', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        'Horaires ouverture': 'Tous les jours 9h-20h'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('Mo-Fr 09:00-20:00');
+  });
+
+  it('should return the OSM times when the words are reversed', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        'Horaires ouverture':
+          'A partir du 4 septembre permanences au 18bis rue des 4 Freres Peignot 75015 Paris de 10h à 12h et de 14h à 18h du lundi à vendredi'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('Mo-Fr 10:00-12:00,14:00-18:00');
+  });
+
   it('should normalize and return OSM hours from no OSM formatted opening hours', (): void => {
     const openingHours: OsmOpeningHoursString = processHoraires(
       {
@@ -685,6 +730,17 @@ describe('horaires field', (): void => {
     );
 
     expect(openingHours).toBe('Mo-Fr 08:30-12:00,13:00-16:30');
+  });
+
+  it('should remove the time slots', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        OSM: 'Mo-Fr 09:00-17 :00'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('Mo-Fr 09:00-17:00');
   });
 
   it('should format ">" day separator', (): void => {
