@@ -18,7 +18,8 @@ const fixOsmHours = (osmHours?: string): string =>
     ?.replace(/,\s/g, ',')
     .replace(/(\d)h(\d)/g, '$1:$2')
     .replace(/(\d{1,2})\s*:\s*(\d{2})/g, '$1:$2')
-    .replace(/\b(\d):(\d{2})\b/g, '0$1:$2') ?? '';
+    .replace(/\b(\d):(\d{2})\b/g, '0$1:$2')
+    .replace(/^\s*24\/7\s*$/g, 'Mo-Sun 00:00-00:00') ?? '';
 
 const throwInvalidHours = (osmHours: string, day: OsmDaysOfWeek, hours: string): OsmOpeningHours => {
   throw new InvalidHoursError(osmHours, hours, day);
