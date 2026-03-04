@@ -33,6 +33,7 @@ export const deduplicationRepository = (dedupliquerOptions: DedupliquerOptions):
       'dora_95174f8f-ed02-4b4c-93b7-b644a4ca838f',
       'dora_b67d0721-da50-412d-8b3f-b962bdf65bcf',
       'dora_dora--ee2dc0e5-3d35-4dcb-9202-cc4df05f9ccd',
-      'dora_dora--bf60f3b4-d0d0-4f40-90e3-a999507dc070'
+      'dora_dora--bf60f3b4-d0d0-4f40-90e3-a999507dc070',
+      'France-Services_1589'
     ])(lieu)
 });
