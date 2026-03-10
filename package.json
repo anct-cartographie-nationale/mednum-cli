@@ -23,8 +23,13 @@
     },
     {
       "name": "Marc Gavanier",
-      "email": "marc.gavanier@beta.gouv.fr",
+      "email": "marc.gavanier.ext@beta.gouv.fr",
       "url": "https://www.linkedin.com/in/marc-gavanier/"
+    },
+    {
+      "name": "Ornella Ourfi",
+      "email": "ornella.ourfi.ext@beta.gouv.fr",
+      "url": "https://www.linkedin.com/in/ornella-ourfi/"
     }
   ],
   "license": "SEE LICENSE IN LICENSE.md",

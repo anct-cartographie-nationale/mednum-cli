@@ -9,11 +9,35 @@ L'interface en ligne de commande `mednum` permet
 
 Les sources de données prises en comptes pour le moment sont celles collectées par
 
-- Le dispositif [Conseiller Numérique France Services](https://www.conseiller-numerique.gouv.fr/)
-- Le dispositif [France Services](https://agence-cohesion-territoires.gouv.fr/france-services-36)
-- Le Hub [Les Assembleurs](https://assembleurs.co/)
-- Le Hub [Hinaura](https://www.hinaura.fr/)
-- Le département du [Maine-et-Loire](https://www.maine-et-loire.fr/aides-et-services/insertion-et-emploi/numerique/carte-mediation)
+**Les plateformes nationales** :
+
+- [La Coop de la médiation numérique](https://coop-numerique.anct.gouv.fr/), solution numérique nationale incluant les médiateurs du dispositif [Conseiller Numérique](https://www.conseiller-numerique.gouv.fr/)
+- [Dora](https://dora.inclusion.beta.gouv.fr/) via [Data inclusion](https://data.inclusion.gouv.fr/)
+- [France Services](https://agence-cohesion-territoires.gouv.fr/france-services-36) via [Data inclusion](https://data.inclusion.gouv.fr/)
+- [France Travail](https://www.francetravail.fr/) via [Data inclusion](https://data.inclusion.gouv.fr/)
+
+**Les Hubs** :
+
+- [Fredo](https://fredo.fr/) via [Data inclusion](https://data.inclusion.gouv.fr/)
+- [Hinaura](https://hinaura.fr/?cartographie)
+- [Mednum BFC](https://github.com/multi-coop/data-bfc-ternum)
+- [Numi](https://reseaugrain.fr/)
+- [Res-in](https://resin.grandlyon.com/)
+- [RhinOcc](https://rhinoccc.gogocarto.fr/)
+- [Siilab](https://cdonline.articque.com/share/display/fced105cab1f92aa69c9f80bac70f80a86ba6731)
+
+**Les départements** :
+
+- [Charente-Maritime](https://www.data.gouv.fr/fr/datasets/r/8f732d2a-cb7d-48c0-8c68-a2991692e820)
+- [Grand Paris Sud](https://data.grandparissud.fr/)
+- [Hérault](https://www.herault-data.fr/)
+- [Landes](https://www.pigma.org/)
+- [Loire-Atlantique](https://www.data.gouv.fr/fr/datasets/r/95824460-e707-4db1-a67b-46b4e540d8ac)
+- [Mulhouse](https://data.mulhouse-alsace.fr/)
+- [Paca](https://www.data.gouv.fr/fr/datasets/r/5250e9c9-8abe-4a4e-8ebc-cb4e8fe72b71)
+- [Paris](https://opendata.paris.fr/)
+- [Vendée](https://www.data.gouv.fr/fr/datasets/r/d2877549-0ac9-4c1d-96bf-ede948e980fb)
+- [Vosges](https://www.data.gouv.fr/api/1/datasets/r/6a6e16c5-5a88-424a-a5d9-a5adca6457d2)
 
 Les données sont republiées quotidiennement sur [data.gouv dans l'organisation de la Cartographie Nationale des lieux de médiation numérique](https://www.data.gouv.fr/fr/organizations/cartographie-nationale-des-lieux-de-mediation-numerique/)
 
