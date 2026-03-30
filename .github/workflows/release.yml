@@ -182,7 +182,7 @@ jobs:
       - name: Prepare lieux inclusion numerique file
         run: |
           mkdir mkdir -p client-application/assets/data
-          curl https://cartographie.societenumerique.gouv.fr/api/v0/lieux-inclusion-numerique | gunzip >> ./client-application/assets/data/lieux-inclusion-numerique.json
+          curl https://d27gljvji6o5x3.cloudfront.net/api/v0/lieux-inclusion-numerique | gunzip >> ./client-application/assets/data/lieux-inclusion-numerique.json
       - name: Publish to S3
         uses: kersvers/s3-sync-with-cloudfront-invalidation@v1.0.0
         env:
