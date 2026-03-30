@@ -24,7 +24,7 @@ const configureCommand = (program: Command): Command =>
 const commandAction = async (_: unknown, command: Command): Promise<void> =>
   promptAndRun({
     ...{
-      cartographieNationaleApiUrl: 'https://cartographie.societenumerique.gouv.fr/api/v0',
+      cartographieNationaleApiUrl: 'https://d27gljvji6o5x3.cloudfront.net/api/v0',
       baseSource: command.opts()['source']
     },
     ...toDedupliquerOptions(process.env),
