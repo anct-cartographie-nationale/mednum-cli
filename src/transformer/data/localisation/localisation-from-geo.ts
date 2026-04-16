@@ -48,6 +48,14 @@ export const getAddressData =
     const existingLieu = arrayFromStorage.find((item) => item.addresseOriginale === addressSource);
     const addresseOriginale: string = `${source[matching?.adresse?.colonne ?? '']} ${source[matching.code_postal.colonne]} ${source[matching.commune.colonne]}`;
 
+    const commune = source[matching.commune?.colonne ?? ''];
+    const codePostal = source[matching.code_postal?.colonne ?? ''];
+    const adresse = voieField(source, matching.adresse);
+
+    if (commune == null || codePostal == null || adresse === '') {
+      return { statut: 'no_from_storage', addresseOriginale };
+    }
+
     if (existingLieu && !existingLieu?.responseBan) return { statut: 'from_storage', addresseOriginale };
 
     if (existingLieu?.responseBan) {
@@ -88,7 +96,7 @@ export const getAddressData =
       return { statut: 'no_from_storage', addresseOriginale };
     }
 
-    if (response?.data?.features?.length === 0 || response?.data?.features[0].properties.score <= 0.9)
+    if (!response?.data?.features?.[0] || response.data.features[0].properties.score <= 0.9)
       return { statut: 'no_from_storage', addresseOriginale };
 
     return {
