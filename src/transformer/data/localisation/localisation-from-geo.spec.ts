@@ -220,14 +220,14 @@ describe('localisation-from-geo', () => {
   });
 
   it('should return no_from_storage without calling the API when adresse is null', async () => {
-    const dataSource = {
+    const dataSource: DataSource = {
       latitude: 48.8534,
       longitude: 2.3488,
       'Adresse postale *': null,
       'Code postal': '75001',
       'Ville *': 'Paris',
       'Code INSEE': '75056'
-    } as unknown as DataSource;
+    };
 
     const result = await getAddressData(dataSource, STANDARD_MATCHING)(AddressesBan);
 
@@ -239,14 +239,14 @@ describe('localisation-from-geo', () => {
   });
 
   it('should return no_from_storage without calling the API when commune is null', async () => {
-    const dataSource = {
+    const dataSource: DataSource = {
       latitude: -21.115141,
       longitude: 55.536384,
       'Adresse postale *': 'La Réunion',
       'Code postal': '97400',
       'Ville *': null,
       'Code INSEE': null
-    } as unknown as DataSource;
+    };
 
     const result = await getAddressData(dataSource, STANDARD_MATCHING)(AddressesBan);
 
@@ -258,14 +258,14 @@ describe('localisation-from-geo', () => {
   });
 
   it('should return no_from_storage without calling the API when code_postal is null', async () => {
-    const dataSource = {
+    const dataSource: DataSource = {
       latitude: -21.115141,
       longitude: 55.536384,
       'Adresse postale *': 'La Réunion',
       'Code postal': null,
       'Ville *': 'Saint-Denis',
       'Code INSEE': null
-    } as unknown as DataSource;
+    };
 
     const result = await getAddressData(dataSource, STANDARD_MATCHING)(AddressesBan);
 
