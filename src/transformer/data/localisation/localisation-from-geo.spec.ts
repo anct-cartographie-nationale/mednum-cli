@@ -219,6 +219,63 @@ describe('localisation-from-geo', () => {
     });
   });
 
+  it('should return no_from_storage without calling the API when adresse is null', async () => {
+    const dataSource: DataSource = {
+      latitude: 48.8534,
+      longitude: 2.3488,
+      'Adresse postale *': null,
+      'Code postal': '75001',
+      'Ville *': 'Paris',
+      'Code INSEE': '75056'
+    };
+
+    const result = await getAddressData(dataSource, STANDARD_MATCHING)(AddressesBan);
+
+    expect(axiosGetDouble).not.toHaveBeenCalled();
+    expect(result).toEqual({
+      statut: 'no_from_storage',
+      addresseOriginale: 'null 75001 Paris'
+    });
+  });
+
+  it('should return no_from_storage without calling the API when commune is null', async () => {
+    const dataSource: DataSource = {
+      latitude: -21.115141,
+      longitude: 55.536384,
+      'Adresse postale *': 'La Réunion',
+      'Code postal': '97400',
+      'Ville *': null,
+      'Code INSEE': null
+    };
+
+    const result = await getAddressData(dataSource, STANDARD_MATCHING)(AddressesBan);
+
+    expect(axiosGetDouble).not.toHaveBeenCalled();
+    expect(result).toEqual({
+      statut: 'no_from_storage',
+      addresseOriginale: 'La Réunion 97400 null'
+    });
+  });
+
+  it('should return no_from_storage without calling the API when code_postal is null', async () => {
+    const dataSource: DataSource = {
+      latitude: -21.115141,
+      longitude: 55.536384,
+      'Adresse postale *': 'La Réunion',
+      'Code postal': null,
+      'Ville *': 'Saint-Denis',
+      'Code INSEE': null
+    };
+
+    const result = await getAddressData(dataSource, STANDARD_MATCHING)(AddressesBan);
+
+    expect(axiosGetDouble).not.toHaveBeenCalled();
+    expect(result).toEqual({
+      statut: 'no_from_storage',
+      addresseOriginale: 'La Réunion null Saint-Denis'
+    });
+  });
+
   it('should return a location and a standardized address when the address does not exist in addresses.json and the address API is called', async () => {
     axiosGetDouble.mockResolvedValue({ data: { features: [DATASEARCH] } });
 
