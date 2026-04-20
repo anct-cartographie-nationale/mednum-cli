@@ -40,14 +40,14 @@ jobs:
     environment: ${{ inputs.environment }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v5
         with:
           version: latest
           run_install: false
       - name: Set up Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: latest
           cache: 'pnpm'
@@ -63,7 +63,7 @@ jobs:
       - name: Deduplicate
         run: pnpm dedupliquer.${{ matrix.source }}
       - name: Upload transformed data
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.source }}
           path: assets/output/${{ matrix.source }}
@@ -79,14 +79,14 @@ jobs:
     needs: transform
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v5
         with:
           version: latest
           run_install: false
       - name: Set up Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: latest
           cache: 'pnpm'
@@ -100,7 +100,7 @@ jobs:
           echo DATA_GOUV_REFERENCE_ID="${{ secrets.DATA_GOUV_REFERENCE_ID }}" >> .env
           echo DATA_GOUV_REFERENCE_TYPE="${{ secrets.DATA_GOUV_REFERENCE_TYPE }}" >> .env
       - name: Download transformed data
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v8
         with:
           name: ${{ matrix.source }}
           path: assets/output/${{ matrix.source }}
@@ -115,21 +115,21 @@ jobs:
     needs: transform
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v5
         with:
           version: latest
           run_install: false
       - name: Set up Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: latest
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --ignore-scripts
       - name: Download all transformed data
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v8
         with:
           path: to-merge
           merge-multiple: true
@@ -140,7 +140,7 @@ jobs:
       - name: Merge transformed data
         run: pnpm fusionner
       - name: Upload merged data
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: merged
           path: merged
@@ -151,28 +151,28 @@ jobs:
     needs: merge
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v5
         with:
           version: latest
           run_install: false
       - name: Set up Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: latest
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --ignore-scripts
       - name: Download merged data
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v8
         with:
           name: merged
           path: assets/to-deduplicate
       - name: Deduplicate merged data
         run: pnpm dedupliquer.merged-json
       - name: Upload deduplicated data
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: deduplicated
           path: assets/deduplicated
