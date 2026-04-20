@@ -3,6 +3,8 @@ name: Nightly publish
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '0 2 * * *'
 
 jobs:
   process-data:
@@ -66,11 +68,8 @@ jobs:
     name: Get lieux from API and publish to data.gouv
     runs-on: ubuntu-latest
     environment: production
-    needs: upload-to-database
+    needs: process-data
     steps:
-      - name: Sleep for 3 minutes
-        run: sleep 180s
-        shell: bash
       - name: Checkout mednum-cli repository
         uses: actions/checkout@v5
         with:
