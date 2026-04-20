@@ -7,6 +7,7 @@ import { DeduplicationRepository } from '../../repositories';
 import {
   DuplicationComparison,
   duplicationComparisons,
+  filterOversizedIds,
   groupDuplicates,
   Groups,
   MergedLieuxByGroupMap,
@@ -89,6 +90,7 @@ export const dedupliquerAction = async (dedupliquerOptions: DedupliquerOptions):
     const merged: MergedLieuxByGroupMap = mergeDuplicates(new Date())(lieuxToDeduplicate, groups);
     console.log('- lieux concernés par une fusion :', groups.itemGroupMap.size);
     console.log('- lieux fusionnés à enregistrer :', merged.size);
+    const filteredMerged: MergedLieuxByGroupMap = filterOversizedIds(merged);
 
     console.log("5. ajout de l'identifiant de de référence de la coop de la médiation numérique");
     const lieuxToDeduplicateWithCoopId: SchemaLieuMediationNumerique[] = lieuxToDeduplicate.map(appendCoopId);
@@ -97,7 +99,7 @@ export const dedupliquerAction = async (dedupliquerOptions: DedupliquerOptions):
     const lieuxWithoutExcluded = lieuxToDeduplicateWithCoopId.filter(repository.isIncluded);
 
     console.log('7. sauvegarde des données dédupliquées');
-    await repository.save(groups, merged, lieuxWithoutExcluded, duplications);
+    await repository.save(groups, filteredMerged, lieuxWithoutExcluded, duplications);
   } catch (error) {
     console.log(error);
   }
