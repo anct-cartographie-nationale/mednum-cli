@@ -2,22 +2,21 @@ import { Adresse, Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique
 import axios, { AxiosResponse } from 'axios';
 import { NO_LOCALISATION } from '../../fields';
 import { DataSource, LieuxMediationNumeriqueMatching } from '../../input';
-import { CLEAN_VOIE, voieField } from '../../fields/adresse/clean-voie';
+import { voieField } from '../../fields/adresse/clean-voie';
 import { AddressRecord } from '../../storage';
-import { toCleanField } from '../../fields/adresse/clean-operations';
-import { CLEAN_COMMUNE } from '../../fields/adresse/clean-commune';
 
-const isValid = (adresse: Adresse, response: AxiosResponse): boolean =>
+const isValid = (adresse: Adresse, response: { data: FeatureCollection }): boolean =>
   response.data.features[0]?.geometry?.coordinates != null &&
   (response.data.features[0].properties.score > 0.6 ||
     (response.data.features[0].properties.score > 0.4 && response.data.features[0].properties.city === adresse.commune));
 
-const toLocalisation = (response: AxiosResponse): Localisation =>
+const toLocalisation = (response: { data: FeatureCollection }): Localisation =>
   Localisation({
     latitude: response.data.features[0].geometry.coordinates[1],
     longitude: response.data.features[0].geometry.coordinates[0]
   });
-const addressBan = (response: AxiosResponse): Adresse =>
+
+const addressBan = (response: { data: FeatureCollection }): Adresse =>
   Adresse({
     voie: response.data.features[0].properties.name,
     code_postal: response.data.features[0].properties.postcode,
@@ -38,78 +37,87 @@ export type LOCATION_ENRICHED = {
   addresseOriginale?: string;
   statut: 'no_from_storage' | 'from_storage' | 'from_api';
 };
+export const labelVoie = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
+  String(voieField(source, matching.adresse));
+
+export const labelCodePostal = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
+  String(matching.code_postal?.colonne ? source[matching.code_postal.colonne] : '');
+
+export const labelCommune = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
+  String(matching.commune?.colonne ? source[matching.commune.colonne] : '');
+
 export const label = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
-  `${String(voieField(source, matching.adresse))} ${String(matching.code_postal?.colonne ? source[matching.code_postal.colonne] : '')} ${String(matching.commune?.colonne ? source[matching.commune.colonne] : '')}`;
+  `${labelVoie(source, matching)} ${labelCodePostal(source, matching)} ${labelCommune(source, matching)}`;
+
+export const fetchBanResponse = async (
+  source: DataSource,
+  matching: LieuxMediationNumeriqueMatching,
+  arrayFromStorage: AddressRecord[],
+  httpGet: (url: string) => Promise<{ data: FeatureCollection }>
+): Promise<{ data: FeatureCollection } | null> => {
+  const isInCache = !!arrayFromStorage.find((storage) => label(source, matching) === storage?.addresseOriginale);
+  if (isInCache) return null;
+  if (
+    source[matching.commune?.colonne ?? ''] == null ||
+    source[matching.code_postal?.colonne ?? ''] == null ||
+    labelVoie(source, matching) === ''
+  )
+    return null;
+  return httpGet(
+    `https://api-adresse.data.gouv.fr/search?q=${labelVoie(source, matching)}&postcode=${labelCodePostal(source, matching)}&city=${labelCommune(source, matching)}`
+  );
+};
 
 export const getAddressData =
-  (source: DataSource, matching: LieuxMediationNumeriqueMatching) =>
+  (source: DataSource, matching: LieuxMediationNumeriqueMatching, response?: { data: FeatureCollection } | null) =>
   async (arrayFromStorage: AddressRecord[]): Promise<LOCATION_ENRICHED> => {
     const addressSource = label(source, matching);
     const existingLieu = arrayFromStorage.find((item) => item.addresseOriginale === addressSource);
     const addresseOriginale: string = `${source[matching?.adresse?.colonne ?? '']} ${source[matching.code_postal.colonne]} ${source[matching.commune.colonne]}`;
 
-    const commune = source[matching.commune?.colonne ?? ''];
-    const codePostal = source[matching.code_postal?.colonne ?? ''];
-    const adresse = voieField(source, matching.adresse);
-
-    if (commune == null || codePostal == null || adresse === '') {
+    if (
+      source[matching.commune?.colonne ?? ''] == null ||
+      source[matching.code_postal?.colonne ?? ''] == null ||
+      voieField(source, matching.adresse) === ''
+    )
       return { statut: 'no_from_storage', addresseOriginale };
-    }
 
     if (existingLieu && !existingLieu?.responseBan) return { statut: 'from_storage', addresseOriginale };
 
     if (existingLieu?.responseBan) {
       const coordinates = Localisation({
-        latitude: existingLieu.responseBan?.geometry.coordinates[1] ?? 0,
-        longitude: existingLieu.responseBan?.geometry.coordinates[0] ?? 0
+        latitude: existingLieu.responseBan.geometry.coordinates[1] ?? 0,
+        longitude: existingLieu.responseBan.geometry.coordinates[0] ?? 0
       });
 
       return {
-        data: existingLieu.responseBan
-          ? ({
-              ...source,
-              ...{ [matching.adresse.colonne as string]: existingLieu.responseBan.properties.name },
-              ...{ [matching.code_postal?.colonne as string]: existingLieu.responseBan.properties.postcode },
-              ...{ [matching.code_insee?.colonne as string]: existingLieu.responseBan.properties.citycode },
-              ...{ [matching.commune?.colonne as string]: existingLieu.responseBan.properties.city },
-              ...{ [matching.latitude?.colonne as string]: coordinates.latitude },
-              ...{ [matching.longitude?.colonne as string]: coordinates.longitude }
-            } as DataSource)
-          : source,
+        data: {
+          ...source,
+          [matching.adresse.colonne as string]: existingLieu.responseBan.properties.name,
+          [matching.code_postal?.colonne as string]: existingLieu.responseBan.properties.postcode,
+          [matching.code_insee?.colonne as string]: existingLieu.responseBan.properties.citycode,
+          [matching.commune?.colonne as string]: existingLieu.responseBan.properties.city,
+          [matching.latitude?.colonne as string]: coordinates.latitude,
+          [matching.longitude?.colonne as string]: coordinates.longitude
+        } as DataSource,
         statut: 'from_storage'
       };
     }
-    const querySearch: string = `${CLEAN_VOIE.reduce(toCleanField, voieField(source, matching.adresse))} ${source[matching.code_postal.colonne]} ${CLEAN_COMMUNE.reduce(
-      toCleanField,
-      source[matching.commune.colonne] as string
-    )}`;
-    let response: AxiosResponse;
-
-    if (querySearch.trim() === '') return { statut: 'no_from_storage', addresseOriginale };
-
-    try {
-      response = await axios.get(`https://api-adresse.data.gouv.fr/search?q=${querySearch}`);
-    } catch {
-      console.log(
-        `Erreur lors de la requête à l'API adresse pour la recherche : ${querySearch}, id: ${source[matching?.id?.colonne ?? '']?.toString() ?? 'inconnu'}`
-      );
-      return { statut: 'no_from_storage', addresseOriginale };
-    }
-
     if (!response?.data?.features?.[0] || response.data.features[0].properties.score <= 0.9)
       return { statut: 'no_from_storage', addresseOriginale };
 
+    const ban = addressBan(response);
     return {
       data: {
-        [matching.adresse?.colonne as string]: addressBan(response).voie,
-        [matching.code_postal?.colonne as string]: addressBan(response).code_postal,
-        [matching.code_insee?.colonne as string]: addressBan(response).code_insee,
-        [matching.commune?.colonne as string]: addressBan(response).commune,
+        [matching.adresse?.colonne as string]: ban.voie,
+        [matching.code_postal?.colonne as string]: ban.code_postal,
+        [matching.code_insee?.colonne as string]: ban.code_insee,
+        [matching.commune?.colonne as string]: ban.commune,
         [matching.latitude?.colonne as string]: toLocalisation(response).latitude,
         [matching.longitude?.colonne as string]: toLocalisation(response).longitude
       },
       addresseOriginale,
-      responses: response.data as FeatureCollection,
+      responses: response.data,
       statut: 'from_api'
     };
   };
