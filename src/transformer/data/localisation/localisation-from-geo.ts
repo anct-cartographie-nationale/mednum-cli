@@ -1,28 +1,45 @@
 import { Adresse, Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import axios, { AxiosResponse } from 'axios';
+import { stringify } from 'csv-stringify/sync';
+import toJson from 'csvtojson';
 import { NO_LOCALISATION } from '../../fields';
 import { DataSource, LieuxMediationNumeriqueMatching } from '../../input';
 import { voieField } from '../../fields/adresse/clean-voie';
 import { AddressRecord } from '../../storage';
 
+const RESULT_FIELDS = [
+  'longitude',
+  'latitude',
+  'result_score',
+  'result_housenumber',
+  'result_street',
+  'result_postcode',
+  'result_citycode',
+  'result_city',
+  'result_label'
+] as const;
+type CsvResultField = (typeof RESULT_FIELDS)[number];
+type CsvInputRow = { voie: string; codePostal: string; commune: string };
+type CsvResultRow = CsvInputRow & Record<CsvResultField, string>;
+
 const isValid = (adresse: Adresse, response: { data: FeatureCollection }): boolean =>
   response.data.features[0]?.geometry?.coordinates != null &&
-  (response.data.features[0].properties.score > 0.6 ||
-    (response.data.features[0].properties.score > 0.4 && response.data.features[0].properties.city === adresse.commune));
+  ((response.data.features[0]?.properties?.score ?? 0) > 0.6 ||
+    ((response.data.features[0]?.properties?.score ?? 0) > 0.4 &&
+      response.data.features[0]?.properties?.city === adresse.commune));
 
 const toLocalisation = (response: { data: FeatureCollection }): Localisation =>
   Localisation({
-    latitude: response.data.features[0].geometry.coordinates[1],
-    longitude: response.data.features[0].geometry.coordinates[0]
+    latitude: response.data.features[0]?.geometry?.coordinates[1] ?? 0,
+    longitude: response.data.features[0]?.geometry?.coordinates[0] ?? 0
   });
 
-const addressBan = (response: { data: FeatureCollection }): Adresse =>
-  Adresse({
-    voie: response.data.features[0].properties.name,
-    code_postal: response.data.features[0].properties.postcode,
-    commune: response.data.features[0].properties.city,
-    code_insee: response.data.features[0].properties.citycode
-  });
+const addressBan = (response: { data: FeatureCollection }) => ({
+  voie: response.data.features[0]?.properties?.name ?? '',
+  code_postal: response.data.features[0]?.properties?.postcode ?? '',
+  commune: response.data.features[0]?.properties?.city ?? '',
+  code_insee: response.data.features[0]?.properties?.citycode ?? ''
+});
 export const localisationByGeocode = (adresse: Adresse) => async (): Promise<Localisation> => {
   const response: AxiosResponse = await axios.get(
     `https://data.geopf.fr/geocodage/search?q=${adresse.voie} ${adresse.code_postal} ${adresse.commune}`
@@ -49,23 +66,88 @@ export const labelCommune = (source: DataSource, matching: LieuxMediationNumeriq
 export const label = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
   `${labelVoie(source, matching)} ${labelCodePostal(source, matching)} ${labelCommune(source, matching)}`;
 
-export const fetchBanResponse = async (
-  source: DataSource,
+const isMissingFields = (source: DataSource, matching: LieuxMediationNumeriqueMatching): boolean =>
+  source[matching.commune?.colonne ?? ''] == null ||
+  source[matching.code_postal?.colonne ?? ''] == null ||
+  labelVoie(source, matching) === '';
+
+const toFeatureCollection = (row: CsvResultRow): { data: FeatureCollection } => ({
+  data: {
+    type: 'FeatureCollection',
+    features: [
+      {
+        type: 'Feature',
+        geometry: { type: 'Point', coordinates: [Number(row.longitude), Number(row.latitude)] },
+        properties: {
+          score: Number(row.result_score),
+          name: [row.result_housenumber, row.result_street].filter(Boolean).join(' '),
+          postcode: row.result_postcode,
+          citycode: row.result_citycode,
+          city: row.result_city,
+          label: row.result_label,
+          housenumber: row.result_housenumber,
+          street: row.result_street,
+          id: '',
+          type: 'housenumber' as const,
+          x: 0,
+          y: 0,
+          context: '',
+          importance: 0
+        }
+      }
+    ],
+    query: `${row.voie} ${row.codePostal} ${row.commune}`
+  }
+});
+
+export const responsesBanAll = (url: string, formData: FormData): Promise<string> =>
+  axios.post<string>(url, formData, { responseType: 'text' }).then((r) => r.data);
+
+export const fetchBanResponseBatch = async (
+  batch: DataSource[],
   matching: LieuxMediationNumeriqueMatching,
   arrayFromStorage: AddressRecord[],
-  httpGet: (url: string) => Promise<{ data: FeatureCollection }>
-): Promise<{ data: FeatureCollection } | null> => {
-  const isInCache = !!arrayFromStorage.find((storage) => label(source, matching) === storage?.addresseOriginale);
-  if (isInCache) return null;
-  if (
-    source[matching.commune?.colonne ?? ''] == null ||
-    source[matching.code_postal?.colonne ?? ''] == null ||
-    labelVoie(source, matching) === ''
-  )
-    return null;
-  return httpGet(
-    `https://api-adresse.data.gouv.fr/search?q=${labelVoie(source, matching)}&postcode=${labelCodePostal(source, matching)}&city=${labelCommune(source, matching)}`
-  );
+  fetchBan: (url: string, formData: FormData) => Promise<string>
+): Promise<Array<{ data: FeatureCollection } | null>> => {
+  const geocodeIndices: number[] = batch.reduce<number[]>((acc, source, i) => {
+    const isInCache = !!arrayFromStorage.find((s) => label(source, matching) === s?.addresseOriginale);
+    if (!isInCache && !isMissingFields(source, matching)) acc.push(i);
+    return acc;
+  }, []);
+
+  if (geocodeIndices.length === 0) return batch.map(() => null);
+
+  const rows: CsvInputRow[] = geocodeIndices.map((i) => ({
+    voie: labelVoie(batch[i]!, matching),
+    codePostal: labelCodePostal(batch[i]!, matching),
+    commune: labelCommune(batch[i]!, matching)
+  }));
+
+  const formData = new FormData();
+  formData.append('data', new Blob([stringify(rows, { header: true })], { type: 'text/csv' }), 'data.csv');
+  formData.append('columns', 'voie');
+  formData.append('postcode', 'codePostal');
+  RESULT_FIELDS.forEach((field) => formData.append('result_columns', field));
+
+  try {
+    const csvResponse = await fetchBan('https://api-adresse.data.gouv.fr/search/csv', formData);
+    const results: CsvResultRow[] = await toJson().fromString(csvResponse);
+
+    const responsesByIndex = new Map(geocodeIndices.map((batchIndex, j) => [batchIndex, results[j]]));
+
+    return batch.map((_, i) => {
+      const result = responsesByIndex.get(i);
+      if (!result?.result_score || Number(result.result_score) <= 0.9) return null;
+      const nameFromFields = [result.result_housenumber, result.result_street].filter(Boolean).join(' ');
+      if (!nameFromFields) {
+        return null;
+      }
+      return toFeatureCollection(result);
+    });
+  } catch (error: unknown) {
+    console.error("[BAN batch] Erreur lors de l'appel ou du parsing CSV", error);
+    return batch.map(() => null);
+  }
 };
 
 export const getAddressData =

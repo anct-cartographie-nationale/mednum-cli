@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getAddressData, fetchBanResponse, FeatureCollection } from './localisation-from-geo';
+import { getAddressData, fetchBanResponseBatch } from './localisation-from-geo';
 import { DataSource, LieuxMediationNumeriqueMatching } from '../../input';
 import { AddressRecord } from '../../storage';
 
@@ -202,69 +202,32 @@ describe('localisation-from-geo', () => {
   });
 });
 
-const AXIOS_RESPONSE: { data: FeatureCollection } = {
-  data: { type: 'FeatureCollection' as const, features: [DATASEARCH], query: '10 rue de la paix 75002 Paris' }
-};
+describe('fetchBanResponseBatch', () => {
+  it('should return null when housenumber and street are both empty (locality/municipality type)', async () => {
+    const csvResponse = [
+      'voie,codePostal,commune,longitude,latitude,result_score,result_housenumber,result_street,result_postcode,result_citycode,result_city,result_label',
+      '10 rue de la paix,75002,Paris,2.33115,48.868989,0.95,,,75002,75102,Paris,Paris 2ème Arrondissement'
+    ].join('\n');
+    const responsesBanAll = () => Promise.resolve(csvResponse);
 
-describe('fetchBanResponse', () => {
-  it('should return null when address is already in cache', async () => {
-    const dataSource: DataSource = {
-      'Adresse postale *': '- 18 boulevard rené bazin',
-      'Code postal': '85300',
-      'Ville *': 'Challans',
-      'Code INSEE': '85047'
-    };
-    const httpGet = () => Promise.resolve(AXIOS_RESPONSE);
+    const result = await fetchBanResponseBatch([data], STANDARD_MATCHING, [], responsesBanAll);
 
-    const result = await fetchBanResponse(dataSource, STANDARD_MATCHING, AddressesBan, httpGet);
-
-    expect(result).toBeNull();
+    expect(result[0]).toBeNull();
   });
 
-  it('should return null when commune is null', async () => {
-    const dataSource: DataSource = {
-      'Adresse postale *': '10 rue de la paix',
-      'Code postal': '75002',
-      'Ville *': null
-    };
-    const httpGet = () => Promise.resolve(AXIOS_RESPONSE);
+  it('should return null for all items when responsesBanAll throws a network error', async () => {
+    const responsesBanAll = () => Promise.reject(new Error('Network error'));
 
-    const result = await fetchBanResponse(dataSource, STANDARD_MATCHING, AddressesBan, httpGet);
+    const result = await fetchBanResponseBatch([data], STANDARD_MATCHING, [], responsesBanAll);
 
-    expect(result).toBeNull();
+    expect(result).toEqual([null]);
   });
 
-  it('should return null when code_postal is null', async () => {
-    const dataSource: DataSource = {
-      'Adresse postale *': '10 rue de la paix',
-      'Code postal': null,
-      'Ville *': 'Paris'
-    };
-    const httpGet = () => Promise.resolve(AXIOS_RESPONSE);
+  it('should return null for all items when csv response is malformed', async () => {
+    const responsesBanAll = () => Promise.resolve('not valid csv {{{{');
 
-    const result = await fetchBanResponse(dataSource, STANDARD_MATCHING, AddressesBan, httpGet);
+    const result = await fetchBanResponseBatch([data], STANDARD_MATCHING, [], responsesBanAll);
 
-    expect(result).toBeNull();
-  });
-
-  it('should return null when voie is empty', async () => {
-    const dataSource: DataSource = {
-      'Adresse postale *': null,
-      'Code postal': '75002',
-      'Ville *': 'Paris'
-    };
-    const httpGet = () => Promise.resolve(AXIOS_RESPONSE);
-
-    const result = await fetchBanResponse(dataSource, STANDARD_MATCHING, AddressesBan, httpGet);
-
-    expect(result).toBeNull();
-  });
-
-  it('should call httpGet and return response when address is valid and not in cache', async () => {
-    const httpGet = () => Promise.resolve(AXIOS_RESPONSE);
-
-    const result = await fetchBanResponse(data, STANDARD_MATCHING, AddressesBan, httpGet);
-
-    expect(result).toEqual(AXIOS_RESPONSE);
+    expect(result).toEqual([null]);
   });
 });

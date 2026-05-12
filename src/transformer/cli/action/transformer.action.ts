@@ -20,12 +20,16 @@ import { canTransform, DiffSinceLastTransform } from '../diff-since-last-transfo
 import { TransformerOptions } from '../transformer-options';
 import { transformationRespository } from './transformation.respository';
 import addressesBan from '../../../../assets/input/addresses.json';
-import { fetchBanResponse, getAddressData, LOCATION_ENRICHED } from '../../data/localisation/localisation-from-geo';
-import axios from 'axios';
+import {
+  fetchBanResponseBatch,
+  getAddressData,
+  LOCATION_ENRICHED,
+  responsesBanAll
+} from '../../data/localisation/localisation-from-geo';
 
 const REPORT: Report = Report();
 const ADDRESSESCACHE: AddressCache = AddressCache();
-const BATCH_SIZE = 50;
+const BATCH_SIZE = 1000;
 const PAUSE_MS = 1000;
 
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
@@ -85,7 +89,7 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
   const lieuxDeMediationNumerique: LieuMediationNumerique[] = [];
   for (let i = 0; i < lieux.length; i += BATCH_SIZE) {
     const batch = lieux.slice(i, i + BATCH_SIZE);
-    const responsesBan = await Promise.all(batch.map((lieu) => fetchBanResponse(lieu, repository.config, storage, axios.get)));
+    const responsesBan = await fetchBanResponseBatch(batch, repository.config, storage, responsesBanAll);
 
     const result = await Promise.all(
       batch
@@ -107,7 +111,6 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
     );
 
     lieuxDeMediationNumerique.push(...result.filter(validValuesOnly));
-    if ((responsesBan.filter((r) => r === null).length / batch.length) * 100 >= 50) continue;
     if (i + BATCH_SIZE < lieux.length) await delay(PAUSE_MS);
   }
 
