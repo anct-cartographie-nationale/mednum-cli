@@ -33,6 +33,7 @@ Les sources de données prises en comptes pour le moment sont celles collectées
 - [Hérault](https://www.herault-data.fr/)
 - [Landes](https://www.pigma.org/)
 - [Loire-Atlantique](https://www.data.gouv.fr/fr/datasets/r/95824460-e707-4db1-a67b-46b4e540d8ac)
+- [Meuse](https://www.data.gouv.fr/fr/datasets/r/a0a0639d-5895-4dfa-9c65-8a58b396d754)
 - [Mulhouse](https://data.mulhouse-alsace.fr/)
 - [Paca](https://www.data.gouv.fr/fr/datasets/r/5250e9c9-8abe-4a4e-8ebc-cb4e8fe72b71)
 - [Paris](https://opendata.paris.fr/)
@@ -83,7 +84,7 @@ L'interface vous pose un ensemble de questions afin de recevoir les paramètres 
   Auvergne-Rhône-Alpes
 ```
 
-- La source peut être un fichier ou un URL avec un contenu au format `csv` ou `json`
+- La source doit être une URL renvoyant un contenu au format `csv` ou `json
 - Le [fichier de configuration](#fichier-de-configuration) décrit l'ensemble des colonnes et les valeurs à associer
 - Le chemin du dossier de sortie contiendra les 5 fichiers générés par l'opération de transformation
 - L'entité source sera indiquée comme source à l'origine de la collecte des données pour chacune des données transformées et sert également à générer le nom des fichiers
