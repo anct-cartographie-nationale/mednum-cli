@@ -153,17 +153,6 @@
             "cible": "Gratuit"
         }
     ],
-    "dispositif_programmes_nationaux": [
-        {
-            "colonnes": [
-                "dispositif_programmes_nationaux"
-            ],
-            "termes": [
-                "Aidants Connect"
-            ],
-            "cible": "Aidants Connect"
-        }
-    ],
     "modalites_acces": [
         {
             "colonnes": [
