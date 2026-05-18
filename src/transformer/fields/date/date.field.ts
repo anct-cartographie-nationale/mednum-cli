@@ -57,10 +57,12 @@ const toFormattedDate =
 
 const removeInvalidChars = (sourceDate: string = ''): string => sourceDate.replace(/[A-Za-zÀ-ÖØ-öø-ÿœ]/gu, ' ').trim();
 
-const dateFromSource = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
-  matching.date_maj.colonne == null
-    ? (matching.date_maj.valeur ?? '')
-    : (source[matching.date_maj.colonne]?.toString().replace(/\.\d+/u, '') ?? '');
+const dateFromSource = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string => {
+  if (matching.date_maj.colonne == null) return matching.date_maj.valeur ?? '';
+  const valeur = source[matching.date_maj.colonne]?.toString().replace(/\.\d+/u, '') ?? '';
+  if (valeur !== '' || matching.date_maj.sinon == null) return valeur;
+  return source[matching.date_maj.sinon]?.toString().replace(/\.\d+/u, '') ?? '';
+};
 
 export const processDate = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Date =>
   DATE_REGEXP.reduce(toFormattedDate(removeInvalidChars(dateFromSource(source, matching))), new Date(0));
