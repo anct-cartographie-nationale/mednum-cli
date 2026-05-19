@@ -1,0 +1,187 @@
+{
+    "id": {
+        "colonne": "id"
+    },
+    "pivot": {
+        "colonne": "pivot"
+    },
+    "nom": {
+        "colonne": "nom"
+    },
+    "commune": {
+        "colonne": "commune"
+    },
+    "code_postal": {
+        "colonne": "code_postal"
+    },
+    "code_insee": {
+        "colonne": "code_insee"
+    },
+    "adresse": {
+        "colonne": "adresse"
+    },
+    "complement_adresse": {
+        "colonne": "complement_adresse"
+    },
+    "latitude": {
+        "colonne": "latitude"
+    },
+    "longitude": {
+        "colonne": "longitude"
+    },
+    "typologie": [
+        {
+            "colonnes": [
+                "typologie"
+            ],
+            "termes": [
+                "DEPARTEMENT"
+            ],
+            "cible": "CD"
+        }
+    ],
+    "telephone": {
+        "colonne": "telephone"
+    },
+    "courriels": {
+        "colonne": "courriels"
+    },
+    "site_web": {
+        "colonne": "site_web"
+    },
+    "horaires": {
+        "osm": "horaires"
+    },
+    "presentation_resume": {
+        "colonne": "presentation_resume"
+    },
+    "source": {
+        "colonne": "source"
+    },
+    "itinerance": [
+        {
+            "colonnes": [
+                "itinerance"
+            ],
+            "termes": [
+                "Itinérant"
+            ],
+            "cible": "Itinérant"
+        },
+        {
+            "colonnes": [
+                "itinerance"
+            ],
+            "termes": [
+                "Fixe"
+            ],
+            "cible": "Fixe"
+        }
+    ],
+    "structure_parente": {
+        "colonne": "structure_parente"
+    },
+    "date_maj": {
+        "colonne": "date_maj"
+    },
+    "services": [
+        {
+            "colonnes": [
+                "services"
+            ],
+            "termes": [
+                "Utilisation sécurisée du numérique"
+            ],
+            "cible": "Utilisation sécurisée du numérique"
+        }
+    ],
+    "publics_specifiquement_adresses": [
+        {
+            "colonnes": [
+                "publics_specifiquement_adresses"
+            ],
+            "termes": [
+                "Jeunes"
+            ],
+            "cible": "Jeunes"
+        },
+        {
+            "colonnes": [
+                "publics_specifiquement_adresses"
+            ],
+            "termes": [
+                "Étudiants"
+            ],
+            "cible": "Étudiants"
+        },
+        {
+            "colonnes": [
+                "publics_specifiquement_adresses"
+            ],
+            "termes": [
+                "Familles et/ou enfants"
+            ],
+            "cible": "Familles et/ou enfants"
+        },
+        {
+            "colonnes": [
+                "publics_specifiquement_adresses"
+            ],
+            "termes": [
+                "Seniors"
+            ],
+            "cible": "Seniors"
+        },
+        {
+            "colonnes": [
+                "publics_specifiquement_adresses"
+            ],
+            "termes": [
+                "Femmes"
+            ],
+            "cible": "Femmes"
+        }
+    ],
+    "frais_a_charge": [
+        {
+            "colonnes": [
+                "frais_a_charge"
+            ],
+            "termes": [
+                "Gratuit"
+            ],
+            "cible": "Gratuit"
+        }
+    ],
+    "modalites_acces": [
+        {
+            "colonnes": [
+                "modalites_acces"
+            ],
+            "termes": [
+                "Se présenter"
+            ],
+            "cible": "Se présenter"
+        },
+        {
+            "colonnes": [
+                "modalites_acces"
+            ],
+            "termes": [
+                "Téléphoner"
+            ],
+            "cible": "Téléphoner"
+        }
+    ],
+    "modalites_accompagnement": [
+        {
+            "colonnes": [
+                "modalites_accompagnement"
+            ],
+            "termes": [
+                "Accompagnement individuel"
+            ],
+            "cible": "Accompagnement individuel"
+        }
+    ]
+}
