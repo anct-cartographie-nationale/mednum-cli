@@ -47,8 +47,11 @@ const dateRegexpResultFrom = (dateRegexp: RegExp, sourceDate: string): Partial<R
   ...dateRegexp.exec(sourceDate)?.groups
 });
 
-const formatDate = (dateRegexp: RegExp, sourceDate: string, date: Date): Date =>
-  dateRegexp.test(sourceDate) ? toDate(dateRegexpResultFrom(dateRegexp, sourceDate)) : date;
+const formatDate = (dateRegexp: RegExp, sourceDate: string, date: Date): Date => {
+  if (!dateRegexp.test(sourceDate)) return date;
+  const result = toDate(dateRegexpResultFrom(dateRegexp, sourceDate));
+  return result.getTime() < 0 ? date : result;
+};
 
 const toFormattedDate =
   (sourceDate: string) =>
@@ -57,10 +60,12 @@ const toFormattedDate =
 
 const removeInvalidChars = (sourceDate: string = ''): string => sourceDate.replace(/[A-Za-zÀ-ÖØ-öø-ÿœ]/gu, ' ').trim();
 
-const dateFromSource = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
-  matching.date_maj.colonne == null
-    ? (matching.date_maj.valeur ?? '')
-    : (source[matching.date_maj.colonne]?.toString().replace(/\.\d+/u, '') ?? '');
+const dateFromSource = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string => {
+  if (matching.date_maj.colonne == null) return matching.date_maj.valeur ?? '';
+  const colonnes = [matching.date_maj.colonne].flat();
+  const toDateString = (colonne: string) => source[colonne]?.toString().replace(/\.\d+/u, '') ?? '';
+  return colonnes.map(toDateString).find(Boolean) ?? '';
+};
 
 export const processDate = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Date =>
   DATE_REGEXP.reduce(toFormattedDate(removeInvalidChars(dateFromSource(source, matching))), new Date(0));

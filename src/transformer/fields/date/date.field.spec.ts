@@ -143,6 +143,36 @@ describe('date field', (): void => {
     expect(date).toEqual(new Date('1970-01-01T00:00:00.000Z'));
   });
 
+  it('should process the default date if the date is earlier than 1970', (): void => {
+    const date: Date = processDate({ datetime_latest: '06/08/0002' }, matching);
+
+    expect(date).toEqual(new Date('1970-01-01T00:00:00.000Z'));
+  });
+
+  it('should use second column when first is empty', (): void => {
+    const matchingAvecColonnes: LieuxMediationNumeriqueMatching = {
+      date_maj: {
+        colonne: ['date_modif', 'date_saisie']
+      }
+    } as LieuxMediationNumeriqueMatching;
+
+    const date: Date = processDate({ date_modif: null, date_saisie: '2023-06-15' }, matchingAvecColonnes);
+
+    expect(date).toEqual(new Date('2023-06-15T12:00:00.000Z'));
+  });
+
+  it('should prioritize first column over second', (): void => {
+    const matchingAvecColonnes: LieuxMediationNumeriqueMatching = {
+      date_maj: {
+        colonne: ['date_modif', 'date_saisie']
+      }
+    } as LieuxMediationNumeriqueMatching;
+
+    const date: Date = processDate({ date_modif: '2024-03-10', date_saisie: '2023-06-15' }, matchingAvecColonnes);
+
+    expect(date).toEqual(new Date('2024-03-10T12:00:00.000Z'));
+  });
+
   it('should process standart date without milliseconds', (): void => {
     const date: Date = processDate({ datetime_latest: '2023-03-03T10:29:10.128Z' }, matching);
 

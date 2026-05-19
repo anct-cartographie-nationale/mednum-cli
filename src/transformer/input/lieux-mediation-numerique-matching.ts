@@ -63,7 +63,7 @@ export type LieuxMediationNumeriqueMatching = {
   source?: Colonne;
   itinerance?: Choice<Itinerance>[];
   structure_parente?: Colonne;
-  date_maj: Partial<Colonne & Valeur>;
+  date_maj: Partial<{ colonne: string | string[] } & Valeur>;
   services?: Choice<Service>[];
   publics_specifiquement_adresses?: Choice<PublicSpecifiquementAdresse>[];
   prise_en_charge_specifique?: Choice<PriseEnChargeSpecifique>[];
