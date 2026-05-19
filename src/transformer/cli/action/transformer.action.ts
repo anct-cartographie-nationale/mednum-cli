@@ -20,11 +20,16 @@ import { canTransform, DiffSinceLastTransform } from '../diff-since-last-transfo
 import { TransformerOptions } from '../transformer-options';
 import { transformationRespository } from './transformation.respository';
 import addressesBan from '../../../../assets/input/addresses.json';
-import { label } from '../../data/localisation/localisation-from-geo';
+import {
+  fetchBanResponseBatch,
+  getAddressData,
+  LOCATION_ENRICHED,
+  responsesBanAll
+} from '../../data/localisation/localisation-from-geo';
 
 const REPORT: Report = Report();
 const ADDRESSESCACHE: AddressCache = AddressCache();
-const BATCH_SIZE = 50;
+const BATCH_SIZE = 1000;
 const PAUSE_MS = 1000;
 
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
@@ -79,28 +84,33 @@ export const transformerAction = async (transformerOptions: TransformerOptions):
   }
 
   const lieux: DataSource[] = lieuxToTransform(sourceItems, diffSinceLastTransform);
-
+  const storage: AddressRecord[] = addressesBan as unknown as AddressRecord[];
   console.log('4. Transformation des données vers le schéma des lieux de mediation numérique');
   const lieuxDeMediationNumerique: LieuMediationNumerique[] = [];
   for (let i = 0; i < lieux.length; i += BATCH_SIZE) {
     const batch = lieux.slice(i, i + BATCH_SIZE);
-    const adressesOriginaleMatching: boolean[] = batch.map(
-      (lieu) =>
-        !!(addressesBan as unknown as AddressRecord[]).find(
-          (storage: AddressRecord) => label(lieu, repository.config) === storage?.addresseOriginale
-        )
-    );
+    const responsesBan = await fetchBanResponseBatch(batch, repository.config, storage, responsesBanAll);
 
     const result = await Promise.all(
       batch
         .map((dataSource: DataSource) => flatten(dataSource, { safe: isFlatten(repository.config) }))
-        .map((lieu, index) =>
-          toLieuxMediationNumerique(repository, transformerOptions.sourceName, REPORT, ADDRESSESCACHE)(lieu, i + index)
-        )
+        .map(async (lieu, index) => {
+          const locationEnriched: LOCATION_ENRICHED = await getAddressData(
+            lieu as DataSource,
+            repository.config,
+            responsesBan[index]
+          )(storage);
+          return toLieuxMediationNumerique(
+            repository,
+            transformerOptions.sourceName,
+            REPORT,
+            ADDRESSESCACHE,
+            locationEnriched
+          )(lieu, i + index);
+        })
     );
 
     lieuxDeMediationNumerique.push(...result.filter(validValuesOnly));
-    if ((adressesOriginaleMatching.filter(Boolean).length / batch.length) * 100 >= 50) continue;
     if (i + BATCH_SIZE < lieux.length) await delay(PAUSE_MS);
   }
 

@@ -53,9 +53,8 @@ import {
 } from '../fields';
 import { TransformationRepository } from '../repositories';
 import { DataSource, LieuxMediationNumeriqueMatching } from './lieux-mediation-numerique-matching';
-import { label, getAddressData, Feature, LOCATION_ENRICHED } from '../data/localisation/localisation-from-geo';
+import { label, Feature, LOCATION_ENRICHED } from '../data/localisation/localisation-from-geo';
 import { AddressRecord, AddressCache } from '../storage';
-import addressesBan from '../../../assets/input/addresses.json';
 
 const isFilled = <T>(nullable?: T[]): nullable is T[] => nullable != null && nullable.length > 0;
 
@@ -199,22 +198,26 @@ const logAndSkip = (error: AxiosError): LieuMediationNumerique | undefined => {
 };
 
 export const toLieuxMediationNumerique =
-  (repository: TransformationRepository, sourceName: string, report: Report, addressCache: AddressCache) =>
+  (
+    repository: TransformationRepository,
+    sourceName: string,
+    report: Report,
+    addressCache: AddressCache,
+    locationEnriched: LOCATION_ENRICHED
+  ) =>
   async (dataSource: unknown, index: number): Promise<LieuMediationNumerique | undefined> => {
     try {
-      const enhancedData: LOCATION_ENRICHED = await getAddressData(
-        dataSource as DataSource,
-        repository.config
-      )(addressesBan as unknown as AddressRecord[]);
       const dataSourceEnriched = {
         ...(dataSource as DataSource),
-        ...(enhancedData?.data && enhancedData.data)
+        ...(locationEnriched?.data && locationEnriched.data)
       } as DataSource;
 
-      if (enhancedData?.statut === 'from_api' || enhancedData?.statut === 'no_from_storage') {
+      if (locationEnriched?.statut === 'from_api' || locationEnriched?.statut === 'no_from_storage') {
         addressCache
           .entry(index)
-          .record(addresseLog(dataSource as DataSource, repository.config, enhancedData.responses?.features?.[0] as Feature))
+          .record(
+            addresseLog(dataSource as DataSource, repository.config, locationEnriched.responses?.features?.[0] as Feature)
+          )
           .commit();
       }
       return await lieuDeMediationNumerique(
