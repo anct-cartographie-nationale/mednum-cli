@@ -36,8 +36,7 @@
     "colonne": "descriptif"
   },
   "date_maj": {
-    "colonne": "date_modif",
-    "sinon": "date_saisie"
+    "colonne": ["date_modif", "date_saisie"]
   },
   "typologie": [
     {
