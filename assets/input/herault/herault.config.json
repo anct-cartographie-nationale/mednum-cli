@@ -337,6 +337,15 @@
         "Imprimer ou scanner un document"
       ],
       "cible": "Accès internet et matériel informatique"
+    },
+    {
+      "colonnes": [
+        "infos_complementaires"
+      ],
+      "termes": [
+        "Accompagnement à la création numérique"
+      ],
+      "cible": "Loisirs et créations numériques"
     }
   ],
   "autres_formations_labels": [
