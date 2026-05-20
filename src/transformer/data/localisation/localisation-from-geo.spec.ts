@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getAddressData, fetchBanResponseBatch } from './localisation-from-geo';
+import { getAddressData, fetchBanResponseBatch, labelCommune, labelCodePostal } from './localisation-from-geo';
 import { DataSource, LieuxMediationNumeriqueMatching } from '../../input';
 import { AddressRecord } from '../../storage';
 
@@ -139,7 +139,7 @@ describe('localisation-from-geo', () => {
 
     const result = await getAddressData(dataSource, STANDARD_MATCHING)(AddressesBan);
 
-    expect(result).toEqual({ statut: 'no_from_storage', addresseOriginale: 'La Réunion 97400 null' });
+    expect(result).toEqual({ statut: 'no_from_storage', addresseOriginale: 'La Réunion 97400 ' });
   });
 
   it('should return no_from_storage when code_postal is null', async () => {
@@ -152,7 +152,7 @@ describe('localisation-from-geo', () => {
 
     const result = await getAddressData(dataSource, STANDARD_MATCHING)(AddressesBan);
 
-    expect(result).toEqual({ statut: 'no_from_storage', addresseOriginale: 'La Réunion null Saint-Denis' });
+    expect(result).toEqual({ statut: 'no_from_storage', addresseOriginale: 'La Réunion  Saint-Denis' });
   });
 
   it('should return no_from_storage when API response has no features', async () => {
@@ -199,6 +199,30 @@ describe('localisation-from-geo', () => {
       addresseOriginale: '- 10 rue de la paix 75002 Paris',
       statut: 'from_api'
     });
+  });
+});
+
+describe('labelCommune', () => {
+  it('should use second commune colonne when first is empty', () => {
+    const source: DataSource = { commune: 'Grenoble' };
+    const matching = {
+      ...STANDARD_MATCHING,
+      commune: { colonne: ['addressLocality', 'commune'] }
+    } as unknown as LieuxMediationNumeriqueMatching;
+
+    expect(labelCommune(source, matching)).toBe('Grenoble');
+  });
+});
+
+describe('labelCodePostal', () => {
+  it('should use second code_postal colonne when first is empty', () => {
+    const source: DataSource = { code_postal: '38000' };
+    const matching = {
+      ...STANDARD_MATCHING,
+      code_postal: { colonne: ['postalCode', 'code_postal'] }
+    } as unknown as LieuxMediationNumeriqueMatching;
+
+    expect(labelCodePostal(source, matching)).toBe('38000');
   });
 });
 

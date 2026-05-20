@@ -57,18 +57,24 @@ export type LOCATION_ENRICHED = {
 export const labelVoie = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
   String(voieField(source, matching.adresse));
 
+const firstValueFrom = (source: DataSource, colonne: string | string[]): string =>
+  [colonne]
+    .flat()
+    .map((c) => source[c]?.toString())
+    .find(Boolean) ?? '';
+
 export const labelCodePostal = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
-  String(matching.code_postal?.colonne ? source[matching.code_postal.colonne] : '');
+  firstValueFrom(source, matching.code_postal.colonne);
 
 export const labelCommune = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
-  String(matching.commune?.colonne ? source[matching.commune.colonne] : '');
+  firstValueFrom(source, matching.commune.colonne);
 
 export const label = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
   `${labelVoie(source, matching)} ${labelCodePostal(source, matching)} ${labelCommune(source, matching)}`;
 
 const isMissingFields = (source: DataSource, matching: LieuxMediationNumeriqueMatching): boolean =>
-  source[matching.commune?.colonne ?? ''] == null ||
-  source[matching.code_postal?.colonne ?? ''] == null ||
+  firstValueFrom(source, matching.commune.colonne) === '' ||
+  firstValueFrom(source, matching.code_postal.colonne) === '' ||
   labelVoie(source, matching) === '';
 
 const toFeatureCollection = (row: CsvResultRow): { data: FeatureCollection } => ({
@@ -155,11 +161,11 @@ export const getAddressData =
   async (arrayFromStorage: AddressRecord[]): Promise<LOCATION_ENRICHED> => {
     const addressSource = label(source, matching);
     const existingLieu = arrayFromStorage.find((item) => item.addresseOriginale === addressSource);
-    const addresseOriginale: string = `${source[matching?.adresse?.colonne ?? '']} ${source[matching.code_postal.colonne]} ${source[matching.commune.colonne]}`;
+    const addresseOriginale: string = `${source[matching?.adresse?.colonne ?? '']} ${firstValueFrom(source, matching.code_postal.colonne)} ${firstValueFrom(source, matching.commune.colonne)}`;
 
     if (
-      source[matching.commune?.colonne ?? ''] == null ||
-      source[matching.code_postal?.colonne ?? ''] == null ||
+      firstValueFrom(source, matching.commune.colonne) === '' ||
+      firstValueFrom(source, matching.code_postal.colonne) === '' ||
       voieField(source, matching.adresse) === ''
     )
       return { statut: 'no_from_storage', addresseOriginale };

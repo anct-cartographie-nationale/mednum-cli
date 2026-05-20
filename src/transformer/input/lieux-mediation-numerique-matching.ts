@@ -25,6 +25,7 @@ export type Jonction = {
   joindre: {
     colonnes: string[];
     séparateur: string;
+    ou?: Jonction & Partial<Colonne>;
   };
 };
 
@@ -47,8 +48,8 @@ export type LieuxMediationNumeriqueMatching = {
   id?: Colonne;
   pivot?: Colonne;
   nom: Colonne;
-  commune: Colonne;
-  code_postal: Colonne;
+  commune: { colonne: string | string[] };
+  code_postal: { colonne: string | string[] };
   code_insee?: Colonne;
   adresse: Jonction & Partial<Colonne>;
   complement_adresse?: Colonne;

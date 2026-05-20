@@ -9,15 +9,16 @@
     "colonne": "name"
   },
   "commune": {
-    "colonne": "address.addressLocality"
+    "colonne": ["address.addressLocality", "commune"]
   },
   "code_postal": {
-    "colonne": "address.postalCode"
+    "colonne": ["address.postalCode", "code_postal"]
   },
   "adresse": {
     "joindre": {
       "colonnes": ["address.streetNumber", "address.streetAddress"],
-      "séparateur": " "
+      "séparateur": " ",
+      "ou": { "colonne": "address.customFormatedAddress" }
     }
   },
   "latitude": {
@@ -36,7 +37,7 @@
     "colonne": "url"
   },
   "date_maj": {
-    "colonne": "updatedAt"
+    "colonne": ["updatedAt", "createdAt", "date_maj"]
   },
   "prise_rdv": {
     "colonne": "prise_rdv"
@@ -180,6 +181,44 @@
       ],
       "termes": ["FabLab"],
       "cible": "FABLAB"
+    },
+    {
+      "colonnes": [
+        "categories.0",
+        "categories.1",
+        "categories.2",
+        "categories.3",
+        "categories.4",
+        "categories.5",
+        "categories.6",
+        "categories.7",
+        "categories.8",
+        "categories.9",
+        "categories.10",
+        "categories.11",
+        "categories.12"
+      ],
+      "termes": ["Communauté de Communes"],
+      "cible": "CC"
+    },
+    {
+      "colonnes": [
+        "categories.0",
+        "categories.1",
+        "categories.2",
+        "categories.3",
+        "categories.4",
+        "categories.5",
+        "categories.6",
+        "categories.7",
+        "categories.8",
+        "categories.9",
+        "categories.10",
+        "categories.11",
+        "categories.12"
+      ],
+      "termes": ["Points et Bureaux Information Jeunesse"],
+      "cible": "PIJ_BIJ"
     }
   ],
   "frais_a_charge": [
@@ -285,7 +324,7 @@
         "categories.11",
         "categories.12"
       ],
-      "termes": ["Enfants (-16 ans)", "Famille"],
+      "termes": ["Enfants (-16 ans)", "Famille", "🧒Famille, jeunesse & citoyenneté"],
       "cible": "Familles et/ou enfants"
     },
     {
@@ -458,9 +497,10 @@
         "categories.9",
         "categories.10",
         "categories.11",
-        "categories.12"
+        "categories.12",
+        "prez_lieu"
       ],
-      "termes": ["démarches administratives", "Utiliser le numérique au quotidien", "Accompagner les démarches de santé"],
+      "termes": ["démarches administratives", "Utiliser le numérique au quotidien", "Accompagner les démarches de santé", "🤝 Services sociaux & d'accompagnement", "📮 Services publics complémentaires", "Accompagnement aux démarches en ligne"],
       "cible": "Aide aux démarches administratives"
     },
     {
@@ -479,7 +519,7 @@
         "categories.11",
         "categories.12"
       ],
-      "termes": ["Prendre en main un ordinateur", "Prendre en main un smartphone ou une tablette", "Initiation à la bureautique"],
+      "termes": ["Prendre en main un ordinateur", "Prendre en main un smartphone ou une tablette", "Initiation à la bureautique", "🧠Formation et montée en compétences numériques"],
       "cible": "Maîtrise des outils numériques du quotidien"
     },
     {
@@ -498,7 +538,7 @@
         "categories.11",
         "categories.12"
       ],
-      "termes": ["Créer et développer une entreprise", "Favoriser l'insertion professionnelle", "Formations  numériques professionnalisantes", "Formation des professionnels"],
+      "termes": ["Créer et développer une entreprise", "Favoriser l'insertion professionnelle", "Formations  numériques professionnalisantes", "Formation des professionnels", "💼 Insertion professionnelle & entrepreneuriat"],
       "cible": "Insertion professionnelle via le numérique"
     },
     {
@@ -536,7 +576,7 @@
         "categories.11",
         "categories.12"
       ],
-      "termes": ["Créer avec le numérique", "fabrication numérique"],
+      "termes": ["Créer avec le numérique", "fabrication numérique", "📚 Lieux culturels, jeunesse & vie de quartier"],
       "cible": "Loisirs et créations numériques"
     },
     {
@@ -574,7 +614,7 @@
         "categories.11",
         "categories.12"
       ],
-      "termes": ["postes informatiques", "connexion internet"],
+      "termes": ["postes informatiques", "connexion internet", "🧰Accès au matériel & aux équipements numériques"],
       "cible": "Accès internet et matériel informatique"
     },
     {

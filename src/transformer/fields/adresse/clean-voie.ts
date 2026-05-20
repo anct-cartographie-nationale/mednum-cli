@@ -50,7 +50,14 @@ const REMOVE_HEADING_AND_TRAILING_SPACES_IN_VOIE: CleanOperation = {
   fix: (toFix: string): string => toFix.trim()
 };
 
+const FIX_WRONG_ENCODING_IN_VOIE: CleanOperation = {
+  name: 'fix wrong encoding',
+  selector: /Ã[\x80-\xFF]/,
+  fix: (toFix: string): string => Buffer.from(toFix, 'latin1').toString('utf8')
+};
+
 export const CLEAN_VOIE: CleanOperation[] = [
+  FIX_WRONG_ENCODING_IN_VOIE,
   REMOVE_MULTIPLE_SPACES_IN_VOIE,
   FIX_WRONG_SINGLE_QUOTE_IN_VOIE,
   FIX_INVALID_NUMERO_IN_VOIE,
@@ -64,9 +71,11 @@ export const CLEAN_VOIE: CleanOperation[] = [
 const isColonne = (colonneToTest: Partial<Colonne> & Partial<Jonction>): colonneToTest is Colonne =>
   colonneToTest.colonne != null;
 
-export const voieField = (source: DataSource, voie: Jonction & Partial<Colonne>): string =>
-  isColonne(voie)
-    ? (source[voie.colonne]?.toString() ?? '')
-    : voie.joindre.colonnes
-        .reduce((voiePart: string, colonne: string): string => [voiePart, source[colonne]].join(voie.joindre.séparateur), '')
-        .trim();
+export const voieField = (source: DataSource, voie: Jonction & Partial<Colonne>): string => {
+  if (isColonne(voie)) return source[voie.colonne]?.toString() ?? '';
+  const joined = voie.joindre.colonnes
+    .map((colonne: string) => source[colonne])
+    .filter(Boolean)
+    .join(voie.joindre.séparateur);
+  return joined || (voie.joindre.ou ? voieField(source, voie.joindre.ou) : '');
+};
