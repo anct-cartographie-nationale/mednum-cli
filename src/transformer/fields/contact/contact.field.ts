@@ -100,10 +100,13 @@ const fixAndRetry =
   (recorder: Recorder) =>
   (source: DataSource, matching: LieuxMediationNumeriqueMatching, error: unknown): Contact =>
     retryOrThrow(recorder)(
-      cleanOperations(matching, source[matching.code_postal.colonne]?.toString()).reduce(
-        toFixedContact(recorder)(source),
-        undefined
-      ),
+      cleanOperations(
+        matching,
+        [matching.code_postal.colonne]
+          .flat()
+          .map((c) => source[c]?.toString())
+          .find(Boolean)
+      ).reduce(toFixedContact(recorder)(source), undefined),
       matching,
       error
     );

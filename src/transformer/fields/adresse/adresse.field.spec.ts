@@ -438,14 +438,6 @@ describe('adresse field', (): void => {
     'Médiathèque de Champagney Grande rue',
     'null null',
     'Rue',
-    'Grande Rue',
-    'Grand Rue',
-    'Grand’Rue',
-    "Grand' Rue",
-    'GRANDE RUE',
-    "Mairie - Grand'Rue",
-    'null Grande Rue',
-    'null GRANDE RUE',
     '-',
     '1 - 3',
     'Residence les 3 C'
@@ -564,6 +556,64 @@ describe('adresse field', (): void => {
     });
   });
 
+  it('should use "ou" fallback when joindre colonnes are empty', (): void => {
+    const source: DataSource = {
+      CP: '38000',
+      Commune: 'Grenoble',
+      AdresseComplete: '24 Avenue Aristide Briand'
+    };
+
+    const matching = {
+      ...SPLIT_VOIE_MATCHING,
+      adresse: {
+        joindre: {
+          colonnes: ['Numéro', 'Adresse'],
+          séparateur: ' ',
+          ou: { colonne: 'AdresseComplete' }
+        }
+      }
+    } as unknown as LieuxMediationNumeriqueMatching;
+
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, matching);
+
+    expect(adresse).toStrictEqual({
+      code_insee: '38185',
+      code_postal: '38000',
+      commune: 'Grenoble',
+      voie: '24 Avenue Aristide Briand'
+    });
+  });
+
+  it('should prefer joindre colonnes over "ou" when joindre has values', (): void => {
+    const source: DataSource = {
+      CP: '38000',
+      Commune: 'Grenoble',
+      Numéro: '24',
+      Adresse: 'Avenue Aristide Briand',
+      AdresseComplete: '24 Avenue Aristide Briand'
+    };
+
+    const matching = {
+      ...SPLIT_VOIE_MATCHING,
+      adresse: {
+        joindre: {
+          colonnes: ['Numéro', 'Adresse'],
+          séparateur: ' ',
+          ou: { colonne: 'AdresseComplete' }
+        }
+      }
+    } as unknown as LieuxMediationNumeriqueMatching;
+
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, matching);
+
+    expect(adresse).toStrictEqual({
+      code_insee: '38185',
+      code_postal: '38000',
+      commune: 'Grenoble',
+      voie: '24 Avenue Aristide Briand'
+    });
+  });
+
   it('should process an address with a split voie', (): void => {
     const source: DataSource = {
       CP: '38000',
@@ -672,6 +722,34 @@ describe('adresse field', (): void => {
     });
   });
 
+  it('should skip undefined columns when joining voie parts', (): void => {
+    const source: DataSource = {
+      CP: '38000',
+      Commune: 'Grenoble',
+      Numéro: '24',
+      Adresse: 'Avenue Aristide Briand'
+    };
+
+    const matching = {
+      ...SPLIT_VOIE_MATCHING,
+      adresse: {
+        joindre: {
+          colonnes: ['Numéro', 'Adresse', 'ComplementAbsent'],
+          séparateur: ' '
+        }
+      }
+    } as unknown as LieuxMediationNumeriqueMatching;
+
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, matching);
+
+    expect(adresse).toStrictEqual({
+      code_insee: '38185',
+      code_postal: '38000',
+      commune: 'Grenoble',
+      voie: '24 Avenue Aristide Briand'
+    });
+  });
+
   it('should process a complement adresse with extra spaces in Complement adresse', (): void => {
     const source: DataSource = {
       'Code postal': '78000',
@@ -723,6 +801,23 @@ describe('adresse field', (): void => {
     });
   });
 
+  it('should remove null prefix in voie', (): void => {
+    const source: DataSource = {
+      'Code postal': '38000',
+      'Ville *': 'Grenoble',
+      'Adresse postale *': 'null Grande Rue'
+    };
+
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
+
+    expect(adresse).toStrictEqual({
+      code_insee: '38185',
+      code_postal: '38000',
+      commune: 'Grenoble',
+      voie: 'Grande Rue'
+    });
+  });
+
   it('should remove invalid character ² in voie', (): void => {
     const source: DataSource = {
       'Code postal': '78000',
@@ -754,6 +849,67 @@ describe('adresse field', (): void => {
       code_postal: '78000',
       commune: 'Versailles',
       voie: "52 Route des Ducs d'Anjou"
+    });
+  });
+
+  it('should fix wrong encoding in voie', (): void => {
+    const source: DataSource = {
+      'Code postal': '78000',
+      'Ville *': 'Versailles',
+      'Adresse postale *': '43 Rue de la RÃ©publique'
+    };
+
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
+
+    expect(adresse).toStrictEqual({
+      code_insee: '78646',
+      code_postal: '78000',
+      commune: 'Versailles',
+      voie: '43 Rue de la République'
+    });
+  });
+
+  it('should use second commune colonne when first is empty', (): void => {
+    const source: DataSource = {
+      'Code postal': '78000',
+      'Adresse postale *': '1 rue de la Paix',
+      commune: 'Versailles'
+    };
+
+    const matching = {
+      ...STANDARD_MATCHING,
+      commune: { colonne: ['address.addressLocality', 'commune'] }
+    } as unknown as LieuxMediationNumeriqueMatching;
+
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, matching);
+
+    expect(adresse).toStrictEqual({
+      code_insee: '78646',
+      code_postal: '78000',
+      commune: 'Versailles',
+      voie: '1 rue de la Paix'
+    });
+  });
+
+  it('should use second code_postal colonne when first is empty', (): void => {
+    const source: DataSource = {
+      'Ville *': 'Versailles',
+      'Adresse postale *': '1 rue de la Paix',
+      code_postal: '78000'
+    };
+
+    const matching = {
+      ...STANDARD_MATCHING,
+      code_postal: { colonne: ['address.postalCode', 'code_postal'] }
+    } as unknown as LieuxMediationNumeriqueMatching;
+
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, matching);
+
+    expect(adresse).toStrictEqual({
+      code_insee: '78646',
+      code_postal: '78000',
+      commune: 'Versailles',
+      voie: '1 rue de la Paix'
     });
   });
 
