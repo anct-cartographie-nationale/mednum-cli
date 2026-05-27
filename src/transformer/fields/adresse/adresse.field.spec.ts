@@ -438,14 +438,6 @@ describe('adresse field', (): void => {
     'Médiathèque de Champagney Grande rue',
     'null null',
     'Rue',
-    'Grande Rue',
-    'Grand Rue',
-    'Grand’Rue',
-    "Grand' Rue",
-    'GRANDE RUE',
-    "Mairie - Grand'Rue",
-    'null Grande Rue',
-    'null GRANDE RUE',
     '-',
     '1 - 3',
     'Residence les 3 C'
@@ -806,6 +798,23 @@ describe('adresse field', (): void => {
       code_postal: '87400',
       commune: 'Saint-Léonard-de-Noblat',
       voie: '3 Place Gay-Lussac'
+    });
+  });
+
+  it('should remove null prefix in voie', (): void => {
+    const source: DataSource = {
+      'Code postal': '38000',
+      'Ville *': 'Grenoble',
+      'Adresse postale *': 'null Grande Rue'
+    };
+
+    const adresse: Adresse = processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
+
+    expect(adresse).toStrictEqual({
+      code_insee: '38185',
+      code_postal: '38000',
+      commune: 'Grenoble',
+      voie: 'Grande Rue'
     });
   });
 
