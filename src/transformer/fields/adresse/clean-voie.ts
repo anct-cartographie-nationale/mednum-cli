@@ -37,6 +37,12 @@ const REMOVE_NULL_PREFIX_IN_VOIE: CleanOperation = {
   fix: (toFix: string): string => toFix.replace(/^null\s+/i, '')
 };
 
+const REMOVE_ONLY_ZIPCODE_IN_VOIE: CleanOperation = {
+  name: 'remove voie that is only a zip code and city',
+  selector: /^\d{5}(\s.*)?$/,
+  fix: (): string => ''
+};
+
 const REMOVE_INCOMPLETE_ADDRESS_IN_VOIE: CleanOperation = {
   name: 'remove incomplete address in voie',
   selector:
@@ -70,6 +76,7 @@ export const CLEAN_VOIE: CleanOperation[] = [
   REMOVE_FORBIDDEN_CHARS_IN_VOIE,
   REMOVE_MULTILINES_IN_VOIE,
   REMOVE_NULL_PREFIX_IN_VOIE,
+  REMOVE_ONLY_ZIPCODE_IN_VOIE,
   REMOVE_INCOMPLETE_ADDRESS_IN_VOIE,
   REMOVE_ZIPCODE_AND_FOLLOWING_TEXT_IN_VOIE,
   REMOVE_HEADING_AND_TRAILING_SPACES_IN_VOIE

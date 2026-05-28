@@ -440,7 +440,9 @@ describe('adresse field', (): void => {
     'Rue',
     '-',
     '1 - 3',
-    'Residence les 3 C'
+    'Residence les 3 C',
+    '81600 TECOU',
+    '93110 ROSNY SOUS BOIS'
   ])('should not process invalid postal address with invalid value "%s"', (adresseIncorrecte): void => {
     const source: DataSource = {
       'Code postal': '75020',
