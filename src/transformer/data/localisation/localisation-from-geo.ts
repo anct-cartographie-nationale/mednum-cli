@@ -132,6 +132,7 @@ export const fetchBanResponseBatch = async (
   const formData = new FormData();
   formData.append('data', new Blob([stringify(rows, { header: true })], { type: 'text/csv' }), 'data.csv');
   formData.append('columns', 'voie');
+  formData.append('columns', 'commune');
   formData.append('postcode', 'codePostal');
   RESULT_FIELDS.forEach((field) => formData.append('result_columns', field));
 
