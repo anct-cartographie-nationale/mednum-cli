@@ -119,8 +119,8 @@
     "dedupliquer.siilab": "tsx src/index.ts dedupliquer -s \"./assets/output/siilab/*-siilab-lieux-de-mediation-numeriques-hauts-de-france.json\" -b \"./assets/output/siilab/*-siilab-lieux-de-mediation-numeriques-hauts-de-france.json\" -n \"Siilab\" -t \"Hauts-de-France\" -o \"./assets/output/siilab\" -i true",
     "dedupliquer.vendee": "tsx src/index.ts dedupliquer -s \"./assets/output/vendee/*-vendee-lieux-de-mediation-numeriques-vendee.json\" -b \"./assets/output/vendee/*-vendee-lieux-de-mediation-numeriques-vendee.json\" -n \"Vendée\" -t \"Vendée\" -o \"./assets/output/vendee\" -i true",
     "dedupliquer.vosges": "tsx src/index.ts dedupliquer -s \"./assets/output/vosges/*-vosges-lieux-de-mediation-numeriques-vosges.json\" -b \"./assets/output/vosges/*-vosges-lieux-de-mediation-numeriques-vosges.json\" -n \"Vosges\" -t \"Vosges\" -o \"./assets/output/vosges\" -i true",
-    "dedupliquer.merged-json": "tsx src/index.ts dedupliquer -s ./assets/to-deduplicate/merged_output.json -b ./assets/to-deduplicate/merged_output.json -n \"Data Inclusion\" -t National -o ./assets/deduplicated",
-    "dedupliquer.merged-csv": "tsx src/index.ts dedupliquer -s ./merged_output.csv -b ./merged_output.csv -n \"Data Inclusion\" -t National -o ./assets/deduplicated",
+    "dedupliquer.merged-json": "tsx src/index.ts dedupliquer -s ./assets/to-deduplicate/merged_output.json -b ./assets/to-deduplicate/merged_output.json -n \"La Cartographie Nationale\" -t National -o ./assets/deduplicated",
+    "dedupliquer.merged-csv": "tsx src/index.ts dedupliquer -s ./merged_output.csv -b ./merged_output.csv -n \"La Cartographie Nationale\" -t National -o ./assets/deduplicated",
     "fusionner": "tsx src/index.ts fusionner -i \"./to-merge/*-sans-doublons.json\" -o \"./merged\"",
     "fusion-addresses": "tsx src/index.ts fusionner -i \"./assets/output/*/*-addresses.json\" -o \"./assets/input\"",
     "prepare": "husky"
