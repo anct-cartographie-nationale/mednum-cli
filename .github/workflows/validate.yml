@@ -179,7 +179,6 @@ jobs:
     uses: ./.github/workflows/publish-deduplicated.reusable.yml
     with:
       environment: demo
-      sample_size: 1000
     secrets:
       DATA_GOUV_API_URL: ${{ secrets.DATA_GOUV_API_URL }}
       DATA_GOUV_API_KEY: ${{ secrets.DATA_GOUV_API_KEY }}
