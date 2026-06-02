@@ -7,9 +7,7 @@ import {
   Output,
   writeMediationNumeriqueCsvOutput,
   writeMediationNumeriqueJsonOutput,
-  writePublierMetadataOutput,
-  writeServicesDataInclusionJsonOutput,
-  writeStructuresDataInclusionJsonOutput
+  writePublierMetadataOutput
 } from '../../common';
 
 export const writeOutputFiles =
@@ -20,7 +18,5 @@ export const writeOutputFiles =
 
     writeMediationNumeriqueJsonOutput(producer, schemaLieuxDeMediationNumerique, suffix);
     writeMediationNumeriqueCsvOutput(producer, schemaLieuxDeMediationNumerique, suffix);
-    writeStructuresDataInclusionJsonOutput(producer, lieuxDeMediationNumerique, suffix);
-    writeServicesDataInclusionJsonOutput(producer, lieuxDeMediationNumerique, suffix);
     writePublierMetadataOutput(producer, lieuxDeMediationNumerique, suffix);
   };

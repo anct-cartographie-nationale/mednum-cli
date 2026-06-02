@@ -9,9 +9,7 @@ import {
   writeMediationNumeriqueCsvOutput,
   writeMediationNumeriqueDynamoDBJsonOutput,
   writeMediationNumeriqueJsonOutput,
-  writePublierMetadataOutput,
-  writeServicesDataInclusionJsonOutput,
-  writeStructuresDataInclusionJsonOutput
+  writePublierMetadataOutput
 } from '../../../../common';
 import { DuplicationComparison, Groups, MergedLieuxByGroupMap, removeMerged } from '../../../steps';
 import { formatToCSV } from '../../action/deduplication-comparisons-to-csv';
@@ -25,8 +23,6 @@ const writeOutputFiles = (
   writeMediationNumeriqueJsonOutput(producer, lieuxWithLessDuplicates, 'sans-doublons');
   writeMediationNumeriqueDynamoDBJsonOutput(producer, lieuxWithLessDuplicates);
   writeMediationNumeriqueCsvOutput(producer, lieuxWithLessDuplicates, 'sans-doublons');
-  writeStructuresDataInclusionJsonOutput(producer, lieuxDeMediationNumerique, 'sans-doublons');
-  writeServicesDataInclusionJsonOutput(producer, lieuxDeMediationNumerique, 'sans-doublons');
   writePublierMetadataOutput(producer, lieuxDeMediationNumerique, 'sans-doublons');
 };
 

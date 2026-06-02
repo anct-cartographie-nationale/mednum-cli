@@ -1,7 +1,6 @@
 import { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Output } from '../../output-file';
 import { PublishRessource } from '../../../publier/models';
-import { dataInclusionFileName } from '../../data-inclusion';
 import { mediationNumeriqueFileName } from '../../mediation-numerique';
 
 export type PublishMetadata = {
@@ -49,30 +48,6 @@ const mendumCsvRessource = (output: Output, date: Date, suffix?: string): Publis
   description: `Lieux de médiation numérique sur le territoire ${output.territoire} fournis par ${output.name} au format JSON.\nVous pouvez utiliser l’url stable associé à cette ressource pour alimenter une version locale de la cartographie des lieux de médiation numérique.`
 });
 
-const dataInclusionServicesRessource = (output: Output, date: Date, suffix?: string): PublishRessource => ({
-  source: `${output.path}/${dataInclusionFileName(
-    date,
-    output.name.toLowerCase().replace(/\s/g, '-'),
-    'services',
-    'json',
-    suffix
-  )}`,
-  schema: 'gip-inclusion/data-inclusion-schema',
-  description: `Services de médiation numérique rattachés à une structure de l'inclusion fournis par ${output.name} sur le territoire ${output.territoire}`
-});
-
-const dataInclusionStructuresRessource = (output: Output, date: Date, suffix?: string): PublishRessource => ({
-  source: `${output.path}/${dataInclusionFileName(
-    date,
-    output.name.toLowerCase().replace(/\s/g, '-'),
-    'structures',
-    'json',
-    suffix
-  )}`,
-  schema: 'gip-inclusion/data-inclusion-schema',
-  description: `Structures de l'inclusion qui proposent des services de médiation numérique fournis par ${output.name} sur le territoire ${output.territoire}`
-});
-
 const byDateMajAsc = (
   lieuMediationNumeriqueA: LieuMediationNumerique,
   lieuMediationNumeriqueB: LieuMediationNumerique
@@ -99,10 +74,5 @@ export const generatePublishMetadata = (
   granularity: 'poi',
   start: formatDate(lieuxDeMediationNumerique.sort(byDateMajAsc)[0]?.date_maj),
   end: formatDate(lieuxDeMediationNumerique.sort(byDateMajDesc)[0]?.date_maj),
-  ressources: [
-    mendumJsonRessource(output, date, suffix),
-    mendumCsvRessource(output, date, suffix),
-    dataInclusionServicesRessource(output, date, suffix),
-    dataInclusionStructuresRessource(output, date, suffix)
-  ]
+  ressources: [mendumJsonRessource(output, date, suffix), mendumCsvRessource(output, date, suffix)]
 });
