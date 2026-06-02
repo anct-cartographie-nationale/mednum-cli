@@ -8,6 +8,14 @@ on:
         description: Environment to deploy to
         required: true
         type: string
+      sample_size:
+        description: >-
+          If greater than 0, only the first N entries of each resource are
+          published. Used to validate the publication against demo.data.gouv
+          while staying under its upload limits. Leave at 0 to publish everything.
+        required: false
+        type: number
+        default: 0
     secrets:
       DATA_GOUV_API_URL:
         required: true
@@ -54,5 +62,16 @@ jobs:
           cd assets/deduplicated
           for file in *-sans-doublons.*; do mv "$file" "${file//-sans-doublons/}"; done
           sed -i 's/-sans-doublons//g' publier.json
+      - name: Sample data to publish
+        if: ${{ inputs.sample_size > 0 }}
+        run: |
+          cd assets/deduplicated
+          for file in *.json; do
+            [ "$file" = "publier.json" ] && continue
+            jq -c '.[0:${{ inputs.sample_size }}]' "$file" > "$file.tmp" && mv "$file.tmp" "$file"
+          done
+          for file in *.csv; do
+            head -n $((${{ inputs.sample_size }} + 1)) "$file" > "$file.tmp" && mv "$file.tmp" "$file"
+          done
       - name: Publish
         run: pnpm publier.deduplicated
