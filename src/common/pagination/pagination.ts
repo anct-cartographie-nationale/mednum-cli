@@ -1,7 +1,12 @@
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
 
-axiosRetry(axios, { retries: 3 });
+axiosRetry(axios, {
+  retries: 5,
+  retryCondition: (error): boolean =>
+    axiosRetry.isNetworkOrIdempotentRequestError(error) || (error.response?.status ?? 0) >= 500,
+  retryDelay: (retryCount: number): number => retryCount * 5000
+});
 
 export type Pagination<T> = {
   data: T[];

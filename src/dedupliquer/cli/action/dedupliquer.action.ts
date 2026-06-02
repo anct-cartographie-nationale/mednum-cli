@@ -101,6 +101,8 @@ export const dedupliquerAction = async (dedupliquerOptions: DedupliquerOptions):
     console.log('7. sauvegarde des données dédupliquées');
     await repository.save(groups, filteredMerged, lieuxWithoutExcluded, duplications);
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    process.exitCode = 1;
+    throw error;
   }
 };

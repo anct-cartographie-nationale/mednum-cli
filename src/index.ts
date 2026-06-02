@@ -2,7 +2,6 @@ import * as dotenv from 'dotenv';
 import { Command } from 'commander';
 import { addPublierCommandTo } from './publier';
 import { addTransformerCommandTo } from './transformer';
-import { addExtractCommandTo } from './extract';
 import { addDedupliquerCommandTo } from './dedupliquer';
 import { addDataInclusionCommandTo } from './data-inclusion/cli';
 import { addFusionnerCommandTo } from './fusionner';
@@ -17,7 +16,6 @@ PROGRAM.name('mednum')
 
 addTransformerCommandTo(PROGRAM);
 addPublierCommandTo(PROGRAM);
-addExtractCommandTo(PROGRAM);
 addDedupliquerCommandTo(PROGRAM);
 addDataInclusionCommandTo(PROGRAM);
 addFusionnerCommandTo(PROGRAM);
