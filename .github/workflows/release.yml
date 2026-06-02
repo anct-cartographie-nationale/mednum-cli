@@ -133,20 +133,14 @@ jobs:
           DISTRIBUTION_ID: ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }}
           SOURCE_DIR: 'deduplicated/dynamo-import'
 
-  publish-to-data-gouv:
-    name: Get lieux from API and publish to data.gouv
+  publish-deduplicated:
+    name: Publish deduplicated dataset to data.gouv
     runs-on: ubuntu-latest
     environment: production
-    needs:
-      - upload-to-database
+    needs: process-data
     steps:
-      - name: Sleep for 3 minutes
-        run: sleep 180s
-        shell: bash
       - name: Checkout repository
         uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
       - name: Install pnpm
         uses: pnpm/action-setup@v5
         with:
@@ -165,11 +159,18 @@ jobs:
           echo DATA_GOUV_API_KEY="${{ secrets.DATA_GOUV_API_KEY }}" >> .env
           echo DATA_GOUV_REFERENCE_ID="${{ secrets.DATA_GOUV_REFERENCE_ID }}" >> .env
           echo DATA_GOUV_REFERENCE_TYPE="${{ secrets.DATA_GOUV_REFERENCE_TYPE }}" >> .env
-          echo CARTOGRAPHIE_NATIONALE_API_URL="${{ secrets.CARTOGRAPHIE_NATIONALE_API_URL }}" >> .env
-      - name: Extract
-        run: pnpm extract.all
+      - name: Download deduplicated data
+        uses: actions/download-artifact@v8
+        with:
+          name: deduplicated
+          path: assets/deduplicated
+      - name: Rename files to publish
+        run: |
+          cd assets/deduplicated
+          for file in *-sans-doublons.*; do mv "$file" "${file//-sans-doublons/}"; done
+          sed -i 's/-sans-doublons//g' publier.json
       - name: Publish
-        run: pnpm publier.all
+        run: pnpm publier.deduplicated
 
   publish-to-s3:
     name: Get lieux from API and publish to S3
