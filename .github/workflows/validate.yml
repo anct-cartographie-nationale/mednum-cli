@@ -172,3 +172,15 @@ jobs:
       DATA_GOUV_API_KEY: ${{ secrets.DATA_GOUV_API_KEY }}
       DATA_GOUV_REFERENCE_ID: ${{ secrets.DATA_GOUV_REFERENCE_ID }}
       DATA_GOUV_REFERENCE_TYPE: ${{ secrets.DATA_GOUV_REFERENCE_TYPE }}
+
+  publish_deduplicated:
+    name: Publish deduplicated dataset to data.gouv
+    needs: process_data
+    uses: ./.github/workflows/publish-deduplicated.reusable.yml
+    with:
+      environment: demo
+    secrets:
+      DATA_GOUV_API_URL: ${{ secrets.DATA_GOUV_API_URL }}
+      DATA_GOUV_API_KEY: ${{ secrets.DATA_GOUV_API_KEY }}
+      DATA_GOUV_REFERENCE_ID: ${{ secrets.DATA_GOUV_REFERENCE_ID }}
+      DATA_GOUV_REFERENCE_TYPE: ${{ secrets.DATA_GOUV_REFERENCE_TYPE }}

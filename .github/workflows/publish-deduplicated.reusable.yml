@@ -1,0 +1,58 @@
+---
+name: Reusable publish deduplicated dataset to data.gouv
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: Environment to deploy to
+        required: true
+        type: string
+    secrets:
+      DATA_GOUV_API_URL:
+        required: true
+      DATA_GOUV_API_KEY:
+        required: true
+      DATA_GOUV_REFERENCE_ID:
+        required: true
+      DATA_GOUV_REFERENCE_TYPE:
+        required: true
+
+jobs:
+  publish-deduplicated:
+    name: Publish deduplicated dataset to data.gouv
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      - name: Install pnpm
+        uses: pnpm/action-setup@v5
+        with:
+          version: latest
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: latest
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: 'Create env file'
+        run: |
+          touch .env
+          echo DATA_GOUV_API_URL="${{ secrets.DATA_GOUV_API_URL }}" >> .env
+          echo DATA_GOUV_API_KEY="${{ secrets.DATA_GOUV_API_KEY }}" >> .env
+          echo DATA_GOUV_REFERENCE_ID="${{ secrets.DATA_GOUV_REFERENCE_ID }}" >> .env
+          echo DATA_GOUV_REFERENCE_TYPE="${{ secrets.DATA_GOUV_REFERENCE_TYPE }}" >> .env
+      - name: Download deduplicated data
+        uses: actions/download-artifact@v8
+        with:
+          name: deduplicated
+          path: assets/deduplicated
+      - name: Rename files to publish
+        run: |
+          cd assets/deduplicated
+          for file in *-sans-doublons.*; do mv "$file" "${file//-sans-doublons/}"; done
+          sed -i 's/-sans-doublons//g' publier.json
+      - name: Publish
+        run: pnpm publier.deduplicated
