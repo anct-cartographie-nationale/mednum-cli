@@ -439,6 +439,7 @@ describe('adresse field', (): void => {
     'null null',
     'Rue',
     '-',
+    '- ',
     '1 - 3',
     'Residence les 3 C',
     '81600 TECOU',

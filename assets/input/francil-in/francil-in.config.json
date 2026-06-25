@@ -1,112 +1,75 @@
 {
   "id": {
-    "colonne": "properties.francilin_id"
+    "colonne": "id"
   },
   "nom": {
-    "colonne": "properties.lieu_nom"
+    "colonne": "nom"
   },
   "commune": {
-    "colonne": "properties.commune"
+    "colonne": "commune"
   },
   "code_postal": {
-    "colonne": "properties.code_postal"
+    "colonne": "code_postal"
   },
   "adresse": {
-    "colonne": "properties.adresse"
+    "colonne": "adresse"
   },
   "latitude": {
-    "dissocier": {
-      "colonne": "geometry.coordinates",
-      "séparateur": ",",
-      "partie": 1
-    }
+    "colonne": "latitude"
   },
   "longitude": {
-    "dissocier": {
-      "colonne": "geometry.coordinates",
-      "séparateur": ",",
-      "partie": 0
-    }
+    "colonne": "longitude"
   },
   "telephone": {
-    "colonne": "properties.telephone"
+    "colonne": "telephone"
   },
   "courriels": {
-    "colonne": "properties.e_mail"
+    "colonne": "courriels"
   },
   "site_web": {
-    "colonne": "properties.site_web"
+    "colonne": "site_web"
   },
   "date_maj": {
-    "colonne": "properties.mise_a_jour"
+    "colonne": "date_maj"
   },
-  "autres_formations_labels": [
-    {
-      "colonnes": ["properties.label"],
-      "termes": ["3"],
-      "cible": "NetPublic (Cyber-base et Espace Public Numérique)"
-    }
-  ],
-  "modalites_accompagnement": [
-    {
-      "colonnes": ["properties.aide"],
-      "termes": ["4"],
-      "cible": "Dans un atelier collectif"
-    },
-    {
-      "colonnes": ["properties.aide"],
-      "termes": ["3", "2"],
-      "cible": "Accompagnement individuel"
-    },
-    {
-      "colonnes": ["properties.aide"],
-      "termes": ["1"],
-      "cible": "En autonomie"
-    }
-  ],
   "services": [
     {
-      "colonnes": ["properties.services"],
-      "termes": ["202", "203", "204", "205", "206", "207", "208", "209", "210", "211", "212", "213", "214"],
+      "colonnes": ["services"],
+      "termes": ["Aide aux démarches administratives"],
       "cible": "Aide aux démarches administratives"
     },
     {
-      "colonnes": ["properties.services"],
-      "termes": ["201", "301", "302", "306", "307", "308", "309", "310", "311", "312", "313", "314", "315", "316", "317", "318", "319", "320", "321", "322", "323", "324", "325", "326", "327", "328", "329", "330", "331", "332", "333", "334", "335", "336", "337", "401", "402", "403", "404", "405", "406", "407", "408", "801", "802", "806", "807", "809", "810", "812", "815", "816"],
+      "colonnes": ["services"],
+      "termes": ["Maîtrise des outils numériques du quotidien"],
       "cible": "Maîtrise des outils numériques du quotidien"
     },
     {
-      "colonnes": ["properties.services"],
-      "termes": ["110", "111", "112", "113", "114", "115", "116", "203", "814"],
+      "colonnes": ["services"],
+      "termes": ["Insertion professionnelle via le numérique"],
       "cible": "Insertion professionnelle via le numérique"
     },
     {
-      "colonnes": ["properties.services"],
-      "termes": ["211", "201", "501", "502", "503", "504", "510", "808"],
+      "colonnes": ["services"],
+      "termes": ["Utilisation sécurisée du numérique"],
       "cible": "Utilisation sécurisée du numérique"
     },
     {
-      "colonnes": ["properties.services"],
-      "termes": ["213", "601", "602", "603", "604", "605", "606", "607", "608"],
-      "cible": "Parentalité et éducation avec le numérique"
-    },
-    {
-      "colonnes": ["properties.services"],
-      "termes": ["408", "701", "702", "703", "704", "705", "706", "707", "708", "709", "710", "711", "712", "713", "714", "715", "716", "717", "718", "719", "721", "722", "723", "724", "811"],
+      "colonnes": ["services"],
+      "termes": ["Loisirs et créations numériques"],
       "cible": "Loisirs et créations numériques"
     },
     {
-      "colonnes": ["properties.services"],
-      "termes": ["501", "502", "503", "504", "505", "506", "507", "508", "509", "510", "511", "512", "513", "514", "515", "516", "517", "518", "519", "520", "521", "522", "523", "524", "525", "716", "720", "813", "803", "804", "805"],
+      "colonnes": ["services"],
+      "termes": ["Compréhension du monde numérique"],
       "cible": "Compréhension du monde numérique"
     },
     {
-      "colonnes": ["properties.services"],
-      "termes": ["303", "304", "305"],
+      "colonnes": ["services"],
+      "termes": ["Accès internet et matériel informatique"],
       "cible": "Accès internet et matériel informatique"
     }
   ],
   "horaires": {
-    "osm": "properties.horaires"
+    "colonne": "horaires"
   }
 }
