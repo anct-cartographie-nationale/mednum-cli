@@ -46,7 +46,7 @@ const REMOVE_ONLY_ZIPCODE_IN_VOIE: CleanOperation = {
 const REMOVE_INCOMPLETE_ADDRESS_IN_VOIE: CleanOperation = {
   name: 'remove incomplete address in voie',
   selector:
-    /^(C\/O A\.THEVENIER LAFARGE73 AVENUE DU MONT BLANCBAT B|Médiathèque de Champagney Grande rue|Rue|1 - 3|Residence les 3 C|null|-)$/,
+    /^(C\/O A\.THEVENIER LAFARGE73 AVENUE DU MONT BLANCBAT B|Médiathèque de Champagney Grande rue|Rue|1 - 3|Residence les 3 C|null|-)\s*$/,
   fix: (): string => ''
 };
 
