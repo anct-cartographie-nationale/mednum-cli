@@ -5,5 +5,5 @@ export * from './fingerprints';
 export * from './save-outputs';
 export * from './qpv';
 export * from './source';
-export * from './zrr';
+export * from './frr';
 export * from './localisation/localisation-from-geo';
