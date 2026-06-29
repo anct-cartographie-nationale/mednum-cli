@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { Adresse, Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { type Polygon } from 'geojson';
-import { isInQpv, isInZrr } from '../../data';
+import { isInQpv, isInFrr } from '../../data';
 import { LieuxMediationNumeriqueMatching } from '../../input';
 import { processAutresFormationsLabels } from './autres-formations-labels.field';
 
@@ -21,14 +21,14 @@ const QPV_IN_02691_SHAPE: Polygon = {
   type: 'Polygon'
 };
 
-const ADRESSE_OUT_OF_QPV_AND_ZRR: Adresse = Adresse({
+const ADRESSE_OUT_OF_QPV_AND_FRR: Adresse = Adresse({
   voie: '128, Rue Jean Jaurès',
   code_postal: '57100',
   code_insee: '02691',
   commune: 'Metz'
 });
 
-const LOCALISATION_OUT_OF_QPV_AND_ZRR: Localisation = Localisation({ latitude: 46.204, longitude: 5.225 });
+const LOCALISATION_OUT_OF_QPV_AND_FRR: Localisation = Localisation({ latitude: 46.204, longitude: 5.225 });
 
 const ADRESSE_IN_QPV: Adresse = Adresse({
   voie: '128, Rue Jean Jaurès',
@@ -37,7 +37,7 @@ const ADRESSE_IN_QPV: Adresse = Adresse({
   commune: 'Metz'
 });
 
-const ADRESSE_IN_ZRR: Adresse = Adresse({
+const ADRESSE_IN_FRR: Adresse = Adresse({
   voie: '128, Rue Jean Jaurès',
   code_postal: '57100',
   code_insee: '01160',
@@ -52,9 +52,9 @@ describe('labels autres field', (): void => {
       {},
       {} as LieuxMediationNumeriqueMatching,
       isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
-      isInZrr(new Map([['01160', true]])),
-      ADRESSE_OUT_OF_QPV_AND_ZRR,
-      LOCALISATION_OUT_OF_QPV_AND_ZRR
+      isInFrr(new Map([['01160', true]])),
+      ADRESSE_OUT_OF_QPV_AND_FRR,
+      LOCALISATION_OUT_OF_QPV_AND_FRR
     );
 
     expect(labelsAutres).toStrictEqual([]);
@@ -73,9 +73,9 @@ describe('labels autres field', (): void => {
       {},
       matching,
       isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
-      isInZrr(new Map([['01160', true]])),
-      ADRESSE_OUT_OF_QPV_AND_ZRR,
-      LOCALISATION_OUT_OF_QPV_AND_ZRR
+      isInFrr(new Map([['01160', true]])),
+      ADRESSE_OUT_OF_QPV_AND_FRR,
+      LOCALISATION_OUT_OF_QPV_AND_FRR
     );
 
     expect(labelsAutres).toStrictEqual([]);
@@ -94,9 +94,9 @@ describe('labels autres field', (): void => {
       {},
       matching,
       isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
-      isInZrr(new Map([['01160', true]])),
-      ADRESSE_OUT_OF_QPV_AND_ZRR,
-      LOCALISATION_OUT_OF_QPV_AND_ZRR
+      isInFrr(new Map([['01160', true]])),
+      ADRESSE_OUT_OF_QPV_AND_FRR,
+      LOCALISATION_OUT_OF_QPV_AND_FRR
     );
 
     expect(labelsAutres).toStrictEqual(['SudLabs']);
@@ -124,9 +124,9 @@ describe('labels autres field', (): void => {
       },
       matching,
       isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
-      isInZrr(new Map([['01160', true]])),
-      ADRESSE_OUT_OF_QPV_AND_ZRR,
-      LOCALISATION_OUT_OF_QPV_AND_ZRR
+      isInFrr(new Map([['01160', true]])),
+      ADRESSE_OUT_OF_QPV_AND_FRR,
+      LOCALISATION_OUT_OF_QPV_AND_FRR
     );
 
     expect(labelsAutres).toStrictEqual(['Nièvre médiation', 'SudLabs']);
@@ -154,9 +154,9 @@ describe('labels autres field', (): void => {
       },
       matching,
       isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
-      isInZrr(new Map([['01160', true]])),
-      ADRESSE_OUT_OF_QPV_AND_ZRR,
-      LOCALISATION_OUT_OF_QPV_AND_ZRR
+      isInFrr(new Map([['01160', true]])),
+      ADRESSE_OUT_OF_QPV_AND_FRR,
+      LOCALISATION_OUT_OF_QPV_AND_FRR
     );
 
     expect(labelsAutres).toStrictEqual([]);
@@ -177,9 +177,9 @@ describe('labels autres field', (): void => {
       },
       matching,
       isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
-      isInZrr(new Map([['01160', true]])),
-      ADRESSE_OUT_OF_QPV_AND_ZRR,
-      LOCALISATION_OUT_OF_QPV_AND_ZRR
+      isInFrr(new Map([['01160', true]])),
+      ADRESSE_OUT_OF_QPV_AND_FRR,
+      LOCALISATION_OUT_OF_QPV_AND_FRR
     );
 
     expect(labelsAutres).toStrictEqual(['label 1']);
@@ -201,9 +201,9 @@ describe('labels autres field', (): void => {
       },
       matching,
       isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
-      isInZrr(new Map([['01160', true]])),
-      ADRESSE_OUT_OF_QPV_AND_ZRR,
-      LOCALISATION_OUT_OF_QPV_AND_ZRR
+      isInFrr(new Map([['01160', true]])),
+      ADRESSE_OUT_OF_QPV_AND_FRR,
+      LOCALISATION_OUT_OF_QPV_AND_FRR
     );
 
     expect(labelsAutres).toStrictEqual(['label 1', 'label 2']);
@@ -214,7 +214,7 @@ describe('labels autres field', (): void => {
       {},
       {} as LieuxMediationNumeriqueMatching,
       isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
-      isInZrr(new Map([['01160', true]])),
+      isInFrr(new Map([['01160', true]])),
       ADRESSE_IN_QPV,
       LOCALISATION_IN_QPV
     );
@@ -235,7 +235,7 @@ describe('labels autres field', (): void => {
       {},
       matching,
       isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
-      isInZrr(new Map([['01160', true]])),
+      isInFrr(new Map([['01160', true]])),
       ADRESSE_IN_QPV,
       LOCALISATION_IN_QPV
     );
@@ -243,30 +243,30 @@ describe('labels autres field', (): void => {
     expect(labelsAutres).toStrictEqual(['QPV', 'SudLabs']);
   });
 
-  it('should get ZRR when code INSEE match a ZRR', (): void => {
+  it('should get FRR when code INSEE match a FRR', (): void => {
     const labelsAutres: string[] = processAutresFormationsLabels(
       {},
       {} as LieuxMediationNumeriqueMatching,
       isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
-      isInZrr(new Map([['01160', true]])),
-      ADRESSE_IN_ZRR,
+      isInFrr(new Map([['01160', true]])),
+      ADRESSE_IN_FRR,
       LOCALISATION_IN_QPV
     );
 
-    expect(labelsAutres).toStrictEqual(['ZRR']);
+    expect(labelsAutres).toStrictEqual(['FRR']);
   });
 
-  it('should get QPV and ZRR when code INSEE match the both cases', (): void => {
+  it('should get QPV and FRR when code INSEE match the both cases', (): void => {
     const labelsAutres: string[] = processAutresFormationsLabels(
       {},
       {} as LieuxMediationNumeriqueMatching,
       isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
-      isInZrr(new Map([['02691', true]])),
+      isInFrr(new Map([['02691', true]])),
       ADRESSE_IN_QPV,
       LOCALISATION_IN_QPV
     );
 
-    expect(labelsAutres).toStrictEqual(['QPV', 'ZRR']);
+    expect(labelsAutres).toStrictEqual(['QPV', 'FRR']);
   });
 
   it('should get only one QPV if QPV is set in source', (): void => {
@@ -282,7 +282,7 @@ describe('labels autres field', (): void => {
       { labels_autres: 'QPV' },
       matching,
       isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
-      isInZrr(new Map([['02691', false]])),
+      isInFrr(new Map([['02691', false]])),
       ADRESSE_IN_QPV,
       LOCALISATION_IN_QPV
     );
@@ -301,16 +301,37 @@ describe('labels autres field', (): void => {
 
     const labelsAutres: string[] = processAutresFormationsLabels(
       {
-        label_1: 'QPV|ZRR|QPV|ZRR',
-        label_2: 'ZRR'
+        label_1: 'QPV|FRR|QPV|FRR',
+        label_2: 'FRR'
       },
       matching,
       isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
-      isInZrr(new Map([['02691', true]])),
+      isInFrr(new Map([['02691', true]])),
       ADRESSE_IN_QPV,
       LOCALISATION_IN_QPV
     );
 
-    expect(labelsAutres).toStrictEqual(['QPV', 'ZRR']);
+    expect(labelsAutres).toStrictEqual(['QPV', 'FRR']);
+  });
+
+  it('should ignore the obsolete ZRR label provided by a source, whatever its case', (): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      autres_formations_labels: [
+        {
+          colonnes: ['label_1']
+        }
+      ]
+    } as LieuxMediationNumeriqueMatching;
+
+    const labelsAutres: string[] = processAutresFormationsLabels(
+      { label_1: 'FRR|ZRR|zrr' },
+      matching,
+      isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
+      isInFrr(new Map([['02691', true]])),
+      ADRESSE_IN_FRR,
+      LOCALISATION_OUT_OF_QPV_AND_FRR
+    );
+
+    expect(labelsAutres).toStrictEqual(['FRR']);
   });
 });

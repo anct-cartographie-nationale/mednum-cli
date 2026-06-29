@@ -1,7 +1,7 @@
 import { Adresse, Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { Choice, LieuxMediationNumeriqueMatching, DataSource, cibleAsDefault } from '../../input';
 import { IsInQpv } from './qpv';
-import { IsInZrr } from './zrr';
+import { IsInFrr } from './frr';
 
 const isAllowedTerm = (choice: Choice<string>, sourceValue: string): boolean =>
   choice.sauf?.every((forbidden: string): boolean => !sourceValue.includes(forbidden)) ?? true;
@@ -66,26 +66,32 @@ const shouldAddQPV =
   (adresse?: Adresse, localisation?: Localisation): boolean =>
     adresse?.code_insee != null && localisation != null && isInQpv(adresse.code_insee, localisation);
 
-const shouldAddZRR =
-  (isInZrr: IsInZrr) =>
+const shouldAddFRR =
+  (isInFrr: IsInFrr) =>
   (adresse?: Adresse): boolean =>
-    adresse?.code_insee != null && isInZrr(adresse.code_insee);
+    adresse?.code_insee != null && isInFrr(adresse.code_insee);
 
 const labelsToAdd =
-  (isInQpv: IsInQpv, isInZrr: IsInZrr) =>
+  (isInQpv: IsInQpv, isInFrr: IsInFrr) =>
   (adresse?: Adresse, localisation?: Localisation): string[] => [
     ...(shouldAddQPV(isInQpv)(adresse, localisation) ? ['QPV'] : []),
-    ...(shouldAddZRR(isInZrr)(adresse) ? ['ZRR'] : [])
+    ...(shouldAddFRR(isInFrr)(adresse) ? ['FRR'] : [])
   ];
 
 const appendExtraLabels =
-  (isInQpv: IsInQpv, isInZrr: IsInZrr) =>
+  (isInQpv: IsInQpv, isInFrr: IsInFrr) =>
   (autresFormationsLabels: string[], adresse?: Adresse, localisation?: Localisation): string[] => [
-    ...labelsToAdd(isInQpv, isInZrr)(adresse, localisation),
+    ...labelsToAdd(isInQpv, isInFrr)(adresse, localisation),
     ...autresFormationsLabels
   ];
 
 const onlyNonEmptyLabels = (label: string): boolean => label !== '';
+
+// ZRR a été remplacé par FRR (France Ruralités Revitalisation) au 1er juillet 2024 ; on ignore ce label
+// obsolète lorsqu'une source continue de le fournir, seul le FRR calculé fait foi.
+const OBSOLETE_LABELS: string[] = ['zrr'];
+
+const isNotObsoleteLabel = (label: string): boolean => !OBSOLETE_LABELS.includes(label.trim().toLowerCase());
 
 const labelsFromSource = (matching: LieuxMediationNumeriqueMatching, source: DataSource): string[] =>
   Array.from(new Set(matching.autres_formations_labels?.reduce(appendAutresFormationsLabels(source), []))).filter(
@@ -98,13 +104,17 @@ export const processAutresFormationsLabels = (
   source: DataSource,
   matching: LieuxMediationNumeriqueMatching,
   isInQpv: IsInQpv,
-  isInZrr: IsInZrr,
+  isInFrr: IsInFrr,
   adresse?: Adresse,
   localisation?: Localisation
 ): string[] => [
   ...Array.from(
     new Set(
-      appendExtraLabels(isInQpv, isInZrr)(labelsFromSource(matching, source).flatMap(labelWithPipe), adresse, localisation)
+      appendExtraLabels(isInQpv, isInFrr)(
+        labelsFromSource(matching, source).flatMap(labelWithPipe).filter(isNotObsoleteLabel),
+        adresse,
+        localisation
+      )
     )
   )
 ];

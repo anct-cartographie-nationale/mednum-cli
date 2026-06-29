@@ -16,6 +16,7 @@ import {
 import { DedupliquerOptions } from '../dedupliquer-options';
 import { deduplicationRepository } from './deduplication.repository';
 import { appendCoopId } from './append-coop-id';
+import { withoutObsoleteLabels } from './without-obsolete-labels';
 
 const INTERNAL_DUPLICATION_SCORE_THRESHOLD = 90 as const;
 const DUPLICATION_SCORE_THRESHOLD = 83 as const;
@@ -63,7 +64,7 @@ const loadData = async (source: string): Promise<SchemaLieuMediationNumerique[]>
     throw new Error(`Format de source non pris en charge : ${source}`);
   }
 
-  return loaderConfig.loader(source);
+  return (await loaderConfig.loader(source)).map(withoutObsoleteLabels);
 };
 
 export const dedupliquerAction = async (dedupliquerOptions: DedupliquerOptions): Promise<void> => {

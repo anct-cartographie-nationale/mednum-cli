@@ -112,7 +112,7 @@ const lieuDeMediationNumerique = async (
   dataSource: DataSource,
   sourceName: string,
   recorder: Recorder,
-  { findCommune, isInQpv, isInZrr, geocode, config: matching }: TransformationRepository
+  { findCommune, isInQpv, isInFrr, geocode, config: matching }: TransformationRepository
 ): Promise<LieuMediationNumerique | undefined> => {
   const adresse: Adresse = processAdresse(findCommune)(dataSource, matching);
   const localisation: Localisation | undefined = await processLocalisation(dataSource, matching, geocode(adresse));
@@ -138,7 +138,7 @@ const lieuDeMediationNumerique = async (
     ...dispositifProgrammesNationauxIfAny(processDispositifProgrammeNationaux(dataSource, matching)),
     ...formationsLabelsIfAny(processFormationsLabels(dataSource, matching)),
     ...autresFormationsLabelsIfAny(
-      processAutresFormationsLabels(dataSource, matching, isInQpv, isInZrr, adresse, localisation)
+      processAutresFormationsLabels(dataSource, matching, isInQpv, isInFrr, adresse, localisation)
     ),
     ...modalitesAccesIfAny(processModalitesAcces(dataSource, matching)),
     ...modalitesAccompagnementIfAny(processModalitesAccompagnement(dataSource, matching)),
