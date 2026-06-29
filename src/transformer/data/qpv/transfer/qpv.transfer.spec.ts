@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { type MultiPolygon, type Polygon } from 'geojson';
 import { QpvShapesMap } from '../../../fields';
-import { qpvShapesMapFromTransfer, QpvTransfer } from './qpv.transfer';
+import { qpvShapesMapFromTransfer, QpvFeature } from './qpv.transfer';
 
 const QPV_IN_01053_SHAPE: Polygon = {
   coordinates: [
@@ -19,9 +19,10 @@ const QPV_IN_01053_SHAPE: Polygon = {
   type: 'Polygon'
 };
 
-const QPV_IN_01053: QpvTransfer = {
-  geo_shape: { type: 'Feature', geometry: QPV_IN_01053_SHAPE, properties: {} },
-  list_com_2023: '01053'
+const QPV_IN_01053: QpvFeature = {
+  type: 'Feature',
+  geometry: QPV_IN_01053_SHAPE,
+  properties: { insee_com: '01053' }
 };
 
 const QPV_1_IN_02691_SHAPE: Polygon = {
@@ -40,9 +41,10 @@ const QPV_1_IN_02691_SHAPE: Polygon = {
   type: 'Polygon'
 };
 
-const QPV_1_IN_02691: QpvTransfer = {
-  geo_shape: { type: 'Feature', geometry: QPV_1_IN_02691_SHAPE, properties: {} },
-  list_com_2023: '02691'
+const QPV_1_IN_02691: QpvFeature = {
+  type: 'Feature',
+  geometry: QPV_1_IN_02691_SHAPE,
+  properties: { insee_com: '02691' }
 };
 
 const QPV_2_IN_02691_SHAPE: Polygon = {
@@ -61,9 +63,10 @@ const QPV_2_IN_02691_SHAPE: Polygon = {
   type: 'Polygon'
 };
 
-const QPV_2_IN_02691: QpvTransfer = {
-  geo_shape: { type: 'Feature', geometry: QPV_2_IN_02691_SHAPE, properties: {} },
-  list_com_2023: '02691'
+const QPV_2_IN_02691: QpvFeature = {
+  type: 'Feature',
+  geometry: QPV_2_IN_02691_SHAPE,
+  properties: { insee_com: '02691' }
 };
 
 const QPV_MULTIPOLYGON_IN_02691_SHAPE: MultiPolygon = {
@@ -94,61 +97,54 @@ const QPV_MULTIPOLYGON_IN_02691_SHAPE: MultiPolygon = {
   type: 'MultiPolygon'
 };
 
-const QPV_MULTIPOLYGON_IN_02691: QpvTransfer = {
-  geo_shape: { type: 'Feature', geometry: QPV_MULTIPOLYGON_IN_02691_SHAPE, properties: {} },
-  list_com_2023: '02691'
+const QPV_MULTIPOLYGON_IN_02691: QpvFeature = {
+  type: 'Feature',
+  geometry: QPV_MULTIPOLYGON_IN_02691_SHAPE,
+  properties: { insee_com: '02691' }
 };
 
 describe('qpv transfer', (): void => {
-  it('should not convert single QPV to QPV shapes map', (): void => {
-    const qpvTransferData: QpvTransfer[] = [QPV_IN_01053];
-
-    const qpvShapesMap: QpvShapesMap = qpvShapesMapFromTransfer(qpvTransferData);
-
-    expect(qpvShapesMap).toStrictEqual(new Map<string, Polygon[]>([[QPV_IN_01053.list_com_2023, [QPV_IN_01053_SHAPE]]]));
-  });
-
   it('should convert single QPV to QPV shapes map', (): void => {
-    const qpvTransferData: QpvTransfer[] = [QPV_IN_01053];
+    const qpvFeatures: QpvFeature[] = [QPV_IN_01053];
 
-    const qpvShapesMap: QpvShapesMap = qpvShapesMapFromTransfer(qpvTransferData);
+    const qpvShapesMap: QpvShapesMap = qpvShapesMapFromTransfer(qpvFeatures);
 
-    expect(qpvShapesMap).toStrictEqual(new Map<string, Polygon[]>([[QPV_IN_01053.list_com_2023, [QPV_IN_01053_SHAPE]]]));
+    expect(qpvShapesMap).toStrictEqual(new Map<string, Polygon[]>([[QPV_IN_01053.properties.insee_com, [QPV_IN_01053_SHAPE]]]));
   });
 
   it('should convert multiple QPV to QPV shapes map', (): void => {
-    const qpvTransferData: QpvTransfer[] = [QPV_IN_01053, QPV_1_IN_02691];
+    const qpvFeatures: QpvFeature[] = [QPV_IN_01053, QPV_1_IN_02691];
 
-    const qpvShapesMap: QpvShapesMap = qpvShapesMapFromTransfer(qpvTransferData);
+    const qpvShapesMap: QpvShapesMap = qpvShapesMapFromTransfer(qpvFeatures);
 
     expect(qpvShapesMap).toStrictEqual(
       new Map<string, Polygon[]>([
-        [QPV_IN_01053.list_com_2023, [QPV_IN_01053_SHAPE]],
-        [QPV_1_IN_02691.list_com_2023, [QPV_1_IN_02691_SHAPE]]
+        [QPV_IN_01053.properties.insee_com, [QPV_IN_01053_SHAPE]],
+        [QPV_1_IN_02691.properties.insee_com, [QPV_1_IN_02691_SHAPE]]
       ])
     );
   });
 
   it('should convert multiple QPV with same code INSEE to QPV shapes map', (): void => {
-    const qpvTransferData: QpvTransfer[] = [QPV_IN_01053, QPV_1_IN_02691, QPV_2_IN_02691];
+    const qpvFeatures: QpvFeature[] = [QPV_IN_01053, QPV_1_IN_02691, QPV_2_IN_02691];
 
-    const qpvShapesMap: QpvShapesMap = qpvShapesMapFromTransfer(qpvTransferData);
+    const qpvShapesMap: QpvShapesMap = qpvShapesMapFromTransfer(qpvFeatures);
 
     expect(qpvShapesMap).toStrictEqual(
       new Map<string, Polygon[]>([
-        [QPV_IN_01053.list_com_2023, [QPV_IN_01053_SHAPE]],
-        [QPV_1_IN_02691.list_com_2023, [QPV_1_IN_02691_SHAPE, QPV_2_IN_02691_SHAPE]]
+        [QPV_IN_01053.properties.insee_com, [QPV_IN_01053_SHAPE]],
+        [QPV_1_IN_02691.properties.insee_com, [QPV_1_IN_02691_SHAPE, QPV_2_IN_02691_SHAPE]]
       ])
     );
   });
 
   it('should convert multipolyon to list of polygons in qpv shapes map', (): void => {
-    const qpvTransferData: QpvTransfer[] = [QPV_MULTIPOLYGON_IN_02691];
+    const qpvFeatures: QpvFeature[] = [QPV_MULTIPOLYGON_IN_02691];
 
-    const qpvShapesMap: QpvShapesMap = qpvShapesMapFromTransfer(qpvTransferData);
+    const qpvShapesMap: QpvShapesMap = qpvShapesMapFromTransfer(qpvFeatures);
 
     expect(qpvShapesMap).toStrictEqual(
-      new Map<string, Polygon[]>([[QPV_1_IN_02691.list_com_2023, [QPV_1_IN_02691_SHAPE, QPV_2_IN_02691_SHAPE]]])
+      new Map<string, Polygon[]>([[QPV_1_IN_02691.properties.insee_com, [QPV_1_IN_02691_SHAPE, QPV_2_IN_02691_SHAPE]]])
     );
   });
 });

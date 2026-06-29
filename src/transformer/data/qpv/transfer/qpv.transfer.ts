@@ -1,15 +1,11 @@
 import { type Feature, type MultiPolygon, type Polygon, type Position } from 'geojson';
 import { QpvShapesMap } from '../../../fields';
 
-export type QpvTransfer = {
-  geo_shape?: Feature<MultiPolygon | Polygon>;
-  list_com_2023: string;
+export type QpvFeatureProperties = {
+  insee_com: string;
 };
 
-type FieldsWithShape = {
-  geo_shape: Feature<MultiPolygon | Polygon>;
-  list_com_2023: string;
-};
+export type QpvFeature = Feature<MultiPolygon | Polygon, QpvFeatureProperties>;
 
 const toSinglePolygon = (positions: Position[]): Polygon => ({
   coordinates: [positions],
@@ -24,31 +20,8 @@ const isPolygon = (shape: MultiPolygon | Polygon): shape is Polygon => shape.typ
 const polygonsFromShape = (shapeToAdd: MultiPolygon | Polygon, polygons: Polygon[] = []): Polygon[] =>
   isPolygon(shapeToAdd) ? [...polygons, shapeToAdd] : [...polygons, ...multiPolygonToListOfPolygons(shapeToAdd)];
 
-const toPolygons = (existingQpvTransfer: (MultiPolygon | Polygon)[]): Polygon[] =>
-  existingQpvTransfer.reduce(
-    (polygons: Polygon[], shapeToAdd: MultiPolygon | Polygon): Polygon[] => polygonsFromShape(shapeToAdd, polygons),
-    []
-  );
+const upsertQpvToShapesMap = (qpvShapesMap: QpvShapesMap, { properties, geometry }: QpvFeature): QpvShapesMap =>
+  qpvShapesMap.set(properties.insee_com, polygonsFromShape(geometry, qpvShapesMap.get(properties.insee_com) ?? []));
 
-const upsertQpvToShapesMap = (
-  existingQpvTransfer: (MultiPolygon | Polygon)[],
-  qpvShapesMap: Map<string, Polygon[]>,
-  { list_com_2023, geo_shape: shapeToAdd }: FieldsWithShape
-): QpvShapesMap =>
-  existingQpvTransfer.length === 0
-    ? qpvShapesMap.set(list_com_2023, polygonsFromShape(shapeToAdd.geometry))
-    : qpvShapesMap.set(
-        list_com_2023,
-        isPolygon(shapeToAdd.geometry)
-          ? [...toPolygons(existingQpvTransfer), shapeToAdd.geometry]
-          : [...toPolygons(existingQpvTransfer), ...multiPolygonToListOfPolygons(shapeToAdd.geometry)]
-      );
-
-const hasGeoShape = (qpv: QpvTransfer): qpv is FieldsWithShape => qpv.geo_shape != null;
-
-export const qpvShapesMapFromTransfer = (qpvTransfer: QpvTransfer[]): QpvShapesMap =>
-  qpvTransfer.reduce(
-    (qpvShapesMap: QpvShapesMap, qpv: QpvTransfer): QpvShapesMap =>
-      hasGeoShape(qpv) ? upsertQpvToShapesMap(qpvShapesMap.get(qpv.list_com_2023) ?? [], qpvShapesMap, qpv) : qpvShapesMap,
-    new Map<string, Polygon[]>()
-  );
+export const qpvShapesMapFromTransfer = (qpvFeatures: QpvFeature[]): QpvShapesMap =>
+  qpvFeatures.reduce(upsertQpvToShapesMap, new Map<string, Polygon[]>());
