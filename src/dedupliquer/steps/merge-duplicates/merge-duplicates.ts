@@ -13,8 +13,10 @@ const onlyMatchingGroupIds =
   (lieu: SchemaLieuMediationNumerique): boolean =>
     ids.includes(lieu.id);
 
-const byDate = (lieuA: SchemaLieuMediationNumerique, lieuB: SchemaLieuMediationNumerique): number =>
-  lieuB.date_maj.localeCompare(lieuA.date_maj);
+const byDate = (lieuA: SchemaLieuMediationNumerique, lieuB: SchemaLieuMediationNumerique): number => {
+  const byDateMaj: number = lieuB.date_maj.localeCompare(lieuA.date_maj);
+  return byDateMaj === 0 ? lieuA.id.localeCompare(lieuB.id) : byDateMaj;
+};
 
 const isTooOld =
   (now: Date) =>
