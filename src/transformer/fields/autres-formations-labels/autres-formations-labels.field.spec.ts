@@ -313,4 +313,25 @@ describe('labels autres field', (): void => {
 
     expect(labelsAutres).toStrictEqual(['QPV', 'FRR']);
   });
+
+  it('should ignore the obsolete ZRR label provided by a source, whatever its case', (): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      autres_formations_labels: [
+        {
+          colonnes: ['label_1']
+        }
+      ]
+    } as LieuxMediationNumeriqueMatching;
+
+    const labelsAutres: string[] = processAutresFormationsLabels(
+      { label_1: 'FRR|ZRR|zrr' },
+      matching,
+      isInQpv(new Map([['02691', [QPV_IN_02691_SHAPE]]])),
+      isInFrr(new Map([['02691', true]])),
+      ADRESSE_IN_FRR,
+      LOCALISATION_OUT_OF_QPV_AND_FRR
+    );
+
+    expect(labelsAutres).toStrictEqual(['FRR']);
+  });
 });

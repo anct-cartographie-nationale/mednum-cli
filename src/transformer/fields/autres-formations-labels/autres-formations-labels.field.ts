@@ -87,6 +87,12 @@ const appendExtraLabels =
 
 const onlyNonEmptyLabels = (label: string): boolean => label !== '';
 
+// ZRR a été remplacé par FRR (France Ruralités Revitalisation) au 1er juillet 2024 ; on ignore ce label
+// obsolète lorsqu'une source continue de le fournir, seul le FRR calculé fait foi.
+const OBSOLETE_LABELS: string[] = ['zrr'];
+
+const isNotObsoleteLabel = (label: string): boolean => !OBSOLETE_LABELS.includes(label.trim().toLowerCase());
+
 const labelsFromSource = (matching: LieuxMediationNumeriqueMatching, source: DataSource): string[] =>
   Array.from(new Set(matching.autres_formations_labels?.reduce(appendAutresFormationsLabels(source), []))).filter(
     onlyNonEmptyLabels
@@ -104,7 +110,11 @@ export const processAutresFormationsLabels = (
 ): string[] => [
   ...Array.from(
     new Set(
-      appendExtraLabels(isInQpv, isInFrr)(labelsFromSource(matching, source).flatMap(labelWithPipe), adresse, localisation)
+      appendExtraLabels(isInQpv, isInFrr)(
+        labelsFromSource(matching, source).flatMap(labelWithPipe).filter(isNotObsoleteLabel),
+        adresse,
+        localisation
+      )
     )
   )
 ];
