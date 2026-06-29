@@ -1277,4 +1277,72 @@ describe('remove duplicates', (): void => {
       ])
     );
   });
+
+  it('should merge internal duplicates deterministically whatever the input order when they share the same date_maj', (): void => {
+    const lieux: SchemaLieuMediationNumerique[] = [
+      {
+        id: 'Conseil-Departemental_3',
+        pivot: '21170436600015',
+        nom: 'Mairie',
+        adresse: '2 Place du Marche',
+        code_postal: '17350',
+        code_insee: '17436',
+        commune: 'Taillebourg',
+        latitude: 45.835452,
+        longitude: -0.644718,
+        date_maj: '2025-07-29',
+        source: 'Conseil Départemental de la Charente-Maritime',
+        horaires: 'Tu,Th 09:30-12:00',
+        services: Service.MaitriseDesOutilsNumeriquesDuQuotidien
+      },
+      {
+        id: 'Conseil-Departemental_1',
+        pivot: '21170436600015',
+        nom: 'Mairie',
+        adresse: '2 Place du Marche',
+        code_postal: '17350',
+        code_insee: '17436',
+        commune: 'Taillebourg',
+        latitude: 45.835452,
+        longitude: -0.644718,
+        date_maj: '2025-07-29',
+        source: 'Conseil Départemental de la Charente-Maritime',
+        horaires: 'Mo-Sun 00:00-00:00',
+        services: Service.AccesInternetEtMaterielInformatique
+      },
+      {
+        id: 'Conseil-Departemental_2',
+        pivot: '21170436600015',
+        nom: 'Mairie',
+        adresse: '2 Place du Marche',
+        code_postal: '17350',
+        code_insee: '17436',
+        commune: 'Taillebourg',
+        latitude: 45.835452,
+        longitude: -0.644718,
+        date_maj: '2025-07-29',
+        source: 'Conseil Départemental de la Charente-Maritime',
+        horaires: 'Mo 14:00-17:00; Tu-Fr 09:30-12:00',
+        services: Service.AccesInternetEtMaterielInformatique
+      }
+    ];
+    const reversedLieux: SchemaLieuMediationNumerique[] = [...lieux].reverse();
+    const now: Date = new Date('2026-06-29');
+
+    const mergedLieux: MergedLieuxByGroupMap = mergeDuplicates(now)(
+      lieux,
+      groupDuplicates(duplicationComparisons(lieux, true))
+    );
+    const mergedReversedLieux: MergedLieuxByGroupMap = mergeDuplicates(now)(
+      reversedLieux,
+      groupDuplicates(duplicationComparisons(reversedLieux, true))
+    );
+
+    expect(mergedReversedLieux).toStrictEqual(mergedLieux);
+
+    const [mergedLieu]: SchemaLieuMediationNumerique[] = Array.from(mergedLieux.values());
+    expect(mergedLieu.id).toBe('Conseil-Departemental_1__Conseil-Departemental_2__Conseil-Departemental_3');
+    expect(mergedLieu.horaires).toBe('Mo-Sun 00:00-00:00');
+    expect(mergedLieu.services).toBe(Service.AccesInternetEtMaterielInformatique);
+  });
 });
