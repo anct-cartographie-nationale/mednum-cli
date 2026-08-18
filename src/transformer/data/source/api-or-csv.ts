@@ -33,7 +33,7 @@ const streamPromise = async (
       response.data.on('end', async (): Promise<void> => {
         resolve(
           response.headers['content-type'] === 'text/csv' || notJson
-            ? await csv({ delimiter: defaultIfUndefined(delimiter, ',') }).fromString(
+            ? await csv({ delimiter: defaultIfUndefined(delimiter, ','), ignoreEmpty: true }).fromString(
                 iconv.decode(Buffer.concat(chunks), defaultIfUndefined(encoding, 'utf8'))
               )
             : JSON.parse(Buffer.concat(chunks).toString())

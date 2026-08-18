@@ -1,0 +1,376 @@
+{
+    "id": {
+        "colonne": "id"
+    },
+    "pivot": {
+        "colonne": "pivot"
+    },
+    "nom": {
+        "colonne": "nom"
+    },
+    "commune": {
+        "colonne": "commune"
+    },
+    "code_postal": {
+        "colonne": "code_postal"
+    },
+    "code_insee": {
+        "colonne": "code_insee"
+    },
+    "adresse": {
+        "colonne": "adresse"
+    },
+    "complement_adresse": {
+        "colonne": "complement_adresse"
+    },
+    "latitude": {
+        "colonne": "latitude"
+    },
+    "longitude": {
+        "colonne": "longitude"
+    },
+    "typologie": [
+        {
+            "colonnes": [
+                "typologie"
+            ],
+            "termes": [
+                "ASSO"
+            ],
+            "cible": "ASSO"
+        },
+        {
+            "colonnes": [
+                "typologie"
+            ],
+            "termes": [
+                "AUTRE"
+            ],
+            "cible": "Autre"
+        },
+        {
+            "colonnes": [
+                "typologie"
+            ],
+            "termes": [
+                "CAF"
+            ],
+            "cible": "CAF"
+        },
+        {
+            "colonnes": [
+                "typologie"
+            ],
+            "termes": [
+                "CC"
+            ],
+            "cible": "CC"
+        },
+        {
+            "colonnes": [
+                "typologie"
+            ],
+            "termes": [
+                "CD"
+            ],
+            "cible": "CD"
+        },
+        {
+            "colonnes": [
+                "typologie"
+            ],
+            "termes": [
+                "COMMUNE"
+            ],
+            "cible": "MUNI"
+        },
+        {
+            "colonnes": [
+                "typologie"
+            ],
+            "termes": [
+                "CS"
+            ],
+            "cible": "CS"
+        },
+        {
+            "colonnes": [
+                "typologie"
+            ],
+            "termes": [
+                "EPCI"
+            ],
+            "cible": "EPCI"
+        },
+        {
+            "colonnes": [
+                "typologie"
+            ],
+            "termes": [
+                "EVS"
+            ],
+            "cible": "EVS"
+        },
+        {
+            "colonnes": [
+                "typologie"
+            ],
+            "termes": [
+                "LA_POSTE"
+            ],
+            "cible": "LA_POSTE"
+        },
+        {
+            "colonnes": [
+                "typologie"
+            ],
+            "termes": [
+                "MSA"
+            ],
+            "cible": "MSA"
+        },
+        {
+            "colonnes": [
+                "typologie"
+            ],
+            "termes": [
+                "TIERS_LIEUX"
+            ],
+            "cible": "TIERS_LIEUX"
+        }
+    ],
+    "telephone": {
+        "colonne": "telephone" 
+    },
+    "courriels": {
+        "colonne": "courriel"
+    },
+    "site_web": {
+        "colonne": "site_web"
+    },
+    "horaires": {
+        "osm": "horaires"
+    },
+    "presentation_resume": {
+        "colonne": "presentation_resume"
+    },
+    "presentation_detail": {
+        "colonne": "presentation_detail"
+    },
+    "itinerance": [
+        {
+            "colonnes": [
+                "itinerance"
+            ],
+            "termes": [
+                "Itinérant"
+            ],
+            "cible": "Itinérant"
+        },
+        {
+            "colonnes": [
+                "itinerance"
+            ],
+            "termes": [
+                "Fixe"
+            ],
+            "cible": "Fixe"
+        }
+    ],
+    "structure_parente": {
+        "colonne": "structure_parente"
+    },
+    "date_maj": {
+        "colonne": "date_maj"
+    },
+    "services": [
+        {
+            "colonnes": [
+                "services"
+            ],
+            "termes": [
+                "Aide aux démarches administratives",
+                "Aide aux démarches administratives"
+            ],
+            "cible": "Aide aux démarches administratives"
+        },
+        {
+            "colonnes": [
+                "services"
+            ],
+            "termes": [
+                "Maîtrise des outils numériques du quotidien"
+            ],
+            "cible": "Maîtrise des outils numériques du quotidien"
+        },
+        {
+            "colonnes": [
+                "services"
+            ],
+            "termes": [
+                "Insertion professionnelle via le numérique"
+            ],
+            "cible": "Insertion professionnelle via le numérique"
+        },
+        {
+            "colonnes": [
+                "services"
+            ],
+            "termes": [
+                "Utilisation sécurisée du numérique"
+            ],
+            "cible": "Utilisation sécurisée du numérique"
+        },
+        {
+            "colonnes": [
+                "services"
+            ],
+            "termes": [
+                "Parentalité et éducation avec le numérique"
+            ],
+            "cible": "Parentalité et éducation avec le numérique"
+        },
+        {
+            "colonnes": [
+                "services"
+            ],
+            "termes": [
+                "Loisirs et créations numériques"
+            ],
+            "cible": "Loisirs et créations numériques"
+        },
+        {
+            "colonnes": [
+                "services"
+            ],
+            "termes": [
+                "Compréhension du monde numérique"
+            ],
+            "cible": "Compréhension du monde numérique"
+        },
+        {
+            "colonnes": [
+                "services"
+            ],
+            "termes": [
+                "Accès internet et matériel informatique",
+                "Matériel informatique en libre service"
+            ],
+            "cible": "Accès internet et matériel informatique"
+        },
+        {
+            "colonnes": [
+                "services"
+            ],
+            "termes": [
+                "Acquisition de matériel informatique à prix solidaire"
+            ],
+            "cible": "Acquisition de matériel informatique à prix solidaire"
+        }
+    ],
+    "publics_specifiquement_adresses": [
+        {
+            "colonnes": [
+                "publics_specifiquement_adresses"
+            ],
+            "termes": [
+                "Jeunes"
+            ],
+            "cible": "Jeunes"
+        },
+        {
+            "colonnes": [
+                "publics_specifiquement_adresses"
+            ],
+            "termes": [
+                "Etudiants"
+            ],
+            "cible": "Étudiants"
+        },
+        {
+            "colonnes": [
+                "publics_specifiquement_adresses"
+            ],
+            "termes": [
+                "Familles et/ou enfants"
+            ],
+            "cible": "Familles et/ou enfants"
+        },
+        {
+            "colonnes": [
+                "publics_specifiquement_adresses"
+            ],
+            "termes": [
+                "Seniors",
+                "Senoirs"
+            ],
+            "cible": "Seniors"
+        },
+        {
+            "colonnes": [
+                "publics_specifiquement_adresses"
+            ],
+            "termes": [
+                "Femmes"
+            ],
+            "cible": "Femmes"
+        }
+    ],
+    "formations_labels": [
+        {
+            "colonnes": [
+                "formations_labels"
+            ],
+            "termes": [
+                "Mon Espace Santé"
+            ],
+            "cible": "Formé à « Mon Espace Santé »"
+        }
+    ],
+    "modalites_acces": [
+        {
+            "colonnes": [
+                "modalites_acces"
+            ],
+            "termes": [
+                "Se présenter"
+            ],
+            "cible": "Se présenter"
+        },
+        {
+            "colonnes": [
+                "modalites_acces"
+            ],
+            "termes": [
+                "Téléphoner"
+            ],
+            "cible": "Téléphoner"
+        }
+    ],
+    "modalites_accompagnement": [
+        {
+            "colonnes": [
+                "modalies_accompagnement"
+            ],
+            "termes": [
+                "Accompagnement individuel"
+            ],
+            "cible": "Accompagnement individuel"
+        },
+        {
+            "colonnes": [
+                "modalies_accompagnement"
+            ],
+            "termes": [
+                "Dans un atelier collectif"
+            ],
+            "cible": "Dans un atelier collectif"
+        }
+    ],
+    "fiche_acces_libre": {
+        "colonne": "fiche_acces_libre"
+    },
+    "prise_rdv": {
+        "colonne": "prise_rdv"
+    }
+}

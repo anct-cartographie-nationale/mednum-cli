@@ -33,6 +33,7 @@ Les sources de données prises en comptes pour le moment sont celles collectées
 - [Hérault](https://www.herault-data.fr/)
 - [Landes](https://www.pigma.org/)
 - [Loire-Atlantique](https://www.data.gouv.fr/fr/datasets/r/95824460-e707-4db1-a67b-46b4e540d8ac)
+- [Manche](https://www.data.gouv.fr/api/1/datasets/r/ee988005-b0af-4d59-8f2e-b8c92a22944e)
 - [Meuse](https://www.data.gouv.fr/fr/datasets/r/a0a0639d-5895-4dfa-9c65-8a58b396d754)
 - [Mulhouse](https://data.mulhouse-alsace.fr/)
 - [Paca](https://www.data.gouv.fr/fr/datasets/r/5250e9c9-8abe-4a4e-8ebc-cb4e8fe72b71)
