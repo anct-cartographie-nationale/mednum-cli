@@ -3,6 +3,7 @@ import { mergeMultipleHoursRanges } from '../../merge-hours-ranges/merge-hours-r
 import { OPENING_HOURS_EXTRACTION, OpeningHoursExtraction } from './horaires.field.extract-operations';
 import { HORAIRES_FIELD_CLEAN_OPERATIONS, HorairesFieldCleanOperation } from './horaires.field.clean-operations';
 import { NO_OSM_OPENING_HOURS, OsmOpeningHoursString, osmOpeningHoursString } from './process-horaires.field';
+import { appendHorairesOccurrenceComments, extractHorairesOccurrenceComments } from './horaires-occurrence-comment';
 
 type DayWithOsmHours = { osmHours: string; day: OsmDaysOfWeek };
 
@@ -91,17 +92,20 @@ const isValidOdmHours = (osmOpeningHours: OsmOpeningHoursString): boolean =>
   /(?:Mo|Tu|We|Th|Fr|Sa|Su)\s?;|(?:Mo|Tu|We|Th|Fr|Sa|Su)\s?$/g.test(osmOpeningHours ?? '');
 
 export const openingHoursFromWeek = (horairesSingleField?: string): OsmOpeningHoursString =>
-  ((singleStringOpeningHours: OsmOpeningHoursString): OsmOpeningHoursString =>
-    isValidOdmHours(singleStringOpeningHours) ? NO_OSM_OPENING_HOURS : singleStringOpeningHours)(
-    osmOpeningHoursString(
-      fromTimetableOsmOpeningHours(
-        processOpeningHours(
-          HORAIRES_FIELD_CLEAN_OPERATIONS.reduce(
-            (horaires: OsmOpeningHoursString, cleanOperation: HorairesFieldCleanOperation): string | undefined =>
-              horaires?.replace(cleanOperation.selector, cleanOperation.fix),
-            horairesSingleField?.toLowerCase().trim()
+  appendHorairesOccurrenceComments(
+    ((singleStringOpeningHours: OsmOpeningHoursString): OsmOpeningHoursString =>
+      isValidOdmHours(singleStringOpeningHours) ? NO_OSM_OPENING_HOURS : singleStringOpeningHours)(
+      osmOpeningHoursString(
+        fromTimetableOsmOpeningHours(
+          processOpeningHours(
+            HORAIRES_FIELD_CLEAN_OPERATIONS.reduce(
+              (horaires: OsmOpeningHoursString, cleanOperation: HorairesFieldCleanOperation): string | undefined =>
+                horaires?.replace(cleanOperation.selector, cleanOperation.fix),
+              horairesSingleField?.toLowerCase().trim()
+            )
           )
         )
       )
-    )
+    ),
+    extractHorairesOccurrenceComments(horairesSingleField)
   );

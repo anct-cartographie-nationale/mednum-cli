@@ -295,6 +295,105 @@ describe('horaires field', (): void => {
     expect(openingHours).toBeUndefined();
   });
 
+  it('should add a comment when opening hours only apply on the 3rd wednesday of the month', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        'Horaires ouverture': 'le troisième mercredi du mois de 09h00 à 10h30'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('We 09:00-10:30 "3ème mercredi du mois"');
+  });
+
+  it('should add a comment when opening hours only apply on the 1st tuesday of the month', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        'Horaires ouverture': '1er mardi du mois de 9h à 12h'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('Tu 09:00-12:00 "1er mardi du mois"');
+  });
+
+  it('should add a comment when opening hours only apply on the last friday of the month', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        'Horaires ouverture': 'dernier vendredi du mois de 14h à 17h'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('Fr 14:00-17:00 "Dernier vendredi du mois"');
+  });
+
+  it('should add a comment when using the plural form "Les premiers lundis du mois"', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        'Horaires ouverture': 'Les premiers lundis du mois de 9h00 à 12h30'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('Mo 09:00-12:30 "1er lundi du mois"');
+  });
+
+  it('should add a comment when opening hours only apply on the 2nd thursday of the month with "deuxième"', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        'Horaires ouverture': 'le deuxième jeudi du mois de 10h à 11h'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('Th 10:00-11:00 "2ème jeudi du mois"');
+  });
+
+  it('should add a comment when opening hours only apply on the 2nd thursday of the month with "second"', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        'Horaires ouverture': 'le second jeudi du mois de 10h à 11h'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('Th 10:00-11:00 "2ème jeudi du mois"');
+  });
+
+  it('should add a comment when opening hours only apply on the 4th saturday of the month with "quatrième"', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        'Horaires ouverture': 'le quatrième samedi du mois de 10h à 11h30'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('Sa 10:00-11:30 "4ème samedi du mois"');
+  });
+
+  it('should add a comment when using the plural accented form "Les 3èmes mercredis du mois"', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        'Horaires ouverture': 'les 3èmes mercredis du mois de 9h à 10h'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('We 09:00-10:00 "3ème mercredi du mois"');
+  });
+
+  it('should add a comment when the ordinal is written without accent "3eme"', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        'Horaires ouverture': 'le 3eme mercredi du mois de 9h à 10h'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('We 09:00-10:00 "3ème mercredi du mois"');
+  });
+
   it('should get opening days with unexpected slashes', (): void => {
     const openingHours: OsmOpeningHoursString = processHoraires(
       {
