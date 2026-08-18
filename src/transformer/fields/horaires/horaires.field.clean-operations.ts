@@ -4,7 +4,7 @@ export type HorairesFieldCleanOperation = {
 };
 
 const INSERT_SPACE_AFTER_H_OR_HEURE: HorairesFieldCleanOperation = {
-  selector: /(heure|h)(?=[A-Za-z])/gu,
+  selector: /(?<=\d)(heure|h)(?=[A-Za-z])/gu,
   fix: (match: string) => `${match} `
 };
 
