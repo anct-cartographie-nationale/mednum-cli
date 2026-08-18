@@ -80,6 +80,15 @@
                 "typologie"
             ],
             "termes": [
+                "COMMUNE"
+            ],
+            "cible": "MUNI"
+        },
+        {
+            "colonnes": [
+                "typologie"
+            ],
+            "termes": [
                 "CS"
             ],
             "cible": "CS"
@@ -134,7 +143,7 @@
         "colonne": "telephone" 
     },
     "courriels": {
-        "colonne": "courriels"
+        "colonne": "courriel"
     },
     "site_web": {
         "colonne": "site_web"
@@ -292,7 +301,8 @@
                 "publics_specifiquement_adresses"
             ],
             "termes": [
-                "Seniors"
+                "Seniors",
+                "Senoirs"
             ],
             "cible": "Seniors"
         },
@@ -340,7 +350,7 @@
     "modalites_accompagnement": [
         {
             "colonnes": [
-                "modalites_accompagnement"
+                "modalies_accompagnement"
             ],
             "termes": [
                 "Accompagnement individuel"
@@ -349,7 +359,7 @@
         },
         {
             "colonnes": [
-                "modalites_accompagnement"
+                "modalies_accompagnement"
             ],
             "termes": [
                 "Dans un atelier collectif"
