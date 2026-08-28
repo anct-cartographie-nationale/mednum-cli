@@ -1,5 +1,14 @@
-import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { type CommuneDuplications, type Duplicate, findDuplicates, type LieuDuplications } from '../find-duplicates';
+import {
+  type Comparaison,
+  type ComparaisonMesuree,
+  comparer,
+  type LieuPrepare,
+  type LocalisationToValidate,
+  preparer,
+  type SchemaLieuMediationNumerique,
+  type Typologie,
+  Typologies
+} from '@gouvfr-anct/lieux-de-mediation-numerique';
 
 export type DuplicationComparison = {
   id1: string;
@@ -7,107 +16,113 @@ export type DuplicationComparison = {
   typologie1?: string;
   typologie2?: string;
   score: number;
-  adresseScore: number;
+  adresseScore?: number;
   adresse1: string;
   adresse2: string;
   nomScore: number;
   nom1: string;
   nom2: string;
-  distanceScore: number;
+  distanceEnMetres?: number;
   localisation1: string;
   localisation2: string;
   source1: string | undefined;
   source2: string | undefined;
 };
 
-type ReadyToProcessDuplicationComparison = {
-  lieu1: SchemaLieuMediationNumerique;
-  lieu2: SchemaLieuMediationNumerique;
-  duplicate: Duplicate;
+type LieuComparable = {
+  lieu: SchemaLieuMediationNumerique;
+  prepare: LieuPrepare;
 };
 
-const toDuplicationComparison = ({ lieu1, lieu2, duplicate }: ReadyToProcessDuplicationComparison): DuplicationComparison => ({
-  id1: lieu1.id,
-  id2: lieu2.id,
-  score: Math.trunc((duplicate.voieFuzzyScore + duplicate.nomFuzzyScore + duplicate.distanceScore) / 3),
-  adresseScore: duplicate.voieFuzzyScore,
-  adresse1: `${lieu1.adresse} ${lieu1.code_postal} ${lieu1.commune}`,
-  adresse2: `${lieu2.adresse} ${lieu2.code_postal} ${lieu2.commune}`,
-  nomScore: duplicate.nomFuzzyScore,
-  nom1: lieu1.nom,
-  nom2: lieu2.nom,
-  distanceScore: duplicate.distanceScore,
-  localisation1: `${lieu1.latitude} : ${lieu1.longitude}`,
-  localisation2: `${lieu2.latitude} : ${lieu2.longitude}`,
-  source1: lieu1.source,
-  source2: lieu2.source,
-  ...(lieu1.typologie == null ? {} : { typologie1: lieu1.typologie }),
-  ...(lieu2.typologie == null ? {} : { typologie2: lieu2.typologie })
+const localisationDe = ({ latitude, longitude }: SchemaLieuMediationNumerique): LocalisationToValidate | null =>
+  latitude == null || longitude == null ? null : { latitude, longitude };
+
+const typologiesDe = ({ typologie }: SchemaLieuMediationNumerique): Typologie[] | null =>
+  typologie == null ? null : Typologies(typologie.split('|') as Typologies);
+
+const toLieuComparable = (lieu: SchemaLieuMediationNumerique): LieuComparable => ({
+  lieu,
+  prepare: preparer({
+    nom: lieu.nom,
+    adresse: lieu.adresse,
+    codeInsee: lieu.code_insee ?? null,
+    localisation: localisationDe(lieu),
+    typologies: typologiesDe(lieu),
+    source: lieu.source ?? null
+  })
 });
 
-const onlyValidScore = (duplication: DuplicationComparison): boolean => !Number.isNaN(duplication.score);
+const adresseComplete = ({ adresse, code_postal, commune }: SchemaLieuMediationNumerique): string =>
+  `${adresse} ${code_postal} ${commune}`;
+
+const localisationLisible = ({ latitude, longitude }: SchemaLieuMediationNumerique): string => `${latitude} : ${longitude}`;
+
+const toDuplicationComparison = (
+  un: SchemaLieuMediationNumerique,
+  autre: SchemaLieuMediationNumerique,
+  { score, nom, adresse, distance }: ComparaisonMesuree
+): DuplicationComparison => ({
+  id1: un.id,
+  id2: autre.id,
+  score,
+  nomScore: nom,
+  nom1: un.nom,
+  nom2: autre.nom,
+  ...(adresse == null ? {} : { adresseScore: adresse }),
+  adresse1: adresseComplete(un),
+  adresse2: adresseComplete(autre),
+  ...(distance == null ? {} : { distanceEnMetres: Math.round(distance) }),
+  localisation1: localisationLisible(un),
+  localisation2: localisationLisible(autre),
+  source1: un.source,
+  source2: autre.source,
+  ...(un.typologie == null ? {} : { typologie1: un.typologie }),
+  ...(autre.typologie == null ? {} : { typologie2: autre.typologie })
+});
+
+const mesuree = (comparaison: Comparaison): comparaison is ComparaisonMesuree => comparaison.vetos.length === 0;
+
+const comparaisonsPourLieu =
+  (candidats: LieuComparable[], allowInternalMerge: boolean) =>
+  ({ lieu, prepare }: LieuComparable): DuplicationComparison[] =>
+    candidats
+      .filter((candidat: LieuComparable): boolean => candidat.lieu.id !== lieu.id)
+      .map((candidat: LieuComparable): [SchemaLieuMediationNumerique, Comparaison] => [
+        candidat.lieu,
+        comparer(prepare, candidat.prepare, { allowInternalMerge })
+      ])
+      .filter(
+        (couple: [SchemaLieuMediationNumerique, Comparaison]): couple is [SchemaLieuMediationNumerique, ComparaisonMesuree] =>
+          mesuree(couple[1])
+      )
+      .map(
+        ([candidat, comparaison]: [SchemaLieuMediationNumerique, ComparaisonMesuree]): DuplicationComparison =>
+          toDuplicationComparison(lieu, candidat, comparaison)
+      );
+
+const clePaire = ({ id1, id2 }: DuplicationComparison): string => [id1, id2].sort().join('|');
+
+const sansPaireInverse = (comparaisons: DuplicationComparison[]): DuplicationComparison[] => {
+  const dejaVues: Set<string> = new Set<string>();
+
+  return comparaisons.filter((comparaison: DuplicationComparison): boolean => {
+    const cle: string = clePaire(comparaison);
+
+    if (dejaVues.has(cle)) return false;
+
+    dejaVues.add(cle);
+
+    return true;
+  });
+};
 
 const byScore = ({ score: scoreA }: DuplicationComparison, { score: scoreB }: DuplicationComparison): number => scoreB - scoreA;
-
-const lieuFor =
-  (duplicate: { id: string }) =>
-  (lieu: SchemaLieuMediationNumerique): boolean =>
-    lieu.id === duplicate.id;
-
-const isAlreadyProcessed = (
-  lieu1: SchemaLieuMediationNumerique,
-  lieu2: SchemaLieuMediationNumerique,
-  readyToProcessDuplicationComparison: ReadyToProcessDuplicationComparison[]
-): boolean =>
-  readyToProcessDuplicationComparison.some(
-    ({ lieu1: duplicationForlieu1, lieu2: duplicationForlieu2 }: ReadyToProcessDuplicationComparison): boolean =>
-      duplicationForlieu1.id === lieu2.id && duplicationForlieu2.id === lieu1.id
-  );
-
-const toDuplicationsForLieu =
-  (
-    lieux: SchemaLieuMediationNumerique[],
-    alreadyRegistredDuplicationComparisons: ReadyToProcessDuplicationComparison[],
-    lieuDuplications: LieuDuplications
-  ) =>
-  (
-    readyToProcessDuplicationComparisons: ReadyToProcessDuplicationComparison[],
-    duplicate: Duplicate
-  ): ReadyToProcessDuplicationComparison[] => {
-    const lieu1: SchemaLieuMediationNumerique | undefined = lieux.find(lieuFor(lieuDuplications));
-    const lieu2: SchemaLieuMediationNumerique | undefined = lieux.find(lieuFor(duplicate));
-    return lieu1 == null || lieu2 == null || isAlreadyProcessed(lieu1, lieu2, alreadyRegistredDuplicationComparisons)
-      ? readyToProcessDuplicationComparisons
-      : [...readyToProcessDuplicationComparisons, { duplicate, lieu1, lieu2 }];
-  };
-
-const getReadyProcessDuplicationComparison = (
-  lieux: SchemaLieuMediationNumerique[],
-  allowInternalMerge: boolean,
-  lieuxToDeduplicate: SchemaLieuMediationNumerique[]
-): ReadyToProcessDuplicationComparison[] =>
-  findDuplicates(lieux, allowInternalMerge, lieuxToDeduplicate)
-    .flatMap((communeDuplications: CommuneDuplications): LieuDuplications[] => communeDuplications.lieux)
-    .reduce(
-      (
-        readyToProcessDuplicationComparisons: ReadyToProcessDuplicationComparison[],
-        lieuDuplication: LieuDuplications
-      ): ReadyToProcessDuplicationComparison[] => [
-        ...readyToProcessDuplicationComparisons,
-        ...lieuDuplication.duplicates.reduce(
-          toDuplicationsForLieu(lieux, readyToProcessDuplicationComparisons, lieuDuplication),
-          []
-        )
-      ],
-      []
-    );
 
 export const duplicationComparisons = (
   lieux: SchemaLieuMediationNumerique[],
   allowInternalMerge: boolean,
   lieuxToDeduplicate: SchemaLieuMediationNumerique[] = lieux
 ): DuplicationComparison[] =>
-  getReadyProcessDuplicationComparison(lieux, allowInternalMerge, lieuxToDeduplicate)
-    .map(toDuplicationComparison)
-    .filter(onlyValidScore)
-    .sort(byScore);
+  sansPaireInverse(
+    lieuxToDeduplicate.map(toLieuComparable).flatMap(comparaisonsPourLieu(lieux.map(toLieuComparable), allowInternalMerge))
+  ).sort(byScore);

@@ -35,7 +35,7 @@ describe('deduplication comparison to csv', (): void => {
     const duplicationComparisonCSV: string = formatToCSV(duplicationComparisons(lieux, false));
 
     expect(duplicationComparisonCSV).toBe<string>(
-      'Score;Typologie 1;Typologie 2;Score Nom;Nom 1;Nom 2;Score Adresse;Adresse 1;Adresse 2;Score Distance;Localisation 1;Localisation 2;Source 1;Source 2\n27;ESS;ESS;38;Numerinaute;La Turbine.Coop;38;12 Rue Joseph Rey  chez Aconit 38000 Grenoble;5 esplanade Andry Farcy 38000 Grenoble;7;45.186115 : 5.716962;45.187654 : 5.704953;res-in;hinaura'
+      'Score;Typologie 1;Typologie 2;Score Nom;Nom 1;Nom 2;Score Adresse;Adresse 1;Adresse 2;Distance en metres;Localisation 1;Localisation 2;Source 1;Source 2\n30;ESS;ESS;38;Numerinaute;La Turbine.Coop;38;12 Rue Joseph Rey  chez Aconit 38000 Grenoble;5 esplanade Andry Farcy 38000 Grenoble;957;45.186115 : 5.716962;45.187654 : 5.704953;res-in;hinaura'
     );
   });
 
@@ -70,7 +70,7 @@ describe('deduplication comparison to csv', (): void => {
     const duplicationComparisonCSV: string = formatToCSV(duplicationComparisons(lieux, false));
 
     expect(duplicationComparisonCSV).toBe<string>(
-      'Score;Typologie 1;Typologie 2;Score Nom;Nom 1;Nom 2;Score Adresse;Adresse 1;Adresse 2;Score Distance;Localisation 1;Localisation 2;Source 1;Source 2\n27;ESS;ESS,CAF,TIERS_LIEUX;38;Numerinaute;La Turbine.Coop;38;12 Rue Joseph Rey  chez Aconit 38000 Grenoble;5 esplanade Andry Farcy 38000 Grenoble;7;45.186115 : 5.716962;45.187654 : 5.704953;res-in;hinaura'
+      'Score;Typologie 1;Typologie 2;Score Nom;Nom 1;Nom 2;Score Adresse;Adresse 1;Adresse 2;Distance en metres;Localisation 1;Localisation 2;Source 1;Source 2\n30;ESS;ESS,CAF,TIERS_LIEUX;38;Numerinaute;La Turbine.Coop;38;12 Rue Joseph Rey  chez Aconit 38000 Grenoble;5 esplanade Andry Farcy 38000 Grenoble;957;45.186115 : 5.716962;45.187654 : 5.704953;res-in;hinaura'
     );
   });
 
@@ -117,7 +117,7 @@ describe('deduplication comparison to csv', (): void => {
     const duplicationComparisonCSV: string = formatToCSV(duplicationComparisons(lieux, true));
 
     expect(duplicationComparisonCSV).toBe<string>(
-      'Score;Typologie 1;Typologie 2;Score Nom;Nom 1;Nom 2;Score Adresse;Adresse 1;Adresse 2;Score Distance;Localisation 1;Localisation 2;Source 1;Source 2\n100;;;100;BFM Centre Ville;BFM Centre Ville;100;2 Place Aimé césaire 87000 Limoges;2 Place Aimé césaire 87000 Limoges;100;undefined : undefined;undefined : undefined;Haute-Vienne;Haute-Vienne'
+      'Score;Typologie 1;Typologie 2;Score Nom;Nom 1;Nom 2;Score Adresse;Adresse 1;Adresse 2;Distance en metres;Localisation 1;Localisation 2;Source 1;Source 2\n100;;;100;BFM Centre Ville;BFM Centre Ville;100;2 Place Aimé césaire 87000 Limoges;2 Place Aimé césaire 87000 Limoges;;undefined : undefined;undefined : undefined;Haute-Vienne;Haute-Vienne'
     );
   });
 });
