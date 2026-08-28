@@ -19,7 +19,7 @@ import { appendCoopId } from './append-coop-id';
 import { withoutObsoleteLabels } from './without-obsolete-labels';
 
 const INTERNAL_DUPLICATION_SCORE_THRESHOLD = 90 as const;
-const DUPLICATION_SCORE_THRESHOLD = 83 as const;
+const DUPLICATION_SCORE_THRESHOLD = 80 as const;
 
 const onlyMoreThanDuplicationScoreThreshold =
   (allowInternalMerge: boolean) =>
