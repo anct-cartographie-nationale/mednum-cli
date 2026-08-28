@@ -1,4 +1,4 @@
-import * as fs from 'fs';
+import * as fs from 'node:fs';
 
 export const throwWriteFileError = (writeFileError: unknown): void => {
   if (writeFileError instanceof Error) {

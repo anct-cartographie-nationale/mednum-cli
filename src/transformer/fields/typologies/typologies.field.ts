@@ -1,5 +1,5 @@
 import { DispositifProgrammeNational, Typologie, Typologies } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { Choice, cibleAsDefault, DataSource, LieuxMediationNumeriqueMatching } from '../../input';
+import { type Choice, cibleAsDefault, type DataSource, type LieuxMediationNumeriqueMatching } from '../../input';
 import { processDispositifProgrammeNationaux } from '../dispositifs-programmes-nationaux/dispositifs-programmes-nationaux.field';
 import { TYPOLOGIE_MATCHERS } from './name-to-typologie';
 

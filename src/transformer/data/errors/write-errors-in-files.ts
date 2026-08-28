@@ -1,6 +1,6 @@
-import { TransformerOptions } from '../../cli/transformer-options';
+import type { TransformerOptions } from '../../cli/transformer-options';
 import { writeErrorsOutputFiles } from '../../output';
-import { Report } from '../../report';
+import type { Report } from '../../report';
 
 export const writeErrorsInFiles =
   (transformerOptions: TransformerOptions) =>

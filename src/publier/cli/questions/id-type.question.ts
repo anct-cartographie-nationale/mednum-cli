@@ -1,5 +1,5 @@
-import { ListQuestion } from 'inquirer';
-import { PublierOptions } from '../publier-options';
+import type { Question } from 'inquirer';
+import type { PublierOptions } from '../publier-options';
 
 export enum IdTypeChoice {
   ORGANIZATION = "id d'organisation",
@@ -16,10 +16,10 @@ const isExpectedIdType = (input?: string): boolean =>
 const validateDataGouvIdType = (input?: string): DataGouvIdTypeValidationMessages | true =>
   isExpectedIdType(input) ? true : DataGouvIdTypeValidationMessages.UnexpectedIdType;
 
-export const idTypeQuestion = (publierOptions: Partial<PublierOptions>): ListQuestion & { name: keyof PublierOptions } => ({
+export const idTypeQuestion = (publierOptions: Partial<PublierOptions>): Question & { name: keyof PublierOptions } => ({
   message: "Sélectionner le type d'id auquel rattacher la ressource sur Data.gouv",
   name: 'dataGouvIdType',
-  type: 'list',
+  type: 'select',
   validate: validateDataGouvIdType,
   when: (): boolean => validateDataGouvIdType(publierOptions.dataGouvIdType) !== true,
   choices: [IdTypeChoice.ORGANIZATION, IdTypeChoice.OWNER]

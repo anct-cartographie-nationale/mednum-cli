@@ -1,11 +1,11 @@
-import { Adresse, Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import axios, { AxiosResponse } from 'axios';
+import { type Adresse, Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import axios, { type AxiosResponse } from 'axios';
 import { stringify } from 'csv-stringify/sync';
 import toJson from 'csvtojson';
 import { NO_LOCALISATION } from '../../fields';
-import { DataSource, LieuxMediationNumeriqueMatching } from '../../input';
+import type { DataSource, LieuxMediationNumeriqueMatching } from '../../input';
 import { voieField } from '../../fields/adresse/clean-voie';
-import { AddressRecord } from '../../storage';
+import type { AddressRecord } from '../../storage';
 
 const RESULT_FIELDS = [
   'longitude',
@@ -123,18 +123,26 @@ export const fetchBanResponseBatch = async (
 
   if (geocodeIndices.length === 0) return batch.map(() => null);
 
-  const rows: CsvInputRow[] = geocodeIndices.map((i) => ({
-    voie: labelVoie(batch[i]!, matching),
-    codePostal: labelCodePostal(batch[i]!, matching),
-    commune: labelCommune(batch[i]!, matching)
-  }));
+  const sourcesToGeocode: DataSource[] = geocodeIndices
+    .map((i: number): DataSource | undefined => batch[i])
+    .filter((source: DataSource | undefined): source is DataSource => source != null);
+
+  const rows: CsvInputRow[] = sourcesToGeocode.map(
+    (source: DataSource): CsvInputRow => ({
+      voie: labelVoie(source, matching),
+      codePostal: labelCodePostal(source, matching),
+      commune: labelCommune(source, matching)
+    })
+  );
 
   const formData = new FormData();
   formData.append('data', new Blob([stringify(rows, { header: true })], { type: 'text/csv' }), 'data.csv');
   formData.append('columns', 'voie');
   formData.append('columns', 'commune');
   formData.append('postcode', 'codePostal');
-  RESULT_FIELDS.forEach((field) => formData.append('result_columns', field));
+  RESULT_FIELDS.forEach((field: string): void => {
+    formData.append('result_columns', field);
+  });
 
   try {
     const csvResponse = await fetchBan('https://api-adresse.data.gouv.fr/search/csv', formData);

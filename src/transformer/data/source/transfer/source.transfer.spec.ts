@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { SourceMap, sourceMapFromTransfer, SourceTransfer } from './source.transfer';
+import { type SourceMap, sourceMapFromTransfer, type SourceTransfer } from './source.transfer';
 
 describe('source transfer', (): void => {
   it('should transform empty source transfer to empty source map', (): void => {

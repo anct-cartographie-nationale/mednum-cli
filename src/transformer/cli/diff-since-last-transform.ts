@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { DataSource } from '../input';
+import type { DataSource } from '../input';
 
 export type DiffSinceLastTransformWithoutId = null;
 

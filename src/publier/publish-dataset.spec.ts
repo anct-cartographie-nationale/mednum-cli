@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { publishDataset } from './publish-dataset';
-import { PublishDatasetRepository } from './repositories';
-import { Dataset, PublishDataset, PublishRessource } from './models';
+import type { PublishDatasetRepository } from './repositories';
+import type { Dataset, PublishDataset, PublishRessource } from './models';
 
 describe('mednum - dataset to update', (): void => {
   it('should create new dataset without ressources', async (): Promise<void> => {

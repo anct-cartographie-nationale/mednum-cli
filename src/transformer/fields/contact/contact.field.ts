@@ -1,7 +1,7 @@
 import { Contact, Courriel, Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
-import { Recorder } from '../../report';
-import { cleanOperations, CleanOperation } from './clean-operations';
+import type { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
+import type { Recorder } from '../../report';
+import { cleanOperations, type CleanOperation } from './clean-operations';
 
 type FixedContact = DataSource | undefined;
 

@@ -1,6 +1,6 @@
-import { TransformerOptions } from '../../cli/transformer-options';
+import type { TransformerOptions } from '../../cli/transformer-options';
 import { writeAddresesOutputFiles } from '../../output';
-import { AddressCache } from '../../storage';
+import type { AddressCache } from '../../storage';
 
 export const writeAddressesInFiles =
   (transformerOptions: TransformerOptions) =>

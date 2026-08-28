@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { Adresse, VoieError } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
+import { type Adresse, VoieError } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import type { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { processAdresse } from './adresse.field';
-import { Commune, findCommune } from './find-commune';
+import { type Commune, findCommune } from './find-commune';
 
 const BEGLES: Commune = {
   nom: 'Bègles',

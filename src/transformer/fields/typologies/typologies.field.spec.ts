@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { Typologie, Typologies } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { LieuxMediationNumeriqueMatching } from '../../input';
+import { Typologie, type Typologies } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import type { LieuxMediationNumeriqueMatching } from '../../input';
 import { processTypologies } from './typologies.field';
 
 describe('typologies field', (): void => {

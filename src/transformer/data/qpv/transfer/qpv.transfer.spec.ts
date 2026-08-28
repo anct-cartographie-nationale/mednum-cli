@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { type MultiPolygon, type Polygon } from 'geojson';
-import { QpvShapesMap } from '../../../fields';
-import { qpvShapesMapFromTransfer, QpvFeature } from './qpv.transfer';
+import type { MultiPolygon, Polygon } from 'geojson';
+import type { QpvShapesMap } from '../../../fields';
+import { qpvShapesMapFromTransfer, type QpvFeature } from './qpv.transfer';
 
 const QPV_IN_01053_SHAPE: Polygon = {
   coordinates: [

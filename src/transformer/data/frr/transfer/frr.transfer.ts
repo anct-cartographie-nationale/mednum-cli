@@ -1,4 +1,4 @@
-import { FrrMap } from '../../../fields';
+import type { FrrMap } from '../../../fields';
 
 // Valeur sentinelle de l'indicateur codefrr pour une commune non classée en France Ruralités Revitalisation.
 const NON_CLASSEE = '-9999';

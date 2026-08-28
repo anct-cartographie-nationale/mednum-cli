@@ -1,16 +1,16 @@
-import { InputQuestion } from 'inquirer';
-import { DataInclusionOptions } from '../data-inclusion-options';
+import type { Question } from 'inquirer';
+import type { DataInclusionOptions } from '../data-inclusion-options';
 
 enum OutputFileValidationMessages {
   REQUIRED = 'Le fichier de sortie est obligatoire'
 }
 
-const validateOutputFile = (input?: string): OutputFileValidationMessages | true =>
-  input == null || input.trim() === '' ? OutputFileValidationMessages.REQUIRED : true;
+const validateOutputFile = (input?: unknown): OutputFileValidationMessages | true =>
+  typeof input !== 'string' || input.trim() === '' ? OutputFileValidationMessages.REQUIRED : true;
 
 export const outputFileQuestion = (
   dataInclusionOptions: DataInclusionOptions
-): InputQuestion & { name: keyof DataInclusionOptions } => ({
+): Question & { name: keyof DataInclusionOptions } => ({
   message: 'Chemin du fichier qui va recevoir les données extraites au format JSON',
   name: 'outputFile',
   validate: validateOutputFile,

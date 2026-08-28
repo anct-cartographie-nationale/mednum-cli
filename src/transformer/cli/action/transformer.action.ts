@@ -1,8 +1,8 @@
 import { flatten } from 'flat';
 import {
   fromSchemaLieuDeMediationNumerique,
-  LieuMediationNumerique,
-  SchemaLieuMediationNumerique
+  type LieuMediationNumerique,
+  type SchemaLieuMediationNumerique
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { createHash } from 'node:crypto';
 import { paginate } from '../../../common';
@@ -12,18 +12,18 @@ import {
   sourcesFromCartographieNationaleApi,
   updateSourceWithCartographieNationaleApi
 } from '../../data';
-import { DataSource, toLieuxMediationNumerique, validValuesOnly, isFlatten } from '../../input';
+import { type DataSource, toLieuxMediationNumerique, validValuesOnly, isFlatten } from '../../input';
 import { Report } from '../../report';
-import { AddressCache, AddressRecord } from '../../storage';
-import { TransformationRepository } from '../../repositories';
-import { canTransform, DiffSinceLastTransform } from '../diff-since-last-transform';
-import { TransformerOptions } from '../transformer-options';
+import { AddressCache, type AddressRecord } from '../../storage';
+import type { TransformationRepository } from '../../repositories';
+import { canTransform, type DiffSinceLastTransform } from '../diff-since-last-transform';
+import type { TransformerOptions } from '../transformer-options';
 import { transformationRespository } from './transformation.respository';
 import addressesBan from '../../../../assets/input/addresses.json';
 import {
   fetchBanResponseBatch,
   getAddressData,
-  LOCATION_ENRICHED,
+  type LOCATION_ENRICHED,
   responsesBanAll
 } from '../../data/localisation/localisation-from-geo';
 

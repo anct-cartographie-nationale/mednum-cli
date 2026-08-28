@@ -1,5 +1,5 @@
-import { Command } from 'commander';
-import { Question } from 'inquirer';
+import type { Command } from 'commander';
+import type { Question } from 'inquirer';
 import { apiKeyOption, apiUrlOption, idTypeOption, idValueOption, metadataFileOption, zoneOption } from './options';
 import { apiKeyQuestion, idTypeQuestion, metadataFileQuestion, idValueQuestion, zoneQuestion } from './questions';
 

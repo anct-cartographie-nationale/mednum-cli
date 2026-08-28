@@ -1,16 +1,16 @@
-import { InputQuestion } from 'inquirer';
-import { TransformerOptions } from '../transformer-options';
+import type { Question } from 'inquirer';
+import type { TransformerOptions } from '../transformer-options';
 
 enum SourceNameValidationMessages {
   REQUIRED = "Le nom de la source à l'origine de la données est obligatoire"
 }
 
-const validateSourceName = (input?: string): SourceNameValidationMessages | true =>
-  input == null || input.trim() === '' ? SourceNameValidationMessages.REQUIRED : true;
+const validateSourceName = (input?: unknown): SourceNameValidationMessages | true =>
+  typeof input !== 'string' || input.trim() === '' ? SourceNameValidationMessages.REQUIRED : true;
 
 export const sourceNameQuestion = (
   mednumImportProperties: TransformerOptions
-): InputQuestion & { name: keyof TransformerOptions } => ({
+): Question & { name: keyof TransformerOptions } => ({
   message: "Nom de l'entité source à l'origine de la collecte des données à transformer",
   name: 'sourceName',
   validate: validateSourceName,

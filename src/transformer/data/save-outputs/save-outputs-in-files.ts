@@ -1,4 +1,4 @@
-import { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import type { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { writeOutputFiles } from '../../output';
 
 export const saveOutputsInFiles =

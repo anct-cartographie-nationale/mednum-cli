@@ -1,4 +1,4 @@
-import { Command } from 'commander';
+import type { Command } from 'commander';
 
 export const configFileOption = (program: Command): Command =>
   program.option(

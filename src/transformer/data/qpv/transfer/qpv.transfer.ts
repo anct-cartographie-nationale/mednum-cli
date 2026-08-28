@@ -1,5 +1,5 @@
-import { type Feature, type MultiPolygon, type Polygon, type Position } from 'geojson';
-import { QpvShapesMap } from '../../../fields';
+import type { Feature, MultiPolygon, Polygon, Position } from 'geojson';
+import type { QpvShapesMap } from '../../../fields';
 
 export type QpvFeatureProperties = {
   insee_com: string;

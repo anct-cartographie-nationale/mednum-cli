@@ -1,4 +1,4 @@
-import { LieuxMediationNumeriqueMatching } from '../../input';
+import type { LieuxMediationNumeriqueMatching } from '../../input';
 
 export type CleanOperation = {
   name: string;
@@ -47,6 +47,7 @@ const removeWebsitesStartingWithAt = (field: string): CleanOperation => ({
 const removeWebsitesWithAccentedCharacters = (field: string): CleanOperation => ({
   name: 'websites with accented characters',
   // eslint-disable-next-line no-control-regex
+  // biome-ignore lint/suspicious/noControlCharactersInRegex: la plage vise justement les caracteres hors ASCII a retirer
   selector: /[^\x00-\x7F]+/g,
   field
 });

@@ -1,13 +1,13 @@
-import * as fs from 'fs';
+import * as fs from 'node:fs';
 import {
   createFolderIfNotExist,
   mediationNumeriqueFileName,
   noEmptyCell,
-  Output,
+  type Output,
   throwWriteFileError
 } from '../../../../common';
-import { AddressRecord, AddressCache } from '../../../storage';
-import { Feature } from '../../../data/localisation/localisation-from-geo';
+import type { AddressRecord, AddressCache } from '../../../storage';
+import type { Feature } from '../../../data/localisation/localisation-from-geo';
 
 export type AddressOutput = {
   dateDeTraitement: Date;

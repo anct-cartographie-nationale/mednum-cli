@@ -1,6 +1,6 @@
-import { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { Output } from '../../output-file';
-import { PublishRessource } from '../../../publier/models';
+import type { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import type { Output } from '../../output-file';
+import type { PublishRessource } from '../../../publier/models';
 import { mediationNumeriqueFileName } from '../../mediation-numerique';
 
 export type PublishMetadata = {

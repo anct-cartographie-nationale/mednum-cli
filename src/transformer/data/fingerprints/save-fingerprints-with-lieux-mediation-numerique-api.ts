@@ -1,13 +1,13 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { type AxiosResponse } from 'axios';
 import { authHeader, headers } from '../../../common';
 import {
   canTransform,
-  DiffSinceLastTransform,
-  Fingerprint,
+  type DiffSinceLastTransform,
+  type Fingerprint,
   fingerprintsFrom,
-  FingerprintToDelete
+  type FingerprintToDelete
 } from '../../cli/diff-since-last-transform';
-import { TransformerOptions } from '../../cli/transformer-options';
+import type { TransformerOptions } from '../../cli/transformer-options';
 
 export const saveFingerprintsWithLieuxMediationNumeriqueApi =
   (idKey: string, transformerOptions: TransformerOptions) =>

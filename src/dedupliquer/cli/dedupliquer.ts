@@ -1,8 +1,8 @@
-import { Command } from 'commander';
-import inquirer, { Answers } from 'inquirer';
+import type { Command } from 'commander';
+import inquirer, { type Answers } from 'inquirer';
 import {
   DEDUPLIQUER_OPTIONS,
-  DedupliquerOptions,
+  type DedupliquerOptions,
   dedupliquerOptionsQuestions,
   toDedupliquerOptions
 } from './dedupliquer-options';

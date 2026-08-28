@@ -1,5 +1,5 @@
-import { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { MergedLieuxByGroupMap } from '../merge-duplicates/merge-duplicates';
+import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import type { MergedLieuxByGroupMap } from '../merge-duplicates/merge-duplicates';
 
 const MAX_ID_BYTES = 2704;
 

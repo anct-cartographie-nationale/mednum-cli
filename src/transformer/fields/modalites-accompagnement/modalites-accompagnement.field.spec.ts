@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { ModaliteAccompagnement, ModalitesAccompagnement } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { LieuxMediationNumeriqueMatching } from '../../input';
+import { ModaliteAccompagnement, type ModalitesAccompagnement } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import type { LieuxMediationNumeriqueMatching } from '../../input';
 import { processModalitesAccompagnement } from './modalites-accompagnement.field';
 
 const MODALITES_ACCOMPAGNEMENT_FIELD: "Types d'accompagnement proposés" = "Types d'accompagnement proposés" as const;

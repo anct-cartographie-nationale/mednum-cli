@@ -1,8 +1,8 @@
-import { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { saveInFiles, saveWithApi } from '../data';
-import { DuplicationComparison, Groups, MergedLieuxByGroupMap } from '../../steps';
-import { DeduplicationRepository } from '../../repositories';
-import { DedupliquerOptions } from '../dedupliquer-options';
+import type { DuplicationComparison, Groups, MergedLieuxByGroupMap } from '../../steps';
+import type { DeduplicationRepository } from '../../repositories';
+import type { DedupliquerOptions } from '../dedupliquer-options';
 import { excludeById } from './exclude-by-id/exclude-by-id';
 
 export const deduplicationRepository = (dedupliquerOptions: DedupliquerOptions): DeduplicationRepository => ({

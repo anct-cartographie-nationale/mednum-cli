@@ -1,4 +1,3 @@
 {
-  "*.(js|ts|tsx)": "eslint",
-  "*.(md|json|yml|xml|html|css|scss|js|ts|tsx|sh)": "prettier --write"
+  "*.(js|ts|tsx|json|jsonc)": "biome check --write --no-errors-on-unmatched"
 }

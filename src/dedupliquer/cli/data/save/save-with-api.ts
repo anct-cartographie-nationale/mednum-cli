@@ -1,9 +1,9 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { type AxiosResponse } from 'axios';
 import axiosRetry from 'axios-retry';
 import { authHeader, headers, paginate } from '../../../../common';
-import { MergeGroupTransfer } from '../../../data';
-import { findGroupIdsToDelete, Groups, MergedLieuxByGroupMap, MergeGroup, mergeGroups } from '../../../steps';
-import { DedupliquerOptions } from '../../dedupliquer-options';
+import type { MergeGroupTransfer } from '../../../data';
+import { findGroupIdsToDelete, type Groups, type MergedLieuxByGroupMap, type MergeGroup, mergeGroups } from '../../../steps';
+import type { DedupliquerOptions } from '../../dedupliquer-options';
 
 axiosRetry(axios, { retries: 3 });
 

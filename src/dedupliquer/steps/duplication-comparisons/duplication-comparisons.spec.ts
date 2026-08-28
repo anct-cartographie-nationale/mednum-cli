@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { SchemaLieuMediationNumerique, Typologie } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { DuplicationComparison, duplicationComparisons } from './duplication-comparisons';
+import { type SchemaLieuMediationNumerique, Typologie } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { type DuplicationComparison, duplicationComparisons } from './duplication-comparisons';
 
 describe('deduplication comparison', (): void => {
   it('should get duplication comparison', (): void => {

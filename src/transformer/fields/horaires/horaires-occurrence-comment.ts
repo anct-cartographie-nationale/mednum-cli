@@ -1,4 +1,4 @@
-import { OsmOpeningHoursString } from './process-horaires.field';
+import type { OsmOpeningHoursString } from './process-horaires.field';
 
 const stripAccents = (text: string): string => text.normalize('NFD').replace(/[\u0300-\u036f]/gu, '');
 

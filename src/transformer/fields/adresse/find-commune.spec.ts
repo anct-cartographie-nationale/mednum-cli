@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { Commune, findCommune } from './find-commune';
+import { type Commune, findCommune } from './find-commune';
 
 const BEGLES: Commune = {
   nom: 'Bègles',

@@ -1,5 +1,5 @@
 import { Nom } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
+import type { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { CLEAN_NOM, toCleanField } from './clean-operations';
 
 export const processNom = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Nom => {

@@ -1,4 +1,4 @@
-import { OsmDaysOfWeek, OsmOpeningHours } from '@gouvfr-anct/timetable-to-osm-opening-hours';
+import type { OsmDaysOfWeek, OsmOpeningHours } from '@gouvfr-anct/timetable-to-osm-opening-hours';
 import { toOsmHours } from '../../to-osm-hours/to-osm-hours';
 
 export type OpeningHoursExtraction = {

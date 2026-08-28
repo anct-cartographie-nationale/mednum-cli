@@ -1,4 +1,4 @@
-import { Command } from 'commander';
+import type { Command } from 'commander';
 
 export const sourceOption = (program: Command): Command =>
   program.option(

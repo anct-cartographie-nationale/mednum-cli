@@ -1,5 +1,5 @@
-import axios, { AxiosResponse } from 'axios';
-import * as fs from 'fs';
+import axios, { type AxiosResponse } from 'axios';
+import * as fs from 'node:fs';
 import iconv from 'iconv-lite';
 import csv from 'csvtojson';
 
@@ -12,11 +12,13 @@ export type SourceSettings = {
 const fromJson = <T>(response: Record<string, T>, key?: string): T[] =>
   key == null ? Object.values(response) : Object.values(response[key] ?? {});
 
+const TYPES_DE_CONTENU_JSON: readonly string[] = ['application/geo+json', 'application/json', 'application/vnd.geo+json'];
+
+const contentType = (response: AxiosResponse): string => String(response.headers['content-type'] ?? '');
+
 const inputIsJson = (response: AxiosResponse): boolean =>
   response.config.url?.includes('geojson') === true ||
-  response.headers['content-type']?.includes('application/geo+json') === true ||
-  response.headers['content-type']?.includes('application/json') === true ||
-  response.headers['content-type']?.includes('application/vnd.geo+json') === true;
+  TYPES_DE_CONTENU_JSON.some((type: string): boolean => contentType(response).includes(type));
 
 const defaultIfUndefined = (toBeDefined: string | undefined, defaultValue: string): string =>
   toBeDefined !== undefined && toBeDefined !== '' ? toBeDefined : defaultValue;

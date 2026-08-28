@@ -1,5 +1,5 @@
-import { Organization } from './organization';
-import { PublishRessource } from './publish-ressource';
+import type { Organization } from './organization';
+import type { PublishRessource } from './publish-ressource';
 
 export type PublishDataset = {
   description: string;

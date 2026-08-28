@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { Fingerprint } from '../../cli/diff-since-last-transform';
-import { TransformerOptions } from '../../cli/transformer-options';
+import type { Fingerprint } from '../../cli/diff-since-last-transform';
+import type { TransformerOptions } from '../../cli/transformer-options';
 
 export const fingerprintsFromLieuxMediationNumeriqueApi = async (
   transformerOptions: TransformerOptions

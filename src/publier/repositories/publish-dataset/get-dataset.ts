@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { Api, headers } from '../../../common';
-import { Dataset, Reference, Ressource } from '../../models';
+import { type Api, headers } from '../../../common';
+import type { Dataset, Reference, Ressource } from '../../models';
 
 type GetDatasetRessource = {
   created_at: Date;

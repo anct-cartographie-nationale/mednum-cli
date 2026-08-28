@@ -1,9 +1,9 @@
-import { Command } from 'commander';
-import inquirer, { Answers } from 'inquirer';
+import type { Command } from 'commander';
+import inquirer, { type Answers } from 'inquirer';
 import {
   toDataInclusionOptions,
   DATA_INCLUSION_OPTIONS,
-  DataInclusionOptions,
+  type DataInclusionOptions,
   dataInclusionOptionsQuestions
 } from './data-inclusion-options';
 import { dataInclusionAction } from './action';

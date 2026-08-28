@@ -1,16 +1,16 @@
-import { InputQuestion } from 'inquirer';
-import { TransformerOptions } from '../transformer-options';
+import type { Question } from 'inquirer';
+import type { TransformerOptions } from '../transformer-options';
 
 enum OutputDirectoryValidationMessages {
   REQUIRED = 'Le dossier de sortie est obligatoire'
 }
 
-const validateOutputDirectory = (input?: string): OutputDirectoryValidationMessages | true =>
-  input == null || input.trim() === '' ? OutputDirectoryValidationMessages.REQUIRED : true;
+const validateOutputDirectory = (input?: unknown): OutputDirectoryValidationMessages | true =>
+  typeof input !== 'string' || input.trim() === '' ? OutputDirectoryValidationMessages.REQUIRED : true;
 
 export const outputDirectoryQuestion = (
   mednumImportProperties: TransformerOptions
-): InputQuestion & { name: keyof TransformerOptions } => ({
+): Question & { name: keyof TransformerOptions } => ({
   message: 'Chemin du dossier qui va recevoir les fichiers transformés',
   name: 'outputDirectory',
   validate: validateOutputDirectory,

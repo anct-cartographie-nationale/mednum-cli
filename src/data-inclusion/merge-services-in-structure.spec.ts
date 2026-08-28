@@ -1,12 +1,12 @@
 import { describe, it, expect } from 'vitest';
 import {
-  SchemaServiceDataInclusion,
-  SchemaStructureDataInclusion,
-  SchemaStructureDataInclusionAdresseFields,
-  SchemaStructureDataInclusionLocalisationFields,
+  type SchemaServiceDataInclusion,
+  type SchemaStructureDataInclusion,
+  type SchemaStructureDataInclusionAdresseFields,
+  type SchemaStructureDataInclusionLocalisationFields,
   Typologie
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { DataInclusionMerged } from './data-inclusion-merged';
+import type { DataInclusionMerged } from './data-inclusion-merged';
 import { structuresWithServicesNumeriques } from './merge-services-in-structure';
 
 describe('merge services in structure', (): void => {

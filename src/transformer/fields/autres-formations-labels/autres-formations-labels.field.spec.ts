@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { Adresse, Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { type Polygon } from 'geojson';
+import type { Polygon } from 'geojson';
 import { isInQpv, isInFrr } from '../../data';
-import { LieuxMediationNumeriqueMatching } from '../../input';
+import type { LieuxMediationNumeriqueMatching } from '../../input';
 import { processAutresFormationsLabels } from './autres-formations-labels.field';
 
 const QPV_IN_02691_SHAPE: Polygon = {

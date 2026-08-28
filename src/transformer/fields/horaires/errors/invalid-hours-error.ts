@@ -1,4 +1,4 @@
-import { OsmDaysOfWeek } from '@gouvfr-anct/timetable-to-osm-opening-hours';
+import type { OsmDaysOfWeek } from '@gouvfr-anct/timetable-to-osm-opening-hours';
 
 export class InvalidHoursError extends Error {
   constructor(

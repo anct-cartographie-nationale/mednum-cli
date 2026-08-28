@@ -1,9 +1,9 @@
-import { Command } from 'commander';
-import inquirer, { Answers } from 'inquirer';
+import type { Command } from 'commander';
+import inquirer, { type Answers } from 'inquirer';
 import {
   toTransformerOptions,
   TRANSFORMER_OPTIONS,
-  TransformerOptions,
+  type TransformerOptions,
   transformerOptionsQuestions
 } from './transformer-options';
 import { transformerAction } from './action';

@@ -1,4 +1,4 @@
-import { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
 
 // Labels devenus obsolètes que l'on ne réexpose plus : ZRR a été remplacé par
 // France Ruralités Revitalisation (FRR) au 1er juillet 2024.

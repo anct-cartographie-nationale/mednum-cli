@@ -1,3 +1,3 @@
-import { Adresse, Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import type { Adresse, Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
 
 export type Geocode = (address: Adresse) => () => Promise<Localisation>;

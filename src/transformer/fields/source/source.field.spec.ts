@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
+import type { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { processSource } from './source.field';
 
 describe('source field', (): void => {

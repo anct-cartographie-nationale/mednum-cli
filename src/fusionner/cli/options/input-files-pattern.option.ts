@@ -1,4 +1,4 @@
-import { Command } from 'commander';
+import type { Command } from 'commander';
 
 export const inputFilesPatternOption = (program: Command): Command =>
   program.option(

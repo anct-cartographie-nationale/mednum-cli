@@ -1,11 +1,11 @@
-import * as fs from 'fs';
-import { Api } from '../../../common';
+import * as fs from 'node:fs';
+import type { Api } from '../../../common';
 import ErrnoException = NodeJS.ErrnoException;
 import { publishDatasetRepository } from '../../repositories';
-import { Reference } from '../../models';
+import type { Reference } from '../../models';
 import { publishDataset } from '../../publish-dataset';
 import { IdTypeChoice } from '../questions';
-import { PublierOptions } from '../publier-options';
+import type { PublierOptions } from '../publier-options';
 
 const getReference = (mednumProperties: PublierOptions): Reference => ({
   id: mednumProperties.dataGouvIdValue,

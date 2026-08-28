@@ -1,7 +1,7 @@
 import axios from 'axios';
-import * as fs from 'fs';
-import { Api, authHeader, headers } from '../../common';
-import { Dataset, PublishDataset, PublishRessource, Reference, Ressource } from '../models';
+import * as fs from 'node:fs';
+import { type Api, authHeader, headers } from '../../common';
+import type { Dataset, PublishDataset, PublishRessource, Reference, Ressource } from '../models';
 import { getDataset, postDataset, updateDataset } from './publish-dataset';
 import FormData from 'form-data';
 

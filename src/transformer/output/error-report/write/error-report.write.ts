@@ -1,13 +1,13 @@
-import * as fs from 'fs';
+import * as fs from 'node:fs';
 import {
   createFolderIfNotExist,
   mediationNumeriqueFileName,
   noEmptyCell,
-  Output,
+  type Output,
   throwWriteFileError
 } from '../../../../common';
-import { Record, Report } from '../../../report';
-import { ErrorOutput, errorReportToCsv } from '../to-csv/error-report.to-csv';
+import type { Record, Report } from '../../../report';
+import { type ErrorOutput, errorReportToCsv } from '../to-csv/error-report.to-csv';
 
 const writeReportErrorsCsvOutput = (producer: Output, listErrors: ErrorOutput[]): void => {
   fs.writeFile(

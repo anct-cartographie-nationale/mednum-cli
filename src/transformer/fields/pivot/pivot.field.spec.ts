@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
+import type { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { processPivot } from './pivot.field';
-import { Pivot } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import type { Pivot } from '@gouvfr-anct/lieux-de-mediation-numerique';
 
 describe('pivot field', (): void => {
   it('should get pivot from data source using matching information', (): void => {

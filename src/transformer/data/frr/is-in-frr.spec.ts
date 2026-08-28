@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { FrrMap } from '../../fields';
+import type { FrrMap } from '../../fields';
 import { isInFrr } from './is-in-frr';
 
 describe('is in frr', (): void => {

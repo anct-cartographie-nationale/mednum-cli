@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { LieuxMediationNumeriqueMatching } from '../../input';
-import { OsmOpeningHoursString } from './process-horaires.field';
+import type { LieuxMediationNumeriqueMatching } from '../../input';
+import type { OsmOpeningHoursString } from './process-horaires.field';
 import { processHoraires } from './horaires.field';
 
 const matching: LieuxMediationNumeriqueMatching = {

@@ -1,6 +1,6 @@
-import { isValidLocalisation, Localisation, LocalisationToValidate } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { isValidLocalisation, Localisation, type LocalisationToValidate } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import proj4 from 'proj4';
-import { Colonne, DataSource, Dissociation, LieuxMediationNumeriqueMatching } from '../../input';
+import type { Colonne, DataSource, Dissociation, LieuxMediationNumeriqueMatching } from '../../input';
 
 type NoLocalisation = { noLocalisation: true } & null;
 export const NO_LOCALISATION: Localisation = null as NoLocalisation;

@@ -1,11 +1,11 @@
 import {
-  LieuMediationNumerique,
-  SchemaLieuMediationNumerique,
+  type LieuMediationNumerique,
+  type SchemaLieuMediationNumerique,
   toSchemaLieuMediationNumerique
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import axios, { AxiosResponse } from 'axios';
+import axios, { type AxiosResponse } from 'axios';
 import { authHeader, headers } from '../../../common';
-import { TransformerOptions } from '../../cli/transformer-options';
+import type { TransformerOptions } from '../../cli/transformer-options';
 
 const onlyDefined = <T>(nullable?: T): nullable is T => nullable != null;
 

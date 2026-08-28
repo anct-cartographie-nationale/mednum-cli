@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { DataSource } from '../input';
+import type { DataSource } from '../input';
 import {
   canTransform,
-  Fingerprint,
+  type Fingerprint,
   fingerprintsFrom,
-  DiffSinceLastTransform,
+  type DiffSinceLastTransform,
   updateFingerprints,
   diffSinceLastTransform
 } from './diff-since-last-transform';

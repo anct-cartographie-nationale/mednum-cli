@@ -1,5 +1,5 @@
-import { Dataset, PublishDataset, PublishRessource, Reference, Ressource } from './models';
-import { PublishDatasetRepository } from './repositories';
+import type { Dataset, PublishDataset, PublishRessource, Reference, Ressource } from './models';
+import type { PublishDatasetRepository } from './repositories';
 
 type DatasetToPublishActions = {
   shouldCreate?: (datasetToCreate: PublishDataset) => Promise<void>;

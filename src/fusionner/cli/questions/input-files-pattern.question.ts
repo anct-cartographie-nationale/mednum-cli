@@ -1,16 +1,16 @@
-import { InputQuestion } from 'inquirer';
-import { FusionnerOptions } from '../fusionner-options';
+import type { Question } from 'inquirer';
+import type { FusionnerOptions } from '../fusionner-options';
 
 enum InputFilesPatternValidationMessages {
   REQUIRED = 'Le masque des chemins à fusionner est obligatoire'
 }
 
-const validateInputFilesPattern = (input?: string): InputFilesPatternValidationMessages | true =>
-  input == null || input.trim() === '' ? InputFilesPatternValidationMessages.REQUIRED : true;
+const validateInputFilesPattern = (input?: unknown): InputFilesPatternValidationMessages | true =>
+  typeof input !== 'string' || input.trim() === '' ? InputFilesPatternValidationMessages.REQUIRED : true;
 
 export const inputFilesPatternDirectoryQuestion = (
   mednumImportProperties: FusionnerOptions
-): InputQuestion & { name: keyof FusionnerOptions } => ({
+): Question & { name: keyof FusionnerOptions } => ({
   message: 'Masque des chemins à fusionner',
   name: 'inputFilesPattern',
   validate: validateInputFilesPattern,

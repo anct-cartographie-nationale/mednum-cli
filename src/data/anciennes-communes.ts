@@ -1,4 +1,4 @@
-import { Commune } from '../transformer/fields';
+import type { Commune } from '../transformer/fields';
 
 export type NewCommune = Commune & { date: string };
 

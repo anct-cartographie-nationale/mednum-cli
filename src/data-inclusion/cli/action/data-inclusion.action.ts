@@ -1,10 +1,10 @@
-import * as fs from 'fs';
-import axios, { AxiosResponse } from 'axios';
-import { SchemaServiceDataInclusion, SchemaStructureDataInclusion } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { Api, bearerTokenHeader } from '../../../common';
-import { DataInclusionMerged } from '../../data-inclusion-merged';
+import * as fs from 'node:fs';
+import axios, { type AxiosResponse } from 'axios';
+import type { SchemaServiceDataInclusion, SchemaStructureDataInclusion } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { type Api, bearerTokenHeader } from '../../../common';
+import type { DataInclusionMerged } from '../../data-inclusion-merged';
 import { structuresWithServicesNumeriques } from '../../merge-services-in-structure';
-import { DataInclusionOptions } from '../data-inclusion-options';
+import type { DataInclusionOptions } from '../data-inclusion-options';
 
 const onlyMatchingSource =
   (source?: string) =>

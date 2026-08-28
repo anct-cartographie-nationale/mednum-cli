@@ -1,6 +1,9 @@
-import * as fs from 'fs';
-import { fromSchemaLieuxDeMediationNumerique, SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { createFolderIfNotExist, noEmptyCell, Output, throwWriteFileError } from '../../output-file';
+import * as fs from 'node:fs';
+import {
+  fromSchemaLieuxDeMediationNumerique,
+  type SchemaLieuMediationNumerique
+} from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { createFolderIfNotExist, noEmptyCell, type Output, throwWriteFileError } from '../../output-file';
 import { mediationNumeriqueFileName } from '../file-name/mediation-numerique.file-name';
 import { mediationNumeriqueToCsv } from '../to-csv/mediation-numerique.to-csv';
 
