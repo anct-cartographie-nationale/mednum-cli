@@ -1,4 +1,4 @@
-import { Command } from 'commander';
+import type { Command } from 'commander';
 
 export const filterOption = (program: Command): Command =>
   program.option(

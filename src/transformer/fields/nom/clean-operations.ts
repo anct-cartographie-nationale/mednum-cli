@@ -1,4 +1,4 @@
-import { DataSource } from '../../input';
+import type { DataSource } from '../../input';
 
 type CleanOperation = {
   name: string;

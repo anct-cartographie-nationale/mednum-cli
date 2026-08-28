@@ -1,5 +1,10 @@
-import { ModaliteAccompagnement, ModalitesAccompagnement, Service, Services } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { Choice, LieuxMediationNumeriqueMatching, DataSource, cibleAsDefault } from '../../input';
+import {
+  type ModaliteAccompagnement,
+  type ModalitesAccompagnement,
+  type Service,
+  Services
+} from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { type Choice, type LieuxMediationNumeriqueMatching, type DataSource, cibleAsDefault } from '../../input';
 import { processModalitesAccompagnement } from '../modalites-accompagnement/modalites-accompagnement.field';
 
 const isAllowedTerm = (choice: Choice<Service>, sourceValue: string): boolean =>

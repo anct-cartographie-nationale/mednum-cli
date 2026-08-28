@@ -1,4 +1,4 @@
-import { IsInFrr, FrrMap } from '../../fields';
+import type { IsInFrr, FrrMap } from '../../fields';
 
 export const isInFrr =
   (frrMap: FrrMap): IsInFrr =>

@@ -2,5 +2,8 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "display": "Test configuration for Vitest testing framework",
   "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "../src"
+  },
   "include": ["../src/**/*.test.ts", "../src/**/*.spec.ts"]
 }

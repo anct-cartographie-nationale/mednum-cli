@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { excludeById } from './exclude-by-id';
 
 const LIEU: SchemaLieuMediationNumerique = {

@@ -1,5 +1,5 @@
 import { Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { LieuxMediationNumeriqueMatching, DataSource, Colonne } from '../../input';
+import type { LieuxMediationNumeriqueMatching, DataSource, Colonne } from '../../input';
 
 const canPorecessPriseRdv = (source: DataSource, priseRdv?: Colonne): priseRdv is Colonne =>
   priseRdv?.colonne != null && source[priseRdv.colonne] != null && source[priseRdv.colonne] !== '';

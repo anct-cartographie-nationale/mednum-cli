@@ -1,9 +1,9 @@
-import { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { DiffSinceLastTransform, Fingerprint } from '../cli/diff-since-last-transform';
-import { FindCommune, IsInQpv, IsInFrr, Geocode } from '../fields';
-import { DataSource, LieuxMediationNumeriqueMatching } from '../input';
-import { Report } from '../report';
-import { AddressCache } from '../storage';
+import type { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import type { DiffSinceLastTransform, Fingerprint } from '../cli/diff-since-last-transform';
+import type { FindCommune, IsInQpv, IsInFrr, Geocode } from '../fields';
+import type { DataSource, LieuxMediationNumeriqueMatching } from '../input';
+import type { Report } from '../report';
+import type { AddressCache } from '../storage';
 
 export type TransformationRepository = {
   config: LieuxMediationNumeriqueMatching;

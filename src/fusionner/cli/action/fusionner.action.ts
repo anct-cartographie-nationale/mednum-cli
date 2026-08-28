@@ -1,9 +1,9 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 import { glob } from 'glob';
 import { parse } from 'csv-parse/sync';
 import { stringify } from 'csv-stringify/sync';
-import { FusionnerOptions } from '../fusionner-options';
+import type { FusionnerOptions } from '../fusionner-options';
 
 const hasMixedFormats =
   (files: string[]) =>

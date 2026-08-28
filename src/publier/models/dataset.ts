@@ -1,5 +1,5 @@
-import { Organization } from './organization';
-import { Ressource } from './ressource';
+import type { Organization } from './organization';
+import type { Ressource } from './ressource';
 
 export type Dataset = {
   id: string;

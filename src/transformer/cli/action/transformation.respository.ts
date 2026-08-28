@@ -1,4 +1,4 @@
-import * as fs from 'fs';
+import * as fs from 'node:fs';
 import {
   communeFromGeoApi,
   fingerprintsFromFile,
@@ -16,10 +16,10 @@ import {
   localisationByGeocode
 } from '../../data';
 import { findCommune } from '../../fields';
-import { LieuxMediationNumeriqueMatching } from '../../input';
-import { TransformationRepository } from '../../repositories';
-import { diffSinceLastTransform, Fingerprint } from '../diff-since-last-transform';
-import { TransformerOptions } from '../transformer-options';
+import type { LieuxMediationNumeriqueMatching } from '../../input';
+import type { TransformationRepository } from '../../repositories';
+import { diffSinceLastTransform, type Fingerprint } from '../diff-since-last-transform';
+import type { TransformerOptions } from '../transformer-options';
 
 export const transformationRespository = async (transformerOptions: TransformerOptions): Promise<TransformationRepository> => {
   const useFile: boolean = transformerOptions.cartographieNationaleApiKey == null;

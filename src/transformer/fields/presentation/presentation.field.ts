@@ -1,5 +1,5 @@
-import { Presentation as PresentationField } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
+import type { Presentation as PresentationField } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import type { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 
 const cleanPresentationFormat = (presentation: string): string =>
   presentation.replace(/\n/gu, '').replace(/\\/gu, '').replace(/\r/gu, '');

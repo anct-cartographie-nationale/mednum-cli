@@ -1,16 +1,14 @@
-import { InputQuestion } from 'inquirer';
-import { PublierOptions } from '../publier-options';
+import type { Question } from 'inquirer';
+import type { PublierOptions } from '../publier-options';
 
 enum DataGouvMetadataFileValidationMessages {
   REQUIRED = 'Le fichier de métadonnées est obligatoire'
 }
 
-const validateDataGouvMetadataFile = (input?: string): DataGouvMetadataFileValidationMessages | true =>
-  input == null || input.trim() === '' ? DataGouvMetadataFileValidationMessages.REQUIRED : true;
+const validateDataGouvMetadataFile = (input?: unknown): DataGouvMetadataFileValidationMessages | true =>
+  typeof input !== 'string' || input.trim() === '' ? DataGouvMetadataFileValidationMessages.REQUIRED : true;
 
-export const metadataFileQuestion = (
-  mednumImportProperties: PublierOptions
-): InputQuestion & { name: keyof PublierOptions } => ({
+export const metadataFileQuestion = (mednumImportProperties: PublierOptions): Question & { name: keyof PublierOptions } => ({
   message: 'Chemin du fichier qui contient les métadonnées du jeu de données à publier',
   name: 'dataGouvMetadataFile',
   validate: validateDataGouvMetadataFile,

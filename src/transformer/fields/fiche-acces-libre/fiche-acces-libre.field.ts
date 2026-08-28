@@ -1,6 +1,6 @@
-import { Adresse, Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { type Adresse, Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { ratio } from 'fuzzball';
-import { LieuxMediationNumeriqueMatching, DataSource, Colonne } from '../../input';
+import type { LieuxMediationNumeriqueMatching, DataSource, Colonne } from '../../input';
 
 export type Erp = {
   name: string;

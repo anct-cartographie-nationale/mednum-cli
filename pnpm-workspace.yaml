@@ -1,3 +1,5 @@
 allowBuilds:
   esbuild: true
 minimumReleaseAge: 14400
+minimumReleaseAgeExclude:
+  - '@gouvfr-anct/lieux-de-mediation-numerique'

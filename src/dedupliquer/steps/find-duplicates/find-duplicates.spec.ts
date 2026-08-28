@@ -2,11 +2,11 @@ import { describe, it, expect } from 'vitest';
 import {
   DispositifProgrammeNational,
   PublicSpecifiquementAdresse,
-  SchemaLieuMediationNumerique,
+  type SchemaLieuMediationNumerique,
   Service,
   Typologie
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { CommuneDuplications, findDuplicates } from './find-duplicates';
+import { type CommuneDuplications, findDuplicates } from './find-duplicates';
 
 describe('find duplicates', (): void => {
   it('should not need to deduplicate when there is only one lieu', (): void => {

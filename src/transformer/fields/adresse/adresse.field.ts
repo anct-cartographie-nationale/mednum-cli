@@ -1,11 +1,11 @@
 import { Adresse } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { DataSource, LieuxMediationNumeriqueMatching } from '../../input';
+import type { DataSource, LieuxMediationNumeriqueMatching } from '../../input';
 import { getNewCommune } from './anciennes-communes';
 import { CLEAN_CODE_POSTAL, codePostalField } from './clean-code-postal';
 import { CLEAN_COMMUNE, communeField } from './clean-commune';
 import { toCleanField } from './clean-operations';
 import { CLEAN_VOIE, voieField } from './clean-voie';
-import { Commune, FindCommune } from './find-commune';
+import type { Commune, FindCommune } from './find-commune';
 
 type AddressToNormalize = {
   code_postal: string;

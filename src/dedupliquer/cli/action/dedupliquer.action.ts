@@ -1,19 +1,19 @@
 import * as fs from 'node:fs';
 import { parse } from 'csv-parse/sync';
 import { glob } from 'glob';
-import { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { paginate } from '../../../common';
-import { DeduplicationRepository } from '../../repositories';
+import type { DeduplicationRepository } from '../../repositories';
 import {
-  DuplicationComparison,
+  type DuplicationComparison,
   duplicationComparisons,
   filterOversizedIds,
   groupDuplicates,
-  Groups,
-  MergedLieuxByGroupMap,
+  type Groups,
+  type MergedLieuxByGroupMap,
   mergeDuplicates
 } from '../../steps';
-import { DedupliquerOptions } from '../dedupliquer-options';
+import type { DedupliquerOptions } from '../dedupliquer-options';
 import { deduplicationRepository } from './deduplication.repository';
 import { appendCoopId } from './append-coop-id';
 import { withoutObsoleteLabels } from './without-obsolete-labels';
@@ -34,7 +34,9 @@ const removeEmptyValue = (record: Record<string, string>): Record<string, string
   );
 
 const readCsvFile = (filePath: string): SchemaLieuMediationNumerique[] =>
-  parse(fs.readFileSync(filePath, 'utf-8'), { columns: true }).map(removeEmptyValue) as SchemaLieuMediationNumerique[];
+  (parse(fs.readFileSync(filePath, 'utf-8'), { columns: true }) as Record<string, string>[]).map(
+    removeEmptyValue
+  ) as unknown as SchemaLieuMediationNumerique[];
 
 type DataType = {
   selector: (source: string) => boolean;

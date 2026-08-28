@@ -1,14 +1,14 @@
 import {
-  SchemaServiceDataInclusion,
-  SchemaStructureDataInclusion,
-  SchemaStructureDataInclusionAdresseFields,
-  SchemaStructureDataInclusionLocalisationFields,
+  type SchemaServiceDataInclusion,
+  type SchemaStructureDataInclusion,
+  type SchemaStructureDataInclusionAdresseFields,
+  type SchemaStructureDataInclusionLocalisationFields,
   isServiceWithAdresse,
   toStructureDataInclusion,
-  SchemaServiceDataInclusionWithAdresse,
+  type SchemaServiceDataInclusionWithAdresse,
   mergeServices
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { DataInclusionMerged, mergeStructureAndService } from './data-inclusion-merged';
+import { type DataInclusionMerged, mergeStructureAndService } from './data-inclusion-merged';
 
 export type DataInclusionStructureAndServices = {
   structure: SchemaStructureDataInclusion;

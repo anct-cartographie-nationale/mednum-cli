@@ -1,6 +1,6 @@
-import { Command } from 'commander';
-import { Question } from 'inquirer';
-import { SourceSettings } from '../data';
+import type { Command } from 'commander';
+import type { Question } from 'inquirer';
+import type { SourceSettings } from '../data';
 import {
   configFileOption,
   outputDirectoryOption,

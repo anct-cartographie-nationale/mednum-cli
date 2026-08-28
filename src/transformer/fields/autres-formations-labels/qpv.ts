@@ -1,4 +1,4 @@
-import { Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import type { Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
 
 export type QpvShapesMap = Map<
   string,

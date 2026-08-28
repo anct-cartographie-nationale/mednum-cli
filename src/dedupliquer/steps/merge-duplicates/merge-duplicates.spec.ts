@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import {
-  SchemaLieuMediationNumerique,
+  type SchemaLieuMediationNumerique,
   Service,
   ModaliteAccompagnement,
   Typologie,
@@ -11,7 +11,7 @@ import {
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { duplicationComparisons } from '../duplication-comparisons';
 import { groupDuplicates } from '../group-duplicates/group-duplicates';
-import { MergedLieuxByGroupMap, mergeDuplicates } from './merge-duplicates';
+import { type MergedLieuxByGroupMap, mergeDuplicates } from './merge-duplicates';
 
 describe('remove duplicates', (): void => {
   it('should not have merged lieux when there is no duplicates', (): void => {
@@ -1341,8 +1341,8 @@ describe('remove duplicates', (): void => {
     expect(mergedReversedLieux).toStrictEqual(mergedLieux);
 
     const [mergedLieu]: SchemaLieuMediationNumerique[] = Array.from(mergedLieux.values());
-    expect(mergedLieu.id).toBe('Conseil-Departemental_1__Conseil-Departemental_2__Conseil-Departemental_3');
-    expect(mergedLieu.horaires).toBe('Mo-Sun 00:00-00:00');
-    expect(mergedLieu.services).toBe(Service.AccesInternetEtMaterielInformatique);
+    expect(mergedLieu?.id).toBe('Conseil-Departemental_1__Conseil-Departemental_2__Conseil-Departemental_3');
+    expect(mergedLieu?.horaires).toBe('Mo-Sun 00:00-00:00');
+    expect(mergedLieu?.services).toBe(Service.AccesInternetEtMaterielInformatique);
   });
 });

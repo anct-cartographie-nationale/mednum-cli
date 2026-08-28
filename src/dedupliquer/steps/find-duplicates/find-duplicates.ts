@@ -1,4 +1,4 @@
-import { SchemaLieuMediationNumerique, Typologie, Typologies } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { type SchemaLieuMediationNumerique, Typologie, Typologies } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { ratio } from 'fuzzball';
 
 export type Duplicate = { id: string; distanceScore: number; nomFuzzyScore: number; voieFuzzyScore: number };

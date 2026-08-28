@@ -1,5 +1,5 @@
 import { Typologie } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { TypologieMatcher } from './typologies.field';
+import type { TypologieMatcher } from './typologies.field';
 
 export const TYPOLOGIE_MATCHERS: TypologieMatcher[] = [
   {

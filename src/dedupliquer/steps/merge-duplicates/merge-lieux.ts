@@ -1,4 +1,4 @@
-import { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
 
 const mergeArrayStrings = (arrayString1: string, arrayString2: string): string =>
   Array.from(new Set([...arrayString1.split('|'), ...arrayString2.split('|')]))

@@ -1,5 +1,5 @@
-import { PublicSpecifiquementAdresse, PublicsSpecifiquementAdresses } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { Choice, LieuxMediationNumeriqueMatching, DataSource, cibleAsDefault } from '../../input';
+import { type PublicSpecifiquementAdresse, PublicsSpecifiquementAdresses } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { type Choice, type LieuxMediationNumeriqueMatching, type DataSource, cibleAsDefault } from '../../input';
 
 const isAllowedTerm = (choice: Choice<PublicSpecifiquementAdresse>, sourceValue: string): boolean =>
   choice.sauf?.every((forbidden: string): boolean => !sourceValue.includes(forbidden)) ?? true;

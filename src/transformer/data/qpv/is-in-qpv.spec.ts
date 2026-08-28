@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { type Polygon } from 'geojson';
-import { QpvShapesMap } from '../../fields';
+import type { Polygon } from 'geojson';
+import type { QpvShapesMap } from '../../fields';
 import { isInQpv } from './is-in-qpv';
 
 const QPV_IN_01053_SHAPE: Polygon = {

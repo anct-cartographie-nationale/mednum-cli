@@ -1,5 +1,5 @@
-import { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { CommuneDuplications, Duplicate, findDuplicates, LieuDuplications } from '../find-duplicates';
+import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { type CommuneDuplications, type Duplicate, findDuplicates, type LieuDuplications } from '../find-duplicates';
 
 export type DuplicationComparison = {
   id1: string;
@@ -45,7 +45,7 @@ const toDuplicationComparison = ({ lieu1, lieu2, duplicate }: ReadyToProcessDupl
   ...(lieu2.typologie == null ? {} : { typologie2: lieu2.typologie })
 });
 
-const onlyValidScore = (duplication: DuplicationComparison): boolean => !isNaN(duplication.score);
+const onlyValidScore = (duplication: DuplicationComparison): boolean => !Number.isNaN(duplication.score);
 
 const byScore = ({ score: scoreA }: DuplicationComparison, { score: scoreB }: DuplicationComparison): number => scoreB - scoreA;
 

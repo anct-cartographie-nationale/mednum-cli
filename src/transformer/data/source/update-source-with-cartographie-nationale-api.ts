@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { authHeader, headers } from '../../../common';
-import { TransformerOptions } from '../../cli/transformer-options';
+import type { TransformerOptions } from '../../cli/transformer-options';
 
 export const updateSourceWithCartographieNationaleApi =
   (transformerOptions: TransformerOptions) =>

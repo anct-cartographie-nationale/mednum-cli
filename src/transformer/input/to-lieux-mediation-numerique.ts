@@ -1,30 +1,30 @@
 import {
-  Adresse,
+  type Adresse,
   CodePostalError,
   CommuneError,
-  DispositifProgrammesNationaux,
-  FormationsLabels,
-  FraisACharge,
+  type DispositifProgrammesNationaux,
+  type FormationsLabels,
+  type FraisACharge,
   IdError,
-  Itinerances,
-  LieuMediationNumerique,
-  Localisation,
-  ModalitesAcces,
-  ModalitesAccompagnement,
-  ModelError,
+  type Itinerances,
+  type LieuMediationNumerique,
+  type Localisation,
+  type ModalitesAcces,
+  type ModalitesAccompagnement,
+  type ModelError,
   NomError,
-  PrisesEnChargeSpecifiques,
-  PublicsSpecifiquementAdresses,
-  Services,
+  type PrisesEnChargeSpecifiques,
+  type PublicsSpecifiquementAdresses,
+  type Services,
   ServicesError,
-  Typologies,
-  Url,
+  type Typologies,
+  type Url,
   UrlError,
   VoieError,
   CourrielError
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { AxiosError } from 'axios';
-import { Recorder, Report } from '../report';
+import type { Recorder, Report } from '../report';
 import {
   processFicheAccesLibre,
   processAdresse,
@@ -51,10 +51,10 @@ import {
   processModalitesAcces,
   isPrive
 } from '../fields';
-import { TransformationRepository } from '../repositories';
-import { DataSource, LieuxMediationNumeriqueMatching } from './lieux-mediation-numerique-matching';
-import { label, Feature, LOCATION_ENRICHED } from '../data/localisation/localisation-from-geo';
-import { AddressRecord, AddressCache } from '../storage';
+import type { TransformationRepository } from '../repositories';
+import type { DataSource, LieuxMediationNumeriqueMatching } from './lieux-mediation-numerique-matching';
+import { label, type Feature, type LOCATION_ENRICHED } from '../data/localisation/localisation-from-geo';
+import type { AddressRecord, AddressCache } from '../storage';
 
 const isFilled = <T>(nullable?: T[]): nullable is T[] => nullable != null && nullable.length > 0;
 
@@ -164,7 +164,7 @@ export const isFlatten = (repository: Record<string, unknown>): boolean => {
     return (value as { colonne: string }).colonne;
   });
 
-  return keysConfig.flat().find((value) => regex.test(value)) ? false : true;
+  return !keysConfig.flat().find((value) => regex.test(value));
 };
 
 const entryIdentification = (dataSource: DataSource, matching: LieuxMediationNumeriqueMatching): string =>

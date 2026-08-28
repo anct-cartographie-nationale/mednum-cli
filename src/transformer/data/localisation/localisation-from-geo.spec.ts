@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { getAddressData, fetchBanResponseBatch, labelCommune, labelCodePostal } from './localisation-from-geo';
-import { DataSource, LieuxMediationNumeriqueMatching } from '../../input';
-import { AddressRecord } from '../../storage';
+import type { DataSource, LieuxMediationNumeriqueMatching } from '../../input';
+import type { AddressRecord } from '../../storage';
 
 const STANDARD_MATCHING: LieuxMediationNumeriqueMatching = {
   nom: { colonne: 'nom' },

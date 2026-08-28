@@ -1,5 +1,5 @@
-import { Colonne, DataSource, Jonction } from '../../input';
-import { CleanOperation } from './clean-operations';
+import type { Colonne, DataSource, Jonction } from '../../input';
+import type { CleanOperation } from './clean-operations';
 
 const REMOVE_MULTIPLE_SPACES_IN_VOIE: CleanOperation = {
   name: 'replace multiple spaces with single space',

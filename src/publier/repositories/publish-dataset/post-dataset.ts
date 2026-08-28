@@ -1,6 +1,6 @@
-import axios, { AxiosResponse } from 'axios';
-import { Api, authHeader, headers } from '../../../common';
-import { Dataset, PublishDataset, Reference } from '../../models';
+import axios, { type AxiosResponse } from 'axios';
+import { type Api, authHeader, headers } from '../../../common';
+import type { Dataset, PublishDataset, Reference } from '../../models';
 
 type PostDatasetTransfer = {
   description: string;

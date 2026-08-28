@@ -1,8 +1,8 @@
-import { Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import type { Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { booleanPointInPolygon, point, polygon } from '@turf/turf';
-import { type Polygon } from 'geojson';
+import type { Polygon } from 'geojson';
 
-import { QpvShapesMap } from '../../fields';
+import type { QpvShapesMap } from '../../fields';
 
 const toCheckEveryShapeFor =
   (localisation: Localisation) =>

@@ -1,6 +1,6 @@
-import { Command } from 'commander';
-import inquirer, { Answers } from 'inquirer';
-import { FUSIONNER_OPTIONS, FusionnerOptions, fusionnerOptionsQuestions } from './fusionner-options';
+import type { Command } from 'commander';
+import inquirer, { type Answers } from 'inquirer';
+import { FUSIONNER_OPTIONS, type FusionnerOptions, fusionnerOptionsQuestions } from './fusionner-options';
 import { fusionnerAction } from './action';
 
 const promptAndRun = async (fusionnerOptions: FusionnerOptions): Promise<void> =>

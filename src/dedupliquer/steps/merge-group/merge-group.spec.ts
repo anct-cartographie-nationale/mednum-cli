@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { SchemaLieuMediationNumerique, Typologie } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { Groups } from '../group-duplicates/group-duplicates';
-import { MergedLieuxByGroupMap } from '../merge-duplicates';
-import { findGroupIdsToDelete, MergeGroup, mergeGroups } from './merge-group';
+import { type SchemaLieuMediationNumerique, Typologie } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import type { Groups } from '../group-duplicates/group-duplicates';
+import type { MergedLieuxByGroupMap } from '../merge-duplicates';
+import { findGroupIdsToDelete, type MergeGroup, mergeGroups } from './merge-group';
 
 describe('merge group transfer', (): void => {
   it('should create merge group to transfer from groups and lieux by group', (): void => {

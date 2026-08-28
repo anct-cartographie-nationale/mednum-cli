@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { SchemaLieuMediationNumerique, Typologie } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { type SchemaLieuMediationNumerique, Typologie } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { duplicationComparisons } from '../../../steps';
 import { formatToCSV } from './deduplication-comparisons-to-csv';
 

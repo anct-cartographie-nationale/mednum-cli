@@ -1,4 +1,4 @@
-import { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
 
 const HEADERS: (keyof SchemaLieuMediationNumerique)[] = [
   'id',

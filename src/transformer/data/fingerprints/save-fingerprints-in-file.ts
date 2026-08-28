@@ -1,12 +1,12 @@
-import * as fs from 'fs';
+import * as fs from 'node:fs';
 import {
   canTransform,
-  DiffSinceLastTransform,
-  Fingerprint,
+  type DiffSinceLastTransform,
+  type Fingerprint,
   fingerprintsFrom,
   updateFingerprints
 } from '../../cli/diff-since-last-transform';
-import { TransformerOptions } from '../../cli/transformer-options';
+import type { TransformerOptions } from '../../cli/transformer-options';
 
 export const saveFingerprintsInFile =
   (idKey: string, fingerprints: Fingerprint[], transformerOptions: TransformerOptions) =>

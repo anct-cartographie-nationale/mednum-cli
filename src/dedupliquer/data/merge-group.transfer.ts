@@ -1,4 +1,4 @@
-import { MergeGroup } from '../steps';
+import type { MergeGroup } from '../steps';
 
 export type MergeGroupTransfer = {
   mergeGroups: MergeGroup[];

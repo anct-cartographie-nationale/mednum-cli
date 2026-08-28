@@ -1,4 +1,4 @@
-import { Feature } from '../data/localisation/localisation-from-geo';
+import type { Feature } from '../data/localisation/localisation-from-geo';
 
 export type AddressRecord = {
   dateDeTraitement: Date | string;

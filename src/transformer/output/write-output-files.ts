@@ -1,10 +1,10 @@
 import {
-  LieuMediationNumerique,
-  SchemaLieuMediationNumerique,
+  type LieuMediationNumerique,
+  type SchemaLieuMediationNumerique,
   toSchemaLieuxDeMediationNumerique
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import {
-  Output,
+  type Output,
   writeMediationNumeriqueCsvOutput,
   writeMediationNumeriqueJsonOutput,
   writePublierMetadataOutput

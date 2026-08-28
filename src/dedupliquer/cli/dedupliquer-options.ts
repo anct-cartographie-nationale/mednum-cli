@@ -1,5 +1,5 @@
-import { Command } from 'commander';
-import { Question } from 'inquirer';
+import type { Command } from 'commander';
+import type { Question } from 'inquirer';
 import {
   cutoffOption,
   outputDirectoryOption,

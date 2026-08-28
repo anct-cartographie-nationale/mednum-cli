@@ -1,19 +1,19 @@
-import * as fs from 'fs';
+import * as fs from 'node:fs';
 import {
   fromSchemaLieuxDeMediationNumerique,
-  LieuMediationNumerique,
-  SchemaLieuMediationNumerique
+  type LieuMediationNumerique,
+  type SchemaLieuMediationNumerique
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import {
-  Output,
+  type Output,
   writeMediationNumeriqueCsvOutput,
   writeMediationNumeriqueDynamoDBJsonOutput,
   writeMediationNumeriqueJsonOutput,
   writePublierMetadataOutput
 } from '../../../../common';
-import { DuplicationComparison, Groups, MergedLieuxByGroupMap, removeMerged } from '../../../steps';
+import { type DuplicationComparison, type Groups, type MergedLieuxByGroupMap, removeMerged } from '../../../steps';
 import { formatToCSV } from '../../action/deduplication-comparisons-to-csv';
-import { DedupliquerOptions } from '../../dedupliquer-options';
+import type { DedupliquerOptions } from '../../dedupliquer-options';
 
 const writeOutputFiles = (
   producer: Output,

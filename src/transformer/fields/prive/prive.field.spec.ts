@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { ModaliteAcces } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { LieuxMediationNumeriqueMatching } from '../../input';
+import type { LieuxMediationNumeriqueMatching } from '../../input';
 import { isPrive } from './prive.field';
 
 const MODALITES_ACCES_FIELD: 'Mobilisation du service' = 'Mobilisation du service' as const;

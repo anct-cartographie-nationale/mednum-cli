@@ -7,7 +7,7 @@ import {
   ModaliteAccompagnement,
   PriseEnChargeSpecifique,
   PublicSpecifiquementAdresse,
-  SchemaLieuMediationNumerique,
+  type SchemaLieuMediationNumerique,
   Service,
   Typologie
 } from '@gouvfr-anct/lieux-de-mediation-numerique';

@@ -1,6 +1,6 @@
-import { Command } from 'commander';
-import inquirer, { Answers } from 'inquirer';
-import { toPublierOptions, PUBLIER_OPTIONS, PublierOptions, publierOptionsQuestions } from './publier-options';
+import type { Command } from 'commander';
+import inquirer, { type Answers } from 'inquirer';
+import { toPublierOptions, PUBLIER_OPTIONS, type PublierOptions, publierOptionsQuestions } from './publier-options';
 import { publierAction } from './action';
 
 const promptAndRun = async (publierOptions: PublierOptions): Promise<void> =>

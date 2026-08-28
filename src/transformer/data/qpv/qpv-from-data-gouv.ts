@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { strFromU8, unzipSync } from 'fflate';
-import { type FeatureCollection, type MultiPolygon, type Polygon } from 'geojson';
-import { QpvShapesMap } from '../../fields';
-import { qpvShapesMapFromTransfer, QpvFeatureProperties } from './transfer';
+import type { FeatureCollection, MultiPolygon, Polygon } from 'geojson';
+import type { QpvShapesMap } from '../../fields';
+import { qpvShapesMapFromTransfer, type QpvFeatureProperties } from './transfer';
 
 // Périmètre 2024 des quartiers prioritaires de la politique de la ville (ANCT / SIG Ville).
 // Archive ZIP contenant un GeoJSON par territoire ; on lit le fichier combiné en WGS84 (CRS84),

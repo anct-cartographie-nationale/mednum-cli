@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { Presentation } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
+import type { Presentation } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import type { LieuxMediationNumeriqueMatching, DataSource } from '../../input';
 import { processPresentation } from './presentation.field';
 
 describe('presentation fields', (): void => {

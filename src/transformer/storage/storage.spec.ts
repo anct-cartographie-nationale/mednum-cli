@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { AddressRecord, AddressCache } from './index';
-import { Properties } from '../data';
+import { type AddressRecord, AddressCache } from './index';
+import type { Properties } from '../data';
 
 describe('addresses', (): void => {
   it('should create a address cache with empty records', (): void => {
