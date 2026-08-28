@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@gouvfr-anct/lieux-de-mediation-numerique':
-        specifier: ^2.4.0
-        version: 2.4.0
+        specifier: ^3.0.0
+        version: 3.0.0
       '@gouvfr-anct/timetable-to-osm-opening-hours':
         specifier: ^2.1.0
         version: 2.1.0(typescript@7.0.2)
@@ -564,8 +564,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@gouvfr-anct/lieux-de-mediation-numerique@2.4.0':
-    resolution: {integrity: sha512-uVABJeNdqZG91Hh6hMFrG+dplZRWMbYBaoMMA5TzfpgMBlrhetcBjtS3KBawJxtmRUxulXEDNU1pYVEFs92jQA==}
+  '@gouvfr-anct/lieux-de-mediation-numerique@3.0.0':
+    resolution: {integrity: sha512-rVTY3oE8VYnxuDEXQif1pB7p5dhE/k+/6W5c1+HKgtT0RtDrRKMVZ/QRsQHqcLMd2gTmHNdxf2xk/cI6QYQqlA==}
 
   '@gouvfr-anct/timetable-to-osm-opening-hours@2.1.0':
     resolution: {integrity: sha512-P5UwarBy6BVtHdGFWGNsQa6gBRcIyo6PJH3iiPSr17Oua5FWokowSYfV0Tok86uD3V7tIlpfLS29H1Fg+xztNQ==}
@@ -2457,7 +2457,7 @@ snapshots:
   '@esbuild/win32-x64@0.28.2':
     optional: true
 
-  '@gouvfr-anct/lieux-de-mediation-numerique@2.4.0':
+  '@gouvfr-anct/lieux-de-mediation-numerique@3.0.0':
     dependencies:
       fuzzball: 2.2.6
 
