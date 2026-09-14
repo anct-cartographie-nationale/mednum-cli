@@ -1,6 +1,6 @@
 import type { Command } from 'commander';
 import type { Question } from 'inquirer';
-import type { SourceSettings } from '../data';
+import type { SourceSettings } from '../../features/acquisition-source';
 import {
   configFileOption,
   outputDirectoryOption,

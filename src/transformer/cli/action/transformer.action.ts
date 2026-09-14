@@ -6,12 +6,8 @@ import {
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { createHash } from 'node:crypto';
 import { paginate } from '../../../libraries/http';
-import {
-  saveOutputsInFiles,
-  sourceATransformer,
-  sourcesFromCartographieNationaleApi,
-  updateSourceWithCartographieNationaleApi
-} from '../../data';
+import { saveOutputsInFiles, sourcesFromCartographieNationaleApi, updateSourceWithCartographieNationaleApi } from '../../data';
+import { chargerUneSource } from '../../../features/acquisition-source';
 import { type DataSource, toLieuxMediationNumerique, validValuesOnly, isFlatten } from '../../input';
 import { Report } from '../../report';
 import { AddressCache, type AddressRecord } from '../../storage';
@@ -65,7 +61,7 @@ const shouldAbortWhenHashIsUnchanged =
 export const transformerAction = async (transformerOptions: TransformerOptions): Promise<void> => {
   const maxTransform: number | undefined = process.env['MAX_TRANSFORM'] == null ? undefined : +process.env['MAX_TRANSFORM'];
 
-  const source: string = await sourceATransformer(transformerOptions);
+  const source: string = await chargerUneSource(transformerOptions);
   const sourceHash: string = createHash('sha256').update(source).digest('hex');
 
   if (await shouldAbortWhenHashIsUnchanged(transformerOptions)(sourceHash)) return;

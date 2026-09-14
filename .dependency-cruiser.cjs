@@ -150,8 +150,8 @@ const FORBIDDEN_FEATURES = [
       pathNot: [
         '^src/features/$1/domain',
         '^src/libraries/',
-        '^node_modules/@gouvfr-anct/',
-        '^node_modules/@types/'
+        'node_modules/@gouvfr-anct/',
+        'node_modules/@types/'
       ]
     }
   },
@@ -167,8 +167,8 @@ const FORBIDDEN_FEATURES = [
         '^src/features/$1/abilities/$2/domain',
         '^src/features/$1/domain',
         '^src/libraries/',
-        '^node_modules/@gouvfr-anct/',
-        '^node_modules/@types/'
+        'node_modules/@gouvfr-anct/',
+        'node_modules/@types/'
       ]
     }
   },
@@ -184,8 +184,8 @@ const FORBIDDEN_FEATURES = [
         '^src/features/$1/domain',
         '^src/features/$1/keys',
         '^src/libraries/injection',
-        '^node_modules/@gouvfr-anct/',
-        '^node_modules/@types/'
+        'node_modules/@gouvfr-anct/',
+        'node_modules/@types/'
       ]
     }
   },
@@ -203,8 +203,8 @@ const FORBIDDEN_FEATURES = [
         '^src/features/$1/domain',
         '^src/features/$1/keys',
         '^src/libraries/injection',
-        '^node_modules/@gouvfr-anct/',
-        '^node_modules/@types/'
+        'node_modules/@gouvfr-anct/',
+        'node_modules/@types/'
       ]
     }
   },
@@ -255,7 +255,8 @@ const LIBRARY_DEPENDENCIES = {
   injection: [],
   http: [],
   'file-system': [],
-  'mediation-numerique': ['file-system']
+  'mediation-numerique': ['file-system'],
+  'data-inclusion-api': ['http']
 };
 
 const libraryInterdependencyRules = () =>

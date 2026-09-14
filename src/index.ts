@@ -3,7 +3,7 @@ import { Command } from 'commander';
 import { addPublierCommandTo } from './publier';
 import { addTransformerCommandTo } from './transformer';
 import { addDedupliquerCommandTo } from './dedupliquer';
-import { addDataInclusionCommandTo } from './data-inclusion/cli';
+import { addDataInclusionCommandTo } from './cli/data-inclusion';
 import { addFusionnerCommandTo } from './cli/fusionner';
 
 dotenv.config();

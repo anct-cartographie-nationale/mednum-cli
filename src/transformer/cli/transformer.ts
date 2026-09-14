@@ -7,11 +7,15 @@ import {
   transformerOptionsQuestions
 } from './transformer-options';
 import { transformerAction } from './action';
+import { provideAcquisitionSourceImplementations } from '../../cli/transformer/transformer.providers';
 
 const promptAndRun = async (transformerOptions: TransformerOptions): Promise<void> =>
   inquirer
     .prompt(transformerOptionsQuestions(transformerOptions))
-    .then(async (mednumAnswers: Answers): Promise<void> => transformerAction({ ...transformerOptions, ...mednumAnswers }))
+    .then(async (mednumAnswers: Answers): Promise<void> => {
+      provideAcquisitionSourceImplementations();
+      return transformerAction({ ...transformerOptions, ...mednumAnswers });
+    })
     .catch((error: Error): void => {
       console.error(error.message);
     });
