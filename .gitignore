@@ -67,6 +67,9 @@ web_modules/
 # Openapi specification
 openapi.json
 
+# Diagramme d'architecture, régénérable par `pnpm doc.architecture`
+docs/architecture.svg
+
 # Optional eslint cache
 .eslintcache
 

@@ -327,7 +327,12 @@ module.exports = {
     skipAnalysisNotInRules: true,
     reporterOptions: {
       dot: { collapsePattern: 'node_modules/(?:@[^/]+/[^/]+|[^/]+)' },
-      archi: { collapsePattern: '^(?:src)/[^/]+|node_modules/(?:@[^/]+/[^/]+|[^/]+)' },
+      // Replie sur la capacité, la library ou la commande : c'est le niveau auquel se lisent
+      // les règles d'architecture. Un cran plus haut on ne voit que trois boîtes, un cran plus
+      // bas on retombe sur les 347 modules.
+      archi: {
+        collapsePattern: '^src/(?:features|libraries|cli)/[^/]+|^src/[^/]+|node_modules/(?:@[^/]+/[^/]+|[^/]+)'
+      },
       text: { highlightFocused: true }
     }
   }

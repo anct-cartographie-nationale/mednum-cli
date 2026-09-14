@@ -78,12 +78,6 @@ importers:
       '@swc/core':
         specifier: ^1.16.1
         version: 1.16.1
-      '@turf/helpers':
-        specifier: ^7.4.0
-        version: 7.4.0
-      '@types/flat':
-        specifier: ^5.0.5
-        version: 5.0.5
       '@types/geojson':
         specifier: ^7946.0.16
         version: 7946.0.16
@@ -1334,9 +1328,6 @@ packages:
 
   '@types/estree@1.0.9':
     resolution: {integrity: sha512-GhdPgy1el4/ImP05X05Uw4cw2/M93BCUmnEvWZNStlCzEKME4Fkk+YpoA5OiHNQmoS7Cafb8Xa3Pya8m1Qrzeg==}
-
-  '@types/flat@5.0.5':
-    resolution: {integrity: sha512-nPLljZQKSnac53KDUDzuzdRfGI0TDb5qPrb+SrQyN3MtdQrOnGsKniHN1iYZsJEBIVQve94Y6gNz22sgISZq+Q==}
 
   '@types/geojson@7946.0.16':
     resolution: {integrity: sha512-6C8nqWur3j98U6+lXDfTUWIfgvZU+EumvpHKcYjujKH7woYyLj2sUmff0tRhrqM7BohUw7Pz3ZB1jj2gW9Fvmg==}
@@ -4162,8 +4153,6 @@ snapshots:
   '@types/earcut@2.1.4': {}
 
   '@types/estree@1.0.9': {}
-
-  '@types/flat@5.0.5': {}
 
   '@types/geojson@7946.0.16': {}
 
