@@ -183,7 +183,7 @@ const FORBIDDEN_FEATURES = [
       pathNot: [
         '^src/features/$1/domain',
         '^src/features/$1/keys',
-        '^src/libraries/injection',
+        '^src/libraries/',
         'node_modules/@gouvfr-anct/',
         'node_modules/@types/'
       ]
@@ -202,7 +202,7 @@ const FORBIDDEN_FEATURES = [
         '^src/features/$1/abilities/$2/keys',
         '^src/features/$1/domain',
         '^src/features/$1/keys',
-        '^src/libraries/injection',
+        '^src/libraries/',
         'node_modules/@gouvfr-anct/',
         'node_modules/@types/'
       ]
@@ -256,7 +256,8 @@ const LIBRARY_DEPENDENCIES = {
   http: [],
   'file-system': [],
   'mediation-numerique': ['file-system'],
-  'data-inclusion-api': ['http']
+  'data-inclusion-api': ['http'],
+  'data-gouv': ['http']
 };
 
 const libraryInterdependencyRules = () =>

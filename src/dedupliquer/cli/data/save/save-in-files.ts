@@ -4,7 +4,7 @@ import {
   type LieuMediationNumerique,
   type SchemaLieuMediationNumerique
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { writePublierMetadataOutput } from '../../../../common';
+import { writePublicationMetadataInFile } from '../../../../features/publication';
 import type { Output } from '../../../../libraries/file-system';
 import {
   writeMediationNumeriqueCsvOutput,
@@ -23,7 +23,7 @@ const writeOutputFiles = (
   writeMediationNumeriqueJsonOutput(producer, lieuxWithLessDuplicates, 'sans-doublons');
   writeMediationNumeriqueDynamoDBJsonOutput(producer, lieuxWithLessDuplicates);
   writeMediationNumeriqueCsvOutput(producer, lieuxWithLessDuplicates, 'sans-doublons');
-  writePublierMetadataOutput(producer, lieuxDeMediationNumerique, 'sans-doublons');
+  writePublicationMetadataInFile(producer, lieuxDeMediationNumerique, 'sans-doublons');
 };
 
 export const saveInFiles =

@@ -14,9 +14,7 @@
     "features/*/abilities/*/implementations/**",
     "features/*/abilities/*/keys",
     "libraries/*/**",
-    "common/**",
     "dedupliquer/**",
-    "publier/**",
     "transformer/**"
   ]
 }
