@@ -4,7 +4,7 @@ import { mediationNumeriqueFileName } from '../../../libraries/mediation-numeriq
 import type { AddressRecord, AddressCache } from '../domain';
 import type { Feature } from '../../../libraries/ban';
 
-export type AddressOutput = {
+type AddressOutput = {
   dateDeTraitement: Date;
   addresseOriginale: string;
   responseBan?: Feature;

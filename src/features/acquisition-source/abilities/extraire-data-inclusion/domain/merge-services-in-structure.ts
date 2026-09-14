@@ -10,7 +10,7 @@ import {
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { type DataInclusionMerged, mergeStructureAndService } from './data-inclusion-merged';
 
-export type DataInclusionStructureAndServices = {
+type DataInclusionStructureAndServices = {
   structure: SchemaStructureDataInclusion;
   services: SchemaServiceDataInclusion[];
 };

@@ -13,7 +13,7 @@ const communeMapEntry = (newCommune: NewCommune | undefined, communeName: string
 const toAncienneCommuneMapEntry = (ancienneCommuneName: string): [string, Commune] | undefined =>
   communeMapEntry(ANCIENNES_COMMUNES[ancienneCommuneName], ancienneCommuneName);
 
-export const ANCIENNES_COMMUNES_MAP: Map<string, Commune> = new Map(
+const ANCIENNES_COMMUNES_MAP: Map<string, Commune> = new Map(
   Object.keys(ANCIENNES_COMMUNES).map(toAncienneCommuneMapEntry).filter(onlyDefined)
 );
 

@@ -131,7 +131,7 @@ const REORDER_HOURS_BEFORE_DAYS: HorairesFieldCleanOperation = {
   fix: (_: string, hours: string, days: string) => `${days} / ${hours}`
 };
 
-export const REPLACE_SHORT_DAYS: HorairesFieldCleanOperation[] = [
+const REPLACE_SHORT_DAYS: HorairesFieldCleanOperation[] = [
   INSERT_SPACE_AFTER_H_OR_HEURE,
   REPLACE_SHORT_LUNDI,
   REPLACE_SHORT_MARDI,

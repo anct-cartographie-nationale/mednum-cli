@@ -25,7 +25,7 @@ const firstValueFrom = (source: DataSource, colonne: string | string[]): string 
     .map((c: string): string | undefined => source[c]?.toString())
     .find(Boolean) ?? '';
 
-export const labelVoie = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
+const labelVoie = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
   String(voieField(source, matching.adresse));
 
 export const labelCodePostal = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>

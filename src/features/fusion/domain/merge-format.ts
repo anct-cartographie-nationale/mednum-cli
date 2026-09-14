@@ -1,6 +1,6 @@
 import { extensionOf } from '../../../libraries/file-system/path';
 
-export const SUPPORTED_MERGE_FORMATS = ['.csv', '.json'] as const;
+const SUPPORTED_MERGE_FORMATS = ['.csv', '.json'] as const;
 
 export type MergeFormat = (typeof SUPPORTED_MERGE_FORMATS)[number];
 

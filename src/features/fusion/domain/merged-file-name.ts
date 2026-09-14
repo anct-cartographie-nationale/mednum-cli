@@ -2,7 +2,7 @@ import type { FilesToMerge } from './files-to-merge';
 
 const ADDRESSES_SOURCE_PATTERN: RegExp = /-addresses\.json$/;
 
-export const MERGED_ADDRESSES_FILE_NAME = 'addresses.json';
+const MERGED_ADDRESSES_FILE_NAME = 'addresses.json';
 
 /**
  * Les fichiers d'adresses alimentent un cache cumulatif : leur fusion s'ajoute au contenu déjà

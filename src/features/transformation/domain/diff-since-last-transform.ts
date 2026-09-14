@@ -1,9 +1,9 @@
 import { sha256 } from '../../../libraries/hash';
 import type { DataSource } from './matching';
 
-export type DiffSinceLastTransformWithoutId = null;
+type DiffSinceLastTransformWithoutId = null;
 
-export type DiffSinceLastTransformWithId = {
+type DiffSinceLastTransformWithId = {
   toUpsert: DataSource[];
   toDelete: FingerprintToDelete[];
 };
@@ -15,7 +15,7 @@ export type Fingerprint = {
   hash?: string;
 };
 
-export type FingerprintToDelete = {
+type FingerprintToDelete = {
   sourceId: string;
 };
 

@@ -8,12 +8,12 @@ export type PublierUnJeuDeDonnees = {
   reference: Reference;
 };
 
-export type PublicationSkipped = {
+type PublicationSkipped = {
   published: false;
   reason: 'metadata-introuvable' | 'ressource-vide';
 };
 
-export type PublicationDone = {
+type PublicationDone = {
   published: true;
   title: string;
 };

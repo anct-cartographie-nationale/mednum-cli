@@ -6,7 +6,7 @@ export type AddressRecord = {
   responseBan?: Feature;
 };
 
-export type AddressRecorder = {
+type AddressRecorder = {
   commit: () => AddressCache;
   record: (addresse: AddressRecord) => AddressRecorder;
 };

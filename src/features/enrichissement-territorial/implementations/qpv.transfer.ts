@@ -12,7 +12,7 @@ const toSinglePolygon = (positions: Position[]): Polygon => ({
   type: 'Polygon'
 });
 
-export const multiPolygonToListOfPolygons = (multiPolygon: MultiPolygon): Polygon[] =>
+const multiPolygonToListOfPolygons = (multiPolygon: MultiPolygon): Polygon[] =>
   multiPolygon.coordinates.flatMap((polygonCoordinates: Position[][]): Polygon[] => polygonCoordinates.map(toSinglePolygon));
 
 const isPolygon = (shape: MultiPolygon | Polygon): shape is Polygon => shape.type === 'Polygon';

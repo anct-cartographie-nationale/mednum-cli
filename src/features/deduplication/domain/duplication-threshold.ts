@@ -8,7 +8,7 @@ import type { DuplicationComparison } from './duplication-comparisons';
 const INTERNAL_DUPLICATION_SCORE_THRESHOLD = 90 as const;
 const DUPLICATION_SCORE_THRESHOLD = 80 as const;
 
-export const duplicationScoreThreshold = (allowInternalMerge: boolean): number =>
+const duplicationScoreThreshold = (allowInternalMerge: boolean): number =>
   allowInternalMerge ? INTERNAL_DUPLICATION_SCORE_THRESHOLD : DUPLICATION_SCORE_THRESHOLD;
 
 export const overDuplicationScoreThreshold =

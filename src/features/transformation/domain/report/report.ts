@@ -1,10 +1,10 @@
-export type Fix = {
+type Fix = {
   before: string;
   apply: string;
   after?: string;
 };
 
-export type RecordError = {
+type RecordError = {
   field: number | string | symbol;
   message: string;
   entryName: string;
