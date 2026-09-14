@@ -1,12 +1,20 @@
 import type { Command } from 'commander';
 import inquirer, { type Answers } from 'inquirer';
-import { FUSIONNER_OPTIONS, type FusionnerOptions, fusionnerOptionsQuestions } from './fusionner-options';
-import { fusionnerAction } from './action';
+import { type FichiersFusionnes, fusionnerDesFichiers } from '../../features/fusion';
+import { FUSIONNER_OPTIONS, type FusionnerOptions, fusionnerOptionsQuestions } from './fusionner.options';
+import { provideFusionnerImplementations } from './fusionner.providers';
+
+const reportMergedFiles = ({ format, mergedFilePath }: FichiersFusionnes): void => {
+  console.log(`Les fichiers ${format === '.csv' ? 'CSV' : 'JSON'} fusionnés ont été sauvegardés dans ${mergedFilePath}`);
+};
 
 const promptAndRun = async (fusionnerOptions: FusionnerOptions): Promise<void> =>
   inquirer
     .prompt(fusionnerOptionsQuestions(fusionnerOptions))
-    .then((mednumAnswers: Answers): void => fusionnerAction({ ...fusionnerOptions, ...mednumAnswers }))
+    .then((mednumAnswers: Answers): void => {
+      provideFusionnerImplementations();
+      reportMergedFiles(fusionnerDesFichiers({ ...fusionnerOptions, ...mednumAnswers }));
+    })
     .catch((error: Error): void => {
       console.error(error.message);
     });

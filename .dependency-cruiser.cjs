@@ -96,7 +96,8 @@ const FORBIDDEN_CLI = [
         '^src/common',
         '^node_modules/',
         '^assets/'
-      ]
+      ],
+      dependencyTypesNot: ['core']
     }
   },
   {
@@ -222,7 +223,8 @@ const FORBIDDEN_FEATURES = [
         '^src/libraries/',
         '^src/data',
         '^node_modules/'
-      ]
+      ],
+      dependencyTypesNot: ['core']
     }
   },
   {
@@ -242,7 +244,8 @@ const FORBIDDEN_FEATURES = [
         '^src/libraries/',
         '^src/data',
         '^node_modules/'
-      ]
+      ],
+      dependencyTypesNot: ['core']
     }
   }
 ];

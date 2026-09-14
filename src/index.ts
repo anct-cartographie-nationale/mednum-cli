@@ -4,7 +4,7 @@ import { addPublierCommandTo } from './publier';
 import { addTransformerCommandTo } from './transformer';
 import { addDedupliquerCommandTo } from './dedupliquer';
 import { addDataInclusionCommandTo } from './data-inclusion/cli';
-import { addFusionnerCommandTo } from './fusionner';
+import { addFusionnerCommandTo } from './cli/fusionner';
 
 dotenv.config();
 
