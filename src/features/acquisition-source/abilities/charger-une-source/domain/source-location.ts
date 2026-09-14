@@ -13,9 +13,11 @@ export const sourceLocationOf = (source: string): SourceLocation => {
 };
 
 /**
- * Emplacement de la page suivante. Quand la source n'a pas de clé, la chaîne `undefined` est
- * concaténée à l'URL : comportement repris tel quel de l'implémentation d'origine.
+ * Emplacement de la page suivante : la même clé que la source, s'il y en a une.
  */
-export const nextSourceLocation = (next: string, key?: string): SourceLocation => sourceLocationOf(`${next}@${key}`);
+export const nextSourceLocation = (next: string, key?: string): SourceLocation => ({
+  source: next,
+  ...(key == null ? {} : { key })
+});
 
 export const isRemote = ({ source }: SourceLocation): boolean => source.startsWith('http');

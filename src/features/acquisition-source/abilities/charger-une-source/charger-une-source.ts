@@ -1,5 +1,5 @@
 import { inject } from '../../../../libraries/injection';
-import { nextPageSettings, type RemoteSourceSettings, type SourceSettings } from '../../domain';
+import type { RemoteSourceSettings, SourceSettings } from '../../domain';
 import { isRemote, nextSourceLocation, recordsOf, type SourceLocation, sourceLocationOf } from './domain';
 import { FETCH_REMOTE_SOURCE, READ_LOCAL_SOURCE } from './keys';
 
@@ -9,7 +9,7 @@ const fetchRecords = async (location: SourceLocation, settings: RemoteSourceSett
 
   return content.next == null
     ? records
-    : [...records, ...(await fetchRecords(nextSourceLocation(content.next, location.key), nextPageSettings(settings)))];
+    : [...records, ...(await fetchRecords(nextSourceLocation(content.next, location.key), settings))];
 };
 
 const readRecords = async (location: SourceLocation): Promise<unknown[]> =>

@@ -36,15 +36,16 @@ describe('nextSourceLocation', (): void => {
     });
   });
 
-  /**
-   * Comportement hérité, volontairement documenté plutôt que corrigé : quand la source n'a pas
-   * de clé, la chaîne « undefined » est concaténée puis interprétée comme une clé, si bien que
-   * `recordsOf` ne remonte aucun enregistrement pour les pages suivantes.
-   */
-  it("produit la clé littérale « undefined » quand la source n'en a pas", (): void => {
+  it("ne fabrique pas de clé quand la source n'en a pas", (): void => {
     expect(nextSourceLocation('https://exemple.fr/api?page=2')).toStrictEqual({
-      source: 'https://exemple.fr/api?page=2',
-      key: 'undefined'
+      source: 'https://exemple.fr/api?page=2'
+    });
+  });
+
+  it("n'interprète pas un @ présent dans l'URL de la page suivante", (): void => {
+    expect(nextSourceLocation('https://exemple.fr/api?token=a@b', 'data')).toStrictEqual({
+      source: 'https://exemple.fr/api?token=a@b',
+      key: 'data'
     });
   });
 });

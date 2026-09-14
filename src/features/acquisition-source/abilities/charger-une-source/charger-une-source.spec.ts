@@ -56,11 +56,7 @@ describe('chargerUneSource', (): void => {
     ]);
   });
 
-  /**
-   * Comportement hérité, documenté plutôt que corrigé : la clé d'environnement portant le
-   * jeton n'est pas transmise aux pages suivantes.
-   */
-  it("ne transmet pas la clé d'authentification aux pages suivantes", async (): Promise<void> => {
+  it("transmet la clé d'authentification à toutes les pages", async (): Promise<void> => {
     provideRemoteSource({
       'https://exemple.fr/api': { data: { 0: { id: 'a' } }, next: 'https://exemple.fr/api?page=2' },
       'https://exemple.fr/api?page=2': { data: { 0: { id: 'b' } } }
@@ -69,6 +65,15 @@ describe('chargerUneSource', (): void => {
     await chargerUneSource({ source: 'https://exemple.fr/api@data', apiEnvKey: 'COOP_API_KEY', delimiter: ';' });
 
     expect(calls[0]?.settings).toStrictEqual({ apiEnvKey: 'COOP_API_KEY', delimiter: ';' });
-    expect(calls[1]?.settings).toStrictEqual({ delimiter: ';' });
+    expect(calls[1]?.settings).toStrictEqual({ apiEnvKey: 'COOP_API_KEY', delimiter: ';' });
+  });
+
+  it('suit la pagination sans clé et remonte bien les enregistrements des pages suivantes', async (): Promise<void> => {
+    provideRemoteSource({
+      'https://exemple.fr/api': { 0: { id: 'a' }, next: 'https://exemple.fr/api?page=2' },
+      'https://exemple.fr/api?page=2': { 0: { id: 'b' } }
+    });
+
+    expect(await chargerUneSource({ source: 'https://exemple.fr/api' })).toBe('[{"id":"a"},{"id":"b"}]');
   });
 });
