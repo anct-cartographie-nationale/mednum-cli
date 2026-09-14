@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { type Api, headers } from '../../../common';
+import { type Api, headers } from '../../../libraries/http';
 import type { Dataset, Reference, Ressource } from '../../models';
 
 type GetDatasetRessource = {

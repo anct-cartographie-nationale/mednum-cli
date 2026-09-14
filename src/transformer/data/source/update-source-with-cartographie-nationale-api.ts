@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { authHeader, headers } from '../../../common';
+import { authHeader, headers } from '../../../libraries/http';
 import type { TransformerOptions } from '../../cli/transformer-options';
 
 export const updateSourceWithCartographieNationaleApi =

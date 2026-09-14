@@ -5,7 +5,7 @@ import {
   type SchemaLieuMediationNumerique
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { createHash } from 'node:crypto';
-import { paginate } from '../../../common';
+import { paginate } from '../../../libraries/http';
 import {
   saveOutputsInFiles,
   sourceATransformer,

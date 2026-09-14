@@ -1,11 +1,6 @@
 import * as fs from 'node:fs';
-import {
-  createFolderIfNotExist,
-  mediationNumeriqueFileName,
-  noEmptyCell,
-  type Output,
-  throwWriteFileError
-} from '../../../../common';
+import { createFolderIfNotExist, noEmptyCell, type Output, throwWriteFileError } from '../../../../libraries/file-system';
+import { mediationNumeriqueFileName } from '../../../../libraries/mediation-numerique';
 import type { Record, Report } from '../../../report';
 import { type ErrorOutput, errorReportToCsv } from '../to-csv/error-report.to-csv';
 

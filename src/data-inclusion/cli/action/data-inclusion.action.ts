@@ -1,7 +1,7 @@
 import * as fs from 'node:fs';
 import axios, { type AxiosResponse } from 'axios';
 import type { SchemaServiceDataInclusion, SchemaStructureDataInclusion } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { type Api, bearerTokenHeader } from '../../../common';
+import { type Api, bearerTokenHeader } from '../../../libraries/http';
 import type { DataInclusionMerged } from '../../data-inclusion-merged';
 import { structuresWithServicesNumeriques } from '../../merge-services-in-structure';
 import type { DataInclusionOptions } from '../data-inclusion-options';

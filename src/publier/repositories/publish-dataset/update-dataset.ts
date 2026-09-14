@@ -1,5 +1,5 @@
 import axios, { type AxiosResponse } from 'axios';
-import { type Api, authHeader, headers } from '../../../common';
+import { type Api, authHeader, headers } from '../../../libraries/http';
 import type { Dataset, PublishDataset } from '../../models';
 
 type UpdateDatasetTransfer = {

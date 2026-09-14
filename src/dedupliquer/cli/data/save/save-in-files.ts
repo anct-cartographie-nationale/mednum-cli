@@ -4,13 +4,13 @@ import {
   type LieuMediationNumerique,
   type SchemaLieuMediationNumerique
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { writePublierMetadataOutput } from '../../../../common';
+import type { Output } from '../../../../libraries/file-system';
 import {
-  type Output,
   writeMediationNumeriqueCsvOutput,
   writeMediationNumeriqueDynamoDBJsonOutput,
-  writeMediationNumeriqueJsonOutput,
-  writePublierMetadataOutput
-} from '../../../../common';
+  writeMediationNumeriqueJsonOutput
+} from '../../../../libraries/mediation-numerique';
 import { type DuplicationComparison, type Groups, type MergedLieuxByGroupMap, removeMerged } from '../../../steps';
 import { formatToCSV } from '../../action/deduplication-comparisons-to-csv';
 import type { DedupliquerOptions } from '../../dedupliquer-options';

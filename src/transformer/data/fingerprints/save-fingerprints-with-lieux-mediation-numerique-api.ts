@@ -1,5 +1,5 @@
 import axios, { type AxiosResponse } from 'axios';
-import { authHeader, headers } from '../../../common';
+import { authHeader, headers } from '../../../libraries/http';
 import {
   canTransform,
   type DiffSinceLastTransform,

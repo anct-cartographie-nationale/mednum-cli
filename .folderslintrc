@@ -1,0 +1,25 @@
+{
+  "root": "src",
+  "rules": [
+    "cli",
+    "cli/*",
+    "data",
+    "features",
+    "features/*",
+    "features/*/domain/**",
+    "features/*/implementations/**",
+    "features/*/keys",
+    "features/*/abilities",
+    "features/*/abilities/*",
+    "features/*/abilities/*/domain/**",
+    "features/*/abilities/*/implementations/**",
+    "features/*/abilities/*/keys",
+    "libraries/*/**",
+    "common/**",
+    "data-inclusion/**",
+    "dedupliquer/**",
+    "fusionner/**",
+    "publier/**",
+    "transformer/**"
+  ]
+}

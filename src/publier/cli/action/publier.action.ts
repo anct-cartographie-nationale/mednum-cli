@@ -1,5 +1,5 @@
 import * as fs from 'node:fs';
-import type { Api } from '../../../common';
+import type { Api } from '../../../libraries/http';
 import ErrnoException = NodeJS.ErrnoException;
 import { publishDatasetRepository } from '../../repositories';
 import type { Reference } from '../../models';

@@ -1,6 +1,6 @@
 import axios, { type AxiosResponse } from 'axios';
 import axiosRetry from 'axios-retry';
-import { authHeader, headers, paginate } from '../../../../common';
+import { authHeader, headers, paginate } from '../../../../libraries/http';
 import type { MergeGroupTransfer } from '../../../data';
 import { findGroupIdsToDelete, type Groups, type MergedLieuxByGroupMap, type MergeGroup, mergeGroups } from '../../../steps';
 import type { DedupliquerOptions } from '../../dedupliquer-options';

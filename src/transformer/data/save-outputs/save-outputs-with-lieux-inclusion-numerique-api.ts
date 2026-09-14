@@ -4,7 +4,7 @@ import {
   toSchemaLieuMediationNumerique
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import axios, { type AxiosResponse } from 'axios';
-import { authHeader, headers } from '../../../common';
+import { authHeader, headers } from '../../../libraries/http';
 import type { TransformerOptions } from '../../cli/transformer-options';
 
 const onlyDefined = <T>(nullable?: T): nullable is T => nullable != null;

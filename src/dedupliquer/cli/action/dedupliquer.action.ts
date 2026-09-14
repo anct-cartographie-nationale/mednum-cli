@@ -2,7 +2,7 @@ import * as fs from 'node:fs';
 import { parse } from 'csv-parse/sync';
 import { glob } from 'glob';
 import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { paginate } from '../../../common';
+import { paginate } from '../../../libraries/http';
 import type { DeduplicationRepository } from '../../repositories';
 import {
   type DuplicationComparison,
