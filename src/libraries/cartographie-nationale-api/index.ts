@@ -1,2 +1,2 @@
-export * from './lieux';
-export * from './merge-groups';
+export * from './lieux.js';
+export * from './merge-groups.js';

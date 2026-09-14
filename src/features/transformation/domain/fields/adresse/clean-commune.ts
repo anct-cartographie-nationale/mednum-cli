@@ -1,4 +1,4 @@
-import type { CleanOperation } from './clean-operations';
+import type { CleanOperation } from './clean-operations.js';
 
 const FIX_WRONG_ACCENT_CHARS: CleanOperation = {
   name: 'replace ╢ with Â',

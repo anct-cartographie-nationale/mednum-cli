@@ -4,12 +4,12 @@ import {
   type LieuMediationNumerique,
   type SchemaLieuMediationNumerique
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { Output } from '../../../libraries/file-system';
+import type { Output } from '../../../libraries/file-system/index.js';
 import {
   writeMediationNumeriqueCsvOutput,
   writeMediationNumeriqueDynamoDBJsonOutput,
   writeMediationNumeriqueJsonOutput
-} from '../../../libraries/mediation-numerique';
+} from '../../../libraries/mediation-numerique/index.js';
 import {
   type DuplicationComparison,
   formatToCSV,
@@ -18,7 +18,7 @@ import {
   removeMerged,
   type SaveDeduplication,
   type WritePublicationMetadata
-} from '../domain';
+} from '../domain/index.js';
 
 const writeOutputFiles =
   (writePublicationMetadata: WritePublicationMetadata) =>

@@ -14,7 +14,14 @@ export type TransformerOptions = {
   cartographieNationaleApiUrl?: string;
   cartographieNationaleApiKey?: string;
   force: boolean;
+  addressCache: string;
 };
+
+/**
+ * Le cache des adresses déjà géocodées n'est pas livré avec le paquet : hors du dépôt, ce
+ * chemin n'existe pas et la transformation regéocode tout.
+ */
+const DEFAULT_ADDRESS_CACHE = './assets/input/addresses.json';
 
 const validateNotEmpty =
   (message: string) =>
@@ -47,6 +54,12 @@ const encodingOption = (program: Command): Command => program.option('-e, --enco
 const envKeyOption = (program: Command): Command =>
   program.option('-a, --api-env-key <api-env-key>', "Nom de la variable d'environnement permettant de récupérer la clé d'API");
 
+const addressCacheOption = (program: Command): Command =>
+  program.option(
+    '--address-cache <address-cache>',
+    `Le fichier des adresses déjà géocodées, réutilisées plutôt que redemandées à la Base Adresse Nationale (défaut : ${DEFAULT_ADDRESS_CACHE})`
+  );
+
 const forceOption = (program: Command): Command =>
   program.option('-f, --force', 'Évite la vérification du hash des données déjà transformées');
 
@@ -66,6 +79,7 @@ const territoryOption = (program: Command): Command =>
   program.option('-t, --territory <territory>', 'Le nom du territoire couvert par les données');
 
 export const TRANSFORMER_OPTIONS: ((program: Command) => Command)[] = [
+  addressCacheOption,
   apiKeyOption,
   configFileOption,
   delimiterOption,
@@ -123,6 +137,7 @@ const cartographieNationaleApiKeyIfAny = (cartographieNationaleApiKey?: string):
   cartographieNationaleApiKey == null ? {} : { cartographieNationaleApiKey };
 
 export const toTransformerOptions = (environment: Record<string, string | undefined>): Partial<TransformerOptions> => ({
+  addressCache: environment['ADDRESS_CACHE'] ?? DEFAULT_ADDRESS_CACHE,
   ...cartographieNationaleApiUrlIfAny(environment['CARTOGRAPHIE_NATIONALE_API_URL']),
   ...cartographieNationaleApiKeyIfAny(environment['CARTOGRAPHIE_NATIONALE_API_KEY'])
 });

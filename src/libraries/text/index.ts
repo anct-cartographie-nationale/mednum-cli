@@ -1,1 +1,1 @@
-export * from './similarity';
+export * from './similarity.js';

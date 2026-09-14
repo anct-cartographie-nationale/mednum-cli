@@ -1,1 +1,1 @@
-export * from './data-inclusion.command';
+export * from './data-inclusion.command.js';

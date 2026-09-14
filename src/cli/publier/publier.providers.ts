@@ -5,9 +5,9 @@ import {
   READ_RESSOURCE_RECORDS,
   readPublicationMetadataFromFile,
   readRessourceRecordsFromFile
-} from '../../features/publication';
-import type { Api } from '../../libraries/http';
-import { provide } from '../../libraries/injection';
+} from '../../features/publication/index.js';
+import type { Api } from '../../libraries/http/index.js';
+import { provide } from '../../libraries/injection/index.js';
 
 /**
  * Point de concrétisation de la commande : les contrats de la publication reçoivent ici, et

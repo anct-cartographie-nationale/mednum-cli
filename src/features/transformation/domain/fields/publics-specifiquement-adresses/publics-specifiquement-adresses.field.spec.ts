@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { PublicSpecifiquementAdresse } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { LieuxMediationNumeriqueMatching } from '../../matching';
-import { processPublicsSpecifiquementAdresses } from './publics-specifiquement-adresses.field';
+import type { LieuxMediationNumeriqueMatching } from '../../matching.js';
+import { processPublicsSpecifiquementAdresses } from './publics-specifiquement-adresses.field.js';
 
 const MATCHING: LieuxMediationNumeriqueMatching = {
   publics_specifiquement_adresses: [

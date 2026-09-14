@@ -1,5 +1,5 @@
 import { Pivot } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching';
+import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching.js';
 
 export const processPivot = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Pivot => {
   try {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { appendsToMergedFile, mergedFileName } from './merged-file-name';
+import { appendsToMergedFile, mergedFileName } from './merged-file-name.js';
 
 describe('mergedFileName', (): void => {
   it('nomme la fusion de fichiers CSV', (): void => {

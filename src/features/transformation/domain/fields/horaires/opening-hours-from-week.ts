@@ -3,11 +3,11 @@ import {
   type OsmOpeningHours,
   fromTimetableOsmOpeningHours
 } from '@gouvfr-anct/timetable-to-osm-opening-hours';
-import { mergeMultipleHoursRanges } from '../../merge-hours-ranges/merge-hours-ranges';
-import { OPENING_HOURS_EXTRACTION, type OpeningHoursExtraction } from './horaires.field.extract-operations';
-import { HORAIRES_FIELD_CLEAN_OPERATIONS, type HorairesFieldCleanOperation } from './horaires.field.clean-operations';
-import { NO_OSM_OPENING_HOURS, type OsmOpeningHoursString, osmOpeningHoursString } from './process-horaires.field';
-import { appendHorairesOccurrenceComments, extractHorairesOccurrenceComments } from './horaires-occurrence-comment';
+import { mergeMultipleHoursRanges } from '../../merge-hours-ranges/merge-hours-ranges.js';
+import { OPENING_HOURS_EXTRACTION, type OpeningHoursExtraction } from './horaires.field.extract-operations.js';
+import { HORAIRES_FIELD_CLEAN_OPERATIONS, type HorairesFieldCleanOperation } from './horaires.field.clean-operations.js';
+import { NO_OSM_OPENING_HOURS, type OsmOpeningHoursString, osmOpeningHoursString } from './process-horaires.field.js';
+import { appendHorairesOccurrenceComments, extractHorairesOccurrenceComments } from './horaires-occurrence-comment.js';
 
 type DayWithOsmHours = { osmHours: string; day: OsmDaysOfWeek };
 

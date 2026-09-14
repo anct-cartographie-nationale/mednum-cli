@@ -1,4 +1,4 @@
-import type { Commune } from '../../../../../libraries/collectivites';
+import type { Commune } from '../../../../../libraries/collectivites/index.js';
 
 export type NewCommune = Commune & { date: string };
 

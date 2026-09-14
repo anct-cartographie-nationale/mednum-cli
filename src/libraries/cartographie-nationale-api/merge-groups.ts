@@ -1,6 +1,6 @@
 import axios, { type AxiosResponse } from 'axios';
 import axiosRetry from 'axios-retry';
-import { type Api, authHeader, headers, paginate } from '../http';
+import { type Api, authHeader, headers, paginate } from '../http/index.js';
 
 axiosRetry(axios, { retries: 3 });
 

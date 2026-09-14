@@ -1,1 +1,1 @@
-export * from './localisation.field';
+export * from './localisation.field.js';

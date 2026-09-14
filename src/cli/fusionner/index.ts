@@ -1,1 +1,1 @@
-export * from './fusionner.command';
+export * from './fusionner.command.js';

@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching';
-import { NO_LOCALISATION, processLocalisation } from './localisation.field';
+import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching.js';
+import { NO_LOCALISATION, processLocalisation } from './localisation.field.js';
 
 const STANDARD_MATCHING: LieuxMediationNumeriqueMatching = {
   latitude: {

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { errorReportToCsv } from './error-report.to-csv';
+import { errorReportToCsv } from './error-report.to-csv.js';
 
 describe('output', (): void => {
   it('should convert empty report errors data to CSV with headers only', (): void => {

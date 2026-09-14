@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { appendCoopId } from './append-coop-id';
+import { appendCoopId } from './append-coop-id.js';
 
 describe('append coop id', () => {
   it('should not do anything when there is no coop id in data', () => {

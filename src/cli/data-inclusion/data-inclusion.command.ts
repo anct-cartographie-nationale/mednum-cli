@@ -1,13 +1,13 @@
 import type { Command } from 'commander';
 import inquirer, { type Answers } from 'inquirer';
-import { extraireDataInclusion } from '../../features/acquisition-source';
+import { extraireDataInclusion } from '../../features/acquisition-source/index.js';
 import {
   DATA_INCLUSION_OPTIONS,
   type DataInclusionOptions,
   dataInclusionOptionsQuestions,
   toDataInclusionOptions
-} from './data-inclusion.options';
-import { provideDataInclusionImplementations } from './data-inclusion.providers';
+} from './data-inclusion.options.js';
+import { provideDataInclusionImplementations } from './data-inclusion.providers.js';
 
 const promptAndRun = async (dataInclusionOptions: DataInclusionOptions): Promise<void> =>
   inquirer

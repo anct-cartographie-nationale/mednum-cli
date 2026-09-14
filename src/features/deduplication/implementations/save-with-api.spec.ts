@@ -9,8 +9,8 @@ vi.mock(
   })
 );
 import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { Groups, MergedLieuxByGroupMap } from '../domain';
-import { saveWithApi, shouldMarkAsDeduplicated } from './save-with-api';
+import type { Groups, MergedLieuxByGroupMap } from '../domain/index.js';
+import { saveWithApi, shouldMarkAsDeduplicated } from './save-with-api.js';
 
 describe('save merged lieux with API', (): void => {
   it('should not be an internal merge, when single merge group contains different sources', (): void => {

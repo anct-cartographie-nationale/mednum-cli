@@ -7,7 +7,7 @@ import {
   fetchRemoteSourceWithAxios,
   READ_LOCAL_SOURCE,
   readLocalSourceFromFile
-} from '../../features/acquisition-source';
+} from '../../features/acquisition-source/index.js';
 import {
   communesFromGeoApi,
   frrFromObservatoireDesTerritoires,
@@ -18,14 +18,15 @@ import {
   qualifierFrr,
   qualifierQpv,
   resoudreCommune
-} from '../../features/enrichissement-territorial';
-import { writePublicationMetadataInFile } from '../../features/publication';
+} from '../../features/enrichissement-territorial/index.js';
+import { writePublicationMetadataInFile } from '../../features/publication/index.js';
 import {
   fetchBanResponseBatch,
   fingerprintsFromFile,
   fingerprintsFromLieuxMediationNumeriqueApi,
   GEOCODE,
   GEOCODE_BATCH,
+  addressStorageFromFile,
   LOAD_ADDRESS_STORAGE,
   LOAD_FINGERPRINTS,
   LOAD_MATCHING,
@@ -49,14 +50,13 @@ import {
   writeAddressesInFiles,
   writeErrorsInFiles,
   WRITE_PUBLICATION_METADATA
-} from '../../features/transformation';
-import { fetchLieuxWithDuplicates } from '../../libraries/cartographie-nationale-api';
-import type { Output } from '../../libraries/file-system';
-import type { Api } from '../../libraries/http';
-import { provide } from '../../libraries/injection';
-import { consoleJournal, JOURNAL } from '../../libraries/journal';
-import addressesBan from '../../../assets/input/addresses.json';
-import type { TransformerOptions } from './transformer.options';
+} from '../../features/transformation/index.js';
+import { fetchLieuxWithDuplicates } from '../../libraries/cartographie-nationale-api/index.js';
+import type { Output } from '../../libraries/file-system/index.js';
+import type { Api } from '../../libraries/http/index.js';
+import { provide } from '../../libraries/injection/index.js';
+import { consoleJournal, JOURNAL } from '../../libraries/journal/index.js';
+import type { TransformerOptions } from './transformer.options.js';
 
 const DEFAULT_API_URL = 'https://d27gljvji6o5x3.cloudfront.net/api/v0';
 
@@ -117,7 +117,7 @@ export const provideTransformerImplementations = (transformerOptions: Transforme
 
   provide(GEOCODE, localisationByGeocode);
   provide(GEOCODE_BATCH, fetchBanResponseBatch);
-  provide(LOAD_ADDRESS_STORAGE, () => addressesBan as never);
+  provide(LOAD_ADDRESS_STORAGE, addressStorageFromFile(transformerOptions.addressCache));
 
   provide(LOAD_MATCHING, async () => JSON.parse(await fs.promises.readFile(transformerOptions.configFile, 'utf-8')));
   provide(

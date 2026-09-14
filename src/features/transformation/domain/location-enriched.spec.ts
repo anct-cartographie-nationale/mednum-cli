@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { getAddressData, labelCodePostal, labelCommune } from './location-enriched';
-import type { DataSource, LieuxMediationNumeriqueMatching } from './index';
-import type { AddressRecord } from './index';
+import { getAddressData, labelCodePostal, labelCommune } from './location-enriched.js';
+import type { DataSource, LieuxMediationNumeriqueMatching } from './index.js';
+import type { AddressRecord } from './index.js';
 
 const STANDARD_MATCHING: LieuxMediationNumeriqueMatching = {
   nom: { colonne: 'nom' },

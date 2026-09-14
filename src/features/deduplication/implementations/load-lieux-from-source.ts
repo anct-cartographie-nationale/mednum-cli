@@ -2,8 +2,8 @@ import * as fs from 'node:fs';
 import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { parse } from 'csv-parse/sync';
 import { glob } from 'glob';
-import { paginate } from '../../../libraries/http';
-import type { LoadLieux } from '../domain';
+import { paginate } from '../../../libraries/http/index.js';
+import type { LoadLieux } from '../domain/index.js';
 
 const readJsonFile = (filePath: string): SchemaLieuMediationNumerique[] => JSON.parse(fs.readFileSync(filePath, 'utf-8'));
 

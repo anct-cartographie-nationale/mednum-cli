@@ -1,6 +1,6 @@
 import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { describe, expect, it } from 'vitest';
-import { describeOversizedId, filterOversizedIds, MAX_ID_BYTES } from './filter-oversized-ids';
+import { describeOversizedId, filterOversizedIds, MAX_ID_BYTES } from './filter-oversized-ids.js';
 
 const lieu = (id: string): SchemaLieuMediationNumerique => ({ id }) as SchemaLieuMediationNumerique;
 

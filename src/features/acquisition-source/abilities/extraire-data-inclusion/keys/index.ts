@@ -1,2 +1,2 @@
-export * from './fetch-data-inclusion.key';
-export * from './write-extraction.key';
+export * from './fetch-data-inclusion.key.js';
+export * from './write-extraction.key.js';

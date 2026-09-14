@@ -1,1 +1,1 @@
-export * from './fusionner-des-fichiers';
+export * from './fusionner-des-fichiers.js';

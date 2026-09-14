@@ -1,1 +1,1 @@
-export * from './dedupliquer-des-lieux';
+export * from './dedupliquer-des-lieux.js';

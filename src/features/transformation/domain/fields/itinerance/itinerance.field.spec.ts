@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { Itinerance, type Itinerances } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { LieuxMediationNumeriqueMatching } from '../../matching';
-import { processItinerances } from './itinerance.field';
+import type { LieuxMediationNumeriqueMatching } from '../../matching.js';
+import { processItinerances } from './itinerance.field.js';
 
 const ITINERANCE_FIELD: 'Itinerance' = 'Itinerance' as const;
 

@@ -1,4 +1,4 @@
-import type { Feature } from '../../../../libraries/ban';
+import type { Feature } from '../../../../libraries/ban/index.js';
 
 export type AddressRecord = {
   dateDeTraitement: Date | string;

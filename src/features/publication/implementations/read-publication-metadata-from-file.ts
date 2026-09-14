@@ -1,6 +1,6 @@
 import * as fs from 'node:fs';
-import type { PublishMetadata } from '../domain';
-import type { ReadPublicationMetadata } from '../keys';
+import type { PublishMetadata } from '../domain/index.js';
+import type { ReadPublicationMetadata } from '../keys/index.js';
 
 /**
  * Un fichier de métadonnées absent n'est pas une erreur : il signifie qu'il n'y a rien à

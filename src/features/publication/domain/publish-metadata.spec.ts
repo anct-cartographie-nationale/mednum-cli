@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import type { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { Output } from '../../../libraries/file-system';
-import { generatePublishMetadata, type PublishMetadata } from './publish-metadata';
+import type { Output } from '../../../libraries/file-system/index.js';
+import { generatePublishMetadata, type PublishMetadata } from './publish-metadata.js';
 
 describe('publish metadata', (): void => {
   it('should generate publish metadata file content for Hinaura Auvergne-Rhône-Alpes', (): void => {

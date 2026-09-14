@@ -1,1 +1,1 @@
-export * from './publier-un-jeu-de-donnees';
+export * from './publier-un-jeu-de-donnees.js';

@@ -1,2 +1,2 @@
-export * from './point-in-polygon';
-export * from './projection';
+export * from './point-in-polygon.js';
+export * from './projection.js';

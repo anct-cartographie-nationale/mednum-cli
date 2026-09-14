@@ -1,1 +1,1 @@
-export * from './autres-formations-labels.field';
+export * from './autres-formations-labels.field.js';

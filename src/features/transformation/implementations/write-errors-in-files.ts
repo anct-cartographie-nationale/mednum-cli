@@ -1,6 +1,6 @@
-import type { Output } from '../../../libraries/file-system';
-import type { Report } from '../domain';
-import { writeErrorsOutputFiles } from './error-report.write';
+import type { Output } from '../../../libraries/file-system/index.js';
+import type { Report } from '../domain/index.js';
+import { writeErrorsOutputFiles } from './error-report.write.js';
 
 export const writeErrorsInFiles =
   (producer: Output) =>

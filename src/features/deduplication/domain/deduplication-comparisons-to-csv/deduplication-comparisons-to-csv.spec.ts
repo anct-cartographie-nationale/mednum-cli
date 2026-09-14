@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { type SchemaLieuMediationNumerique, Typologie } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { duplicationComparisons } from '../duplication-comparisons';
-import { formatToCSV } from './deduplication-comparisons-to-csv';
+import { duplicationComparisons } from '../duplication-comparisons/index.js';
+import { formatToCSV } from './deduplication-comparisons-to-csv.js';
 
 describe('deduplication comparison to csv', (): void => {
   it('should get duplication comparison ready to write in CSV file', (): void => {

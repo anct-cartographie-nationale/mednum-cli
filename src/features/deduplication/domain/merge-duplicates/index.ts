@@ -1,1 +1,1 @@
-export * from './merge-duplicates';
+export * from './merge-duplicates.js';

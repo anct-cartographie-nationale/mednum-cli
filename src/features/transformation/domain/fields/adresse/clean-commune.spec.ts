@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { CLEAN_COMMUNE, communeField } from './clean-commune';
-import { toCleanField } from './clean-operations';
+import { CLEAN_COMMUNE, communeField } from './clean-commune.js';
+import { toCleanField } from './clean-operations.js';
 
 describe('clean commune', (): void => {
   it('should replace st with saint when starting with st and use space', (): void => {

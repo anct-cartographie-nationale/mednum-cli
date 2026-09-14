@@ -1,1 +1,1 @@
-export * from './data-inclusion-api';
+export * from './data-inclusion-api.js';

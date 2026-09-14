@@ -1,2 +1,2 @@
-export * from './container';
-export * from './injection-key';
+export * from './container.js';
+export * from './injection-key.js';

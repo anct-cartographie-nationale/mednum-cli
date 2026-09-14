@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { FormationLabel, type FormationsLabels } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { LieuxMediationNumeriqueMatching } from '../../matching';
-import { processFormationsLabels } from './formations-labels.field';
+import type { LieuxMediationNumeriqueMatching } from '../../matching.js';
+import { processFormationsLabels } from './formations-labels.field.js';
 
 describe('labels nationaux field', (): void => {
   it('should get labels nationaux for empty value', (): void => {

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import type { FrrMap } from '../../../libraries/collectivites';
-import { isInFrr } from './is-in-frr';
+import type { FrrMap } from '../../../libraries/collectivites/index.js';
+import { isInFrr } from './is-in-frr.js';
 
 describe('is in frr', (): void => {
   it('should find that a lieu is not in a FRR because there is no FRR for this code INSEE', (): void => {

@@ -1,3 +1,3 @@
-export * from './dataset-repository.key';
-export * from './publication-metadata.key';
-export * from './ressource-records.key';
+export * from './dataset-repository.key.js';
+export * from './publication-metadata.key.js';
+export * from './ressource-records.key.js';

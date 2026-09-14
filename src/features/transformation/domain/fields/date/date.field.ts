@@ -1,4 +1,4 @@
-import type { DataSource, LieuxMediationNumeriqueMatching } from '../../matching';
+import type { DataSource, LieuxMediationNumeriqueMatching } from '../../matching.js';
 
 type RegexResult = {
   year: string;

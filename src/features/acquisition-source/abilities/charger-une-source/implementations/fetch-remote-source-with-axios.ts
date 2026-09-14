@@ -1,9 +1,9 @@
 import axios, { type AxiosResponse } from 'axios';
 import csv from 'csvtojson';
 import iconv from 'iconv-lite';
-import type { RemoteSourceSettings } from '../../../domain';
-import type { SourceContent, SourceLocation } from '../domain';
-import type { FetchRemoteSource } from '../keys';
+import type { RemoteSourceSettings } from '../../../domain/index.js';
+import type { SourceContent, SourceLocation } from '../domain/index.js';
+import type { FetchRemoteSource } from '../keys/index.js';
 
 const TYPES_DE_CONTENU_JSON: readonly string[] = ['application/geo+json', 'application/json', 'application/vnd.geo+json'];
 

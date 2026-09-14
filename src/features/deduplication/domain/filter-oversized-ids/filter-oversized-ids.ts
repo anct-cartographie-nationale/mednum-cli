@@ -1,5 +1,5 @@
 import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { MergedLieuxByGroupMap } from '../merge-duplicates/merge-duplicates';
+import type { MergedLieuxByGroupMap } from '../merge-duplicates/merge-duplicates.js';
 
 /**
  * DynamoDB refuse une clé de partition au delà de cette taille : un lieu fusionné dont l'id

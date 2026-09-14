@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { idTypeQuestion } from './publier.options';
+import { idTypeQuestion } from './publier.options.js';
 
 describe('id type option for cli import', (): void => {
   it('should get unexpected id type message for validate data gouv id type when input is null', (): void => {

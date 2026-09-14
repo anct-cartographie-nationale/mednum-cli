@@ -1,8 +1,8 @@
 import type { LieuMediationNumerique, SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { flatten } from 'flat';
-import { sha256 } from '../../../../libraries/hash';
-import { inject, injectOr } from '../../../../libraries/injection';
-import { type Journal, JOURNAL, silentJournal } from '../../../../libraries/journal';
+import { sha256 } from '../../../../libraries/hash/index.js';
+import { inject, injectOr } from '../../../../libraries/injection/index.js';
+import { type Journal, JOURNAL, silentJournal } from '../../../../libraries/journal/index.js';
 import {
   AddressCache,
   type AddressRecord,
@@ -19,7 +19,7 @@ import {
   toLieuxMediationNumerique,
   type TransformationRepository,
   validValuesOnly
-} from '../../domain';
+} from '../../domain/index.js';
 import {
   GEOCODE,
   GEOCODE_BATCH,
@@ -35,7 +35,7 @@ import {
   SAVE_FINGERPRINTS,
   SAVE_OUTPUTS,
   UPDATE_SOURCE_HASH
-} from '../../keys';
+} from '../../keys/index.js';
 
 export type TransformerUneSource = {
   source: string;

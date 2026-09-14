@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { Frais, type FraisACharge } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching';
-import { processFraisACharge } from './frais-a-charge.field';
+import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching.js';
+import { processFraisACharge } from './frais-a-charge.field.js';
 
 const STANDARD_MATCHING: LieuxMediationNumeriqueMatching = {
   frais_a_charge: [

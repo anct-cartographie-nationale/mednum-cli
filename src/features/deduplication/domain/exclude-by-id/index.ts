@@ -1,2 +1,2 @@
-export * from './exclude-by-id';
-export * from './excluded-lieux';
+export * from './exclude-by-id.js';
+export * from './excluded-lieux.js';

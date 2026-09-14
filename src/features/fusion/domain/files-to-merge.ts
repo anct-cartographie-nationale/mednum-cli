@@ -1,6 +1,6 @@
-import { extensionOf } from '../../../libraries/file-system/path';
-import { hasFormat, type MergeFormat, mergeFormatOf } from './merge-format';
-import { MERGE_ERROR_MESSAGES, MergeError } from './merge.error';
+import { extensionOf } from '../../../libraries/file-system/path.js';
+import { hasFormat, type MergeFormat, mergeFormatOf } from './merge-format.js';
+import { MERGE_ERROR_MESSAGES, MergeError } from './merge.error.js';
 
 export type FilesToMerge = {
   format: MergeFormat;

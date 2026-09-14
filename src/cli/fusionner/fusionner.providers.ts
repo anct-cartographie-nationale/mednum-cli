@@ -5,8 +5,8 @@ import {
   readRecordsFromFile,
   WRITE_RECORDS,
   writeRecordsToFile
-} from '../../features/fusion';
-import { provide } from '../../libraries/injection';
+} from '../../features/fusion/index.js';
+import { provide } from '../../libraries/injection/index.js';
 
 /**
  * Point de concrétisation de la commande : c'est ici, et nulle part ailleurs, que les contrats

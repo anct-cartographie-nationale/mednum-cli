@@ -1,11 +1,11 @@
 import { Adresse } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { DataSource, LieuxMediationNumeriqueMatching } from '../../matching';
-import { getNewCommune } from './anciennes-communes';
-import { CLEAN_CODE_POSTAL, codePostalField } from './clean-code-postal';
-import { CLEAN_COMMUNE, communeField } from './clean-commune';
-import { toCleanField } from './clean-operations';
-import { CLEAN_VOIE, voieField } from './clean-voie';
-import type { Commune, FindCommune } from '../../../../../libraries/collectivites';
+import type { DataSource, LieuxMediationNumeriqueMatching } from '../../matching.js';
+import { getNewCommune } from './anciennes-communes.js';
+import { CLEAN_CODE_POSTAL, codePostalField } from './clean-code-postal.js';
+import { CLEAN_COMMUNE, communeField } from './clean-commune.js';
+import { toCleanField } from './clean-operations.js';
+import { CLEAN_VOIE, voieField } from './clean-voie.js';
+import type { Commune, FindCommune } from '../../../../../libraries/collectivites/index.js';
 
 type AddressToNormalize = {
   code_postal: string;

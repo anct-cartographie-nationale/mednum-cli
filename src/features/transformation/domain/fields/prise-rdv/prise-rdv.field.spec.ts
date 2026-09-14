@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching';
-import { processPriseRdv } from './prise-rdv.field';
+import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching.js';
+import { processPriseRdv } from './prise-rdv.field.js';
 
 describe('prise rdv field', (): void => {
   it('should get prise rdv url from data source using matching information', (): void => {

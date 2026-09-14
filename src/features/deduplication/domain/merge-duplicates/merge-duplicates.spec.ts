@@ -9,9 +9,9 @@ import {
   PriseEnChargeSpecifique,
   Frais
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { duplicationComparisons } from '../duplication-comparisons';
-import { groupDuplicates } from '../group-duplicates/group-duplicates';
-import { type MergedLieuxByGroupMap, mergeDuplicates } from './merge-duplicates';
+import { duplicationComparisons } from '../duplication-comparisons/index.js';
+import { groupDuplicates } from '../group-duplicates/group-duplicates.js';
+import { type MergedLieuxByGroupMap, mergeDuplicates } from './merge-duplicates.js';
 
 describe('remove duplicates', (): void => {
   it('should not have merged lieux when there is no duplicates', (): void => {

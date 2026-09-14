@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { Adresse, Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import type { Polygon } from 'geojson';
-import { isInFrr, isInQpv } from '../../../../enrichissement-territorial';
-import type { LieuxMediationNumeriqueMatching } from '../../matching';
-import { processAutresFormationsLabels } from './autres-formations-labels.field';
+import { isInFrr, isInQpv } from '../../../../enrichissement-territorial/index.js';
+import type { LieuxMediationNumeriqueMatching } from '../../matching.js';
+import { processAutresFormationsLabels } from './autres-formations-labels.field.js';
 
 const QPV_IN_02691_SHAPE: Polygon = {
   coordinates: [

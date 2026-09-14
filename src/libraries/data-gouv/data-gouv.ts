@@ -1,7 +1,7 @@
 import * as fs from 'node:fs';
 import axios, { type AxiosResponse } from 'axios';
 import FormData from 'form-data';
-import { type Api, authHeader, headers } from '../http';
+import { type Api, authHeader, headers } from '../http/index.js';
 
 /**
  * Client de l'API data.gouv. Il ne parle que le vocabulaire de data.gouv : la traduction vers

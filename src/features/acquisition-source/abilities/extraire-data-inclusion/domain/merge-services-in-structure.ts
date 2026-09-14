@@ -8,7 +8,7 @@ import {
   type SchemaServiceDataInclusionWithAdresse,
   mergeServices
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { type DataInclusionMerged, mergeStructureAndService } from './data-inclusion-merged';
+import { type DataInclusionMerged, mergeStructureAndService } from './data-inclusion-merged.js';
 
 type DataInclusionStructureAndServices = {
   structure: SchemaStructureDataInclusion;

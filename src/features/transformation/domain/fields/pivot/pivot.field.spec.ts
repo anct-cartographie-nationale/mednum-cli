@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching';
-import { processPivot } from './pivot.field';
+import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching.js';
+import { processPivot } from './pivot.field.js';
 import type { Pivot } from '@gouvfr-anct/lieux-de-mediation-numerique';
 
 describe('pivot field', (): void => {

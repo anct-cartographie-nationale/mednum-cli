@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { toOsmHours } from './to-osm-hours';
+import { toOsmHours } from './to-osm-hours.js';
 
 describe('to osm hours', (): void => {
   it('should format 9:00 - 12:00 / 14:00 - 18:00 to osm hours', (): void => {

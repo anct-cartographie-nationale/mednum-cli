@@ -1,6 +1,6 @@
 import { isValidLocalisation, Localisation, type LocalisationToValidate } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { lambert93ToWgs84 } from '../../../../../libraries/geometry';
-import type { Colonne, DataSource, Dissociation, LieuxMediationNumeriqueMatching } from '../../matching';
+import { lambert93ToWgs84 } from '../../../../../libraries/geometry/index.js';
+import type { Colonne, DataSource, Dissociation, LieuxMediationNumeriqueMatching } from '../../matching.js';
 
 type NoLocalisation = { noLocalisation: true } & null;
 export const NO_LOCALISATION: Localisation = null as NoLocalisation;

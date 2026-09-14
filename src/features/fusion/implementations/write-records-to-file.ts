@@ -1,9 +1,9 @@
 import * as fs from 'node:fs';
 import { stringify } from 'csv-stringify/sync';
-import { createFolderIfNotExist } from '../../../libraries/file-system/write-file';
-import { directoryOf } from '../../../libraries/file-system/path';
-import type { MergeFormat } from '../domain';
-import type { WriteRecords } from '../keys';
+import { createFolderIfNotExist } from '../../../libraries/file-system/write-file.js';
+import { directoryOf } from '../../../libraries/file-system/path.js';
+import type { MergeFormat } from '../domain/index.js';
+import type { WriteRecords } from '../keys/index.js';
 
 const writeCsvRecords = (filePath: string, records: unknown[]): void =>
   fs.writeFileSync(filePath, stringify(records, { header: true }), 'utf-8');

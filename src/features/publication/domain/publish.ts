@@ -1,9 +1,9 @@
-import type { Dataset } from './dataset';
-import type { DatasetRepository } from './dataset-repository';
-import type { PublishDataset } from './publish-dataset';
-import type { PublishRessource } from './publish-ressource';
-import type { Reference } from './reference';
-import type { Ressource } from './ressource';
+import type { Dataset } from './dataset.js';
+import type { DatasetRepository } from './dataset-repository.js';
+import type { PublishDataset } from './publish-dataset.js';
+import type { PublishRessource } from './publish-ressource.js';
+import type { Reference } from './reference.js';
+import type { Ressource } from './ressource.js';
 
 type DatasetToPublishActions = {
   shouldCreate?: (datasetToCreate: PublishDataset) => Promise<void>;

@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { PriseEnChargeSpecifique, type PrisesEnChargeSpecifiques } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { LieuxMediationNumeriqueMatching } from '../../matching';
-import { processPrisesEnChargeSpecifiques } from './prises-en-charge-specifiques.field';
+import type { LieuxMediationNumeriqueMatching } from '../../matching.js';
+import { processPrisesEnChargeSpecifiques } from './prises-en-charge-specifiques.field.js';
 
 const MATCHING: LieuxMediationNumeriqueMatching = {
   prise_en_charge_specifique: [

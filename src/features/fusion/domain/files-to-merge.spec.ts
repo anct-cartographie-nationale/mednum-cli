@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { filesToMerge } from './files-to-merge';
-import { MERGE_ERROR_MESSAGES, MergeError } from './merge.error';
+import { filesToMerge } from './files-to-merge.js';
+import { MERGE_ERROR_MESSAGES, MergeError } from './merge.error.js';
 
 describe('filesToMerge', (): void => {
   it('refuse un lot vide', (): void => {

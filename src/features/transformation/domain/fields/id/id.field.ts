@@ -1,5 +1,5 @@
 import { Id } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching';
+import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching.js';
 
 const getId = (matching: LieuxMediationNumeriqueMatching, index: number, source: DataSource) =>
   Id(matching.id == null ? index.toString() : source[matching.id.colonne]?.toString());

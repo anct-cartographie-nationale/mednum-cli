@@ -1,5 +1,5 @@
-import { type InjectionKey, keyFor } from '../../../../../libraries/injection';
-import type { SourceLocation } from '../domain';
+import { type InjectionKey, keyFor } from '../../../../../libraries/injection/index.js';
+import type { SourceLocation } from '../domain/index.js';
 
 export type ReadLocalSource = (location: SourceLocation) => Promise<Record<string, unknown>>;
 

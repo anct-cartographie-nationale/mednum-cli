@@ -1,5 +1,5 @@
 import type { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { Output } from '../../../libraries/file-system';
+import type { Output } from '../../../libraries/file-system/index.js';
 
 /**
  * Écrit les métadonnées de publication à côté des sorties. La déduplication déclare ici ce

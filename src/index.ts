@@ -1,23 +1,27 @@
-import * as dotenv from 'dotenv';
-import { Command } from 'commander';
-import { addPublierCommandTo } from './cli/publier';
-import { addTransformerCommandTo } from './cli/transformer';
-import { addDedupliquerCommandTo } from './cli/dedupliquer';
-import { addDataInclusionCommandTo } from './cli/data-inclusion';
-import { addFusionnerCommandTo } from './cli/fusionner';
+/**
+ * Point d'entrée bibliothèque : n'expose que des capacités et des contrats, sans aucun effet
+ * de bord. Lire ce module ne lance rien, à la différence de `cli/index.ts` que `bin/mednum`
+ * exécute.
+ *
+ * Chaque capacité est exposée sous son propre espace de noms, et non à plat. Ce n'est pas une
+ * commodité : plusieurs capacités déclarent des contrats de même nom, chacune exprimant ce
+ * dont elle a besoin sans connaître celle qui le réalisera. Les aplatir les ferait entrer en
+ * collision.
+ *
+ * Une intégration fournit les implémentations de ces contrats, comme le fait chaque commande
+ * de la CLI, puis appelle l'ability voulue.
+ */
 
-dotenv.config();
+export * as acquisitionSource from './features/acquisition-source/index.js';
+export * as deduplication from './features/deduplication/index.js';
+export * as enrichissementTerritorial from './features/enrichissement-territorial/index.js';
+export * as fusion from './features/fusion/index.js';
+export * as publication from './features/publication/index.js';
+export * as transformation from './features/transformation/index.js';
 
-const PROGRAM: Command = new Command();
-
-PROGRAM.name('mednum')
-  .description('CLI pour la transformation et la publication des données des lieux de médiation numérique')
-  .version('0.0.1');
-
-addTransformerCommandTo(PROGRAM);
-addPublierCommandTo(PROGRAM);
-addDedupliquerCommandTo(PROGRAM);
-addDataInclusionCommandTo(PROGRAM);
-addFusionnerCommandTo(PROGRAM);
-
-PROGRAM.parse();
+export * as collectivites from './libraries/collectivites/index.js';
+export * as fileSystem from './libraries/file-system/index.js';
+export * as http from './libraries/http/index.js';
+export * as injection from './libraries/injection/index.js';
+export * as journal from './libraries/journal/index.js';
+export * as mediationNumerique from './libraries/mediation-numerique/index.js';

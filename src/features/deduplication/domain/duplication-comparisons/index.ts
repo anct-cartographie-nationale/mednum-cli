@@ -1,1 +1,1 @@
-export * from './duplication-comparisons';
+export * from './duplication-comparisons.js';

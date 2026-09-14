@@ -1,3 +1,3 @@
-export * from './list-files.key';
-export * from './read-records.key';
-export * from './write-records.key';
+export * from './list-files.key.js';
+export * from './read-records.key.js';
+export * from './write-records.key.js';

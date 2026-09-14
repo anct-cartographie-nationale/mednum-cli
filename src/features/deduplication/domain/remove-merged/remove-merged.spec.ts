@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { type SchemaLieuMediationNumerique, Service } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { Groups } from '../group-duplicates/group-duplicates';
-import { removeMerged } from './remove-merged';
+import type { Groups } from '../group-duplicates/group-duplicates.js';
+import { removeMerged } from './remove-merged.js';
 
 describe('remove merged', (): void => {
   it('should not remove anything when there is no merge group', (): void => {

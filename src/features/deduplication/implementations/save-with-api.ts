@@ -4,10 +4,10 @@ import {
   markAllAsDeduplicated,
   type MergeGroupTransfer,
   patchMergeGroups
-} from '../../../libraries/cartographie-nationale-api';
-import type { Api } from '../../../libraries/http';
-import { injectOr } from '../../../libraries/injection';
-import { type Journal, JOURNAL, silentJournal } from '../../../libraries/journal';
+} from '../../../libraries/cartographie-nationale-api/index.js';
+import type { Api } from '../../../libraries/http/index.js';
+import { injectOr } from '../../../libraries/injection/index.js';
+import { type Journal, JOURNAL, silentJournal } from '../../../libraries/journal/index.js';
 import {
   findGroupIdsToDelete,
   type Groups,
@@ -15,7 +15,7 @@ import {
   type MergeGroup,
   mergeGroups,
   type SaveDeduplication
-} from '../domain';
+} from '../domain/index.js';
 
 const GROUPS_TO_DELETE_BATCH_SIZE = 200;
 const MERGE_GROUPS_BATCH_SIZE = 1000;

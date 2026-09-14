@@ -3,9 +3,12 @@ import {
   type SchemaLieuMediationNumerique,
   toSchemaLieuxDeMediationNumerique
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { Output } from '../../../libraries/file-system';
-import { writeMediationNumeriqueCsvOutput, writeMediationNumeriqueJsonOutput } from '../../../libraries/mediation-numerique';
-import type { WritePublicationMetadata } from '../keys';
+import type { Output } from '../../../libraries/file-system/index.js';
+import {
+  writeMediationNumeriqueCsvOutput,
+  writeMediationNumeriqueJsonOutput
+} from '../../../libraries/mediation-numerique/index.js';
+import type { WritePublicationMetadata } from '../keys/index.js';
 
 export const writeOutputFiles =
   (producer: Output, writePublicationMetadata: WritePublicationMetadata) =>

@@ -1,4 +1,4 @@
-import type { DataSource } from '../../matching';
+import type { DataSource } from '../../matching.js';
 
 type CleanOperation = {
   name: string;

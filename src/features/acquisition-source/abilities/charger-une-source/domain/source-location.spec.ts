@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { isRemote, nextSourceLocation, sourceLocationOf } from './source-location';
+import { isRemote, nextSourceLocation, sourceLocationOf } from './source-location.js';
 
 describe('sourceLocationOf', (): void => {
   it('lit un emplacement sans clé', (): void => {

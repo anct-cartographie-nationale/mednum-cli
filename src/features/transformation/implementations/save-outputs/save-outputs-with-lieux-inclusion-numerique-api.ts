@@ -3,8 +3,8 @@ import {
   type SchemaLieuMediationNumerique,
   toSchemaLieuMediationNumerique
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { patchLieux } from '../../../../libraries/cartographie-nationale-api';
-import type { Api } from '../../../../libraries/http';
+import { patchLieux } from '../../../../libraries/cartographie-nationale-api/index.js';
+import type { Api } from '../../../../libraries/http/index.js';
 
 const onlyDefined = <T>(nullable?: T): nullable is T => nullable != null;
 

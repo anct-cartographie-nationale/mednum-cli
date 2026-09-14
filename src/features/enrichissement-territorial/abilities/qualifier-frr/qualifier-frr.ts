@@ -1,7 +1,7 @@
-import type { IsInFrr } from '../../../../libraries/collectivites';
-import { inject } from '../../../../libraries/injection';
-import { isInFrr } from '../../domain';
-import { LOAD_FRR } from '../../keys';
+import type { IsInFrr } from '../../../../libraries/collectivites/index.js';
+import { inject } from '../../../../libraries/injection/index.js';
+import { isInFrr } from '../../domain/index.js';
+import { LOAD_FRR } from '../../keys/index.js';
 
 /**
  * Prépare le test d'appartenance d'une commune au zonage France Ruralités Revitalisation.

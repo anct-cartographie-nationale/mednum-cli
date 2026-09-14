@@ -1,5 +1,5 @@
-import { type InjectionKey, keyFor } from '../../../libraries/injection';
-import type { IsIncluded, LoadLieux, SaveDeduplication } from '../domain';
+import { type InjectionKey, keyFor } from '../../../libraries/injection/index.js';
+import type { IsIncluded, LoadLieux, SaveDeduplication } from '../domain/index.js';
 
 export const LOAD_LIEUX: InjectionKey<LoadLieux> = keyFor<LoadLieux>('deduplication.load-lieux');
 

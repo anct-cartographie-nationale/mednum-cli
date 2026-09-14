@@ -1,2 +1,2 @@
-export * from './data-gouv';
-export * from './qpv';
+export * from './data-gouv.js';
+export * from './qpv.js';

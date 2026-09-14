@@ -6,8 +6,8 @@ import {
   type SchemaStructureDataInclusionLocalisationFields,
   Typologie
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { DataInclusionMerged } from './data-inclusion-merged';
-import { structuresWithServicesNumeriques } from './merge-services-in-structure';
+import type { DataInclusionMerged } from './data-inclusion-merged.js';
+import { structuresWithServicesNumeriques } from './merge-services-in-structure.js';
 
 describe('merge services in structure', (): void => {
   it('should merge a single service in a single structure', (): void => {

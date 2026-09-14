@@ -1,7 +1,7 @@
 import * as fs from 'node:fs';
 import { parse } from 'csv-parse/sync';
-import type { MergeFormat } from '../domain';
-import type { ReadRecords } from '../keys';
+import type { MergeFormat } from '../domain/index.js';
+import type { ReadRecords } from '../keys/index.js';
 
 const readCsvRecords = (filePath: string): unknown[] => parse(fs.readFileSync(filePath, 'utf-8'), { columns: true });
 

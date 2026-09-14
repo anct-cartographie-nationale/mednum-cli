@@ -1,6 +1,6 @@
-import { inject } from '../../../../libraries/injection';
-import { type PublishMetadata, publishDataset, type Reference } from '../../domain';
-import { DATASET_REPOSITORY, READ_PUBLICATION_METADATA, READ_RESSOURCE_RECORDS } from '../../keys';
+import { inject } from '../../../../libraries/injection/index.js';
+import { type PublishMetadata, publishDataset, type Reference } from '../../domain/index.js';
+import { DATASET_REPOSITORY, READ_PUBLICATION_METADATA, READ_RESSOURCE_RECORDS } from '../../keys/index.js';
 
 export type PublierUnJeuDeDonnees = {
   metadataFile: string;

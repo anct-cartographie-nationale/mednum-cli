@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { Contact, Courriel, Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching';
-import { Report } from '../../report';
-import { processContact } from './contact.field';
+import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching.js';
+import { Report } from '../../report/index.js';
+import { processContact } from './contact.field.js';
 
 const EMAIL_FIELD: string =
   "Email (éviter les emails nominatifs - en cas d'email nominitatif seule la personne concernée est autorisé à l'ajouter)";

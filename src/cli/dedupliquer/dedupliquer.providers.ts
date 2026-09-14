@@ -8,11 +8,11 @@ import {
   type SaveDeduplication,
   saveInFiles,
   saveWithApi
-} from '../../features/deduplication';
-import { writePublicationMetadataInFile } from '../../features/publication';
-import { provide } from '../../libraries/injection';
-import { consoleJournal, JOURNAL } from '../../libraries/journal';
-import type { DedupliquerOptions } from './dedupliquer.options';
+} from '../../features/deduplication/index.js';
+import { writePublicationMetadataInFile } from '../../features/publication/index.js';
+import { provide } from '../../libraries/injection/index.js';
+import { consoleJournal, JOURNAL } from '../../libraries/journal/index.js';
+import type { DedupliquerOptions } from './dedupliquer.options.js';
 
 /**
  * Point de concrétisation de la commande. C'est ici que se décide la destination des données

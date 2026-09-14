@@ -1,1 +1,1 @@
-export * from './resoudre-commune';
+export * from './resoudre-commune.js';

@@ -1,13 +1,13 @@
 import type { Command } from 'commander';
 import inquirer, { type Answers } from 'inquirer';
-import { dedupliquerDesLieux } from '../../features/deduplication';
+import { dedupliquerDesLieux } from '../../features/deduplication/index.js';
 import {
   DEDUPLIQUER_OPTIONS,
   type DedupliquerOptions,
   dedupliquerOptionsQuestions,
   toDedupliquerOptions
-} from './dedupliquer.options';
-import { provideDedupliquerImplementations } from './dedupliquer.providers';
+} from './dedupliquer.options.js';
+import { provideDedupliquerImplementations } from './dedupliquer.providers.js';
 
 const dedupliquer = async (dedupliquerOptions: DedupliquerOptions): Promise<void> => {
   try {

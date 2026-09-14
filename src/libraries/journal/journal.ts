@@ -1,4 +1,4 @@
-import { type InjectionKey, keyFor } from '../injection';
+import { type InjectionKey, keyFor } from '../injection/index.js';
 
 /**
  * Rend compte de l'avancement d'un traitement long. C'est un contrat transverse : une

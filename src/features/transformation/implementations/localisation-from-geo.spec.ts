@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { fetchBanResponseBatch } from './localisation-from-geo';
-import type { DataSource, LieuxMediationNumeriqueMatching } from '../domain';
+import { fetchBanResponseBatch } from './localisation-from-geo.js';
+import type { DataSource, LieuxMediationNumeriqueMatching } from '../domain/index.js';
 
 const STANDARD_MATCHING: LieuxMediationNumeriqueMatching = {
   nom: { colonne: 'nom' },

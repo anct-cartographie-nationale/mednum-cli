@@ -1,3 +1,3 @@
-export * from './load-lieux-from-source';
-export * from './save-in-files';
-export * from './save-with-api';
+export * from './load-lieux-from-source.js';
+export * from './save-in-files.js';
+export * from './save-with-api.js';

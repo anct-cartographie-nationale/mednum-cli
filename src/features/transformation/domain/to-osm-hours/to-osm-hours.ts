@@ -1,4 +1,4 @@
-import { type CleanOperation, CLEAN_OPERATIONS } from './clean-operations';
+import { type CleanOperation, CLEAN_OPERATIONS } from './clean-operations.js';
 
 export const toOsmHours = (hours: string): string =>
   CLEAN_OPERATIONS.reduce(

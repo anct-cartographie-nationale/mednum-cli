@@ -1,6 +1,6 @@
 import type { SchemaServiceDataInclusion, SchemaStructureDataInclusion } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { DataInclusionMerged } from './data-inclusion-merged';
-import { structuresWithServicesNumeriques } from './merge-services-in-structure';
+import type { DataInclusionMerged } from './data-inclusion-merged.js';
+import { structuresWithServicesNumeriques } from './merge-services-in-structure.js';
 
 export type DataInclusionExtraction = {
   structures: SchemaStructureDataInclusion[];

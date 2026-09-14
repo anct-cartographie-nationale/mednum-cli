@@ -1,2 +1,2 @@
-export * from './commune';
-export * from './zonage';
+export * from './commune.js';
+export * from './zonage.js';

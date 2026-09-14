@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { Typologie, type Typologies } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { LieuxMediationNumeriqueMatching } from '../../matching';
-import { processTypologies } from './typologies.field';
+import type { LieuxMediationNumeriqueMatching } from '../../matching.js';
+import { processTypologies } from './typologies.field.js';
 
 describe('typologies field', (): void => {
   it('should get none typologies for empty value', (): void => {

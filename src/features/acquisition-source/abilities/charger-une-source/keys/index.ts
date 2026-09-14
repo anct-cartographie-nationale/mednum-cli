@@ -1,2 +1,2 @@
-export * from './fetch-remote-source.key';
-export * from './read-local-source.key';
+export * from './fetch-remote-source.key.js';
+export * from './read-local-source.key.js';

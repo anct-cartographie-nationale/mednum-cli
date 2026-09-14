@@ -1,6 +1,6 @@
 import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { Groups } from '../group-duplicates/group-duplicates';
-import type { MergedLieuxByGroupMap } from '../merge-duplicates';
+import type { Groups } from '../group-duplicates/group-duplicates.js';
+import type { MergedLieuxByGroupMap } from '../merge-duplicates/index.js';
 
 export type MergeGroup = {
   groupId: string;

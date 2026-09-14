@@ -1,7 +1,7 @@
 import axios, { type AxiosResponse } from 'axios';
 import { stringify } from 'csv-stringify/sync';
 import toJson from 'csvtojson';
-import { BAN_RESULT_FIELDS, type BanAddressRow, type BanResultRow, type FeatureCollection } from './ban.types';
+import { BAN_RESULT_FIELDS, type BanAddressRow, type BanResultRow, type FeatureCollection } from './ban.types.js';
 
 const GEOCODAGE_URL = 'https://data.geopf.fr/geocodage/search';
 const BAN_CSV_URL = 'https://api-adresse.data.gouv.fr/search/csv';

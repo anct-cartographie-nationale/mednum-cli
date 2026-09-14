@@ -1,5 +1,5 @@
 import * as fs from 'node:fs';
-import type { Fingerprint } from '../../domain';
+import type { Fingerprint } from '../../domain/index.js';
 
 /**
  * Un fichier d'empreintes absent signifie qu'aucune transformation précédente n'a eu lieu.

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { frrMapFromTransfer, type FrrTransfer } from './frr.transfer';
+import { frrMapFromTransfer, type FrrTransfer } from './frr.transfer.js';
 
 describe('frr transfer', (): void => {
   it('should not get any frr in map when transfer is empty', (): void => {

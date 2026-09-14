@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { DispositifProgrammeNational, type DispositifProgrammesNationaux } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { LieuxMediationNumeriqueMatching } from '../../matching';
-import { processDispositifProgrammeNationaux } from './dispositifs-programmes-nationaux.field';
+import type { LieuxMediationNumeriqueMatching } from '../../matching.js';
+import { processDispositifProgrammeNationaux } from './dispositifs-programmes-nationaux.field.js';
 
 describe('labels nationaux field', (): void => {
   it('should get labels nationaux for empty value', (): void => {

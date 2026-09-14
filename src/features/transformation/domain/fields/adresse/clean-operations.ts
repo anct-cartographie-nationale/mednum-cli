@@ -1,4 +1,4 @@
-import type { DataSource } from '../../matching';
+import type { DataSource } from '../../matching.js';
 
 export type CleanOperation = {
   name: string;

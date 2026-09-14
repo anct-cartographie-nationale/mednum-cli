@@ -1,6 +1,6 @@
-import { fetchFingerprints } from '../../../../libraries/cartographie-nationale-api';
-import type { Api } from '../../../../libraries/http';
-import type { Fingerprint } from '../../domain';
+import { fetchFingerprints } from '../../../../libraries/cartographie-nationale-api/index.js';
+import type { Api } from '../../../../libraries/http/index.js';
+import type { Fingerprint } from '../../domain/index.js';
 
 export const fingerprintsFromLieuxMediationNumeriqueApi =
   (api: Api, sourceName: string) => async (): Promise<Fingerprint[]> => {

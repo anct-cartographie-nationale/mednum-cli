@@ -1,7 +1,7 @@
-import type { Dataset } from './dataset';
-import type { PublishDataset } from './publish-dataset';
-import type { PublishRessource } from './publish-ressource';
-import type { Reference } from './reference';
+import type { Dataset } from './dataset.js';
+import type { PublishDataset } from './publish-dataset.js';
+import type { PublishRessource } from './publish-ressource.js';
+import type { Reference } from './reference.js';
 
 /**
  * Le contrat que la publication attend de l'entrepôt de jeux de données, sans rien présumer

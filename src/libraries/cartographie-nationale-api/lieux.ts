@@ -1,5 +1,5 @@
 import axios, { type AxiosResponse } from 'axios';
-import { type Api, authHeader, headers, paginate } from '../http';
+import { type Api, authHeader, headers, paginate } from '../http/index.js';
 
 const lieuxUrl = (api: Api): string => `${api.url}/lieux-inclusion-numerique`;
 

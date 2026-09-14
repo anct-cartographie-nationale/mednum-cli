@@ -1,6 +1,6 @@
-import type { Output } from '../../../libraries/file-system';
-import type { AddressCache } from '../domain';
-import { writeAddresesOutputFiles } from './address.write';
+import type { Output } from '../../../libraries/file-system/index.js';
+import type { AddressCache } from '../domain/index.js';
+import { writeAddresesOutputFiles } from './address.write.js';
 
 export const writeAddressesInFiles =
   (producer: Output) =>

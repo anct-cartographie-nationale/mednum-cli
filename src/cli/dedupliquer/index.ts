@@ -1,1 +1,1 @@
-export * from './dedupliquer.command';
+export * from './dedupliquer.command.js';

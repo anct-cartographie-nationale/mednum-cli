@@ -1,4 +1,4 @@
-import { type Commune, type FindCommune, slugify } from '../../../libraries/collectivites';
+import { type Commune, type FindCommune, slugify } from '../../../libraries/collectivites/index.js';
 
 const toCommunesCountMap = (communeCountMap: Map<string, number>, commune: Commune): Map<string, number> =>
   communeCountMap.set(slugify(commune.nom), (communeCountMap.get(slugify(commune.nom)) ?? 0) + 1);

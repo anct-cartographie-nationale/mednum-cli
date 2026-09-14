@@ -1,5 +1,5 @@
-import { putSourceHash } from '../../../libraries/cartographie-nationale-api';
-import type { Api } from '../../../libraries/http';
+import { putSourceHash } from '../../../libraries/cartographie-nationale-api/index.js';
+import type { Api } from '../../../libraries/http/index.js';
 
 export const updateSourceWithCartographieNationaleApi =
   (api: Api, sourceName: string) =>

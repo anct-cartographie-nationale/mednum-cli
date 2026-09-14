@@ -1,6 +1,6 @@
 import type { Adresse, Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { type Choice, type LieuxMediationNumeriqueMatching, type DataSource, cibleAsDefault } from '../../matching';
-import type { IsInFrr, IsInQpv } from '../../../../../libraries/collectivites';
+import { type Choice, type LieuxMediationNumeriqueMatching, type DataSource, cibleAsDefault } from '../../matching.js';
+import type { IsInFrr, IsInQpv } from '../../../../../libraries/collectivites/index.js';
 
 const isAllowedTerm = (choice: Choice<string>, sourceValue: string): boolean =>
   choice.sauf?.every((forbidden: string): boolean => !sourceValue.includes(forbidden)) ?? true;

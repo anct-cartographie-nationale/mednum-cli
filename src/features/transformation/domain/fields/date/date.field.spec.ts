@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { processDate } from './date.field';
-import type { LieuxMediationNumeriqueMatching } from '../../matching';
+import { processDate } from './date.field.js';
+import type { LieuxMediationNumeriqueMatching } from '../../matching.js';
 
 const matching: LieuxMediationNumeriqueMatching = {
   date_maj: {
