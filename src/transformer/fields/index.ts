@@ -1,5 +1,4 @@
 export * from './adresse/adresse.field';
-export * from './adresse/find-commune';
 export * from './autres-formations-labels';
 export * from './contact/contact.field';
 export * from './date/date.field';

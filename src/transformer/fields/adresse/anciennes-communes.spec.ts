@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { getNewCommune } from './anciennes-communes';
-import type { Commune } from './find-commune';
+import type { Commune } from '../../../libraries/collectivites';
 
 describe('anciennes communes', (): void => {
   it('should build anciennes communes map from json file', (): void => {

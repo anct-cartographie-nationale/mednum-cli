@@ -1,13 +1,8 @@
 import * as fs from 'node:fs';
 import {
-  communeFromGeoApi,
   fingerprintsFromFile,
-  isInQpv,
-  isInFrr,
-  qpvFromDataGouv,
   writeErrorsInFiles,
   writeAddressesInFiles,
-  frrFromObservatoireDesTerritoires,
   saveFingerprintsWithLieuxMediationNumeriqueApi,
   saveOutputsWithLieuxInclusionNumeriqueApi,
   fingerprintsFromLieuxMediationNumeriqueApi,
@@ -15,7 +10,7 @@ import {
   saveFingerprintsInFile,
   localisationByGeocode
 } from '../../data';
-import { findCommune } from '../../fields';
+import { qualifierFrr, qualifierQpv, resoudreCommune } from '../../../features/enrichissement-territorial';
 import type { LieuxMediationNumeriqueMatching } from '../../input';
 import type { TransformationRepository } from '../../repositories';
 import { diffSinceLastTransform, type Fingerprint } from '../diff-since-last-transform';
@@ -33,9 +28,9 @@ export const transformationRespository = async (transformerOptions: TransformerO
 
   return {
     config,
-    findCommune: findCommune(await communeFromGeoApi()),
-    isInQpv: isInQpv(await qpvFromDataGouv()),
-    isInFrr: isInFrr(await frrFromObservatoireDesTerritoires()),
+    findCommune: await resoudreCommune(),
+    isInQpv: await qualifierQpv(),
+    isInFrr: await qualifierFrr(),
     geocode: localisationByGeocode,
     fingerprints,
     saveErrors: writeErrorsInFiles(transformerOptions),

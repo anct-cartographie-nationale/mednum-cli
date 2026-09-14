@@ -125,9 +125,10 @@ const FORBIDDEN_FEATURES = [
     name: 'no-interdependencies-between-features',
     comment:
       'Features must never depend on other features. When a feature needs a capability provided by another one, it ' +
-      'declares a port in its own `keys` folder and the CLI entry point wires the concrete implementation in.',
+      'declares a port in its own `keys` folder and the CLI entry point wires the concrete implementation in. Les ' +
+      'fichiers de test échappent à la règle : ils composent ce que le point d\'entrée assemble en production.',
     severity: 'error',
-    from: { path: '^src/features/([^/]+)/' },
+    from: { path: '^src/features/([^/]+)/', pathNot: [SPEC_FILES] },
     to: { path: '^src/features/', pathNot: '^src/features/$1/' }
   },
   {
@@ -260,7 +261,11 @@ const LIBRARY_DEPENDENCIES = {
   'data-gouv': ['http'],
   journal: ['injection'],
   'cartographie-nationale-api': ['http'],
-  hash: []
+  hash: [],
+  collectivites: [],
+  geometry: [],
+  'geo-api': ['http', 'collectivites'],
+  'observatoire-des-territoires': ['http', 'collectivites']
 };
 
 const libraryInterdependencyRules = () =>

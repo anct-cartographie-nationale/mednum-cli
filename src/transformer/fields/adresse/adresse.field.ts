@@ -5,7 +5,7 @@ import { CLEAN_CODE_POSTAL, codePostalField } from './clean-code-postal';
 import { CLEAN_COMMUNE, communeField } from './clean-commune';
 import { toCleanField } from './clean-operations';
 import { CLEAN_VOIE, voieField } from './clean-voie';
-import type { Commune, FindCommune } from './find-commune';
+import type { Commune, FindCommune } from '../../../libraries/collectivites';
 
 type AddressToNormalize = {
   code_postal: string;
