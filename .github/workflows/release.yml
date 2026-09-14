@@ -135,7 +135,8 @@ jobs:
         run: |
           echo "Number of lieux to upload: $(jq 'length' deduplicated/dynamo-import/cartographie-nationale.lieux-inclusion-numerique.json)"
       - name: Publish to dynamoDB via S3
-        uses: kersvers/s3-sync-with-cloudfront-invalidation@v1.0.0
+        # Action tierce, sans maintenance depuis 2021 : épinglée par empreinte, un tag restant déplaçable.
+        uses: kersvers/s3-sync-with-cloudfront-invalidation@6b80f75269752ea243152632bdfc1c6155318761 # v1.0.0
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -169,7 +170,8 @@ jobs:
           mkdir mkdir -p client-application/assets/data
           curl https://d27gljvji6o5x3.cloudfront.net/api/v0/lieux-inclusion-numerique | gunzip >> ./client-application/assets/data/lieux-inclusion-numerique.json
       - name: Publish to S3
-        uses: kersvers/s3-sync-with-cloudfront-invalidation@v1.0.0
+        # Action tierce, sans maintenance depuis 2021 : épinglée par empreinte, un tag restant déplaçable.
+        uses: kersvers/s3-sync-with-cloudfront-invalidation@6b80f75269752ea243152632bdfc1c6155318761 # v1.0.0
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

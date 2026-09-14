@@ -1,5 +1,12 @@
 import { Typologie } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { TypologieMatcher } from './typologies.field';
+
+/**
+ * Rapproche un nom de lieu d'une typologie du schéma, quand la source ne la renseigne pas.
+ */
+export type TypologieMatcher = {
+  typologie: Typologie;
+  matchers: RegExp[];
+};
 
 export const TYPOLOGIE_MATCHERS: TypologieMatcher[] = [
   {

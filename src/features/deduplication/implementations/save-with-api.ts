@@ -63,18 +63,13 @@ export const saveWithApi =
       return;
     }
 
-    try {
-      journal.info('Recupération des groupes à supprimer');
-      const existingGroups: MergeGroupTransfer<SchemaLieuMediationNumerique>[] =
-        await fetchMergeGroups<SchemaLieuMediationNumerique>(api);
+    journal.info('Recupération des groupes à supprimer');
+    const existingGroups: MergeGroupTransfer<SchemaLieuMediationNumerique>[] =
+      await fetchMergeGroups<SchemaLieuMediationNumerique>(api);
 
-      await deleteGroups(api, journal, findGroupIdsToDelete(existingGroups)(groups));
-      await saveGroups(api, journal, mergeGroups(groups, merged));
+    await deleteGroups(api, journal, findGroupIdsToDelete(existingGroups)(groups));
+    await saveGroups(api, journal, mergeGroups(groups, merged));
 
-      journal.info('Marquage des lieux comme dédupliqués');
-      if (shouldMarkAsDeduplicated(groups.mergeGroupsMap)) await markAllAsDeduplicated(api);
-    } catch (error) {
-      // Comportement repris tel quel : un échec d'enregistrement ne fait pas échouer la commande.
-      console.log(error);
-    }
+    journal.info('Marquage des lieux comme dédupliqués');
+    if (shouldMarkAsDeduplicated(groups.mergeGroupsMap)) await markAllAsDeduplicated(api);
   };

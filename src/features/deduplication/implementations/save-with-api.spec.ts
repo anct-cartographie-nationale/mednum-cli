@@ -1,5 +1,16 @@
-import { describe, it, expect } from 'vitest';
-import { shouldMarkAsDeduplicated } from './save-with-api';
+import { describe, expect, it, vi } from 'vitest';
+
+vi.mock(
+  '../../../libraries/cartographie-nationale-api',
+  (): Record<string, unknown> => ({
+    fetchMergeGroups: (): Promise<never> => Promise.reject(new Error('502 Bad Gateway')),
+    patchMergeGroups: (): Promise<void> => Promise.resolve(),
+    markAllAsDeduplicated: (): Promise<void> => Promise.resolve()
+  })
+);
+import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import type { Groups, MergedLieuxByGroupMap } from '../domain';
+import { saveWithApi, shouldMarkAsDeduplicated } from './save-with-api';
 
 describe('save merged lieux with API', (): void => {
   it('should not be an internal merge, when single merge group contains different sources', (): void => {
@@ -39,5 +50,28 @@ describe('save merged lieux with API', (): void => {
     const markAsDeduplicated: boolean = shouldMarkAsDeduplicated(mergeGroupsMap);
 
     expect(markAsDeduplicated).toBe(false);
+  });
+});
+
+describe("échec d'enregistrement par API", (): void => {
+  /**
+   * L'erreur doit remonter jusqu'au point d'entrée, qui pose un code de sortie non nul.
+   * L'implémentation d'origine l'interceptait et se contentait de la journaliser, si bien
+   * qu'une déduplication non enregistrée passait pour un succès.
+   */
+  it("remonte l'erreur au lieu de la journaliser", async (): Promise<void> => {
+    const groups: Groups = {
+      mergeGroupsMap: new Map([['groupe-1', ['dora_1', 'France-Services_2']]]),
+      itemGroupMap: new Map([['dora_1', 'groupe-1']])
+    };
+    const merged: MergedLieuxByGroupMap = new Map([['groupe-1', {} as SchemaLieuMediationNumerique]]);
+
+    await expect(saveWithApi({ url: 'https://exemple.fr', key: 'une-cle' })(groups, merged)).rejects.toThrow('502 Bad Gateway');
+  });
+
+  it("ne tente rien quand il n'y a rien à enregistrer", async (): Promise<void> => {
+    const groups: Groups = { mergeGroupsMap: new Map(), itemGroupMap: new Map() };
+
+    await expect(saveWithApi({ url: 'https://exemple.fr', key: 'une-cle' })(groups, new Map())).resolves.toBeUndefined();
   });
 });
