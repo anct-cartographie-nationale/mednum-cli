@@ -24,4 +24,17 @@ export const provideLazy: ProvideLazy = container.provideLazy;
  */
 export const inject: Inject = container.inject;
 
+/**
+ * Récupère l'implémentation fournie pour un contrat, ou se rabat sur une valeur par défaut
+ * quand aucune ne l'a été. Réservé aux contrats optionnels, dont l'absence est un choix
+ * légitime : un journal muet plutôt qu'un plantage.
+ */
+export const injectOr = <T>(key: InjectionKey<T>, fallback: T): T => {
+  try {
+    return inject(key);
+  } catch {
+    return fallback;
+  }
+};
+
 export type { InjectionKey };

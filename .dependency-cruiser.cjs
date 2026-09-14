@@ -257,7 +257,10 @@ const LIBRARY_DEPENDENCIES = {
   'file-system': [],
   'mediation-numerique': ['file-system'],
   'data-inclusion-api': ['http'],
-  'data-gouv': ['http']
+  'data-gouv': ['http'],
+  journal: ['injection'],
+  'cartographie-nationale-api': ['http'],
+  hash: []
 };
 
 const libraryInterdependencyRules = () =>
