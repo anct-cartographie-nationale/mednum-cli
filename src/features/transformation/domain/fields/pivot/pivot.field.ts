@@ -1,0 +1,11 @@
+import { Pivot } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching';
+
+export const processPivot = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Pivot => {
+  try {
+    const colonne: string = matching.pivot?.colonne ?? '';
+    return Pivot(source[colonne]?.toString().replace(/[\s.-]/gu, '') ?? '00000000000000');
+  } catch {
+    return Pivot('00000000000000');
+  }
+};

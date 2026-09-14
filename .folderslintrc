@@ -2,7 +2,6 @@
   "root": "src",
   "rules": [
     "cli/**",
-    "data",
     "features",
     "features/*",
     "features/*/domain/**",
@@ -13,7 +12,6 @@
     "features/*/abilities/*/domain/**",
     "features/*/abilities/*/implementations/**",
     "features/*/abilities/*/keys",
-    "libraries/*/**",
-    "transformer/**"
+    "libraries/*/**"
   ]
 }

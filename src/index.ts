@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv';
 import { Command } from 'commander';
 import { addPublierCommandTo } from './cli/publier';
-import { addTransformerCommandTo } from './transformer';
+import { addTransformerCommandTo } from './cli/transformer';
 import { addDedupliquerCommandTo } from './cli/dedupliquer';
 import { addDataInclusionCommandTo } from './cli/data-inclusion';
 import { addFusionnerCommandTo } from './cli/fusionner';

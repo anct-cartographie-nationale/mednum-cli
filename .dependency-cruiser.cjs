@@ -265,7 +265,9 @@ const LIBRARY_DEPENDENCIES = {
   collectivites: [],
   geometry: [],
   'geo-api': ['http', 'collectivites'],
-  'observatoire-des-territoires': ['http', 'collectivites']
+  'observatoire-des-territoires': ['http', 'collectivites'],
+  ban: [],
+  text: []
 };
 
 const libraryInterdependencyRules = () =>

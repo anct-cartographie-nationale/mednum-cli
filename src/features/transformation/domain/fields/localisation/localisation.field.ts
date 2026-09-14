@@ -1,0 +1,65 @@
+import { isValidLocalisation, Localisation, type LocalisationToValidate } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { lambert93ToWgs84 } from '../../../../../libraries/geometry';
+import type { Colonne, DataSource, Dissociation, LieuxMediationNumeriqueMatching } from '../../matching';
+
+type NoLocalisation = { noLocalisation: true } & null;
+export const NO_LOCALISATION: Localisation = null as NoLocalisation;
+
+const NO_LOCALISATION_COLONNE: string = '';
+const LOCALISATION_IS_ZERO_VALUES: number = NaN;
+const INVALID_NUMBERS_CHARS: RegExp = /[^\d.\s,-]+/gu;
+
+const isColonne = (colonneToTest: Partial<Colonne> & Partial<Dissociation>): colonneToTest is Colonne =>
+  colonneToTest.colonne != null;
+
+const dissocier = (source: DataSource, localisation: Dissociation & Partial<Colonne>): string | undefined =>
+  source[localisation.dissocier.colonne]
+    ?.toString()
+    ?.replace(INVALID_NUMBERS_CHARS, '')
+    ?.split(localisation.dissocier.séparateur)
+    .filter((coord: string): boolean => coord !== '')[localisation.dissocier.partie];
+
+const checkFormatLocalisation = (localisation: LocalisationToValidate): Localisation => {
+  if (localisation === NO_LOCALISATION || Number.isNaN(localisation.latitude) || Number.isNaN(localisation.longitude))
+    return NO_LOCALISATION;
+  const [longitude, latitude] = lambert93ToWgs84([localisation.longitude, localisation.latitude]);
+  return latitude == null || longitude == null ? NO_LOCALISATION : Localisation({ latitude, longitude });
+};
+
+const localisationField = (source: DataSource, localisation: Dissociation & Partial<Colonne>): string | undefined =>
+  (isColonne(localisation) ? source[localisation.colonne] : dissocier(source, localisation))?.toString().replace(',', '.');
+
+const validateLocalisationField = (localisationToValidate: LocalisationToValidate): Localisation => {
+  const localisationToValidateProbablyFalse: LocalisationToValidate =
+    localisationToValidate.latitude === 0 || localisationToValidate.longitude === 0
+      ? { latitude: LOCALISATION_IS_ZERO_VALUES, longitude: LOCALISATION_IS_ZERO_VALUES }
+      : localisationToValidate;
+
+  return isValidLocalisation(localisationToValidateProbablyFalse)
+    ? localisationToValidateProbablyFalse
+    : checkFormatLocalisation(localisationToValidateProbablyFalse);
+};
+
+const localisationFromMatching = (
+  source: DataSource,
+  { latitude, longitude }: { latitude: Dissociation & Partial<Colonne>; longitude: Dissociation & Partial<Colonne> }
+): LocalisationToValidate => ({
+  latitude: parseFloat(localisationField(source, latitude) ?? NO_LOCALISATION_COLONNE),
+  longitude: parseFloat(localisationField(source, longitude) ?? NO_LOCALISATION_COLONNE)
+});
+
+const isValidLocalisationatching = (
+  matching: LieuxMediationNumeriqueMatching
+): matching is LieuxMediationNumeriqueMatching & {
+  latitude: Dissociation & Partial<Colonne>;
+  longitude: Dissociation & Partial<Colonne>;
+} => matching.latitude != null && matching.longitude != null;
+
+export const processLocalisation = async (
+  source: DataSource,
+  matching: LieuxMediationNumeriqueMatching,
+  geocodeAddress: () => Promise<Localisation>
+): Promise<Localisation> =>
+  !isValidLocalisationatching(matching)
+    ? geocodeAddress()
+    : validateLocalisationField(localisationFromMatching(source, matching));
