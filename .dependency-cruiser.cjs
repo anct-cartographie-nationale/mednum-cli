@@ -318,7 +318,7 @@ module.exports = {
   forbidden: [...FORBIDDEN_GLOBAL, ...FORBIDDEN_CLI, ...FORBIDDEN_FEATURES, ...FORBIDDEN_LIBRARIES],
   options: {
     doNotFollow: { path: ['node_modules'] },
-    tsPreCompilationDeps: true,
+    parser: 'swc',
     enhancedResolveOptions: {
       exportsFields: ['exports'],
       conditionNames: ['import', 'require', 'node', 'default', 'types'],

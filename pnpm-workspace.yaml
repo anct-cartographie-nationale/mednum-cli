@@ -1,11 +1,7 @@
 allowBuilds:
+  # @swc/core livre ses binaires natifs en dépendances optionnelles : son script de build est inutile.
+  '@swc/core': false
   esbuild: true
 minimumReleaseAge: 14400
 minimumReleaseAgeExclude:
   - '@gouvfr-anct/lieux-de-mediation-numerique'
-packageExtensions:
-  # dependency-cruiser 18.2.0 ne supporte que typescript >=2 <7 et analyserait 0 module
-  # avec le TypeScript 7 du projet. On lui fournit son propre TypeScript 6 isolé.
-  dependency-cruiser:
-    dependencies:
-      typescript: ^6.0.3
