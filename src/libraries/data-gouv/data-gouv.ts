@@ -1,7 +1,7 @@
 import * as fs from 'node:fs';
 import axios, { type AxiosResponse } from 'axios';
 import FormData from 'form-data';
-import { type Api, authHeader, headers } from '../http/index.js';
+import { type Api, authHeader, followPages, headers, type Page, type ReadPage } from '../http/index.js';
 
 /**
  * Client de l'API data.gouv. Il ne parle que le vocabulaire de data.gouv : la traduction vers
@@ -61,13 +61,44 @@ export type DataGouvReference = {
   isOwner: boolean;
 };
 
-const referenceQueryParams = ({ id, isOwner }: DataGouvReference): string =>
-  isOwner ? `?owner=${id}&page_size=10000` : `?organization=${id}`;
+const referenceQueryParams = ({ id, isOwner }: DataGouvReference): string => (isOwner ? `owner=${id}` : `organization=${id}`);
 
 const fileNameOf = (source: string): string | undefined => source.split('/').pop();
 
+/**
+ * Taille de page demandée. data.gouv sert 2000 et refuse 10000 par une 502 : il n'existe pas
+ * de valeur assez grande pour se dispenser de pagination, seulement des valeurs qui tiennent.
+ */
+const DATASETS_PAGE_SIZE = 1000;
+
+type DataGouvDatasetsPage = {
+  data?: unknown;
+  next_page?: unknown;
+};
+
+/**
+ * Stratégie data.gouv : la page suivante est l'URL complète portée par `next_page`, qui
+ * reconduit d'elle-même les paramètres de la requête d'origine.
+ */
+const readDatasetsPage =
+  (): ReadPage<string> =>
+  async (url: string): Promise<Page<string>> => {
+    const body: DataGouvDatasetsPage = (await axios.get(url, headers())).data;
+
+    if (!Array.isArray(body.data)) throw new Error(`Réponse de data.gouv sans liste de jeux de données : ${url}`);
+
+    return { records: body.data, next: typeof body.next_page === 'string' ? body.next_page : undefined };
+  };
+
+/**
+ * Toutes les pages, pas seulement la première. Celui qui appelle y cherche un jeu de données
+ * existant pour le mettre à jour : n'en voir qu'une partie le ferait publier un doublon.
+ */
 export const listDataGouvDatasets = async (api: Api, reference: DataGouvReference): Promise<DataGouvDataset[]> =>
-  (await axios.get(`${api.url}/datasets/${referenceQueryParams(reference)}&page_size=10000`, headers())).data.data;
+  (await followPages(
+    `${api.url}/datasets/?${referenceQueryParams(reference)}&page_size=${DATASETS_PAGE_SIZE}`,
+    readDatasetsPage()
+  )) as DataGouvDataset[];
 
 export const createDataGouvDataset = async (api: Api, payload: DataGouvDatasetPayload): Promise<DataGouvDataset> =>
   (
