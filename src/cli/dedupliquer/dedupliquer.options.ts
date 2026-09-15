@@ -7,8 +7,6 @@ export type DedupliquerOptions = {
   outputDirectory: string;
   sourceName: string;
   territory: string;
-  cartographieNationaleApiUrl: string;
-  cartographieNationaleApiKey?: string;
   allowInternal: boolean;
 };
 
@@ -43,12 +41,6 @@ const sourceNameOption = (program: Command): Command =>
 const territoryOption = (program: Command): Command =>
   program.option('-t, --territory <territory>', 'Le nom du territoire couvert par les données');
 
-const apiKeyOption = (program: Command): Command =>
-  program.option(
-    '-k, --cartographie-nationale-api-key <api-key>',
-    "Lorsque la clé d'API dela cartographie nationale est fournie, les groupes de fusion sont sauvegardés par API"
-  );
-
 const allowInternalOption = (program: Command): Command =>
   program.option('-i, --allow-internal <allow-internal>', 'Autorise les fusion interne à une même source de données');
 
@@ -59,7 +51,6 @@ export const DEDUPLIQUER_OPTIONS: ((program: Command) => Command)[] = [
   baseSourceOption,
   sourceNameOption,
   territoryOption,
-  apiKeyOption,
   allowInternalOption
 ];
 
@@ -93,14 +84,3 @@ export const dedupliquerOptionsQuestions = (dedupliquerOptions: DedupliquerOptio
     filter: (answer: string): string => answer.trim()
   }
 ];
-
-const cartographieNationaleApiUrlIfAny = (cartographieNationaleApiUrl?: string): { cartographieNationaleApiUrl?: string } =>
-  cartographieNationaleApiUrl == null ? {} : { cartographieNationaleApiUrl };
-
-const cartographieNationaleApiKeyIfAny = (cartographieNationaleApiKey?: string): { cartographieNationaleApiKey?: string } =>
-  cartographieNationaleApiKey == null ? {} : { cartographieNationaleApiKey };
-
-export const toDedupliquerOptions = (environment: Record<string, string | undefined>): Partial<DedupliquerOptions> => ({
-  ...cartographieNationaleApiUrlIfAny(environment['CARTOGRAPHIE_NATIONALE_API_URL']),
-  ...cartographieNationaleApiKeyIfAny(environment['CARTOGRAPHIE_NATIONALE_API_KEY'])
-});

@@ -7,7 +7,6 @@ export * from './exclude-by-id/index.js';
 export * from './filter-oversized-ids/filter-oversized-ids.js';
 export * from './group-duplicates/group-duplicates.js';
 export * from './merge-duplicates/index.js';
-export * from './merge-group/merge-group.js';
 export * from './remove-merged/remove-merged.js';
 export * from './without-obsolete-labels.js';
 export * from './write-publication-metadata.js';

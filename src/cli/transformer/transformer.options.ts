@@ -11,8 +11,6 @@ export type TransformerOptions = {
   sourceName: string;
   territory: string;
   envKey?: string;
-  cartographieNationaleApiUrl?: string;
-  cartographieNationaleApiKey?: string;
   force: boolean;
   addressCache: string;
 };
@@ -33,12 +31,6 @@ const validateConfigFile = validateNotEmpty('Le fichier de configuration est obl
 const validateOutputDirectory = validateNotEmpty('Le dossier de sortie est obligatoire');
 const validateSourceName = validateNotEmpty("Le nom de la source à l'origine de la données est obligatoire");
 const validateTerritory = validateNotEmpty('Le nom du territoire couvert par les données est obligatoire');
-
-const apiKeyOption = (program: Command): Command =>
-  program.option(
-    '-k, --cartographie-nationale-api-key <cartographie-nationale-api-key>',
-    "Lorsque la clé d'API dela cartographie nationale est fournie, les hash des fichiers transformés sont sauvegardés par API"
-  );
 
 const configFileOption = (program: Command): Command =>
   program.option(
@@ -61,7 +53,7 @@ const addressCacheOption = (program: Command): Command =>
   );
 
 const forceOption = (program: Command): Command =>
-  program.option('-f, --force', 'Évite la vérification du hash des données déjà transformées');
+  program.option('-f, --force', "N'enregistre pas les empreintes de cette transformation");
 
 const outputDirectoryOption = (program: Command): Command =>
   program.option('-o, --output-directory <output-directory>', 'Le dossier dans lequel écrire les fichiers transformés');
@@ -80,7 +72,6 @@ const territoryOption = (program: Command): Command =>
 
 export const TRANSFORMER_OPTIONS: ((program: Command) => Command)[] = [
   addressCacheOption,
-  apiKeyOption,
   configFileOption,
   delimiterOption,
   encodingOption,
@@ -130,14 +121,6 @@ export const transformerOptionsQuestions = (transformerOptions: TransformerOptio
   }
 ];
 
-const cartographieNationaleApiUrlIfAny = (cartographieNationaleApiUrl?: string): { cartographieNationaleApiUrl?: string } =>
-  cartographieNationaleApiUrl == null ? {} : { cartographieNationaleApiUrl };
-
-const cartographieNationaleApiKeyIfAny = (cartographieNationaleApiKey?: string): { cartographieNationaleApiKey?: string } =>
-  cartographieNationaleApiKey == null ? {} : { cartographieNationaleApiKey };
-
 export const toTransformerOptions = (environment: Record<string, string | undefined>): Partial<TransformerOptions> => ({
-  addressCache: environment['ADDRESS_CACHE'] ?? DEFAULT_ADDRESS_CACHE,
-  ...cartographieNationaleApiUrlIfAny(environment['CARTOGRAPHIE_NATIONALE_API_URL']),
-  ...cartographieNationaleApiKeyIfAny(environment['CARTOGRAPHIE_NATIONALE_API_KEY'])
+  addressCache: environment['ADDRESS_CACHE'] ?? DEFAULT_ADDRESS_CACHE
 });

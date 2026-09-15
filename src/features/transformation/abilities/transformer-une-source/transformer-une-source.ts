@@ -1,6 +1,5 @@
 import type { LieuMediationNumerique, SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { flatten } from 'flat';
-import { sha256 } from '../../../../libraries/hash/index.js';
 import { inject, injectOr } from '../../../../libraries/injection/index.js';
 import { type Journal, JOURNAL, silentJournal } from '../../../../libraries/journal/index.js';
 import {
@@ -27,14 +26,11 @@ import {
   LOAD_FINGERPRINTS,
   LOAD_MATCHING,
   LOAD_SOURCE,
-  LOAD_SOURCE_HASHES,
   LOAD_TERRITORIAL_ENRICHMENT,
-  PUBLISH_OUTPUTS,
   SAVE_ADDRESSES,
   SAVE_ERRORS,
   SAVE_FINGERPRINTS,
-  SAVE_OUTPUTS,
-  UPDATE_SOURCE_HASH
+  SAVE_OUTPUTS
 } from '../../keys/index.js';
 
 export type TransformerUneSource = {
@@ -43,9 +39,8 @@ export type TransformerUneSource = {
   encoding?: string;
   delimiter?: string;
   apiEnvKey?: string;
+  /** N'enregistre pas les empreintes de cette transformation. */
   force: boolean;
-  /** Sans clé d'API, les sorties et les empreintes sont écrites en fichiers plutôt qu'envoyées. */
-  hasApiKey: boolean;
   /** Limite le nombre d'entrées transformées ; utile pour éprouver une source volumineuse. */
   maxTransform?: number;
 };
@@ -67,25 +62,6 @@ const lieuxToTransform = (sourceItems: DataSource[], diff: DiffSinceLastTransfor
 
 const nothingToTransform = (diff: DiffSinceLastTransform): boolean =>
   canTransform(diff) && diff.toDelete.length === 0 && diff.toUpsert.length === 0;
-
-const sourceIsUnchanged = async (
-  journal: Journal,
-  sourceName: string,
-  sourceHash: string,
-  force: boolean
-): Promise<boolean> => {
-  if (force) {
-    journal.info('1. La vérification de la différence par rapport au hash de la transformation précédente est désactivée');
-    return false;
-  }
-
-  journal.info('1. Vérification de la différence par rapport au hash de la transformation précédente');
-
-  if ((await inject(LOAD_SOURCE_HASHES)()).get(sourceName) !== sourceHash) return false;
-
-  journal.info("2. Il n'y a pas de différence par rapport à la transformation précédente");
-  return true;
-};
 
 const transformBatch = async (
   batch: DataSource[],
@@ -122,7 +98,6 @@ export const transformerUneSource = async ({
   delimiter,
   apiEnvKey,
   force,
-  hasApiKey,
   maxTransform
 }: TransformerUneSource): Promise<void> => {
   const journal: Journal = injectOr(JOURNAL, silentJournal);
@@ -135,13 +110,9 @@ export const transformerUneSource = async ({
     ...(delimiter == null ? {} : { delimiter }),
     ...(apiEnvKey == null ? {} : { apiEnvKey })
   });
-  const sourceHash: string = sha256(rawSource);
-
-  if (await sourceIsUnchanged(journal, sourceName, sourceHash, force)) return;
-
   const sourceItems: DataSource[] = JSON.parse(replaceNullWithEmptyString(rawSource)).slice(0, maxTransform);
 
-  journal.info('2. Initialisation des services tiers');
+  journal.info('1. Initialisation des services tiers');
   const config: LieuxMediationNumeriqueMatching = await inject(LOAD_MATCHING)();
   const idKey: string = config.id?.colonne ?? '';
   const fingerprints: Fingerprint[] = await inject(LOAD_FINGERPRINTS)();
@@ -153,18 +124,18 @@ export const transformerUneSource = async ({
     diffSinceLastTransform: diffSinceLastTransform(idKey, fingerprints)
   };
 
-  journal.info('3. Calcul de la différence depuis la dernière transformation');
+  journal.info('2. Calcul de la différence depuis la dernière transformation');
   const diff: DiffSinceLastTransform = repository.diffSinceLastTransform(sourceItems);
 
   if (nothingToTransform(diff)) {
-    journal.info("4. Il n'y a rien à transformer");
+    journal.info("3. Il n'y a rien à transformer");
     return;
   }
 
   const lieux: DataSource[] = lieuxToTransform(sourceItems, diff);
   const storage: AddressRecord[] = inject(LOAD_ADDRESS_STORAGE)();
 
-  journal.info('4. Transformation des données vers le schéma des lieux de mediation numérique');
+  journal.info('3. Transformation des données vers le schéma des lieux de mediation numérique');
   const lieuxDeMediationNumerique: LieuMediationNumerique[] = [];
 
   for (let offset = 0; offset < lieux.length; offset += BATCH_SIZE) {
@@ -187,32 +158,24 @@ export const transformerUneSource = async ({
     journal.info(`Lieux à supprimer : ${diff.toDelete.length}`);
   }
 
-  journal.info(`5. Sauvegarde du rapport d'erreur ${report.records().length}`);
+  journal.info(`4. Sauvegarde du rapport d'erreur ${report.records().length}`);
   inject(SAVE_ERRORS)(report);
 
   const sansLocalisation: number = lieuxDeMediationNumerique.filter(
     (lieu: LieuMediationNumerique): boolean => !lieu.localisation
   ).length;
   journal.info(
-    `6. Sauvegarde des sorties :  ${lieuxDeMediationNumerique.length} (dont lieux sans localisation :  ${sansLocalisation} )`
+    `5. Sauvegarde des sorties :  ${lieuxDeMediationNumerique.length} (dont lieux sans localisation :  ${sansLocalisation} )`
   );
   await inject(SAVE_OUTPUTS)(lieuxDeMediationNumerique);
 
-  journal.info(`7. Sauvegarde de l'historique: + ${addressCache.records().length}`);
+  journal.info(`6. Sauvegarde de l'historique: + ${addressCache.records().length}`);
   inject(SAVE_ADDRESSES)(addressCache);
 
   if (force) return;
 
-  journal.info('8. Sauvegarde des empruntes');
+  journal.info('7. Sauvegarde des empreintes');
   await inject(SAVE_FINGERPRINTS)(idKey, fingerprints)(diff);
-
-  if (!hasApiKey) return;
-
-  journal.info('9. Sauvegarde du hash de la source');
-  await inject(UPDATE_SOURCE_HASH)(sourceHash);
-
-  journal.info('10. Sauvegarde des fichiers de sortie');
-  await inject(PUBLISH_OUTPUTS)();
 };
 
 export type { SchemaLieuMediationNumerique };

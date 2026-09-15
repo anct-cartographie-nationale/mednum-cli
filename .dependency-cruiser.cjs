@@ -260,7 +260,6 @@ const LIBRARY_DEPENDENCIES = {
   'data-inclusion-api': ['http'],
   'data-gouv': ['http'],
   journal: ['injection'],
-  'cartographie-nationale-api': ['http'],
   hash: [],
   collectivites: [],
   geometry: [],

@@ -1,12 +1,7 @@
 import type { Command } from 'commander';
 import inquirer, { type Answers } from 'inquirer';
 import { dedupliquerDesLieux } from '../../features/deduplication/index.js';
-import {
-  DEDUPLIQUER_OPTIONS,
-  type DedupliquerOptions,
-  dedupliquerOptionsQuestions,
-  toDedupliquerOptions
-} from './dedupliquer.options.js';
+import { DEDUPLIQUER_OPTIONS, type DedupliquerOptions, dedupliquerOptionsQuestions } from './dedupliquer.options.js';
 import { provideDedupliquerImplementations } from './dedupliquer.providers.js';
 
 const dedupliquer = async (dedupliquerOptions: DedupliquerOptions): Promise<void> => {
@@ -40,11 +35,7 @@ const configureCommand = (program: Command): Command =>
 
 const commandAction = async (_: unknown, command: Command): Promise<void> =>
   promptAndRun({
-    ...{
-      cartographieNationaleApiUrl: 'https://d27gljvji6o5x3.cloudfront.net/api/v0',
-      baseSource: command.opts()['source']
-    },
-    ...toDedupliquerOptions(process.env),
+    ...{ baseSource: command.opts()['source'] },
     ...command.opts(),
     allowInternal: command.opts()['allowInternal'] === 'true'
   });

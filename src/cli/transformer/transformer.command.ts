@@ -24,7 +24,6 @@ const transformer = async (transformerOptions: TransformerOptions): Promise<void
     ...(transformerOptions.delimiter == null ? {} : { delimiter: transformerOptions.delimiter }),
     ...(transformerOptions.apiEnvKey == null ? {} : { apiEnvKey: transformerOptions.apiEnvKey }),
     force: transformerOptions.force,
-    hasApiKey: transformerOptions.cartographieNationaleApiKey != null,
     ...(maxTransform == null ? {} : { maxTransform })
   });
 };
@@ -49,7 +48,7 @@ const configureCommand = (program: Command): Command =>
 
 const commandAction = async (_: unknown, command: Command): Promise<void> =>
   promptAndRun({
-    ...{ cartographieNationaleApiUrl: 'https://d27gljvji6o5x3.cloudfront.net/api/v0', force: false },
+    ...{ force: false },
     ...toTransformerOptions(process.env),
     ...command.opts()
   });

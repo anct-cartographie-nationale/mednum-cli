@@ -86,20 +86,6 @@ export type SaveAddresses = (addressCache: AddressCache) => void;
 
 export const SAVE_ADDRESSES: InjectionKey<SaveAddresses> = keyFor<SaveAddresses>('transformation.save-addresses');
 
-/** Empreinte de la source lors de la transformation précédente, par nom de source. */
-export type LoadSourceHashes = () => Promise<Map<string, string>>;
-
-export const LOAD_SOURCE_HASHES: InjectionKey<LoadSourceHashes> = keyFor<LoadSourceHashes>('transformation.load-source-hashes');
-
-export type UpdateSourceHash = (sourceHash: string) => Promise<void>;
-
-export const UPDATE_SOURCE_HASH: InjectionKey<UpdateSourceHash> = keyFor<UpdateSourceHash>('transformation.update-source-hash');
-
-/** Écrit les fichiers de sortie destinés à la publication, une fois la source enregistrée. */
-export type PublishOutputs = () => Promise<void>;
-
-export const PUBLISH_OUTPUTS: InjectionKey<PublishOutputs> = keyFor<PublishOutputs>('transformation.publish-outputs');
-
 /**
  * Écrit les métadonnées de publication à côté des sorties. Réalisé par la capacité de
  * publication, branché par le point d'entrée.
