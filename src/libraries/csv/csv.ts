@@ -13,16 +13,23 @@ import { stringify } from 'csv-stringify/sync';
  */
 export type CsvRecord = Record<string, string>;
 
+/**
+ * `bom: true` parce que `csv-parse` laisse sinon la marque d'ordre des octets collée au nom de
+ * la première colonne : `\uFEFFid` au lieu de `id`, et toute lecture de ce champ rend
+ * `undefined` sans qu'aucune erreur ne le signale. `csvtojson`, employé sur les flux distants,
+ * l'écarte déjà de lui-même.
+ */
 export const parseCsvRecords = <T extends CsvRecord = CsvRecord>(text: string, delimiter?: string): T[] =>
-  parse(text, { columns: true, ...(delimiter == null ? {} : { delimiter }) }) as T[];
+  parse(text, { bom: true, columns: true, ...(delimiter == null ? {} : { delimiter }) }) as T[];
 
 export const toCsvText = (records: readonly unknown[]): string => stringify(records as unknown[], { header: true });
 
 /**
  * Une colonne vide vaut absence de valeur : le CSV ne distingue pas la chaîne vide du champ
  * non renseigné, alors que les schémas en aval attendent une propriété absente.
- * `csv-parse` ne produit jamais `null` ni `undefined` sous `columns: true` — une ligne trop
- * courte omet la propriété — la chaîne vide est donc le seul cas à écarter.
+ * Sous `columns: true`, chaque enregistrement porte exactement les colonnes de l'en-tête, en
+ * chaînes : une ligne trop courte lève plutôt qu'elle ne complète. `null` et `undefined` sont
+ * donc hors d'atteinte, la chaîne vide est le seul cas à écarter.
  */
 export const withoutEmptyFields = <T extends CsvRecord>(record: T): CsvRecord =>
   Object.fromEntries(Object.entries(record).filter(([, field]: [string, string]): boolean => field !== ''));

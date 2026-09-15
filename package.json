@@ -144,7 +144,6 @@
     "dedupliquer.vendee": "tsx src/cli/index.ts dedupliquer -s \"./assets/output/vendee/*-vendee-lieux-de-mediation-numeriques-vendee.json\" -b \"./assets/output/vendee/*-vendee-lieux-de-mediation-numeriques-vendee.json\" -n \"Vendée\" -t \"Vendée\" -o \"./assets/output/vendee\" -i true",
     "dedupliquer.vosges": "tsx src/cli/index.ts dedupliquer -s \"./assets/output/vosges/*-vosges-lieux-de-mediation-numeriques-vosges.json\" -b \"./assets/output/vosges/*-vosges-lieux-de-mediation-numeriques-vosges.json\" -n \"Vosges\" -t \"Vosges\" -o \"./assets/output/vosges\" -i true",
     "dedupliquer.merged-json": "tsx src/cli/index.ts dedupliquer -s ./assets/to-deduplicate/merged_output.json -b ./assets/to-deduplicate/merged_output.json -n \"La Cartographie Nationale\" -t National -o ./assets/deduplicated",
-    "dedupliquer.merged-csv": "tsx src/cli/index.ts dedupliquer -s ./merged_output.csv -b ./merged_output.csv -n \"La Cartographie Nationale\" -t National -o ./assets/deduplicated",
     "fusionner": "tsx src/cli/index.ts fusionner -i \"./to-merge/*-sans-doublons.json\" -o \"./merged\"",
     "fusion-addresses": "tsx src/cli/index.ts fusionner -i \"./assets/output/*/*-addresses.json\" -o \"./assets/input\"",
     "prepare": "husky"
