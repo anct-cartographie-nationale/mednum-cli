@@ -116,6 +116,19 @@ describe('localisation-from-geo', () => {
     });
   });
 
+  it('ne rend que les colonnes géocodées, les autres champs de la source étant déjà connus de l’appelant', async () => {
+    const dataSource: DataSource = {
+      'Adresse postale *': '- 18 boulevard rené bazin',
+      'Code postal': '85300',
+      'Ville *': 'Challans',
+      nom: 'Un lieu que le géocodage ne touche pas'
+    };
+
+    const result = await getAddressData(dataSource, STANDARD_MATCHING)(AddressesBan);
+
+    expect(result.data).not.toHaveProperty('nom');
+  });
+
   it('should return no_from_storage when adresse is null', async () => {
     const dataSource: DataSource = {
       'Adresse postale *': null,

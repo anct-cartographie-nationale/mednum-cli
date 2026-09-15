@@ -1,5 +1,5 @@
 import { Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { BanAddressRow, FeatureCollection } from '../../../libraries/ban';
+import type { BanAddressRow, Feature, FeatureCollection } from '../../../libraries/ban';
 import type { AddressRecord } from './address-cache';
 import { voieField } from './fields/adresse/clean-voie';
 import type { DataSource, LieuxMediationNumeriqueMatching } from './matching';
@@ -55,63 +55,53 @@ export const toLocalisation = (response: BanResponse): Localisation =>
     longitude: response.data.features[0]?.geometry?.coordinates[0] ?? 0
   });
 
-const addressBan = (response: BanResponse) => ({
-  voie: response.data.features[0]?.properties?.name ?? '',
-  code_postal: response.data.features[0]?.properties?.postcode ?? '',
-  commune: response.data.features[0]?.properties?.city ?? '',
-  code_insee: response.data.features[0]?.properties?.citycode ?? ''
-});
+const localisationOf = (feature: Feature): Localisation =>
+  Localisation({
+    latitude: feature.geometry.coordinates[1] ?? 0,
+    longitude: feature.geometry.coordinates[0] ?? 0
+  });
 
-/**
- * Rapproche une source de ce que l'on sait déjà de son adresse : le cache des adresses déjà
- * géocodées d'abord, la réponse fraîche de la BAN ensuite.
- */
+const geocodedColumns = (matching: LieuxMediationNumeriqueMatching, feature: Feature): DataSource => {
+  const { latitude, longitude }: Localisation = localisationOf(feature);
+
+  return {
+    [matching.adresse.colonne as string]: feature.properties.name,
+    [matching.code_postal?.colonne as string]: feature.properties.postcode,
+    [matching.code_insee?.colonne as string]: feature.properties.citycode,
+    [matching.commune?.colonne as string]: feature.properties.city,
+    [matching.latitude?.colonne as string]: latitude,
+    [matching.longitude?.colonne as string]: longitude
+  };
+};
+
+const rawAddressLabel = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
+  `${source[matching?.adresse?.colonne ?? '']} ${labelCodePostal(source, matching)} ${labelCommune(source, matching)}`;
+
+const cachedGeocodingFor = (records: AddressRecord[], addressLabel: string): AddressRecord | undefined =>
+  records.find((record: AddressRecord): boolean => record.addresseOriginale === addressLabel);
+
+const freshGeocodingFrom = (response?: BanResponse | null): Feature | undefined =>
+  isAboveBatchScore(response) ? response?.data.features[0] : undefined;
+
 export const getAddressData =
   (source: DataSource, matching: LieuxMediationNumeriqueMatching, response?: BanResponse | null) =>
   async (arrayFromStorage: AddressRecord[]): Promise<LocationEnriched> => {
-    const addressSource: string = addressLabel(source, matching);
-    const existingLieu: AddressRecord | undefined = arrayFromStorage.find(
-      (item: AddressRecord): boolean => item.addresseOriginale === addressSource
-    );
-    const addresseOriginale: string = `${source[matching?.adresse?.colonne ?? '']} ${labelCodePostal(source, matching)} ${labelCommune(source, matching)}`;
+    const addresseOriginale: string = rawAddressLabel(source, matching);
 
     if (isMissingFields(source, matching)) return { statut: 'no_from_storage', addresseOriginale };
 
-    if (existingLieu && !existingLieu?.responseBan) return { statut: 'from_storage', addresseOriginale };
+    const cached: AddressRecord | undefined = cachedGeocodingFor(arrayFromStorage, addressLabel(source, matching));
 
-    if (existingLieu?.responseBan) {
-      const coordinates: Localisation = Localisation({
-        latitude: existingLieu.responseBan.geometry.coordinates[1] ?? 0,
-        longitude: existingLieu.responseBan.geometry.coordinates[0] ?? 0
-      });
+    if (cached?.responseBan != null) return { data: geocodedColumns(matching, cached.responseBan), statut: 'from_storage' };
 
-      return {
-        data: {
-          ...source,
-          [matching.adresse.colonne as string]: existingLieu.responseBan.properties.name,
-          [matching.code_postal?.colonne as string]: existingLieu.responseBan.properties.postcode,
-          [matching.code_insee?.colonne as string]: existingLieu.responseBan.properties.citycode,
-          [matching.commune?.colonne as string]: existingLieu.responseBan.properties.city,
-          [matching.latitude?.colonne as string]: coordinates.latitude,
-          [matching.longitude?.colonne as string]: coordinates.longitude
-        } as DataSource,
-        statut: 'from_storage'
-      };
-    }
+    if (cached != null) return { statut: 'from_storage', addresseOriginale };
 
-    if (response?.data?.features?.[0] == null || !isAboveBatchScore(response))
-      return { statut: 'no_from_storage', addresseOriginale };
+    const fresh: Feature | undefined = freshGeocodingFrom(response);
 
-    const ban = addressBan(response);
+    if (fresh == null || response == null) return { statut: 'no_from_storage', addresseOriginale };
+
     return {
-      data: {
-        [matching.adresse?.colonne as string]: ban.voie,
-        [matching.code_postal?.colonne as string]: ban.code_postal,
-        [matching.code_insee?.colonne as string]: ban.code_insee,
-        [matching.commune?.colonne as string]: ban.commune,
-        [matching.latitude?.colonne as string]: toLocalisation(response).latitude,
-        [matching.longitude?.colonne as string]: toLocalisation(response).longitude
-      },
+      data: geocodedColumns(matching, fresh),
       addresseOriginale,
       responses: response.data,
       statut: 'from_api'
