@@ -256,6 +256,8 @@ const LIBRARY_DEPENDENCIES = {
   injection: [],
   http: [],
   'file-system': [],
+  csv: [],
+  loading: ['file-system'],
   'mediation-numerique': ['file-system'],
   'data-inclusion-api': ['http'],
   'data-gouv': ['http'],
@@ -264,8 +266,8 @@ const LIBRARY_DEPENDENCIES = {
   collectivites: [],
   geometry: [],
   'geo-api': ['http', 'collectivites'],
-  'observatoire-des-territoires': ['http', 'collectivites'],
-  ban: [],
+  'observatoire-des-territoires': ['http', 'collectivites', 'csv'],
+  ban: ['csv'],
   text: []
 };
 

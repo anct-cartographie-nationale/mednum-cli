@@ -1,19 +1,36 @@
 import {
   LIST_FILES,
-  listFilesWithGlob,
   READ_RECORDS,
-  readRecordsFromFile,
+  readCsvRecordsFromFile,
+  readJsonRecordsFromFile,
+  readRecordsByFormat,
   WRITE_RECORDS,
-  writeRecordsToFile
+  writeCsvRecordsToFile,
+  writeJsonRecordsToFile,
+  writeRecordsByFormat
 } from '../../features/fusion/index.js';
+import { findFiles } from '../../libraries/file-system/index.js';
 import { provide } from '../../libraries/injection/index.js';
 
 /**
  * Point de concrétisation de la commande : c'est ici, et nulle part ailleurs, que les contrats
- * déclarés par la capacité de fusion reçoivent une implémentation.
+ * déclarés par la capacité de fusion reçoivent une implémentation. Prendre en charge un format
+ * de plus tient en une entrée de plus dans ces tables.
  */
 export const provideFusionnerImplementations = (): void => {
-  provide(LIST_FILES, listFilesWithGlob);
-  provide(READ_RECORDS, readRecordsFromFile);
-  provide(WRITE_RECORDS, writeRecordsToFile);
+  provide(LIST_FILES, findFiles);
+  provide(
+    READ_RECORDS,
+    readRecordsByFormat({
+      '.csv': readCsvRecordsFromFile,
+      '.json': readJsonRecordsFromFile
+    })
+  );
+  provide(
+    WRITE_RECORDS,
+    writeRecordsByFormat({
+      '.csv': writeCsvRecordsToFile,
+      '.json': writeJsonRecordsToFile
+    })
+  );
 };

@@ -13,3 +13,5 @@ export const createFolderIfNotExist = (folderPath: string): string => {
 
   return folderPath;
 };
+
+export const writeTextFileSync = (filePath: string, content: string): void => fs.writeFileSync(filePath, content, 'utf-8');

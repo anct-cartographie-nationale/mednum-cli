@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { parse } from 'csv-parse/sync';
+import { parseCsvRecords } from '../csv/index.js';
 
 // Communes classées France Ruralités Revitalisation (FRR), zonage qui remplace les ZRR depuis le 1er juillet 2024.
 // Donnée DGCL exposée par l'Observatoire des territoires (ANCT) au niveau communes 2025, France entière (DROM inclus).
@@ -13,7 +13,4 @@ export type FrrRow = {
 };
 
 export const fetchFrrRows = async (): Promise<FrrRow[]> =>
-  parse((await axios.get<string>(FRR_DATASET_URL, { responseType: 'text' })).data, {
-    columns: true,
-    delimiter: ';'
-  }) as FrrRow[];
+  parseCsvRecords<FrrRow>((await axios.get<string>(FRR_DATASET_URL, { responseType: 'text' })).data, ';');

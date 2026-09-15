@@ -1,5 +1,5 @@
 import axios, { type AxiosResponse } from 'axios';
-import { stringify } from 'csv-stringify/sync';
+import { toCsvText } from '../csv/index.js';
 import toJson from 'csvtojson';
 import { BAN_RESULT_FIELDS, type BanAddressRow, type BanResultRow, type FeatureCollection } from './ban.types.js';
 
@@ -16,7 +16,7 @@ export const postBanCsv: PostCsv = (url: string, formData: FormData): Promise<st
 
 const banFormData = (rows: BanAddressRow[]): FormData => {
   const formData = new FormData();
-  formData.append('data', new Blob([stringify(rows, { header: true })], { type: 'text/csv' }), 'data.csv');
+  formData.append('data', new Blob([toCsvText(rows)], { type: 'text/csv' }), 'data.csv');
   formData.append('columns', 'voie');
   formData.append('columns', 'commune');
   formData.append('postcode', 'codePostal');

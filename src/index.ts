@@ -24,4 +24,5 @@ export * as fileSystem from './libraries/file-system/index.js';
 export * as http from './libraries/http/index.js';
 export * as injection from './libraries/injection/index.js';
 export * as journal from './libraries/journal/index.js';
+export * as loading from './libraries/loading/index.js';
 export * as mediationNumerique from './libraries/mediation-numerique/index.js';
