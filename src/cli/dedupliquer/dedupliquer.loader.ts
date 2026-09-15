@@ -1,9 +1,12 @@
-import { extensionOf } from '../file-system/path.js';
+import { extensionOf } from '../../libraries/file-system/path.js';
 
 /**
  * Un chargement se décrit par une liste de règles : la première qui accepte la source la
- * charge. Les règles sont assemblées au point d'entrée de la commande, de sorte que la
- * capacité déclare ce qu'elle veut charger sans figer par quels moyens.
+ * charge. Les règles sont assemblées juste à côté, dans les providers de la commande, de sorte
+ * que la déduplication déclare ce qu'elle veut charger sans figer par quels moyens.
+ *
+ * Ce combinateur vit ici, chez son unique consommateur, et non dans `libraries` : il sera temps
+ * de l'en extraire le jour où une seconde commande en aura l'usage.
  */
 
 export type Loader<T> = (source: string) => Promise<T[]> | T[];

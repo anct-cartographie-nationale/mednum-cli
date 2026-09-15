@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { composeLoader, whenExtension, whenRemote } from './loader.js';
+import { composeLoader, whenExtension, whenRemote } from './dedupliquer.loader.js';
 
 const loading = (label: string) => (): string[] => [label];
 

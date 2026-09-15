@@ -257,7 +257,6 @@ const LIBRARY_DEPENDENCIES = {
   http: [],
   'file-system': [],
   csv: [],
-  loading: ['file-system'],
   'mediation-numerique': ['file-system'],
   'data-inclusion-api': ['http'],
   'data-gouv': ['http'],

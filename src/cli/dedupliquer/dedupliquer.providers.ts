@@ -13,7 +13,7 @@ import {
 import { writePublicationMetadataInFile } from '../../features/publication/index.js';
 import { provide } from '../../libraries/injection/index.js';
 import { consoleJournal, JOURNAL } from '../../libraries/journal/index.js';
-import { composeLoader, whenExtension, whenRemote } from '../../libraries/loading/index.js';
+import { composeLoader, whenExtension, whenRemote } from './dedupliquer.loader.js';
 import type { DedupliquerOptions } from './dedupliquer.options.js';
 
 /**
