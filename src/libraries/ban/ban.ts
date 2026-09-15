@@ -1,5 +1,5 @@
 import axios, { type AxiosResponse } from 'axios';
-import { toCsvText } from '../csv/index';
+import { toCsvText } from '../csv';
 import toJson from 'csvtojson';
 import { BAN_RESULT_FIELDS, type BanAddressRow, type BanResultRow, type FeatureCollection } from './ban.types';
 

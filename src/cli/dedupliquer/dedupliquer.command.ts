@@ -1,6 +1,6 @@
 import type { Command } from 'commander';
 import inquirer, { type Answers } from 'inquirer';
-import { dedupliquerDesLieux } from '../../features/deduplication/index';
+import { dedupliquerDesLieux } from '../../features/deduplication';
 import { DEDUPLIQUER_OPTIONS, type DedupliquerOptions, dedupliquerOptionsQuestions } from './dedupliquer.options';
 import { provideDedupliquerImplementations } from './dedupliquer.providers';
 

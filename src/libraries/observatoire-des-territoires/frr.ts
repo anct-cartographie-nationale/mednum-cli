@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { parseCsvRecords } from '../csv/index';
+import { parseCsvRecords } from '../csv';
 
 // Communes classées France Ruralités Revitalisation (FRR), zonage qui remplace les ZRR depuis le 1er juillet 2024.
 // Donnée DGCL exposée par l'Observatoire des territoires (ANCT) au niveau communes 2025, France entière (DROM inclus).

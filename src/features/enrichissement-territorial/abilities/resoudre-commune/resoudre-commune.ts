@@ -1,7 +1,7 @@
-import type { FindCommune } from '../../../../libraries/collectivites/index';
-import { inject } from '../../../../libraries/injection/index';
-import { findCommune } from '../../domain/index';
-import { LOAD_COMMUNES } from '../../keys/index';
+import type { FindCommune } from '../../../../libraries/collectivites';
+import { inject } from '../../../../libraries/injection';
+import { findCommune } from '../../domain';
+import { LOAD_COMMUNES } from '../../keys';
 
 /**
  * Prépare la résolution d'une commune à partir de son nom, de son code postal, ou des deux.

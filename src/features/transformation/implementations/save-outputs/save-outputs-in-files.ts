@@ -1,6 +1,6 @@
 import type { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { Output } from '../../../../libraries/file-system/index';
-import type { WritePublicationMetadata } from '../../keys/index';
+import type { Output } from '../../../../libraries/file-system';
+import type { WritePublicationMetadata } from '../../keys';
 import { writeOutputFiles } from '../write-output-files';
 
 export const saveOutputsInFiles =

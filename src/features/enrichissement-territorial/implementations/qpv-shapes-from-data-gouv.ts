@@ -1,6 +1,6 @@
-import type { QpvShapesMap } from '../../../libraries/collectivites/index';
-import { fetchQpvFeatures } from '../../../libraries/data-gouv/index';
-import type { LoadQpvShapes } from '../keys/index';
+import type { QpvShapesMap } from '../../../libraries/collectivites';
+import { fetchQpvFeatures } from '../../../libraries/data-gouv';
+import type { LoadQpvShapes } from '../keys';
 import { type QpvFeature, qpvShapesMapFromTransfer } from './qpv.transfer';
 
 export const qpvShapesFromDataGouv: LoadQpvShapes = async (): Promise<QpvShapesMap> =>

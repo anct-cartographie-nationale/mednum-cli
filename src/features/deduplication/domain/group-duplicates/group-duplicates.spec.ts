@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { DuplicationComparison } from '../duplication-comparisons/index';
+import type { DuplicationComparison } from '../duplication-comparisons';
 import { groupDuplicates, type Groups } from './group-duplicates';
 
 describe('group duplicates', (): void => {

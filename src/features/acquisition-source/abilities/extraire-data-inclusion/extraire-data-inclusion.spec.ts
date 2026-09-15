@@ -1,9 +1,9 @@
 import type { SchemaServiceDataInclusion, SchemaStructureDataInclusion } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { provide } from '../../../../libraries/injection/index';
-import type { DataInclusionMerged } from './domain/index';
+import { provide } from '../../../../libraries/injection';
+import type { DataInclusionMerged } from './domain';
 import { extraireDataInclusion } from './extraire-data-inclusion';
-import { FETCH_DATA_INCLUSION, WRITE_EXTRACTION } from './keys/index';
+import { FETCH_DATA_INCLUSION, WRITE_EXTRACTION } from './keys';
 
 type Written = { outputFile: string; records: DataInclusionMerged[] };
 

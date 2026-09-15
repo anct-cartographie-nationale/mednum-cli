@@ -1,6 +1,6 @@
-import { readJsonFileIfExists } from '../../../libraries/file-system/index';
-import type { PublishMetadata } from '../domain/index';
-import type { ReadPublicationMetadata } from '../keys/index';
+import { readJsonFileIfExists } from '../../../libraries/file-system';
+import type { PublishMetadata } from '../domain';
+import type { ReadPublicationMetadata } from '../keys';
 
 /**
  * Un fichier de métadonnées absent n'est pas une erreur : il signifie qu'il n'y a rien à

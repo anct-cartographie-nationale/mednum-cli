@@ -1,6 +1,6 @@
 import type { Command } from 'commander';
 import inquirer, { type Answers } from 'inquirer';
-import { transformerUneSource } from '../../features/transformation/index';
+import { transformerUneSource } from '../../features/transformation';
 import {
   TRANSFORMER_OPTIONS,
   type TransformerOptions,

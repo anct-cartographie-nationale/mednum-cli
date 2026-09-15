@@ -1,8 +1,8 @@
 import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { provide } from '../../../../libraries/injection/index';
-import type { DuplicationComparison, Groups, MergedLieuxByGroupMap } from '../../domain/index';
-import { IS_INCLUDED, LOAD_LIEUX, SAVE_DEDUPLICATION } from '../../keys/index';
+import { provide } from '../../../../libraries/injection';
+import type { DuplicationComparison, Groups, MergedLieuxByGroupMap } from '../../domain';
+import { IS_INCLUDED, LOAD_LIEUX, SAVE_DEDUPLICATION } from '../../keys';
 import { dedupliquerDesLieux } from './dedupliquer-des-lieux';
 
 type Saved = {

@@ -1,4 +1,4 @@
-import type { Commune } from '../../../../../libraries/collectivites/index';
+import type { Commune } from '../../../../../libraries/collectivites';
 
 export type NewCommune = Commune & { date: string };
 

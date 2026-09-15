@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { FrrMap } from '../../../libraries/collectivites/index';
+import type { FrrMap } from '../../../libraries/collectivites';
 import { isInFrr } from './is-in-frr';
 
 describe('is in frr', (): void => {

@@ -1,8 +1,8 @@
 import * as fs from 'node:fs';
-import { createFolderIfNotExist, noEmptyCell, type Output, throwWriteFileError } from '../../../libraries/file-system/index';
-import { mediationNumeriqueFileName } from '../../../libraries/mediation-numerique/index';
-import type { Record, Report } from '../domain/index';
-import { type ErrorOutput, errorReportToCsv } from '../domain/index';
+import { createFolderIfNotExist, noEmptyCell, type Output, throwWriteFileError } from '../../../libraries/file-system';
+import { mediationNumeriqueFileName } from '../../../libraries/mediation-numerique';
+import type { Record, Report } from '../domain';
+import { type ErrorOutput, errorReportToCsv } from '../domain';
 
 const writeReportErrorsCsvOutput = (producer: Output, listErrors: ErrorOutput[]): void => {
   fs.writeFile(

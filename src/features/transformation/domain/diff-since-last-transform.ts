@@ -1,4 +1,4 @@
-import { sha256 } from '../../../libraries/hash/index';
+import { sha256 } from '../../../libraries/hash';
 import type { DataSource } from './matching';
 
 type DiffSinceLastTransformWithoutId = null;

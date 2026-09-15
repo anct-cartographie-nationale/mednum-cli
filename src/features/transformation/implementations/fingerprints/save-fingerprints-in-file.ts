@@ -5,7 +5,7 @@ import {
   type Fingerprint,
   fingerprintsFrom,
   updateFingerprints
-} from '../../domain/index';
+} from '../../domain';
 
 export const saveFingerprintsInFile =
   (idKey: string, fingerprints: Fingerprint[], fingerprintFile: string) =>

@@ -1,10 +1,10 @@
 import { Command } from 'commander';
 import * as dotenv from 'dotenv';
-import { addDataInclusionCommandTo } from './data-inclusion/index';
-import { addDedupliquerCommandTo } from './dedupliquer/index';
-import { addFusionnerCommandTo } from './fusionner/index';
-import { addPublierCommandTo } from './publier/index';
-import { addTransformerCommandTo } from './transformer/index';
+import { addDataInclusionCommandTo } from './data-inclusion';
+import { addDedupliquerCommandTo } from './dedupliquer';
+import { addFusionnerCommandTo } from './fusionner';
+import { addPublierCommandTo } from './publier';
+import { addTransformerCommandTo } from './transformer';
 
 /**
  * Point d'entrée exécutable. Lire ce module lance la commande : c'est ce que `bin/mednum`

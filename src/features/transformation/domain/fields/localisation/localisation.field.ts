@@ -1,5 +1,5 @@
 import { isValidLocalisation, Localisation, type LocalisationToValidate } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { lambert93ToWgs84 } from '../../../../../libraries/geometry/index';
+import { lambert93ToWgs84 } from '../../../../../libraries/geometry';
 import type { Colonne, DataSource, Dissociation, LieuxMediationNumeriqueMatching } from '../../matching';
 
 type NoLocalisation = { noLocalisation: true } & null;

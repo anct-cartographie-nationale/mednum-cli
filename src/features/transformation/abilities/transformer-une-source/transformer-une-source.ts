@@ -1,7 +1,7 @@
 import type { LieuMediationNumerique, SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { flatten } from 'flat';
-import { inject, injectOr } from '../../../../libraries/injection/index';
-import { type Journal, JOURNAL, silentJournal } from '../../../../libraries/journal/index';
+import { inject, injectOr } from '../../../../libraries/injection';
+import { type Journal, JOURNAL, silentJournal } from '../../../../libraries/journal';
 import {
   AddressCache,
   type AddressRecord,
@@ -18,7 +18,7 @@ import {
   toLieuxMediationNumerique,
   type TransformationRepository,
   validValuesOnly
-} from '../../domain/index';
+} from '../../domain';
 import {
   GEOCODE,
   GEOCODE_BATCH,
@@ -31,7 +31,7 @@ import {
   SAVE_ERRORS,
   SAVE_FINGERPRINTS,
   SAVE_OUTPUTS
-} from '../../keys/index';
+} from '../../keys';
 
 export type TransformerUneSource = {
   source: string;

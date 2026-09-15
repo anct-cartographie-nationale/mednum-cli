@@ -1,4 +1,4 @@
 export * from './charger-une-source';
-export * from './domain/index';
-export * from './implementations/index';
-export * from './keys/index';
+export * from './domain';
+export * from './implementations';
+export * from './keys';

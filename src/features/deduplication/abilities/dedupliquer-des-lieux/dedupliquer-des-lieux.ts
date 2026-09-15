@@ -1,6 +1,6 @@
 import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { inject, injectOr } from '../../../../libraries/injection/index';
-import { type Journal, JOURNAL, silentJournal } from '../../../../libraries/journal/index';
+import { inject, injectOr } from '../../../../libraries/injection';
+import { type Journal, JOURNAL, silentJournal } from '../../../../libraries/journal';
 import {
   appendCoopId,
   describeOversizedId,
@@ -14,8 +14,8 @@ import {
   mergeDuplicates,
   overDuplicationScoreThreshold,
   withoutObsoleteLabels
-} from '../../domain/index';
-import { IS_INCLUDED, LOAD_LIEUX, SAVE_DEDUPLICATION } from '../../keys/index';
+} from '../../domain';
+import { IS_INCLUDED, LOAD_LIEUX, SAVE_DEDUPLICATION } from '../../keys';
 
 export type DedupliquerDesLieux = {
   source: string;

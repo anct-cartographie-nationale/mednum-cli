@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { Adresse, Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import type { Polygon } from 'geojson';
-import { isInFrr, isInQpv } from '../../../../enrichissement-territorial/index';
+import { isInFrr, isInQpv } from '../../../../enrichissement-territorial';
 import type { LieuxMediationNumeriqueMatching } from '../../matching';
 import { processAutresFormationsLabels } from './autres-formations-labels.field';
 

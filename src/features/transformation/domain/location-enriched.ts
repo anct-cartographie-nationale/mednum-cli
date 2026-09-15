@@ -1,6 +1,6 @@
 import { Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { BanAddressRow, FeatureCollection } from '../../../libraries/ban/index';
-import type { AddressRecord } from './address-cache/index';
+import type { BanAddressRow, FeatureCollection } from '../../../libraries/ban';
+import type { AddressRecord } from './address-cache';
 import { voieField } from './fields/adresse/clean-voie';
 import type { DataSource, LieuxMediationNumeriqueMatching } from './matching';
 

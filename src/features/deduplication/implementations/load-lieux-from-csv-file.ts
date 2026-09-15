@@ -1,6 +1,6 @@
 import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { type CsvRecord, parseCsvRecords, withoutEmptyFields } from '../../../libraries/csv/index';
-import { firstFile, readTextFileSync } from '../../../libraries/file-system/index';
+import { type CsvRecord, parseCsvRecords, withoutEmptyFields } from '../../../libraries/csv';
+import { firstFile, readTextFileSync } from '../../../libraries/file-system';
 
 /**
  * Un CSV ne porte que du texte, quand le schéma attend des nombres pour la localisation.

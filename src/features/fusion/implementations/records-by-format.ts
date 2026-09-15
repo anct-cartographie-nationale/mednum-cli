@@ -1,6 +1,6 @@
-import { createFolderIfNotExist, directoryOf } from '../../../libraries/file-system/index';
-import type { MergeFormat } from '../domain/index';
-import type { ReadRecords, ReadRecordsFromFile, WriteRecords, WriteRecordsToFile } from '../keys/index';
+import { createFolderIfNotExist, directoryOf } from '../../../libraries/file-system';
+import type { MergeFormat } from '../domain';
+import type { ReadRecords, ReadRecordsFromFile, WriteRecords, WriteRecordsToFile } from '../keys';
 
 /**
  * La fusion ne connaît que des formats, jamais les bibliothèques qui les lisent ou les

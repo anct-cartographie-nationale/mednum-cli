@@ -1,4 +1,4 @@
-export * from './domain/index';
+export * from './domain';
 export * from './extraire-data-inclusion';
-export * from './implementations/index';
-export * from './keys/index';
+export * from './implementations';
+export * from './keys';

@@ -1,5 +1,5 @@
 import { type Adresse, Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { similarityRatio } from '../../../../../libraries/text/index';
+import { similarityRatio } from '../../../../../libraries/text';
 import type { LieuxMediationNumeriqueMatching, DataSource, Colonne } from '../../matching';
 
 export type Erp = {

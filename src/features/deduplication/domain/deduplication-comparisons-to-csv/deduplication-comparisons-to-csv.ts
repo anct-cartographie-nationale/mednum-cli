@@ -1,4 +1,4 @@
-import type { DuplicationComparison } from '../duplication-comparisons/index';
+import type { DuplicationComparison } from '../duplication-comparisons';
 
 const DUPLICATION_COMPARISON_HEADINGS: string = [
   'Score',

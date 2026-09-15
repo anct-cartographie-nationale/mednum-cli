@@ -1,5 +1,5 @@
 export * from './adresse/adresse.field';
-export * from './autres-formations-labels/index';
+export * from './autres-formations-labels';
 export * from './contact/contact.field';
 export * from './date/date.field';
 export * from './dispositifs-programmes-nationaux/dispositifs-programmes-nationaux.field';
@@ -9,7 +9,7 @@ export * from './frais-a-charge/frais-a-charge.field';
 export * from './horaires/horaires.field';
 export * from './id/id.field';
 export * from './itinerance/itinerance.field';
-export * from './localisation/index';
+export * from './localisation';
 export * from './modalites-acces/modalites-acces.field';
 export * from './modalites-accompagnement/modalites-accompagnement.field';
 export * from './nom/nom.field';

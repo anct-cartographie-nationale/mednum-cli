@@ -1,7 +1,7 @@
 import type { Command } from 'commander';
 import inquirer, { type Answers } from 'inquirer';
-import { type Publication, publierUnJeuDeDonnees, type Reference } from '../../features/publication/index';
-import type { Api } from '../../libraries/http/index';
+import { type Publication, publierUnJeuDeDonnees, type Reference } from '../../features/publication';
+import type { Api } from '../../libraries/http';
 import {
   IdTypeChoice,
   PUBLIER_OPTIONS,

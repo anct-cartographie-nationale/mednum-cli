@@ -1,6 +1,6 @@
 import type { Command } from 'commander';
 import inquirer, { type Answers } from 'inquirer';
-import { type FichiersFusionnes, fusionnerDesFichiers } from '../../features/fusion/index';
+import { type FichiersFusionnes, fusionnerDesFichiers } from '../../features/fusion';
 import { FUSIONNER_OPTIONS, type FusionnerOptions, fusionnerOptionsQuestions } from './fusionner.options';
 import { provideFusionnerImplementations } from './fusionner.providers';
 

@@ -12,16 +12,16 @@
  * de la CLI, puis appelle l'ability voulue.
  */
 
-export * as acquisitionSource from './features/acquisition-source/index';
-export * as deduplication from './features/deduplication/index';
-export * as enrichissementTerritorial from './features/enrichissement-territorial/index';
-export * as fusion from './features/fusion/index';
-export * as publication from './features/publication/index';
-export * as transformation from './features/transformation/index';
+export * as acquisitionSource from './features/acquisition-source';
+export * as deduplication from './features/deduplication';
+export * as enrichissementTerritorial from './features/enrichissement-territorial';
+export * as fusion from './features/fusion';
+export * as publication from './features/publication';
+export * as transformation from './features/transformation';
 
-export * as collectivites from './libraries/collectivites/index';
-export * as fileSystem from './libraries/file-system/index';
-export * as http from './libraries/http/index';
-export * as injection from './libraries/injection/index';
-export * as journal from './libraries/journal/index';
-export * as mediationNumerique from './libraries/mediation-numerique/index';
+export * as collectivites from './libraries/collectivites';
+export * as fileSystem from './libraries/file-system';
+export * as http from './libraries/http';
+export * as injection from './libraries/injection';
+export * as journal from './libraries/journal';
+export * as mediationNumerique from './libraries/mediation-numerique';

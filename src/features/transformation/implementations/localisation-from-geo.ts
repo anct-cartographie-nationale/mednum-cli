@@ -8,8 +8,8 @@ import {
   postBanCsv,
   searchAddress,
   toFeatureCollection
-} from '../../../libraries/ban/index';
-import type { AddressRecord, Geocode } from '../domain/index';
+} from '../../../libraries/ban';
+import type { AddressRecord, Geocode } from '../domain';
 import {
   addressLabel,
   banRowFor,
@@ -19,8 +19,8 @@ import {
   isMissingFields,
   NO_LOCALISATION,
   toLocalisation
-} from '../domain/index';
-import type { DataSource, LieuxMediationNumeriqueMatching } from '../domain/index';
+} from '../domain';
+import type { DataSource, LieuxMediationNumeriqueMatching } from '../domain';
 
 const isValid = (adresse: Adresse, response: BanResponse): boolean =>
   response.data.features[0]?.geometry?.coordinates != null &&

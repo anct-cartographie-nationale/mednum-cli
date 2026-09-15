@@ -1,5 +1,5 @@
 import type { Adresse, Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { FindCommune, IsInFrr, IsInQpv } from '../../../libraries/collectivites/index';
+import type { FindCommune, IsInFrr, IsInQpv } from '../../../libraries/collectivites';
 import type { DiffSinceLastTransform, Fingerprint } from './diff-since-last-transform';
 import type { DataSource, LieuxMediationNumeriqueMatching } from './matching';
 

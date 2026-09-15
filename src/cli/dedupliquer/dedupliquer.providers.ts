@@ -9,10 +9,10 @@ import {
   loadLieuxFromPaginatedApi,
   SAVE_DEDUPLICATION,
   saveInFiles
-} from '../../features/deduplication/index';
-import { writePublicationMetadataInFile } from '../../features/publication/index';
-import { provide } from '../../libraries/injection/index';
-import { consoleJournal, JOURNAL } from '../../libraries/journal/index';
+} from '../../features/deduplication';
+import { writePublicationMetadataInFile } from '../../features/publication';
+import { provide } from '../../libraries/injection';
+import { consoleJournal, JOURNAL } from '../../libraries/journal';
 import { composeLoader, whenExtension, whenRemote } from './dedupliquer.loader';
 import type { DedupliquerOptions } from './dedupliquer.options';
 

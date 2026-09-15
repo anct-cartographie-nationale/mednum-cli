@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { provide } from '../../../../libraries/injection/index';
-import { MERGE_ERROR_MESSAGES, MergeError } from '../../domain/index';
-import { LIST_FILES, READ_RECORDS, WRITE_RECORDS } from '../../keys/index';
+import { provide } from '../../../../libraries/injection';
+import { MERGE_ERROR_MESSAGES, MergeError } from '../../domain';
+import { LIST_FILES, READ_RECORDS, WRITE_RECORDS } from '../../keys';
 import { fusionnerDesFichiers } from './fusionner-des-fichiers';
 
 type WrittenFile = { filePath: string; records: unknown[] };

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { Commune } from '../../../libraries/collectivites/index';
+import type { Commune } from '../../../libraries/collectivites';
 import { findCommune } from './find-commune';
 
 const BEGLES: Commune = {

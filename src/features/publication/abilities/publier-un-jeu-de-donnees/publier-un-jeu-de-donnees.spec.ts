@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { provide } from '../../../../libraries/injection/index';
-import type { Dataset, DatasetRepository, PublishDataset, PublishMetadata, PublishRessource } from '../../domain/index';
-import { DATASET_REPOSITORY, READ_PUBLICATION_METADATA, READ_RESSOURCE_RECORDS } from '../../keys/index';
+import { provide } from '../../../../libraries/injection';
+import type { Dataset, DatasetRepository, PublishDataset, PublishMetadata, PublishRessource } from '../../domain';
+import { DATASET_REPOSITORY, READ_PUBLICATION_METADATA, READ_RESSOURCE_RECORDS } from '../../keys';
 import { publierUnJeuDeDonnees } from './publier-un-jeu-de-donnees';
 
 const REFERENCE = { id: 'une-organisation', isOwner: false };

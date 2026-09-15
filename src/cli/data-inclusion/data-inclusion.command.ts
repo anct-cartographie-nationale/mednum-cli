@@ -1,6 +1,6 @@
 import type { Command } from 'commander';
 import inquirer, { type Answers } from 'inquirer';
-import { extraireDataInclusion } from '../../features/acquisition-source/index';
+import { extraireDataInclusion } from '../../features/acquisition-source';
 import {
   DATA_INCLUSION_OPTIONS,
   type DataInclusionOptions,

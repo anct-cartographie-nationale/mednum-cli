@@ -1,5 +1,5 @@
-import type { Output } from '../../../libraries/file-system/index';
-import type { AddressCache } from '../domain/index';
+import type { Output } from '../../../libraries/file-system';
+import type { AddressCache } from '../domain';
 import { writeAddresesOutputFiles } from './address.write';
 
 export const writeAddressesInFiles =

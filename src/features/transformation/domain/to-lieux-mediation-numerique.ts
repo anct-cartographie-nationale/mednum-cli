@@ -23,10 +23,10 @@ import {
   VoieError,
   CourrielError
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { Feature } from '../../../libraries/ban/index';
-import type { AddressCache, AddressRecord } from './address-cache/index';
+import type { Feature } from '../../../libraries/ban';
+import type { AddressCache, AddressRecord } from './address-cache';
 import { GeocodingError } from './geocoding.error';
-import type { Recorder, Report } from './report/index';
+import type { Recorder, Report } from './report';
 import {
   processFicheAccesLibre,
   processAdresse,
@@ -52,7 +52,7 @@ import {
   processFormationsLabels,
   processModalitesAcces,
   isPrive
-} from './fields/index';
+} from './fields';
 import type { DataSource, LieuxMediationNumeriqueMatching } from './matching';
 import { addressLabel, type LocationEnriched } from './location-enriched';
 import type { TransformationRepository } from './transformation-repository';

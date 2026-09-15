@@ -1,9 +1,9 @@
 import axios, { type AxiosResponse } from 'axios';
 import csv from 'csvtojson';
 import iconv from 'iconv-lite';
-import type { RemoteSourceSettings } from '../../../domain/index';
-import type { SourceContent, SourceLocation } from '../domain/index';
-import type { FetchRemoteSource } from '../keys/index';
+import type { RemoteSourceSettings } from '../../../domain';
+import type { SourceContent, SourceLocation } from '../domain';
+import type { FetchRemoteSource } from '../keys';
 
 const CSV_CONTENT_TYPE = 'text/csv';
 

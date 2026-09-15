@@ -1,5 +1,5 @@
-import { type InjectionKey, keyFor } from '../../../libraries/injection/index';
-import type { MergeFormat } from '../domain/index';
+import { type InjectionKey, keyFor } from '../../../libraries/injection';
+import type { MergeFormat } from '../domain';
 
 export type WriteRecordsToFile = (filePath: string, records: unknown[]) => void;
 

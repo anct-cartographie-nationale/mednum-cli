@@ -1,7 +1,7 @@
 import type { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { FindCommune, IsInFrr, IsInQpv } from '../../../libraries/collectivites/index';
-import type { Output } from '../../../libraries/file-system/index';
-import { type InjectionKey, keyFor } from '../../../libraries/injection/index';
+import type { FindCommune, IsInFrr, IsInQpv } from '../../../libraries/collectivites';
+import type { Output } from '../../../libraries/file-system';
+import { type InjectionKey, keyFor } from '../../../libraries/injection';
 import type {
   AddressCache,
   AddressRecord,
@@ -11,7 +11,7 @@ import type {
   Geocode,
   LieuxMediationNumeriqueMatching,
   Report
-} from '../domain/index';
+} from '../domain';
 
 export const GEOCODE: InjectionKey<Geocode> = keyFor<Geocode>('transformation.geocode');
 

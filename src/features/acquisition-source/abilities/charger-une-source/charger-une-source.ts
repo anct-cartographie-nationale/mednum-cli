@@ -1,15 +1,8 @@
-import { inject } from '../../../../libraries/injection/index';
-import { followPages, type Page, type ReadPage } from '../../../../libraries/http/index';
-import type { RemoteSourceSettings, SourceSettings } from '../../domain/index';
-import {
-  isRemote,
-  nextSourceLocation,
-  recordsOf,
-  type SourceContent,
-  type SourceLocation,
-  sourceLocationOf
-} from './domain/index';
-import { FETCH_REMOTE_SOURCE, READ_LOCAL_SOURCE } from './keys/index';
+import { inject } from '../../../../libraries/injection';
+import { followPages, type Page, type ReadPage } from '../../../../libraries/http';
+import type { RemoteSourceSettings, SourceSettings } from '../../domain';
+import { isRemote, nextSourceLocation, recordsOf, type SourceContent, type SourceLocation, sourceLocationOf } from './domain';
+import { FETCH_REMOTE_SOURCE, READ_LOCAL_SOURCE } from './keys';
 
 /** Stratégie à lien racine : la page suivante est l'URL portée par `next`, à côté des données. */
 const readSourcePage =

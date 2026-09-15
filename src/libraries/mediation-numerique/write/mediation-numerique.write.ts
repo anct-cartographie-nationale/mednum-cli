@@ -1,6 +1,6 @@
 import * as fs from 'node:fs';
 import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { createFolderIfNotExist, noEmptyCell, type Output, throwWriteFileError } from '../../file-system/index';
+import { createFolderIfNotExist, noEmptyCell, type Output, throwWriteFileError } from '../../file-system';
 import { mediationNumeriqueFileName } from '../file-name/mediation-numerique.file-name';
 import { mediationNumeriqueToCsv } from '../to-csv/mediation-numerique.to-csv';
 

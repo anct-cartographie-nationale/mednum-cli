@@ -1,7 +1,7 @@
-import { inject } from '../../../../libraries/injection/index';
+import { inject } from '../../../../libraries/injection';
 import { joinPath } from '../../../../libraries/file-system/path';
-import { appendsToMergedFile, type FilesToMerge, filesToMerge, type MergeFormat, mergedFileName } from '../../domain/index';
-import { LIST_FILES, READ_RECORDS, WRITE_RECORDS } from '../../keys/index';
+import { appendsToMergedFile, type FilesToMerge, filesToMerge, type MergeFormat, mergedFileName } from '../../domain';
+import { LIST_FILES, READ_RECORDS, WRITE_RECORDS } from '../../keys';
 
 export type FusionnerDesFichiers = {
   inputFilesPattern: string;

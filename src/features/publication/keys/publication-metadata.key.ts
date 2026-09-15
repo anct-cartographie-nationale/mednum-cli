@@ -1,7 +1,7 @@
 import type { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { Output } from '../../../libraries/file-system/index';
-import { type InjectionKey, keyFor } from '../../../libraries/injection/index';
-import type { PublishMetadata } from '../domain/index';
+import type { Output } from '../../../libraries/file-system';
+import { type InjectionKey, keyFor } from '../../../libraries/injection';
+import type { PublishMetadata } from '../domain';
 
 export type ReadPublicationMetadata = (metadataFile: string) => PublishMetadata | undefined;
 

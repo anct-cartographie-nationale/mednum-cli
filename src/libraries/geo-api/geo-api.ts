@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { Commune } from '../collectivites/index';
+import type { Commune } from '../collectivites';
 
 const COMMUNES_URL = 'https://geo.api.gouv.fr/communes';
 

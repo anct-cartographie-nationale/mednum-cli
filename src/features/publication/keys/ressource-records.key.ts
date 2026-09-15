@@ -1,4 +1,4 @@
-import { type InjectionKey, keyFor } from '../../../libraries/injection/index';
+import { type InjectionKey, keyFor } from '../../../libraries/injection';
 
 export type ReadRessourceRecords = (source: string) => unknown[];
 

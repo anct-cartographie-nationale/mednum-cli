@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { Contact, Courriel, Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching';
-import { Report } from '../../report/index';
+import { Report } from '../../report';
 import { processContact } from './contact.field';
 
 const EMAIL_FIELD: string =

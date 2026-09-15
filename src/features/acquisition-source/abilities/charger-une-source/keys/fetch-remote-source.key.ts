@@ -1,6 +1,6 @@
-import { type InjectionKey, keyFor } from '../../../../../libraries/injection/index';
-import type { RemoteSourceSettings } from '../../../domain/index';
-import type { SourceContent, SourceLocation } from '../domain/index';
+import { type InjectionKey, keyFor } from '../../../../../libraries/injection';
+import type { RemoteSourceSettings } from '../../../domain';
+import type { SourceContent, SourceLocation } from '../domain';
 
 export type FetchRemoteSource = (
   location: SourceLocation,

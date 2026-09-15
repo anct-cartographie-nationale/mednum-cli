@@ -1,7 +1,7 @@
 import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { DuplicationComparison } from './duplication-comparisons/index';
+import type { DuplicationComparison } from './duplication-comparisons';
 import type { Groups } from './group-duplicates/group-duplicates';
-import type { MergedLieuxByGroupMap } from './merge-duplicates/index';
+import type { MergedLieuxByGroupMap } from './merge-duplicates';
 
 /**
  * Enregistre le résultat d'une déduplication, sans rien présumer de la destination : des

@@ -8,9 +8,9 @@ import {
   listDataGouvDatasets,
   replaceDataGouvDataset,
   replaceDataGouvRessource
-} from '../../../libraries/data-gouv/index';
-import type { Api } from '../../../libraries/http/index';
-import type { Dataset, DatasetRepository, PublishDataset, PublishRessource, Reference, Ressource } from '../domain/index';
+} from '../../../libraries/data-gouv';
+import type { Api } from '../../../libraries/http';
+import type { Dataset, DatasetRepository, PublishDataset, PublishRessource, Reference, Ressource } from '../domain';
 
 const toRessource = (dataGouvRessource: DataGouvRessource): Ressource => ({
   id: dataGouvRessource.id,
