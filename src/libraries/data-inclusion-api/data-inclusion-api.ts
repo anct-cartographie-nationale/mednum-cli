@@ -1,26 +1,48 @@
-import axios, { type AxiosResponse } from 'axios';
+import axios from 'axios';
 import type { SchemaServiceDataInclusion, SchemaStructureDataInclusion } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { type Api, bearerTokenHeader } from '../http/index.js';
+import { type Api, bearerTokenHeader, followPages, type Page, type ReadPage } from '../http/index.js';
 
 const DATA_INCLUSION_API_URL = 'https://api.data.inclusion.beta.gouv.fr/api/v1';
 
-const fetchAllPages = async <T>(
-  { key, url }: Api,
-  totalPages: number,
-  currentPage: number = 2,
-  allPagesDatas: T[] = []
-): Promise<T[]> => {
-  if (currentPage > totalPages) return allPagesDatas;
+const FIRST_PAGE = 1;
 
-  const response: AxiosResponse = await axios.get(`${url}&page=${currentPage}`, bearerTokenHeader(key));
-
-  return fetchAllPages({ key, url }, totalPages, currentPage + 1, [...allPagesDatas, ...response.data.items]);
+type PageCursor = {
+  url: string;
+  page: number;
 };
 
-const fetchFromDataInclusionApi = async <T>({ key, url }: Api): Promise<T[]> => {
-  const { items, pages }: { items: T[]; pages: number } = (await axios.get(`${url}&page=1`, bearerTokenHeader(key))).data;
-  return [...items, ...(await fetchAllPages<T>({ key, url }, pages))];
+type DataInclusionPage = {
+  items?: unknown;
+  pages?: unknown;
 };
+
+/**
+ * L'API annonce son nombre total de pages dans chaque réponse. Ne pas l'y trouver signifie que
+ * sa forme a changé : on ne peut alors ni savoir s'il reste des pages, ni prétendre que non.
+ */
+const nextCursor = ({ url, page }: PageCursor, { pages }: DataInclusionPage): PageCursor | undefined => {
+  if (typeof pages !== 'number') throw new Error(`Réponse de data.inclusion sans nombre de pages : ${url}`);
+
+  return page < pages ? { url, page: page + 1 } : undefined;
+};
+
+const recordsOf = ({ items }: DataInclusionPage, url: string): unknown[] => {
+  if (!Array.isArray(items)) throw new Error(`Réponse de data.inclusion sans liste d'éléments : ${url}`);
+
+  return items;
+};
+
+/** Stratégie à compteur : la page suivante est la suivante, tant qu'on n'a pas atteint le total. */
+const byPageCount =
+  (key: string): ReadPage<PageCursor> =>
+  async (cursor: PageCursor): Promise<Page<PageCursor>> => {
+    const body: DataInclusionPage = (await axios.get(`${cursor.url}&page=${cursor.page}`, bearerTokenHeader(key))).data;
+
+    return { records: recordsOf(body, cursor.url), next: nextCursor(cursor, body) };
+  };
+
+const fetchFromDataInclusionApi = async <T>({ key, url }: Api): Promise<T[]> =>
+  (await followPages({ url, page: FIRST_PAGE }, byPageCount(key))) as T[];
 
 export const structuresFromDataInclusionApi = async (
   apiKey: string,
