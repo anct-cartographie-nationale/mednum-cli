@@ -10,5 +10,6 @@ const FIRST_PAGE_QUERY = 'page[number]=0&page[size]=10000';
 export const loadLieuxFromPaginatedApi = async (source: string): Promise<SchemaLieuMediationNumerique[]> => {
   const [url, query]: (string | undefined)[] = source.split('?');
 
-  return paginate<SchemaLieuMediationNumerique>(`${url ?? source}?${FIRST_PAGE_QUERY}`, query);
+  // Affirmation : cette API sert des lieux au schéma mednum. Rien ne le vérifie ici.
+  return (await paginate(`${url ?? source}?${FIRST_PAGE_QUERY}`, query)) as SchemaLieuMediationNumerique[];
 };

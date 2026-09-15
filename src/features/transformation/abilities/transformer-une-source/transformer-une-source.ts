@@ -56,8 +56,10 @@ const delay = (ms: number): Promise<unknown> => new Promise((resolve: (value: un
  */
 const emptyStringForNull = (_: string, value: unknown): unknown => value ?? '';
 
+// Affirmation : les enregistrements de la source correspondent aux colonnes attendues. C'est
+// la configuration de correspondance, plus loin, qui fera foi.
 const replaceNullWithEmptyString = (records: unknown[]): DataSource[] =>
-  JSON.parse(JSON.stringify(records, emptyStringForNull));
+  JSON.parse(JSON.stringify(records, emptyStringForNull)) as DataSource[];
 
 const lieuxToTransform = (sourceItems: DataSource[], diff: DiffSinceLastTransform): DataSource[] =>
   canTransform(diff) ? diff.toUpsert : sourceItems;

@@ -30,6 +30,7 @@ import {
   LOAD_MATCHING,
   LOAD_SOURCE,
   LOAD_TERRITORIAL_ENRICHMENT,
+  type LieuxMediationNumeriqueMatching,
   localisationByGeocode,
   SAVE_ADDRESSES,
   SAVE_ERRORS,
@@ -82,7 +83,11 @@ export const provideTransformerImplementations = (transformerOptions: Transforme
   provide(GEOCODE_BATCH, fetchBanResponseBatch);
   provide(LOAD_ADDRESS_STORAGE, addressStorageFromFile(transformerOptions.addressCache));
 
-  provide(LOAD_MATCHING, async () => JSON.parse(await fs.promises.readFile(transformerOptions.configFile, 'utf-8')));
+  provide(
+    LOAD_MATCHING,
+    async (): Promise<LieuxMediationNumeriqueMatching> =>
+      JSON.parse(await fs.promises.readFile(transformerOptions.configFile, 'utf-8')) as LieuxMediationNumeriqueMatching
+  );
   provide(LOAD_FINGERPRINTS, fingerprintsFromFile(fingerprintFileOf(transformerOptions)));
   provide(SAVE_FINGERPRINTS, (idKey: string, fingerprints: Fingerprint[]) =>
     saveFingerprintsInFile(idKey, fingerprints, fingerprintFileOf(transformerOptions))

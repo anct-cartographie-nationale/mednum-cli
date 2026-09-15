@@ -19,10 +19,14 @@ export type Pagination<T> = {
   };
 };
 
-export const paginate = async <T>(url: string | undefined, query: string = '', data: T[] = []): Promise<T[]> => {
+/**
+ * Suit `links.next` jusqu'au bout et rend les enregistrements accumulés. Leur type reste
+ * `unknown` : seule l'enveloppe est connue, la charge utile n'a été vérifiée par personne.
+ */
+export const paginate = async (url: string | undefined, query: string = '', data: unknown[] = []): Promise<unknown[]> => {
   if (url == null) return data;
 
-  const nextResult: Pagination<T> = (await axios.get<Pagination<T>>(query === '' ? url : `${url}&${query}`)).data;
+  const page: Pagination<unknown> = (await axios.get<Pagination<unknown>>(query === '' ? url : `${url}&${query}`)).data;
 
-  return paginate(nextResult.links.next, query, [...data, ...nextResult.data]);
+  return paginate(page.links.next, query, [...data, ...page.data]);
 };

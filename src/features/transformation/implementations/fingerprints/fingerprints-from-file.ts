@@ -6,7 +6,7 @@ import type { Fingerprint } from '../../domain/index.js';
  */
 export const fingerprintsFromFile = (fingerprintFile: string) => async (): Promise<Fingerprint[]> => {
   try {
-    return JSON.parse(await fs.promises.readFile(fingerprintFile, 'utf-8'));
+    return JSON.parse(await fs.promises.readFile(fingerprintFile, 'utf-8')) as Fingerprint[];
   } catch {
     return [];
   }

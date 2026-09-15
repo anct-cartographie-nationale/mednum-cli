@@ -7,4 +7,4 @@ import type { ReadPublicationMetadata } from '../keys/index.js';
  * publier pour ce producteur.
  */
 export const readPublicationMetadataFromFile: ReadPublicationMetadata = (metadataFile: string): PublishMetadata | undefined =>
-  fs.existsSync(metadataFile) ? JSON.parse(fs.readFileSync(metadataFile, 'utf8')) : undefined;
+  fs.existsSync(metadataFile) ? (JSON.parse(fs.readFileSync(metadataFile, 'utf8')) as PublishMetadata) : undefined;
