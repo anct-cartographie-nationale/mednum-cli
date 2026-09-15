@@ -1,4 +1,4 @@
-import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching.js';
+import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching';
 
 const sourceIfAny = (source: DataSource, sourceName: string, colonne?: string): string =>
   colonne == null || source[colonne] == null || (source[colonne] as string) === '' ? sourceName : (source[colonne] as string);

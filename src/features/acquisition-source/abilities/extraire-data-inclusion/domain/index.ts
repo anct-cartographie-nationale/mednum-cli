@@ -1,3 +1,3 @@
-export * from './data-inclusion-merged.js';
-export * from './extraction.js';
-export * from './merge-services-in-structure.js';
+export * from './data-inclusion-merged';
+export * from './extraction';
+export * from './merge-services-in-structure';

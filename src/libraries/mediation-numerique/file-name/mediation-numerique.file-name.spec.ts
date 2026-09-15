@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { mediationNumeriqueFileName } from './mediation-numerique.file-name.js';
+import { mediationNumeriqueFileName } from './mediation-numerique.file-name';
 
 describe('mediation numérique file name', (): void => {
   it('should generate mediation numérique file name', (): void => {

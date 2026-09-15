@@ -1,1 +1,1 @@
-export * from './territorial-data.key.js';
+export * from './territorial-data.key';

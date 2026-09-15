@@ -1,5 +1,5 @@
-import { type InjectionKey, keyFor } from '../../../../../libraries/injection/index.js';
-import type { DataInclusionExtraction } from '../domain/index.js';
+import { type InjectionKey, keyFor } from '../../../../../libraries/injection/index';
+import type { DataInclusionExtraction } from '../domain/index';
 
 export type FetchDataInclusion = (apiKey: string, sources: string) => Promise<DataInclusionExtraction>;
 

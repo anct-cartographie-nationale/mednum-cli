@@ -9,12 +9,12 @@ import {
   loadLieuxFromPaginatedApi,
   SAVE_DEDUPLICATION,
   saveInFiles
-} from '../../features/deduplication/index.js';
-import { writePublicationMetadataInFile } from '../../features/publication/index.js';
-import { provide } from '../../libraries/injection/index.js';
-import { consoleJournal, JOURNAL } from '../../libraries/journal/index.js';
-import { composeLoader, whenExtension, whenRemote } from './dedupliquer.loader.js';
-import type { DedupliquerOptions } from './dedupliquer.options.js';
+} from '../../features/deduplication/index';
+import { writePublicationMetadataInFile } from '../../features/publication/index';
+import { provide } from '../../libraries/injection/index';
+import { consoleJournal, JOURNAL } from '../../libraries/journal/index';
+import { composeLoader, whenExtension, whenRemote } from './dedupliquer.loader';
+import type { DedupliquerOptions } from './dedupliquer.options';
 
 /**
  * Point de concrétisation de la commande. C'est ici que la capacité de publication est

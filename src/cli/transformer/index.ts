@@ -1,1 +1,1 @@
-export * from './transformer.command.js';
+export * from './transformer.command';

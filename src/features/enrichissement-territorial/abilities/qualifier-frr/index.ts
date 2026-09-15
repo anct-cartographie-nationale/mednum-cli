@@ -1,1 +1,1 @@
-export * from './qualifier-frr.js';
+export * from './qualifier-frr';

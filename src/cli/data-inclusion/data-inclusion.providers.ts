@@ -3,8 +3,8 @@ import {
   fetchDataInclusionFromApi,
   WRITE_EXTRACTION,
   writeExtractionInFile
-} from '../../features/acquisition-source/index.js';
-import { provide } from '../../libraries/injection/index.js';
+} from '../../features/acquisition-source/index';
+import { provide } from '../../libraries/injection/index';
 
 /**
  * Point de concrétisation de la commande : les contrats de l'extraction data.inclusion

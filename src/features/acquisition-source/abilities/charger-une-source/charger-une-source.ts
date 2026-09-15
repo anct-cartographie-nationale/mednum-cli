@@ -1,6 +1,6 @@
-import { inject } from '../../../../libraries/injection/index.js';
-import { followPages, type Page, type ReadPage } from '../../../../libraries/http/index.js';
-import type { RemoteSourceSettings, SourceSettings } from '../../domain/index.js';
+import { inject } from '../../../../libraries/injection/index';
+import { followPages, type Page, type ReadPage } from '../../../../libraries/http/index';
+import type { RemoteSourceSettings, SourceSettings } from '../../domain/index';
 import {
   isRemote,
   nextSourceLocation,
@@ -8,8 +8,8 @@ import {
   type SourceContent,
   type SourceLocation,
   sourceLocationOf
-} from './domain/index.js';
-import { FETCH_REMOTE_SOURCE, READ_LOCAL_SOURCE } from './keys/index.js';
+} from './domain/index';
+import { FETCH_REMOTE_SOURCE, READ_LOCAL_SOURCE } from './keys/index';
 
 /** Stratégie à lien racine : la page suivante est l'URL portée par `next`, à côté des données. */
 const readSourcePage =

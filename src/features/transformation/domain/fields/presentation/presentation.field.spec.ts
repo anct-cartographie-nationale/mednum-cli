@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import type { Presentation } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching.js';
-import { processPresentation } from './presentation.field.js';
+import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching';
+import { processPresentation } from './presentation.field';
 
 describe('presentation fields', (): void => {
   it('should get presentation resume from data source using matching information', (): void => {

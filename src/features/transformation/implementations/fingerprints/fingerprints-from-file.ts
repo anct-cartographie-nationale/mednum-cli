@@ -1,5 +1,5 @@
-import { readJsonFileIfExists } from '../../../../libraries/file-system/index.js';
-import type { Fingerprint } from '../../domain/index.js';
+import { readJsonFileIfExists } from '../../../../libraries/file-system/index';
+import type { Fingerprint } from '../../domain/index';
 
 /**
  * Un fichier d'empreintes absent signifie qu'aucune transformation précédente n'a eu lieu.

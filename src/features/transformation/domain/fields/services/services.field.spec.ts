@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { processServices } from './services.field.js';
+import { processServices } from './services.field';
 import { Service } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { DataSource, LieuxMediationNumeriqueMatching } from '../../matching.js';
+import type { DataSource, LieuxMediationNumeriqueMatching } from '../../matching';
 
 const MATCHING: LieuxMediationNumeriqueMatching = {
   services: [

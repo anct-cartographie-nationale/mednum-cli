@@ -8,9 +8,9 @@ import {
   writeCsvRecordsToFile,
   writeJsonRecordsToFile,
   writeRecordsByFormat
-} from '../../features/fusion/index.js';
-import { findFiles } from '../../libraries/file-system/index.js';
-import { provide } from '../../libraries/injection/index.js';
+} from '../../features/fusion/index';
+import { findFiles } from '../../libraries/file-system/index';
+import { provide } from '../../libraries/injection/index';
 
 /**
  * Point de concrétisation de la commande : c'est ici, et nulle part ailleurs, que les contrats

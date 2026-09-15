@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { provide } from '../../../../libraries/injection/index.js';
-import type { RemoteSourceSettings } from '../../domain/index.js';
-import { chargerUneSource } from './charger-une-source.js';
-import type { SourceLocation } from './domain/index.js';
-import { FETCH_REMOTE_SOURCE, READ_LOCAL_SOURCE } from './keys/index.js';
+import { provide } from '../../../../libraries/injection/index';
+import type { RemoteSourceSettings } from '../../domain/index';
+import { chargerUneSource } from './charger-une-source';
+import type { SourceLocation } from './domain/index';
+import { FETCH_REMOTE_SOURCE, READ_LOCAL_SOURCE } from './keys/index';
 
 type FetchCall = { location: SourceLocation; settings: RemoteSourceSettings };
 

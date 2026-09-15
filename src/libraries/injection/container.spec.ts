@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { inject, keyFor, provide, provideLazy } from './container.js';
+import { inject, keyFor, provide, provideLazy } from './container';
 
 type Geocode = (adresse: string) => string;
 

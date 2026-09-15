@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching.js';
-import { processSource } from './source.field.js';
+import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching';
+import { processSource } from './source.field';
 
 describe('source field', (): void => {
   it('should get source from data source using matching information', (): void => {

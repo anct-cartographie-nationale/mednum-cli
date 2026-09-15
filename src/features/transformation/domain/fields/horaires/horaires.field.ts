@@ -3,11 +3,11 @@ import {
   type OsmOpeningHours,
   fromTimetableOsmOpeningHours
 } from '@gouvfr-anct/timetable-to-osm-opening-hours';
-import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching.js';
-import { toOsmHours } from '../../to-osm-hours/to-osm-hours.js';
-import { InvalidHoursError } from './errors/invalid-hours-error.js';
-import { NO_OSM_OPENING_HOURS, type OsmOpeningHoursString, osmOpeningHoursString } from './process-horaires.field.js';
-import { openingHoursFromWeek } from './opening-hours-from-week.js';
+import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching';
+import { toOsmHours } from '../../to-osm-hours/to-osm-hours';
+import { InvalidHoursError } from './errors/invalid-hours-error';
+import { NO_OSM_OPENING_HOURS, type OsmOpeningHoursString, osmOpeningHoursString } from './process-horaires.field';
+import { openingHoursFromWeek } from './opening-hours-from-week';
 
 const SEMAINE_IMPAIRE: string = 'week 1-53/2 ';
 const SEMAINE_PAIRE: string = 'week 2-52/2 ';

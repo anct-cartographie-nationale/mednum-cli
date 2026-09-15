@@ -4,7 +4,7 @@ import {
   fetchRemoteSourceWithAxios,
   READ_LOCAL_SOURCE,
   readLocalSourceFromFile
-} from '../../features/acquisition-source/index.js';
+} from '../../features/acquisition-source/index';
 import {
   communesFromGeoApi,
   frrFromObservatoireDesTerritoires,
@@ -15,8 +15,8 @@ import {
   qualifierFrr,
   qualifierQpv,
   resoudreCommune
-} from '../../features/enrichissement-territorial/index.js';
-import { writePublicationMetadataInFile } from '../../features/publication/index.js';
+} from '../../features/enrichissement-territorial/index';
+import { writePublicationMetadataInFile } from '../../features/publication/index';
 import {
   addressStorageFromFile,
   fetchBanResponseBatch,
@@ -40,11 +40,11 @@ import {
   WRITE_PUBLICATION_METADATA,
   writeAddressesInFiles,
   writeErrorsInFiles
-} from '../../features/transformation/index.js';
-import { type Output, readJsonFile } from '../../libraries/file-system/index.js';
-import { provide } from '../../libraries/injection/index.js';
-import { consoleJournal, JOURNAL } from '../../libraries/journal/index.js';
-import type { TransformerOptions } from './transformer.options.js';
+} from '../../features/transformation/index';
+import { type Output, readJsonFile } from '../../libraries/file-system/index';
+import { provide } from '../../libraries/injection/index';
+import { consoleJournal, JOURNAL } from '../../libraries/journal/index';
+import type { TransformerOptions } from './transformer.options';
 
 const producerOf = ({ outputDirectory, sourceName, territory }: TransformerOptions): Output => ({
   path: outputDirectory,

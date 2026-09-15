@@ -1,5 +1,5 @@
-import { type InjectionKey, keyFor } from '../../../libraries/injection/index.js';
-import type { MergeFormat } from '../domain/index.js';
+import { type InjectionKey, keyFor } from '../../../libraries/injection/index';
+import type { MergeFormat } from '../domain/index';
 
 export type ReadRecordsFromFile = (filePath: string) => unknown[];
 

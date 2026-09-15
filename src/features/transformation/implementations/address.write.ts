@@ -1,8 +1,8 @@
 import * as fs from 'node:fs';
-import { createFolderIfNotExist, noEmptyCell, type Output, throwWriteFileError } from '../../../libraries/file-system/index.js';
-import { mediationNumeriqueFileName } from '../../../libraries/mediation-numerique/index.js';
-import type { AddressRecord, AddressCache } from '../domain/index.js';
-import type { Feature } from '../../../libraries/ban/index.js';
+import { createFolderIfNotExist, noEmptyCell, type Output, throwWriteFileError } from '../../../libraries/file-system/index';
+import { mediationNumeriqueFileName } from '../../../libraries/mediation-numerique/index';
+import type { AddressRecord, AddressCache } from '../domain/index';
+import type { Feature } from '../../../libraries/ban/index';
 
 type AddressOutput = {
   dateDeTraitement: Date;

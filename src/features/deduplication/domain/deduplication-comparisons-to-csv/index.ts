@@ -1,1 +1,1 @@
-export * from './deduplication-comparisons-to-csv.js';
+export * from './deduplication-comparisons-to-csv';

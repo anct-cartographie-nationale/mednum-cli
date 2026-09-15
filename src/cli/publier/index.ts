@@ -1,1 +1,1 @@
-export * from './publier.command.js';
+export * from './publier.command';

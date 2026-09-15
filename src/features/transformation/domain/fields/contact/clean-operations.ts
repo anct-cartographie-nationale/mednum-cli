@@ -1,4 +1,4 @@
-import type { LieuxMediationNumeriqueMatching } from '../../matching.js';
+import type { LieuxMediationNumeriqueMatching } from '../../matching';
 
 export type CleanOperation = {
   name: string;

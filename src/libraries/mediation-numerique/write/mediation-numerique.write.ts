@@ -1,8 +1,8 @@
 import * as fs from 'node:fs';
 import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { createFolderIfNotExist, noEmptyCell, type Output, throwWriteFileError } from '../../file-system/index.js';
-import { mediationNumeriqueFileName } from '../file-name/mediation-numerique.file-name.js';
-import { mediationNumeriqueToCsv } from '../to-csv/mediation-numerique.to-csv.js';
+import { createFolderIfNotExist, noEmptyCell, type Output, throwWriteFileError } from '../../file-system/index';
+import { mediationNumeriqueFileName } from '../file-name/mediation-numerique.file-name';
+import { mediationNumeriqueToCsv } from '../to-csv/mediation-numerique.to-csv';
 
 export const writeMediationNumeriqueJsonOutput = (
   producer: Output,

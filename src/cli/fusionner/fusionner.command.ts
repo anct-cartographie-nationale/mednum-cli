@@ -1,8 +1,8 @@
 import type { Command } from 'commander';
 import inquirer, { type Answers } from 'inquirer';
-import { type FichiersFusionnes, fusionnerDesFichiers } from '../../features/fusion/index.js';
-import { FUSIONNER_OPTIONS, type FusionnerOptions, fusionnerOptionsQuestions } from './fusionner.options.js';
-import { provideFusionnerImplementations } from './fusionner.providers.js';
+import { type FichiersFusionnes, fusionnerDesFichiers } from '../../features/fusion/index';
+import { FUSIONNER_OPTIONS, type FusionnerOptions, fusionnerOptionsQuestions } from './fusionner.options';
+import { provideFusionnerImplementations } from './fusionner.providers';
 
 const reportMergedFiles = ({ format, mergedFilePath }: FichiersFusionnes): void => {
   console.log(`Les fichiers ${format === '.csv' ? 'CSV' : 'JSON'} fusionnés ont été sauvegardés dans ${mergedFilePath}`);

@@ -4,8 +4,8 @@ import {
   type Service,
   Services
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { type Choice, type LieuxMediationNumeriqueMatching, type DataSource, cibleAsDefault } from '../../matching.js';
-import { processModalitesAccompagnement } from '../modalites-accompagnement/modalites-accompagnement.field.js';
+import { type Choice, type LieuxMediationNumeriqueMatching, type DataSource, cibleAsDefault } from '../../matching';
+import { processModalitesAccompagnement } from '../modalites-accompagnement/modalites-accompagnement.field';
 
 const isAllowedTerm = (choice: Choice<Service>, sourceValue: string): boolean =>
   choice.sauf?.every((forbidden: string): boolean => !sourceValue.includes(forbidden)) ?? true;

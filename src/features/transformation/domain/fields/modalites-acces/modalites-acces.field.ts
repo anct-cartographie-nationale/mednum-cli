@@ -1,5 +1,5 @@
 import { type ModaliteAcces, ModalitesAcces } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { Choice, LieuxMediationNumeriqueMatching, DataSource } from '../../matching.js';
+import type { Choice, LieuxMediationNumeriqueMatching, DataSource } from '../../matching';
 
 const isAllowedTerm = (choice: Choice<ModaliteAcces>, sourceValue: string): boolean =>
   choice.sauf?.every((forbidden: string): boolean => !sourceValue.includes(forbidden)) ?? true;

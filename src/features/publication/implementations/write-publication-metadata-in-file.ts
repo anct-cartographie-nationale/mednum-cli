@@ -1,8 +1,8 @@
 import * as fs from 'node:fs';
 import type { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { createFolderIfNotExist, type Output, throwWriteFileError } from '../../../libraries/file-system/index.js';
-import { generatePublishMetadata } from '../domain/index.js';
-import type { WritePublicationMetadata } from '../keys/index.js';
+import { createFolderIfNotExist, type Output, throwWriteFileError } from '../../../libraries/file-system/index';
+import { generatePublishMetadata } from '../domain/index';
+import type { WritePublicationMetadata } from '../keys/index';
 
 export const writePublicationMetadataInFile: WritePublicationMetadata = (
   producer: Output,

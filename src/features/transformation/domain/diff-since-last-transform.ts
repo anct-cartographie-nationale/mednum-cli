@@ -1,5 +1,5 @@
-import { sha256 } from '../../../libraries/hash/index.js';
-import type { DataSource } from './matching.js';
+import { sha256 } from '../../../libraries/hash/index';
+import type { DataSource } from './matching';
 
 type DiffSinceLastTransformWithoutId = null;
 

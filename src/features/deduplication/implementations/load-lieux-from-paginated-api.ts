@@ -1,5 +1,5 @@
 import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { paginate } from '../../../libraries/http/index.js';
+import { paginate } from '../../../libraries/http/index';
 
 /**
  * Les API de lieux exposent la pagination JSON:API. On demande d'emblée la plus grande page

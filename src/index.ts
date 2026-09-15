@@ -12,16 +12,16 @@
  * de la CLI, puis appelle l'ability voulue.
  */
 
-export * as acquisitionSource from './features/acquisition-source/index.js';
-export * as deduplication from './features/deduplication/index.js';
-export * as enrichissementTerritorial from './features/enrichissement-territorial/index.js';
-export * as fusion from './features/fusion/index.js';
-export * as publication from './features/publication/index.js';
-export * as transformation from './features/transformation/index.js';
+export * as acquisitionSource from './features/acquisition-source/index';
+export * as deduplication from './features/deduplication/index';
+export * as enrichissementTerritorial from './features/enrichissement-territorial/index';
+export * as fusion from './features/fusion/index';
+export * as publication from './features/publication/index';
+export * as transformation from './features/transformation/index';
 
-export * as collectivites from './libraries/collectivites/index.js';
-export * as fileSystem from './libraries/file-system/index.js';
-export * as http from './libraries/http/index.js';
-export * as injection from './libraries/injection/index.js';
-export * as journal from './libraries/journal/index.js';
-export * as mediationNumerique from './libraries/mediation-numerique/index.js';
+export * as collectivites from './libraries/collectivites/index';
+export * as fileSystem from './libraries/file-system/index';
+export * as http from './libraries/http/index';
+export * as injection from './libraries/injection/index';
+export * as journal from './libraries/journal/index';
+export * as mediationNumerique from './libraries/mediation-numerique/index';

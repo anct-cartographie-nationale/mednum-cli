@@ -1,9 +1,9 @@
 import {
   servicesFromDataInclusionApi,
   structuresFromDataInclusionApi
-} from '../../../../../libraries/data-inclusion-api/index.js';
-import type { DataInclusionExtraction } from '../domain/index.js';
-import type { FetchDataInclusion } from '../keys/index.js';
+} from '../../../../../libraries/data-inclusion-api/index';
+import type { DataInclusionExtraction } from '../domain/index';
+import type { FetchDataInclusion } from '../keys/index';
 
 export const fetchDataInclusionFromApi: FetchDataInclusion = async (
   apiKey: string,

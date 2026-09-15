@@ -1,6 +1,6 @@
 import axios from 'axios';
 import type { SchemaServiceDataInclusion, SchemaStructureDataInclusion } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { type Api, bearerTokenHeader, followPages, type Page, type ReadPage } from '../http/index.js';
+import { type Api, bearerTokenHeader, followPages, type Page, type ReadPage } from '../http/index';
 
 const DATA_INCLUSION_API_URL = 'https://api.data.inclusion.gouv.fr/api/v1';
 

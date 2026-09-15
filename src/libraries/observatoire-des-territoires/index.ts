@@ -1,1 +1,1 @@
-export * from './frr.js';
+export * from './frr';

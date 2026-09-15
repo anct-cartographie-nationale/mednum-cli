@@ -1,7 +1,7 @@
 import type { Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import type { Polygon } from 'geojson';
-import type { IsInQpv, QpvShapesMap } from '../../../libraries/collectivites/index.js';
-import { isPointInAnyPolygon } from '../../../libraries/geometry/index.js';
+import type { IsInQpv, QpvShapesMap } from '../../../libraries/collectivites/index';
+import { isPointInAnyPolygon } from '../../../libraries/geometry/index';
 
 const isInOneOfQPVShapes = (localisation: Localisation, geoShapes?: Polygon[]): boolean =>
   geoShapes != null && isPointInAnyPolygon([localisation.longitude, localisation.latitude], geoShapes);

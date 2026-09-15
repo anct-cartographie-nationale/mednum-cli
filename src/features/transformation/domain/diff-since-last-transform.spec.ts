@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { DataSource } from './matching.js';
+import type { DataSource } from './matching';
 import {
   canTransform,
   type Fingerprint,
@@ -7,7 +7,7 @@ import {
   type DiffSinceLastTransform,
   updateFingerprints,
   diffSinceLastTransform
-} from './diff-since-last-transform.js';
+} from './diff-since-last-transform';
 
 const ID_KEY: string = 'TYPO_UID';
 

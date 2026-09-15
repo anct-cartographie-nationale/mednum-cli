@@ -1,1 +1,1 @@
-export * from './qualifier-qpv.js';
+export * from './qualifier-qpv';

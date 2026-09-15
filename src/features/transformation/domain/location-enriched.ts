@@ -1,8 +1,8 @@
 import { Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { BanAddressRow, FeatureCollection } from '../../../libraries/ban/index.js';
-import type { AddressRecord } from './address-cache/index.js';
-import { voieField } from './fields/adresse/clean-voie.js';
-import type { DataSource, LieuxMediationNumeriqueMatching } from './matching.js';
+import type { BanAddressRow, FeatureCollection } from '../../../libraries/ban/index';
+import type { AddressRecord } from './address-cache/index';
+import { voieField } from './fields/adresse/clean-voie';
+import type { DataSource, LieuxMediationNumeriqueMatching } from './matching';
 
 /**
  * Un géocodage n'est retenu qu'au delà de ce score : en deçà, la BAN a rapproché l'adresse

@@ -1,4 +1,4 @@
-import { extensionOf } from '../../../libraries/file-system/path.js';
+import { extensionOf } from '../../../libraries/file-system/path';
 
 const SUPPORTED_MERGE_FORMATS = ['.csv', '.json'] as const;
 

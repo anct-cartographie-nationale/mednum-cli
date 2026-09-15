@@ -1,4 +1,4 @@
-import { type InjectionKey, keyFor } from '../../../libraries/injection/index.js';
+import { type InjectionKey, keyFor } from '../../../libraries/injection/index';
 
 export type ListFiles = (pattern: string) => string[];
 

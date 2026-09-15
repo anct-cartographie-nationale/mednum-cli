@@ -1,5 +1,5 @@
-import type { Commune, FrrMap, QpvShapesMap } from '../../../libraries/collectivites/index.js';
-import { type InjectionKey, keyFor } from '../../../libraries/injection/index.js';
+import type { Commune, FrrMap, QpvShapesMap } from '../../../libraries/collectivites/index';
+import { type InjectionKey, keyFor } from '../../../libraries/injection/index';
 
 export type LoadCommunes = () => Promise<Commune[]>;
 

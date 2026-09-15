@@ -1,13 +1,13 @@
 import type { Command } from 'commander';
 import inquirer, { type Answers } from 'inquirer';
-import { transformerUneSource } from '../../features/transformation/index.js';
+import { transformerUneSource } from '../../features/transformation/index';
 import {
   TRANSFORMER_OPTIONS,
   type TransformerOptions,
   transformerOptionsQuestions,
   toTransformerOptions
-} from './transformer.options.js';
-import { provideTransformerImplementations } from './transformer.providers.js';
+} from './transformer.options';
+import { provideTransformerImplementations } from './transformer.providers';
 
 const maxTransformFrom = (environment: Record<string, string | undefined>): number | undefined =>
   environment['MAX_TRANSFORM'] == null ? undefined : Number(environment['MAX_TRANSFORM']);

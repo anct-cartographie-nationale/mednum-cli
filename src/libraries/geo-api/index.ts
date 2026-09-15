@@ -1,1 +1,1 @@
-export * from './geo-api.js';
+export * from './geo-api';

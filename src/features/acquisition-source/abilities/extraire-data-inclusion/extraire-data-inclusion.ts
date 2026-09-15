@@ -1,6 +1,6 @@
-import { inject } from '../../../../libraries/injection/index.js';
-import { extractionFor } from './domain/index.js';
-import { FETCH_DATA_INCLUSION, WRITE_EXTRACTION } from './keys/index.js';
+import { inject } from '../../../../libraries/injection/index';
+import { extractionFor } from './domain/index';
+import { FETCH_DATA_INCLUSION, WRITE_EXTRACTION } from './keys/index';
 
 export type ExtraireDataInclusion = {
   dataInclusionApiKey: string;

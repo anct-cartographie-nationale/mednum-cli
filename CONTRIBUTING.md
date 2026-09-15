@@ -213,6 +213,10 @@ Générer une version prête à être publiée :
 pnpm build
 ```
 
+La construction est assurée par [tsdown](https://tsdown.dev/). C'est elle qui résout les imports relatifs : les sources les écrivent **sans extension**, `dist` reçoit des `.js` que Node sait charger. Ne pas réintroduire d'extension dans les imports.
+
+Les déclarations sont dérivées de chaque fichier isolément (`isolatedDeclarations`) : tout symbole exporté doit porter un type explicite. C'est ce que la convention de style imposait déjà ; le compilateur le vérifie désormais.
+
 ## Contribution
 
 ### Nommage des branches
@@ -248,6 +252,7 @@ La branche `main`, ainsi que l'ensemble des branches de travail avec un préfixe
 - [dependency-cruiser](https://github.com/sverweij/dependency-cruiser) vérifie les dépendances entre les couches du projet, décrites dans `.dependency-cruiser.cjs`
 - [folderslint](https://github.com/OlegKlimenko/folderslint) vérifie que l'arborescence respecte les dossiers autorisés, décrits dans `.folderslintrc`
 - [tsx](https://tsx.is/) exécute le TypeScript directement, sans étape de compilation
+- [tsdown](https://tsdown.dev/) construit le paquet publié : il résout les imports relatifs et génère les déclarations
 - [Husky](https://typicode.github.io/husky/#/) est un outil qui permet d'effectuer des vérifications automatiques avant de publier des contributions.
 - [Commitlint](https://github.com/conventional-changelog/commitlint) est un outil de vérification des commits suivant le [format des Commits Conventionnels](https://www.conventionalcommits.org/fr/v1.0.0/).
 - [Lint-staged](https://github.com/okonet/lint-staged) est un outil qui permet d'effectuer un ensemble de vérifications à l'aide d'autres outils sur un ensemble de fichiers qui viennent d'être modifiés.

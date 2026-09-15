@@ -1,4 +1,4 @@
-import type { DuplicationComparison } from './duplication-comparisons/index.js';
+import type { DuplicationComparison } from './duplication-comparisons/index';
 
 /**
  * Un rapprochement entre deux lieux d'une même source demande plus de certitude qu'entre deux

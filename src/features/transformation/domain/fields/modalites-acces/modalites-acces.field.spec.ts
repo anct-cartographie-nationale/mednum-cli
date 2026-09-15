@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { ModaliteAcces, type ModalitesAcces } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { LieuxMediationNumeriqueMatching } from '../../matching.js';
-import { processModalitesAcces } from './modalites-acces.field.js';
+import type { LieuxMediationNumeriqueMatching } from '../../matching';
+import { processModalitesAcces } from './modalites-acces.field';
 
 const MODALITES_ACCES_FIELD: 'Mobilisation du service' = 'Mobilisation du service' as const;
 

@@ -1,1 +1,1 @@
-export * from './source-settings.js';
+export * from './source-settings';

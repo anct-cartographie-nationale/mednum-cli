@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import type { Commune } from '../../../libraries/collectivites/index.js';
-import { findCommune } from './find-commune.js';
+import type { Commune } from '../../../libraries/collectivites/index';
+import { findCommune } from './find-commune';
 
 const BEGLES: Commune = {
   nom: 'Bègles',

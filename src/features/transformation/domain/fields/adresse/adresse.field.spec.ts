@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { type Adresse, VoieError } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching.js';
-import { processAdresse } from './adresse.field.js';
-import { findCommune } from '../../../../enrichissement-territorial/index.js';
-import type { Commune } from '../../../../../libraries/collectivites/index.js';
+import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching';
+import { processAdresse } from './adresse.field';
+import { findCommune } from '../../../../enrichissement-territorial/index';
+import type { Commune } from '../../../../../libraries/collectivites/index';
 
 const BEGLES: Commune = {
   nom: 'Bègles',

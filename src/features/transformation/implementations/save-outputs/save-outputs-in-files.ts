@@ -1,7 +1,7 @@
 import type { LieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { Output } from '../../../../libraries/file-system/index.js';
-import type { WritePublicationMetadata } from '../../keys/index.js';
-import { writeOutputFiles } from '../write-output-files.js';
+import type { Output } from '../../../../libraries/file-system/index';
+import type { WritePublicationMetadata } from '../../keys/index';
+import { writeOutputFiles } from '../write-output-files';
 
 export const saveOutputsInFiles =
   (producer: Output, writePublicationMetadata: WritePublicationMetadata) =>

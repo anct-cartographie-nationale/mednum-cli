@@ -1,1 +1,1 @@
-export * from './transformer-une-source.js';
+export * from './transformer-une-source';

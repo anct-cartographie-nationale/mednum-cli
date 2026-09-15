@@ -1,6 +1,6 @@
-import { readJsonFileIfExists } from '../../../libraries/file-system/index.js';
-import type { AddressRecord } from '../domain/index.js';
-import type { LoadAddressStorage } from '../keys/index.js';
+import { readJsonFileIfExists } from '../../../libraries/file-system/index';
+import type { AddressRecord } from '../domain/index';
+import type { LoadAddressStorage } from '../keys/index';
 
 /**
  * Cache des adresses déjà géocodées lors des transformations précédentes. Son absence n'est

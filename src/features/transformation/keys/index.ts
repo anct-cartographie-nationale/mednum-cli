@@ -1,1 +1,1 @@
-export * from './transformation.key.js';
+export * from './transformation.key';

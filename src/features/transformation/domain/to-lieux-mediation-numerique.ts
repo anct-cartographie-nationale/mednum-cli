@@ -23,10 +23,10 @@ import {
   VoieError,
   CourrielError
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { Feature } from '../../../libraries/ban/index.js';
-import type { AddressCache, AddressRecord } from './address-cache/index.js';
-import { GeocodingError } from './geocoding.error.js';
-import type { Recorder, Report } from './report/index.js';
+import type { Feature } from '../../../libraries/ban/index';
+import type { AddressCache, AddressRecord } from './address-cache/index';
+import { GeocodingError } from './geocoding.error';
+import type { Recorder, Report } from './report/index';
 import {
   processFicheAccesLibre,
   processAdresse,
@@ -52,10 +52,10 @@ import {
   processFormationsLabels,
   processModalitesAcces,
   isPrive
-} from './fields/index.js';
-import type { DataSource, LieuxMediationNumeriqueMatching } from './matching.js';
-import { addressLabel, type LocationEnriched } from './location-enriched.js';
-import type { TransformationRepository } from './transformation-repository.js';
+} from './fields/index';
+import type { DataSource, LieuxMediationNumeriqueMatching } from './matching';
+import { addressLabel, type LocationEnriched } from './location-enriched';
+import type { TransformationRepository } from './transformation-repository';
 
 const isFilled = <T>(nullable?: T[]): nullable is T[] => nullable != null && nullable.length > 0;
 

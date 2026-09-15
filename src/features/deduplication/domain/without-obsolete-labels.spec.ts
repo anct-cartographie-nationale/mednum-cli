@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { withoutObsoleteLabels } from './without-obsolete-labels.js';
+import { withoutObsoleteLabels } from './without-obsolete-labels';
 
 const LIEU: SchemaLieuMediationNumerique = {
   id: '1',

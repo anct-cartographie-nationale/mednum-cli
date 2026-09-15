@@ -1,1 +1,1 @@
-export * from './deduplication.key.js';
+export * from './deduplication.key';

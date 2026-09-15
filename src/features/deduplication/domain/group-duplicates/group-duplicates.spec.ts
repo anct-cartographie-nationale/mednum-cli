@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import type { DuplicationComparison } from '../duplication-comparisons/index.js';
-import { groupDuplicates, type Groups } from './group-duplicates.js';
+import type { DuplicationComparison } from '../duplication-comparisons/index';
+import { groupDuplicates, type Groups } from './group-duplicates';
 
 describe('group duplicates', (): void => {
   it('should get ready for merge a single duplication comparison', (): void => {

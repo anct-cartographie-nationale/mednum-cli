@@ -1,8 +1,8 @@
 import type { Command } from 'commander';
 import inquirer, { type Answers } from 'inquirer';
-import { dedupliquerDesLieux } from '../../features/deduplication/index.js';
-import { DEDUPLIQUER_OPTIONS, type DedupliquerOptions, dedupliquerOptionsQuestions } from './dedupliquer.options.js';
-import { provideDedupliquerImplementations } from './dedupliquer.providers.js';
+import { dedupliquerDesLieux } from '../../features/deduplication/index';
+import { DEDUPLIQUER_OPTIONS, type DedupliquerOptions, dedupliquerOptionsQuestions } from './dedupliquer.options';
+import { provideDedupliquerImplementations } from './dedupliquer.providers';
 
 const dedupliquer = async (dedupliquerOptions: DedupliquerOptions): Promise<void> => {
   try {

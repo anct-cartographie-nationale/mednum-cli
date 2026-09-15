@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { type Recorder, Report } from './report.js';
+import { type Recorder, Report } from './report';
 
 describe('report', (): void => {
   it('should create a report with empty records', (): void => {

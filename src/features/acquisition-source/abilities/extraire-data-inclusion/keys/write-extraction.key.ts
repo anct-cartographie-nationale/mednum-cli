@@ -1,5 +1,5 @@
-import { type InjectionKey, keyFor } from '../../../../../libraries/injection/index.js';
-import type { DataInclusionMerged } from '../domain/index.js';
+import { type InjectionKey, keyFor } from '../../../../../libraries/injection/index';
+import type { DataInclusionMerged } from '../domain/index';
 
 export type WriteExtraction = (outputFile: string, records: DataInclusionMerged[]) => void;
 

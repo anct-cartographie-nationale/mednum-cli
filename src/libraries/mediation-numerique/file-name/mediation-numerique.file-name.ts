@@ -1,4 +1,4 @@
-import { fileNameDate, formatForFileName } from '../../file-system/index.js';
+import { fileNameDate, formatForFileName } from '../../file-system/index';
 
 export const mediationNumeriqueFileName = (
   date: Date,

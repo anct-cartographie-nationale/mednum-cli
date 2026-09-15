@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { followPages, type Page, type ReadPage } from './pagination.js';
+import { followPages, type Page, type ReadPage } from './pagination';
 
 type Curseur = { page: number };
 

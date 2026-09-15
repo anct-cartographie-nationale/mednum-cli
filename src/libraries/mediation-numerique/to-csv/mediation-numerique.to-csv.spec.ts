@@ -11,7 +11,7 @@ import {
   Service,
   Typologie
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { mediationNumeriqueToCsv } from './mediation-numerique.to-csv.js';
+import { mediationNumeriqueToCsv } from './mediation-numerique.to-csv';
 
 describe('output', (): void => {
   it('should convert empty schema de la médiation numérique data to CSV with headers only', (): void => {

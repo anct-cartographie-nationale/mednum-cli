@@ -1,4 +1,4 @@
-import type { CleanOperation } from './clean-operations.js';
+import type { CleanOperation } from './clean-operations';
 
 const FIX_MISSING_0_IN_CODE_POSTAL: CleanOperation = {
   name: 'missing 0 in code postal',

@@ -1,4 +1,4 @@
-import type { FilesToMerge } from './files-to-merge.js';
+import type { FilesToMerge } from './files-to-merge';
 
 const ADDRESSES_SOURCE_PATTERN: RegExp = /-addresses\.json$/;
 

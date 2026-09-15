@@ -1,4 +1,4 @@
-import type { FrrMap, IsInFrr } from '../../../libraries/collectivites/index.js';
+import type { FrrMap, IsInFrr } from '../../../libraries/collectivites/index';
 
 export const isInFrr =
   (frrMap: FrrMap): IsInFrr =>

@@ -1,5 +1,5 @@
 import { keyFor as piqureKeyFor, piqure } from 'piqure';
-import type { Inject, InjectionKey, KeyFor, Provide, ProvideLazy } from './injection-key.js';
+import type { Inject, InjectionKey, KeyFor, Provide, ProvideLazy } from './injection-key';
 
 const container = piqure(new Map());
 

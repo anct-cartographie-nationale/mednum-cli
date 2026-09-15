@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import type { Adresse } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching.js';
-import { type Erp, processFicheAccesLibre } from './fiche-acces-libre.field.js';
+import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching';
+import { type Erp, processFicheAccesLibre } from './fiche-acces-libre.field';
 
 describe('accessibilite field', (): void => {
   it('should get accessibilite url from data source using matching information', (): void => {

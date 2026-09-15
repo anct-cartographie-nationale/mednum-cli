@@ -1,6 +1,6 @@
-import { toCsvText } from '../../../libraries/csv/index.js';
-import { writeTextFileSync } from '../../../libraries/file-system/index.js';
-import type { WriteRecordsToFile } from '../keys/index.js';
+import { toCsvText } from '../../../libraries/csv/index';
+import { writeTextFileSync } from '../../../libraries/file-system/index';
+import type { WriteRecordsToFile } from '../keys/index';
 
 export const writeCsvRecordsToFile: WriteRecordsToFile = (filePath: string, records: unknown[]): void =>
   writeTextFileSync(filePath, toCsvText(records));

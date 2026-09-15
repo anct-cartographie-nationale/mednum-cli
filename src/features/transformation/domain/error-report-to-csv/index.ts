@@ -1,1 +1,1 @@
-export * from './error-report.to-csv.js';
+export * from './error-report.to-csv';

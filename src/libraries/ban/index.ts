@@ -1,2 +1,2 @@
-export * from './ban.js';
-export * from './ban.types.js';
+export * from './ban';
+export * from './ban.types';

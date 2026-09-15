@@ -1,4 +1,4 @@
-import { extensionOf } from '../../libraries/file-system/path.js';
+import { extensionOf } from '../../libraries/file-system/path';
 
 /**
  * Un chargement se décrit par une liste de règles : la première qui accepte la source la

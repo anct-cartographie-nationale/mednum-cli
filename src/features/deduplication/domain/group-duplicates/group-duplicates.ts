@@ -1,5 +1,5 @@
-import { sha256 } from '../../../../libraries/hash/index.js';
-import type { DuplicationComparison } from '../duplication-comparisons/index.js';
+import { sha256 } from '../../../../libraries/hash/index';
+import type { DuplicationComparison } from '../duplication-comparisons/index';
 
 export type Groups = {
   mergeGroupsMap: Map<string, string[]>;

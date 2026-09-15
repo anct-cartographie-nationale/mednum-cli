@@ -1,15 +1,15 @@
 import type { Command } from 'commander';
 import inquirer, { type Answers } from 'inquirer';
-import { type Publication, publierUnJeuDeDonnees, type Reference } from '../../features/publication/index.js';
-import type { Api } from '../../libraries/http/index.js';
+import { type Publication, publierUnJeuDeDonnees, type Reference } from '../../features/publication/index';
+import type { Api } from '../../libraries/http/index';
 import {
   IdTypeChoice,
   PUBLIER_OPTIONS,
   type PublierOptions,
   publierOptionsQuestions,
   toPublierOptions
-} from './publier.options.js';
-import { providePublierImplementations } from './publier.providers.js';
+} from './publier.options';
+import { providePublierImplementations } from './publier.providers';
 
 const SKIPPED_MESSAGES: Record<string, string> = {
   'metadata-introuvable': 'Nothing to publish because data is null',

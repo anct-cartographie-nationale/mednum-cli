@@ -1,2 +1,2 @@
-export * from './fetch-data-inclusion-from-api.js';
-export * from './write-extraction-in-file.js';
+export * from './fetch-data-inclusion-from-api';
+export * from './write-extraction-in-file';

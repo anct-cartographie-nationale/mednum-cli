@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { provide } from '../../../../libraries/injection/index.js';
-import { MERGE_ERROR_MESSAGES, MergeError } from '../../domain/index.js';
-import { LIST_FILES, READ_RECORDS, WRITE_RECORDS } from '../../keys/index.js';
-import { fusionnerDesFichiers } from './fusionner-des-fichiers.js';
+import { provide } from '../../../../libraries/injection/index';
+import { MERGE_ERROR_MESSAGES, MergeError } from '../../domain/index';
+import { LIST_FILES, READ_RECORDS, WRITE_RECORDS } from '../../keys/index';
+import { fusionnerDesFichiers } from './fusionner-des-fichiers';
 
 type WrittenFile = { filePath: string; records: unknown[] };
 

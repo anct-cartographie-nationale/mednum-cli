@@ -1,7 +1,7 @@
 import { DispositifProgrammeNational, Typologie, Typologies } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { type Choice, cibleAsDefault, type DataSource, type LieuxMediationNumeriqueMatching } from '../../matching.js';
-import { processDispositifProgrammeNationaux } from '../dispositifs-programmes-nationaux/dispositifs-programmes-nationaux.field.js';
-import { TYPOLOGIE_MATCHERS, type TypologieMatcher } from './name-to-typologie.js';
+import { type Choice, cibleAsDefault, type DataSource, type LieuxMediationNumeriqueMatching } from '../../matching';
+import { processDispositifProgrammeNationaux } from '../dispositifs-programmes-nationaux/dispositifs-programmes-nationaux.field';
+import { TYPOLOGIE_MATCHERS, type TypologieMatcher } from './name-to-typologie';
 
 const isAllowedTerm = (choice: Choice<Typologie>, sourceValue: string): boolean =>
   choice.sauf?.every((forbidden: string): boolean => !sourceValue.includes(forbidden)) ?? true;

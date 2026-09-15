@@ -1,2 +1,2 @@
-export * from './headers.js';
-export * from './pagination.js';
+export * from './headers';
+export * from './pagination';

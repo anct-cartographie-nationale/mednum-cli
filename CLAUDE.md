@@ -20,7 +20,7 @@ pnpm lint                          # biome check ./src
 pnpm lint.fix                      # biome check --write ./src
 pnpm lint.architecture             # depcruise src && folderslint  (règles d'architecture)
 pnpm ts.check                      # tsc --noEmit
-pnpm build                         # tsc -> dist/
+pnpm build                         # tsdown -> dist/ (résout les imports, émet les .d.ts)
 pnpm doc.architecture              # régénère docs/architecture.svg (nécessite graphviz `dot`)
 pnpm mednum <commande>             # exécute la CLI en TS via tsx (sans build)
 ```
@@ -72,8 +72,9 @@ Une `ability` est le cas d'usage exécutable ; elle ne dépend jamais d'une autr
 
 ## Conventions de code
 
-- **ESM `nodenext`** : les imports relatifs portent l'extension `.js` même en TypeScript.
-- TypeScript en `strict` renforcé (`noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, `noUnusedLocals`, `noPropertyAccessFromIndexSignature`…). Config dans `.tsconfig/`, pas à la racine.
+- **Imports relatifs sans extension.** `tsdown` les résout à la construction et écrit les `.js` dans `dist` ; les sources n'ont pas à mentir sur le nom du fichier voisin. Ne pas réintroduire d'extension.
+- **`isolatedDeclarations`** : tout symbole exporté porte un type explicite, pour que les déclarations se dérivent du fichier seul, sans analyse globale. Un tableau exporté s'annote (`const X: T[] = […]`).
+- TypeScript en `strict` renforcé (`noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, `noUnusedLocals`, `noPropertyAccessFromIndexSignature`…). `tsconfig.json` à la racine — la chaîne de construction l'exige — et les réglages partagés dans `.tsconfig/tsconfig.base.json`.
 - Style fonctionnel : fonctions fléchées `const`, types de retour explicites partout, pas de classes.
 - Biome : guillemets simples, largeur 128, pas de virgule finale, `bracketSameLine: true`. L'organisation automatique des imports est **désactivée**.
 - Tests colocalisés en `*.spec.ts` à côté du code, en français (`it('injecte la valeur fournie pour un contrat')`). Le fuseau horaire est forcé à UTC par `vitest.global-setup.ts`.

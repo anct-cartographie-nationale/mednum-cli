@@ -1,5 +1,5 @@
-import { ANCIENNES_COMMUNES, type NewCommune } from './anciennes-communes.data.js';
-import type { Commune } from '../../../../../libraries/collectivites/index.js';
+import { ANCIENNES_COMMUNES, type NewCommune } from './anciennes-communes.data';
+import type { Commune } from '../../../../../libraries/collectivites/index';
 
 const onlyDefined = <T>(entry: T | undefined): entry is T => entry != null;
 

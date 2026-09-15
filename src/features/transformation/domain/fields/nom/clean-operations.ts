@@ -1,4 +1,4 @@
-import type { DataSource } from '../../matching.js';
+import type { DataSource } from '../../matching';
 
 type CleanOperation = {
   name: string;
@@ -19,7 +19,7 @@ const REMOVE_NOM_INVALID: CleanOperation = {
   fix: (): string => ''
 };
 
-export const CLEAN_NOM = [REMOVE_NOM_INVALID];
+export const CLEAN_NOM: CleanOperation[] = [REMOVE_NOM_INVALID];
 
 export const toCleanField = (toFix: string, cleanOperation: CleanOperation): string =>
   shouldApplyFix(cleanOperation, toFix) ? cleanOperation.fix(toFix) : toFix;

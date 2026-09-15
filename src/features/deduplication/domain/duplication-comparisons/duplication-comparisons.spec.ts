@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { type SchemaLieuMediationNumerique, Typologie } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { type DuplicationComparison, duplicationComparisons } from './duplication-comparisons.js';
+import { type DuplicationComparison, duplicationComparisons } from './duplication-comparisons';
 
 const CHAMPS_COMMUNS = {
   id: 'A',

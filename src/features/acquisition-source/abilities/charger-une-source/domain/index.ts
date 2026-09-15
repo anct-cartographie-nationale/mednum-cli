@@ -1,2 +1,2 @@
-export * from './source-content.js';
-export * from './source-location.js';
+export * from './source-content';
+export * from './source-location';
