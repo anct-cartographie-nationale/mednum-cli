@@ -7,7 +7,6 @@ import {
 import type { Output } from '../../../libraries/file-system/index.js';
 import {
   writeMediationNumeriqueCsvOutput,
-  writeMediationNumeriqueDynamoDBJsonOutput,
   writeMediationNumeriqueJsonOutput
 } from '../../../libraries/mediation-numerique/index.js';
 import {
@@ -28,7 +27,6 @@ const writeOutputFiles =
     lieuxDeMediationNumerique: LieuMediationNumerique[]
   ): void => {
     writeMediationNumeriqueJsonOutput(producer, lieuxWithLessDuplicates, 'sans-doublons');
-    writeMediationNumeriqueDynamoDBJsonOutput(producer, lieuxWithLessDuplicates);
     writeMediationNumeriqueCsvOutput(producer, lieuxWithLessDuplicates, 'sans-doublons');
     writePublicationMetadata(producer, lieuxDeMediationNumerique, 'sans-doublons');
   };

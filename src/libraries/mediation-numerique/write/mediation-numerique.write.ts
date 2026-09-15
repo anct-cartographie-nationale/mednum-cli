@@ -1,8 +1,5 @@
 import * as fs from 'node:fs';
-import {
-  fromSchemaLieuxDeMediationNumerique,
-  type SchemaLieuMediationNumerique
-} from '@gouvfr-anct/lieux-de-mediation-numerique';
+import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { createFolderIfNotExist, noEmptyCell, type Output, throwWriteFileError } from '../../file-system/index.js';
 import { mediationNumeriqueFileName } from '../file-name/mediation-numerique.file-name.js';
 import { mediationNumeriqueToCsv } from '../to-csv/mediation-numerique.to-csv.js';
@@ -39,17 +36,6 @@ export const writeMediationNumeriqueCsvOutput = (
       suffix
     )}`,
     mediationNumeriqueToCsv(schemaLieuxDeMediationNumerique),
-    throwWriteFileError
-  );
-};
-
-export const writeMediationNumeriqueDynamoDBJsonOutput = (
-  producer: Output,
-  schemaLieuxDeMediationNumerique: SchemaLieuMediationNumerique[]
-): void => {
-  fs.writeFile(
-    `${createFolderIfNotExist(`${producer.path}/dynamo-import`)}/cartographie-nationale.lieux-inclusion-numerique.json`,
-    JSON.stringify(fromSchemaLieuxDeMediationNumerique(schemaLieuxDeMediationNumerique), noEmptyCell),
     throwWriteFileError
   );
 };
