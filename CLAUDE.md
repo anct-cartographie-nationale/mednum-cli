@@ -29,7 +29,7 @@ La CI (`.github/workflows/validate.yml`) lance `lint`, `lint.architecture`, `lin
 
 Les scripts `transformer.*`, `dedupliquer.*` et `publier.*` du `package.json` (un par source de données, ~24 sources) sont les invocations réelles utilisées par les workflows et en local ; s'en inspirer plutôt que de reconstruire les arguments à la main.
 
-⚠️ `CONTRIBUTING.md` est obsolète sur l'outillage (il parle de yarn, ESLint et Prettier ; le projet utilise pnpm et Biome). Sa partie conventions (branches, commits signés, variables d'environnement data.gouv) reste valable.
+`CONTRIBUTING.md` porte les mêmes conventions à destination des contributeurs humains — installation, architecture, branches, commits signés, variables d'environnement data.gouv. Le modifier ici sans l'y répercuter laisserait les deux diverger.
 
 ## Architecture
 
