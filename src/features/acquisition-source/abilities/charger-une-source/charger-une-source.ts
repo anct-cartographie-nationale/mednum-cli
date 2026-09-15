@@ -16,11 +16,11 @@ const readRecords = async (location: SourceLocation): Promise<unknown[]> =>
   recordsOf(await inject(READ_LOCAL_SOURCE)(location), location.key);
 
 /**
- * Récupère les enregistrements bruts d'une source, distante ou locale, et les restitue sous
- * forme de document JSON prêt à être transformé.
+ * Récupère les enregistrements bruts d'une source, distante ou locale, et les restitue tels
+ * quels. Les interpréter revient à la capacité qui les a demandés.
  */
-export const chargerUneSource = async ({ source, ...settings }: SourceSettings): Promise<string> => {
+export const chargerUneSource = async ({ source, ...settings }: SourceSettings): Promise<unknown[]> => {
   const location: SourceLocation = sourceLocationOf(source);
 
-  return JSON.stringify(isRemote(location) ? await fetchRecords(location, settings) : await readRecords(location));
+  return isRemote(location) ? fetchRecords(location, settings) : readRecords(location);
 };

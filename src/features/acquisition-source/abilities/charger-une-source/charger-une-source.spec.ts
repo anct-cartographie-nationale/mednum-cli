@@ -28,19 +28,19 @@ describe('chargerUneSource', (): void => {
   it('charge les enregistrements d’un fichier local', async (): Promise<void> => {
     provideLocalSource({ './assets/input/dora.json': { 0: { id: 'a' }, 1: { id: 'b' } } });
 
-    expect(await chargerUneSource({ source: './assets/input/dora.json' })).toBe('[{"id":"a"},{"id":"b"}]');
+    expect(await chargerUneSource({ source: './assets/input/dora.json' })).toStrictEqual([{ id: 'a' }, { id: 'b' }]);
   });
 
   it('ne retient que la propriété désignée par la clé', async (): Promise<void> => {
     provideLocalSource({ './assets/input/landes.json': { values: { 0: { id: 'a' } }, meta: { total: 1 } } });
 
-    expect(await chargerUneSource({ source: './assets/input/landes.json@values' })).toBe('[{"id":"a"}]');
+    expect(await chargerUneSource({ source: './assets/input/landes.json@values' })).toStrictEqual([{ id: 'a' }]);
   });
 
   it('charge les enregistrements d’une source distante', async (): Promise<void> => {
     provideRemoteSource({ 'https://exemple.fr/api': { 0: { id: 'a' } } });
 
-    expect(await chargerUneSource({ source: 'https://exemple.fr/api' })).toBe('[{"id":"a"}]');
+    expect(await chargerUneSource({ source: 'https://exemple.fr/api' })).toStrictEqual([{ id: 'a' }]);
   });
 
   it('suit la pagination tant que la réponse porte un lien suivant', async (): Promise<void> => {
@@ -49,7 +49,7 @@ describe('chargerUneSource', (): void => {
       'https://exemple.fr/api?page=2': { data: { 0: { id: 'b' } } }
     });
 
-    expect(await chargerUneSource({ source: 'https://exemple.fr/api@data' })).toBe('[{"id":"a"},{"id":"b"}]');
+    expect(await chargerUneSource({ source: 'https://exemple.fr/api@data' })).toStrictEqual([{ id: 'a' }, { id: 'b' }]);
     expect(calls.map(({ location }: FetchCall): string => location.source)).toStrictEqual([
       'https://exemple.fr/api',
       'https://exemple.fr/api?page=2'
@@ -74,6 +74,6 @@ describe('chargerUneSource', (): void => {
       'https://exemple.fr/api?page=2': { 0: { id: 'b' } }
     });
 
-    expect(await chargerUneSource({ source: 'https://exemple.fr/api' })).toBe('[{"id":"a"},{"id":"b"}]');
+    expect(await chargerUneSource({ source: 'https://exemple.fr/api' })).toStrictEqual([{ id: 'a' }, { id: 'b' }]);
   });
 });

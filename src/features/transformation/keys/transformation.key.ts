@@ -32,13 +32,16 @@ export const LOAD_TERRITORIAL_ENRICHMENT: InjectionKey<LoadTerritorialEnrichment
   'transformation.load-territorial-enrichment'
 );
 
-/** Charge les données brutes de la source à transformer. Réalisé par la capacité d'acquisition. */
+/**
+ * Charge les enregistrements bruts de la source à transformer. Réalisé par la capacité
+ * d'acquisition, qui les rend tels qu'elle les a lus, sans les interpréter.
+ */
 export type LoadSource = (settings: {
   source: string;
   encoding?: string;
   delimiter?: string;
   apiEnvKey?: string;
-}) => Promise<string>;
+}) => Promise<unknown[]>;
 
 export const LOAD_SOURCE: InjectionKey<LoadSource> = keyFor<LoadSource>('transformation.load-source');
 

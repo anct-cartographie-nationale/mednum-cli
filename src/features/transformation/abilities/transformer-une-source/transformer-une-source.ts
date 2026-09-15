@@ -54,8 +54,10 @@ const delay = (ms: number): Promise<unknown> => new Promise((resolve: (value: un
  * Les valeurs nulles de la source deviennent des chaînes vides : le schéma cible distingue une
  * valeur absente d'une valeur vide, la source pas toujours.
  */
-const replaceNullWithEmptyString = (jsonString: string): string =>
-  JSON.stringify(JSON.parse(jsonString), (_: string, values?: string): string => values ?? '');
+const emptyStringForNull = (_: string, value: unknown): unknown => value ?? '';
+
+const replaceNullWithEmptyString = (records: unknown[]): DataSource[] =>
+  JSON.parse(JSON.stringify(records, emptyStringForNull));
 
 const lieuxToTransform = (sourceItems: DataSource[], diff: DiffSinceLastTransform): DataSource[] =>
   canTransform(diff) ? diff.toUpsert : sourceItems;
@@ -104,13 +106,13 @@ export const transformerUneSource = async ({
   const report: Report = Report();
   const addressCache: AddressCache = AddressCache();
 
-  const rawSource: string = await inject(LOAD_SOURCE)({
+  const rawSource: unknown[] = await inject(LOAD_SOURCE)({
     source,
     ...(encoding == null ? {} : { encoding }),
     ...(delimiter == null ? {} : { delimiter }),
     ...(apiEnvKey == null ? {} : { apiEnvKey })
   });
-  const sourceItems: DataSource[] = JSON.parse(replaceNullWithEmptyString(rawSource)).slice(0, maxTransform);
+  const sourceItems: DataSource[] = replaceNullWithEmptyString(rawSource).slice(0, maxTransform);
 
   journal.info('1. Initialisation des services tiers');
   const config: LieuxMediationNumeriqueMatching = await inject(LOAD_MATCHING)();
