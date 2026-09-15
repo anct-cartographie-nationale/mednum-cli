@@ -1,9 +1,8 @@
 import type { Adresse, Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import type { AxiosResponse } from 'axios';
 import {
   type BanAddressRow,
+  type BanSearchResult,
   type BanResultRow,
-  type FeatureCollection,
   geocodeCsv,
   type PostCsv,
   postBanCsv,
@@ -35,9 +34,7 @@ const isValid = (adresse: Adresse, response: BanResponse): boolean =>
  */
 export const localisationByGeocode: Geocode = (adresse: Adresse) => async (): Promise<Localisation> => {
   try {
-    const response: AxiosResponse<FeatureCollection> = await searchAddress(
-      `${adresse.voie} ${adresse.code_postal} ${adresse.commune}`
-    );
+    const response: BanSearchResult = await searchAddress(`${adresse.voie} ${adresse.code_postal} ${adresse.commune}`);
 
     return isValid(adresse, response) ? toLocalisation(response) : NO_LOCALISATION;
   } catch (error: unknown) {

@@ -8,8 +8,15 @@ const BAN_CSV_URL = 'https://api-adresse.data.gouv.fr/search/csv';
 
 export type PostCsv = (url: string, formData: FormData) => Promise<string>;
 
-export const searchAddress = async (query: string): Promise<AxiosResponse<FeatureCollection>> =>
-  axios.get(`${GEOCODAGE_URL}?q=${query}`);
+/** Ce que l'appelant utilise de la réponse, et rien de plus : le transport reste ici. */
+export type BanSearchResult = {
+  data: FeatureCollection;
+};
+
+export const searchAddress = async (query: string): Promise<BanSearchResult> => ({
+  // Affirmation : la BAN rend une collection de features. Rien ne le vérifie.
+  data: (await axios.get(`${GEOCODAGE_URL}?q=${query}`)).data as FeatureCollection
+});
 
 export const postBanCsv: PostCsv = (url: string, formData: FormData): Promise<string> =>
   axios.post<string>(url, formData, { responseType: 'text' }).then((response: AxiosResponse<string>): string => response.data);

@@ -6,6 +6,10 @@ import { type Api, authHeader, followPages, headers, type Page, type ReadPage } 
 /**
  * Client de l'API data.gouv. Il ne parle que le vocabulaire de data.gouv : la traduction vers
  * le modèle métier appartient à celui qui l'appelle.
+ *
+ * Les écritures gardent le paramètre de type de leur charge utile — il décrit ce qu'on envoie,
+ * et le compilateur le vérifie. Celui de la réponse est retiré : rien ne vérifie ce qui revient,
+ * et l'affirmation se fait désormais là où on la fait.
  */
 
 export type DataGouvRessource = {
@@ -102,12 +106,12 @@ export const listDataGouvDatasets = async (api: Api, reference: DataGouvReferenc
 
 export const createDataGouvDataset = async (api: Api, payload: DataGouvDatasetPayload): Promise<DataGouvDataset> =>
   (
-    await axios.post<DataGouvDataset, AxiosResponse<DataGouvDataset>, DataGouvDatasetPayload>(
+    await axios.post<unknown, AxiosResponse<unknown>, DataGouvDatasetPayload>(
       `${api.url}/datasets`,
       payload,
       headers(authHeader(api.key))
     )
-  ).data;
+  ).data as DataGouvDataset;
 
 export const replaceDataGouvDataset = async (
   api: Api,
@@ -115,20 +119,21 @@ export const replaceDataGouvDataset = async (
   payload: DataGouvDatasetPayload
 ): Promise<DataGouvDataset> =>
   (
-    await axios.put<DataGouvDataset, AxiosResponse<DataGouvDataset>, DataGouvDatasetPayload>(
+    await axios.put<unknown, AxiosResponse<unknown>, DataGouvDatasetPayload>(
       `${api.url}/datasets/${datasetId}`,
       payload,
       headers(authHeader(api.key))
     )
-  ).data;
+  ).data as DataGouvDataset;
 
 const uploadTo = async (api: Api, uploadUrl: string, source: string): Promise<string> => {
   const formData = new FormData();
   formData.append('file', fs.readFileSync(source), fileNameOf(source));
 
   return (
-    await axios.post<DataGouvRessource>(uploadUrl, formData.getBuffer(), headers(formData.getHeaders(authHeader(api.key))))
-  ).data.id;
+    (await axios.post(uploadUrl, formData.getBuffer(), headers(formData.getHeaders(authHeader(api.key)))))
+      .data as DataGouvRessource
+  ).id;
 };
 
 export const addDataGouvRessource = async (api: Api, datasetId: string, source: string): Promise<string> =>
