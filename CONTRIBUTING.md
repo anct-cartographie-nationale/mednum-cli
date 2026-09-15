@@ -4,6 +4,7 @@
 
 - 📦 [Prérequis](#prérequis)
 - 🚀 [Installation](#installation)
+- 🏛️ [Architecture](#architecture)
 - 🛠️ [Utilisation](#utilisation)
 - 🤝 [Contribution](#contribution)
 - 🏗️ [Construit avec](#construit-avec)
@@ -13,10 +14,10 @@
 ### Outils
 
 - [Git](https://git-scm.com/) : Système de contrôle de versions distribué d'un ensemble de fichiers
-- [Node](https://nodejs.org/) : Environnement d'exécution pour Javascript
-- [Yarn](https://yarnpkg.com/) : Gestionnaire de paquets pour les produits développés dans des environnements Node
+- [Node](https://nodejs.org/) : Environnement d'exécution pour Javascript, en version **22.13 ou supérieure**
+- [pnpm](https://pnpm.io/) : Gestionnaire de paquets pour les produits développés dans des environnements Node, en version **12**
 
-> Node et Yarn peuvent être installés via [nvm](https://github.com/nvm-sh/nvm) qui permet d'obtenir et d'utiliser rapidement différentes versions de Node via la ligne de commande.
+> Node peut être installé via [nvm](https://github.com/nvm-sh/nvm) qui permet d'obtenir et d'utiliser rapidement différentes versions de Node via la ligne de commande. pnpm s'installe via [corepack](https://pnpm.io/installation#using-corepack), livré avec Node.
 
 ## Installation
 
@@ -32,23 +33,12 @@ Aller dans le dossier du projet pour installer les dépendances
 
 ```bash
 cd mednum-cli
-yarn
+pnpm install
 ```
 
-### Installer Husky
+Les hooks git de [Husky](https://typicode.github.io/husky) sont mis en place automatiquement pendant l'installation, par le script `prepare` : il n'y a rien d'autre à lancer. Le hook `commit-msg` valide le message de commit, le hook `pre-commit` lance l'analyse statique des fichiers indexés puis la vérification de l'architecture.
 
-[Husky](https://typicode.github.io/husky) est un outil de gestion des hooks git pour effectuer des tâches automatiques
-
-```bash
-yarn husky install
-```
-
-Rendre exécutable les fichiers qui contiennent les hooks :
-
-```bash
-chmod a+x .husky/commit-msg
-chmod a+x .husky/pre-commit
-```
+> `pnpm-workspace.yaml` porte un `minimumReleaseAge` de 14400 minutes, soit **10 jours** : une dépendance publiée plus récemment ne s'installera pas. C'est une protection délibérée contre la compromission de la chaîne d'approvisionnement, elle ne doit pas être contournée.
 
 ### Configurer l'environnement
 
@@ -57,7 +47,7 @@ Le fichier d'environnement `.env` contient les variables d'environnements néces
 Pour faciliter la mise en place du fichier d'environnement, vous pouvez copier le fichier [.env.example](.env.example) et le renommer en `.env`.
 
 ⚠️ Le fichier `.env` est susceptible de contenir des données sensibles, il ne doit jamais être traqué par un gestionnaire de version.  
-⚠️ Le fichier `env.example` est une aide pour la mise en place du fichier `.env`, il est public et ne doit pas contenir de données sensibles.
+⚠️ Le fichier `.env.example` est une aide pour la mise en place du fichier `.env`, il est public et ne doit pas contenir de données sensibles.
 
 Configurez les variables d'environnements attendus dans le fichier `.env` :
 
@@ -95,9 +85,45 @@ Vous devez indiquer l'identifiant de votre compte si vous avez choisi le type `o
   - Par exemple pour `.../api/1/harvest/sources/?owner=6396e6363a1ab130371ff777&deleted=true&lang=fr&_=1674118850001`, l'id est `6396e6363a1ab130371ff777`
 - Retrouvez l'id d'une organisation en vous rendant sur la page d'[Administation](https://demo.data.gouv.fr/fr/admin/) de votre compte.
   - Dans la liste à gauche, vos organisations s'affichent en dessous du menu `Profil`.
-  - Cliquez sur l'organisation dnt vous voulez retrouver l'id.
+  - Cliquez sur l'organisation dont vous voulez retrouver l'id.
   - Une fois la page administration de l'organisation, récupérer le dernier paramètre de l'URL de la page : il s'agit de l'id de l'organisation
   - Par exemple pour `.../admin/organization/4a4fc649a5a4982f465cfa24/`, l'id est `4a4fc649a5a4982f465cfa24`
+
+## Architecture
+
+Le code est découpé en trois couches, et ce découpage n'est pas une convention de rangement : il est **vérifié mécaniquement** à chaque commit et en intégration continue.
+
+```
+src/cli/<commande>/        points d'entrée — une commande de la CLI par dossier
+src/features/<capacité>/   capacités métier, autonomes les unes des autres
+src/libraries/<library>/   utilitaires techniques génériques
+```
+
+### Les trois règles à connaître
+
+**Une capacité n'en importe jamais une autre.** Quand deux capacités doivent se rencontrer, la rencontre a lieu au point d'entrée de la commande, jamais dans le code métier.
+
+**Une capacité déclare ce dont elle a besoin, elle ne le réalise pas.** Le contrat — le *port* — est déclaré dans `keys/` par celui qui en a besoin, pas par celui qui le réalisera. La déduplication déclare `LOAD_LIEUX` parce qu'elle a besoin de lieux ; elle ignore d'où ils viennent.
+
+**Les implémentations ne se branchent qu'au point d'entrée.** `provide()` n'est appelé que dans `src/cli/<commande>/<commande>.providers.ts`, nulle part ailleurs. Ce fichier est le seul endroit où le concret rencontre l'abstrait, et toute la composition de la commande s'y lit d'un seul tenant.
+
+### Anatomie d'une capacité
+
+```
+features/<capacité>/
+  domain/                modèle pur : aucune entrée-sortie, aucun réseau, aucun fichier
+  keys/                  les contrats dont la capacité a besoin
+  implementations/       des réalisations possibles de ces contrats
+  abilities/<verbe>/     un cas d'usage, avec au besoin ses propres domain/keys/implementations
+```
+
+Une *ability* est le cas d'usage exécutable. Elle ne dépend jamais d'une autre ability de la même capacité : ce qu'elles partagent remonte dans le `domain` de la capacité.
+
+### La référence
+
+`.dependency-cruiser.cjs` décrit, en règles nommées et commentées, ce qui a le droit de dépendre de quoi — dont la table `LIBRARY_DEPENDENCIES`, qu'il faut compléter pour qu'une library puisse en utiliser une autre. `.folderslintrc` liste les dossiers autorisés.
+
+**En cas de doute sur une convention, lire ces deux fichiers plutôt que cette section** : ils ne peuvent pas se périmer, `pnpm lint.architecture` les vérifie.
 
 ## Utilisation
 
@@ -105,26 +131,58 @@ Ces commandes servent dans un contexte de développement de l'application.
 
 ### Test
 
-Tester le projet :
+Lancer les tests, en mode surveillance :
 
 ```bash
-yarn test
+pnpm test
 ```
 
-### Global lint
-
-Analyse statique de tous les fichiers `.ts` du projet :
+Pour une passe unique, ou pour cibler un fichier ou un test précis :
 
 ```bash
-yarn lint.all
+pnpm vitest run
+pnpm vitest run src/chemin/vers/fichier.spec.ts
+pnpm vitest run -t "nom du test"
 ```
 
-### Staged lint
+### Analyse statique
 
-Analyse statique des fichiers `.ts` qui ont été ajoutés avec la commande `git add` :
+Analyser tous les fichiers du dossier `src` :
 
 ```bash
-yarn lint.staged
+pnpm lint
+```
+
+Corriger automatiquement ce qui peut l'être — mise en forme comprise :
+
+```bash
+pnpm lint.fix
+```
+
+Analyser uniquement les fichiers ajoutés avec `git add`, ce que fait le hook de pre-commit :
+
+```bash
+pnpm lint.staged
+```
+
+### Vérification de l'architecture
+
+Vérifier que les dépendances entre couches et l'arborescence respectent les règles du projet :
+
+```bash
+pnpm lint.architecture
+```
+
+Cette commande est lancée par le hook de pre-commit et par l'intégration continue : **une violation d'architecture empêche le commit**. Pour visualiser le graphe des dépendances en SVG — nécessite [Graphviz](https://graphviz.org/) :
+
+```bash
+pnpm doc.architecture
+```
+
+### Vérification des types
+
+```bash
+pnpm ts.check
 ```
 
 ### Commit lint
@@ -132,31 +190,27 @@ yarn lint.staged
 Valider la syntaxe de l'ensemble des commits réalisés depuis la dernière version commune avec la branche `main` :
 
 ```bash
-yarn lint.commit
+pnpm lint.commit
 ```
 
-### Prettier check
+### Exécuter la CLI depuis les sources
 
-Vérifier la syntaxe de l'ensemble des fichiers du projet :
+Sans compilation préalable, via `tsx` :
 
 ```bash
-yarn prettier.check
+pnpm mednum <commande>
 ```
 
-### Prettier
+Les scripts `transformer.*`, `dedupliquer.*` et `publier.*` du `package.json` — un par source de données — sont les invocations réelles utilisées par les workflows. S'en inspirer plutôt que de reconstruire les arguments à la main.
 
-Corriger la syntaxe de l'ensemble des fichiers du projet :
-
-```bash
-yarn prettier
-```
+⚠️ La commande `publier` écrit réellement sur data.gouv. En développement, pointer `DATA_GOUV_API_URL` vers l'API de démonstration.
 
 ### Build
 
 Générer une version prête à être publiée :
 
 ```bash
-yarn build
+pnpm build
 ```
 
 ## Contribution
@@ -190,8 +244,10 @@ La branche `main`, ainsi que l'ensemble des branches de travail avec un préfixe
 #### CLI
 
 - [Vitest](https://vitest.dev/) est une boîte à outils pour écrire des tests automatisés en JavaScript
-- [Eslint](https://eslint.org/) est un analyseur statique de JavaScript
-- [Prettier](https://prettier.io/) est un magnificateur de code source en JavaScript
+- [Biome](https://biomejs.dev/) est un analyseur statique et un formateur de code, qui remplace ESLint et Prettier en un seul outil
+- [dependency-cruiser](https://github.com/sverweij/dependency-cruiser) vérifie les dépendances entre les couches du projet, décrites dans `.dependency-cruiser.cjs`
+- [folderslint](https://github.com/OlegKlimenko/folderslint) vérifie que l'arborescence respecte les dossiers autorisés, décrits dans `.folderslintrc`
+- [tsx](https://tsx.is/) exécute le TypeScript directement, sans étape de compilation
 - [Husky](https://typicode.github.io/husky/#/) est un outil qui permet d'effectuer des vérifications automatiques avant de publier des contributions.
 - [Commitlint](https://github.com/conventional-changelog/commitlint) est un outil de vérification des commits suivant le [format des Commits Conventionnels](https://www.conventionalcommits.org/fr/v1.0.0/).
 - [Lint-staged](https://github.com/okonet/lint-staged) est un outil qui permet d'effectuer un ensemble de vérifications à l'aide d'autres outils sur un ensemble de fichiers qui viennent d'être modifiés.
@@ -222,11 +278,10 @@ La branche `main`, ainsi que l'ensemble des branches de travail avec un préfixe
 
 ##### Transformations et publication automatique
 
-Les workflows GitHub [validate.yml](.github%2Fworkflows%2Fvalidate.yml) et [transform-and-publish.yml](.github%2Fworkflows%2Ftransform-and-publish.yml) se chargent de transformer et de publier automatiquement les données :
+Trois workflows transforment et publient les données. Tous trois délèguent le travail au workflow réutilisable [process-data.reusable.yml](.github/workflows/process-data.reusable.yml), qui enchaîne quatre étapes : `transform`, `publish`, `merge` et `deduplicate`.
 
-- `validate.yml` est lancé à chaque push sur une branche en cours de développement. Les données sont publiées dans un [environnement de démo de data.gouv](https://demo.data.gouv.fr/fr/organizations/cartographie-nationale-des-lieux-de-mediation-numerique/).  
-  Pour qu'une nouvelle source de données soit prise en compte, il faut bien penser à l'ajouter dans le job `publish-to-data-gouv` : une `strategy` de type `matrix` définie chaque `source` à transformer et publier.
-- `release.yml` est lancé à chaque fusion sur `main`. Les données sont publiées dans [l'organisation Cartographie Nationale des lieux de médiation numérique sur data.gouv](https://data.gouv.fr/fr/organizations/cartographie-nationale-des-lieux-de-mediation-numerique/).  
-  Pour qu'une nouvelle source de données soit prise en compte, il faut bien penser à l'ajouter dans le job `publish-to-data-gouv` : une `strategy` de type `matrix` définie chaque `source` à transformer et publier.
-- `daily` est lancé tous les jours à 04:15 AM. Les données sont publiées dans [l'organisation Cartographie Nationale des lieux de médiation numérique sur data.gouv](https://data.gouv.fr/fr/organizations/cartographie-nationale-des-lieux-de-mediation-numerique/).  
-  Pour qu'une nouvelle source de données soit prise en compte, il faut bien penser à l'ajouter dans le job `publish-to-data-gouv` : une `strategy` de type `matrix` définie chaque `source` à transformer et publier.
+- [validate.yml](.github/workflows/validate.yml) est lancé à chaque push sur une branche en cours de développement. Il vérifie d'abord le code — Biome, architecture, commits, tests, build — puis publie les données dans l'[environnement de démonstration de data.gouv](https://demo.data.gouv.fr/fr/organizations/cartographie-nationale-des-lieux-de-mediation-numerique/).
+- [release.yml](.github/workflows/release.yml) est lancé à chaque fusion sur `main`. Il publie le paquet sur npm, puis les données dans [l'organisation Cartographie Nationale des lieux de médiation numérique sur data.gouv](https://data.gouv.fr/fr/organizations/cartographie-nationale-des-lieux-de-mediation-numerique/).
+- [nightly-publish.yml](.github/workflows/nightly-publish.yml) est lancé chaque nuit à 22h48 UTC vers la même organisation, et peut aussi être déclenché à la main.
+
+⚠️ **Pour qu'une nouvelle source de données soit prise en compte**, il faut l'ajouter à la liste `sources:` de ces **trois** workflows, qui la dupliquent chacun. Cette liste alimente la `matrix` des étapes `transform` et `publish` : une source absente de la liste ne sera ni transformée ni publiée, sans qu'aucune erreur ne le signale.
