@@ -1,4 +1,4 @@
-import * as fs from 'node:fs';
+import { readJsonFileIfExists } from '../../../libraries/file-system/index.js';
 import type { AddressRecord } from '../domain/index.js';
 import type { LoadAddressStorage } from '../keys/index.js';
 
@@ -9,8 +9,5 @@ import type { LoadAddressStorage } from '../keys/index.js';
  */
 export const addressStorageFromFile =
   (filePath: string): LoadAddressStorage =>
-  (): AddressRecord[] => {
-    if (!fs.existsSync(filePath)) return [];
-
-    return JSON.parse(fs.readFileSync(filePath, 'utf-8')) as AddressRecord[];
-  };
+  (): AddressRecord[] =>
+    (readJsonFileIfExists(filePath) ?? []) as AddressRecord[];

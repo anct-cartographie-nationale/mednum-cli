@@ -1,4 +1,3 @@
-import * as fs from 'node:fs';
 import {
   chargerUneSource,
   FETCH_REMOTE_SOURCE,
@@ -42,7 +41,7 @@ import {
   writeAddressesInFiles,
   writeErrorsInFiles
 } from '../../features/transformation/index.js';
-import type { Output } from '../../libraries/file-system/index.js';
+import { type Output, readJsonFile } from '../../libraries/file-system/index.js';
 import { provide } from '../../libraries/injection/index.js';
 import { consoleJournal, JOURNAL } from '../../libraries/journal/index.js';
 import type { TransformerOptions } from './transformer.options.js';
@@ -86,7 +85,7 @@ export const provideTransformerImplementations = (transformerOptions: Transforme
   provide(
     LOAD_MATCHING,
     async (): Promise<LieuxMediationNumeriqueMatching> =>
-      JSON.parse(await fs.promises.readFile(transformerOptions.configFile, 'utf-8')) as LieuxMediationNumeriqueMatching
+      readJsonFile(transformerOptions.configFile) as LieuxMediationNumeriqueMatching
   );
   provide(LOAD_FINGERPRINTS, fingerprintsFromFile(fingerprintFileOf(transformerOptions)));
   provide(SAVE_FINGERPRINTS, (idKey: string, fingerprints: Fingerprint[]) =>
