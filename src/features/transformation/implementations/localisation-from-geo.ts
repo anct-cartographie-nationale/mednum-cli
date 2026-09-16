@@ -10,7 +10,7 @@ import {
   searchAddress,
   toFeatureCollection
 } from '../../../libraries/ban';
-import type { AddressRecord, Geocode } from '../domain';
+import { type AddressRecord, type Geocode, isRecentFailedAttempt } from '../domain';
 import {
   addressLabel,
   banRowFor,
@@ -72,7 +72,8 @@ const needsGeocoding = (
   !isMissingFields(source, matching) &&
   !arrayFromStorage.some(
     (record: AddressRecord): boolean =>
-      addressLabel(source, matching) === record?.addresseOriginale && record.responseBan != null
+      addressLabel(source, matching) === record?.addresseOriginale &&
+      (record.responseBan != null || isRecentFailedAttempt(record))
   );
 
 const indicesToGeocode = (

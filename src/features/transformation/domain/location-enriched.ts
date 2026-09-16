@@ -1,6 +1,6 @@
 import { Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import type { BanAddressRow, Feature, FeatureCollection } from '../../../libraries/ban';
-import type { AddressRecord } from './address-cache';
+import { type AddressRecord, isRecentFailedAttempt } from './address-cache';
 import { toCleanField } from './fields/adresse/clean-operations';
 import { CLEAN_VOIE, voieField } from './fields/adresse/clean-voie';
 import type { DataSource, LieuxMediationNumeriqueMatching } from './matching';
@@ -89,9 +89,14 @@ const rawAddressLabel = (source: DataSource, matching: LieuxMediationNumeriqueMa
  * toute nouvelle tentative. Et comme une même adresse peut figurer au cache une fois en échec
  * et une fois en succès, ne chercher que les succès évite que l'ordre du fichier décide.
  */
-const cachedGeocodingFor = (records: AddressRecord[], addressLabel: string): Feature | undefined =>
-  records.find((record: AddressRecord): boolean => record?.addresseOriginale === addressLabel && record.responseBan != null)
-    ?.responseBan;
+/**
+ * Le chargement du cache déduplique déjà, mais cette fonction ne s'y fie pas : si une même
+ * adresse revient en échec et en succès, le succès l'emporte, faute de quoi l'ordre du tableau
+ * déciderait du sort du lieu.
+ */
+const cachedFor = (records: AddressRecord[], addressLabel: string): AddressRecord | undefined =>
+  records.find((record: AddressRecord): boolean => record?.addresseOriginale === addressLabel && record.responseBan != null) ??
+  records.find((record: AddressRecord): boolean => record?.addresseOriginale === addressLabel);
 
 const freshGeocodingFrom = (response?: BanResponse | null): Feature | undefined =>
   isAboveBatchScore(response) ? response?.data.features[0] : undefined;
@@ -103,9 +108,11 @@ export const getAddressData =
 
     if (isMissingFields(source, matching)) return { statut: 'no_from_storage', addresseOriginale };
 
-    const cached: Feature | undefined = cachedGeocodingFor(arrayFromStorage, addressLabel(source, matching));
+    const cached: AddressRecord | undefined = cachedFor(arrayFromStorage, addressLabel(source, matching));
 
-    if (cached != null) return { data: geocodedColumns(matching, cached), statut: 'from_storage' };
+    if (cached?.responseBan != null) return { data: geocodedColumns(matching, cached.responseBan), statut: 'from_storage' };
+
+    if (isRecentFailedAttempt(cached)) return { statut: 'from_storage', addresseOriginale };
 
     const fresh: Feature | undefined = freshGeocodingFrom(response);
 

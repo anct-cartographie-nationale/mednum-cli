@@ -92,6 +92,61 @@ describe('localisation-from-geo', () => {
     expect(result.data).toMatchObject({ 'Adresse postale *': '10 Rue de la Paix', latitude: 48.868989 });
   });
 
+  it('ne retente pas une adresse dont la dernière tentative infructueuse date de moins d’une semaine', async () => {
+    const dataSource: DataSource = {
+      'Adresse postale *': '- 15 rue des Lilas',
+      'Code postal': '75008',
+      'Ville *': 'Paris'
+    };
+    const hier: AddressRecord[] = [
+      { dateDeTraitement: new Date(Date.now() - 24 * 60 * 60 * 1000), addresseOriginale: '- 15 rue des Lilas 75008 Paris' }
+    ];
+    const axiosResponse = {
+      data: { type: 'FeatureCollection' as const, features: [DATASEARCH], query: '15 rue des Lilas' }
+    };
+
+    const result = await getAddressData(dataSource, STANDARD_MATCHING, axiosResponse)(hier);
+
+    expect(result.statut).toBe('from_storage');
+    expect(result.data).toBeUndefined();
+  });
+
+  it('retente une adresse dont la dernière tentative infructueuse remonte à plus d’une semaine', async () => {
+    const dataSource: DataSource = {
+      'Adresse postale *': '- 15 rue des Lilas',
+      'Code postal': '75008',
+      'Ville *': 'Paris'
+    };
+    const leMoisDernier: AddressRecord[] = [
+      { dateDeTraitement: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), addresseOriginale: '- 15 rue des Lilas 75008 Paris' }
+    ];
+    const axiosResponse = {
+      data: { type: 'FeatureCollection' as const, features: [DATASEARCH], query: '15 rue des Lilas' }
+    };
+
+    const result = await getAddressData(dataSource, STANDARD_MATCHING, axiosResponse)(leMoisDernier);
+
+    expect(result.statut).toBe('from_api');
+  });
+
+  it('retente une adresse dont la tentative infructueuse porte une date illisible', async () => {
+    const dataSource: DataSource = {
+      'Adresse postale *': '- 15 rue des Lilas',
+      'Code postal': '75008',
+      'Ville *': 'Paris'
+    };
+    const dateCassee: AddressRecord[] = [
+      { dateDeTraitement: 'pas une date', addresseOriginale: '- 15 rue des Lilas 75008 Paris' }
+    ];
+    const axiosResponse = {
+      data: { type: 'FeatureCollection' as const, features: [DATASEARCH], query: '15 rue des Lilas' }
+    };
+
+    const result = await getAddressData(dataSource, STANDARD_MATCHING, axiosResponse)(dateCassee);
+
+    expect(result.statut).toBe('from_api');
+  });
+
   it('préfère le succès à l’échec quand le cache porte les deux pour une même adresse', async () => {
     const dataSource: DataSource = {
       'Adresse postale *': '- 18 boulevard rené bazin',
