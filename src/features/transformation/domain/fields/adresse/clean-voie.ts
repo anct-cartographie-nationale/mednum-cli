@@ -155,37 +155,105 @@ const KEEP_FIRST_NUMBER_OF_RANGE_IN_VOIE: CleanOperation = {
   fix: (toFix: string): string => toFix.replace(/^(\s*\d+)\s*[-–/]\s*\d+/u, '$1')
 };
 
+const PARENTHESISED_DETAIL: RegExp =
+  /\((?=[^)]*(?:\d|rdc|porte|[ée]tage|b[âa]t|imm|r[ée]sidence|escalier|hall|entr[ée]e|niveau|appt?|apt))[^)]*\)/giu;
+
 /**
- * Ce qu'une parenthèse porte — un étage, une porte, un bâtiment — relève du complément
- * d'adresse et brouille le rapprochement.
+ * Ce qu'une parenthèse porte relève tantôt du complément d'adresse — un étage, une porte, un
+ * bâtiment — tantôt de la commune déléguée, « 27 Rue Victor Hugo (Saint-Pol-sur-Mer) », dont le
+ * référentiel a besoin pour lever l'ambiguïté. On ne retire donc que les premières, reconnues
+ * à un chiffre ou à un mot de bâtiment.
  */
-const REMOVE_PARENTHESES_IN_VOIE: CleanOperation = {
-  name: 'remove parenthesised details',
-  selector: /\([^)]*\)/u,
+const REMOVE_PARENTHESISED_DETAIL_IN_VOIE: CleanOperation = {
+  name: 'remove parenthesised building details, never a delegated commune',
+  selector: /\((?=[^)]*(?:\d|[Rr][Dd][Cc]|[Pp]orte|[ÉEée]tage|[Bb][ÂAâa]t|[Ii]mm|[Rr][ée]sidence))[^)]*\)/u,
   fix: (toFix: string): string =>
     toFix
-      .replace(/\([^)]*\)/gu, ' ')
+      .replace(PARENTHESISED_DETAIL, ' ')
       .replace(/\s{2,}/gu, ' ')
       .trim()
 };
 
-const PLURAL_STREET_TYPE_AT_HEAD: RegExp =
-  /^(\s*\d+\s*(?:[Bb][Ii][Ss]|[Tt][Ee][Rr]|[Qq][Uu][Aa][Tt][Ee][Rr])?\s*)?([Qq]uais|[Rr]ues|[Aa]venues|[Pp]laces|[Aa]ll[ée]es|[Rr]outes|[Ii]mpasses|[Cc]hemins)(?![\p{L}\d])/u;
+/** Les types de voie que connaît le référentiel. Sert à repérer où commence l'adresse. */
+const STREET_TYPES =
+  'rue|avenue|boulevard|place|chemin|route|impasse|all[ée]e|quai|cours|square|passage|sentier|voie|faubourg|esplanade|promenade|villa|cit[ée]|hameau|lotissement|mail|rond[- ]point|traverse|venelle|clos|domaine|parvis';
+
+const POSTAL_BOX: RegExp = /(?<![\p{L}\d])(BP|B\.P\.|CS|CEDEX|C[ÉE]DEX)\s*\d*(?![\p{L}\d])/giu;
+
+/** Une boîte postale n'est pas un point sur une carte, et la BAN n'en connaît aucune. */
+const REMOVE_POSTAL_BOX_IN_VOIE: CleanOperation = {
+  name: 'remove a postal box or cedex mention',
+  selector: /(?<![\p{L}\d])([Bb][Pp]|[Cc][Ss]|[Cc][ÉEée][Dd][Ee][Xx])(?![\p{L}\d])/u,
+  fix: (toFix: string): string =>
+    toFix
+      .replace(POSTAL_BOX, ' ')
+      .replace(/\s{2,}/gu, ' ')
+      .trim()
+};
+
+const BUILDING_DETAIL: RegExp =
+  /(?<![\p{L}\d])(b[âa]t(?:iment)?|imm(?:euble)?|r[ée]sidence|[ée]tage|rdc|appt?|apt|escalier|hall|entr[ée]e|niveau)(?![\p{L}\d])/iu;
+const DETERMINER_BEFORE: RegExp = /(?:de|du|des|d'|d’|la|le|les|l'|l’|au|aux|en)\s*$/iu;
+const ANY_STREET_TYPE: RegExp = new RegExp(`(?:${STREET_TYPES})(?![\\p{L}\\d])`, 'iu');
 
 /**
- * Le référentiel ne connaît que le singulier — « 206 quais de Jemmapes » n'y existe pas — mais
- * seul le **type** de voie se singularise. Le nom, lui, se respecte : la Base Adresse Nationale
- * connaît bien une « Route des Allées » et une « Rue des Grands Chemins », que singulariser
- * ferait au contraire échouer.
+ * Bâtiment, étage, porte : ce qui suit l'adresse ne l'affine pas pour la BAN, il la brouille.
+ * On ne tronque qu'à trois conditions, apprises des cas où la troncature faisait chuter le
+ * score : une vraie adresse doit précéder, elle doit contenir un type de voie, et le mot ne
+ * doit pas suivre un déterminant — « Impasse du Moulin de l'Escalier » nomme un escalier.
  */
-const SINGULARIZE_STREET_TYPE_IN_VOIE: CleanOperation = {
-  name: 'singularize the street type, never the street name',
-  selector: PLURAL_STREET_TYPE_AT_HEAD,
-  fix: (toFix: string): string =>
-    toFix.replace(
-      PLURAL_STREET_TYPE_AT_HEAD,
-      (_: string, numero: string | undefined, type: string): string => `${numero ?? ''}${type.slice(0, -1)}`
-    )
+const REMOVE_BUILDING_DETAIL_IN_VOIE: CleanOperation = {
+  name: 'remove building, floor or door details',
+  selector: BUILDING_DETAIL,
+  fix: (toFix: string): string => {
+    const found: RegExpExecArray | null = BUILDING_DETAIL.exec(toFix);
+    if (found == null) return toFix;
+    const before: string = toFix.slice(0, found.index).trim();
+
+    return before.split(/\s+/u).length < 3 || !ANY_STREET_TYPE.test(before) || DETERMINER_BEFORE.test(before) ? toFix : before;
+  }
+};
+
+const ADDRESS_FROM_STREET_TYPE: RegExp = new RegExp(
+  `^([^\\d]*?)((?:\\d+\\s*(?:bis|ter|quater)?\\s*)?(?:${STREET_TYPES})(?![\\p{L}\\d])\\s+\\S+\\s+\\S+.*)$`,
+  'iu'
+);
+const COMPOUND_NAME_START: RegExp =
+  /^(?:grande?|petite?|vieille|vieux|haute?|basse?|belle?|beau|nouvelle?|nouveau|longue?|premi[èe]re?|derni[èe]re?|hlm)$/iu;
+
+/**
+ * Le nom de l'établissement précède souvent son adresse — « IMMEUBLE ANTHYLLIS ZAC BASSO CAMBO
+ * 8 RUE PAUL MESPLE ». On repart du type de voie, sauf quand celui-ci appartient au nom : un
+ * trait d'union collé le trahit (« Grand-Place »), un adjectif qui le précède aussi
+ * (« Grande Rue »).
+ */
+const KEEP_ADDRESS_FROM_STREET_TYPE_IN_VOIE: CleanOperation = {
+  name: 'drop what precedes the street type',
+  selector: ADDRESS_FROM_STREET_TYPE,
+  fix: (toFix: string): string => {
+    const found: RegExpExecArray | null = ADDRESS_FROM_STREET_TYPE.exec(toFix);
+    if (found?.[1] == null || found[2] == null || found[1].trim() === '') return toFix;
+    if (/\S-$/u.test(found[1])) return toFix;
+    const lastWord: string = found[1].trim().replace(/-+$/u, '').split(/\s+/u).pop() ?? '';
+
+    return COMPOUND_NAME_START.test(lastWord) ? toFix : found[2];
+  }
+};
+
+const LETTER_BETWEEN_NUMBER_AND_TYPE: RegExp = new RegExp(
+  `^(\\s*\\d+)\\s+[a-z]\\s+(?=(?:${STREET_TYPES})(?![\\p{L}\\d]))`,
+  'iu'
+);
+
+/**
+ * « 46 b Avenue Joliot Curie » : la lettre isolée est un suffixe de numéro que le référentiel
+ * ignore. On ne la retire que devant un type de voie, faute de quoi on amputerait un « 372 R
+ * des Tovets » où le R abrège la rue elle-même.
+ */
+const REMOVE_LETTER_BETWEEN_NUMBER_AND_TYPE_IN_VOIE: CleanOperation = {
+  name: 'remove an isolated letter between the number and the street type',
+  selector: /^\s*\d+\s+[A-Za-z]\s+\p{L}/u,
+  fix: (toFix: string): string => toFix.replace(LETTER_BETWEEN_NUMBER_AND_TYPE, '$1 ')
 };
 
 /**
@@ -196,8 +264,11 @@ const SINGULARIZE_STREET_TYPE_IN_VOIE: CleanOperation = {
  */
 export const CLEAN_VOIE_FOR_SEARCH: CleanOperation[] = [
   KEEP_FIRST_NUMBER_OF_RANGE_IN_VOIE,
-  REMOVE_PARENTHESES_IN_VOIE,
-  SINGULARIZE_STREET_TYPE_IN_VOIE
+  REMOVE_PARENTHESISED_DETAIL_IN_VOIE,
+  REMOVE_POSTAL_BOX_IN_VOIE,
+  REMOVE_BUILDING_DETAIL_IN_VOIE,
+  KEEP_ADDRESS_FROM_STREET_TYPE_IN_VOIE,
+  REMOVE_LETTER_BETWEEN_NUMBER_AND_TYPE_IN_VOIE
 ];
 
 export const CLEAN_VOIE: CleanOperation[] = [

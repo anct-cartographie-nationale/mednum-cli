@@ -9,9 +9,7 @@ describe('CLEAN_VOIE_FOR_SEARCH', (): void => {
   it.each([
     ['211-213 boulevard Vincent Auriol', '211 boulevard Vincent Auriol'],
     ['211 – 213 boulevard Vincent Auriol', '211 boulevard Vincent Auriol'],
-    ['1 rue de la Garenne (Rdc - porte 3)', '1 rue de la Garenne'],
-    ['206 quais de Jemmapes', '206 quai de Jemmapes'],
-    ['12 Allées des Tilleuls', '12 Allée des Tilleuls']
+    ['1 rue de la Garenne (Rdc - porte 3)', '1 rue de la Garenne']
   ])('rend « %s » interrogeable en « %s »', (voie, attendu) => {
     expect(pourLaRecherche(voie)).toBe(attendu);
   });
@@ -20,17 +18,33 @@ describe('CLEAN_VOIE_FOR_SEARCH', (): void => {
     expect(pourLaRecherche(voie)).toBe(voie);
   });
 
-  it('ne singularise pas un nom de voie qui finit par les mêmes lettres', (): void => {
-    expect(pourLaRecherche('rue des Ruesnes')).toBe('rue des Ruesnes');
+  it.each([
+    ['Allées d’Etigny', 'Allées d’Etigny'],
+    ['39 Allees des Ecoles', '39 Allees des Ecoles'],
+    ['206 quais de Jemmapes', '206 quais de Jemmapes']
+  ])('laisse « %s » au pluriel, que le référentiel connaît ainsi', (voie, attendu) => {
+    expect(pourLaRecherche(voie)).toBe(attendu);
   });
 
   it.each([
-    ['55bis Route des Allées', '55bis Route des Allées'],
-    ['8 Route des Allées', '8 Route des Allées'],
-    ['Rue des Grands Chemins', 'Rue des Grands Chemins'],
-    ['Place des Avenues', 'Place des Avenues']
-  ])('respecte le nom de la voie dans « %s », que la BAN écrit au pluriel', (voie, attendu) => {
+    ['Mairie de Blois BP 226', 'Mairie de Blois'],
+    ['9 rue Cure Bourse batiment W porte C', '9 rue Cure Bourse'],
+    ['IMMEUBLE ANTHYLLIS ZAC BASSO CAMBO 8 RUE PAUL MESPLE', '8 RUE PAUL MESPLE'],
+    ['46 b Avenue Joliot Curie', '46 Avenue Joliot Curie']
+  ])('rend « %s » interrogeable en « %s »', (voie, attendu) => {
     expect(pourLaRecherche(voie)).toBe(attendu);
+  });
+
+  it.each([
+    ['27 Rue Victor Hugo (Saint-Pol-sur-Mer)'],
+    ['888 Avenue de Dunkerque (Lomme)'],
+    ['Grande Rue de la Guillotière'],
+    ['Grand-Place du Marche'],
+    ['Impasse du Moulin de l’Escalier'],
+    ['372 R des Tovets'],
+    ['2 rue Porte de Paris']
+  ])('laisse « %s » intacte, le mot y appartenant au nom', (voie) => {
+    expect(pourLaRecherche(voie)).toBe(voie);
   });
 });
 
