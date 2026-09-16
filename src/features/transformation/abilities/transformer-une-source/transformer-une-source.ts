@@ -9,6 +9,7 @@ import {
   type DataSource,
   getAddressData,
   isFlatten,
+  isLocated,
   type LocationEnriched,
   normalizedAddress,
   type NormalizedAddress,
@@ -137,11 +138,10 @@ export const transformerUneSource = async ({
   journal.info(`3. Sauvegarde du rapport d'erreur ${report.records().length}`);
   inject(SAVE_ERRORS)(report);
 
-  const sansLocalisation: number = lieuxDeMediationNumerique.filter(
-    (lieu: LieuMediationNumerique): boolean => !lieu.localisation
-  ).length;
-  journal.info(`4. Sauvegarde des sorties : ${lieuxDeMediationNumerique.length} (sans coordonnées : ${sansLocalisation})`);
-  inject(SAVE_OUTPUTS)(lieuxDeMediationNumerique);
+  const localises: LieuMediationNumerique[] = lieuxDeMediationNumerique.filter(isLocated);
+  const ecartes: number = lieuxDeMediationNumerique.length - localises.length;
+  journal.info(`4. Sauvegarde des sorties : ${localises.length} (écartés faute de coordonnées : ${ecartes})`);
+  inject(SAVE_OUTPUTS)(localises);
 
   journal.info(`5. Sauvegarde de l'historique: + ${addressCache.records().length}`);
   inject(SAVE_ADDRESSES)(addressCache);

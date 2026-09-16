@@ -151,6 +151,14 @@ const lieuDeMediationNumerique = async (
   return lieuMediationNumerique;
 };
 
+/**
+ * L'adresse et les coordonnées sont les informations les plus déterminantes d'un lieu de
+ * médiation numérique : sans elles on ne peut ni s'y rendre, ni le porter sur une carte. Un lieu
+ * que le géocodage n'a pas su situer — la Base Adresse Nationale restée sous le seuil, ou la
+ * source sans aucune coordonnée — est donc écarté plutôt que publié incomplet.
+ */
+export const isLocated = (lieu: LieuMediationNumerique): boolean => lieu.localisation != null;
+
 export const validValuesOnly = (
   lieuDeMediationNumeriqueToValidate?: LieuMediationNumerique
 ): lieuDeMediationNumeriqueToValidate is LieuMediationNumerique => lieuDeMediationNumeriqueToValidate != null;
