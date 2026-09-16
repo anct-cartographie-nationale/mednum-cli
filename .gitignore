@@ -16,6 +16,12 @@
 # et n'est plus versionné. `pnpm fusionner.addresses` le reconstitue depuis des sorties locales.
 /assets/input/addresses.json
 
+# Extractions data.inclusion : `start.data-inclusion` les produit avant chaque transformation,
+# la CI les refabrique. Seules les configurations de correspondance voisines sont versionnées.
+/assets/input/dora/dora.json
+/assets/input/fredo/fredo.json
+/assets/input/france-travail/france-travail.json
+
 # Logs
 logs
 *.log
