@@ -23,6 +23,15 @@ describe('CLEAN_VOIE_FOR_SEARCH', (): void => {
   it('ne singularise pas un nom de voie qui finit par les mêmes lettres', (): void => {
     expect(pourLaRecherche('rue des Ruesnes')).toBe('rue des Ruesnes');
   });
+
+  it.each([
+    ['55bis Route des Allées', '55bis Route des Allées'],
+    ['8 Route des Allées', '8 Route des Allées'],
+    ['Rue des Grands Chemins', 'Rue des Grands Chemins'],
+    ['Place des Avenues', 'Place des Avenues']
+  ])('respecte le nom de la voie dans « %s », que la BAN écrit au pluriel', (voie, attendu) => {
+    expect(pourLaRecherche(voie)).toBe(attendu);
+  });
 });
 
 describe('CLEAN_VOIE', (): void => {

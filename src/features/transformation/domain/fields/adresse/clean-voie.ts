@@ -169,14 +169,23 @@ const REMOVE_PARENTHESES_IN_VOIE: CleanOperation = {
       .trim()
 };
 
-const PLURAL_STREET_TYPES: RegExp =
-  /(?<![\p{L}\d])([Qq]uais|[Rr]ues|[Aa]venues|[Pp]laces|[Aa]llées|[Aa]llees|[Rr]outes|[Ii]mpasses|[Cc]hemins)(?![\p{L}\d])/gu;
+const PLURAL_STREET_TYPE_AT_HEAD: RegExp =
+  /^(\s*\d+\s*(?:[Bb][Ii][Ss]|[Tt][Ee][Rr]|[Qq][Uu][Aa][Tt][Ee][Rr])?\s*)?([Qq]uais|[Rr]ues|[Aa]venues|[Pp]laces|[Aa]ll[ée]es|[Rr]outes|[Ii]mpasses|[Cc]hemins)(?![\p{L}\d])/u;
 
-/** Le référentiel ne connaît que le singulier : « 206 quais de Jemmapes » n'y existe pas. */
+/**
+ * Le référentiel ne connaît que le singulier — « 206 quais de Jemmapes » n'y existe pas — mais
+ * seul le **type** de voie se singularise. Le nom, lui, se respecte : la Base Adresse Nationale
+ * connaît bien une « Route des Allées » et une « Rue des Grands Chemins », que singulariser
+ * ferait au contraire échouer.
+ */
 const SINGULARIZE_STREET_TYPE_IN_VOIE: CleanOperation = {
-  name: 'singularize the street type',
-  selector: PLURAL_STREET_TYPES,
-  fix: (toFix: string): string => toFix.replace(PLURAL_STREET_TYPES, (type: string): string => type.slice(0, -1))
+  name: 'singularize the street type, never the street name',
+  selector: PLURAL_STREET_TYPE_AT_HEAD,
+  fix: (toFix: string): string =>
+    toFix.replace(
+      PLURAL_STREET_TYPE_AT_HEAD,
+      (_: string, numero: string | undefined, type: string): string => `${numero ?? ''}${type.slice(0, -1)}`
+    )
 };
 
 /**
