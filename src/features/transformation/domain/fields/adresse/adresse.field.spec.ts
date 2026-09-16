@@ -543,6 +543,36 @@ describe('adresse field', (): void => {
     });
   });
 
+  it('développe les types de voie abrégés, que le géocodage ne sait pas rapprocher', (): void => {
+    const source: DataSource = { 'Adresse postale *': 'Pl de la Liberte', 'Code postal': '03800', 'Ville *': 'Gannat' };
+
+    expect(processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING).voie).toBe('Place de la Liberte');
+  });
+
+  it('ne développe pas une abréviation qui commence un mot accentué', (): void => {
+    const source: DataSource = { 'Adresse postale *': '12 Allée des tilleuls', 'Code postal': '03800', 'Ville *': 'Gannat' };
+
+    expect(processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING).voie).toBe('12 Allée des tilleuls');
+  });
+
+  it('colle le suffixe bis, ter ou quater à son numéro, comme l’écrit la Base Adresse Nationale', (): void => {
+    const source: DataSource = { 'Adresse postale *': '1 BIS rue des Ajoncs', 'Code postal': '03800', 'Ville *': 'Gannat' };
+
+    expect(processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING).voie).toBe('1bis rue des Ajoncs');
+  });
+
+  it('ne colle que le suffixe qui suit le numéro de voie', (): void => {
+    const source: DataSource = { 'Adresse postale *': 'rue des 4 bis moulins', 'Code postal': '03800', 'Ville *': 'Gannat' };
+
+    expect(processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING).voie).toBe('rue des 4 bis moulins');
+  });
+
+  it('retire le préfixe null quelle que soit sa casse', (): void => {
+    const source: DataSource = { 'Adresse postale *': 'NULL 12 rue des Lilas', 'Code postal': '03800', 'Ville *': 'Gannat' };
+
+    expect(processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING).voie).toBe('12 rue des Lilas');
+  });
+
   it('should fix commune Gannat with no code postal', (): void => {
     const source: DataSource = {
       'Adresse postale *': '12 Allée des tilleuls',

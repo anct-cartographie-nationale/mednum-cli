@@ -1,7 +1,8 @@
 import { Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import type { BanAddressRow, Feature, FeatureCollection } from '../../../libraries/ban';
 import type { AddressRecord } from './address-cache';
-import { voieField } from './fields/adresse/clean-voie';
+import { toCleanField } from './fields/adresse/clean-operations';
+import { CLEAN_VOIE, voieField } from './fields/adresse/clean-voie';
 import type { DataSource, LieuxMediationNumeriqueMatching } from './matching';
 
 /**
@@ -25,8 +26,13 @@ const firstValueFrom = (source: DataSource, colonne: string | string[]): string 
     .map((c: string): string | undefined => source[c]?.toString())
     .find(Boolean) ?? '';
 
+/**
+ * La voie est nettoyée avant d'être soumise au géocodage, exactement comme elle l'est avant
+ * d'être publiée : envoyer la valeur brute privait le rapprochement des corrections que le
+ * dépôt sait déjà appliquer.
+ */
 const labelVoie = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
-  String(voieField(source, matching.adresse));
+  CLEAN_VOIE.reduce(toCleanField, String(voieField(source, matching.adresse)));
 
 export const labelCodePostal = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
   firstValueFrom(source, matching.code_postal.colonne);
