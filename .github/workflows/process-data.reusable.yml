@@ -62,7 +62,7 @@ jobs:
           echo COOP_API_KEY="${{ secrets.COOP_API_KEY }}" >> .env
           echo DATA_INCLUSION_API_KEY="${{ secrets.DATA_INCLUSION_API_KEY }}" >> .env
       - name: Restore the address cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6
         with:
           path: assets/input/addresses.json
           # Cette clé n'existe jamais en lecture : c'est le préfixe qui ramène l'entrée la plus
@@ -177,7 +177,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --ignore-scripts
       - name: Restore the address cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6
         with:
           path: assets/input/addresses.json
           key: addresses-${{ github.run_id }}
@@ -193,7 +193,7 @@ jobs:
         # Seules les exécutions de production alimentent le cache ; une validation de pull
         # request le lit sans jamais l'écrire.
         if: inputs.environment == 'production'
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v6
         with:
           path: assets/input/addresses.json
           key: addresses-${{ github.run_id }}
