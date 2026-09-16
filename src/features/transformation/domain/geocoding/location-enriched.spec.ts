@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { GEOCODING_UNAVAILABLE, getAddressData, isWorthCaching, UNRESOLVED_REASONS } from './location-enriched';
-import type { AddressRecord, LieuxMediationNumeriqueMatching, NormalizedAddress, SourceEvidence } from './index';
+import { GEOCODING_UNAVAILABLE, getAddressData, isWorthCaching, UNRESOLVED_REASONS } from '.';
+import type { AddressRecord, LieuxMediationNumeriqueMatching, NormalizedAddress, SourceEvidence } from '..';
 
 const STANDARD_MATCHING: LieuxMediationNumeriqueMatching = {
   nom: { colonne: 'nom' },

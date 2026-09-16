@@ -25,7 +25,7 @@ import {
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import type { Feature } from '../../../libraries/ban';
 import type { AddressCache, AddressRecord } from './address-cache';
-import { GeocodingError } from './geocoding.error';
+import { GeocodingError } from './geocoding';
 import type { Recorder, Report } from './report';
 import {
   processFicheAccesLibre,
@@ -54,7 +54,7 @@ import {
   isPrive
 } from './fields';
 import type { DataSource, LieuxMediationNumeriqueMatching } from './matching';
-import { isWorthCaching, type LocationEnriched } from './location-enriched';
+import { isWorthCaching, type LocationEnriched } from './geocoding';
 import type { TransformationRepository } from './transformation-repository';
 
 const isFilled = <T>(nullable?: T[]): nullable is T[] => nullable != null && nullable.length > 0;

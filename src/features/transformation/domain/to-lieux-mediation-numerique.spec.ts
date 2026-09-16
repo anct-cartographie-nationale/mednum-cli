@@ -2,7 +2,7 @@ import type { LieuMediationNumerique, Localisation } from '@gouvfr-anct/lieux-de
 import { describe, expect, it } from 'vitest';
 import { isLocated, toLieuxMediationNumerique, UNLOCATED_FIELD } from './to-lieux-mediation-numerique';
 import { AddressCache } from './address-cache';
-import { type LocationEnriched, UNRESOLVED_REASONS } from './location-enriched';
+import { type LocationEnriched, UNRESOLVED_REASONS } from './geocoding';
 import type { LieuxMediationNumeriqueMatching } from './matching';
 import { Report } from './report';
 import type { TransformationRepository } from './transformation-repository';
