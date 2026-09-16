@@ -77,8 +77,15 @@ const geocodedColumns = (matching: LieuxMediationNumeriqueMatching, feature: Fea
 const rawAddressLabel = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
   `${source[matching?.adresse?.colonne ?? '']} ${labelCodePostal(source, matching)} ${labelCommune(source, matching)}`;
 
-const cachedGeocodingFor = (records: AddressRecord[], addressLabel: string): AddressRecord | undefined =>
-  records.find((record: AddressRecord): boolean => record.addresseOriginale === addressLabel);
+/**
+ * Seule une entrée portant un géocodage vaut connaissance. Une entrée sans réponse dit que la
+ * BAN n'a rien rendu ce jour là, pas que l'adresse est introuvable : la retenir interdirait
+ * toute nouvelle tentative. Et comme une même adresse peut figurer au cache une fois en échec
+ * et une fois en succès, ne chercher que les succès évite que l'ordre du fichier décide.
+ */
+const cachedGeocodingFor = (records: AddressRecord[], addressLabel: string): Feature | undefined =>
+  records.find((record: AddressRecord): boolean => record?.addresseOriginale === addressLabel && record.responseBan != null)
+    ?.responseBan;
 
 const freshGeocodingFrom = (response?: BanResponse | null): Feature | undefined =>
   isAboveBatchScore(response) ? response?.data.features[0] : undefined;
@@ -90,11 +97,9 @@ export const getAddressData =
 
     if (isMissingFields(source, matching)) return { statut: 'no_from_storage', addresseOriginale };
 
-    const cached: AddressRecord | undefined = cachedGeocodingFor(arrayFromStorage, addressLabel(source, matching));
+    const cached: Feature | undefined = cachedGeocodingFor(arrayFromStorage, addressLabel(source, matching));
 
-    if (cached?.responseBan != null) return { data: geocodedColumns(matching, cached.responseBan), statut: 'from_storage' };
-
-    if (cached != null) return { statut: 'from_storage', addresseOriginale };
+    if (cached != null) return { data: geocodedColumns(matching, cached), statut: 'from_storage' };
 
     const fresh: Feature | undefined = freshGeocodingFrom(response);
 

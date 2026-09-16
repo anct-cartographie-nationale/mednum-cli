@@ -70,7 +70,10 @@ const needsGeocoding = (
   arrayFromStorage: AddressRecord[]
 ): boolean =>
   !isMissingFields(source, matching) &&
-  !arrayFromStorage.some((record: AddressRecord): boolean => addressLabel(source, matching) === record?.addresseOriginale);
+  !arrayFromStorage.some(
+    (record: AddressRecord): boolean =>
+      addressLabel(source, matching) === record?.addresseOriginale && record.responseBan != null
+  );
 
 const indicesToGeocode = (
   batch: DataSource[],

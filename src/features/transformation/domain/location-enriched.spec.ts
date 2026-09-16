@@ -73,7 +73,7 @@ const data: DataSource = {
 };
 
 describe('localisation-from-geo', () => {
-  it('should return from_storage without data when address exists in cache without BAN response', async () => {
+  it('retente une adresse dont le cache ne porte aucune réponse, au lieu de la tenir pour connue', async () => {
     const dataSource: DataSource = {
       latitude: 6649679.61,
       longitude: 328145.77,
@@ -82,13 +82,31 @@ describe('localisation-from-geo', () => {
       'Ville *': 'Paris',
       'Code INSEE': '75108'
     };
+    const axiosResponse = {
+      data: { type: 'FeatureCollection' as const, features: [DATASEARCH], query: '15 rue des Lilas 75008 Paris' }
+    };
 
-    const result = await getAddressData(dataSource, STANDARD_MATCHING)(AddressesBan);
+    const result = await getAddressData(dataSource, STANDARD_MATCHING, axiosResponse)(AddressesBan);
 
-    expect(result).toEqual({
-      statut: 'from_storage',
-      addresseOriginale: '- 15 rue des Lilas 75008 Paris'
-    });
+    expect(result.statut).toBe('from_api');
+    expect(result.data).toMatchObject({ 'Adresse postale *': '10 Rue de la Paix', latitude: 48.868989 });
+  });
+
+  it('préfère le succès à l’échec quand le cache porte les deux pour une même adresse', async () => {
+    const dataSource: DataSource = {
+      'Adresse postale *': '- 18 boulevard rené bazin',
+      'Code postal': '85300',
+      'Ville *': 'Challans'
+    };
+    const echecPuisSucces: AddressRecord[] = [
+      { dateDeTraitement: new Date('2025-10-10T14:50:47.738Z'), addresseOriginale: '- 18 boulevard rené bazin 85300 Challans' },
+      ...AddressesBan
+    ];
+
+    const result = await getAddressData(dataSource, STANDARD_MATCHING)(echecPuisSucces);
+
+    expect(result.statut).toBe('from_storage');
+    expect(result.data).toMatchObject({ 'Adresse postale *': '18 Boulevard rené bazin', latitude: 46.843771 });
   });
 
   it('should return from_storage with enriched data when address exists in cache with BAN response', async () => {
