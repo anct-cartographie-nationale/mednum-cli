@@ -7,8 +7,6 @@ import type {
   AddressRecord,
   BatchGeocoding,
   DataSource,
-  DiffSinceLastTransform,
-  Fingerprint,
   Geocode,
   LieuxMediationNumeriqueMatching,
   Report
@@ -66,17 +64,6 @@ export type GeocodeBatch = (
 ) => Promise<BatchGeocoding[]>;
 
 export const GEOCODE_BATCH: InjectionKey<GeocodeBatch> = keyFor<GeocodeBatch>('transformation.geocode-batch');
-
-export type LoadFingerprints = () => Promise<Fingerprint[]>;
-
-export const LOAD_FINGERPRINTS: InjectionKey<LoadFingerprints> = keyFor<LoadFingerprints>('transformation.load-fingerprints');
-
-export type SaveFingerprints = (
-  idKey: string,
-  fingerprints: Fingerprint[]
-) => (diffSinceLastTransform: DiffSinceLastTransform) => void;
-
-export const SAVE_FINGERPRINTS: InjectionKey<SaveFingerprints> = keyFor<SaveFingerprints>('transformation.save-fingerprints');
 
 export type SaveOutputs = (lieuxDeMediationNumerique: LieuMediationNumerique[]) => void;
 

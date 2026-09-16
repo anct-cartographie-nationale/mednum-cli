@@ -6,14 +6,9 @@ import {
   AddressCache,
   type AddressRecord,
   type BatchGeocoding,
-  canTransform,
   type DataSource,
-  diffSinceLastTransform,
-  type DiffSinceLastTransform,
-  type Fingerprint,
   getAddressData,
   isFlatten,
-  type LieuxMediationNumeriqueMatching,
   type LocationEnriched,
   Report,
   toLieuxMediationNumerique,
@@ -24,13 +19,11 @@ import {
   GEOCODE,
   GEOCODE_BATCH,
   LOAD_ADDRESS_STORAGE,
-  LOAD_FINGERPRINTS,
   LOAD_MATCHING,
   LOAD_SOURCE,
   LOAD_TERRITORIAL_ENRICHMENT,
   SAVE_ADDRESSES,
   SAVE_ERRORS,
-  SAVE_FINGERPRINTS,
   SAVE_OUTPUTS
 } from '../../keys';
 
@@ -40,8 +33,6 @@ export type TransformerUneSource = {
   encoding?: string;
   delimiter?: string;
   apiEnvKey?: string;
-  /** N'enregistre pas les empreintes de cette transformation. */
-  force: boolean;
   /** Limite le nombre d'entrées transformées ; utile pour éprouver une source volumineuse. */
   maxTransform?: number;
 };
@@ -61,12 +52,6 @@ const emptyStringForNull = (_: string, value: unknown): unknown => value ?? '';
 // la configuration de correspondance, plus loin, qui fera foi.
 const replaceNullWithEmptyString = (records: unknown[]): DataSource[] =>
   JSON.parse(JSON.stringify(records, emptyStringForNull)) as DataSource[];
-
-const lieuxToTransform = (sourceItems: DataSource[], diff: DiffSinceLastTransform): DataSource[] =>
-  canTransform(diff) ? diff.toUpsert : sourceItems;
-
-const nothingToTransform = (diff: DiffSinceLastTransform): boolean =>
-  canTransform(diff) && diff.toDelete.length === 0 && diff.toUpsert.length === 0;
 
 const transformBatch = async (
   batch: DataSource[],
@@ -102,7 +87,6 @@ export const transformerUneSource = async ({
   encoding,
   delimiter,
   apiEnvKey,
-  force,
   maxTransform
 }: TransformerUneSource): Promise<void> => {
   const journal: Journal = injectOr(JOURNAL, silentJournal);
@@ -118,35 +102,20 @@ export const transformerUneSource = async ({
   const sourceItems: DataSource[] = replaceNullWithEmptyString(rawSource).slice(0, maxTransform);
 
   journal.info('1. Initialisation des services tiers');
-  const config: LieuxMediationNumeriqueMatching = await inject(LOAD_MATCHING)();
-  const idKey: string = config.id?.colonne ?? '';
-  const fingerprints: Fingerprint[] = await inject(LOAD_FINGERPRINTS)();
   const repository: TransformationRepository = {
-    config,
+    config: await inject(LOAD_MATCHING)(),
     ...(await inject(LOAD_TERRITORIAL_ENRICHMENT)()),
-    geocode: inject(GEOCODE),
-    fingerprints,
-    diffSinceLastTransform: diffSinceLastTransform(idKey, fingerprints)
+    geocode: inject(GEOCODE)
   };
-
-  journal.info('2. Calcul de la différence depuis la dernière transformation');
-  const diff: DiffSinceLastTransform = repository.diffSinceLastTransform(sourceItems);
-
-  if (nothingToTransform(diff)) {
-    journal.info("3. Il n'y a rien à transformer");
-    return;
-  }
-
-  const lieux: DataSource[] = lieuxToTransform(sourceItems, diff);
   const storage: AddressRecord[] = inject(LOAD_ADDRESS_STORAGE)();
 
-  journal.info('3. Transformation des données vers le schéma des lieux de mediation numérique');
+  journal.info('2. Transformation des données vers le schéma des lieux de mediation numérique');
   const lieuxDeMediationNumerique: LieuMediationNumerique[] = [];
 
-  for (let offset = 0; offset < lieux.length; offset += BATCH_SIZE) {
+  for (let offset = 0; offset < sourceItems.length; offset += BATCH_SIZE) {
     lieuxDeMediationNumerique.push(
       ...(await transformBatch(
-        lieux.slice(offset, offset + BATCH_SIZE),
+        sourceItems.slice(offset, offset + BATCH_SIZE),
         offset,
         repository,
         sourceName,
@@ -155,32 +124,22 @@ export const transformerUneSource = async ({
         storage
       ))
     );
-    if (offset + BATCH_SIZE < lieux.length) await delay(PAUSE_MS);
+    if (offset + BATCH_SIZE < sourceItems.length) await delay(PAUSE_MS);
   }
 
-  if (canTransform(diff)) {
-    journal.info(`Lieux à ajouter : ${diff.toUpsert.length}`);
-    journal.info(`Lieux à supprimer : ${diff.toDelete.length}`);
-  }
-
-  journal.info(`4. Sauvegarde du rapport d'erreur ${report.records().length}`);
+  journal.info(`3. Sauvegarde du rapport d'erreur ${report.records().length}`);
   inject(SAVE_ERRORS)(report);
 
   const sansLocalisation: number = lieuxDeMediationNumerique.filter(
     (lieu: LieuMediationNumerique): boolean => !lieu.localisation
   ).length;
   journal.info(
-    `5. Sauvegarde des sorties :  ${lieuxDeMediationNumerique.length} (dont lieux sans localisation :  ${sansLocalisation} )`
+    `4. Sauvegarde des sorties :  ${lieuxDeMediationNumerique.length} (dont lieux sans localisation :  ${sansLocalisation} )`
   );
   inject(SAVE_OUTPUTS)(lieuxDeMediationNumerique);
 
-  journal.info(`6. Sauvegarde de l'historique: + ${addressCache.records().length}`);
+  journal.info(`5. Sauvegarde de l'historique: + ${addressCache.records().length}`);
   inject(SAVE_ADDRESSES)(addressCache);
-
-  if (force) return;
-
-  journal.info('7. Sauvegarde des empreintes');
-  inject(SAVE_FINGERPRINTS)(idKey, fingerprints)(diff);
 };
 
 export type { SchemaLieuMediationNumerique };

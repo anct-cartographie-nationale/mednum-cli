@@ -1,6 +1,5 @@
 export * from './address.write';
 export * from './error-report.write';
-export * from './fingerprints';
 export * from './localisation-from-geo';
 export * from './save-outputs';
 export * from './write-addresses-in-file';

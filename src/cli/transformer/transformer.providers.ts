@@ -20,12 +20,9 @@ import { writePublicationMetadataInFile } from '../../features/publication';
 import {
   addressStorageFromFile,
   fetchBanResponseBatch,
-  type Fingerprint,
-  fingerprintsFromFile,
   GEOCODE,
   GEOCODE_BATCH,
   LOAD_ADDRESS_STORAGE,
-  LOAD_FINGERPRINTS,
   LOAD_MATCHING,
   LOAD_SOURCE,
   LOAD_TERRITORIAL_ENRICHMENT,
@@ -33,9 +30,7 @@ import {
   localisationByGeocode,
   SAVE_ADDRESSES,
   SAVE_ERRORS,
-  SAVE_FINGERPRINTS,
   SAVE_OUTPUTS,
-  saveFingerprintsInFile,
   saveOutputsInFiles,
   WRITE_PUBLICATION_METADATA,
   writeAddressesInFiles,
@@ -51,9 +46,6 @@ const producerOf = ({ outputDirectory, sourceName, territory }: TransformerOptio
   name: sourceName,
   territoire: territory
 });
-
-const fingerprintFileOf = ({ configFile }: TransformerOptions): string =>
-  configFile.replace('.config.json', '.fingerprint.json');
 
 /**
  * Point de concrétisation de la commande. Toute la composition de l'application se lit ici :
@@ -87,11 +79,6 @@ export const provideTransformerImplementations = (transformerOptions: Transforme
     async (): Promise<LieuxMediationNumeriqueMatching> =>
       readJsonFile(transformerOptions.configFile) as LieuxMediationNumeriqueMatching
   );
-  provide(LOAD_FINGERPRINTS, fingerprintsFromFile(fingerprintFileOf(transformerOptions)));
-  provide(SAVE_FINGERPRINTS, (idKey: string, fingerprints: Fingerprint[]) =>
-    saveFingerprintsInFile(idKey, fingerprints, fingerprintFileOf(transformerOptions))
-  );
-
   provide(SAVE_ERRORS, writeErrorsInFiles(producer));
   provide(SAVE_ADDRESSES, writeAddressesInFiles(producer));
   provide(WRITE_PUBLICATION_METADATA, writePublicationMetadataInFile);

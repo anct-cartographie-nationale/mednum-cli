@@ -23,7 +23,6 @@ const transformer = async (transformerOptions: TransformerOptions): Promise<void
     ...(transformerOptions.encoding == null ? {} : { encoding: transformerOptions.encoding }),
     ...(transformerOptions.delimiter == null ? {} : { delimiter: transformerOptions.delimiter }),
     ...(transformerOptions.apiEnvKey == null ? {} : { apiEnvKey: transformerOptions.apiEnvKey }),
-    force: transformerOptions.force,
     ...(maxTransform == null ? {} : { maxTransform })
   });
 };
@@ -48,7 +47,6 @@ const configureCommand = (program: Command): Command =>
 
 const commandAction = async (_: unknown, command: Command): Promise<void> =>
   promptAndRun({
-    ...{ force: false },
     ...toTransformerOptions(process.env),
     ...command.opts()
   });

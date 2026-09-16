@@ -11,7 +11,6 @@ export type TransformerOptions = {
   sourceName: string;
   territory: string;
   envKey?: string;
-  force: boolean;
   addressCache: string;
 };
 
@@ -52,9 +51,6 @@ const addressCacheOption = (program: Command): Command =>
     `Le fichier des adresses déjà géocodées, réutilisées plutôt que redemandées à la Base Adresse Nationale (défaut : ${DEFAULT_ADDRESS_CACHE})`
   );
 
-const forceOption = (program: Command): Command =>
-  program.option('-f, --force', "N'enregistre pas les empreintes de cette transformation");
-
 const outputDirectoryOption = (program: Command): Command =>
   program.option('-o, --output-directory <output-directory>', 'Le dossier dans lequel écrire les fichiers transformés');
 
@@ -76,7 +72,6 @@ export const TRANSFORMER_OPTIONS: ((program: Command) => Command)[] = [
   delimiterOption,
   encodingOption,
   envKeyOption,
-  forceOption,
   outputDirectoryOption,
   sourceOption,
   sourceNameOption,

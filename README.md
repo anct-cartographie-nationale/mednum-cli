@@ -222,20 +222,6 @@ ou
 npx @gouvfr-anct/mednum transformer -a COOP_API_KEY
 ```
 
-##### Ne pas enregistrer les empreintes `-f, --force`
-
-Chaque transformation enregistre l'empreinte des données traitées, afin que la suivante ne retransforme que ce qui a changé. Cette option désactive cet enregistrement : la transformation suivante repartira de zéro.
-
-```bash
-npx @gouvfr-anct/mednum transformer --force
-```
-
-ou
-
-```bash
-npx @gouvfr-anct/mednum transformer -f
-```
-
 ##### Le cache d'adresses `--address-cache <address-cache>`
 
 Le fichier des adresses déjà géocodées, réutilisées plutôt que redemandées à la Base Adresse Nationale. Son absence n'est pas une erreur : la transformation géocode alors tout, plus lentement mais avec le même résultat.

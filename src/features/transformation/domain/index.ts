@@ -1,5 +1,4 @@
 export * from './address-cache';
-export * from './diff-since-last-transform';
 export * from './error-report-to-csv';
 export * from './fields';
 export * from './geocoding.error';

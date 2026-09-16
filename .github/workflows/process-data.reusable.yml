@@ -71,7 +71,7 @@ jobs:
           key: addresses-${{ github.run_id }}
           restore-keys: addresses-
       - name: Transform
-        run: pnpm transformer.${{ matrix.source }} -f
+        run: pnpm transformer.${{ matrix.source }}
       - name: Deduplicate
         run: pnpm dedupliquer.${{ matrix.source }}
       - name: Upload transformed data
