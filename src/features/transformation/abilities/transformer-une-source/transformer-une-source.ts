@@ -10,7 +10,13 @@ import {
   getAddressData,
   isFlatten,
   type LocationEnriched,
+  normalizedAddress,
+  type NormalizedAddress,
   Report,
+  type Record as ReportRecord,
+  UNLOCATED_FIELD,
+  type SourceEvidence,
+  sourceEvidence,
   toLieuxMediationNumerique,
   type TransformationRepository,
   validValuesOnly
@@ -62,20 +68,31 @@ const transformBatch = async (
   addressCache: AddressCache,
   storage: AddressRecord[]
 ): Promise<LieuMediationNumerique[]> => {
-  const responsesBan: BatchGeocoding[] = await inject(GEOCODE_BATCH)(batch, repository.config, storage);
+  // L'aplatissement précède la normalisation : c'est la forme aplatie que lisent les règles de
+  // correspondance, et l'adresse ainsi obtenue sert à la fois de question à la BAN, de clé de
+  // cache et de valeur publiée — un seul calcul, donc aucune divergence possible entre les trois.
+  const lieux: unknown[] = batch.map((dataSource: DataSource) => flatten(dataSource, { safe: isFlatten(repository.config) }));
+  const adresses: NormalizedAddress[] = lieux.map(
+    (lieu: unknown): NormalizedAddress => normalizedAddress(repository.findCommune)(lieu as DataSource, repository.config)
+  );
+  // Ce que la source apporte d'elle-même : ses coordonnées corroborent un rapprochement que le
+  // score seul ferait rejeter, et son adresse d'origine ira au complément le cas échéant.
+  const apports: SourceEvidence[] = await Promise.all(
+    lieux.map(async (lieu: unknown): Promise<SourceEvidence> => sourceEvidence(lieu as DataSource, repository.config))
+  );
+  const responsesBan: BatchGeocoding[] = await inject(GEOCODE_BATCH)(adresses, storage);
 
   const transformed = await Promise.all(
-    batch
-      .map((dataSource: DataSource) => flatten(dataSource, { safe: isFlatten(repository.config) }))
-      .map(async (lieu: unknown, index: number): Promise<LieuMediationNumerique | undefined> => {
-        const locationEnriched: LocationEnriched = await getAddressData(
-          lieu as DataSource,
-          repository.config,
-          responsesBan[index]
-        )(storage);
+    lieux.map(async (lieu: unknown, index: number): Promise<LieuMediationNumerique | undefined> => {
+      const locationEnriched: LocationEnriched = await getAddressData(
+        adresses[index] as NormalizedAddress,
+        repository.config,
+        apports[index] as SourceEvidence,
+        responsesBan[index]
+      )(storage);
 
-        return toLieuxMediationNumerique(repository, sourceName, report, addressCache, locationEnriched)(lieu, offset + index);
-      })
+      return toLieuxMediationNumerique(repository, sourceName, report, addressCache, locationEnriched)(lieu, offset + index);
+    })
   );
 
   return transformed.filter(validValuesOnly);
@@ -130,12 +147,10 @@ export const transformerUneSource = async ({
   journal.info(`3. Sauvegarde du rapport d'erreur ${report.records().length}`);
   inject(SAVE_ERRORS)(report);
 
-  const sansLocalisation: number = lieuxDeMediationNumerique.filter(
-    (lieu: LieuMediationNumerique): boolean => !lieu.localisation
-  ).length;
-  journal.info(
-    `4. Sauvegarde des sorties :  ${lieuxDeMediationNumerique.length} (dont lieux sans localisation :  ${sansLocalisation} )`
-  );
+  const ecartes: number = report
+    .records()
+    .filter((record: ReportRecord): boolean => record.errors.some(({ field }): boolean => field === UNLOCATED_FIELD)).length;
+  journal.info(`4. Sauvegarde des sorties : ${lieuxDeMediationNumerique.length} (écartés faute de coordonnées : ${ecartes})`);
   inject(SAVE_OUTPUTS)(lieuxDeMediationNumerique);
 
   journal.info(`5. Sauvegarde de l'historique: + ${addressCache.records().length}`);

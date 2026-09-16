@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { type Adresse, VoieError } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching';
-import { processAdresse } from './adresse.field';
+import { normalizedAddress, processAdresse } from './adresse.field';
 import { findCommune } from '../../../../enrichissement-territorial';
 import type { Commune } from '../../../../../libraries/collectivites';
 
@@ -1154,5 +1154,48 @@ describe('adresse field', (): void => {
       commune: 'Blois',
       voie: '11 place René Coty'
     });
+  });
+});
+
+describe('normalizedAddress', (): void => {
+  const MATCHING: LieuxMediationNumeriqueMatching = {
+    adresse: { colonne: 'voie' },
+    code_postal: { colonne: 'cp' },
+    commune: { colonne: 'ville' }
+  } as LieuxMediationNumeriqueMatching;
+
+  it('retrouve le code postal depuis le nom de la commune, pour que la BAN soit interrogée sur une adresse complète', (): void => {
+    const source: DataSource = { voie: '12 rue des Lilas', cp: '', ville: 'Bègles' };
+
+    expect(normalizedAddress(findCommune([BEGLES]))(source, MATCHING)).toMatchObject({
+      voie: '12 rue des Lilas',
+      code_postal: '33130',
+      commune: 'Bègles'
+    });
+  });
+
+  it('retrouve la commune depuis le code postal, ce dont dépendent les sources qui n’en portent aucune', (): void => {
+    const source: DataSource = { voie: '12 rue des Lilas', cp: '41000', ville: '' };
+
+    expect(normalizedAddress(findCommune([BLOIS]))(source, MATCHING)).toMatchObject({
+      code_postal: '41000',
+      commune: 'Blois'
+    });
+  });
+
+  it('ne lève pas sur une adresse que la validation refuserait, une adresse invalide n’étant pas une exécution à interrompre', (): void => {
+    const source: DataSource = { voie: '', cp: '', ville: '' };
+
+    expect((): unknown => normalizedAddress(findCommune([]))(source, MATCHING)).not.toThrow();
+  });
+
+  it('retient la première colonne renseignée quand la correspondance en désigne plusieurs', (): void => {
+    const plusieurs = {
+      ...MATCHING,
+      commune: { colonne: ['addressLocality', 'ville'] }
+    } as unknown as LieuxMediationNumeriqueMatching;
+    const source: DataSource = { voie: '12 rue des Lilas', cp: '41000', ville: 'Blois' };
+
+    expect(normalizedAddress(findCommune([BLOIS]))(source, plusieurs).commune).toBe('Blois');
   });
 });

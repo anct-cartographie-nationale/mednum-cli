@@ -25,7 +25,7 @@ import {
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import type { Feature } from '../../../libraries/ban';
 import type { AddressCache, AddressRecord } from './address-cache';
-import { GeocodingError } from './geocoding.error';
+import { GeocodingError } from './geocoding';
 import type { Recorder, Report } from './report';
 import {
   processFicheAccesLibre,
@@ -54,7 +54,7 @@ import {
   isPrive
 } from './fields';
 import type { DataSource, LieuxMediationNumeriqueMatching } from './matching';
-import { addressLabel, isWorthCaching, type LocationEnriched } from './location-enriched';
+import { isWorthCaching, type LocationEnriched } from './geocoding';
 import type { TransformationRepository } from './transformation-repository';
 
 const isFilled = <T>(nullable?: T[]): nullable is T[] => nullable != null && nullable.length > 0;
@@ -151,6 +151,21 @@ const lieuDeMediationNumerique = async (
   return lieuMediationNumerique;
 };
 
+/**
+ * Le champ sous lequel un lieu écarté faute de coordonnées est porté au rapport. Le retrait
+ * d'un lieu ne doit jamais être silencieux : c'est cette ligne qui permet d'en informer le
+ * producteur et de lui dire quelle adresse le référentiel n'a pas su reconnaître.
+ */
+export const UNLOCATED_FIELD = 'localisation';
+
+/**
+ * L'adresse et les coordonnées sont les informations les plus déterminantes d'un lieu de
+ * médiation numérique : sans elles on ne peut ni s'y rendre, ni le porter sur une carte. Un lieu
+ * que le géocodage n'a pas su situer — la Base Adresse Nationale restée sous le seuil, ou la
+ * source sans aucune coordonnée — est donc écarté plutôt que publié incomplet.
+ */
+export const isLocated = (lieu: LieuMediationNumerique): boolean => lieu.localisation != null;
+
 export const validValuesOnly = (
   lieuDeMediationNumeriqueToValidate?: LieuMediationNumerique
 ): lieuDeMediationNumeriqueToValidate is LieuMediationNumerique => lieuDeMediationNumeriqueToValidate != null;
@@ -171,17 +186,15 @@ export const isFlatten = (repository: Record<string, unknown>): boolean => {
 const entryIdentification = (dataSource: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
   dataSource[matching.nom.colonne]?.toString() ?? '';
 
-const addresseLog = (
-  dataSource: DataSource,
-  matching: LieuxMediationNumeriqueMatching,
-  addresseBan: Feature
-): AddressRecord => {
-  return {
-    dateDeTraitement: new Date(),
-    addresseOriginale: addressLabel(dataSource, matching),
-    responseBan: addresseBan
-  };
-};
+/**
+ * L'étiquette enregistrée est celle qu'a servie `getAddressData` : la recalculer ici ferait
+ * dépendre la clé du cache de deux chemins qui pourraient diverger.
+ */
+const addresseLog = (addresseOriginale: string, addresseBan: Feature): AddressRecord => ({
+  dateDeTraitement: new Date(),
+  addresseOriginale,
+  responseBan: addresseBan
+});
 
 const isErrorToReport = (error: unknown): error is ModelError<LieuMediationNumerique> =>
   error instanceof IdError ||
@@ -216,18 +229,33 @@ export const toLieuxMediationNumerique =
       if (locationEnriched != null && isWorthCaching(locationEnriched)) {
         addressCache
           .entry(index)
-          .record(
-            addresseLog(dataSource as DataSource, repository.config, locationEnriched.responses?.features?.[0] as Feature)
-          )
+          .record(addresseLog(locationEnriched.addresseOriginale ?? '', locationEnriched.responses?.features?.[0] as Feature))
           .commit();
       }
-      return await lieuDeMediationNumerique(
+      const lieu: LieuMediationNumerique | undefined = await lieuDeMediationNumerique(
         index,
         dataSourceEnriched as DataSource,
         sourceName,
         report.entry(index),
         repository
       );
+
+      // Un lieu absent l'est pour une raison déjà consignée — un nom, une voie, un identifiant
+      // invalides. Le rapporter ici une seconde fois lui prêterait un motif qui n'est pas le sien.
+      if (lieu == null) return undefined;
+
+      if (isLocated(lieu)) return lieu;
+
+      report
+        .entry(index)
+        .record(
+          UNLOCATED_FIELD,
+          `Adresse non reconnue par la Base Adresse Nationale : « ${locationEnriched?.addresseOriginale ?? ''} » — ${locationEnriched?.motif ?? 'motif inconnu'}`,
+          entryIdentification(dataSource as DataSource, repository.config)
+        )
+        .commit();
+
+      return undefined;
     } catch (error: unknown) {
       if (isErrorToReport(error)) {
         report
