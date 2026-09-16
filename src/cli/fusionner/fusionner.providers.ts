@@ -2,9 +2,11 @@ import { AddressCache, type AddressRecord } from '../../features/transformation'
 import {
   LIST_FILES,
   MERGE_DUPLICATES,
+  READ_MERGED_RECORDS,
   READ_RECORDS,
   readCsvRecordsFromFile,
   readJsonRecordsFromFile,
+  readMergedRecordsFromFile,
   readRecordsByFormat,
   WRITE_RECORDS,
   writeCsvRecordsToFile,
@@ -22,6 +24,7 @@ import { provide } from '../../libraries/injection';
 export const provideFusionnerImplementations = (): void => {
   provide(LIST_FILES, findFiles);
   provide(MERGE_DUPLICATES, (records: unknown[]): unknown[] => AddressCache(records as AddressRecord[]).records());
+  provide(READ_MERGED_RECORDS, readMergedRecordsFromFile);
   provide(
     READ_RECORDS,
     readRecordsByFormat({

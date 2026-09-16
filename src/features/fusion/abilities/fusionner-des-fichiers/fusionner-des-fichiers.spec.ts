@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { provide } from '../../../../libraries/injection';
 import { MERGE_ERROR_MESSAGES, MergeError } from '../../domain';
-import { LIST_FILES, MERGE_DUPLICATES, READ_RECORDS, WRITE_RECORDS } from '../../keys';
+import { LIST_FILES, MERGE_DUPLICATES, READ_MERGED_RECORDS, READ_RECORDS, WRITE_RECORDS } from '../../keys';
 import { fusionnerDesFichiers } from './fusionner-des-fichiers';
 
 type WrittenFile = { filePath: string; records: unknown[] };
@@ -20,6 +20,9 @@ const provideImplementations = (inputFiles: string[], storedFiles: Record<string
       (filePath: string): unknown[] =>
         storedFiles[filePath] ?? []
   );
+  // Le cumul absent vaut cumul vide : c'est la politique que porte ce contrat, distincte de
+  // celle de READ_RECORDS, pour qui un fichier d'entrée manquant reste une erreur.
+  provide(READ_MERGED_RECORDS, (filePath: string): unknown[] => storedFiles[filePath] ?? []);
   provide(WRITE_RECORDS, () => (filePath: string, records: unknown[]): void => {
     written.push({ filePath, records });
   });
@@ -88,6 +91,16 @@ describe('fusionnerDesFichiers', (): void => {
       { addresseOriginale: 'déjà connue' },
       { addresseOriginale: '12 rue des Lilas' }
     ]);
+  });
+
+  it('démarre le cumul quand aucun fichier fusionné n’existe encore', (): void => {
+    provideImplementations(['./sortie/paris-addresses.json'], {
+      './sortie/paris-addresses.json': [{ addresseOriginale: '12 rue des Lilas' }]
+    });
+
+    fusionnerDesFichiers({ inputFilesPattern: './sortie/*-addresses.json', outputDirectory: './fusion' });
+
+    expect(written[0]?.records).toStrictEqual([{ addresseOriginale: '12 rue des Lilas' }]);
   });
 
   it('confie au contrat de déduplication les enregistrements d’une fusion cumulative', (): void => {

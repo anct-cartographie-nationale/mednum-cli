@@ -1,7 +1,7 @@
 import { inject } from '../../../../libraries/injection';
 import { joinPath } from '../../../../libraries/file-system/path';
 import { appendsToMergedFile, type FilesToMerge, filesToMerge, type MergeFormat, mergedFileName } from '../../domain';
-import { LIST_FILES, MERGE_DUPLICATES, READ_RECORDS, WRITE_RECORDS } from '../../keys';
+import { LIST_FILES, MERGE_DUPLICATES, READ_MERGED_RECORDS, READ_RECORDS, WRITE_RECORDS } from '../../keys';
 
 export type FusionnerDesFichiers = {
   inputFilesPattern: string;
@@ -15,7 +15,7 @@ export type FichiersFusionnes = {
 };
 
 const recordsAlreadyMerged = (filesToMerge: FilesToMerge, mergedFilePath: string): unknown[] =>
-  appendsToMergedFile(filesToMerge) ? inject(READ_RECORDS)('.json')(mergedFilePath) : [];
+  appendsToMergedFile(filesToMerge) ? inject(READ_MERGED_RECORDS)(mergedFilePath) : [];
 
 export const fusionnerDesFichiers = ({ inputFilesPattern, outputDirectory }: FusionnerDesFichiers): FichiersFusionnes => {
   const files: FilesToMerge = filesToMerge(inject(LIST_FILES)(inputFilesPattern));
