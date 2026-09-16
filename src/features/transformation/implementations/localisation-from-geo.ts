@@ -47,6 +47,44 @@ const addresseOf = (adresse: Adresse): string => `${adresse.voie} ${adresse.code
 const hasUsableName = (row?: BanResultRow): boolean =>
   row != null && [row.result_housenumber, row.result_street].filter(Boolean).join(' ') !== '';
 
+const noGeocoding = (batch: DataSource[]): null[] => batch.map((): null => null);
+
+const needsGeocoding = (
+  source: DataSource,
+  matching: LieuxMediationNumeriqueMatching,
+  arrayFromStorage: AddressRecord[]
+): boolean =>
+  !isMissingFields(source, matching) &&
+  !arrayFromStorage.some((record: AddressRecord): boolean => addressLabel(source, matching) === record?.addresseOriginale);
+
+const indicesToGeocode = (
+  batch: DataSource[],
+  matching: LieuxMediationNumeriqueMatching,
+  arrayFromStorage: AddressRecord[]
+): number[] =>
+  batch.flatMap((source: DataSource, index: number): number[] =>
+    needsGeocoding(source, matching, arrayFromStorage) ? [index] : []
+  );
+
+const banRowsAt = (batch: DataSource[], matching: LieuxMediationNumeriqueMatching, indices: number[]): BanAddressRow[] =>
+  indices
+    .map((index: number): DataSource | undefined => batch[index])
+    .filter((source: DataSource | undefined): source is DataSource => source != null)
+    .map((source: DataSource): BanAddressRow => banRowFor(source, matching));
+
+const resultsByBatchIndex = (indices: number[], results: BanResultRow[]): Map<number, BanResultRow | undefined> =>
+  new Map(
+    indices.map((batchIndex: number, position: number): [number, BanResultRow | undefined] => [batchIndex, results[position]])
+  );
+
+const usableResponseFrom = (result?: BanResultRow): BanResponse | null => {
+  if (result == null || !hasUsableName(result)) return null;
+
+  const response: BanResponse = { data: toFeatureCollection(result) };
+
+  return isAboveBatchScore(response) ? response : null;
+};
+
 /**
  * Géocodage par lot. Seules les adresses absentes du cache et complètes sont envoyées à la
  * BAN ; le résultat est réaligné sur les positions du lot d'origine.
@@ -57,37 +95,17 @@ export const fetchBanResponseBatch = async (
   arrayFromStorage: AddressRecord[],
   postCsv: PostCsv = postBanCsv
 ): Promise<(BanResponse | null)[]> => {
-  const geocodeIndices: number[] = batch.reduce<number[]>((indices: number[], source: DataSource, index: number): number[] => {
-    const isInCache: boolean = arrayFromStorage.some(
-      (record: AddressRecord): boolean => addressLabel(source, matching) === record?.addresseOriginale
-    );
-    return isInCache || isMissingFields(source, matching) ? indices : [...indices, index];
-  }, []);
+  const indices: number[] = indicesToGeocode(batch, matching, arrayFromStorage);
 
-  if (geocodeIndices.length === 0) return batch.map((): null => null);
-
-  const rows: BanAddressRow[] = geocodeIndices
-    .map((index: number): DataSource | undefined => batch[index])
-    .filter((source: DataSource | undefined): source is DataSource => source != null)
-    .map((source: DataSource): BanAddressRow => banRowFor(source, matching));
+  if (indices.length === 0) return noGeocoding(batch);
 
   try {
-    const results: BanResultRow[] = await geocodeCsv(rows, postCsv);
-    const resultsByIndex = new Map(
-      geocodeIndices.map((batchIndex: number, position: number): [number, BanResultRow | undefined] => [
-        batchIndex,
-        results[position]
-      ])
-    );
+    const results: BanResultRow[] = await geocodeCsv(banRowsAt(batch, matching, indices), postCsv);
+    const resultAt: Map<number, BanResultRow | undefined> = resultsByBatchIndex(indices, results);
 
-    return batch.map((_: DataSource, index: number): BanResponse | null => {
-      const result: BanResultRow | undefined = resultsByIndex.get(index);
-      if (result == null || !hasUsableName(result)) return null;
-      const response: BanResponse = { data: toFeatureCollection(result) };
-      return isAboveBatchScore(response) ? response : null;
-    });
+    return batch.map((_: DataSource, index: number): BanResponse | null => usableResponseFrom(resultAt.get(index)));
   } catch (error: unknown) {
     console.error("[BAN batch] Erreur lors de l'appel ou du parsing CSV", error);
-    return batch.map((): null => null);
+    return noGeocoding(batch);
   }
 };
