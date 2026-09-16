@@ -80,6 +80,22 @@ describe('toLieuxMediationNumerique, quand le référentiel n’a pas reconnu l�
     expect(erreurs[0]?.message).toContain(UNRESOLVED_REASONS.neverAnswered);
   });
 
+  it('ne prête pas son motif à un lieu écarté pour une autre raison, déjà consignée', async (): Promise<void> => {
+    const report: Report = Report();
+    const sansNom = { ...SOURCE, nom: '' };
+
+    const lieuEmis = await toLieuxMediationNumerique(REPOSITORY, 'Essai', report, AddressCache(), {
+      statut: 'no_from_storage',
+      addresseOriginale: 'Mairie 42920 Chalmazel',
+      motif: UNRESOLVED_REASONS.neverAnswered
+    })(sansNom, 0);
+
+    const erreurs = report.records().flatMap((record) => record.errors);
+    expect(lieuEmis).toBeUndefined();
+    expect(erreurs.map(({ field }) => field)).not.toContain(UNLOCATED_FIELD);
+    expect(erreurs).toHaveLength(1);
+  });
+
   it('émet le lieu et ne rapporte rien lorsque le géocodage a abouti', async (): Promise<void> => {
     const report: Report = Report();
     const donnees = { data: { latitude: 45.7, longitude: 3.9 }, statut: 'from_api' as const };

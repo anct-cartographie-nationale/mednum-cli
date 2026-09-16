@@ -240,7 +240,11 @@ export const toLieuxMediationNumerique =
         repository
       );
 
-      if (lieu != null && isLocated(lieu)) return lieu;
+      // Un lieu absent l'est pour une raison déjà consignée — un nom, une voie, un identifiant
+      // invalides. Le rapporter ici une seconde fois lui prêterait un motif qui n'est pas le sien.
+      if (lieu == null) return undefined;
+
+      if (isLocated(lieu)) return lieu;
 
       report
         .entry(index)
