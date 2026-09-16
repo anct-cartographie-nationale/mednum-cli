@@ -14,6 +14,8 @@ import {
   normalizedAddress,
   type NormalizedAddress,
   Report,
+  type SourceEvidence,
+  sourceEvidence,
   toLieuxMediationNumerique,
   type TransformationRepository,
   validValuesOnly
@@ -72,6 +74,11 @@ const transformBatch = async (
   const adresses: NormalizedAddress[] = lieux.map(
     (lieu: unknown): NormalizedAddress => normalizedAddress(repository.findCommune)(lieu as DataSource, repository.config)
   );
+  // Ce que la source apporte d'elle-même : ses coordonnées corroborent un rapprochement que le
+  // score seul ferait rejeter, et son adresse d'origine ira au complément le cas échéant.
+  const apports: SourceEvidence[] = await Promise.all(
+    lieux.map(async (lieu: unknown): Promise<SourceEvidence> => sourceEvidence(lieu as DataSource, repository.config))
+  );
   const responsesBan: BatchGeocoding[] = await inject(GEOCODE_BATCH)(adresses, storage);
 
   const transformed = await Promise.all(
@@ -79,6 +86,7 @@ const transformBatch = async (
       const locationEnriched: LocationEnriched = await getAddressData(
         adresses[index] as NormalizedAddress,
         repository.config,
+        apports[index] as SourceEvidence,
         responsesBan[index]
       )(storage);
 

@@ -1,7 +1,9 @@
 import { type Adresse, Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import type { BanAddressRow, Feature, FeatureCollection } from '../../../libraries/ban';
+import { type Coordinates, distanceInMeters } from '../../../libraries/geometry';
 import { type AddressRecord, isRecentFailedAttempt } from './address-cache';
 import { toCleanField } from './fields/adresse/clean-operations';
+import { NO_LOCALISATION, processLocalisation } from './fields/localisation/localisation.field';
 import { CLEAN_VOIE_FOR_SEARCH } from './fields/adresse/clean-voie';
 import type { DataSource, LieuxMediationNumeriqueMatching } from './matching';
 
@@ -18,6 +20,15 @@ export type NormalizedAddress = Omit<Adresse, 'isAdresse'>;
  * d'un voisinage plutôt que d'un point précis.
  */
 const MINIMUM_BATCH_SCORE = 0.9;
+
+/**
+ * Sous le score minimal, un rapprochement reste recevable si la source porte elle-même des
+ * coordonnées et que la Base Adresse Nationale tombe à portée : deux relevés indépendants qui
+ * désignent le même endroit valent mieux qu'un score. Le rayon est le neuvième décile des
+ * écarts observés sur les réponses dont la voie est certaine — au delà, on enverrait quelqu'un
+ * trop loin.
+ */
+export const CORROBORATION_RADIUS_IN_METERS = 500;
 
 export type BanResponse = { data: FeatureCollection };
 
@@ -56,8 +67,26 @@ export const banRowFor = (adresse: NormalizedAddress): BanAddressRow => ({
   commune: adresse.commune
 });
 
-export const isAboveBatchScore = (response?: BanResponse | null): boolean =>
-  (response?.data.features[0]?.properties.score ?? 0) > MINIMUM_BATCH_SCORE;
+const scoreOf = (feature?: Feature): number => feature?.properties.score ?? 0;
+
+const coordinatesOf = (feature: Feature): Coordinates => ({
+  latitude: feature.geometry.coordinates[1] ?? 0,
+  longitude: feature.geometry.coordinates[0] ?? 0
+});
+
+/**
+ * Ce que la source apporte de son côté : ses propres coordonnées, qui permettent de corroborer,
+ * et son adresse telle qu'écrite, que le complément recueillera si la réponse n'a été retenue
+ * que sur la foi de cette proximité.
+ */
+export type SourceEvidence = {
+  localisation?: Coordinates;
+  origine: string;
+  complement?: string;
+};
+
+const isCorroborated = (feature: Feature, localisation?: Coordinates): boolean =>
+  localisation != null && distanceInMeters(localisation, coordinatesOf(feature)) < CORROBORATION_RADIUS_IN_METERS;
 
 export const toLocalisation = (response: BanResponse): Localisation =>
   Localisation({
@@ -71,10 +100,11 @@ const localisationOf = (feature: Feature): Localisation =>
     longitude: feature.geometry.coordinates[0] ?? 0
   });
 
-const geocodedColumns = (matching: LieuxMediationNumeriqueMatching, feature: Feature): DataSource => {
+const geocodedColumns = (matching: LieuxMediationNumeriqueMatching, feature: Feature, complement?: string): DataSource => {
   const { latitude, longitude }: Localisation = localisationOf(feature);
 
   return {
+    ...(complement == null ? {} : { [matching.complement_adresse?.colonne as string]: complement }),
     [matching.adresse.colonne as string]: feature.properties.name,
     [matching.code_postal?.colonne as string]: feature.properties.postcode,
     [matching.code_insee?.colonne as string]: feature.properties.citycode,
@@ -100,16 +130,70 @@ const cachedFor = (records: AddressRecord[], addressLabel: string): AddressRecor
  */
 export const isWorthCaching = ({ statut }: LocationEnriched): boolean => statut === 'from_api' || statut === 'no_from_storage';
 
-const freshGeocodingFrom = (response?: BanResponse | null): Feature | undefined =>
-  isAboveBatchScore(response) ? response?.data.features[0] : undefined;
+/**
+ * Le rapprochement est retenu s'il se suffit à lui-même — le score dépasse le minimum — ou si la
+ * source le corrobore par ses propres coordonnées. Ces deux voies n'ont pas la même conséquence :
+ * la seconde verse l'adresse d'origine au complément, pour qu'un lecteur retrouve ce que le
+ * producteur avait écrit là où le référentiel n'a pas su le suivre à la lettre.
+ */
+const acceptedFeature = (evidence: SourceEvidence, response?: BanResponse | null): Feature | undefined => {
+  const feature: Feature | undefined = response?.data.features[0];
+  if (feature == null) return undefined;
+
+  return scoreOf(feature) > MINIMUM_BATCH_SCORE || isCorroborated(feature, evidence.localisation) ? feature : undefined;
+};
+
+const withOrigin = ({ complement, origine }: SourceEvidence): string =>
+  complement == null || complement.trim() === '' ? origine : `${complement} - ${origine}`;
+
+const complementFor = (evidence: SourceEvidence, feature: Feature): string | undefined =>
+  scoreOf(feature) > MINIMUM_BATCH_SCORE ? undefined : withOrigin(evidence);
+
+/**
+ * L'adresse telle que la source l'a écrite, avant tout nettoyage : c'est elle que le complément
+ * recueille quand seule la proximité a permis de retenir la réponse.
+ */
+export const rawAddressLabel = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
+  ([matching.adresse.colonne, matching.code_postal.colonne, matching.commune.colonne].flat() as string[])
+    .map((colonne: string): string => source[colonne]?.toString() ?? '')
+    .filter((value: string): boolean => value !== '')
+    .join(' ');
+
+/** Rassemble ce que la source apporte de son côté, sans jamais lever sur une adresse invalide. */
+export const sourceEvidence = async (
+  source: DataSource,
+  matching: LieuxMediationNumeriqueMatching
+): Promise<SourceEvidence> => {
+  const localisation: Localisation = await processLocalisation(
+    source,
+    matching,
+    async (): Promise<Localisation> => NO_LOCALISATION
+  );
+  const complement: string | undefined = source[matching.complement_adresse?.colonne ?? '']?.toString();
+
+  return {
+    ...(localisation == null ? {} : { localisation }),
+    ...(complement == null ? {} : { complement }),
+    origine: rawAddressLabel(source, matching)
+  };
+};
 
 export const getAddressData =
-  (adresse: NormalizedAddress, matching: LieuxMediationNumeriqueMatching, response?: BatchGeocoding) =>
+  (
+    adresse: NormalizedAddress,
+    matching: LieuxMediationNumeriqueMatching,
+    evidence: SourceEvidence,
+    response?: BatchGeocoding
+  ) =>
   async (arrayFromStorage: AddressRecord[]): Promise<LocationEnriched> => {
     const addresseOriginale: string = addressLabel(adresse);
     const cached: AddressRecord | undefined = cachedFor(arrayFromStorage, addresseOriginale);
 
-    if (cached?.responseBan != null) return { data: geocodedColumns(matching, cached.responseBan), statut: 'from_storage' };
+    if (cached?.responseBan != null)
+      return {
+        data: geocodedColumns(matching, cached.responseBan, complementFor(evidence, cached.responseBan)),
+        statut: 'from_storage'
+      };
 
     if (isRecentFailedAttempt(cached)) return { statut: 'from_storage', addresseOriginale };
 
@@ -119,12 +203,12 @@ export const getAddressData =
 
     if (response === GEOCODING_UNAVAILABLE) return { statut: 'geocoding_unavailable', addresseOriginale };
 
-    const fresh: Feature | undefined = freshGeocodingFrom(response);
+    const fresh: Feature | undefined = response == null ? undefined : acceptedFeature(evidence, response);
 
     if (fresh == null || response == null) return { statut: 'no_from_storage', addresseOriginale };
 
     return {
-      data: geocodedColumns(matching, fresh),
+      data: geocodedColumns(matching, fresh, complementFor(evidence, fresh)),
       addresseOriginale,
       responses: response.data,
       statut: 'from_api'

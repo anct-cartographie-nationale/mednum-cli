@@ -18,7 +18,6 @@ import {
   type BatchGeocoding,
   GEOCODING_UNAVAILABLE,
   GeocodingError,
-  isAboveBatchScore,
   isMissingFields,
   NO_LOCALISATION,
   toLocalisation
@@ -91,13 +90,13 @@ const resultsByBatchIndex = (indices: number[], results: BanResultRow[]): Map<nu
     indices.map((batchIndex: number, position: number): [number, BanResultRow | undefined] => [batchIndex, results[position]])
   );
 
-const usableResponseFrom = (result?: BanResultRow): BanResponse | null => {
-  if (result == null || !hasUsableName(result)) return null;
-
-  const response: BanResponse = { data: toFeatureCollection(result) };
-
-  return isAboveBatchScore(response) ? response : null;
-};
+/**
+ * Le score n'est plus jugé ici : c'est au domaine de trancher, lui seul sachant si la source
+ * corrobore par ses propres coordonnées un rapprochement que le score ferait rejeter. Ne reste
+ * que ce qui rend la réponse inexploitable d'emblée — ni numéro ni voie, donc aucun point.
+ */
+const usableResponseFrom = (result?: BanResultRow): BanResponse | null =>
+  result == null || !hasUsableName(result) ? null : { data: toFeatureCollection(result) };
 
 /**
  * Géocodage par lot. Seules les adresses absentes du cache et complètes sont envoyées à la

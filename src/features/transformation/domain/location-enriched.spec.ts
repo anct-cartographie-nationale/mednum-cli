@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { GEOCODING_UNAVAILABLE, getAddressData, isWorthCaching } from './location-enriched';
-import type { AddressRecord, LieuxMediationNumeriqueMatching, NormalizedAddress } from './index';
+import type { AddressRecord, LieuxMediationNumeriqueMatching, NormalizedAddress, SourceEvidence } from './index';
 
 const STANDARD_MATCHING: LieuxMediationNumeriqueMatching = {
   nom: { colonne: 'nom' },
@@ -18,6 +18,9 @@ const adresse = (voie: string, code_postal: string, commune: string): Normalized
   code_postal,
   commune
 });
+
+/** La source ne porte aucune coordonnée : rien ne peut corroborer, seul le score décide. */
+const SANS_APPORT: SourceEvidence = { origine: 'peu importe' };
 
 const CHALLANS: NormalizedAddress = adresse('18 boulevard rené bazin', '85300', 'Challans');
 const LILAS: NormalizedAddress = adresse('15 rue des Lilas', '75008', 'Paris');
@@ -78,7 +81,7 @@ const reponse = (features: (typeof DATASEARCH)[]) => ({
 
 describe('getAddressData', (): void => {
   it('retente une adresse dont le cache ne porte aucune réponse, au lieu de la tenir pour connue', async () => {
-    const result = await getAddressData(LILAS, STANDARD_MATCHING, reponse([DATASEARCH]))(AddressesBan);
+    const result = await getAddressData(LILAS, STANDARD_MATCHING, SANS_APPORT, reponse([DATASEARCH]))(AddressesBan);
 
     expect(result.statut).toBe('from_api');
     expect(result.data).toMatchObject({ 'Adresse postale *': '10 Rue de la Paix', latitude: 48.868989 });
@@ -89,7 +92,7 @@ describe('getAddressData', (): void => {
       { dateDeTraitement: new Date(Date.now() - 24 * 60 * 60 * 1000), addresseOriginale: '15 rue des Lilas 75008 Paris' }
     ];
 
-    const result = await getAddressData(LILAS, STANDARD_MATCHING, reponse([DATASEARCH]))(hier);
+    const result = await getAddressData(LILAS, STANDARD_MATCHING, SANS_APPORT, reponse([DATASEARCH]))(hier);
 
     expect(result.statut).toBe('from_storage');
     expect(result.data).toBeUndefined();
@@ -100,7 +103,9 @@ describe('getAddressData', (): void => {
       { dateDeTraitement: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), addresseOriginale: '15 rue des Lilas 75008 Paris' }
     ];
 
-    expect((await getAddressData(LILAS, STANDARD_MATCHING, reponse([DATASEARCH]))(leMoisDernier)).statut).toBe('from_api');
+    expect((await getAddressData(LILAS, STANDARD_MATCHING, SANS_APPORT, reponse([DATASEARCH]))(leMoisDernier)).statut).toBe(
+      'from_api'
+    );
   });
 
   it('retente une adresse dont la tentative infructueuse porte une date illisible', async () => {
@@ -108,18 +113,20 @@ describe('getAddressData', (): void => {
       { dateDeTraitement: 'pas une date', addresseOriginale: '15 rue des Lilas 75008 Paris' }
     ];
 
-    expect((await getAddressData(LILAS, STANDARD_MATCHING, reponse([DATASEARCH]))(dateCassee)).statut).toBe('from_api');
+    expect((await getAddressData(LILAS, STANDARD_MATCHING, SANS_APPORT, reponse([DATASEARCH]))(dateCassee)).statut).toBe(
+      'from_api'
+    );
   });
 
   it('n’inscrit rien au cache quand le géocodeur est indisponible, pour ne pas figer un échec qui n’en est pas un', async () => {
-    const result = await getAddressData(LILAS, STANDARD_MATCHING, GEOCODING_UNAVAILABLE)([]);
+    const result = await getAddressData(LILAS, STANDARD_MATCHING, SANS_APPORT, GEOCODING_UNAVAILABLE)([]);
 
     expect(result.statut).toBe('geocoding_unavailable');
     expect(result.data).toBeUndefined();
   });
 
   it('sert quand même le cache lorsque le géocodeur est indisponible', async () => {
-    const result = await getAddressData(CHALLANS, STANDARD_MATCHING, GEOCODING_UNAVAILABLE)(AddressesBan);
+    const result = await getAddressData(CHALLANS, STANDARD_MATCHING, SANS_APPORT, GEOCODING_UNAVAILABLE)(AddressesBan);
 
     expect(result.statut).toBe('from_storage');
     expect(result.data).toMatchObject({ latitude: 46.843771 });
@@ -131,14 +138,14 @@ describe('getAddressData', (): void => {
       ...AddressesBan
     ];
 
-    const result = await getAddressData(CHALLANS, STANDARD_MATCHING)(echecPuisSucces);
+    const result = await getAddressData(CHALLANS, STANDARD_MATCHING, SANS_APPORT)(echecPuisSucces);
 
     expect(result.statut).toBe('from_storage');
     expect(result.data).toMatchObject({ 'Adresse postale *': '18 Boulevard rené bazin', latitude: 46.843771 });
   });
 
   it('rend les colonnes géocodées quand le cache porte une réponse', async () => {
-    const result = await getAddressData(CHALLANS, STANDARD_MATCHING)(AddressesBan);
+    const result = await getAddressData(CHALLANS, STANDARD_MATCHING, SANS_APPORT)(AddressesBan);
 
     expect(result).toEqual({
       data: {
@@ -154,7 +161,7 @@ describe('getAddressData', (): void => {
   });
 
   it('ne rend que les colonnes géocodées, les autres champs de la source étant déjà connus de l’appelant', async () => {
-    const result = await getAddressData(CHALLANS, STANDARD_MATCHING)(AddressesBan);
+    const result = await getAddressData(CHALLANS, STANDARD_MATCHING, SANS_APPORT)(AddressesBan);
 
     expect(result.data).not.toHaveProperty('nom');
   });
@@ -164,13 +171,13 @@ describe('getAddressData', (): void => {
     ['la commune manque', adresse('La Réunion', '97400', ''), 'La Réunion 97400 '],
     ['le code postal manque', adresse('La Réunion', '', 'Saint-Denis'), 'La Réunion  Saint-Denis']
   ])('n’interroge pas la BAN quand %s', async (_, incomplete, etiquette) => {
-    const result = await getAddressData(incomplete, STANDARD_MATCHING, reponse([DATASEARCH]))([]);
+    const result = await getAddressData(incomplete, STANDARD_MATCHING, SANS_APPORT, reponse([DATASEARCH]))([]);
 
     expect(result).toEqual({ statut: 'no_from_storage', addresseOriginale: etiquette });
   });
 
   it('écarte une réponse sans aucune correspondance', async () => {
-    const result = await getAddressData(PAIX, STANDARD_MATCHING, reponse([]))(AddressesBan);
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, SANS_APPORT, reponse([]))(AddressesBan);
 
     expect(result).toEqual({ statut: 'no_from_storage', addresseOriginale: '10 rue de la paix 75002 Paris' });
   });
@@ -178,19 +185,73 @@ describe('getAddressData', (): void => {
   it('écarte une réponse dont le score reste sous le seuil de 0,9', async () => {
     const faible = { ...DATASEARCH, properties: { ...DATASEARCH.properties, score: 0.5 } };
 
-    const result = await getAddressData(PAIX, STANDARD_MATCHING, reponse([faible]))(AddressesBan);
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, SANS_APPORT, reponse([faible]))(AddressesBan);
 
     expect(result).toEqual({ statut: 'no_from_storage', addresseOriginale: '10 rue de la paix 75002 Paris' });
   });
 
   it('retient une réponse fraîche au dessus du seuil', async () => {
-    const result = await getAddressData(PAIX, STANDARD_MATCHING, reponse([DATASEARCH]))(AddressesBan);
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, SANS_APPORT, reponse([DATASEARCH]))(AddressesBan);
 
     expect(result).toMatchObject({
       data: { latitude: 48.868989, longitude: 2.33115, 'Adresse postale *': '10 Rue de la Paix' },
       addresseOriginale: '10 rue de la paix 75002 Paris',
       statut: 'from_api'
     });
+  });
+});
+
+describe('corroboration par les coordonnées de la source', (): void => {
+  const faible = { ...DATASEARCH, properties: { ...DATASEARCH.properties, score: 0.62 } };
+  // DATASEARCH pointe 48.868989 / 2.33115 ; ce point en est distant d'environ 130 mètres.
+  const A_PROXIMITE: SourceEvidence = {
+    origine: '10 rue de la paix 75002 Paris',
+    localisation: { latitude: 48.8678, longitude: 2.33115 }
+  };
+  const AU_LOIN: SourceEvidence = {
+    origine: '10 rue de la paix 75002 Paris',
+    localisation: { latitude: 45.764, longitude: 4.8357 }
+  };
+
+  it('retient un rapprochement faible quand la source le corrobore par ses propres coordonnées', async () => {
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, A_PROXIMITE, reponse([faible]))([]);
+
+    expect(result.statut).toBe('from_api');
+    expect(result.data).toMatchObject({ latitude: 48.868989, longitude: 2.33115 });
+  });
+
+  it('verse l’adresse d’origine au complément quand seule la proximité a permis de retenir la réponse', async () => {
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, A_PROXIMITE, reponse([faible]))([]);
+
+    expect(result.data?.['Complement adresse']).toBe('10 rue de la paix 75002 Paris');
+  });
+
+  it('concatène l’adresse d’origine au complément déjà renseigné, séparés par un tiret', async () => {
+    const avecComplement: SourceEvidence = { ...A_PROXIMITE, complement: 'Bâtiment C' };
+
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, avecComplement, reponse([faible]))([]);
+
+    expect(result.data?.['Complement adresse']).toBe('Bâtiment C - 10 rue de la paix 75002 Paris');
+  });
+
+  it('ne touche pas au complément quand le score se suffit à lui-même', async () => {
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, A_PROXIMITE, reponse([DATASEARCH]))([]);
+
+    expect(result.statut).toBe('from_api');
+    expect(result.data).not.toHaveProperty('Complement adresse');
+  });
+
+  it('écarte un rapprochement faible dont le point est loin de celui de la source', async () => {
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, AU_LOIN, reponse([faible]))([]);
+
+    expect(result.statut).toBe('no_from_storage');
+    expect(result.data).toBeUndefined();
+  });
+
+  it('écarte un rapprochement faible quand la source ne porte aucune coordonnée à opposer', async () => {
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, SANS_APPORT, reponse([faible]))([]);
+
+    expect(result.statut).toBe('no_from_storage');
   });
 });
 
