@@ -1,7 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { GEOCODING_UNAVAILABLE, getAddressData, isWorthCaching, labelCodePostal, labelCommune } from './location-enriched';
-import type { DataSource, LieuxMediationNumeriqueMatching } from './index';
-import type { AddressRecord } from './index';
+import { GEOCODING_UNAVAILABLE, getAddressData, isWorthCaching } from './location-enriched';
+import type { AddressRecord, LieuxMediationNumeriqueMatching, NormalizedAddress } from './index';
 
 const STANDARD_MATCHING: LieuxMediationNumeriqueMatching = {
   nom: { colonne: 'nom' },
@@ -14,10 +13,20 @@ const STANDARD_MATCHING: LieuxMediationNumeriqueMatching = {
   longitude: { colonne: 'longitude' }
 } as LieuxMediationNumeriqueMatching;
 
+const adresse = (voie: string, code_postal: string, commune: string): NormalizedAddress => ({
+  voie,
+  code_postal,
+  commune
+});
+
+const CHALLANS: NormalizedAddress = adresse('18 boulevard rené bazin', '85300', 'Challans');
+const LILAS: NormalizedAddress = adresse('15 rue des Lilas', '75008', 'Paris');
+const PAIX: NormalizedAddress = adresse('10 rue de la paix', '75002', 'Paris');
+
 const AddressesBan: AddressRecord[] = [
   {
     dateDeTraitement: new Date('2025-10-10T14:50:47.738Z'),
-    addresseOriginale: '- 18 boulevard rené bazin 85300 Challans',
+    addresseOriginale: '18 boulevard rené bazin 85300 Challans',
     responseBan: {
       type: 'Feature',
       geometry: { type: 'Point', coordinates: [-1.882688, 46.843771] },
@@ -39,10 +48,7 @@ const AddressesBan: AddressRecord[] = [
       }
     }
   },
-  {
-    dateDeTraitement: new Date('2025-10-10T14:50:47.738Z'),
-    addresseOriginale: '- 15 rue des Lilas 75008 Paris'
-  }
+  { dateDeTraitement: new Date('2025-10-10T14:50:47.738Z'), addresseOriginale: '15 rue des Lilas 75008 Paris' }
 ];
 
 const DATASEARCH = {
@@ -66,141 +72,73 @@ const DATASEARCH = {
   }
 };
 
-const data: DataSource = {
-  'Code postal': '75002',
-  'Ville *': 'Paris',
-  'Adresse postale *': '- 10 rue de la paix'
-};
+const reponse = (features: (typeof DATASEARCH)[]) => ({
+  data: { type: 'FeatureCollection' as const, features, query: 'peu importe' }
+});
 
-describe('localisation-from-geo', () => {
+describe('getAddressData', (): void => {
   it('retente une adresse dont le cache ne porte aucune réponse, au lieu de la tenir pour connue', async () => {
-    const dataSource: DataSource = {
-      latitude: 6649679.61,
-      longitude: 328145.77,
-      'Adresse postale *': '- 15 rue des Lilas',
-      'Code postal': '75008',
-      'Ville *': 'Paris',
-      'Code INSEE': '75108'
-    };
-    const axiosResponse = {
-      data: { type: 'FeatureCollection' as const, features: [DATASEARCH], query: '15 rue des Lilas 75008 Paris' }
-    };
-
-    const result = await getAddressData(dataSource, STANDARD_MATCHING, axiosResponse)(AddressesBan);
+    const result = await getAddressData(LILAS, STANDARD_MATCHING, reponse([DATASEARCH]))(AddressesBan);
 
     expect(result.statut).toBe('from_api');
     expect(result.data).toMatchObject({ 'Adresse postale *': '10 Rue de la Paix', latitude: 48.868989 });
   });
 
   it('ne retente pas une adresse dont la dernière tentative infructueuse date de moins d’une semaine', async () => {
-    const dataSource: DataSource = {
-      'Adresse postale *': '- 15 rue des Lilas',
-      'Code postal': '75008',
-      'Ville *': 'Paris'
-    };
     const hier: AddressRecord[] = [
-      { dateDeTraitement: new Date(Date.now() - 24 * 60 * 60 * 1000), addresseOriginale: '- 15 rue des Lilas 75008 Paris' }
+      { dateDeTraitement: new Date(Date.now() - 24 * 60 * 60 * 1000), addresseOriginale: '15 rue des Lilas 75008 Paris' }
     ];
-    const axiosResponse = {
-      data: { type: 'FeatureCollection' as const, features: [DATASEARCH], query: '15 rue des Lilas' }
-    };
 
-    const result = await getAddressData(dataSource, STANDARD_MATCHING, axiosResponse)(hier);
+    const result = await getAddressData(LILAS, STANDARD_MATCHING, reponse([DATASEARCH]))(hier);
 
     expect(result.statut).toBe('from_storage');
     expect(result.data).toBeUndefined();
   });
 
   it('retente une adresse dont la dernière tentative infructueuse remonte à plus d’une semaine', async () => {
-    const dataSource: DataSource = {
-      'Adresse postale *': '- 15 rue des Lilas',
-      'Code postal': '75008',
-      'Ville *': 'Paris'
-    };
     const leMoisDernier: AddressRecord[] = [
-      { dateDeTraitement: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), addresseOriginale: '- 15 rue des Lilas 75008 Paris' }
+      { dateDeTraitement: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), addresseOriginale: '15 rue des Lilas 75008 Paris' }
     ];
-    const axiosResponse = {
-      data: { type: 'FeatureCollection' as const, features: [DATASEARCH], query: '15 rue des Lilas' }
-    };
 
-    const result = await getAddressData(dataSource, STANDARD_MATCHING, axiosResponse)(leMoisDernier);
-
-    expect(result.statut).toBe('from_api');
+    expect((await getAddressData(LILAS, STANDARD_MATCHING, reponse([DATASEARCH]))(leMoisDernier)).statut).toBe('from_api');
   });
 
   it('retente une adresse dont la tentative infructueuse porte une date illisible', async () => {
-    const dataSource: DataSource = {
-      'Adresse postale *': '- 15 rue des Lilas',
-      'Code postal': '75008',
-      'Ville *': 'Paris'
-    };
     const dateCassee: AddressRecord[] = [
-      { dateDeTraitement: 'pas une date', addresseOriginale: '- 15 rue des Lilas 75008 Paris' }
+      { dateDeTraitement: 'pas une date', addresseOriginale: '15 rue des Lilas 75008 Paris' }
     ];
-    const axiosResponse = {
-      data: { type: 'FeatureCollection' as const, features: [DATASEARCH], query: '15 rue des Lilas' }
-    };
 
-    const result = await getAddressData(dataSource, STANDARD_MATCHING, axiosResponse)(dateCassee);
-
-    expect(result.statut).toBe('from_api');
+    expect((await getAddressData(LILAS, STANDARD_MATCHING, reponse([DATASEARCH]))(dateCassee)).statut).toBe('from_api');
   });
 
   it('n’inscrit rien au cache quand le géocodeur est indisponible, pour ne pas figer un échec qui n’en est pas un', async () => {
-    const dataSource: DataSource = {
-      'Adresse postale *': '- 15 rue des Lilas',
-      'Code postal': '75008',
-      'Ville *': 'Paris'
-    };
-
-    const result = await getAddressData(dataSource, STANDARD_MATCHING, GEOCODING_UNAVAILABLE)([]);
+    const result = await getAddressData(LILAS, STANDARD_MATCHING, GEOCODING_UNAVAILABLE)([]);
 
     expect(result.statut).toBe('geocoding_unavailable');
     expect(result.data).toBeUndefined();
   });
 
   it('sert quand même le cache lorsque le géocodeur est indisponible', async () => {
-    const dataSource: DataSource = {
-      'Adresse postale *': '- 18 boulevard rené bazin',
-      'Code postal': '85300',
-      'Ville *': 'Challans'
-    };
-
-    const result = await getAddressData(dataSource, STANDARD_MATCHING, GEOCODING_UNAVAILABLE)(AddressesBan);
+    const result = await getAddressData(CHALLANS, STANDARD_MATCHING, GEOCODING_UNAVAILABLE)(AddressesBan);
 
     expect(result.statut).toBe('from_storage');
     expect(result.data).toMatchObject({ latitude: 46.843771 });
   });
 
   it('préfère le succès à l’échec quand le cache porte les deux pour une même adresse', async () => {
-    const dataSource: DataSource = {
-      'Adresse postale *': '- 18 boulevard rené bazin',
-      'Code postal': '85300',
-      'Ville *': 'Challans'
-    };
     const echecPuisSucces: AddressRecord[] = [
-      { dateDeTraitement: new Date('2025-10-10T14:50:47.738Z'), addresseOriginale: '- 18 boulevard rené bazin 85300 Challans' },
+      { dateDeTraitement: new Date('2025-10-10T14:50:47.738Z'), addresseOriginale: '18 boulevard rené bazin 85300 Challans' },
       ...AddressesBan
     ];
 
-    const result = await getAddressData(dataSource, STANDARD_MATCHING)(echecPuisSucces);
+    const result = await getAddressData(CHALLANS, STANDARD_MATCHING)(echecPuisSucces);
 
     expect(result.statut).toBe('from_storage');
     expect(result.data).toMatchObject({ 'Adresse postale *': '18 Boulevard rené bazin', latitude: 46.843771 });
   });
 
-  it('should return from_storage with enriched data when address exists in cache with BAN response', async () => {
-    const dataSource: DataSource = {
-      latitude: 6649679.61,
-      longitude: 328145.77,
-      'Adresse postale *': '- 18 boulevard rené bazin',
-      'Code postal': '85300',
-      'Ville *': 'Challans',
-      'Code INSEE': '85047'
-    };
-
-    const result = await getAddressData(dataSource, STANDARD_MATCHING)(AddressesBan);
+  it('rend les colonnes géocodées quand le cache porte une réponse', async () => {
+    const result = await getAddressData(CHALLANS, STANDARD_MATCHING)(AddressesBan);
 
     expect(result).toEqual({
       data: {
@@ -216,129 +154,47 @@ describe('localisation-from-geo', () => {
   });
 
   it('ne rend que les colonnes géocodées, les autres champs de la source étant déjà connus de l’appelant', async () => {
-    const dataSource: DataSource = {
-      'Adresse postale *': '- 18 boulevard rené bazin',
-      'Code postal': '85300',
-      'Ville *': 'Challans',
-      nom: 'Un lieu que le géocodage ne touche pas'
-    };
-
-    const result = await getAddressData(dataSource, STANDARD_MATCHING)(AddressesBan);
+    const result = await getAddressData(CHALLANS, STANDARD_MATCHING)(AddressesBan);
 
     expect(result.data).not.toHaveProperty('nom');
   });
 
-  it('should return no_from_storage when adresse is null', async () => {
-    const dataSource: DataSource = {
-      'Adresse postale *': null,
-      'Code postal': '75001',
-      'Ville *': 'Paris',
-      'Code INSEE': '75056'
-    };
+  it.each([
+    ['la voie manque', adresse('', '75001', 'Paris'), ' 75001 Paris'],
+    ['la commune manque', adresse('La Réunion', '97400', ''), 'La Réunion 97400 '],
+    ['le code postal manque', adresse('La Réunion', '', 'Saint-Denis'), 'La Réunion  Saint-Denis']
+  ])('n’interroge pas la BAN quand %s', async (_, incomplete, etiquette) => {
+    const result = await getAddressData(incomplete, STANDARD_MATCHING, reponse([DATASEARCH]))([]);
 
-    const result = await getAddressData(dataSource, STANDARD_MATCHING)(AddressesBan);
-
-    expect(result).toEqual({ statut: 'no_from_storage', addresseOriginale: 'null 75001 Paris' });
+    expect(result).toEqual({ statut: 'no_from_storage', addresseOriginale: etiquette });
   });
 
-  it('should return no_from_storage when commune is null', async () => {
-    const dataSource: DataSource = {
-      'Adresse postale *': 'La Réunion',
-      'Code postal': '97400',
-      'Ville *': null,
-      'Code INSEE': null
-    };
+  it('écarte une réponse sans aucune correspondance', async () => {
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, reponse([]))(AddressesBan);
 
-    const result = await getAddressData(dataSource, STANDARD_MATCHING)(AddressesBan);
-
-    expect(result).toEqual({ statut: 'no_from_storage', addresseOriginale: 'La Réunion 97400 ' });
+    expect(result).toEqual({ statut: 'no_from_storage', addresseOriginale: '10 rue de la paix 75002 Paris' });
   });
 
-  it('should return no_from_storage when code_postal is null', async () => {
-    const dataSource: DataSource = {
-      'Adresse postale *': 'La Réunion',
-      'Code postal': null,
-      'Ville *': 'Saint-Denis',
-      'Code INSEE': null
-    };
+  it('écarte une réponse dont le score reste sous le seuil de 0,9', async () => {
+    const faible = { ...DATASEARCH, properties: { ...DATASEARCH.properties, score: 0.5 } };
 
-    const result = await getAddressData(dataSource, STANDARD_MATCHING)(AddressesBan);
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, reponse([faible]))(AddressesBan);
 
-    expect(result).toEqual({ statut: 'no_from_storage', addresseOriginale: 'La Réunion  Saint-Denis' });
+    expect(result).toEqual({ statut: 'no_from_storage', addresseOriginale: '10 rue de la paix 75002 Paris' });
   });
 
-  it('should return no_from_storage when API response has no features', async () => {
-    const axiosResponse = {
-      data: { type: 'FeatureCollection' as const, features: [], query: '10 rue de la paix 75002 Paris' }
-    };
+  it('retient une réponse fraîche au dessus du seuil', async () => {
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, reponse([DATASEARCH]))(AddressesBan);
 
-    const result = await getAddressData(data, STANDARD_MATCHING, axiosResponse)(AddressesBan);
-
-    expect(result).toEqual({ statut: 'no_from_storage', addresseOriginale: '- 10 rue de la paix 75002 Paris' });
-  });
-
-  it('should return no_from_storage when API response score is below 0.9', async () => {
-    const axiosResponse = {
-      data: {
-        type: 'FeatureCollection' as const,
-        features: [{ ...DATASEARCH, properties: { ...DATASEARCH.properties, score: 0.5 } }],
-        query: '10 rue de la paix 75002 Paris'
-      }
-    };
-
-    const result = await getAddressData(data, STANDARD_MATCHING, axiosResponse)(AddressesBan);
-
-    expect(result).toEqual({ statut: 'no_from_storage', addresseOriginale: '- 10 rue de la paix 75002 Paris' });
-  });
-
-  it('should return from_api with enriched data when API response is valid', async () => {
-    const axiosResponse = {
-      data: { type: 'FeatureCollection' as const, features: [DATASEARCH], query: '10 rue de la paix 75002 Paris' }
-    };
-
-    const result = await getAddressData(data, STANDARD_MATCHING, axiosResponse)(AddressesBan);
-
-    expect(result).toEqual({
-      data: {
-        latitude: 48.868989,
-        longitude: 2.33115,
-        'Adresse postale *': '10 Rue de la Paix',
-        'Code postal': '75002',
-        'Ville *': 'Paris',
-        'Code INSEE': '75102'
-      },
-      responses: { type: 'FeatureCollection' as const, features: [DATASEARCH], query: '10 rue de la paix 75002 Paris' },
-      addresseOriginale: '- 10 rue de la paix 75002 Paris',
+    expect(result).toMatchObject({
+      data: { latitude: 48.868989, longitude: 2.33115, 'Adresse postale *': '10 Rue de la Paix' },
+      addresseOriginale: '10 rue de la paix 75002 Paris',
       statut: 'from_api'
     });
   });
 });
 
-describe('labelCommune', () => {
-  it('should use second commune colonne when first is empty', () => {
-    const source: DataSource = { commune: 'Grenoble' };
-    const matching = {
-      ...STANDARD_MATCHING,
-      commune: { colonne: ['addressLocality', 'commune'] }
-    } as unknown as LieuxMediationNumeriqueMatching;
-
-    expect(labelCommune(source, matching)).toBe('Grenoble');
-  });
-});
-
-describe('labelCodePostal', () => {
-  it('should use second code_postal colonne when first is empty', () => {
-    const source: DataSource = { code_postal: '38000' };
-    const matching = {
-      ...STANDARD_MATCHING,
-      code_postal: { colonne: ['postalCode', 'code_postal'] }
-    } as unknown as LieuxMediationNumeriqueMatching;
-
-    expect(labelCodePostal(source, matching)).toBe('38000');
-  });
-});
-
-describe('isWorthCaching', () => {
+describe('isWorthCaching', (): void => {
   it.each([
     ['from_api', true],
     ['no_from_storage', true],

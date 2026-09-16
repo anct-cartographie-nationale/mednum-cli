@@ -1,9 +1,17 @@
-import { Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { type Adresse, Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import type { BanAddressRow, Feature, FeatureCollection } from '../../../libraries/ban';
 import { type AddressRecord, isRecentFailedAttempt } from './address-cache';
 import { toCleanField } from './fields/adresse/clean-operations';
-import { CLEAN_VOIE, voieField } from './fields/adresse/clean-voie';
+import { CLEAN_VOIE_FOR_SEARCH } from './fields/adresse/clean-voie';
 import type { DataSource, LieuxMediationNumeriqueMatching } from './matching';
+
+/**
+ * L'adresse telle que le dépôt la reconstitue — commune et code postal complétés par le
+ * référentiel des communes — mais sans la validation qu'impose `Adresse`. C'est cette forme,
+ * et non les colonnes brutes, qui sert de question à la Base Adresse Nationale et de clé au
+ * cache : la question posée est ainsi exactement l'adresse qui sera publiée.
+ */
+export type NormalizedAddress = Omit<Adresse, 'isAdresse'>;
 
 /**
  * Un géocodage n'est retenu qu'au delà de ce score : en deçà, la BAN a rapproché l'adresse
@@ -30,36 +38,22 @@ export type LocationEnriched = {
   statut: 'no_from_storage' | 'from_storage' | 'from_api' | 'geocoding_unavailable';
 };
 
-const firstValueFrom = (source: DataSource, colonne: string | string[]): string =>
-  [colonne]
-    .flat()
-    .map((c: string): string | undefined => source[c]?.toString())
-    .find(Boolean) ?? '';
-
 /**
- * La voie est nettoyée avant d'être soumise au géocodage, exactement comme elle l'est avant
- * d'être publiée : envoyer la valeur brute privait le rapprochement des corrections que le
- * dépôt sait déjà appliquer.
+ * La voie telle qu'on la soumet au géocodeur. C'est aussi la clé du cache : ce que l'on retient
+ * doit être indexé par la question posée, non par une variante jamais demandée.
  */
-const labelVoie = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
-  CLEAN_VOIE.reduce(toCleanField, String(voieField(source, matching.adresse)));
+const searchableVoie = (voie: string): string => CLEAN_VOIE_FOR_SEARCH.reduce(toCleanField, voie);
 
-export const labelCodePostal = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
-  firstValueFrom(source, matching.code_postal.colonne);
+export const addressLabel = ({ voie, code_postal, commune }: NormalizedAddress): string =>
+  `${searchableVoie(voie)} ${code_postal} ${commune}`;
 
-export const labelCommune = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
-  firstValueFrom(source, matching.commune.colonne);
+export const isMissingFields = ({ voie, code_postal, commune }: NormalizedAddress): boolean =>
+  commune === '' || code_postal === '' || voie === '';
 
-export const addressLabel = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
-  `${labelVoie(source, matching)} ${labelCodePostal(source, matching)} ${labelCommune(source, matching)}`;
-
-export const isMissingFields = (source: DataSource, matching: LieuxMediationNumeriqueMatching): boolean =>
-  labelCommune(source, matching) === '' || labelCodePostal(source, matching) === '' || labelVoie(source, matching) === '';
-
-export const banRowFor = (source: DataSource, matching: LieuxMediationNumeriqueMatching): BanAddressRow => ({
-  voie: labelVoie(source, matching),
-  codePostal: labelCodePostal(source, matching),
-  commune: labelCommune(source, matching)
+export const banRowFor = (adresse: NormalizedAddress): BanAddressRow => ({
+  voie: searchableVoie(adresse.voie),
+  codePostal: adresse.code_postal,
+  commune: adresse.commune
 });
 
 export const isAboveBatchScore = (response?: BanResponse | null): boolean =>
@@ -90,9 +84,6 @@ const geocodedColumns = (matching: LieuxMediationNumeriqueMatching, feature: Fea
   };
 };
 
-const rawAddressLabel = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
-  `${source[matching?.adresse?.colonne ?? '']} ${labelCodePostal(source, matching)} ${labelCommune(source, matching)}`;
-
 /**
  * Le chargement du cache déduplique déjà, mais cette fonction ne s'y fie pas : si une même
  * adresse revient en échec et en succès, le succès l'emporte, faute de quoi l'ordre du tableau
@@ -113,17 +104,18 @@ const freshGeocodingFrom = (response?: BanResponse | null): Feature | undefined 
   isAboveBatchScore(response) ? response?.data.features[0] : undefined;
 
 export const getAddressData =
-  (source: DataSource, matching: LieuxMediationNumeriqueMatching, response?: BatchGeocoding) =>
+  (adresse: NormalizedAddress, matching: LieuxMediationNumeriqueMatching, response?: BatchGeocoding) =>
   async (arrayFromStorage: AddressRecord[]): Promise<LocationEnriched> => {
-    const addresseOriginale: string = rawAddressLabel(source, matching);
-
-    if (isMissingFields(source, matching)) return { statut: 'no_from_storage', addresseOriginale };
-
-    const cached: AddressRecord | undefined = cachedFor(arrayFromStorage, addressLabel(source, matching));
+    const addresseOriginale: string = addressLabel(adresse);
+    const cached: AddressRecord | undefined = cachedFor(arrayFromStorage, addresseOriginale);
 
     if (cached?.responseBan != null) return { data: geocodedColumns(matching, cached.responseBan), statut: 'from_storage' };
 
     if (isRecentFailedAttempt(cached)) return { statut: 'from_storage', addresseOriginale };
+
+    // Le contrôle de complétude vient après celui de fraîcheur : le placer avant réinscrivait au
+    // cache, à chaque exécution, les adresses incomplètes — qui ne sont jamais soumises à la BAN.
+    if (isMissingFields(adresse)) return { statut: 'no_from_storage', addresseOriginale };
 
     if (response === GEOCODING_UNAVAILABLE) return { statut: 'geocoding_unavailable', addresseOriginale };
 

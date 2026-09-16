@@ -54,7 +54,7 @@ import {
   isPrive
 } from './fields';
 import type { DataSource, LieuxMediationNumeriqueMatching } from './matching';
-import { addressLabel, isWorthCaching, type LocationEnriched } from './location-enriched';
+import { isWorthCaching, type LocationEnriched } from './location-enriched';
 import type { TransformationRepository } from './transformation-repository';
 
 const isFilled = <T>(nullable?: T[]): nullable is T[] => nullable != null && nullable.length > 0;
@@ -171,17 +171,15 @@ export const isFlatten = (repository: Record<string, unknown>): boolean => {
 const entryIdentification = (dataSource: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
   dataSource[matching.nom.colonne]?.toString() ?? '';
 
-const addresseLog = (
-  dataSource: DataSource,
-  matching: LieuxMediationNumeriqueMatching,
-  addresseBan: Feature
-): AddressRecord => {
-  return {
-    dateDeTraitement: new Date(),
-    addresseOriginale: addressLabel(dataSource, matching),
-    responseBan: addresseBan
-  };
-};
+/**
+ * L'étiquette enregistrée est celle qu'a servie `getAddressData` : la recalculer ici ferait
+ * dépendre la clé du cache de deux chemins qui pourraient diverger.
+ */
+const addresseLog = (addresseOriginale: string, addresseBan: Feature): AddressRecord => ({
+  dateDeTraitement: new Date(),
+  addresseOriginale,
+  responseBan: addresseBan
+});
 
 const isErrorToReport = (error: unknown): error is ModelError<LieuMediationNumerique> =>
   error instanceof IdError ||
@@ -216,9 +214,7 @@ export const toLieuxMediationNumerique =
       if (locationEnriched != null && isWorthCaching(locationEnriched)) {
         addressCache
           .entry(index)
-          .record(
-            addresseLog(dataSource as DataSource, repository.config, locationEnriched.responses?.features?.[0] as Feature)
-          )
+          .record(addresseLog(locationEnriched.addresseOriginale ?? '', locationEnriched.responses?.features?.[0] as Feature))
           .commit();
       }
       return await lieuDeMediationNumerique(

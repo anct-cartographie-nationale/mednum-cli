@@ -49,15 +49,15 @@ const communeFrom = (findCommune: FindCommune, addressToNormalize: AddressToNorm
   findCommune.parNomEtCodePostalLePlusProcheDuDepartement(addressToNormalize.commune, addressToNormalize.code_postal) ??
   getNewCommune(addressToNormalize.commune);
 
-const buildAddress =
+const buildAddressFields =
   (findCommune: FindCommune) =>
-  (addressToNormalize: AddressToNormalize, sourceAddress: SourceAddress): Adresse =>
-    Adresse(addressFields(addressToNormalize, communeFrom(findCommune, addressToNormalize), sourceAddress));
+  (addressToNormalize: AddressToNormalize, sourceAddress: SourceAddress): Omit<Adresse, 'isAdresse'> =>
+    addressFields(addressToNormalize, communeFrom(findCommune, addressToNormalize), sourceAddress);
 
-const normalizeAddress =
+const normalizeAddressFields =
   (findCommune: FindCommune) =>
-  (sourceAddress: SourceAddress): Adresse =>
-    buildAddress(findCommune)(
+  (sourceAddress: SourceAddress): Omit<Adresse, 'isAdresse'> =>
+    buildAddressFields(findCommune)(
       {
         commune: CLEAN_COMMUNE.reduce(toCleanField, communeField(sourceAddress.voie, sourceAddress.commune)),
         code_postal: CLEAN_CODE_POSTAL.reduce(toCleanField, codePostalField(sourceAddress.voie, sourceAddress.code_postal))
@@ -65,18 +65,34 @@ const normalizeAddress =
       sourceAddress
     );
 
+const sourceAddressFrom = (source: DataSource, matching: LieuxMediationNumeriqueMatching): SourceAddress => ({
+  voie: voieField(source, matching.adresse),
+  commune: [matching.commune.colonne]
+    .flat()
+    .map((c: string) => source[c]?.toString())
+    .find(Boolean),
+  code_postal: [matching.code_postal.colonne]
+    .flat()
+    .map((c: string) => source[c]?.toString())
+    .find(Boolean),
+  ...complementAdresseIfAny(source[matching.complement_adresse?.colonne ?? '']?.toString())
+});
+
+/**
+ * L'adresse normalisée, sans la validation que lui impose `Adresse`. C'est elle qu'interroge le
+ * géocodage : la bâtir sur les colonnes brutes revenait à demander à la Base Adresse Nationale
+ * une adresse que le dépôt sait compléter — commune retrouvée par son code postal, code postal
+ * retrouvé par sa commune — et donc à refuser des lieux que ces règles rendent trouvables.
+ *
+ * Elle ne lève jamais : une adresse invalide est une adresse qu'on ne géocodera pas, pas une
+ * exécution à interrompre.
+ */
+export const normalizedAddress =
+  (findCommune: FindCommune) =>
+  (source: DataSource, matching: LieuxMediationNumeriqueMatching): Omit<Adresse, 'isAdresse'> =>
+    normalizeAddressFields(findCommune)(sourceAddressFrom(source, matching));
+
 export const processAdresse =
   (findCommune: FindCommune) =>
   (source: DataSource, matching: LieuxMediationNumeriqueMatching): Adresse =>
-    normalizeAddress(findCommune)({
-      voie: voieField(source, matching.adresse),
-      commune: [matching.commune.colonne]
-        .flat()
-        .map((c) => source[c]?.toString())
-        .find(Boolean),
-      code_postal: [matching.code_postal.colonne]
-        .flat()
-        .map((c) => source[c]?.toString())
-        .find(Boolean),
-      ...complementAdresseIfAny(source[matching.complement_adresse?.colonne ?? '']?.toString())
-    });
+    Adresse(normalizedAddress(findCommune)(source, matching));

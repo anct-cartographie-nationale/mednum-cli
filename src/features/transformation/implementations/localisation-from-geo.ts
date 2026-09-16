@@ -10,7 +10,7 @@ import {
   searchAddress,
   toFeatureCollection
 } from '../../../libraries/ban';
-import { type AddressRecord, type Geocode, isRecentFailedAttempt } from '../domain';
+import { type AddressRecord, type Geocode, isRecentFailedAttempt, type NormalizedAddress } from '../domain';
 import {
   addressLabel,
   banRowFor,
@@ -23,7 +23,6 @@ import {
   NO_LOCALISATION,
   toLocalisation
 } from '../domain';
-import type { DataSource, LieuxMediationNumeriqueMatching } from '../domain';
 
 /**
  * Seuils du géocodage unitaire, plus permissifs que celui du lot : au dessus du premier, le
@@ -64,37 +63,28 @@ const addresseOf = (adresse: Adresse): string => `${adresse.voie} ${adresse.code
 const hasUsableName = (row?: BanResultRow): boolean =>
   row != null && [row.result_housenumber, row.result_street].filter(Boolean).join(' ') !== '';
 
-const noGeocoding = (batch: DataSource[]): null[] => batch.map((): null => null);
+const noGeocoding = (adresses: NormalizedAddress[]): null[] => adresses.map((): null => null);
 
-const geocodingUnavailable = (batch: DataSource[]): (typeof GEOCODING_UNAVAILABLE)[] =>
-  batch.map((): typeof GEOCODING_UNAVAILABLE => GEOCODING_UNAVAILABLE);
+const geocodingUnavailable = (adresses: NormalizedAddress[]): (typeof GEOCODING_UNAVAILABLE)[] =>
+  adresses.map((): typeof GEOCODING_UNAVAILABLE => GEOCODING_UNAVAILABLE);
 
-const needsGeocoding = (
-  source: DataSource,
-  matching: LieuxMediationNumeriqueMatching,
-  arrayFromStorage: AddressRecord[]
-): boolean =>
-  !isMissingFields(source, matching) &&
+const needsGeocoding = (adresse: NormalizedAddress, arrayFromStorage: AddressRecord[]): boolean =>
+  !isMissingFields(adresse) &&
   !arrayFromStorage.some(
     (record: AddressRecord): boolean =>
-      addressLabel(source, matching) === record?.addresseOriginale &&
-      (record.responseBan != null || isRecentFailedAttempt(record))
+      addressLabel(adresse) === record?.addresseOriginale && (record.responseBan != null || isRecentFailedAttempt(record))
   );
 
-const indicesToGeocode = (
-  batch: DataSource[],
-  matching: LieuxMediationNumeriqueMatching,
-  arrayFromStorage: AddressRecord[]
-): number[] =>
-  batch.flatMap((source: DataSource, index: number): number[] =>
-    needsGeocoding(source, matching, arrayFromStorage) ? [index] : []
+const indicesToGeocode = (adresses: NormalizedAddress[], arrayFromStorage: AddressRecord[]): number[] =>
+  adresses.flatMap((adresse: NormalizedAddress, index: number): number[] =>
+    needsGeocoding(adresse, arrayFromStorage) ? [index] : []
   );
 
-const banRowsAt = (batch: DataSource[], matching: LieuxMediationNumeriqueMatching, indices: number[]): BanAddressRow[] =>
+const banRowsAt = (adresses: NormalizedAddress[], indices: number[]): BanAddressRow[] =>
   indices
-    .map((index: number): DataSource | undefined => batch[index])
-    .filter((source: DataSource | undefined): source is DataSource => source != null)
-    .map((source: DataSource): BanAddressRow => banRowFor(source, matching));
+    .map((index: number): NormalizedAddress | undefined => adresses[index])
+    .filter((adresse: NormalizedAddress | undefined): adresse is NormalizedAddress => adresse != null)
+    .map(banRowFor);
 
 const resultsByBatchIndex = (indices: number[], results: BanResultRow[]): Map<number, BanResultRow | undefined> =>
   new Map(
@@ -114,27 +104,26 @@ const usableResponseFrom = (result?: BanResultRow): BanResponse | null => {
  * BAN ; le résultat est réaligné sur les positions du lot d'origine.
  */
 export const fetchBanResponseBatch = async (
-  batch: DataSource[],
-  matching: LieuxMediationNumeriqueMatching,
+  adresses: NormalizedAddress[],
   arrayFromStorage: AddressRecord[],
   postCsv: PostCsv = postBanCsv
 ): Promise<BatchGeocoding[]> => {
-  const indices: number[] = indicesToGeocode(batch, matching, arrayFromStorage);
+  const indices: number[] = indicesToGeocode(adresses, arrayFromStorage);
 
-  if (indices.length === 0) return noGeocoding(batch);
+  if (indices.length === 0) return noGeocoding(adresses);
 
   try {
-    const results: BanResultRow[] = await geocodeCsv(banRowsAt(batch, matching, indices), postCsv);
+    const results: BanResultRow[] = await geocodeCsv(banRowsAt(adresses, indices), postCsv);
 
     // La BAN rend une ligne par ligne envoyée, même sans correspondance : un résultat vide n'est
     // donc pas un « rien trouvé », c'est une réponse qu'on ne sait pas exploiter.
-    if (results.length === 0) return geocodingUnavailable(batch);
+    if (results.length === 0) return geocodingUnavailable(adresses);
 
     const resultAt: Map<number, BanResultRow | undefined> = resultsByBatchIndex(indices, results);
 
-    return batch.map((_: DataSource, index: number): BanResponse | null => usableResponseFrom(resultAt.get(index)));
+    return adresses.map((_: NormalizedAddress, index: number): BanResponse | null => usableResponseFrom(resultAt.get(index)));
   } catch (error: unknown) {
     console.error("[BAN batch] Erreur lors de l'appel ou du parsing CSV", error);
-    return geocodingUnavailable(batch);
+    return geocodingUnavailable(adresses);
   }
 };

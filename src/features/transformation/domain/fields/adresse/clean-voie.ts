@@ -145,6 +145,52 @@ const FIX_WRONG_ENCODING_IN_VOIE: CleanOperation = {
   fix: (toFix: string): string => Buffer.from(toFix, 'latin1').toString('utf8')
 };
 
+/**
+ * Une fourchette de numéros ne désigne aucun point : la Base Adresse Nationale ne sait pas
+ * situer « 211-213 boulevard Vincent Auriol », elle situe « 211 boulevard Vincent Auriol ».
+ */
+const KEEP_FIRST_NUMBER_OF_RANGE_IN_VOIE: CleanOperation = {
+  name: 'keep the first number of a range',
+  selector: /^\s*\d+\s*[-–/]\s*\d+/u,
+  fix: (toFix: string): string => toFix.replace(/^(\s*\d+)\s*[-–/]\s*\d+/u, '$1')
+};
+
+/**
+ * Ce qu'une parenthèse porte — un étage, une porte, un bâtiment — relève du complément
+ * d'adresse et brouille le rapprochement.
+ */
+const REMOVE_PARENTHESES_IN_VOIE: CleanOperation = {
+  name: 'remove parenthesised details',
+  selector: /\([^)]*\)/u,
+  fix: (toFix: string): string =>
+    toFix
+      .replace(/\([^)]*\)/gu, ' ')
+      .replace(/\s{2,}/gu, ' ')
+      .trim()
+};
+
+const PLURAL_STREET_TYPES: RegExp =
+  /(?<![\p{L}\d])([Qq]uais|[Rr]ues|[Aa]venues|[Pp]laces|[Aa]llées|[Aa]llees|[Rr]outes|[Ii]mpasses|[Cc]hemins)(?![\p{L}\d])/gu;
+
+/** Le référentiel ne connaît que le singulier : « 206 quais de Jemmapes » n'y existe pas. */
+const SINGULARIZE_STREET_TYPE_IN_VOIE: CleanOperation = {
+  name: 'singularize the street type',
+  selector: PLURAL_STREET_TYPES,
+  fix: (toFix: string): string => toFix.replace(PLURAL_STREET_TYPES, (type: string): string => type.slice(0, -1))
+};
+
+/**
+ * Nettoyages réservés à l'interrogation du géocodeur, et volontairement absents de `CLEAN_VOIE` :
+ * ils suppriment une information réelle — le second numéro d'une fourchette, le détail entre
+ * parenthèses — qu'il serait fautif de retirer de l'adresse publiée. La question posée peut être
+ * plus grossière que la réponse attendue, d'autant que la BAN rend elle-même l'adresse retenue.
+ */
+export const CLEAN_VOIE_FOR_SEARCH: CleanOperation[] = [
+  KEEP_FIRST_NUMBER_OF_RANGE_IN_VOIE,
+  REMOVE_PARENTHESES_IN_VOIE,
+  SINGULARIZE_STREET_TYPE_IN_VOIE
+];
+
 export const CLEAN_VOIE: CleanOperation[] = [
   FIX_WRONG_ENCODING_IN_VOIE,
   REMOVE_MULTIPLE_SPACES_IN_VOIE,
