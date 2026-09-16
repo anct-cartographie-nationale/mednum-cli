@@ -73,11 +73,11 @@ export const LOAD_FINGERPRINTS: InjectionKey<LoadFingerprints> = keyFor<LoadFing
 export type SaveFingerprints = (
   idKey: string,
   fingerprints: Fingerprint[]
-) => (diffSinceLastTransform: DiffSinceLastTransform) => Promise<void>;
+) => (diffSinceLastTransform: DiffSinceLastTransform) => void;
 
 export const SAVE_FINGERPRINTS: InjectionKey<SaveFingerprints> = keyFor<SaveFingerprints>('transformation.save-fingerprints');
 
-export type SaveOutputs = (lieuxDeMediationNumerique: LieuMediationNumerique[]) => Promise<void>;
+export type SaveOutputs = (lieuxDeMediationNumerique: LieuMediationNumerique[]) => void;
 
 export const SAVE_OUTPUTS: InjectionKey<SaveOutputs> = keyFor<SaveOutputs>('transformation.save-outputs');
 

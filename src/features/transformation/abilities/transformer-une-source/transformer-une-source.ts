@@ -171,7 +171,7 @@ export const transformerUneSource = async ({
   journal.info(
     `5. Sauvegarde des sorties :  ${lieuxDeMediationNumerique.length} (dont lieux sans localisation :  ${sansLocalisation} )`
   );
-  await inject(SAVE_OUTPUTS)(lieuxDeMediationNumerique);
+  inject(SAVE_OUTPUTS)(lieuxDeMediationNumerique);
 
   journal.info(`6. Sauvegarde de l'historique: + ${addressCache.records().length}`);
   inject(SAVE_ADDRESSES)(addressCache);
@@ -179,7 +179,7 @@ export const transformerUneSource = async ({
   if (force) return;
 
   journal.info('7. Sauvegarde des empreintes');
-  await inject(SAVE_FINGERPRINTS)(idKey, fingerprints)(diff);
+  inject(SAVE_FINGERPRINTS)(idKey, fingerprints)(diff);
 };
 
 export type { SchemaLieuMediationNumerique };

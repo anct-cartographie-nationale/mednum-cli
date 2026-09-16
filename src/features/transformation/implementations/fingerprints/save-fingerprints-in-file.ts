@@ -9,15 +9,14 @@ import {
 
 export const saveFingerprintsInFile =
   (idKey: string, fingerprints: Fingerprint[], fingerprintFile: string) =>
-  async (itemsToTransform: DiffSinceLastTransform): Promise<void> =>
-    Promise.resolve().then((): void => {
-      if (!canTransform(itemsToTransform)) return;
+  (itemsToTransform: DiffSinceLastTransform): void => {
+    if (!canTransform(itemsToTransform)) return;
 
-      const updatedFingerprints: Fingerprint[] = updateFingerprints(
-        fingerprints,
-        fingerprintsFrom(itemsToTransform.toUpsert, idKey),
-        itemsToTransform.toDelete
-      );
+    const updatedFingerprints: Fingerprint[] = updateFingerprints(
+      fingerprints,
+      fingerprintsFrom(itemsToTransform.toUpsert, idKey),
+      itemsToTransform.toDelete
+    );
 
-      fs.writeFileSync(fingerprintFile, JSON.stringify(updatedFingerprints));
-    });
+    fs.writeFileSync(fingerprintFile, JSON.stringify(updatedFingerprints));
+  };

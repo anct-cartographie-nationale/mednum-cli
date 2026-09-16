@@ -5,7 +5,6 @@ import { writeOutputFiles } from '../write-output-files';
 
 export const saveOutputsInFiles =
   (producer: Output, writePublicationMetadata: WritePublicationMetadata) =>
-  async (lieuxMediationNumerique: LieuMediationNumerique[], suffix?: string): Promise<void> =>
-    Promise.resolve().then((): void => {
-      writeOutputFiles(producer, writePublicationMetadata)(lieuxMediationNumerique, suffix);
-    });
+  (lieuxMediationNumerique: LieuMediationNumerique[], suffix?: string): void => {
+    writeOutputFiles(producer, writePublicationMetadata)(lieuxMediationNumerique, suffix);
+  };
