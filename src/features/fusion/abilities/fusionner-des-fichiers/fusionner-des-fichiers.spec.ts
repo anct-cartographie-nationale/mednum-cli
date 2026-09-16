@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { provide } from '../../../../libraries/injection';
 import { MERGE_ERROR_MESSAGES, MergeError } from '../../domain';
-import { LIST_FILES, READ_RECORDS, WRITE_RECORDS } from '../../keys';
+import { LIST_FILES, MERGE_DUPLICATES, READ_RECORDS, WRITE_RECORDS } from '../../keys';
 import { fusionnerDesFichiers } from './fusionner-des-fichiers';
 
 type WrittenFile = { filePath: string; records: unknown[] };
@@ -23,6 +23,14 @@ const provideImplementations = (inputFiles: string[], storedFiles: Record<string
   provide(WRITE_RECORDS, () => (filePath: string, records: unknown[]): void => {
     written.push({ filePath, records });
   });
+  provide(MERGE_DUPLICATES, (records: unknown[]): unknown[] => [
+    ...new Map(
+      records.map((record: unknown): [unknown, unknown] => [
+        (record as { addresseOriginale?: unknown }).addresseOriginale,
+        record
+      ])
+    ).values()
+  ]);
 };
 
 describe('fusionnerDesFichiers', (): void => {
@@ -80,6 +88,28 @@ describe('fusionnerDesFichiers', (): void => {
       { addresseOriginale: 'déjà connue' },
       { addresseOriginale: '12 rue des Lilas' }
     ]);
+  });
+
+  it('confie au contrat de déduplication les enregistrements d’une fusion cumulative', (): void => {
+    provideImplementations(['./sortie/paris-addresses.json'], {
+      './sortie/paris-addresses.json': [{ addresseOriginale: 'déjà connue' }],
+      'fusion/addresses.json': [{ addresseOriginale: 'déjà connue' }]
+    });
+
+    fusionnerDesFichiers({ inputFilesPattern: './sortie/*-addresses.json', outputDirectory: './fusion' });
+
+    expect(written[0]?.records).toStrictEqual([{ addresseOriginale: 'déjà connue' }]);
+  });
+
+  it('ne déduplique pas une fusion qui remplace son contenu', (): void => {
+    provideImplementations(['./sortie/paris.json', './sortie/lyon.json'], {
+      './sortie/paris.json': [{ addresseOriginale: 'partagée' }],
+      './sortie/lyon.json': [{ addresseOriginale: 'partagée' }]
+    });
+
+    fusionnerDesFichiers({ inputFilesPattern: './sortie/*.json', outputDirectory: './fusion' });
+
+    expect(written[0]?.records).toHaveLength(2);
   });
 
   it("remonte l'erreur de domaine quand aucun fichier ne correspond au masque", (): void => {
