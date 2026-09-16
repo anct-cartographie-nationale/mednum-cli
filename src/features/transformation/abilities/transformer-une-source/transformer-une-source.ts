@@ -5,6 +5,7 @@ import { type Journal, JOURNAL, silentJournal } from '../../../../libraries/jour
 import {
   AddressCache,
   type AddressRecord,
+  type BatchGeocoding,
   canTransform,
   type DataSource,
   diffSinceLastTransform,
@@ -76,7 +77,7 @@ const transformBatch = async (
   addressCache: AddressCache,
   storage: AddressRecord[]
 ): Promise<LieuMediationNumerique[]> => {
-  const responsesBan: unknown[] = await inject(GEOCODE_BATCH)(batch, repository.config, storage);
+  const responsesBan: BatchGeocoding[] = await inject(GEOCODE_BATCH)(batch, repository.config, storage);
 
   const transformed = await Promise.all(
     batch
@@ -85,7 +86,7 @@ const transformBatch = async (
         const locationEnriched: LocationEnriched = await getAddressData(
           lieu as DataSource,
           repository.config,
-          responsesBan[index] as never
+          responsesBan[index]
         )(storage);
 
         return toLieuxMediationNumerique(repository, sourceName, report, addressCache, locationEnriched)(lieu, offset + index);

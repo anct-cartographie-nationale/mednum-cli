@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getAddressData, labelCodePostal, labelCommune } from './location-enriched';
+import { GEOCODING_UNAVAILABLE, getAddressData, isWorthCaching, labelCodePostal, labelCommune } from './location-enriched';
 import type { DataSource, LieuxMediationNumeriqueMatching } from './index';
 import type { AddressRecord } from './index';
 
@@ -145,6 +145,32 @@ describe('localisation-from-geo', () => {
     const result = await getAddressData(dataSource, STANDARD_MATCHING, axiosResponse)(dateCassee);
 
     expect(result.statut).toBe('from_api');
+  });
+
+  it('n’inscrit rien au cache quand le géocodeur est indisponible, pour ne pas figer un échec qui n’en est pas un', async () => {
+    const dataSource: DataSource = {
+      'Adresse postale *': '- 15 rue des Lilas',
+      'Code postal': '75008',
+      'Ville *': 'Paris'
+    };
+
+    const result = await getAddressData(dataSource, STANDARD_MATCHING, GEOCODING_UNAVAILABLE)([]);
+
+    expect(result.statut).toBe('geocoding_unavailable');
+    expect(result.data).toBeUndefined();
+  });
+
+  it('sert quand même le cache lorsque le géocodeur est indisponible', async () => {
+    const dataSource: DataSource = {
+      'Adresse postale *': '- 18 boulevard rené bazin',
+      'Code postal': '85300',
+      'Ville *': 'Challans'
+    };
+
+    const result = await getAddressData(dataSource, STANDARD_MATCHING, GEOCODING_UNAVAILABLE)(AddressesBan);
+
+    expect(result.statut).toBe('from_storage');
+    expect(result.data).toMatchObject({ latitude: 46.843771 });
   });
 
   it('préfère le succès à l’échec quand le cache porte les deux pour une même adresse', async () => {
@@ -309,5 +335,16 @@ describe('labelCodePostal', () => {
     } as unknown as LieuxMediationNumeriqueMatching;
 
     expect(labelCodePostal(source, matching)).toBe('38000');
+  });
+});
+
+describe('isWorthCaching', () => {
+  it.each([
+    ['from_api', true],
+    ['no_from_storage', true],
+    ['from_storage', false],
+    ['geocoding_unavailable', false]
+  ] as const)('retient %s pour le cache : %s', (statut, attendu) => {
+    expect(isWorthCaching({ statut })).toBe(attendu);
   });
 });

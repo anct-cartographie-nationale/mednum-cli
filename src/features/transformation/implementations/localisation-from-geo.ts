@@ -15,6 +15,8 @@ import {
   addressLabel,
   banRowFor,
   type BanResponse,
+  type BatchGeocoding,
+  GEOCODING_UNAVAILABLE,
   GeocodingError,
   isAboveBatchScore,
   isMissingFields,
@@ -63,6 +65,9 @@ const hasUsableName = (row?: BanResultRow): boolean =>
   row != null && [row.result_housenumber, row.result_street].filter(Boolean).join(' ') !== '';
 
 const noGeocoding = (batch: DataSource[]): null[] => batch.map((): null => null);
+
+const geocodingUnavailable = (batch: DataSource[]): (typeof GEOCODING_UNAVAILABLE)[] =>
+  batch.map((): typeof GEOCODING_UNAVAILABLE => GEOCODING_UNAVAILABLE);
 
 const needsGeocoding = (
   source: DataSource,
@@ -113,18 +118,23 @@ export const fetchBanResponseBatch = async (
   matching: LieuxMediationNumeriqueMatching,
   arrayFromStorage: AddressRecord[],
   postCsv: PostCsv = postBanCsv
-): Promise<(BanResponse | null)[]> => {
+): Promise<BatchGeocoding[]> => {
   const indices: number[] = indicesToGeocode(batch, matching, arrayFromStorage);
 
   if (indices.length === 0) return noGeocoding(batch);
 
   try {
     const results: BanResultRow[] = await geocodeCsv(banRowsAt(batch, matching, indices), postCsv);
+
+    // La BAN rend une ligne par ligne envoyée, même sans correspondance : un résultat vide n'est
+    // donc pas un « rien trouvé », c'est une réponse qu'on ne sait pas exploiter.
+    if (results.length === 0) return geocodingUnavailable(batch);
+
     const resultAt: Map<number, BanResultRow | undefined> = resultsByBatchIndex(indices, results);
 
     return batch.map((_: DataSource, index: number): BanResponse | null => usableResponseFrom(resultAt.get(index)));
   } catch (error: unknown) {
     console.error("[BAN batch] Erreur lors de l'appel ou du parsing CSV", error);
-    return noGeocoding(batch);
+    return geocodingUnavailable(batch);
   }
 };

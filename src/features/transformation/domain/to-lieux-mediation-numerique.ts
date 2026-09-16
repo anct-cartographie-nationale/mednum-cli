@@ -54,7 +54,7 @@ import {
   isPrive
 } from './fields';
 import type { DataSource, LieuxMediationNumeriqueMatching } from './matching';
-import { addressLabel, type LocationEnriched } from './location-enriched';
+import { addressLabel, isWorthCaching, type LocationEnriched } from './location-enriched';
 import type { TransformationRepository } from './transformation-repository';
 
 const isFilled = <T>(nullable?: T[]): nullable is T[] => nullable != null && nullable.length > 0;
@@ -177,7 +177,7 @@ const addresseLog = (
   addresseBan: Feature
 ): AddressRecord => {
   return {
-    dateDeTraitement: new Date().toLocaleDateString('fr-FR'),
+    dateDeTraitement: new Date(),
     addresseOriginale: addressLabel(dataSource, matching),
     responseBan: addresseBan
   };
@@ -213,7 +213,7 @@ export const toLieuxMediationNumerique =
         ...(locationEnriched?.data && locationEnriched.data)
       } as DataSource;
 
-      if (locationEnriched?.statut === 'from_api' || locationEnriched?.statut === 'no_from_storage') {
+      if (locationEnriched != null && isWorthCaching(locationEnriched)) {
         addressCache
           .entry(index)
           .record(

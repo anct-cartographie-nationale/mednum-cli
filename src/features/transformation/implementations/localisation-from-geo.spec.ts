@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { fetchBanResponseBatch } from './localisation-from-geo';
-import type { DataSource, LieuxMediationNumeriqueMatching } from '../domain';
+import { GEOCODING_UNAVAILABLE, type DataSource, type LieuxMediationNumeriqueMatching } from '../domain';
 
 const STANDARD_MATCHING: LieuxMediationNumeriqueMatching = {
   nom: { colonne: 'nom' },
@@ -32,19 +32,29 @@ describe('fetchBanResponseBatch', () => {
     expect(result[0]).toBeNull();
   });
 
-  it('should return null for all items when responsesBanAll throws a network error', async () => {
+  it('signale le géocodeur indisponible quand le transport échoue, sans le confondre avec une absence de résultat', async () => {
     const responsesBanAll = () => Promise.reject(new Error('Network error'));
 
     const result = await fetchBanResponseBatch([data], STANDARD_MATCHING, [], responsesBanAll);
 
-    expect(result).toEqual([null]);
+    expect(result).toEqual([GEOCODING_UNAVAILABLE]);
   });
 
-  it('should return null for all items when csv response is malformed', async () => {
+  it('signale le géocodeur indisponible quand la réponse CSV est illisible', async () => {
     const responsesBanAll = () => Promise.resolve('not valid csv {{{{');
 
     const result = await fetchBanResponseBatch([data], STANDARD_MATCHING, [], responsesBanAll);
 
-    expect(result).toEqual([null]);
+    expect(result).toEqual([GEOCODING_UNAVAILABLE]);
+  });
+
+  it('signale le géocodeur indisponible quand la BAN ne rend aucune ligne pour un lot non vide', async () => {
+    const entetesSeules =
+      'voie,codePostal,commune,longitude,latitude,result_score,result_housenumber,result_street,result_postcode,result_citycode,result_city,result_label';
+    const responsesBanAll = () => Promise.resolve(entetesSeules);
+
+    const result = await fetchBanResponseBatch([data], STANDARD_MATCHING, [], responsesBanAll);
+
+    expect(result).toEqual([GEOCODING_UNAVAILABLE]);
   });
 });

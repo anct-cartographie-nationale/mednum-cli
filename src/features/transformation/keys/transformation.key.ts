@@ -5,6 +5,7 @@ import { type InjectionKey, keyFor } from '../../../libraries/injection';
 import type {
   AddressCache,
   AddressRecord,
+  BatchGeocoding,
   DataSource,
   DiffSinceLastTransform,
   Fingerprint,
@@ -62,7 +63,7 @@ export type GeocodeBatch = (
   batch: DataSource[],
   matching: LieuxMediationNumeriqueMatching,
   storage: AddressRecord[]
-) => Promise<unknown[]>;
+) => Promise<BatchGeocoding[]>;
 
 export const GEOCODE_BATCH: InjectionKey<GeocodeBatch> = keyFor<GeocodeBatch>('transformation.geocode-batch');
 
