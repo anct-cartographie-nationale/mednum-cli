@@ -97,7 +97,9 @@ Ces choix ressemblent à des oublis et n'en sont pas. Les changer demande un arb
 
 - **Deux décodeurs CSV coexistent.** `csvtojson` sur les flux distants (décodage `iconv` avant parsing), `csv-parse` sur le texte déjà en mémoire. Ils ne traitent pas le BOM de la même façon : les consolider demande d'arbitrer guillemets, BOM et délimiteurs.
 - **La limite de 2704 octets** sur les identifiants fusionnés (`features/deduplication/domain/filter-oversized-ids/`) vient de la taille maximale d'une clé de partition DynamoDB. La pile AWS est décommissionnée, la limite est conservée.
-- **`readJsonFile` lève sur un fichier manquant, `readJsonFileIfExists` rend `undefined`.** Le nom appelé dit la politique ; confondre « absent » et « illisible » a déjà masqué un fichier corrompu.
+- **`readJsonFile` lève sur un fichier manquant, `readJsonFileIfExists` rend `undefined`.** Le nom appelé dit la politique ; confondre « absent » et « illisible » a déjà masqué un fichier corrompu. Le contrat `READ_MERGED_RECORDS` existe pour la même raison : un cumul absent est un premier tour, un fichier d'entrée absent reste une erreur.
+- **Le cache d'adresses n'est pas versionné.** `assets/input/addresses.json` vit dans le cache GitHub Actions, sous une clé roulante `addresses-<run_id>` relue par préfixe, et le job `cache-addresses` l'alimente à chaque exécution de production. Le dépôt n'en garde aucune copie ; l'artefact `addresses` de chaque nuit en est la trace consultable. Une éviction du cache n'est pas une perte de données — le géocodage se refait — mais une nuit coûteuse.
+- **Une panne du géocodeur n'est pas une absence de résultat.** `GEOCODING_UNAVAILABLE` distingue les deux, faute de quoi une coupure de la BAN inscrirait au cache des milliers d'échecs datés du jour, que `RETRY_UNRESOLVED_AFTER_DAYS` figerait ensuite une semaine. Seule une réponse alimente le cache : `isWorthCaching` en tient la liste blanche.
 
 ⚠️ La commande `publier` écrit réellement sur data.gouv. Ne jamais l'exécuter pour vérifier quelque chose : exercer les lecteurs séparément.
 

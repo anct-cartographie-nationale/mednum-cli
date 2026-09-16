@@ -240,6 +240,8 @@ npx @gouvfr-anct/mednum transformer -f
 
 Le fichier des adresses déjà géocodées, réutilisées plutôt que redemandées à la Base Adresse Nationale. Son absence n'est pas une erreur : la transformation géocode alors tout, plus lentement mais avec le même résultat.
 
+Ce fichier n'est pas versionné. Il s'accumule d'une exécution nocturne à la suivante dans le cache de l'intégration continue, et chaque nuit en dépose un instantané daté en artefact, téléchargeable depuis la page de l'exécution.
+
 ```bash
 npx @gouvfr-anct/mednum transformer --address-cache ./assets/input/addresses.json
 ```
@@ -670,9 +672,9 @@ Les fichiers à fusionner doivent tous porter le même format, `json` ou `csv` ;
 
 Le fichier produit est nommé `merged_output`, suivi de l'extension du format fusionné.
 
-Un cas particulier : lorsque les fichiers d'entrée sont des caches d'adresses — des `.json` dont le nom se termine par `-addresses.json` — la sortie s'appelle `addresses.json` et **s'ajoute** au contenu déjà présent au lieu de le remplacer. C'est ce que fait le script `fusion-addresses`, qui alimente le cache de géocodage réutilisé par la transformation.
+Un cas particulier : lorsque les fichiers d'entrée sont des caches d'adresses — des `.json` dont le nom se termine par `-addresses.json` — la sortie s'appelle `addresses.json` et **s'ajoute** au contenu déjà présent au lieu de le remplacer. C'est ce que font `fusionner.addresses` en intégration continue et `fusion-addresses` en local, qui alimentent le cache de géocodage réutilisé par la transformation.
 
-> ⚠️ Ce mode cumulatif suppose que le fichier `addresses.json` existe déjà dans le dossier de sortie : c'est le cas du cache versionné dans `assets/input`, mais viser un dossier qui n'en contient pas fait échouer la commande.
+Le cumul ne crée jamais de doublon : une adresse n'a qu'une entrée, et lorsqu'une même adresse revient, celle qui porte un géocodage l'emporte sur celle qui n'en porte pas. Un dossier de sortie sans `addresses.json` n'est pas une erreur, c'est un premier tour.
 
 #### Options disponibles pour la commande fusionner
 
