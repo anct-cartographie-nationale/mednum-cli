@@ -48,6 +48,11 @@ Les données sont republiées quotidiennement sur [data.gouv dans l'organisation
 - 🪧 [À propos](#à-propos)
 - 📦 [Prérequis](#prérequis)
 - 🛠️ [Utilisation](#utilisation)
+  - [Transformer](#transformer)
+  - [Publier](#publier)
+  - [Fusionner](#fusionner)
+  - [Dédupliquer](#dédupliquer)
+  - [Extraire depuis data.inclusion](#extraire-depuis-datainclusion)
 - 🤝 [Contribution](#contribution)
 - 🏷️ [Gestion des versions](#gestion-des-versions)
 - 📝 [Licence](#licence)
@@ -173,6 +178,58 @@ ou
 
 ```bash
 npx @gouvfr-anct/mednum transformer --territory National
+```
+
+##### Le délimiteur `-d, --delimiter <delimiter>`
+
+Le délimiteur entre les données d'un fichier `CSV`, lorsque la source n'utilise pas la virgule.
+
+```bash
+npx @gouvfr-anct/mednum transformer --delimiter ";"
+```
+
+ou
+
+```bash
+npx @gouvfr-anct/mednum transformer -d ";"
+```
+
+##### L'encodage `-e, --encoding <encoding>`
+
+L'encodage des données, lorsque la source n'est pas en `utf8`.
+
+```bash
+npx @gouvfr-anct/mednum transformer --encoding latin1
+```
+
+ou
+
+```bash
+npx @gouvfr-anct/mednum transformer -e latin1
+```
+
+##### La variable qui porte la clé d'API `-a, --api-env-key <api-env-key>`
+
+Le nom de la variable d'environnement qui contient la clé d'API, pour les sources qui demandent une authentification. **C'est le nom de la variable qui est passé, jamais la clé elle-même** : celle-ci reste dans le fichier `.env`.
+
+```bash
+npx @gouvfr-anct/mednum transformer --api-env-key COOP_API_KEY
+```
+
+ou
+
+```bash
+npx @gouvfr-anct/mednum transformer -a COOP_API_KEY
+```
+
+##### Le cache d'adresses `--address-cache <address-cache>`
+
+Le fichier des adresses déjà géocodées, réutilisées plutôt que redemandées à la Base Adresse Nationale. Son absence n'est pas une erreur : la transformation géocode alors tout, plus lentement mais avec le même résultat.
+
+Ce fichier n'est pas versionné. Il s'accumule d'une exécution nocturne à la suivante dans le cache de l'intégration continue, et chaque nuit en dépose un instantané daté en artefact, téléchargeable depuis la page de l'exécution.
+
+```bash
+npx @gouvfr-anct/mednum transformer --address-cache ./assets/input/addresses.json
 ```
 
 ##### Utilisation partielle des options
@@ -428,7 +485,7 @@ Enfin, si les horaires de la source originale sont déjà dans le format OSM, il
 ...
 ```
 
-## Publier
+### Publier
 
 La commande `mednum publier` permet de publier un jeu de données sur data.gouv.fr et d'y associer des ressources. Un fichier de métadonnées permet de définir les valeurs attendues par data.gouv dans les différentes étapes du processus de publication.
 
@@ -579,6 +636,218 @@ npx @gouvfr-anct/mednum publier --data-gouv-api-url https://demo.data.gouv.fr/ap
 Il est possible de configurer certaines variables d'environnements pour la commande publier, cela permet d'éviter de les préciser comme options de la commande et les questions ne seront pas posées pour les entrées correspondantes.
 
 Voir [le fichier CONTRIBUTING.md](CONTRIBUTING.md#configurer-lenvironnement) pour plus de détails à ce sujet.
+
+### Fusionner
+
+La commande `mednum fusionner` réunit plusieurs fichiers de lieux en un seul. Elle sert entre la transformation et la déduplication : chaque source produit ses fichiers de son côté, la fusion les rassemble pour que les doublons soient cherchés sur l'ensemble.
+
+```bash
+npx @gouvfr-anct/mednum fusionner
+```
+
+Les fichiers à fusionner doivent tous porter le même format, `json` ou `csv` ; le format du lot est celui du premier fichier trouvé et un lot mélangé est refusé.
+
+#### Exemple d'utilisation pour la commande fusionner
+
+```yml
+? Masque des chemins à fusionner
+  ./to-merge/*-sans-doublons.json
+? Chemin du dossier qui va recevoir les fichiers fusionnés
+  ./merged
+```
+
+Le fichier produit est nommé `merged_output`, suivi de l'extension du format fusionné.
+
+Un cas particulier : lorsque les fichiers d'entrée sont des caches d'adresses — des `.json` dont le nom se termine par `-addresses.json` — la sortie s'appelle `addresses.json` et **s'ajoute** au contenu déjà présent au lieu de le remplacer. C'est ce que font `fusionner.addresses` en intégration continue et `fusion-addresses` en local, qui alimentent le cache de géocodage réutilisé par la transformation.
+
+Le cumul ne crée jamais de doublon : une adresse n'a qu'une entrée, et lorsqu'une même adresse revient, celle qui porte un géocodage l'emporte sur celle qui n'en porte pas. Un dossier de sortie sans `addresses.json` n'est pas une erreur, c'est un premier tour.
+
+#### Options disponibles pour la commande fusionner
+
+##### Masque des chemins `-i, --input-files-pattern <input-files-pattern>`
+
+Le masque correspondant aux chemins des fichiers `json` ou `csv` à fusionner.
+
+```bash
+npx @gouvfr-anct/mednum fusionner --input-files-pattern "./to-merge/*-sans-doublons.json"
+```
+
+ou
+
+```bash
+npx @gouvfr-anct/mednum fusionner -i "./to-merge/*-sans-doublons.json"
+```
+
+##### Dossier de sortie `-o, --output-directory <output-directory>`
+
+Le dossier dans lequel écrire le fichier fusionné.
+
+```bash
+npx @gouvfr-anct/mednum fusionner --output-directory ./merged
+```
+
+ou
+
+```bash
+npx @gouvfr-anct/mednum fusionner -o ./merged
+```
+
+### Dédupliquer
+
+La commande `mednum dedupliquer` identifie les lieux qui apparaissent plusieurs fois, les fusionne en un seul, et écrit le jeu de données sans doublons.
+
+```bash
+npx @gouvfr-anct/mednum dedupliquer
+```
+
+Deux lieux sont rapprochés par comparaison de leur nom, de leur adresse et de leur distance géographique. Un score en résulte, et le rapprochement est écarté d'emblée si les lieux n'ont pas de localisation, pas la même commune, des typologies incompatibles, ou — sauf mention contraire — la même source.
+
+#### Exemple d'utilisation pour la commande dedupliquer
+
+```yml
+? Chemin du dossier qui va recevoir les fichiers dédupliqués
+  ./assets/deduplicated
+? Source de données à dédupliquer
+  ./merged/merged_output.json
+? Nom de l'entité source à l'origine de la collecte des données à dédupliquer
+  La Cartographie Nationale
+? Nom du territoire couvert par les données à dédupliquer
+  National
+```
+
+#### Description des fichiers générés
+
+- Un fichier `CSV` et un fichier `JSON` de même nom, suffixés `-sans-doublons`, contenant les lieux une fois les doublons fusionnés
+- Un fichier `duplications.csv` qui détaille chaque rapprochement retenu, avec son score et la distance entre les deux lieux
+- Un fichier `publier.json` avec les métadonnées de publication, comme pour la transformation
+
+#### Options disponibles pour la commande dedupliquer
+
+##### Source à dédupliquer `-s, --source <source>`
+
+La source de données à dédupliquer. Un chemin de fichier `json` ou `csv`, un masque, ou une URL.
+
+```bash
+npx @gouvfr-anct/mednum dedupliquer --source ./merged/merged_output.json
+```
+
+ou
+
+```bash
+npx @gouvfr-anct/mednum dedupliquer -s ./merged/merged_output.json
+```
+
+##### Source de référence `-b, --base-source <base-source>`
+
+La source de données de base dans laquelle identifier les doublons. C'est le plus souvent la même que `--source`.
+
+```bash
+npx @gouvfr-anct/mednum dedupliquer --base-source ./merged/merged_output.json
+```
+
+ou
+
+```bash
+npx @gouvfr-anct/mednum dedupliquer -b ./merged/merged_output.json
+```
+
+##### Dossier de sortie `-o, --output-directory <output-directory>`
+
+Le dossier dans lequel écrire les fichiers dédupliqués.
+
+```bash
+npx @gouvfr-anct/mednum dedupliquer -o ./assets/deduplicated
+```
+
+##### Le nom de la source `-n, --source-name <source-name>`
+
+Le nom de l'entité source à l'origine de la collecte des données, qui sert aussi à nommer les fichiers.
+
+```bash
+npx @gouvfr-anct/mednum dedupliquer -n "La Cartographie Nationale"
+```
+
+##### Le nom du territoire `-t, --territory <territory>`
+
+Le nom du territoire couvert par les données, qui sert aussi à nommer les fichiers.
+
+```bash
+npx @gouvfr-anct/mednum dedupliquer -t National
+```
+
+##### Le seuil de rapprochement `-c, --cutoff <cutoff>`
+
+Le seuil en pourcent au-delà duquel deux données sont considérées comme étant des doublons.
+
+```bash
+npx @gouvfr-anct/mednum dedupliquer --cutoff 80
+```
+
+ou
+
+```bash
+npx @gouvfr-anct/mednum dedupliquer -c 80
+```
+
+##### Autoriser la fusion interne `-i, --allow-internal <allow-internal>`
+
+Par défaut, deux lieux issus de la même source ne sont jamais fusionnés : on suppose que le producteur ne se contredit pas. Cette option lève cette réserve.
+
+```bash
+npx @gouvfr-anct/mednum dedupliquer --allow-internal true
+```
+
+ou
+
+```bash
+npx @gouvfr-anct/mednum dedupliquer -i true
+```
+
+### Extraire depuis data.inclusion
+
+La commande `mednum data-inclusion` récupère les structures et les services d'une source hébergée par [data.inclusion](https://www.data.inclusion.beta.gouv.fr/), les réunit, et écrit un fichier prêt à être transformé. Elle s'utilise en amont de `transformer` pour les sources qui ne publient pas leurs données elles-mêmes.
+
+```bash
+npx @gouvfr-anct/mednum data-inclusion
+```
+
+#### Options disponibles pour la commande data-inclusion
+
+##### Fichier de sortie `-o, --output-file <output-file>`
+
+Le chemin du fichier qui va recevoir les données extraites au format JSON.
+
+```bash
+npx @gouvfr-anct/mednum data-inclusion --output-file ./assets/input/dora/dora.json
+```
+
+ou
+
+```bash
+npx @gouvfr-anct/mednum data-inclusion -o ./assets/input/dora/dora.json
+```
+
+##### Filtre de source `-f, --filter <filter>`
+
+Ne retient que les lignes de data.inclusion dont la source correspond au filtre.
+
+```bash
+npx @gouvfr-anct/mednum data-inclusion --filter dora
+```
+
+ou
+
+```bash
+npx @gouvfr-anct/mednum data-inclusion -f dora
+```
+
+##### Clé d'API `-k, --data-inclusion-api-key <api-key>`
+
+Une [clé d'API data.inclusion](https://www.data.inclusion.beta.gouv.fr/api/lapi-data-inclusion) est nécessaire pour récupérer les données en votre nom. Elle peut aussi être fournie par la variable d'environnement `DATA_INCLUSION_API_KEY`.
+
+```bash
+npx @gouvfr-anct/mednum data-inclusion -k <votre-clé>
+```
 
 ## Contribution
 

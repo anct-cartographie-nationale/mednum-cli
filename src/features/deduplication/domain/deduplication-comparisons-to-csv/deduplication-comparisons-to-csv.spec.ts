@@ -1,0 +1,123 @@
+import { describe, it, expect } from 'vitest';
+import { type SchemaLieuMediationNumerique, Typologie } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { duplicationComparisons } from '../duplication-comparisons';
+import { formatToCSV } from './deduplication-comparisons-to-csv';
+
+describe('deduplication comparison to csv', (): void => {
+  it('should get duplication comparison ready to write in CSV file', (): void => {
+    const lieux: SchemaLieuMediationNumerique[] = [
+      {
+        id: '574-mediation-numerique-hinaura',
+        nom: 'Numerinaute',
+        adresse: '12 Rue Joseph Rey ; chez Aconit',
+        code_postal: '38000',
+        code_insee: '38185',
+        commune: 'Grenoble',
+        latitude: 45.186115,
+        longitude: 5.716962,
+        source: 'res-in',
+        typologie: Typologie.ESS
+      } as SchemaLieuMediationNumerique,
+      {
+        id: '537-mediation-numerique-hinaura',
+        nom: 'La Turbine.Coop',
+        adresse: '5 esplanade Andry Farcy',
+        code_postal: '38000',
+        code_insee: '38185',
+        commune: 'Grenoble',
+        latitude: 45.187654,
+        longitude: 5.704953,
+        source: 'hinaura',
+        typologie: Typologie.ESS
+      } as SchemaLieuMediationNumerique
+    ];
+
+    const duplicationComparisonCSV: string = formatToCSV(duplicationComparisons(lieux, false));
+
+    expect(duplicationComparisonCSV).toBe<string>(
+      'Score;Typologie 1;Typologie 2;Score Nom;Nom 1;Nom 2;Score Adresse;Adresse 1;Adresse 2;Distance en metres;Localisation 1;Localisation 2;Source 1;Source 2\n30;ESS;ESS;38;Numerinaute;La Turbine.Coop;38;12 Rue Joseph Rey  chez Aconit 38000 Grenoble;5 esplanade Andry Farcy 38000 Grenoble;957;45.186115 : 5.716962;45.187654 : 5.704953;res-in;hinaura'
+    );
+  });
+
+  it('should have only one cell for typologies', (): void => {
+    const lieux: SchemaLieuMediationNumerique[] = [
+      {
+        id: '574-mediation-numerique-hinaura',
+        nom: 'Numerinaute',
+        adresse: '12 Rue Joseph Rey ; chez Aconit',
+        code_postal: '38000',
+        code_insee: '38185',
+        commune: 'Grenoble',
+        latitude: 45.186115,
+        longitude: 5.716962,
+        source: 'res-in',
+        typologie: Typologie.ESS
+      } as SchemaLieuMediationNumerique,
+      {
+        id: '537-mediation-numerique-hinaura',
+        nom: 'La Turbine.Coop',
+        adresse: '5 esplanade Andry Farcy',
+        code_postal: '38000',
+        code_insee: '38185',
+        commune: 'Grenoble',
+        latitude: 45.187654,
+        longitude: 5.704953,
+        source: 'hinaura',
+        typologie: [Typologie.ESS, Typologie.CAF, Typologie.TIERS_LIEUX].join('|')
+      } as SchemaLieuMediationNumerique
+    ];
+
+    const duplicationComparisonCSV: string = formatToCSV(duplicationComparisons(lieux, false));
+
+    expect(duplicationComparisonCSV).toBe<string>(
+      'Score;Typologie 1;Typologie 2;Score Nom;Nom 1;Nom 2;Score Adresse;Adresse 1;Adresse 2;Distance en metres;Localisation 1;Localisation 2;Source 1;Source 2\n30;ESS;ESS,CAF,TIERS_LIEUX;38;Numerinaute;La Turbine.Coop;38;12 Rue Joseph Rey  chez Aconit 38000 Grenoble;5 esplanade Andry Farcy 38000 Grenoble;957;45.186115 : 5.716962;45.187654 : 5.704953;res-in;hinaura'
+    );
+  });
+
+  it('Should have a score of 100 when two identical locations have without coordinates.', (): void => {
+    const lieux: SchemaLieuMediationNumerique[] = [
+      {
+        id: 'Haute-Vienne_134',
+        nom: 'BFM Centre Ville',
+        pivot: '00000000000000',
+        services: 'Maîtrise des outils numériques du quotidien|Compréhension du monde numérique',
+        commune: 'Limoges',
+        code_postal: '87000',
+        adresse: '2 Place Aimé césaire',
+        code_insee: '87085',
+        telephone: '+33555459600',
+        courriels: 'bfm@limoges.fr',
+        site_web: 'https://bfm.limoges.fr/bfm-centre-ville',
+        presentation_detail: 'Espace multimédia. Inscription à la BFM obligatoire.',
+        modalites_accompagnement: 'En autonomie|Accompagnement individuel',
+        horaires: 'Mo-Sa 14:00-18:00',
+        source: 'Haute-Vienne',
+        date_maj: '1970-01-01'
+      } as SchemaLieuMediationNumerique,
+      {
+        id: 'Haute-Vienne_135',
+        nom: 'BFM Centre Ville',
+        pivot: '00000000000000',
+        services: 'Maîtrise des outils numériques du quotidien',
+        commune: 'Limoges',
+        code_postal: '87000',
+        adresse: '2 Place Aimé césaire',
+        code_insee: '87085',
+        telephone: '+33555459600',
+        courriels: 'bfm@limoges.fr',
+        site_web: 'https://bfm.limoges.fr/bfm-centre-ville',
+        presentation_detail: 'Espace multimédia. Inscription à la BFM obligatoire.',
+        modalites_accompagnement: 'En autonomie|Accompagnement individuel',
+        horaires: 'Mo-Sa 14:00-18:00',
+        source: 'Haute-Vienne',
+        date_maj: '1970-01-01'
+      } as SchemaLieuMediationNumerique
+    ];
+
+    const duplicationComparisonCSV: string = formatToCSV(duplicationComparisons(lieux, true));
+
+    expect(duplicationComparisonCSV).toBe<string>(
+      'Score;Typologie 1;Typologie 2;Score Nom;Nom 1;Nom 2;Score Adresse;Adresse 1;Adresse 2;Distance en metres;Localisation 1;Localisation 2;Source 1;Source 2\n100;;;100;BFM Centre Ville;BFM Centre Ville;100;2 Place Aimé césaire 87000 Limoges;2 Place Aimé césaire 87000 Limoges;;undefined : undefined;undefined : undefined;Haute-Vienne;Haute-Vienne'
+    );
+  });
+});

@@ -1,4 +1,6 @@
 allowBuilds:
+  # @swc/core livre ses binaires natifs en dépendances optionnelles : son script de build est inutile.
+  '@swc/core': false
   esbuild: true
 minimumReleaseAge: 14400
 minimumReleaseAgeExclude:

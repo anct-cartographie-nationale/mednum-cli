@@ -12,6 +12,10 @@
 /assets/merged/
 /assets/to-merge/
 
+# Cache de géocodage : il voyage dans le cache de la CI d'une exécution nocturne à la suivante,
+# et n'est plus versionné. `pnpm fusionner.addresses` le reconstitue depuis des sorties locales.
+/assets/input/addresses.json
+
 # Logs
 logs
 *.log
@@ -67,6 +71,9 @@ web_modules/
 # Openapi specification
 openapi.json
 
+# Diagramme d'architecture, régénérable par `pnpm doc.architecture`
+docs/architecture.svg
+
 # Optional eslint cache
 .eslintcache
 
@@ -114,9 +121,6 @@ out
 
 # FuseBox cache
 .fusebox/
-
-# DynamoDB Local files
-.dynamodb/
 
 # TernJS port file
 .tern-port

@@ -33,7 +33,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v6
         with:
-          version: 11
+          version: 12
           run_install: false
       - name: Install Node.js
         uses: actions/setup-node@v7
@@ -44,6 +44,29 @@ jobs:
         run: pnpm install --frozen-lockfile --ignore-scripts
       - name: Run Biome
         run: pnpm lint
+
+  architecture:
+    name: Architecture
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 12
+          run_install: false
+      - name: Install Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Run architecture lint
+        run: pnpm lint.architecture
 
   commitlint:
     name: CommitLint
@@ -56,7 +79,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v6
         with:
-          version: 11
+          version: 12
           run_install: false
       - name: Install Node.js
         uses: actions/setup-node@v7
@@ -79,7 +102,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v6
         with:
-          version: 11
+          version: 12
           run_install: false
       - name: Install Node.js
         uses: actions/setup-node@v7
@@ -102,7 +125,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v6
         with:
-          version: 11
+          version: 12
           run_install: false
       - name: Install Node.js
         uses: actions/setup-node@v7

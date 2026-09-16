@@ -34,6 +34,9 @@ jobs:
   transform:
     name: Transform
     strategy:
+      # Une source qui casse ne doit pas emporter les 23 autres : le cumul d'adresses est
+      # monotone, ce que les sources saines rapportent est toujours bon à prendre.
+      fail-fast: false
       matrix:
         source: ${{ fromJSON(inputs.sources) }}
     runs-on: ubuntu-latest
@@ -44,7 +47,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v6
         with:
-          version: 11
+          version: 12
           run_install: false
       - name: Set up Node.js
         uses: actions/setup-node@v7
@@ -58,8 +61,17 @@ jobs:
           touch .env
           echo COOP_API_KEY="${{ secrets.COOP_API_KEY }}" >> .env
           echo DATA_INCLUSION_API_KEY="${{ secrets.DATA_INCLUSION_API_KEY }}" >> .env
+      - name: Restore the address cache
+        uses: actions/cache/restore@v6
+        with:
+          path: assets/input/addresses.json
+          # Cette clé n'existe jamais en lecture : c'est le préfixe qui ramène l'entrée la plus
+          # récente, celle qu'a écrite la dernière fusion réussie. Sans entrée, rien n'est posé
+          # et le géocodage repart de zéro — dégradé, jamais faux.
+          key: addresses-${{ github.run_id }}
+          restore-keys: addresses-
       - name: Transform
-        run: pnpm transformer.${{ matrix.source }} -f
+        run: pnpm transformer.${{ matrix.source }}
       - name: Deduplicate
         run: pnpm dedupliquer.${{ matrix.source }}
       - name: Upload transformed data
@@ -83,7 +95,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v6
         with:
-          version: 11
+          version: 12
           run_install: false
       - name: Set up Node.js
         uses: actions/setup-node@v7
@@ -119,7 +131,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v6
         with:
-          version: 11
+          version: 12
           run_install: false
       - name: Set up Node.js
         uses: actions/setup-node@v7
@@ -141,6 +153,58 @@ jobs:
           name: merged
           path: merged
 
+  cache-addresses:
+    name: Cache addresses
+    runs-on: ubuntu-latest
+    needs: transform
+    # Contrairement à la fusion des lieux, qui exige que toutes les sources aient abouti sous
+    # peine de publier un jeu national amputé, le cumul d'adresses est monotone : il ne fait
+    # qu'ajouter. Une source en échec ne doit donc pas coûter la nuit de géocodage des autres.
+    if: ${{ !cancelled() }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 12
+          run_install: false
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Restore the address cache
+        uses: actions/cache/restore@v6
+        with:
+          path: assets/input/addresses.json
+          key: addresses-${{ github.run_id }}
+          restore-keys: addresses-
+      - name: Download all transformed data
+        uses: actions/download-artifact@v8
+        with:
+          path: to-merge
+          merge-multiple: true
+      - name: Merge the address cache
+        run: pnpm fusionner.addresses
+      - name: Save the address cache
+        # Seules les exécutions de production alimentent le cache ; une validation de pull
+        # request le lit sans jamais l'écrire.
+        if: inputs.environment == 'production'
+        uses: actions/cache/save@v6
+        with:
+          path: assets/input/addresses.json
+          key: addresses-${{ github.run_id }}
+      - name: Upload the address cache
+        # Un instantané daté et téléchargeable du cumul, seule trace consultable depuis qu'il
+        # ne vit plus dans le dépôt.
+        uses: actions/upload-artifact@v7
+        with:
+          name: addresses
+          path: assets/input/addresses.json
+
   deduplicate:
     name: Deduplicate
     runs-on: ubuntu-latest
@@ -151,7 +215,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v6
         with:
-          version: 11
+          version: 12
           run_install: false
       - name: Set up Node.js
         uses: actions/setup-node@v7

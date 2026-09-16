@@ -1,0 +1,86 @@
+import {
+  chargerUneSource,
+  FETCH_REMOTE_SOURCE,
+  fetchRemoteSourceWithAxios,
+  READ_LOCAL_SOURCE,
+  readLocalSourceFromFile
+} from '../../features/acquisition-source';
+import {
+  communesFromGeoApi,
+  frrFromObservatoireDesTerritoires,
+  LOAD_COMMUNES,
+  LOAD_FRR,
+  LOAD_QPV_SHAPES,
+  qpvShapesFromDataGouv,
+  qualifierFrr,
+  qualifierQpv,
+  resoudreCommune
+} from '../../features/enrichissement-territorial';
+import { writePublicationMetadataInFile } from '../../features/publication';
+import {
+  addressStorageFromFile,
+  fetchBanResponseBatch,
+  GEOCODE,
+  GEOCODE_BATCH,
+  LOAD_ADDRESS_STORAGE,
+  LOAD_MATCHING,
+  LOAD_SOURCE,
+  LOAD_TERRITORIAL_ENRICHMENT,
+  type LieuxMediationNumeriqueMatching,
+  localisationByGeocode,
+  SAVE_ADDRESSES,
+  SAVE_ERRORS,
+  SAVE_OUTPUTS,
+  saveOutputsInFiles,
+  WRITE_PUBLICATION_METADATA,
+  writeAddressesInFiles,
+  writeErrorsInFiles
+} from '../../features/transformation';
+import { type Output, readJsonFile } from '../../libraries/file-system';
+import { provide } from '../../libraries/injection';
+import { consoleJournal, JOURNAL } from '../../libraries/journal';
+import type { TransformerOptions } from './transformer.options';
+
+const producerOf = ({ outputDirectory, sourceName, territory }: TransformerOptions): Output => ({
+  path: outputDirectory,
+  name: sourceName,
+  territoire: territory
+});
+
+/**
+ * Point de concrétisation de la commande. Toute la composition de l'application se lit ici :
+ * la transformation déclare ses contrats, l'acquisition de source, l'enrichissement
+ * territorial et la publication les réalisent.
+ */
+export const provideTransformerImplementations = (transformerOptions: TransformerOptions): void => {
+  const producer: Output = producerOf(transformerOptions);
+
+  provide(JOURNAL, consoleJournal);
+
+  provide(FETCH_REMOTE_SOURCE, fetchRemoteSourceWithAxios);
+  provide(READ_LOCAL_SOURCE, readLocalSourceFromFile);
+  provide(LOAD_SOURCE, chargerUneSource);
+
+  provide(LOAD_COMMUNES, communesFromGeoApi);
+  provide(LOAD_QPV_SHAPES, qpvShapesFromDataGouv);
+  provide(LOAD_FRR, frrFromObservatoireDesTerritoires);
+  provide(LOAD_TERRITORIAL_ENRICHMENT, async () => ({
+    findCommune: await resoudreCommune(),
+    isInQpv: await qualifierQpv(),
+    isInFrr: await qualifierFrr()
+  }));
+
+  provide(GEOCODE, localisationByGeocode);
+  provide(GEOCODE_BATCH, fetchBanResponseBatch);
+  provide(LOAD_ADDRESS_STORAGE, addressStorageFromFile(transformerOptions.addressCache));
+
+  provide(
+    LOAD_MATCHING,
+    async (): Promise<LieuxMediationNumeriqueMatching> =>
+      readJsonFile(transformerOptions.configFile) as LieuxMediationNumeriqueMatching
+  );
+  provide(SAVE_ERRORS, writeErrorsInFiles(producer));
+  provide(SAVE_ADDRESSES, writeAddressesInFiles(producer));
+  provide(WRITE_PUBLICATION_METADATA, writePublicationMetadataInFile);
+  provide(SAVE_OUTPUTS, saveOutputsInFiles(producer, writePublicationMetadataInFile));
+};

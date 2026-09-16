@@ -1,0 +1,41 @@
+import * as fs from 'node:fs';
+import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { createFolderIfNotExist, noEmptyCell, type Output, throwWriteFileError } from '../../file-system';
+import { mediationNumeriqueFileName } from '../file-name/mediation-numerique.file-name';
+import { mediationNumeriqueToCsv } from '../to-csv/mediation-numerique.to-csv';
+
+export const writeMediationNumeriqueJsonOutput = (
+  producer: Output,
+  schemaLieuxDeMediationNumerique: SchemaLieuMediationNumerique[],
+  suffix?: string
+): void => {
+  fs.writeFile(
+    `${createFolderIfNotExist(producer.path)}/${mediationNumeriqueFileName(
+      new Date(),
+      producer.name,
+      producer.territoire,
+      'json',
+      suffix
+    )}`,
+    JSON.stringify(schemaLieuxDeMediationNumerique, noEmptyCell),
+    throwWriteFileError
+  );
+};
+
+export const writeMediationNumeriqueCsvOutput = (
+  producer: Output,
+  schemaLieuxDeMediationNumerique: SchemaLieuMediationNumerique[],
+  suffix?: string
+): void => {
+  fs.writeFile(
+    `${createFolderIfNotExist(producer.path)}/${mediationNumeriqueFileName(
+      new Date(),
+      producer.name,
+      producer.territoire,
+      'csv',
+      suffix
+    )}`,
+    mediationNumeriqueToCsv(schemaLieuxDeMediationNumerique),
+    throwWriteFileError
+  );
+};
