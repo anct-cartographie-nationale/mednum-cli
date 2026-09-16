@@ -246,7 +246,7 @@ export const toLieuxMediationNumerique =
         .entry(index)
         .record(
           UNLOCATED_FIELD,
-          `Adresse non reconnue par la Base Adresse Nationale : « ${locationEnriched?.addresseOriginale ?? ''} »`,
+          `Adresse non reconnue par la Base Adresse Nationale : « ${locationEnriched?.addresseOriginale ?? ''} » — ${locationEnriched?.motif ?? 'motif inconnu'}`,
           entryIdentification(dataSource as DataSource, repository.config)
         )
         .commit();

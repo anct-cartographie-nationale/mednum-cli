@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { GEOCODING_UNAVAILABLE, getAddressData, isWorthCaching } from './location-enriched';
+import { GEOCODING_UNAVAILABLE, getAddressData, isWorthCaching, UNRESOLVED_REASONS } from './location-enriched';
 import type { AddressRecord, LieuxMediationNumeriqueMatching, NormalizedAddress, SourceEvidence } from './index';
 
 const STANDARD_MATCHING: LieuxMediationNumeriqueMatching = {
@@ -173,13 +173,17 @@ describe('getAddressData', (): void => {
   ])('n’interroge pas la BAN quand %s', async (_, incomplete, etiquette) => {
     const result = await getAddressData(incomplete, STANDARD_MATCHING, SANS_APPORT, reponse([DATASEARCH]))([]);
 
-    expect(result).toEqual({ statut: 'no_from_storage', addresseOriginale: etiquette });
+    expect(result).toEqual({
+      statut: 'no_from_storage',
+      addresseOriginale: etiquette,
+      motif: UNRESOLVED_REASONS.incomplete
+    });
   });
 
   it('écarte une réponse sans aucune correspondance', async () => {
     const result = await getAddressData(PAIX, STANDARD_MATCHING, SANS_APPORT, reponse([]))(AddressesBan);
 
-    expect(result).toEqual({ statut: 'no_from_storage', addresseOriginale: '10 rue de la paix 75002 Paris' });
+    expect(result).toMatchObject({ statut: 'no_from_storage', addresseOriginale: '10 rue de la paix 75002 Paris' });
   });
 
   it('écarte une réponse dont le score reste sous le seuil de 0,9', async () => {
@@ -187,7 +191,7 @@ describe('getAddressData', (): void => {
 
     const result = await getAddressData(PAIX, STANDARD_MATCHING, SANS_APPORT, reponse([faible]))(AddressesBan);
 
-    expect(result).toEqual({ statut: 'no_from_storage', addresseOriginale: '10 rue de la paix 75002 Paris' });
+    expect(result).toMatchObject({ statut: 'no_from_storage', addresseOriginale: '10 rue de la paix 75002 Paris' });
   });
 
   it('retient une réponse fraîche au dessus du seuil', async () => {
@@ -252,6 +256,16 @@ describe('corroboration par les coordonnées de la source', (): void => {
     const result = await getAddressData(PAIX, STANDARD_MATCHING, SANS_APPORT, reponse([faible]))([]);
 
     expect(result.statut).toBe('no_from_storage');
+  });
+
+  it.each([
+    ['aucune réponse du référentiel', SANS_APPORT, [], UNRESOLVED_REASONS.neverAnswered],
+    ['rapprochement faible sans coordonnées à opposer', SANS_APPORT, [faible], UNRESOLVED_REASONS.tooWeakWithoutCoordinates],
+    ['rapprochement faible et point trop éloigné', AU_LOIN, [faible], UNRESOLVED_REASONS.tooWeakAndTooFar]
+  ])('dit au rapport pourquoi elle écarte : %s', async (_, apport, features, motif) => {
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, apport, reponse(features))([]);
+
+    expect(result.motif).toBe(motif);
   });
 });
 

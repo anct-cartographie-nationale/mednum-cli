@@ -2,7 +2,7 @@ import type { LieuMediationNumerique, Localisation } from '@gouvfr-anct/lieux-de
 import { describe, expect, it } from 'vitest';
 import { isLocated, toLieuxMediationNumerique, UNLOCATED_FIELD } from './to-lieux-mediation-numerique';
 import { AddressCache } from './address-cache';
-import type { LocationEnriched } from './location-enriched';
+import { type LocationEnriched, UNRESOLVED_REASONS } from './location-enriched';
 import type { LieuxMediationNumeriqueMatching } from './matching';
 import { Report } from './report';
 import type { TransformationRepository } from './transformation-repository';
@@ -68,12 +68,16 @@ describe('toLieuxMediationNumerique, quand le référentiel n’a pas reconnu l�
   it('porte le retrait au rapport, pour qu’aucun lieu ne disparaisse en silence', async (): Promise<void> => {
     const report: Report = Report();
 
-    await ecarte({ statut: 'no_from_storage', addresseOriginale: 'Mairie 42920 Chalmazel' }, report);
+    await ecarte(
+      { statut: 'no_from_storage', addresseOriginale: 'Mairie 42920 Chalmazel', motif: UNRESOLVED_REASONS.neverAnswered },
+      report
+    );
 
     const erreurs = report.records().flatMap((record) => record.errors);
     expect(erreurs).toHaveLength(1);
     expect(erreurs[0]).toMatchObject({ field: UNLOCATED_FIELD, entryName: 'Un lieu introuvable' });
     expect(erreurs[0]?.message).toContain('Mairie 42920 Chalmazel');
+    expect(erreurs[0]?.message).toContain(UNRESOLVED_REASONS.neverAnswered);
   });
 
   it('émet le lieu et ne rapporte rien lorsque le géocodage a abouti', async (): Promise<void> => {

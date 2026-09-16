@@ -42,10 +42,27 @@ export const GEOCODING_UNAVAILABLE: 'geocoding_unavailable' = 'geocoding_unavail
 
 export type BatchGeocoding = BanResponse | typeof GEOCODING_UNAVAILABLE | null;
 
+/**
+ * Pourquoi une adresse n'a pas pu être située. Ces motifs ne relèvent pas des mêmes corrections :
+ * une adresse incomplète se complète chez le producteur, un rapprochement trop éloigné trahit une
+ * contradiction entre ses coordonnées et son adresse, et une indisponibilité ne lui doit rien.
+ */
+export const UNRESOLVED_REASONS = {
+  incomplete: "l'adresse de la source est incomplète",
+  neverAnswered: 'le référentiel ne connaît pas cette adresse',
+  recentlyFailed: 'une tentative récente est restée infructueuse',
+  tooWeakWithoutCoordinates: 'rapprochement trop incertain, et la source ne porte aucune coordonnée pour le corroborer',
+  tooWeakAndTooFar: 'rapprochement trop incertain, et le point proposé est trop éloigné de celui de la source',
+  geocoderUnavailable: 'le géocodeur était indisponible'
+} as const;
+
+export type UnresolvedReason = (typeof UNRESOLVED_REASONS)[keyof typeof UNRESOLVED_REASONS];
+
 export type LocationEnriched = {
   data?: DataSource;
   responses?: FeatureCollection;
   addresseOriginale?: string;
+  motif?: UnresolvedReason;
   statut: 'no_from_storage' | 'from_storage' | 'from_api' | 'geocoding_unavailable';
 };
 
@@ -146,6 +163,13 @@ const acceptedFeature = (evidence: SourceEvidence, response?: BanResponse | null
 const withOrigin = ({ complement, origine }: SourceEvidence): string =>
   complement == null || complement.trim() === '' ? origine : `${complement} - ${origine}`;
 
+/** Ce qui a manqué pour retenir la réponse : son absence, sa faiblesse, ou son éloignement. */
+const rejectionReason = (evidence: SourceEvidence, response?: BanResponse | null): UnresolvedReason => {
+  if (response?.data.features[0] == null) return UNRESOLVED_REASONS.neverAnswered;
+
+  return evidence.localisation == null ? UNRESOLVED_REASONS.tooWeakWithoutCoordinates : UNRESOLVED_REASONS.tooWeakAndTooFar;
+};
+
 const complementFor = (evidence: SourceEvidence, feature: Feature): string | undefined =>
   scoreOf(feature) > MINIMUM_BATCH_SCORE ? undefined : withOrigin(evidence);
 
@@ -195,17 +219,20 @@ export const getAddressData =
         statut: 'from_storage'
       };
 
-    if (isRecentFailedAttempt(cached)) return { statut: 'from_storage', addresseOriginale };
+    if (isRecentFailedAttempt(cached))
+      return { statut: 'from_storage', addresseOriginale, motif: UNRESOLVED_REASONS.recentlyFailed };
 
     // Le contrôle de complétude vient après celui de fraîcheur : le placer avant réinscrivait au
     // cache, à chaque exécution, les adresses incomplètes — qui ne sont jamais soumises à la BAN.
-    if (isMissingFields(adresse)) return { statut: 'no_from_storage', addresseOriginale };
+    if (isMissingFields(adresse)) return { statut: 'no_from_storage', addresseOriginale, motif: UNRESOLVED_REASONS.incomplete };
 
-    if (response === GEOCODING_UNAVAILABLE) return { statut: 'geocoding_unavailable', addresseOriginale };
+    if (response === GEOCODING_UNAVAILABLE)
+      return { statut: 'geocoding_unavailable', addresseOriginale, motif: UNRESOLVED_REASONS.geocoderUnavailable };
 
     const fresh: Feature | undefined = response == null ? undefined : acceptedFeature(evidence, response);
 
-    if (fresh == null || response == null) return { statut: 'no_from_storage', addresseOriginale };
+    if (fresh == null || response == null)
+      return { statut: 'no_from_storage', addresseOriginale, motif: rejectionReason(evidence, response) };
 
     return {
       data: geocodedColumns(matching, fresh, complementFor(evidence, fresh)),
