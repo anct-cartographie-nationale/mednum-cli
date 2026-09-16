@@ -3,6 +3,7 @@ import {
   type BanAddressRow,
   type BanSearchResult,
   type BanResultRow,
+  type Feature,
   geocodeCsv,
   type PostCsv,
   postBanCsv,
@@ -22,11 +23,25 @@ import {
 } from '../domain';
 import type { DataSource, LieuxMediationNumeriqueMatching } from '../domain';
 
-const isValid = (adresse: Adresse, response: BanResponse): boolean =>
-  response.data.features[0]?.geometry?.coordinates != null &&
-  ((response.data.features[0]?.properties?.score ?? 0) > 0.6 ||
-    ((response.data.features[0]?.properties?.score ?? 0) > 0.4 &&
-      response.data.features[0]?.properties?.city === adresse.commune));
+/**
+ * Seuils du géocodage unitaire, plus permissifs que celui du lot : au dessus du premier, le
+ * rapprochement se suffit à lui-même ; entre les deux, il n'est retenu que si la BAN s'accorde
+ * avec la source sur la commune.
+ */
+const CONFIDENT_SCORE = 0.6;
+const PLAUSIBLE_SCORE = 0.4;
+
+const isTrustworthy = (feature: Feature, adresse: Adresse): boolean => {
+  const score: number = feature.properties?.score ?? 0;
+
+  return score > CONFIDENT_SCORE || (score > PLAUSIBLE_SCORE && feature.properties?.city === adresse.commune);
+};
+
+const isValid = (adresse: Adresse, response: BanResponse): boolean => {
+  const feature: Feature | undefined = response.data.features[0];
+
+  return feature?.geometry?.coordinates != null && isTrustworthy(feature, adresse);
+};
 
 /**
  * Géocodage unitaire. Les erreurs de transport sont traduites en GeocodingError : le domaine
