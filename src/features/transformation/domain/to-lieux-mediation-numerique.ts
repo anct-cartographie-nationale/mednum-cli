@@ -152,6 +152,13 @@ const lieuDeMediationNumerique = async (
 };
 
 /**
+ * Le champ sous lequel un lieu écarté faute de coordonnées est porté au rapport. Le retrait
+ * d'un lieu ne doit jamais être silencieux : c'est cette ligne qui permet d'en informer le
+ * producteur et de lui dire quelle adresse le référentiel n'a pas su reconnaître.
+ */
+export const UNLOCATED_FIELD = 'localisation';
+
+/**
  * L'adresse et les coordonnées sont les informations les plus déterminantes d'un lieu de
  * médiation numérique : sans elles on ne peut ni s'y rendre, ni le porter sur une carte. Un lieu
  * que le géocodage n'a pas su situer — la Base Adresse Nationale restée sous le seuil, ou la
@@ -225,13 +232,26 @@ export const toLieuxMediationNumerique =
           .record(addresseLog(locationEnriched.addresseOriginale ?? '', locationEnriched.responses?.features?.[0] as Feature))
           .commit();
       }
-      return await lieuDeMediationNumerique(
+      const lieu: LieuMediationNumerique | undefined = await lieuDeMediationNumerique(
         index,
         dataSourceEnriched as DataSource,
         sourceName,
         report.entry(index),
         repository
       );
+
+      if (lieu != null && isLocated(lieu)) return lieu;
+
+      report
+        .entry(index)
+        .record(
+          UNLOCATED_FIELD,
+          `Adresse non reconnue par la Base Adresse Nationale : « ${locationEnriched?.addresseOriginale ?? ''} »`,
+          entryIdentification(dataSource as DataSource, repository.config)
+        )
+        .commit();
+
+      return undefined;
     } catch (error: unknown) {
       if (isErrorToReport(error)) {
         report

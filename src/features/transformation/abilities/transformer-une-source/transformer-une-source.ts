@@ -9,11 +9,12 @@ import {
   type DataSource,
   getAddressData,
   isFlatten,
-  isLocated,
   type LocationEnriched,
   normalizedAddress,
   type NormalizedAddress,
   Report,
+  type Record as ReportRecord,
+  UNLOCATED_FIELD,
   type SourceEvidence,
   sourceEvidence,
   toLieuxMediationNumerique,
@@ -146,10 +147,11 @@ export const transformerUneSource = async ({
   journal.info(`3. Sauvegarde du rapport d'erreur ${report.records().length}`);
   inject(SAVE_ERRORS)(report);
 
-  const localises: LieuMediationNumerique[] = lieuxDeMediationNumerique.filter(isLocated);
-  const ecartes: number = lieuxDeMediationNumerique.length - localises.length;
-  journal.info(`4. Sauvegarde des sorties : ${localises.length} (écartés faute de coordonnées : ${ecartes})`);
-  inject(SAVE_OUTPUTS)(localises);
+  const ecartes: number = report
+    .records()
+    .filter((record: ReportRecord): boolean => record.errors.some(({ field }): boolean => field === UNLOCATED_FIELD)).length;
+  journal.info(`4. Sauvegarde des sorties : ${lieuxDeMediationNumerique.length} (écartés faute de coordonnées : ${ecartes})`);
+  inject(SAVE_OUTPUTS)(lieuxDeMediationNumerique);
 
   journal.info(`5. Sauvegarde de l'historique: + ${addressCache.records().length}`);
   inject(SAVE_ADDRESSES)(addressCache);
