@@ -1,5 +1,6 @@
 import {
   Adresse,
+  ComplementAdresse,
   type AdresseToValidate,
   appliquerRegles,
   nettoyerCodePostal,
@@ -27,8 +28,17 @@ type SourceAddress = {
 
 const nouvelleCaledonieException = (codePostal: string): boolean => codePostal.startsWith('98');
 
-const complementAdresseIfAny = (complementAdresse?: string): { complement_adresse?: string } =>
-  complementAdresse == null ? {} : { complement_adresse: complementAdresse.replace(/\s+/g, ' ').trim() };
+/**
+ * Le complément est facultatif : hors charte, c'est la valeur qui tombe et non l'adresse, qui
+ * est obligatoire. Sans cela, un « Bât. B — 2ème étage » écarterait le lieu entier.
+ */
+const complementAdresseIfAny = (complementAdresse?: string): { complement_adresse?: string } => {
+  if (complementAdresse == null) return {};
+
+  const complement: string | null = ComplementAdresse.safe(complementAdresse.replace(/\s+/g, ' ').trim());
+
+  return complement == null ? {} : { complement_adresse: complement };
+};
 
 const codeInseeIfAny = (code_insee?: string): { code_insee?: string } => (code_insee == null ? {} : { code_insee });
 
