@@ -1,6 +1,6 @@
 import { Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import type { Feature, FeatureCollection } from '../../../../libraries/ban';
-import type { Coordinates } from '../../../../libraries/geometry';
+import type { LocalisationToValidate } from '@gouvfr-anct/lieux-de-mediation-numerique';
 
 export type BanResponse = { data: FeatureCollection };
 
@@ -16,7 +16,7 @@ export type BatchGeocoding = BanResponse | typeof GEOCODING_UNAVAILABLE | null;
 
 export const scoreOf = (feature?: Feature): number => feature?.properties.score ?? 0;
 
-export const coordinatesOf = (feature: Feature): Coordinates => ({
+export const coordinatesOf = (feature: Feature): LocalisationToValidate => ({
   latitude: feature.geometry.coordinates[1] ?? 0,
   longitude: feature.geometry.coordinates[0] ?? 0
 });
