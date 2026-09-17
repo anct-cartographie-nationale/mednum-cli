@@ -81,9 +81,15 @@ const mergeId = (lieu1: SchemaLieuMediationNumerique, lieu2: SchemaLieuMediation
     .join('__')
     .replace(/-?mediation-numerique-?/g, '');
 
-const ignoreDefaultPivot = (lieu1: SchemaLieuMediationNumerique, lieu2: SchemaLieuMediationNumerique): { pivot: string } => ({
-  pivot: lieu1.pivot === '00000000000000' ? lieu2.pivot : lieu1.pivot
-});
+const SENTINELLE_HISTORIQUE: string = '00000000000000';
+
+const ignoreDefaultPivot = (lieu1: SchemaLieuMediationNumerique, lieu2: SchemaLieuMediationNumerique): { pivot?: string } => {
+  const pivot: string | undefined = [lieu1.pivot, lieu2.pivot].find(
+    (candidat: string | undefined): boolean => candidat != null && candidat !== SENTINELLE_HISTORIQUE
+  );
+
+  return pivot == null ? {} : { pivot };
+};
 
 export const mergeLieux = (
   lieu1: SchemaLieuMediationNumerique,

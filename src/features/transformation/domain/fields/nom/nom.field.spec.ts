@@ -38,6 +38,6 @@ describe('nom field', (): void => {
 
     const nom = () => processNom(source, matching);
 
-    expect(nom).toThrow("Le Nom  n'est pas valide");
+    expect(nom).toThrow('Le nom ne doit pas être vide');
   });
 });

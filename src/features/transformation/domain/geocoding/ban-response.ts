@@ -1,6 +1,6 @@
-import { Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { Localisation, type LocalisationToValidate } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import type { Feature, FeatureCollection } from '../../../../libraries/ban';
-import type { Coordinates } from '../../../../libraries/geometry';
+import { NO_LOCALISATION } from '../fields/localisation/localisation.field';
 
 export type BanResponse = { data: FeatureCollection };
 
@@ -16,15 +16,18 @@ export type BatchGeocoding = BanResponse | typeof GEOCODING_UNAVAILABLE | null;
 
 export const scoreOf = (feature?: Feature): number => feature?.properties.score ?? 0;
 
-export const coordinatesOf = (feature: Feature): Coordinates => ({
+export const coordinatesOf = (feature: Feature): LocalisationToValidate => ({
   latitude: feature.geometry.coordinates[1] ?? 0,
   longitude: feature.geometry.coordinates[0] ?? 0
 });
 
-export const localisationOf = (feature: Feature): Localisation => Localisation(coordinatesOf(feature));
+export const localisationOf = (feature: Feature): LocalisationToValidate => coordinatesOf(feature);
 
-export const toLocalisation = (response: BanResponse): Localisation =>
-  Localisation({
-    latitude: response.data.features[0]?.geometry?.coordinates[1] ?? 0,
-    longitude: response.data.features[0]?.geometry?.coordinates[0] ?? 0
-  });
+export const toLocalisation = (response: BanResponse): Localisation => {
+  const latitude: number | undefined = response.data.features[0]?.geometry?.coordinates[1];
+  const longitude: number | undefined = response.data.features[0]?.geometry?.coordinates[0];
+
+  return latitude == null || longitude == null
+    ? NO_LOCALISATION
+    : (Localisation.safe({ latitude, longitude }) ?? NO_LOCALISATION);
+};

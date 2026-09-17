@@ -1,6 +1,5 @@
-import type { Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { distanceEnMetres, type Localisation, type LocalisationToValidate } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import type { Feature } from '../../../../libraries/ban';
-import { type Coordinates, distanceInMeters } from '../../../../libraries/geometry';
 import { NO_LOCALISATION, processLocalisation } from '../fields/localisation/localisation.field';
 import type { DataSource, LieuxMediationNumeriqueMatching } from '../matching';
 import { coordinatesOf } from './ban-response';
@@ -20,13 +19,13 @@ export const CORROBORATION_RADIUS_IN_METERS = 500;
  * que sur la foi de cette proximité.
  */
 export type SourceEvidence = {
-  localisation?: Coordinates;
+  localisation?: LocalisationToValidate;
   origine: string;
   complement?: string;
 };
 
-export const isCorroborated = (feature: Feature, localisation?: Coordinates): boolean =>
-  localisation != null && distanceInMeters(localisation, coordinatesOf(feature)) < CORROBORATION_RADIUS_IN_METERS;
+export const isCorroborated = (feature: Feature, localisation?: LocalisationToValidate): boolean =>
+  localisation != null && distanceEnMetres(localisation, coordinatesOf(feature)) < CORROBORATION_RADIUS_IN_METERS;
 
 export const withOrigin = ({ complement, origine }: SourceEvidence): string =>
   complement == null || complement.trim() === '' ? origine : `${complement} - ${origine}`;

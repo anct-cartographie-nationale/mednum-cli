@@ -1,4 +1,4 @@
-import { isValidLocalisation, Localisation, type LocalisationToValidate } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { Localisation, type LocalisationToValidate } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { lambert93ToWgs84 } from '../../../../../libraries/geometry';
 import type { Colonne, DataSource, Dissociation, LieuxMediationNumeriqueMatching } from '../../matching';
 
@@ -23,7 +23,9 @@ const checkFormatLocalisation = (localisation: LocalisationToValidate): Localisa
   if (localisation === NO_LOCALISATION || Number.isNaN(localisation.latitude) || Number.isNaN(localisation.longitude))
     return NO_LOCALISATION;
   const [longitude, latitude] = lambert93ToWgs84([localisation.longitude, localisation.latitude]);
-  return latitude == null || longitude == null ? NO_LOCALISATION : Localisation({ latitude, longitude });
+  return latitude == null || longitude == null
+    ? NO_LOCALISATION
+    : (Localisation.safe({ latitude, longitude }) ?? NO_LOCALISATION);
 };
 
 const localisationField = (source: DataSource, localisation: Dissociation & Partial<Colonne>): string | undefined =>
@@ -35,9 +37,9 @@ const validateLocalisationField = (localisationToValidate: LocalisationToValidat
       ? { latitude: LOCALISATION_IS_ZERO_VALUES, longitude: LOCALISATION_IS_ZERO_VALUES }
       : localisationToValidate;
 
-  return isValidLocalisation(localisationToValidateProbablyFalse)
-    ? localisationToValidateProbablyFalse
-    : checkFormatLocalisation(localisationToValidateProbablyFalse);
+  const localisationValide: Localisation | null = Localisation.safe(localisationToValidateProbablyFalse);
+
+  return localisationValide ?? checkFormatLocalisation(localisationToValidateProbablyFalse);
 };
 
 const localisationFromMatching = (

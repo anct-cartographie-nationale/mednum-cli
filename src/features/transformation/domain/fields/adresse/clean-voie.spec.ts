@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { CLEAN_VOIE, CLEAN_VOIE_FOR_SEARCH } from './clean-voie';
-import { toCleanField } from './clean-operations';
+import { appliquerRegles, nettoyerVoie, nettoyerVoiePourRecherche } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { REGLES_VOIE_LOCALES } from './clean-voie';
 
-const pourLaRecherche = (voie: string): string => CLEAN_VOIE_FOR_SEARCH.reduce(toCleanField, voie);
-const pourLaPublication = (voie: string): string => CLEAN_VOIE.reduce(toCleanField, voie);
+const pourLaRecherche = (voie: string): string => nettoyerVoiePourRecherche(voie);
+const pourLaPublication = (voie: string): string => appliquerRegles(REGLES_VOIE_LOCALES, nettoyerVoie(voie));
 
 describe('CLEAN_VOIE_FOR_SEARCH', (): void => {
   it.each([

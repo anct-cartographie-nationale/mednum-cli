@@ -42,7 +42,7 @@ type DataInclusionMergedPresentation = {
 
 type DataInclusionMergedCollecte = {
   source: string;
-  date_maj: string;
+  date_maj?: string;
 };
 
 type DataInclusionMergedAcces = {
@@ -97,8 +97,14 @@ const dataInclusionMergedContact = (
   ...(service.prise_rdv == null ? {} : { prise_rdv: service.prise_rdv })
 });
 
+const dateMajSiLisible = (dateMaj?: string): { date_maj?: string } => {
+  const date: Date = new Date(dateMaj ?? '');
+
+  return dateMaj == null || Number.isNaN(date.getTime()) ? {} : { date_maj: date.toISOString() };
+};
+
 const dataInclusionMergedCollecte = (structure: SchemaStructureDataInclusion): DataInclusionMergedCollecte => ({
-  date_maj: new Date(structure.date_maj).toISOString(),
+  ...dateMajSiLisible(structure.date_maj),
   source: structure.source?.replace('mediation-numerique-', '') ?? ''
 });
 

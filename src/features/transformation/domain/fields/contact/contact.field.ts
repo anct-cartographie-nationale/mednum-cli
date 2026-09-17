@@ -1,122 +1,110 @@
-import { Contact, Courriel, Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import {
+  Contact,
+  type ContactToValidate,
+  Courriel,
+  nettoyerCourriel,
+  nettoyerSiteWeb,
+  nettoyerTelephone,
+  telephoneCanonique,
+  Url
+} from '@gouvfr-anct/lieux-de-mediation-numerique';
 import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching';
 import type { Recorder } from '../../report';
-import { cleanOperations, type CleanOperation } from './clean-operations';
 
-type FixedContact = DataSource | undefined;
+const valeursSeparees = (valeurs: string | undefined, nettoyer: (valeur: string) => string): string[] =>
+  valeurs == null || valeurs.trim() === ''
+    ? []
+    : nettoyer(valeurs)
+        .split('|')
+        .map((valeur: string): string => valeur.trim())
+        .filter((valeur: string): boolean => valeur !== '');
 
-const toInternationalFormat = (phone: string): string => (/^0\d{9}$/.test(phone) ? `+33${phone.slice(1)}` : phone);
+const codePostalDe = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string | undefined =>
+  [matching.code_postal?.colonne ?? []]
+    .flat()
+    .map((colonne: string): string | undefined => source[colonne]?.toString())
+    .find(Boolean);
 
-const telephoneField = (telephone?: number | string): Pick<Contact, 'telephone'> =>
-  telephone == null
-    ? {}
-    : {
-        telephone: toInternationalFormat(
-          telephone
-            .toString()
-            .replace(/[\s,.-]/g, '')
-            .replace('(0)', '')
-            .trim()
-        )
-      };
+const entryNameDe = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string =>
+  (matching.nom?.colonne == null ? undefined : source[matching.nom.colonne]?.toString()) ?? '';
 
-const siteWebField = (siteWeb?: string): Pick<Contact, 'site_web'> =>
-  siteWeb == null ? {} : { site_web: siteWeb.split('|').map(Url) };
+const telephoneField = (
+  recorder: Recorder,
+  entryName: string,
+  telephone: string | undefined,
+  codePostal: string | undefined
+): Pick<ContactToValidate, 'telephone'> => {
+  if (telephone == null || telephone.trim() === '') return {};
 
-const courrielField = (courriels?: string): Pick<Contact, 'courriels'> =>
-  courriels == null || courriels === '' ? {} : { courriels: courriels.split('|').map(Courriel) };
+  const canonique: string | null = telephoneCanonique(nettoyerTelephone(codePostal)(telephone));
 
-const toLieuxMediationNumeriqueContact = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Contact =>
-  Contact({
-    ...(matching.telephone?.colonne == null ? {} : telephoneField(source[matching.telephone.colonne]?.toString())),
-    ...(matching.site_web?.colonne == null ? {} : siteWebField(source[matching.site_web.colonne]?.toString()?.toLowerCase())),
-    ...(matching.courriels?.colonne == null ? {} : courrielField(source[matching.courriels.colonne]?.toString()?.toLowerCase()))
-  });
+  if (canonique != null) return { telephone: canonique };
 
-const testCleanSelector = (cleanOperation: CleanOperation, property?: string): boolean =>
-  property != null && new RegExp(cleanOperation.selector, 'u').test(property);
+  recorder.record('contact.telephone', `Le téléphone « ${telephone} » n'est pas un numéro français valide`, entryName);
 
-const shouldApplyFix = (cleanOperation: CleanOperation, property?: string): boolean =>
-  cleanOperation.negate === true ? !testCleanSelector(cleanOperation, property) : testCleanSelector(cleanOperation, property);
-
-const applyRemoveFix =
-  (recorder: Recorder) =>
-  (cleanOperation: CleanOperation, valueToFix: string, source: DataSource): DataSource => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { [cleanOperation.field]: removedProperty, ...filteredProperties }: DataSource = source;
-    recorder.fix({
-      apply: cleanOperation.name,
-      before: valueToFix
-    });
-    return filteredProperties;
-  };
-
-const applyUpdateFix =
-  (recorder: Recorder) =>
-  (cleanOperation: CleanOperation & { fix: (toFix: string) => string }, valueToFix: string, source: DataSource): DataSource => {
-    const cleanValue: string = cleanOperation.fix(valueToFix);
-    recorder.fix({
-      apply: cleanOperation.name,
-      before: valueToFix,
-      after: cleanValue
-    });
-
-    return {
-      ...source,
-      ...{
-        [cleanOperation.field]: cleanValue
-      }
-    };
-  };
-
-const canFix = (cleanOperation: CleanOperation): cleanOperation is CleanOperation & { fix: (toFix: string) => string } =>
-  cleanOperation.fix != null;
-
-const applyCleanOperation =
-  (recorder: Recorder) =>
-  (cleanOperation: CleanOperation, valueToFix: string, source: DataSource): DataSource =>
-    canFix(cleanOperation)
-      ? applyUpdateFix(recorder)(cleanOperation, valueToFix, source)
-      : applyRemoveFix(recorder)(cleanOperation, valueToFix, source);
-
-const toFixedContact =
-  (recorder: Recorder) =>
-  (source: DataSource) =>
-  (contact: FixedContact, cleanOperation: CleanOperation): FixedContact =>
-    contact == null && shouldApplyFix(cleanOperation, source[cleanOperation.field]?.toString())
-      ? applyCleanOperation(recorder)(cleanOperation, source[cleanOperation.field]?.toString() ?? '', source)
-      : contact;
-
-const cannotFixContact = (error: unknown): Contact => {
-  throw error;
+  return {};
 };
 
-const retryOrThrow =
-  (recorder: Recorder) =>
-  (fixedContact: FixedContact, matching: LieuxMediationNumeriqueMatching, error: unknown): Contact =>
-    fixedContact == null ? cannotFixContact(error) : processContact(recorder)(fixedContact, matching);
+const valeursValides = <TValeur>(
+  brutes: string[],
+  construire: { safe: (valeur: string) => TValeur | null },
+  recorder: Recorder,
+  entryName: string,
+  champ: string,
+  libelle: string
+): TValeur[] =>
+  brutes.reduce((retenues: TValeur[], brute: string): TValeur[] => {
+    const valide: TValeur | null = construire.safe(brute);
 
-const fixAndRetry =
-  (recorder: Recorder) =>
-  (source: DataSource, matching: LieuxMediationNumeriqueMatching, error: unknown): Contact =>
-    retryOrThrow(recorder)(
-      cleanOperations(
-        matching,
-        [matching.code_postal.colonne]
-          .flat()
-          .map((c) => source[c]?.toString())
-          .find(Boolean)
-      ).reduce(toFixedContact(recorder)(source), undefined),
-      matching,
-      error
-    );
+    if (valide != null) return [...retenues, valide];
+
+    recorder.record(champ, `${libelle} « ${brute} » n'est pas reconnu`, entryName);
+
+    return retenues;
+  }, []);
+
+const listeIfAny = <TClef extends string, TValeur>(clef: TClef, valeurs: TValeur[]): Record<TClef, TValeur[]> | object =>
+  valeurs.length === 0 ? {} : { [clef]: valeurs };
 
 export const processContact =
   (recorder: Recorder) =>
   (source: DataSource, matching: LieuxMediationNumeriqueMatching): Contact => {
-    try {
-      return toLieuxMediationNumeriqueContact(source, matching);
-    } catch (error: unknown) {
-      return fixAndRetry(recorder)(source, matching, error);
-    }
+    const entryName: string = entryNameDe(source, matching);
+
+    return Contact({
+      ...telephoneField(
+        recorder,
+        entryName,
+        matching.telephone?.colonne == null ? undefined : source[matching.telephone.colonne]?.toString(),
+        codePostalDe(source, matching)
+      ),
+      ...listeIfAny(
+        'site_web',
+        valeursValides(
+          valeursSeparees(
+            matching.site_web?.colonne == null ? undefined : source[matching.site_web.colonne]?.toString(),
+            nettoyerSiteWeb
+          ),
+          Url,
+          recorder,
+          entryName,
+          'contact.site_web',
+          "L'adresse"
+        )
+      ),
+      ...listeIfAny(
+        'courriels',
+        valeursValides(
+          valeursSeparees(
+            matching.courriels?.colonne == null ? undefined : source[matching.courriels.colonne]?.toString(),
+            nettoyerCourriel
+          ),
+          Courriel,
+          recorder,
+          entryName,
+          'contact.courriels',
+          "L'adresse électronique"
+        )
+      )
+    });
   };

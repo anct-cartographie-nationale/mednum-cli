@@ -774,7 +774,7 @@ describe('horaires field', (): void => {
     expect(openingHours).toBe('Tu 10:00-12:00');
   });
 
-  it('should return the OSM format when the value is 24/7', (): void => {
+  it('should keep 24/7 as is, which is already valid OSM', (): void => {
     const openingHours: OsmOpeningHoursString = processHoraires(
       {
         OSM: '24/7'
@@ -782,8 +782,15 @@ describe('horaires field', (): void => {
       matching
     );
 
-    expect(openingHours).toBe('Mo-Sun 00:00-00:00');
+    expect(openingHours).toBe('24/7');
   });
+
+  it.each([['Mo-Sun 08:30-12:30'], ['Sa,Sun 14:00-18:00']])(
+    'should rewrite the three letter day of %s, which OpenStreetMap does not know',
+    (osm: string): void => {
+      expect(processHoraires({ OSM: osm }, matching)).not.toContain('Sun');
+    }
+  );
 
   it('should return the OSM Mo-Fr when "tous les jours" is present', (): void => {
     const openingHours: OsmOpeningHoursString = processHoraires(

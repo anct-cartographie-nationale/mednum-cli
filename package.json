@@ -166,7 +166,7 @@
     "vitest": "^5.0.0"
   },
   "dependencies": {
-    "@gouvfr-anct/lieux-de-mediation-numerique": "^3.0.1",
+    "@gouvfr-anct/lieux-de-mediation-numerique": "^4.0.4",
     "@gouvfr-anct/timetable-to-osm-opening-hours": "^2.1.0",
     "@turf/turf": "^7.4.0",
     "axios": "^1.20.0",
@@ -184,6 +184,7 @@
     "iconv-lite": "^0.7.3",
     "inquirer": "^14.2.1",
     "piqure": "^2.3.0",
-    "proj4": "^2.22.0"
+    "proj4": "^2.22.0",
+    "zod": "^4.5.4"
   }
 }

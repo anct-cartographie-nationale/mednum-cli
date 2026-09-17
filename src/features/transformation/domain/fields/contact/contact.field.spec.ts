@@ -48,7 +48,7 @@ describe('contact field', (): void => {
     );
   });
 
-  it('should remove site web with all accents', (): void => {
+  it('should keep an internationalized domain name, which is a valid address', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         Téléphone: '',
@@ -58,7 +58,7 @@ describe('contact field', (): void => {
       matching
     );
 
-    expect(contact).toStrictEqual<Contact>(Contact({}));
+    expect(contact).toStrictEqual<Contact>(Contact({ site_web: [Url('http://www.pacibouche-du-rhône.com')] }));
   });
 
   it('should lowercase all character in a site web', (): void => {
@@ -374,7 +374,7 @@ describe('contact field', (): void => {
     expect(contact).toStrictEqual<Contact>(Contact({}));
   });
 
-  it('should remove websites with accented characters', (): void => {
+  it('should keep an accented domain, which the URL parser accepts', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         'Site Web': 'https://www.apis-ingénierie.fr'
@@ -382,7 +382,7 @@ describe('contact field', (): void => {
       matching
     );
 
-    expect(contact).toStrictEqual<Contact>(Contact({}));
+    expect(contact).toStrictEqual<Contact>(Contact({ site_web: [Url('https://www.apis-ingénierie.fr')] }));
   });
 
   it('should fix phones with only 9 digits', (): void => {
@@ -406,14 +406,14 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         code_postal: '97156',
-        Téléphone: 475582913 as unknown as string
+        Téléphone: '0590123456'
       } as DataSource,
       matching
     );
 
     expect(contact).toStrictEqual<Contact>(
       Contact({
-        telephone: '+590475582913'
+        telephone: '+590590123456'
       })
     );
   });
@@ -422,14 +422,14 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         code_postal: '97250',
-        Téléphone: 475582913 as unknown as string
+        Téléphone: '0596301234'
       } as DataSource,
       matching
     );
 
     expect(contact).toStrictEqual<Contact>(
       Contact({
-        telephone: '+596475582913'
+        telephone: '+596596301234'
       })
     );
   });
@@ -438,14 +438,14 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         code_postal: '97350',
-        Téléphone: 475582913 as unknown as string
+        Téléphone: '0594290000'
       } as DataSource,
       matching
     );
 
     expect(contact).toStrictEqual<Contact>(
       Contact({
-        telephone: '+594475582913'
+        telephone: '+594594290000'
       })
     );
   });
@@ -454,14 +454,14 @@ describe('contact field', (): void => {
     const contact: Contact = processContact(Report().entry(0))(
       {
         code_postal: '97450',
-        Téléphone: 475582913 as unknown as string
+        Téléphone: '0262123456'
       } as DataSource,
       matching
     );
 
     expect(contact).toStrictEqual<Contact>(
       Contact({
-        telephone: '+262475582913'
+        telephone: '+262262123456'
       })
     );
   });

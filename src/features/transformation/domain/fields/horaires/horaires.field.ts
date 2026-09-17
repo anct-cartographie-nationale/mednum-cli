@@ -5,6 +5,7 @@ import {
 } from '@gouvfr-anct/timetable-to-osm-opening-hours';
 import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching';
 import { toOsmHours } from '../../to-osm-hours/to-osm-hours';
+import { InvalidHoursRangeError } from '../../merge-hours-ranges/invalid-hours-range-error';
 import { InvalidHoursError } from './errors/invalid-hours-error';
 import { NO_OSM_OPENING_HOURS, type OsmOpeningHoursString, osmOpeningHoursString } from './process-horaires.field';
 import { openingHoursFromWeek } from './opening-hours-from-week';
@@ -23,7 +24,13 @@ const fixOsmHours = (osmHours?: string): string =>
     .replace(/(\d)h(\d)/g, '$1:$2')
     .replace(/(\d{1,2})\s*:\s*(\d{2})/g, '$1:$2')
     .replace(/\b(\d):(\d{2})\b/g, '0$1:$2')
-    .replace(/^\s*24\/7\s*$/g, 'Mo-Sun 00:00-00:00') ?? '';
+    .replace(/\bSun\b/g, 'Su')
+    .replace(/\bMon\b/g, 'Mo')
+    .replace(/\bTue\b/g, 'Tu')
+    .replace(/\bWed\b/g, 'We')
+    .replace(/\bThu\b/g, 'Th')
+    .replace(/\bFri\b/g, 'Fr')
+    .replace(/\bSat\b/g, 'Sa') ?? '';
 
 const throwInvalidHours = (osmHours: string, day: OsmDaysOfWeek, hours: string): OsmOpeningHours => {
   throw new InvalidHoursError(osmHours, hours, day);
@@ -87,7 +94,7 @@ export const processHoraires = (source: DataSource, matching: LieuxMediationNume
       ? openingHoursFromWeek(source[matching.horaires?.semaine ?? matching.horaires?.osm ?? '']?.toString())
       : osmOpeningHours;
   } catch (error: unknown) {
-    if (error instanceof InvalidHoursError) return NO_OSM_OPENING_HOURS;
+    if (error instanceof InvalidHoursError || error instanceof InvalidHoursRangeError) return NO_OSM_OPENING_HOURS;
     throw error;
   }
 };

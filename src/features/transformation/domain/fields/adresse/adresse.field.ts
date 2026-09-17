@@ -1,10 +1,17 @@
-import { Adresse } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import {
+  Adresse,
+  ComplementAdresse,
+  type AdresseToValidate,
+  appliquerRegles,
+  nettoyerCodePostal,
+  nettoyerCommune,
+  nettoyerVoie
+} from '@gouvfr-anct/lieux-de-mediation-numerique';
 import type { DataSource, LieuxMediationNumeriqueMatching } from '../../matching';
 import { getNewCommune } from './anciennes-communes';
-import { CLEAN_CODE_POSTAL, codePostalField } from './clean-code-postal';
-import { CLEAN_COMMUNE, communeField } from './clean-commune';
-import { toCleanField } from './clean-operations';
-import { CLEAN_VOIE, voieField } from './clean-voie';
+import { codePostalField } from './clean-code-postal';
+import { REGLES_COMMUNE_LOCALES, communeField } from './clean-commune';
+import { REGLES_VOIE_LOCALES, voieField } from './clean-voie';
 import type { Commune, FindCommune } from '../../../../../libraries/collectivites';
 
 type AddressToNormalize = {
@@ -21,8 +28,13 @@ type SourceAddress = {
 
 const nouvelleCaledonieException = (codePostal: string): boolean => codePostal.startsWith('98');
 
-const complementAdresseIfAny = (complementAdresse?: string): { complement_adresse?: string } =>
-  complementAdresse == null ? {} : { complement_adresse: complementAdresse.replace(/\s+/g, ' ').trim() };
+const complementAdresseIfAny = (complementAdresse?: string): { complement_adresse?: string } => {
+  if (complementAdresse == null) return {};
+
+  const complement: string | null = ComplementAdresse.safe(complementAdresse.replace(/\s+/g, ' ').trim());
+
+  return complement == null ? {} : { complement_adresse: complement };
+};
 
 const codeInseeIfAny = (code_insee?: string): { code_insee?: string } => (code_insee == null ? {} : { code_insee });
 
@@ -33,13 +45,13 @@ const addressFields = (
   addressToNormalize: AddressToNormalize,
   commune: Commune | undefined,
   sourceAddress: SourceAddress
-): Omit<Adresse, 'isAdresse'> => ({
+): AdresseToValidate => ({
   ...sourceAddress,
   code_postal:
     normalizedCodePostalIfExist(addressToNormalize.code_postal, commune?.codesPostaux) ?? addressToNormalize.code_postal,
   commune: commune?.nom ?? addressToNormalize.commune,
   ...codeInseeIfAny(commune?.code),
-  voie: CLEAN_VOIE.reduce(toCleanField, sourceAddress.voie)
+  voie: appliquerRegles(REGLES_VOIE_LOCALES, nettoyerVoie(sourceAddress.voie))
 });
 
 const communeFrom = (findCommune: FindCommune, addressToNormalize: AddressToNormalize): Commune | undefined =>
@@ -51,16 +63,19 @@ const communeFrom = (findCommune: FindCommune, addressToNormalize: AddressToNorm
 
 const buildAddressFields =
   (findCommune: FindCommune) =>
-  (addressToNormalize: AddressToNormalize, sourceAddress: SourceAddress): Omit<Adresse, 'isAdresse'> =>
+  (addressToNormalize: AddressToNormalize, sourceAddress: SourceAddress): AdresseToValidate =>
     addressFields(addressToNormalize, communeFrom(findCommune, addressToNormalize), sourceAddress);
 
 const normalizeAddressFields =
   (findCommune: FindCommune) =>
-  (sourceAddress: SourceAddress): Omit<Adresse, 'isAdresse'> =>
+  (sourceAddress: SourceAddress): AdresseToValidate =>
     buildAddressFields(findCommune)(
       {
-        commune: CLEAN_COMMUNE.reduce(toCleanField, communeField(sourceAddress.voie, sourceAddress.commune)),
-        code_postal: CLEAN_CODE_POSTAL.reduce(toCleanField, codePostalField(sourceAddress.voie, sourceAddress.code_postal))
+        commune: appliquerRegles(
+          REGLES_COMMUNE_LOCALES,
+          nettoyerCommune(communeField(sourceAddress.voie, sourceAddress.commune))
+        ),
+        code_postal: nettoyerCodePostal(codePostalField(sourceAddress.voie, sourceAddress.code_postal))
       },
       sourceAddress
     );
@@ -89,7 +104,7 @@ const sourceAddressFrom = (source: DataSource, matching: LieuxMediationNumerique
  */
 export const normalizedAddress =
   (findCommune: FindCommune) =>
-  (source: DataSource, matching: LieuxMediationNumeriqueMatching): Omit<Adresse, 'isAdresse'> =>
+  (source: DataSource, matching: LieuxMediationNumeriqueMatching): AdresseToValidate =>
     normalizeAddressFields(findCommune)(sourceAddressFrom(source, matching));
 
 export const processAdresse =

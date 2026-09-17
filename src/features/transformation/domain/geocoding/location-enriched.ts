@@ -1,4 +1,4 @@
-import type { Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import type { LocalisationToValidate } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import type { Feature, FeatureCollection } from '../../../../libraries/ban';
 import { type AddressRecord, isRecentFailedAttempt } from '../address-cache';
 import type { DataSource, LieuxMediationNumeriqueMatching } from '../matching';
@@ -20,7 +20,7 @@ export type LocationEnriched = {
  * les noms que la correspondance leur donne.
  */
 const geocodedColumns = (matching: LieuxMediationNumeriqueMatching, feature: Feature, complement?: string): DataSource => {
-  const { latitude, longitude }: Localisation = localisationOf(feature);
+  const { latitude, longitude }: LocalisationToValidate = localisationOf(feature);
 
   return {
     ...(complement == null ? {} : { [matching.complement_adresse?.colonne as string]: complement }),
