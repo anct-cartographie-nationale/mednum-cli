@@ -166,7 +166,7 @@
     "vitest": "^5.0.0"
   },
   "dependencies": {
-    "@gouvfr-anct/lieux-de-mediation-numerique": "^4.0.2",
+    "@gouvfr-anct/lieux-de-mediation-numerique": "^4.0.3",
     "@gouvfr-anct/timetable-to-osm-opening-hours": "^2.1.0",
     "@turf/turf": "^7.4.0",
     "axios": "^1.20.0",
