@@ -1,4 +1,4 @@
-import { isValidLocalisation, Localisation, type LocalisationToValidate } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { Localisation, type LocalisationToValidate } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { lambert93ToWgs84 } from '../../../../../libraries/geometry';
 import type { Colonne, DataSource, Dissociation, LieuxMediationNumeriqueMatching } from '../../matching';
 
@@ -35,9 +35,9 @@ const validateLocalisationField = (localisationToValidate: LocalisationToValidat
       ? { latitude: LOCALISATION_IS_ZERO_VALUES, longitude: LOCALISATION_IS_ZERO_VALUES }
       : localisationToValidate;
 
-  return isValidLocalisation(localisationToValidateProbablyFalse)
-    ? localisationToValidateProbablyFalse
-    : checkFormatLocalisation(localisationToValidateProbablyFalse);
+  const localisationValide: Localisation | null = Localisation.safe(localisationToValidateProbablyFalse);
+
+  return localisationValide ?? checkFormatLocalisation(localisationToValidateProbablyFalse);
 };
 
 const localisationFromMatching = (

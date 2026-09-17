@@ -13,15 +13,22 @@ const onlyMatchingGroupIds =
   (lieu: SchemaLieuMediationNumerique): boolean =>
     ids.includes(lieu.id);
 
+const dateMajOuVide = (lieu: SchemaLieuMediationNumerique): string => lieu.date_maj ?? '';
+
 const byDate = (lieuA: SchemaLieuMediationNumerique, lieuB: SchemaLieuMediationNumerique): number => {
-  const byDateMaj: number = lieuB.date_maj.localeCompare(lieuA.date_maj);
+  const byDateMaj: number = dateMajOuVide(lieuB).localeCompare(dateMajOuVide(lieuA));
   return byDateMaj === 0 ? lieuA.id.localeCompare(lieuB.id) : byDateMaj;
 };
 
 const isTooOld =
   (now: Date) =>
-  (lieu: SchemaLieuMediationNumerique): boolean =>
-    new Date(lieu.date_maj).getTime() < now.getTime() - DATE_LIMIT_OFFSET;
+  (lieu: SchemaLieuMediationNumerique): boolean => {
+    if (lieu.date_maj == null) return false;
+
+    const dateMaj: number = new Date(lieu.date_maj).getTime();
+
+    return !Number.isNaN(dateMaj) && dateMaj < now.getTime() - DATE_LIMIT_OFFSET;
+  };
 
 const toMergedLieu =
   (now: Date) =>

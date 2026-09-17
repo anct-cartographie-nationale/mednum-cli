@@ -1,3 +1,5 @@
+import { InvalidHoursRangeError } from './invalid-hours-range-error';
+
 const compareTimes = ([hoursA, minutesA]: [string, string], [hoursB, minutesB]: [string, string]): number =>
   hoursA === hoursB && minutesA === minutesB ? 0 : +hoursA * 60 + +minutesA - (+hoursB * 60 + +minutesB);
 
@@ -16,10 +18,11 @@ const earlierStartingHour = (timeA: [string, string], timeB: [string, string]): 
 const combineRanges = (hoursRangeA: string, hoursRangeB: string): string => `${hoursRangeA},${hoursRangeB}`;
 
 const throwSplitTimeError = (hourRanges?: [string | undefined, string | undefined]): [string, string] => {
-  throw new Error(`The hour ranges ${hourRanges?.join(',')} is invalid`);
+  throw new InvalidHoursRangeError(hourRanges ?? []);
 };
 
-const isValidSplitTime = (times?: [string | undefined, string | undefined]): times is [string, string] => times?.length === 2;
+const isValidSplitTime = (times?: [string | undefined, string | undefined]): times is [string, string] =>
+  times?.[0] != null && times[1] != null;
 
 const formatSplitTime = (times?: [string | undefined, string | undefined]): [string, string] =>
   isValidSplitTime(times) ? times : throwSplitTimeError(times);

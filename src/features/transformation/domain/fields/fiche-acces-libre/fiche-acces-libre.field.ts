@@ -1,4 +1,4 @@
-import { type Adresse, Url } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { type Adresse, FicheAccesLibre } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { similarityRatio } from '../../../../../libraries/text';
 import type { LieuxMediationNumeriqueMatching, DataSource, Colonne } from '../../matching';
 
@@ -16,7 +16,7 @@ const getAccessibiliteFromAccesLibre = (
   matching: LieuxMediationNumeriqueMatching,
   accesLibreData: Erp[],
   adresseProcessed: Adresse
-): Url | undefined => {
+): FicheAccesLibre | undefined => {
   const erpMatchWithScores: Erp[] = accesLibreData
     .filter((erp: Erp): boolean => erp.postal_code === adresseProcessed.code_postal)
     .filter(
@@ -38,7 +38,7 @@ const getAccessibiliteFromAccesLibre = (
 
   const accesLibreUrl: string | undefined = accesLibreUrlBySiretMatch ?? accesLibreUrlByFuzzyMatch ?? undefined;
 
-  return accesLibreUrl == null ? undefined : Url(accesLibreUrl);
+  return accesLibreUrl == null ? undefined : (FicheAccesLibre.safe(accesLibreUrl) ?? undefined);
 };
 
 const canProcessAccessibilite = (source: DataSource, accessibilite?: Colonne): accessibilite is Colonne => {
@@ -57,7 +57,7 @@ export const processFicheAccesLibre = (
   matching: LieuxMediationNumeriqueMatching,
   accesLibreData: Erp[],
   adresseProcessed: Adresse
-): Url | undefined =>
+): FicheAccesLibre | undefined =>
   canProcessAccessibilite(source, matching.fiche_acces_libre)
-    ? Url(fixUrl(source[matching.fiche_acces_libre.colonne]?.toString() ?? ''))
+    ? (FicheAccesLibre.safe(fixUrl(source[matching.fiche_acces_libre.colonne]?.toString() ?? '')) ?? undefined)
     : getAccessibiliteFromAccesLibre(source, matching, accesLibreData, adresseProcessed);

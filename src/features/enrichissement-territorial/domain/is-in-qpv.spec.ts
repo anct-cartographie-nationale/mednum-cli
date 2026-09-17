@@ -59,7 +59,7 @@ describe('is in qpv', (): void => {
       ['02691', [QPV_1_IN_02691_SHAPE, QPV_2_IN_02691_SHAPE]]
     ]);
 
-    const result: boolean = isInQpv(qpvShapesMap)('01019', Localisation({ latitude: 0, longitude: 0 }));
+    const result: boolean = isInQpv(qpvShapesMap)('01019', Localisation({ latitude: 48.8566, longitude: 2.3522 }));
 
     expect(result).toBe(false);
   });

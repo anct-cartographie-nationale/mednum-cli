@@ -144,7 +144,9 @@ const FORBIDDEN_FEATURES = [
     name: 'no-dependencies-in-feature-domain',
     comment:
       'Domain code is the pure model of the problem a feature solves. It must stay free of infrastructure: no HTTP ' +
-      'client, no file system, no CLI framework. It can only depend on itself and on technical libraries.',
+      'client, no file system, no CLI framework. It can only depend on itself, on technical libraries, on the shared ' +
+      'mediation-numerique model and on zod, which is the vocabulary that model is written in: its constructors throw ' +
+      'ZodError, and the domain has to recognise it to report a faulty field to its producer.',
     severity: 'error',
     from: { path: '^src/features/([^/]+)/domain', pathNot: SPEC_FILES },
     to: {
@@ -152,7 +154,8 @@ const FORBIDDEN_FEATURES = [
         '^src/features/$1/domain',
         '^src/libraries/',
         'node_modules/@gouvfr-anct/',
-        'node_modules/@types/'
+        'node_modules/@types/',
+        'node_modules/zod/'
       ]
     }
   },
@@ -169,7 +172,8 @@ const FORBIDDEN_FEATURES = [
         '^src/features/$1/domain',
         '^src/libraries/',
         'node_modules/@gouvfr-anct/',
-        'node_modules/@types/'
+        'node_modules/@types/',
+        'node_modules/zod/'
       ]
     }
   },
@@ -186,7 +190,8 @@ const FORBIDDEN_FEATURES = [
         '^src/features/$1/keys',
         '^src/libraries/',
         'node_modules/@gouvfr-anct/',
-        'node_modules/@types/'
+        'node_modules/@types/',
+        'node_modules/zod/'
       ]
     }
   },
@@ -205,7 +210,8 @@ const FORBIDDEN_FEATURES = [
         '^src/features/$1/keys',
         '^src/libraries/',
         'node_modules/@gouvfr-anct/',
-        'node_modules/@types/'
+        'node_modules/@types/',
+        'node_modules/zod/'
       ]
     }
   },

@@ -48,15 +48,17 @@ const jsonRessource = (output: Output, date: Date, suffix?: string): PublishRess
   description: `Lieux de médiation numérique sur le territoire ${output.territoire} fournis par ${output.name} au format JSON.\nVous pouvez utiliser l’url stable associé à cette ressource pour alimenter une version locale de la cartographie des lieux de médiation numérique.`
 });
 
+const dateMajOuEpoque = (lieu: LieuMediationNumerique): number => lieu.date_maj?.getTime() ?? 0;
+
 const byDateMajAsc = (
   lieuMediationNumeriqueA: LieuMediationNumerique,
   lieuMediationNumeriqueB: LieuMediationNumerique
-): number => lieuMediationNumeriqueA.date_maj.getTime() - lieuMediationNumeriqueB.date_maj.getTime();
+): number => dateMajOuEpoque(lieuMediationNumeriqueA) - dateMajOuEpoque(lieuMediationNumeriqueB);
 
 const byDateMajDesc = (
   lieuMediationNumeriqueA: LieuMediationNumerique,
   lieuMediationNumeriqueB: LieuMediationNumerique
-): number => lieuMediationNumeriqueB.date_maj.getTime() - lieuMediationNumeriqueA.date_maj.getTime();
+): number => dateMajOuEpoque(lieuMediationNumeriqueB) - dateMajOuEpoque(lieuMediationNumeriqueA);
 
 const formatDate = (date: Date | undefined): string => date?.toISOString().split('T')[0] ?? '';
 

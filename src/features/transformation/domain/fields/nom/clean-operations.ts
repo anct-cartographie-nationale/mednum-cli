@@ -1,25 +1,12 @@
-import type { DataSource } from '../../matching';
+import type { RegleDeNettoyage } from '@gouvfr-anct/lieux-de-mediation-numerique';
 
-type CleanOperation = {
-  name: string;
-  selector: RegExp;
-  negate?: boolean;
-  fix: (toFix: string, source?: DataSource) => string;
-};
-const testCleanSelector = (cleanOperation: CleanOperation, property?: string): boolean =>
-  property != null && new RegExp(cleanOperation.selector, 'u').test(property);
+const LIBELLES_DE_SERVICE_PRIS_POUR_DES_NOMS: RegExp =
+  /^(Réussir mes échanges avec France Travail|Découvrir et m'approprier les services de francetravail\.fr|Mobiliser mes services numériques France Travail|Ordinateur|Wifi)$/u;
 
-const shouldApplyFix = (cleanOperation: CleanOperation, property?: string): boolean =>
-  cleanOperation.negate === true ? !testCleanSelector(cleanOperation, property) : testCleanSelector(cleanOperation, property);
-
-const REMOVE_NOM_INVALID: CleanOperation = {
-  name: 'remove nom invalid',
-  selector:
-    /^(Réussir mes échanges avec France Travail|Découvrir et m'approprier les services de francetravail.fr|Mobiliser mes services numériques France Travail|Ordinateur|Wifi)$/,
-  fix: (): string => ''
+const NOM_QUI_DESIGNE_UN_SERVICE: RegleDeNettoyage = {
+  nom: 'libellé de service pris pour un nom de lieu',
+  selecteur: LIBELLES_DE_SERVICE_PRIS_POUR_DES_NOMS,
+  corriger: (): string => ''
 };
 
-export const CLEAN_NOM: CleanOperation[] = [REMOVE_NOM_INVALID];
-
-export const toCleanField = (toFix: string, cleanOperation: CleanOperation): string =>
-  shouldApplyFix(cleanOperation, toFix) ? cleanOperation.fix(toFix) : toFix;
+export const REGLES_NOM_LOCALES: readonly RegleDeNettoyage[] = [NOM_QUI_DESIGNE_UN_SERVICE];

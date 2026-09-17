@@ -100,33 +100,25 @@ const MATCHING: LieuxMediationNumeriqueMatching = {
 
 describe('services field', (): void => {
   it('should handle empty value', (): void => {
-    expect((): void => {
-      processServices({}, MATCHING);
-    }).toThrow("Le service 'service indéfini' n'est pas une valeur admise");
+    expect(processServices({}, MATCHING)).toStrictEqual([]);
   });
 
   it('should not find any service matching a_disposition key', (): void => {
-    expect((): void => {
-      processServices({ 'À disposition': '' }, MATCHING);
-    }).toThrow("Le service 'service indéfini' n'est pas une valeur admise");
+    expect(processServices({ 'À disposition': '' }, MATCHING)).toStrictEqual([]);
   });
 
   it('should not find any service matching formations_competences_de_base_proposees key', (): void => {
-    expect((): void => {
-      processServices({ 'Formations compétences de base proposées': '' }, MATCHING);
-    }).toThrow("Le service 'service indéfini' n'est pas une valeur admise");
+    expect(processServices({ 'Formations compétences de base proposées': '' }, MATCHING)).toStrictEqual([]);
   });
 
   it('should not find any service matching comprendre_et_utiliser_les_sites_d’acces_aux_droits_proposees key', (): void => {
-    expect((): void => {
-      processServices({ 'Comprendre et Utiliser les sites d’accès aux droits proposées': '' }, MATCHING);
-    }).toThrow("Le service 'service indéfini' n'est pas une valeur admise");
+    expect(processServices({ 'Comprendre et Utiliser les sites d’accès aux droits proposées': '' }, MATCHING)).toStrictEqual(
+      []
+    );
   });
 
   it('should not find any service matching sensibilisations_culture_numerique key', (): void => {
-    expect((): void => {
-      processServices({ 'Sensibilisations culture numérique': '' }, MATCHING);
-    }).toThrow("Le service 'service indéfini' n'est pas une valeur admise");
+    expect(processServices({ 'Sensibilisations culture numérique': '' }, MATCHING)).toStrictEqual([]);
   });
 
   it('should find "Accès internet et matériel informatique" service with "réseau wifi" in "À disposition" column', (): void => {

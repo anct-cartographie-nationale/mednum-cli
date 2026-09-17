@@ -1,7 +1,5 @@
-import type { Adresse } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { type AdresseToValidate, nettoyerVoiePourRecherche } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import type { BanAddressRow } from '../../../../libraries/ban';
-import { toCleanField } from '../fields/adresse/clean-operations';
-import { CLEAN_VOIE_FOR_SEARCH } from '../fields/adresse/clean-voie';
 
 /**
  * L'adresse telle que le dépôt la reconstitue — commune et code postal complétés par le
@@ -9,13 +7,13 @@ import { CLEAN_VOIE_FOR_SEARCH } from '../fields/adresse/clean-voie';
  * et non les colonnes brutes, qui sert de question à la Base Adresse Nationale et de clé au
  * cache : la question posée est ainsi exactement l'adresse qui sera publiée.
  */
-export type NormalizedAddress = Omit<Adresse, 'isAdresse'>;
+export type NormalizedAddress = AdresseToValidate;
 
 /**
  * La voie telle qu'on la soumet au géocodeur. C'est aussi la clé du cache : ce que l'on retient
  * doit être indexé par la question posée, non par une variante jamais demandée.
  */
-const searchableVoie = (voie: string): string => CLEAN_VOIE_FOR_SEARCH.reduce(toCleanField, voie);
+const searchableVoie = (voie: string): string => nettoyerVoiePourRecherche(voie);
 
 export const addressLabel = ({ voie, code_postal, commune }: NormalizedAddress): string =>
   `${searchableVoie(voie)} ${code_postal} ${commune}`;

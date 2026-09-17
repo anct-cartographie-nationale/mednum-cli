@@ -2,7 +2,7 @@ import { Id } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching';
 
 const getId = (matching: LieuxMediationNumeriqueMatching, index: number, source: DataSource) =>
-  Id(matching.id == null ? index.toString() : source[matching.id.colonne]?.toString());
+  Id(matching.id == null ? index.toString() : (source[matching.id.colonne]?.toString() ?? ''));
 
 const sourceIfAny = (source: DataSource, sourceName: string, colonne?: string): string =>
   colonne == null || source[colonne] == null || (source[colonne] as string) === '' ? sourceName : (source[colonne] as string);

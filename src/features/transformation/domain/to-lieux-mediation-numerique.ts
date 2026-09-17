@@ -1,28 +1,23 @@
 import {
   type Adresse,
-  CodePostalError,
-  CommuneError,
   type DispositifProgrammesNationaux,
   type FormationsLabels,
   type FraisACharge,
-  IdError,
   type Itinerances,
   type LieuMediationNumerique,
+  type Pivot,
   type Localisation,
   type ModalitesAcces,
   type ModalitesAccompagnement,
-  type ModelError,
-  NomError,
   type PrisesEnChargeSpecifiques,
   type PublicsSpecifiquementAdresses,
   type Services,
-  ServicesError,
   type Typologies,
-  type Url,
-  UrlError,
-  VoieError,
-  CourrielError
+  type FicheAccesLibre,
+  Horaires,
+  type Url
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { type core, ZodError } from 'zod';
 import type { Feature } from '../../../libraries/ban';
 import type { AddressCache, AddressRecord } from './address-cache';
 import { GeocodingError } from './geocoding';
@@ -70,7 +65,7 @@ const servicesIfAny = (services?: Services): { services?: Services } => (isFille
 const fraisAChargeIfAny = (fraisACharge?: FraisACharge): { frais_a_charge?: FraisACharge } =>
   isFilled(fraisACharge) ? { frais_a_charge: fraisACharge } : {};
 
-const ficheAccesLibreIfAny = (ficheAccesLibre?: Url): { fiche_acces_libre?: Url } =>
+const ficheAccesLibreIfAny = (ficheAccesLibre?: FicheAccesLibre): { fiche_acces_libre?: FicheAccesLibre } =>
   ficheAccesLibre == null ? {} : { fiche_acces_libre: ficheAccesLibre };
 
 const modalitesAccompagnementIfAny = (
@@ -104,7 +99,19 @@ const prisesEnChargeSpecifiquesIfAny = (
 ): { prise_en_charge_specifique?: PrisesEnChargeSpecifiques } =>
   isFilled(prisesEnChargeSpecifiques) ? { prise_en_charge_specifique: prisesEnChargeSpecifiques } : {};
 
-const horairesIfAny = (horaires?: string): { horaires?: string } => (horaires == null ? {} : { horaires });
+const pivotIfAny = (pivot?: Pivot): { pivot?: Pivot } => (pivot == null ? {} : { pivot });
+
+const horairesIfAny = (horaires: string | undefined, recorder: Recorder, entryName: string): { horaires?: Horaires } => {
+  if (horaires == null || horaires === '') return {};
+
+  const horairesValides: Horaires | null = Horaires.safe(horaires);
+
+  if (horairesValides != null) return { horaires: horairesValides };
+
+  recorder.record('horaires', `Les horaires ne suivent pas le format OpenStreetMap : « ${horaires} »`, entryName);
+
+  return {};
+};
 
 const priseRdvIfAny = (priseRdv?: Url): { prise_rdv?: Url } => (priseRdv == null ? {} : { prise_rdv: priseRdv });
 
@@ -121,13 +128,13 @@ const lieuDeMediationNumerique = async (
 
   const lieuMediationNumerique: LieuMediationNumerique = {
     id: processId(dataSource, matching, index, sourceName),
-    pivot: processPivot(dataSource, matching),
+    ...pivotIfAny(processPivot(dataSource, matching)),
     nom: processNom(dataSource, matching),
     adresse,
     ...localisationIfAny(localisation),
     ...typologiesIfAny(processTypologies(dataSource, matching)),
     contact: processContact(recorder)(dataSource, matching),
-    ...horairesIfAny(processHoraires(dataSource, matching)),
+    ...horairesIfAny(processHoraires(dataSource, matching), recorder, entryIdentification(dataSource, matching)),
     presentation: processPresentation(dataSource, matching),
     source: processSource(dataSource, matching, sourceName),
     ...itinerancesIfAny(processItinerances(dataSource, matching)),
@@ -146,6 +153,18 @@ const lieuDeMediationNumerique = async (
     ...ficheAccesLibreIfAny(processFicheAccesLibre(dataSource, matching, [], adresse)),
     ...priseRdvIfAny(processPriseRdv(dataSource, matching))
   };
+
+  /**
+   * Le socle admet la liste vide, l'assemblage cartographie non : un lieu qui n'annonce aucun
+   * service n'a rien à afficher. Le motif part au rapport, le lieu n'est pas publié.
+   */
+  if (lieuMediationNumerique.services == null || lieuMediationNumerique.services.length === 0) {
+    recorder
+      .record('services', 'Un lieu doit annoncer au moins un service', entryIdentification(dataSource, matching))
+      .commit();
+
+    return undefined;
+  }
 
   recorder.commit();
   return lieuMediationNumerique;
@@ -196,15 +215,12 @@ const addresseLog = (addresseOriginale: string, addresseBan: Feature): AddressRe
   responseBan: addresseBan
 });
 
-const isErrorToReport = (error: unknown): error is ModelError<LieuMediationNumerique> =>
-  error instanceof IdError ||
-  error instanceof ServicesError ||
-  error instanceof VoieError ||
-  error instanceof CommuneError ||
-  error instanceof CodePostalError ||
-  error instanceof NomError ||
-  error instanceof UrlError ||
-  error instanceof CourrielError;
+/**
+ * Le chemin que zod rend désigne le champ fautif jusque dans un objet imbriqué —
+ * `adresse.code_postal` plutôt que `adresse`. Un problème qui porte sur le lieu entier arrive
+ * sans chemin.
+ */
+const champFautif = (probleme: core.$ZodIssue): string => (probleme.path.length === 0 ? 'lieu' : probleme.path.join('.'));
 
 const logAndSkip = (error: GeocodingError): LieuMediationNumerique | undefined => {
   console.log(error.cause ?? error);
@@ -257,11 +273,17 @@ export const toLieuxMediationNumerique =
 
       return undefined;
     } catch (error: unknown) {
-      if (isErrorToReport(error)) {
-        report
-          .entry(index)
-          .record(error.key, error.message, entryIdentification(dataSource as DataSource, repository.config))
+      if (error instanceof ZodError) {
+        const identification: string = entryIdentification(dataSource as DataSource, repository.config);
+
+        error.issues
+          .reduce(
+            (recorder: Recorder, probleme: core.$ZodIssue): Recorder =>
+              recorder.record(champFautif(probleme), probleme.message, identification),
+            report.entry(index)
+          )
           .commit();
+
         return undefined;
       }
       if (error instanceof GeocodingError) {

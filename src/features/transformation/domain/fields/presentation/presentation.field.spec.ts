@@ -88,7 +88,7 @@ describe('presentation fields', (): void => {
     });
   });
 
-  it('should not move long presentation resume to presentation details when there is already a detailed presentation', (): void => {
+  it('should drop a long presentation resume when there is already a detailed presentation', (): void => {
     const matching: LieuxMediationNumeriqueMatching = {
       presentation_detail: {
         colonne: 'presentation_detail'
@@ -107,9 +107,7 @@ describe('presentation fields', (): void => {
     const presentation: Presentation = processPresentation(source, matching);
 
     expect(presentation).toStrictEqual({
-      detail: 'Mais ici, la description est déjà détaillée, donc on ne devrait pas la remplacer',
-      resume:
-        "Cette très longue description ne devrait pas être utilisée en tant que résumé, mais plutôt en tant que détail, car il y a trop d'informations pour être un considérée comme un simple résumé. En effet en dépassant la limite de 280 caractères, il est préférable de la considérer comme un détail plutôt qu'un résumé"
+      detail: 'Mais ici, la description est déjà détaillée, donc on ne devrait pas la remplacer'
     });
   });
 });

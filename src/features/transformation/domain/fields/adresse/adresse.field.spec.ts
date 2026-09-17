@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { type Adresse, VoieError } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import type { Adresse } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { ZodError } from 'zod';
 import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching';
 import { normalizedAddress, processAdresse } from './adresse.field';
 import { findCommune } from '../../../../enrichissement-territorial';
@@ -431,7 +432,7 @@ describe('adresse field', (): void => {
 
     expect((): void => {
       processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
-    }).toThrow(new VoieError(''));
+    }).toThrow(ZodError);
   });
 
   it.each([
@@ -455,7 +456,7 @@ describe('adresse field', (): void => {
 
     expect((): void => {
       processAdresse(findCommune(COMMUNES))(source, STANDARD_MATCHING);
-    }).toThrow(new VoieError(''));
+    }).toThrow(ZodError);
   });
 
   it.each(['00', '0'])('should fix incorrect number in voie when starting with "%s"', (number): void => {
