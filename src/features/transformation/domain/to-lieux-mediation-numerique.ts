@@ -154,10 +154,6 @@ const lieuDeMediationNumerique = async (
     ...priseRdvIfAny(processPriseRdv(dataSource, matching))
   };
 
-  /**
-   * Le socle admet la liste vide, l'assemblage cartographie non : un lieu qui n'annonce aucun
-   * service n'a rien à afficher. Le motif part au rapport, le lieu n'est pas publié.
-   */
   if (lieuMediationNumerique.services == null || lieuMediationNumerique.services.length === 0) {
     recorder
       .record('services', 'Un lieu doit annoncer au moins un service', entryIdentification(dataSource, matching))
@@ -215,11 +211,6 @@ const addresseLog = (addresseOriginale: string, addresseBan: Feature): AddressRe
   responseBan: addresseBan
 });
 
-/**
- * Le chemin que zod rend désigne le champ fautif jusque dans un objet imbriqué —
- * `adresse.code_postal` plutôt que `adresse`. Un problème qui porte sur le lieu entier arrive
- * sans chemin.
- */
 const champFautif = (probleme: core.$ZodIssue): string => (probleme.path.length === 0 ? 'lieu' : probleme.path.join('.'));
 
 const logAndSkip = (error: GeocodingError): LieuMediationNumerique | undefined => {

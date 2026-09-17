@@ -1,11 +1,6 @@
 import { Id } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching';
 
-/**
- * Le fragment venu de la source n'est pas encore un identifiant : il sera préfixé par la source
- * et verra ses espaces devenir des tirets. Le valider ici reviendrait à refuser une valeur sur
- * une forme qu'elle n'a pas encore. Seul l'identifiant composé est soumis au modèle.
- */
 const idFragment = (matching: LieuxMediationNumeriqueMatching, index: number, source: DataSource): string =>
   matching.id == null ? index.toString() : (source[matching.id.colonne]?.toString() ?? '');
 

@@ -11,11 +11,6 @@ import {
 import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching';
 import type { Recorder } from '../../report';
 
-/**
- * Le nettoyage de la bibliothèque ramène tous les séparateurs employés par les producteurs —
- * « ou », « et », la barre oblique, l'espace, le point-virgule — à la barre verticale. Il porte
- * donc sur le champ entier, avant le découpage.
- */
 const valeursSeparees = (valeurs: string | undefined, nettoyer: (valeur: string) => string): string[] =>
   valeurs == null || valeurs.trim() === ''
     ? []
