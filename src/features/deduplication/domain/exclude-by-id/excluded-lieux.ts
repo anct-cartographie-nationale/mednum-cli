@@ -14,6 +14,8 @@ export const EXCLUDED_LIEUX_IDS: string[] = [
   'dora_dora--04b66816-f68a-404e-a083-216d9318c380',
   'dora_dora--95174f8f-ed02-4b4c-93b7-b644a4ca838f',
   'dora_dora--b67d0721-da50-412d-8b3f-b962bdf65bcf',
+  'dora_dora--d0c8bebc-edde-401a-bd01-5a329a932805',
+  'Les-Landes_99',
   'France-Services_1589',
   'France-Services_2132'
 ];
