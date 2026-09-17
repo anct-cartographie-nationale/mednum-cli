@@ -23,7 +23,9 @@ const checkFormatLocalisation = (localisation: LocalisationToValidate): Localisa
   if (localisation === NO_LOCALISATION || Number.isNaN(localisation.latitude) || Number.isNaN(localisation.longitude))
     return NO_LOCALISATION;
   const [longitude, latitude] = lambert93ToWgs84([localisation.longitude, localisation.latitude]);
-  return latitude == null || longitude == null ? NO_LOCALISATION : Localisation({ latitude, longitude });
+  return latitude == null || longitude == null
+    ? NO_LOCALISATION
+    : (Localisation.safe({ latitude, longitude }) ?? NO_LOCALISATION);
 };
 
 const localisationField = (source: DataSource, localisation: Dissociation & Partial<Colonne>): string | undefined =>
