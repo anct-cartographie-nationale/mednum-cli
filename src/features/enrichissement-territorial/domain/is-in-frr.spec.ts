@@ -36,3 +36,11 @@ describe('is in frr', (): void => {
     expect(result).toBe(true);
   });
 });
+
+describe('is in frr, pour un arrondissement municipal', (): void => {
+  it('interroge la commune plutôt que l’arrondissement, que la table ne connaît pas', (): void => {
+    const frrMap: FrrMap = new Map<string, boolean>([['69123', true]]);
+
+    expect(isInFrr(frrMap)('69388')).toBe(true);
+  });
+});

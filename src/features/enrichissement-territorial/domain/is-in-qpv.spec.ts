@@ -94,3 +94,20 @@ describe('is in qpv', (): void => {
     expect(result).toBe(true);
   });
 });
+
+describe('is in qpv, pour un arrondissement municipal', (): void => {
+  const qpvShapesMap: QpvShapesMap = new Map<string, Polygon[]>([['02691', [QPV_1_IN_02691_SHAPE]]]);
+  const parisShapesMap: QpvShapesMap = new Map<string, Polygon[]>([['75056', [QPV_1_IN_02691_SHAPE]]]);
+
+  it('interroge la commune plutôt que l’arrondissement, que la table ne connaît pas', (): void => {
+    expect(isInQpv(parisShapesMap)('75118', Localisation({ latitude: 49.83615, longitude: 3.3162 }))).toBe(true);
+  });
+
+  it('n’attribue rien quand le point reste hors des contours de la commune', (): void => {
+    expect(isInQpv(parisShapesMap)('75118', Localisation({ latitude: 48.8566, longitude: 2.3522 }))).toBe(false);
+  });
+
+  it('laisse intact un code INSEE qui n’est pas un arrondissement', (): void => {
+    expect(isInQpv(qpvShapesMap)('02691', Localisation({ latitude: 49.83615, longitude: 3.3162 }))).toBe(true);
+  });
+});
