@@ -18,6 +18,18 @@ const OPENING_HOURS_REGEXP: RegExp = /^\d{2}:\d{2}-\d{2}:\d{2}(?:,\d{2}:\d{2}-\d
 const OSM_OPENING_HOURS_TRIVIAL_REGEXP: RegExp =
   /(?:24\/7|(?:(?:Mo|Tu|We|Th|Fr|Sa|Su)(?:[-,](?:Mo|Tu|We|Th|Fr|Sa|Su))?\s)?(?:[0-1]\d|2[0-3]):[0-5]\d-(?:[0-1]\d|2[0-3]):[0-5]\d.*)/;
 
+const ABREVIATIONS_DE_JOUR: Record<string, OsmDaysOfWeek> = {
+  Mon: 'Mo',
+  Tue: 'Tu',
+  Wed: 'We',
+  Thu: 'Th',
+  Fri: 'Fr',
+  Sat: 'Sa',
+  Sun: 'Su'
+};
+
+const osmDay = (jour: OsmDaysOfWeek): OsmDaysOfWeek => ABREVIATIONS_DE_JOUR[jour] ?? jour;
+
 const fixOsmHours = (osmHours?: string): string =>
   osmHours
     ?.replace(/,\s/g, ',')
@@ -58,7 +70,7 @@ const openingHoursFromDays = (matching: LieuxMediationNumeriqueMatching, source:
         ): OsmOpeningHours[] => [
           ...processedDay,
           ...processDay(
-            currentValue.osm,
+            osmDay(currentValue.osm),
             Array.isArray(currentValue.colonne)
               ? currentValue.colonne.map((col: string): string | undefined => source[col]?.toString()).join(', ')
               : (source[currentValue.colonne]?.toString() ?? '')

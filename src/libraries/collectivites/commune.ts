@@ -30,3 +30,20 @@ export const slugify = (text: string): string =>
     .replace(/'+/gu, '-')
     .replace(/\s+/gu, '-')
     .replace(/-+/gu, '-');
+
+type ArrondissementsMunicipaux = {
+  commune: string;
+  premier: number;
+  dernier: number;
+};
+
+const ARRONDISSEMENTS_MUNICIPAUX: ArrondissementsMunicipaux[] = [
+  { commune: '75056', premier: 75101, dernier: 75120 },
+  { commune: '69123', premier: 69381, dernier: 69389 },
+  { commune: '13055', premier: 13201, dernier: 13216 }
+];
+
+export const codeCommuneDe = (codeInsee: string): string =>
+  ARRONDISSEMENTS_MUNICIPAUX.find(
+    ({ premier, dernier }: ArrondissementsMunicipaux): boolean => Number(codeInsee) >= premier && Number(codeInsee) <= dernier
+  )?.commune ?? codeInsee;

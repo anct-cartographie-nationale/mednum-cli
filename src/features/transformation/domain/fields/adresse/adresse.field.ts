@@ -28,7 +28,7 @@ type SourceAddress = {
 
 const nouvelleCaledonieException = (codePostal: string): boolean => codePostal.startsWith('98');
 
-const complementAdresseIfAny = (complementAdresse?: string): { complement_adresse?: string } => {
+export const complementAdresseIfAny = (complementAdresse?: string): { complement_adresse?: string } => {
   if (complementAdresse == null) return {};
 
   const complement: string | null = ComplementAdresse.safe(complementAdresse.replace(/\s+/g, ' ').trim());

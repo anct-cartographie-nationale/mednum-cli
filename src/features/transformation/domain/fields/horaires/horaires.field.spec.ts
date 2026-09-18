@@ -958,3 +958,47 @@ describe('horaires field', (): void => {
     expect(openingHours).toBe('week 2-52/2 Mo 09:30-12:30,13:30-15:30; PH off');
   });
 });
+
+describe('abréviations de jour de la configuration de correspondance', (): void => {
+  const matchingAbrege: LieuxMediationNumeriqueMatching = {
+    horaires: {
+      jours: [
+        { colonne: 'Lundi', osm: 'Mon' },
+        { colonne: 'Mardi', osm: 'Tue' },
+        { colonne: 'Mercredi', osm: 'Wed' },
+        { colonne: 'Jeudi', osm: 'Thu' },
+        { colonne: 'Vendredi', osm: 'Fri' },
+        { colonne: 'Samedi', osm: 'Sat' },
+        { colonne: 'Dimanche', osm: 'Sun' }
+      ]
+    }
+  } as unknown as LieuxMediationNumeriqueMatching;
+
+  const source = {
+    Lundi: '',
+    Mardi: '',
+    Mercredi: '',
+    Jeudi: '',
+    Vendredi: '',
+    Samedi: '',
+    Dimanche: '10h à 12h'
+  };
+
+  it('ramène un code de jour à trois lettres au code OpenStreetMap à deux lettres', (): void => {
+    expect(processHoraires(source, matchingAbrege)).toBe('Su 10:00-12:00');
+  });
+
+  it('ramène chacun des sept jours', (): void => {
+    const tousLesJours: Record<string, string> = {
+      Lundi: '10h à 12h',
+      Mardi: '10h à 12h',
+      Mercredi: '10h à 12h',
+      Jeudi: '10h à 12h',
+      Vendredi: '10h à 12h',
+      Samedi: '10h à 12h',
+      Dimanche: '10h à 12h'
+    };
+
+    expect(processHoraires(tousLesJours, matchingAbrege)).toBe(processHoraires(tousLesJours, matching));
+  });
+});

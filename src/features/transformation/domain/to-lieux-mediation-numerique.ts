@@ -1,5 +1,5 @@
 import {
-  type Adresse,
+  Adresse,
   type DispositifProgrammesNationaux,
   type FormationsLabels,
   type FraisACharge,
@@ -49,6 +49,7 @@ import {
   isPrive
 } from './fields';
 import type { DataSource, LieuxMediationNumeriqueMatching } from './matching';
+import type { FindCommune } from '../../../libraries/collectivites';
 import { isWorthCaching, type LocationEnriched } from './geocoding';
 import type { TransformationRepository } from './transformation-repository';
 
@@ -115,14 +116,24 @@ const horairesIfAny = (horaires: string | undefined, recorder: Recorder, entryNa
 
 const priseRdvIfAny = (priseRdv?: Url): { prise_rdv?: Url } => (priseRdv == null ? {} : { prise_rdv: priseRdv });
 
+const adresseRetenue = (
+  findCommune: FindCommune,
+  dataSource: DataSource,
+  matching: LieuxMediationNumeriqueMatching,
+  locationEnriched?: LocationEnriched
+): Adresse =>
+  (locationEnriched?.adresse == null ? null : Adresse.safe(locationEnriched.adresse)) ??
+  processAdresse(findCommune)(dataSource, matching);
+
 const lieuDeMediationNumerique = async (
   index: number,
   dataSource: DataSource,
   sourceName: string,
   recorder: Recorder,
-  { findCommune, isInQpv, isInFrr, geocode, config: matching }: TransformationRepository
+  { findCommune, isInQpv, isInFrr, geocode, config: matching }: TransformationRepository,
+  locationEnriched?: LocationEnriched
 ): Promise<LieuMediationNumerique | undefined> => {
-  const adresse: Adresse = processAdresse(findCommune)(dataSource, matching);
+  const adresse: Adresse = adresseRetenue(findCommune, dataSource, matching, locationEnriched);
   const localisation: Localisation | undefined = await processLocalisation(dataSource, matching, geocode(adresse));
   if (isPrive(dataSource, matching)) return undefined;
 
@@ -244,7 +255,8 @@ export const toLieuxMediationNumerique =
         dataSourceEnriched as DataSource,
         sourceName,
         report.entry(index),
-        repository
+        repository,
+        locationEnriched
       );
 
       // Un lieu absent l'est pour une raison déjà consignée — un nom, une voie, un identifiant
