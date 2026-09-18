@@ -123,3 +123,40 @@ describe('attribution de la fiche au lieu', (): void => {
     expect(fiche(ADRESSE, candidats)).toBe(FICHE_MAIRIE);
   });
 });
+
+describe('précédence de la fiche portée par la source', (): void => {
+  const AVEC_COLONNE: LieuxMediationNumeriqueMatching = {
+    nom: { colonne: 'nom' },
+    fiche_acces_libre: { colonne: 'accessibilite' }
+  } as LieuxMediationNumeriqueMatching;
+
+  const DU_PRODUCTEUR = 'https://acceslibre.beta.gouv.fr/app/49-allonnes/a/mairie/erp/celle-du-producteur/';
+  const ADRESSE = lieu('31 Rue Jean Gallart');
+  const DE_L_EXPORT = [erp({ nom: 'Mairie d’Allonnes' })];
+
+  const avecSource = (accessibilite: string): string | undefined =>
+    processFicheAccesLibre(
+      { nom: 'Mairie d’Allonnes', accessibilite },
+      AVEC_COLONNE,
+      accesLibreIndex(DE_L_EXPORT),
+      ADRESSE,
+      'Mairie d’Allonnes',
+      typologies('MUNI')
+    );
+
+  it('retient la fiche de la source plutôt que celle de l’export', (): void => {
+    expect(avecSource(DU_PRODUCTEUR)).toBe(DU_PRODUCTEUR);
+  });
+
+  it('retombe sur l’export quand la source ne porte rien', (): void => {
+    expect(avecSource('')).toBe(FICHE_MAIRIE);
+  });
+
+  it('retombe sur l’export quand la source ne porte que le script du widget', (): void => {
+    expect(avecSource('https://acceslibre.beta.gouv.fr/static/js/widget.js')).toBe(FICHE_MAIRIE);
+  });
+
+  it('n’emprunte pas à l’export quand la source porte une valeur illisible', (): void => {
+    expect(avecSource('-')).toBeUndefined();
+  });
+});
