@@ -97,7 +97,7 @@ jobs:
         uses: actions/cache/restore@v6
         with:
           path: assets/input/annuaire-entreprises.json
-          key: annuaire-${{ github.run_id }}
+          key: annuaire-
           restore-keys: annuaire-
       - name: Transform
         run: pnpm transformer.${{ matrix.source }}
@@ -240,32 +240,48 @@ jobs:
     needs: transform
     if: ${{ !cancelled() }}
     steps:
+      - name: Compute the weekly cache key
+        id: semaine
+        run: echo "cle=annuaire-$(date -u +%G-W%V)" >> "$GITHUB_OUTPUT"
+      - name: Restore the establishments index of the week
+        id: restore
+        uses: actions/cache/restore@v6
+        with:
+          path: assets/input/annuaire-entreprises.json
+          key: ${{ steps.semaine.outputs.cle }}
       - name: Checkout repository
+        if: steps.restore.outputs.cache-hit != 'true'
         uses: actions/checkout@v7
       - name: Install pnpm
+        if: steps.restore.outputs.cache-hit != 'true'
         uses: pnpm/action-setup@v6
         with:
           version: 12
           run_install: false
       - name: Set up Node.js
+        if: steps.restore.outputs.cache-hit != 'true'
         uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: 'pnpm'
       - name: Install dependencies
+        if: steps.restore.outputs.cache-hit != 'true'
         run: pnpm install --frozen-lockfile --ignore-scripts
       - name: Download all transformed data
+        if: steps.restore.outputs.cache-hit != 'true'
         uses: actions/download-artifact@v8
         with:
           path: to-merge
           merge-multiple: true
       - name: Build the establishments index
+        if: steps.restore.outputs.cache-hit != 'true'
         run: pnpm annuaire
       - name: Save the establishments index
+        if: steps.restore.outputs.cache-hit != 'true'
         uses: actions/cache/save@v6
         with:
           path: assets/input/annuaire-entreprises.json
-          key: annuaire-${{ github.run_id }}
+          key: ${{ steps.semaine.outputs.cle }}
 
   deduplicate:
     name: Deduplicate
