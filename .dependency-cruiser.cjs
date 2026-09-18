@@ -273,6 +273,7 @@ const LIBRARY_DEPENDENCIES = {
   'geo-api': ['http', 'collectivites'],
   'observatoire-des-territoires': ['http', 'collectivites', 'csv'],
   ban: ['csv'],
+  'acces-libre': [],
   text: []
 };
 

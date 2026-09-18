@@ -31,8 +31,37 @@ on:
         required: true
 
 jobs:
+  acces-libre:
+    name: Fetch Accès Libre
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 12
+          run_install: false
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Fetch Accès Libre
+        run: pnpm start.acces-libre
+      - name: Upload Accès Libre
+        uses: actions/upload-artifact@v7
+        with:
+          name: acces-libre
+          path: assets/input/acces-libre.json
+          retention-days: 1
+
   transform:
     name: Transform
+    needs: acces-libre
+    if: ${{ !cancelled() }}
     strategy:
       # Une source qui casse ne doit pas emporter les 23 autres : le cumul d'adresses est
       # monotone, ce que les sources saines rapportent est toujours bon à prendre.
@@ -70,6 +99,12 @@ jobs:
           # et le géocodage repart de zéro — dégradé, jamais faux.
           key: addresses-${{ github.run_id }}
           restore-keys: addresses-
+      - name: Download Accès Libre
+        uses: actions/download-artifact@v8
+        continue-on-error: true
+        with:
+          name: acces-libre
+          path: assets/input
       - name: Transform
         run: pnpm transformer.${{ matrix.source }}
       - name: Deduplicate

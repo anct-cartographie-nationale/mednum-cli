@@ -48,6 +48,7 @@ import {
   processModalitesAcces,
   isPrive
 } from './fields';
+import type { AccesLibreIndex } from './fields';
 import type { DataSource, LieuxMediationNumeriqueMatching } from './matching';
 import type { FindCommune } from '../../../libraries/collectivites';
 import { isWorthCaching, type LocationEnriched } from './geocoding';
@@ -131,7 +132,8 @@ const lieuDeMediationNumerique = async (
   sourceName: string,
   recorder: Recorder,
   { findCommune, isInQpv, isInFrr, geocode, config: matching }: TransformationRepository,
-  locationEnriched?: LocationEnriched
+  locationEnriched?: LocationEnriched,
+  accesLibre: AccesLibreIndex = new Map()
 ): Promise<LieuMediationNumerique | undefined> => {
   const adresse: Adresse = adresseRetenue(findCommune, dataSource, matching, locationEnriched);
   const localisation: Localisation | undefined = await processLocalisation(dataSource, matching, geocode(adresse));
@@ -161,7 +163,7 @@ const lieuDeMediationNumerique = async (
     ),
     ...modalitesAccesIfAny(processModalitesAcces(dataSource, matching)),
     ...modalitesAccompagnementIfAny(processModalitesAccompagnement(dataSource, matching)),
-    ...ficheAccesLibreIfAny(processFicheAccesLibre(dataSource, matching, [], adresse)),
+    ...ficheAccesLibreIfAny(processFicheAccesLibre(dataSource, matching, accesLibre, adresse)),
     ...priseRdvIfAny(processPriseRdv(dataSource, matching))
   };
 
@@ -235,7 +237,8 @@ export const toLieuxMediationNumerique =
     sourceName: string,
     report: Report,
     addressCache: AddressCache,
-    locationEnriched: LocationEnriched
+    locationEnriched: LocationEnriched,
+    accesLibre: AccesLibreIndex = new Map()
   ) =>
   async (dataSource: unknown, index: number): Promise<LieuMediationNumerique | undefined> => {
     try {
@@ -256,7 +259,8 @@ export const toLieuxMediationNumerique =
         sourceName,
         report.entry(index),
         repository,
-        locationEnriched
+        locationEnriched,
+        accesLibre
       );
 
       // Un lieu absent l'est pour une raison déjà consignée — un nom, une voie, un identifiant

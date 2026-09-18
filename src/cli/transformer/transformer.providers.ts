@@ -18,10 +18,12 @@ import {
 } from '../../features/enrichissement-territorial';
 import { writePublicationMetadataInFile } from '../../features/publication';
 import {
+  accesLibreFromFile,
   addressStorageFromFile,
   fetchBanResponseBatch,
   GEOCODE,
   GEOCODE_BATCH,
+  LOAD_ACCES_LIBRE,
   LOAD_ADDRESS_STORAGE,
   LOAD_MATCHING,
   LOAD_SOURCE,
@@ -73,6 +75,7 @@ export const provideTransformerImplementations = (transformerOptions: Transforme
   provide(GEOCODE, localisationByGeocode);
   provide(GEOCODE_BATCH, fetchBanResponseBatch);
   provide(LOAD_ADDRESS_STORAGE, addressStorageFromFile(transformerOptions.addressCache));
+  provide(LOAD_ACCES_LIBRE, accesLibreFromFile(transformerOptions.accesLibre));
 
   provide(
     LOAD_MATCHING,

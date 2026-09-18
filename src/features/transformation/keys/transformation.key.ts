@@ -3,6 +3,7 @@ import type { FindCommune, IsInFrr, IsInQpv } from '../../../libraries/collectiv
 import type { Output } from '../../../libraries/file-system';
 import { type InjectionKey, keyFor } from '../../../libraries/injection';
 import type {
+  AccesLibreIndex,
   AddressCache,
   AddressRecord,
   BatchGeocoding,
@@ -60,6 +61,10 @@ export const LOAD_ADDRESS_STORAGE: InjectionKey<LoadAddressStorage> = keyFor<Loa
 export type GeocodeBatch = (adresses: NormalizedAddress[], storage: AddressRecord[]) => Promise<BatchGeocoding[]>;
 
 export const GEOCODE_BATCH: InjectionKey<GeocodeBatch> = keyFor<GeocodeBatch>('transformation.geocode-batch');
+
+export type LoadAccesLibre = () => AccesLibreIndex;
+
+export const LOAD_ACCES_LIBRE: InjectionKey<LoadAccesLibre> = keyFor<LoadAccesLibre>('transformation.load-acces-libre');
 
 export type SaveOutputs = (lieuxDeMediationNumerique: LieuMediationNumerique[]) => void;
 
