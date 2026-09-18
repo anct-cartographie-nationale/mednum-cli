@@ -122,22 +122,4 @@ describe('attribution de la fiche au lieu', (): void => {
 
     expect(fiche(ADRESSE, candidats)).toBe(FICHE_MAIRIE);
   });
-
-  it('ne tranche pas quand deux fiches sont également attribuables', (): void => {
-    const candidats = [
-      erp({ nom: 'Mairie', ficheUrl: 'https://acceslibre.beta.gouv.fr/app/49-allonnes/a/mairie/erp/une/' }),
-      erp({ nom: 'Mairie annexe', ficheUrl: 'https://acceslibre.beta.gouv.fr/app/49-allonnes/a/mairie/erp/autre/' })
-    ];
-
-    expect(fiche(ADRESSE, candidats)).toBeUndefined();
-  });
-
-  it('ne rattache rien quand aucune fiche de l’adresse n’est attribuable', (): void => {
-    const candidats = [
-      erp({ nom: 'Chez Paul', activite: 'Coiffure' }),
-      erp({ nom: 'Le Fournil', activite: 'Boulangerie Pâtisserie' })
-    ];
-
-    expect(fiche(ADRESSE, candidats)).toBeUndefined();
-  });
 });

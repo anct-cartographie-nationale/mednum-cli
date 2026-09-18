@@ -2,7 +2,7 @@ import { type Adresse, FicheAccesLibre, type Typologies } from '@gouvfr-anct/lie
 import type { AccesLibreErp } from '../../../../../libraries/acces-libre';
 import type { LieuxMediationNumeriqueMatching, DataSource, Colonne } from '../../matching';
 import { adresseExacte, adresseExacteDuLieu } from './adresse-exacte';
-import { estAttribuee } from './attribution';
+import { ficheAttribuee } from './attribution';
 
 export type AccesLibreIndex = Map<string, AccesLibreErp[]>;
 
@@ -25,11 +25,7 @@ const ficheDeLAdresse = (
 
   if (cle == null) return undefined;
 
-  const attribuees: AccesLibreErp[] = (index.get(cle) ?? []).filter((erp: AccesLibreErp): boolean =>
-    estAttribuee(nom, typologies, erp)
-  );
-
-  return attribuees.length === 1 ? attribuees[0] : undefined;
+  return ficheAttribuee(nom, typologies, index.get(cle) ?? []);
 };
 
 const getAccessibiliteFromAccesLibre = (

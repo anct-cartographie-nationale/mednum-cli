@@ -3,7 +3,13 @@ import { tokenSetSimilarityRatio } from '../../../../../libraries/text';
 import type { AccesLibreErp } from '../../../../../libraries/acces-libre';
 
 export const ACTIVITES_PAR_TYPOLOGIE: Record<string, string[]> = {
-  RFS: ['Guichet france services', 'Maison de services au public'],
+  RFS: [
+    'Guichet france services',
+    'Maison de services au public',
+    'Point accueil numerique',
+    'Centre culturel',
+    'Bibliothèque médiathèque'
+  ],
   MSAP: ['Maison de services au public', 'Guichet france services'],
   BIB: ['Bibliothèque médiathèque', 'Centre culturel'],
   MUNI: ['Mairie'],
@@ -29,7 +35,22 @@ export const ACTIVITES_PAR_TYPOLOGIE: Record<string, string[]> = {
   PIMMS: ['Point conseil budget', 'Association'],
   EPN: ['Point accueil numerique', 'Bibliothèque médiathèque'],
   TIERS_LIEUX: ['Coworking', 'Espace collaboratif'],
-  FABLAB: ['Coworking', 'Espace collaboratif', 'Bibliothèque médiathèque']
+  FABLAB: ['Coworking', 'Espace collaboratif', 'Bibliothèque médiathèque'],
+  CSC: ['Centre social', 'Centre culturel', 'Association'],
+  MSA: ['Sécurité sociale, mutuelle santé', 'Guichet france services'],
+  MDE: ['Emploi, formation'],
+  CAP_EMPLOI: ['Emploi, formation'],
+  PI: ['Point information jeunesse'],
+  CIDFF: ["Centre d'information sur les droits des femmes et des familles", 'Association'],
+  CIAS: ['Administration publique'],
+  CMS: ['Administration publique'],
+  REG: ['Administration publique', 'Collectivité territoriale'],
+  DEPT: ['Collectivité territoriale', 'Administration publique'],
+  UDAF: ['Association'],
+  ACI: ['Association'],
+  EI: ['Association', 'Coworking'],
+  RESSOURCERIE: ['Association'],
+  PAD: ['Point justice']
 };
 
 export const ACTIVITES_HEBERGEANTES: string[] = [
@@ -42,6 +63,12 @@ export const ACTIVITES_HEBERGEANTES: string[] = [
 
 const SIMILARITE_DU_NOM_MINIMALE = 80;
 
+const NOM_DISTINCTIF_MINIMAL = 70;
+
+const MARGE_DE_NOM_SUFFISANTE = 25;
+
+const FICHES_EN_DOUBLON_MINIMALE = 70;
+
 const activitesAttendues = (typologies?: Typologies): Set<string> =>
   new Set((typologies ?? []).flatMap((typologie: string): string[] => ACTIVITES_PAR_TYPOLOGIE[typologie] ?? []));
 
@@ -53,4 +80,36 @@ export const estAttribuee = (nom: string, typologies: Typologies | undefined, er
     tokenSetSimilarityRatio(nom, erp.nom) >= SIMILARITE_DU_NOM_MINIMALE ||
     (attendues.size > 0 && ACTIVITES_HEBERGEANTES.includes(erp.activite))
   );
+};
+
+const parNom = (nom: string, candidats: AccesLibreErp[]): [AccesLibreErp, number][] =>
+  candidats
+    .map((erp: AccesLibreErp): [AccesLibreErp, number] => [erp, tokenSetSimilarityRatio(nom, erp.nom)])
+    .sort((gauche, droite): number => droite[1] - gauche[1]);
+
+const seDetache = (classes: [AccesLibreErp, number][]): AccesLibreErp | undefined =>
+  (classes[0]?.[1] ?? 0) >= NOM_DISTINCTIF_MINIMAL && (classes[0]?.[1] ?? 0) - (classes[1]?.[1] ?? 0) >= MARGE_DE_NOM_SUFFISANTE
+    ? classes[0]?.[0]
+    : undefined;
+
+const sontEnDoublon = (candidats: AccesLibreErp[]): boolean =>
+  candidats.every((un: AccesLibreErp, index: number): boolean =>
+    candidats
+      .slice(index + 1)
+      .every((autre: AccesLibreErp): boolean => tokenSetSimilarityRatio(un.nom, autre.nom) >= FICHES_EN_DOUBLON_MINIMALE)
+  );
+
+const laPremiere = (candidats: AccesLibreErp[]): AccesLibreErp | undefined =>
+  [...candidats].sort((gauche, droite): number => gauche.ficheUrl.localeCompare(droite.ficheUrl))[0];
+
+export const ficheAttribuee = (
+  nom: string,
+  typologies: Typologies | undefined,
+  candidats: AccesLibreErp[]
+): AccesLibreErp | undefined => {
+  const attribuees: AccesLibreErp[] = candidats.filter((erp: AccesLibreErp): boolean => estAttribuee(nom, typologies, erp));
+
+  if (attribuees.length <= 1) return attribuees[0];
+
+  return seDetache(parNom(nom, attribuees)) ?? (sontEnDoublon(attribuees) ? laPremiere(attribuees) : undefined);
 };
