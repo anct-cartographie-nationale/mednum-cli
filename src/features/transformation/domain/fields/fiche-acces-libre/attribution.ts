@@ -2,55 +2,59 @@ import type { Typologies } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { tokenSetSimilarityRatio } from '../../../../../libraries/text';
 import type { AccesLibreErp } from '../../../../../libraries/acces-libre';
 
-export const ACTIVITES_PAR_TYPOLOGIE: Record<string, string[]> = {
-  RFS: [
-    'Guichet france services',
-    'Maison de services au public',
-    'Point accueil numerique',
-    'Centre culturel',
-    'Bibliothèque médiathèque'
-  ],
-  MSAP: ['Maison de services au public', 'Guichet france services'],
-  BIB: ['Bibliothèque médiathèque', 'Centre culturel'],
-  MUNI: ['Mairie'],
-  LA_POSTE: ['Bureau de poste'],
-  ASSO: ['Association'],
-  CS: ['Centre social', 'Association'],
-  EVS: ['Centre social', 'Association'],
-  MQ: ['Centre social', 'Centre culturel'],
-  MJC: ['Centre culturel'],
-  FT: ['Emploi, formation'],
-  ML: ['Emploi, formation', "Mission locale pour l'insertion professionnelle et sociale des jeunes"],
-  OF: ['Institut de formation, de recherche'],
-  CFP: ['Centre des finances publiques'],
-  CPAM: ['Sécurité sociale, mutuelle santé'],
-  CAF: ["Caisse d'allocations familiales (caf)"],
-  CCAS: ['Administration publique'],
-  PREF: ['Administration publique'],
-  CC: ['Collectivité territoriale'],
-  CD: ['Collectivité territoriale'],
-  ENM: ['Collectivité territoriale'],
-  MDS: ["Point d'information local dédié aux personnes âgées", 'Centre de protection maternelle et infantile (pmi)'],
-  PIJ_BIJ: ['Point information jeunesse'],
-  PIMMS: ['Point conseil budget', 'Association'],
-  EPN: ['Point accueil numerique', 'Bibliothèque médiathèque'],
-  TIERS_LIEUX: ['Coworking', 'Espace collaboratif'],
-  FABLAB: ['Coworking', 'Espace collaboratif', 'Bibliothèque médiathèque'],
-  CSC: ['Centre social', 'Centre culturel', 'Association'],
-  MSA: ['Sécurité sociale, mutuelle santé', 'Guichet france services'],
-  MDE: ['Emploi, formation'],
-  CAP_EMPLOI: ['Emploi, formation'],
-  PI: ['Point information jeunesse'],
-  CIDFF: ["Centre d'information sur les droits des femmes et des familles", 'Association'],
-  CIAS: ['Administration publique'],
-  CMS: ['Administration publique'],
-  REG: ['Administration publique', 'Collectivité territoriale'],
-  DEPT: ['Collectivité territoriale', 'Administration publique'],
-  UDAF: ['Association'],
-  ACI: ['Association'],
-  EI: ['Association', 'Coworking'],
-  RESSOURCERIE: ['Association'],
-  PAD: ['Point justice']
+export type ActivitesAttendues = {
+  propres: string[];
+  secondaires?: string[];
+};
+
+export const ACTIVITES_PAR_TYPOLOGIE: Record<string, ActivitesAttendues> = {
+  RFS: {
+    propres: ['Guichet france services', 'Maison de services au public'],
+    secondaires: ['Point accueil numerique', 'Centre culturel', 'Bibliothèque médiathèque']
+  },
+  MSAP: { propres: ['Maison de services au public', 'Guichet france services'] },
+  BIB: { propres: ['Bibliothèque médiathèque'], secondaires: ['Centre culturel'] },
+  MUNI: { propres: ['Mairie'] },
+  LA_POSTE: { propres: ['Bureau de poste'] },
+  ASSO: { propres: ['Association'] },
+  CS: { propres: ['Centre social'], secondaires: ['Association'] },
+  EVS: { propres: ['Centre social'], secondaires: ['Association'] },
+  CSC: { propres: ['Centre social'], secondaires: ['Centre culturel', 'Association'] },
+  MQ: { propres: ['Centre social'], secondaires: ['Centre culturel'] },
+  MJC: { propres: ['Centre culturel'] },
+  FT: { propres: ['Emploi, formation'] },
+  MDE: { propres: ['Emploi, formation'] },
+  CAP_EMPLOI: { propres: ['Emploi, formation'] },
+  ML: { propres: ['Emploi, formation', "Mission locale pour l'insertion professionnelle et sociale des jeunes"] },
+  OF: { propres: ['Institut de formation, de recherche'] },
+  CFP: { propres: ['Centre des finances publiques'] },
+  CPAM: { propres: ['Sécurité sociale, mutuelle santé'] },
+  MSA: { propres: ['Sécurité sociale, mutuelle santé', 'Guichet france services'] },
+  CAF: { propres: ["Caisse d'allocations familiales (caf)"] },
+  CCAS: { propres: ['Administration publique'] },
+  CIAS: { propres: ['Administration publique'] },
+  CMS: { propres: ['Administration publique'] },
+  PREF: { propres: ['Administration publique'] },
+  CC: { propres: ['Collectivité territoriale'] },
+  CD: { propres: ['Collectivité territoriale'] },
+  ENM: { propres: ['Collectivité territoriale'] },
+  REG: { propres: ['Administration publique', 'Collectivité territoriale'] },
+  DEPT: { propres: ['Collectivité territoriale', 'Administration publique'] },
+  MDS: {
+    propres: ["Point d'information local dédié aux personnes âgées", 'Centre de protection maternelle et infantile (pmi)']
+  },
+  PIJ_BIJ: { propres: ['Point information jeunesse'] },
+  PI: { propres: ['Point information jeunesse'] },
+  PIMMS: { propres: ['Point conseil budget'], secondaires: ['Association'] },
+  CIDFF: { propres: ["Centre d'information sur les droits des femmes et des familles"], secondaires: ['Association'] },
+  PAD: { propres: ['Point justice'] },
+  EPN: { propres: ['Point accueil numerique'], secondaires: ['Bibliothèque médiathèque'] },
+  TIERS_LIEUX: { propres: ['Coworking', 'Espace collaboratif'] },
+  FABLAB: { propres: ['Coworking', 'Espace collaboratif'], secondaires: ['Bibliothèque médiathèque'] },
+  UDAF: { propres: ['Association'] },
+  ACI: { propres: ['Association'] },
+  RESSOURCERIE: { propres: ['Association'] },
+  EI: { propres: ['Association'], secondaires: ['Coworking'] }
 };
 
 export const ACTIVITES_HEBERGEANTES: string[] = [
@@ -61,6 +65,16 @@ export const ACTIVITES_HEBERGEANTES: string[] = [
   'Point justice'
 ];
 
+const ACTIVITE_PROPRE = 1;
+
+const NOM_CONCORDANT = 2;
+
+const ACTIVITE_SECONDAIRE = 3;
+
+const HEBERGEMENT = 4;
+
+const AUCUNE_PREUVE = Number.POSITIVE_INFINITY;
+
 const SIMILARITE_DU_NOM_MINIMALE = 80;
 
 const NOM_DISTINCTIF_MINIMAL = 70;
@@ -69,18 +83,23 @@ const MARGE_DE_NOM_SUFFISANTE = 25;
 
 const FICHES_EN_DOUBLON_MINIMALE = 70;
 
-const activitesAttendues = (typologies?: Typologies): Set<string> =>
-  new Set((typologies ?? []).flatMap((typologie: string): string[] => ACTIVITES_PAR_TYPOLOGIE[typologie] ?? []));
+const activites = (typologies: Typologies | undefined, rang: keyof ActivitesAttendues): Set<string> =>
+  new Set((typologies ?? []).flatMap((typologie: string): string[] => ACTIVITES_PAR_TYPOLOGIE[typologie]?.[rang] ?? []));
 
-export const estAttribuee = (nom: string, typologies: Typologies | undefined, erp: AccesLibreErp): boolean => {
-  const attendues: Set<string> = activitesAttendues(typologies);
+const niveauDePreuve = (nom: string, typologies: Typologies | undefined, erp: AccesLibreErp): number => {
+  const propres: Set<string> = activites(typologies, 'propres');
+  const secondaires: Set<string> = activites(typologies, 'secondaires');
 
-  return (
-    attendues.has(erp.activite) ||
-    tokenSetSimilarityRatio(nom, erp.nom) >= SIMILARITE_DU_NOM_MINIMALE ||
-    (attendues.size > 0 && ACTIVITES_HEBERGEANTES.includes(erp.activite))
-  );
+  if (propres.has(erp.activite)) return ACTIVITE_PROPRE;
+  if (tokenSetSimilarityRatio(nom, erp.nom) >= SIMILARITE_DU_NOM_MINIMALE) return NOM_CONCORDANT;
+  if (secondaires.has(erp.activite)) return ACTIVITE_SECONDAIRE;
+  if (propres.size + secondaires.size > 0 && ACTIVITES_HEBERGEANTES.includes(erp.activite)) return HEBERGEMENT;
+
+  return AUCUNE_PREUVE;
 };
+
+export const estAttribuee = (nom: string, typologies: Typologies | undefined, erp: AccesLibreErp): boolean =>
+  niveauDePreuve(nom, typologies, erp) !== AUCUNE_PREUVE;
 
 const parNom = (nom: string, candidats: AccesLibreErp[]): [AccesLibreErp, number][] =>
   candidats
@@ -102,14 +121,25 @@ const sontEnDoublon = (candidats: AccesLibreErp[]): boolean =>
 const laPremiere = (candidats: AccesLibreErp[]): AccesLibreErp | undefined =>
   [...candidats].sort((gauche, droite): number => gauche.ficheUrl.localeCompare(droite.ficheUrl))[0];
 
+const mieuxProuvees = (nom: string, typologies: Typologies | undefined, candidats: AccesLibreErp[]): AccesLibreErp[] => {
+  const niveaux: number[] = candidats.map((erp: AccesLibreErp): number => niveauDePreuve(nom, typologies, erp));
+  const meilleur: number = Math.min(...niveaux);
+
+  return candidats.filter((_: AccesLibreErp, index: number): boolean => niveaux[index] === meilleur);
+};
+
 export const ficheAttribuee = (
   nom: string,
   typologies: Typologies | undefined,
   candidats: AccesLibreErp[]
 ): AccesLibreErp | undefined => {
-  const attribuees: AccesLibreErp[] = candidats.filter((erp: AccesLibreErp): boolean => estAttribuee(nom, typologies, erp));
+  const prouvees: AccesLibreErp[] = candidats.filter((erp: AccesLibreErp): boolean => estAttribuee(nom, typologies, erp));
 
-  if (attribuees.length <= 1) return attribuees[0];
+  if (prouvees.length <= 1) return prouvees[0];
 
-  return seDetache(parNom(nom, attribuees)) ?? (sontEnDoublon(attribuees) ? laPremiere(attribuees) : undefined);
+  const tete: AccesLibreErp[] = mieuxProuvees(nom, typologies, prouvees);
+
+  if (tete.length === 1) return tete[0];
+
+  return seDetache(parNom(nom, tete)) ?? (sontEnDoublon(tete) ? laPremiere(tete) : undefined);
 };

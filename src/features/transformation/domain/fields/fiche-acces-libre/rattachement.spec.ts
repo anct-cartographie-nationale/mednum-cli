@@ -124,6 +124,54 @@ describe('attribution de la fiche au lieu', (): void => {
   });
 });
 
+describe('hiérarchie des preuves', (): void => {
+  const ADRESSE = lieu('31 Rue Jean Gallart');
+  const GUICHET = 'https://acceslibre.beta.gouv.fr/app/49-allonnes/a/fs/erp/guichet/';
+  const HEBERGEUR = 'https://acceslibre.beta.gouv.fr/app/49-allonnes/a/mairie/erp/zhebergeur/';
+
+  it('préfère l’activité propre à l’hébergeur', (): void => {
+    const candidats = [
+      erp({ nom: 'Mairie - Allonnes', activite: 'Mairie', ficheUrl: HEBERGEUR }),
+      erp({ nom: 'Maison France service', activite: 'Guichet france services', ficheUrl: GUICHET })
+    ];
+
+    expect(rattacher(ADRESSE, candidats, 'France Services d’Allonnes', typologies('RFS'))).toBe(GUICHET);
+  });
+
+  it('préfère l’activité propre à l’activité secondaire', (): void => {
+    const candidats = [
+      erp({ nom: 'La Médiathèque', activite: 'Bibliothèque médiathèque', ficheUrl: HEBERGEUR }),
+      erp({ nom: 'France Services', activite: 'Guichet france services', ficheUrl: GUICHET })
+    ];
+
+    expect(rattacher(ADRESSE, candidats, 'France services du Ségala', typologies('RFS'))).toBe(GUICHET);
+  });
+
+  it('préfère un nom concordant à une activité secondaire', (): void => {
+    const candidats = [
+      erp({ nom: 'Un centre culturel', activite: 'Centre culturel', ficheUrl: HEBERGEUR }),
+      erp({ nom: 'Médiathèque Louis Aragon', activite: 'Point justice', ficheUrl: GUICHET })
+    ];
+
+    expect(rattacher(ADRESSE, candidats, 'Médiathèque Louis Aragon', typologies('BIB'))).toBe(GUICHET);
+  });
+
+  it('s’abstient quand deux fiches sont au même niveau de preuve', (): void => {
+    const candidats = [
+      erp({ nom: 'France Services - Aubiet', activite: 'Guichet france services', ficheUrl: GUICHET }),
+      erp({ nom: 'Maison de services', activite: 'Maison de services au public', ficheUrl: HEBERGEUR })
+    ];
+
+    expect(rattacher(ADRESSE, candidats, 'Un nom sans rapport', typologies('RFS'))).toBeUndefined();
+  });
+
+  it('retient l’hébergeur quand aucune preuve plus forte n’existe', (): void => {
+    const candidats = [erp({ nom: 'Mairie - Allonnes', activite: 'Mairie', ficheUrl: HEBERGEUR })];
+
+    expect(rattacher(ADRESSE, candidats, 'France services d’Allonnes', typologies('RFS'))).toBe(HEBERGEUR);
+  });
+});
+
 describe('précédence de la fiche portée par la source', (): void => {
   const AVEC_COLONNE: LieuxMediationNumeriqueMatching = {
     nom: { colonne: 'nom' },
