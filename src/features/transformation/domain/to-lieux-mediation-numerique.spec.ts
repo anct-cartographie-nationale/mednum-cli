@@ -112,3 +112,54 @@ describe('toLieuxMediationNumerique, quand le référentiel n’a pas reconnu l�
     expect(report.records().flatMap((record) => record.errors)).toHaveLength(0);
   });
 });
+
+describe('toLieuxMediationNumerique, quand le référentiel a reconnu l’adresse', (): void => {
+  const RETENUE = {
+    statut: 'from_storage' as const,
+    data: { latitude: 45.6417, longitude: 3.8853 },
+    adresse: {
+      voie: '1 Rue du Chateau',
+      code_postal: '42920',
+      code_insee: '42040',
+      commune: 'Chalmazel-Jeansagnière'
+    }
+  };
+
+  const retenu = async (locationEnriched: LocationEnriched): Promise<LieuMediationNumerique | undefined> =>
+    toLieuxMediationNumerique(REPOSITORY, 'Essai', Report(), AddressCache(), locationEnriched)(SOURCE, 0);
+
+  it('publie l’adresse de la Base Adresse Nationale sans la retoucher', async (): Promise<void> => {
+    expect((await retenu(RETENUE))?.adresse).toMatchObject({
+      voie: '1 Rue du Chateau',
+      code_postal: '42920',
+      code_insee: '42040',
+      commune: 'Chalmazel-Jeansagnière'
+    });
+  });
+
+  it('n’applique pas le nettoyage de la voie à ce que le référentiel a rendu', async (): Promise<void> => {
+    const abregee = { ...RETENUE, adresse: { ...RETENUE.adresse, voie: '1 Av General De Gaulle' } };
+
+    expect((await retenu(abregee))?.adresse.voie).toBe('1 Av General De Gaulle');
+  });
+
+  it('ne résout pas la commune du référentiel contre le référentiel des communes', async (): Promise<void> => {
+    expect((await retenu(RETENUE))?.adresse.commune).toBe('Chalmazel-Jeansagnière');
+  });
+
+  it('retombe sur le nettoyage quand l’adresse du référentiel ne passe pas la validation', async (): Promise<void> => {
+    const entreParentheses = {
+      ...RETENUE,
+      data: { latitude: 45.6417, longitude: 3.8853, ville: 'Château-Chinon (Ville)' },
+      adresse: { ...RETENUE.adresse, commune: 'Château-Chinon (Ville)' }
+    };
+
+    expect((await retenu(entreParentheses))?.adresse.commune).toBe('Château-Chinon');
+  });
+
+  it('retombe sur le nettoyage de la source quand le référentiel n’a rendu aucune adresse', async (): Promise<void> => {
+    const sansAdresse = { statut: 'from_storage' as const, data: { latitude: 45.6417, longitude: 3.8853 } };
+
+    expect((await retenu(sansAdresse))?.adresse).toMatchObject({ voie: 'Mairie', code_postal: '42920', commune: 'Chalmazel' });
+  });
+});

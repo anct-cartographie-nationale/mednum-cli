@@ -1,6 +1,7 @@
-import type { LocalisationToValidate } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import type { AdresseToValidate, LocalisationToValidate } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import type { Feature, FeatureCollection } from '../../../../libraries/ban';
 import { type AddressRecord, isRecentFailedAttempt } from '../address-cache';
+import { complementAdresseIfAny } from '../fields/adresse/adresse.field';
 import type { DataSource, LieuxMediationNumeriqueMatching } from '../matching';
 import { acceptedFeature, complementFor, rejectionReason, UNRESOLVED_REASONS, type UnresolvedReason } from './acceptance';
 import { addressLabel, isMissingFields, type NormalizedAddress } from './address-to-geocode';
@@ -9,6 +10,7 @@ import type { SourceEvidence } from './source-evidence';
 
 export type LocationEnriched = {
   data?: DataSource;
+  adresse?: AdresseToValidate;
   responses?: FeatureCollection;
   addresseOriginale?: string;
   motif?: UnresolvedReason;
@@ -30,6 +32,25 @@ const geocodedColumns = (matching: LieuxMediationNumeriqueMatching, feature: Fea
     [matching.commune?.colonne as string]: feature.properties.city,
     [matching.latitude?.colonne as string]: latitude,
     [matching.longitude?.colonne as string]: longitude
+  };
+};
+
+type BanAddress = { data: DataSource; adresse: AdresseToValidate };
+
+const banAddress = (feature: Feature, complement?: string): AdresseToValidate => ({
+  voie: feature.properties.name,
+  code_postal: feature.properties.postcode,
+  code_insee: feature.properties.citycode,
+  commune: feature.properties.city,
+  ...complementAdresseIfAny(complement)
+});
+
+const retainedFrom = (matching: LieuxMediationNumeriqueMatching, evidence: SourceEvidence, feature: Feature): BanAddress => {
+  const origine: string | undefined = complementFor(evidence, feature);
+
+  return {
+    data: geocodedColumns(matching, feature, origine),
+    adresse: banAddress(feature, origine ?? evidence.complement)
   };
 };
 
@@ -65,11 +86,7 @@ export const getAddressData =
     const addresseOriginale: string = addressLabel(adresse);
     const cached: AddressRecord | undefined = cachedFor(arrayFromStorage, addresseOriginale);
 
-    if (cached?.responseBan != null)
-      return {
-        data: geocodedColumns(matching, cached.responseBan, complementFor(evidence, cached.responseBan)),
-        statut: 'from_storage'
-      };
+    if (cached?.responseBan != null) return { ...retainedFrom(matching, evidence, cached.responseBan), statut: 'from_storage' };
 
     if (isRecentFailedAttempt(cached))
       return { statut: 'from_storage', addresseOriginale, motif: UNRESOLVED_REASONS.recentlyFailed };
@@ -87,7 +104,7 @@ export const getAddressData =
       return { statut: 'no_from_storage', addresseOriginale, motif: rejectionReason(evidence, response) };
 
     return {
-      data: geocodedColumns(matching, fresh, complementFor(evidence, fresh)),
+      ...retainedFrom(matching, evidence, fresh),
       addresseOriginale,
       responses: response.data,
       statut: 'from_api'

@@ -156,6 +156,12 @@ describe('getAddressData', (): void => {
         'Ville *': 'Challans',
         'Code INSEE': '85047'
       },
+      adresse: {
+        voie: '18 Boulevard rené bazin',
+        code_postal: '85300',
+        code_insee: '85047',
+        commune: 'Challans'
+      },
       statut: 'from_storage'
     });
   });
@@ -277,5 +283,63 @@ describe('isWorthCaching', (): void => {
     ['geocoding_unavailable', false]
   ] as const)('retient %s pour le cache : %s', (statut, attendu) => {
     expect(isWorthCaching({ statut })).toBe(attendu);
+  });
+});
+
+describe('adresse retenue', (): void => {
+  const AVEC_COMPLEMENT: SourceEvidence = { origine: '10 rue de la paix 75002 Paris', complement: 'Bâtiment C' };
+  const faible = { ...DATASEARCH, properties: { ...DATASEARCH.properties, score: 0.62 } };
+  const A_PROXIMITE: SourceEvidence = {
+    origine: '10 rue de la paix 75002 Paris',
+    complement: 'Bâtiment C',
+    localisation: { latitude: 48.8678, longitude: 2.33115 }
+  };
+
+  it('rend l’adresse de la Base Adresse Nationale, sans la retoucher', async () => {
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, SANS_APPORT, reponse([DATASEARCH]))([]);
+
+    expect(result.adresse).toEqual({
+      voie: '10 Rue de la Paix',
+      code_postal: '75002',
+      code_insee: '75102',
+      commune: 'Paris'
+    });
+  });
+
+  it('rend la même adresse qu’elle vienne du cache ou de l’API', async () => {
+    const duCache = await getAddressData(CHALLANS, STANDARD_MATCHING, SANS_APPORT)(AddressesBan);
+    const deLApi = await getAddressData(CHALLANS, STANDARD_MATCHING, SANS_APPORT, reponse([]))([]);
+
+    expect(duCache.adresse).toEqual({
+      voie: '18 Boulevard rené bazin',
+      code_postal: '85300',
+      code_insee: '85047',
+      commune: 'Challans'
+    });
+    expect(deLApi.adresse).toBeUndefined();
+  });
+
+  it('n’en rend aucune quand le référentiel n’a rien répondu', async () => {
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, SANS_APPORT, reponse([]))([]);
+
+    expect(result.adresse).toBeUndefined();
+  });
+
+  it('conserve le complément de la source quand le score se suffit à lui-même', async () => {
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, AVEC_COMPLEMENT, reponse([DATASEARCH]))([]);
+
+    expect(result.adresse?.complement_adresse).toBe('Bâtiment C');
+  });
+
+  it('verse l’adresse d’origine au complément quand seule la proximité a permis de retenir la réponse', async () => {
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, A_PROXIMITE, reponse([faible]))([]);
+
+    expect(result.adresse?.complement_adresse).toBe('Bâtiment C - 10 rue de la paix 75002 Paris');
+  });
+
+  it('n’emprunte jamais le complément au référentiel', async () => {
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, SANS_APPORT, reponse([DATASEARCH]))([]);
+
+    expect(result.adresse).not.toHaveProperty('complement_adresse');
   });
 });
