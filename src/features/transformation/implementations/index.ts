@@ -1,5 +1,5 @@
 export * from './annuaire-from-file';
-export * from './acces-libre-from-data-gouv';
+export * from './acces-libre-from-file';
 export * from './address.write';
 export * from './error-report.write';
 export * from './localisation-from-geo';

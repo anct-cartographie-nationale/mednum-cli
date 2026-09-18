@@ -60,7 +60,7 @@ const addressCacheOption = (program: Command): Command =>
 const accesLibreOption = (program: Command): Command =>
   program.option(
     '--acces-libre <acces-libre>',
-    `L'export Accès Libre déjà téléchargé, relu plutôt que redemandé à data.gouv (défaut : ${DEFAULT_ACCES_LIBRE})`
+    `L'export Accès Libre, téléchargé par la chaîne et relu ici (défaut : ${DEFAULT_ACCES_LIBRE})`
   );
 
 const annuaireOption = (program: Command): Command =>
