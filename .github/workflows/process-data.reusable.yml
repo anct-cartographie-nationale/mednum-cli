@@ -31,8 +31,25 @@ on:
         required: true
 
 jobs:
+  acces-libre:
+    name: Cache Accès Libre
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download the Accès Libre export
+        run: |
+          mkdir -p assets/input
+          curl -sSL --retry 3 -o assets/input/acces-libre.csv \
+            https://www.data.gouv.fr/api/1/datasets/r/93ae96a7-1db7-4cb4-a9f1-6d778370b640
+      - name: Save the Accès Libre export
+        uses: actions/cache/save@v6
+        with:
+          path: assets/input/acces-libre.csv
+          key: acces-libre-${{ github.run_id }}
+
   transform:
     name: Transform
+    needs: acces-libre
+    if: ${{ !cancelled() }}
     strategy:
       # Une source qui casse ne doit pas emporter les 23 autres : le cumul d'adresses est
       # monotone, ce que les sources saines rapportent est toujours bon à prendre.
@@ -70,6 +87,12 @@ jobs:
           # et le géocodage repart de zéro — dégradé, jamais faux.
           key: addresses-${{ github.run_id }}
           restore-keys: addresses-
+      - name: Restore the Accès Libre export
+        uses: actions/cache/restore@v6
+        with:
+          path: assets/input/acces-libre.csv
+          key: acces-libre-${{ github.run_id }}
+          restore-keys: acces-libre-
       - name: Transform
         run: pnpm transformer.${{ matrix.source }}
       - name: Deduplicate

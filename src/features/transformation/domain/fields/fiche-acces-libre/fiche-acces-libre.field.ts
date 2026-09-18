@@ -1,44 +1,42 @@
-import { type Adresse, FicheAccesLibre } from '@gouvfr-anct/lieux-de-mediation-numerique';
-import { similarityRatio } from '../../../../../libraries/text';
+import { type Adresse, FicheAccesLibre, type Typologies } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import type { AccesLibreErp } from '../../../../../libraries/acces-libre';
 import type { LieuxMediationNumeriqueMatching, DataSource, Colonne } from '../../matching';
+import { adresseExacte, adresseExacteDuLieu } from './adresse-exacte';
+import { ficheAttribuee } from './attribution';
 
-export type Erp = {
-  name: string;
-  siret: string;
-  web_url: string;
-  voie: string;
-  numero: string;
-  postal_code: string;
+export type AccesLibreIndex = Map<string, AccesLibreErp[]>;
+
+export const accesLibreIndex = (erps: AccesLibreErp[]): AccesLibreIndex =>
+  erps.reduce((index: AccesLibreIndex, erp: AccesLibreErp): AccesLibreIndex => {
+    const cle: string | undefined = erp.codeInsee === '' ? undefined : adresseExacte(erp.codeInsee, erp.numero, erp.voie);
+
+    return cle == null ? index : index.set(cle, [...(index.get(cle) ?? []), erp]);
+  }, new Map<string, AccesLibreErp[]>());
+
+const ficheDeLAdresse = (
+  index: AccesLibreIndex,
+  adresse: Adresse,
+  nom: string,
+  typologies?: Typologies
+): AccesLibreErp | undefined => {
+  if (adresse.code_insee == null) return undefined;
+
+  const cle: string | undefined = adresseExacteDuLieu(adresse.code_insee, adresse.voie);
+
+  if (cle == null) return undefined;
+
+  return ficheAttribuee(nom, typologies, index.get(cle) ?? []);
 };
 
 const getAccessibiliteFromAccesLibre = (
-  source: DataSource,
-  matching: LieuxMediationNumeriqueMatching,
-  accesLibreData: Erp[],
-  adresseProcessed: Adresse
+  index: AccesLibreIndex,
+  adresse: Adresse,
+  nom: string,
+  typologies?: Typologies
 ): FicheAccesLibre | undefined => {
-  const erpMatchWithScores: Erp[] = accesLibreData
-    .filter((erp: Erp): boolean => erp.postal_code === adresseProcessed.code_postal)
-    .filter(
-      (erp: Erp): boolean =>
-        similarityRatio(source[matching.nom.colonne]?.toString() ?? '', erp.name) >= 97 ||
-        similarityRatio(adresseProcessed.voie, erp.numero.concat(' ', erp.voie)) >= 97
-    );
+  const erp: AccesLibreErp | undefined = ficheDeLAdresse(index, adresse, nom, typologies);
 
-  const accesLibreUrlByFuzzyMatch: string | undefined =
-    erpMatchWithScores.length === 1 ? erpMatchWithScores[0]?.web_url : undefined;
-
-  const currentPivot: string | undefined =
-    matching.pivot?.colonne != null && source[matching.pivot.colonne]?.toString() !== ''
-      ? source[matching.pivot.colonne]?.toString()
-      : undefined;
-
-  const accesLibreUrlBySiretMatch: string | undefined =
-    erpMatchWithScores.find((erp: Erp): boolean => erp.siret === currentPivot)?.web_url ?? undefined;
-
-  const accesLibreUrl: string | undefined = accesLibreUrlBySiretMatch ?? accesLibreUrlByFuzzyMatch ?? undefined;
-
-  return accesLibreUrl == null ? undefined : (FicheAccesLibre.safe(accesLibreUrl) ?? undefined);
+  return erp == null ? undefined : (FicheAccesLibre.safe(erp.ficheUrl) ?? undefined);
 };
 
 const canProcessAccessibilite = (source: DataSource, accessibilite?: Colonne): accessibilite is Colonne => {
@@ -52,12 +50,18 @@ const canProcessAccessibilite = (source: DataSource, accessibilite?: Colonne): a
 
 const fixUrl = (url: string): string => url.replace(/\(/g, '%28').replace(/\)/g, '%29');
 
+const ficheDeLaSource = (source: DataSource, accessibilite?: Colonne): FicheAccesLibre | undefined =>
+  canProcessAccessibilite(source, accessibilite)
+    ? (FicheAccesLibre.safe(fixUrl(source[accessibilite.colonne]?.toString() ?? '')) ?? undefined)
+    : undefined;
+
 export const processFicheAccesLibre = (
   source: DataSource,
   matching: LieuxMediationNumeriqueMatching,
-  accesLibreData: Erp[],
-  adresseProcessed: Adresse
+  accesLibre: AccesLibreIndex,
+  adresseProcessed: Adresse,
+  nom: string,
+  typologies?: Typologies
 ): FicheAccesLibre | undefined =>
-  canProcessAccessibilite(source, matching.fiche_acces_libre)
-    ? (FicheAccesLibre.safe(fixUrl(source[matching.fiche_acces_libre.colonne]?.toString() ?? '')) ?? undefined)
-    : getAccessibiliteFromAccesLibre(source, matching, accesLibreData, adresseProcessed);
+  ficheDeLaSource(source, matching.fiche_acces_libre) ??
+  getAccessibiliteFromAccesLibre(accesLibre, adresseProcessed, nom, typologies);

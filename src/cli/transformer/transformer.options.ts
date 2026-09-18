@@ -12,6 +12,7 @@ export type TransformerOptions = {
   territory: string;
   envKey?: string;
   addressCache: string;
+  accesLibre: string;
 };
 
 /**
@@ -19,6 +20,8 @@ export type TransformerOptions = {
  * chemin n'existe pas et la transformation regéocode tout.
  */
 const DEFAULT_ADDRESS_CACHE = './assets/input/addresses.json';
+
+const DEFAULT_ACCES_LIBRE = './assets/input/acces-libre.csv';
 
 const validateNotEmpty =
   (message: string) =>
@@ -51,6 +54,12 @@ const addressCacheOption = (program: Command): Command =>
     `Le fichier des adresses déjà géocodées, réutilisées plutôt que redemandées à la Base Adresse Nationale (défaut : ${DEFAULT_ADDRESS_CACHE})`
   );
 
+const accesLibreOption = (program: Command): Command =>
+  program.option(
+    '--acces-libre <acces-libre>',
+    `L'export Accès Libre déjà téléchargé, relu plutôt que redemandé à data.gouv (défaut : ${DEFAULT_ACCES_LIBRE})`
+  );
+
 const outputDirectoryOption = (program: Command): Command =>
   program.option('-o, --output-directory <output-directory>', 'Le dossier dans lequel écrire les fichiers transformés');
 
@@ -67,6 +76,7 @@ const territoryOption = (program: Command): Command =>
   program.option('-t, --territory <territory>', 'Le nom du territoire couvert par les données');
 
 export const TRANSFORMER_OPTIONS: ((program: Command) => Command)[] = [
+  accesLibreOption,
   addressCacheOption,
   configFileOption,
   delimiterOption,
@@ -117,5 +127,6 @@ export const transformerOptionsQuestions = (transformerOptions: TransformerOptio
 ];
 
 export const toTransformerOptions = (environment: Record<string, string | undefined>): Partial<TransformerOptions> => ({
-  addressCache: environment['ADDRESS_CACHE'] ?? DEFAULT_ADDRESS_CACHE
+  addressCache: environment['ADDRESS_CACHE'] ?? DEFAULT_ADDRESS_CACHE,
+  accesLibre: environment['ACCES_LIBRE'] ?? DEFAULT_ACCES_LIBRE
 });
