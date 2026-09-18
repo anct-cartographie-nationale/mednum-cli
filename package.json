@@ -145,6 +145,7 @@
     "dedupliquer.vosges": "tsx src/cli/index.ts dedupliquer -s \"./assets/output/vosges/*-vosges-lieux-de-mediation-numeriques-vosges.json\" -b \"./assets/output/vosges/*-vosges-lieux-de-mediation-numeriques-vosges.json\" -n \"Vosges\" -t \"Vosges\" -o \"./assets/output/vosges\" -i true",
     "dedupliquer.merged-json": "tsx src/cli/index.ts dedupliquer -s ./assets/to-deduplicate/merged_output.json -b ./assets/to-deduplicate/merged_output.json -n \"La Cartographie Nationale\" -t National -o ./assets/deduplicated",
     "fusionner": "tsx src/cli/index.ts fusionner -i \"./to-merge/*-sans-doublons.json\" -o \"./merged\"",
+    "annuaire": "tsx src/cli/index.ts annuaire -i \"./to-merge/*-sans-doublons.json\" -o \"./assets/input/annuaire-entreprises.json\"",
     "fusionner.addresses": "tsx src/cli/index.ts fusionner -i \"./to-merge/*-addresses.json\" -o \"./assets/input\"",
     "fusion-addresses": "tsx src/cli/index.ts fusionner -i \"./assets/output/*/*-addresses.json\" -o \"./assets/input\"",
     "prepare": "husky"

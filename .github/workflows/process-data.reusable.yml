@@ -93,6 +93,12 @@ jobs:
           path: assets/input/acces-libre.csv
           key: acces-libre-${{ github.run_id }}
           restore-keys: acces-libre-
+      - name: Restore the establishments index
+        uses: actions/cache/restore@v6
+        with:
+          path: assets/input/annuaire-entreprises.json
+          key: annuaire-${{ github.run_id }}
+          restore-keys: annuaire-
       - name: Transform
         run: pnpm transformer.${{ matrix.source }}
       - name: Deduplicate
@@ -227,6 +233,39 @@ jobs:
         with:
           name: addresses
           path: assets/input/addresses.json
+
+  cache-annuaire:
+    name: Cache establishments index
+    runs-on: ubuntu-latest
+    needs: transform
+    if: ${{ !cancelled() }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 12
+          run_install: false
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Download all transformed data
+        uses: actions/download-artifact@v8
+        with:
+          path: to-merge
+          merge-multiple: true
+      - name: Build the establishments index
+        run: pnpm annuaire
+      - name: Save the establishments index
+        uses: actions/cache/save@v6
+        with:
+          path: assets/input/annuaire-entreprises.json
+          key: annuaire-${{ github.run_id }}
 
   deduplicate:
     name: Deduplicate

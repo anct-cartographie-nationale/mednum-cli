@@ -13,6 +13,7 @@ export type TransformerOptions = {
   envKey?: string;
   addressCache: string;
   accesLibre: string;
+  annuaire: string;
 };
 
 /**
@@ -22,6 +23,8 @@ export type TransformerOptions = {
 const DEFAULT_ADDRESS_CACHE = './assets/input/addresses.json';
 
 const DEFAULT_ACCES_LIBRE = './assets/input/acces-libre.csv';
+
+const DEFAULT_ANNUAIRE = './assets/input/annuaire-entreprises.json';
 
 const validateNotEmpty =
   (message: string) =>
@@ -60,6 +63,12 @@ const accesLibreOption = (program: Command): Command =>
     `L'export Accès Libre déjà téléchargé, relu plutôt que redemandé à data.gouv (défaut : ${DEFAULT_ACCES_LIBRE})`
   );
 
+const annuaireOption = (program: Command): Command =>
+  program.option(
+    '--annuaire <annuaire>',
+    `Les établissements de l'Annuaire des Entreprises situés aux adresses des lieux, produit par « mednum annuaire » (défaut : ${DEFAULT_ANNUAIRE})`
+  );
+
 const outputDirectoryOption = (program: Command): Command =>
   program.option('-o, --output-directory <output-directory>', 'Le dossier dans lequel écrire les fichiers transformés');
 
@@ -78,6 +87,7 @@ const territoryOption = (program: Command): Command =>
 export const TRANSFORMER_OPTIONS: ((program: Command) => Command)[] = [
   accesLibreOption,
   addressCacheOption,
+  annuaireOption,
   configFileOption,
   delimiterOption,
   encodingOption,
@@ -128,5 +138,6 @@ export const transformerOptionsQuestions = (transformerOptions: TransformerOptio
 
 export const toTransformerOptions = (environment: Record<string, string | undefined>): Partial<TransformerOptions> => ({
   addressCache: environment['ADDRESS_CACHE'] ?? DEFAULT_ADDRESS_CACHE,
-  accesLibre: environment['ACCES_LIBRE'] ?? DEFAULT_ACCES_LIBRE
+  accesLibre: environment['ACCES_LIBRE'] ?? DEFAULT_ACCES_LIBRE,
+  annuaire: environment['ANNUAIRE'] ?? DEFAULT_ANNUAIRE
 });

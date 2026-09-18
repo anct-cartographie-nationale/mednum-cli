@@ -19,11 +19,13 @@ import {
 import { writePublicationMetadataInFile } from '../../features/publication';
 import {
   accesLibreFromDataGouv,
+  annuaireFromFile,
   addressStorageFromFile,
   fetchBanResponseBatch,
   GEOCODE,
   GEOCODE_BATCH,
   LOAD_ACCES_LIBRE,
+  LOAD_ANNUAIRE,
   LOAD_ADDRESS_STORAGE,
   LOAD_MATCHING,
   LOAD_SOURCE,
@@ -76,6 +78,7 @@ export const provideTransformerImplementations = (transformerOptions: Transforme
   provide(GEOCODE_BATCH, fetchBanResponseBatch);
   provide(LOAD_ADDRESS_STORAGE, addressStorageFromFile(transformerOptions.addressCache));
   provide(LOAD_ACCES_LIBRE, accesLibreFromDataGouv(transformerOptions.accesLibre));
+  provide(LOAD_ANNUAIRE, annuaireFromFile(transformerOptions.annuaire));
 
   provide(
     LOAD_MATCHING,

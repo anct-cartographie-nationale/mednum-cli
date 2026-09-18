@@ -4,6 +4,7 @@ import { inject, injectOr } from '../../../../libraries/injection';
 import { type Journal, JOURNAL, silentJournal } from '../../../../libraries/journal';
 import {
   type AccesLibreIndex,
+  type AnnuaireIndex,
   AddressCache,
   type AddressRecord,
   type BatchGeocoding,
@@ -26,6 +27,7 @@ import {
   GEOCODE,
   GEOCODE_BATCH,
   LOAD_ACCES_LIBRE,
+  LOAD_ANNUAIRE,
   LOAD_ADDRESS_STORAGE,
   LOAD_MATCHING,
   LOAD_SOURCE,
@@ -69,7 +71,8 @@ const transformBatch = async (
   report: Report,
   addressCache: AddressCache,
   storage: AddressRecord[],
-  accesLibre: AccesLibreIndex
+  accesLibre: AccesLibreIndex,
+  annuaire: AnnuaireIndex
 ): Promise<LieuMediationNumerique[]> => {
   // L'aplatissement précède la normalisation : c'est la forme aplatie que lisent les règles de
   // correspondance, et l'adresse ainsi obtenue sert à la fois de question à la BAN, de clé de
@@ -100,7 +103,8 @@ const transformBatch = async (
         report,
         addressCache,
         locationEnriched,
-        accesLibre
+        accesLibre,
+        annuaire
       )(lieu, offset + index);
     })
   );
@@ -136,6 +140,7 @@ export const transformerUneSource = async ({
   };
   const storage: AddressRecord[] = inject(LOAD_ADDRESS_STORAGE)();
   const accesLibre: AccesLibreIndex = await inject(LOAD_ACCES_LIBRE)();
+  const annuaire: AnnuaireIndex = await inject(LOAD_ANNUAIRE)();
 
   journal.info('2. Transformation des données vers le schéma des lieux de mediation numérique');
   const lieuxDeMediationNumerique: LieuMediationNumerique[] = [];
@@ -150,7 +155,8 @@ export const transformerUneSource = async ({
         report,
         addressCache,
         storage,
-        accesLibre
+        accesLibre,
+        annuaire
       ))
     );
     if (offset + BATCH_SIZE < sourceItems.length) await delay(PAUSE_MS);

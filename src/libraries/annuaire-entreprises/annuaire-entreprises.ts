@@ -75,11 +75,18 @@ export type CheminsLocaux = {
   unitesLegales?: string;
 };
 
-export const projeterAnnuaire = async (cles: ClesRetenues, chemins: CheminsLocaux = {}): Promise<EtablissementALAdresse[]> => {
+const ETABLISSEMENTS_LOCAL = './assets/input/etablissements.csv.gz';
+
+const UNITES_LEGALES_LOCAL = './assets/input/unites-legales.csv.gz';
+
+export const projeterAnnuaire = async (
+  cles: ClesRetenues,
+  { etablissements = ETABLISSEMENTS_LOCAL, unitesLegales = UNITES_LEGALES_LOCAL }: CheminsLocaux = {}
+): Promise<EtablissementALAdresse[]> => {
   const retenus: Retenu[] = [];
   const sirens = new Set<string>();
 
-  for await (const ligne of lignes(ETABLISSEMENTS_URL, chemins.etablissements)) {
+  for await (const ligne of lignes(ETABLISSEMENTS_URL, etablissements)) {
     const cle: string | undefined = cleDeLEtablissement(ligne['adresse'] ?? '');
 
     if (cle == null || !cles.has(cle)) continue;
@@ -95,7 +102,7 @@ export const projeterAnnuaire = async (cles: ClesRetenues, chemins: CheminsLocau
 
   const parSiren = new Map<string, { denomination: string; natureJuridique: string }>();
 
-  for await (const ligne of lignes(UNITES_LEGALES_URL, chemins.unitesLegales)) {
+  for await (const ligne of lignes(UNITES_LEGALES_URL, unitesLegales)) {
     if (!sirens.has(ligne['siren'] ?? '')) continue;
 
     parSiren.set(ligne['siren'] ?? '', {

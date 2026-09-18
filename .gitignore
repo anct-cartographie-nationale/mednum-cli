@@ -22,6 +22,9 @@
 /assets/input/fredo/fredo.json
 /assets/input/france-travail/france-travail.json
 /assets/input/acces-libre.csv
+/assets/input/annuaire-entreprises.json
+/assets/input/etablissements.csv.gz
+/assets/input/unites-legales.csv.gz
 
 # Logs
 logs
