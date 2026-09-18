@@ -50,6 +50,11 @@ const canProcessAccessibilite = (source: DataSource, accessibilite?: Colonne): a
 
 const fixUrl = (url: string): string => url.replace(/\(/g, '%28').replace(/\)/g, '%29');
 
+const ficheDeLaSource = (source: DataSource, accessibilite?: Colonne): FicheAccesLibre | undefined =>
+  canProcessAccessibilite(source, accessibilite)
+    ? (FicheAccesLibre.safe(fixUrl(source[accessibilite.colonne]?.toString() ?? '')) ?? undefined)
+    : undefined;
+
 export const processFicheAccesLibre = (
   source: DataSource,
   matching: LieuxMediationNumeriqueMatching,
@@ -58,6 +63,5 @@ export const processFicheAccesLibre = (
   nom: string,
   typologies?: Typologies
 ): FicheAccesLibre | undefined =>
-  canProcessAccessibilite(source, matching.fiche_acces_libre)
-    ? (FicheAccesLibre.safe(fixUrl(source[matching.fiche_acces_libre.colonne]?.toString() ?? '')) ?? undefined)
-    : getAccessibiliteFromAccesLibre(accesLibre, adresseProcessed, nom, typologies);
+  ficheDeLaSource(source, matching.fiche_acces_libre) ??
+  getAccessibiliteFromAccesLibre(accesLibre, adresseProcessed, nom, typologies);

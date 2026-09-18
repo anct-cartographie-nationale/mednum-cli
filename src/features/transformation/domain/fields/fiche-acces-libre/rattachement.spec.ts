@@ -156,7 +156,23 @@ describe('précédence de la fiche portée par la source', (): void => {
     expect(avecSource('https://acceslibre.beta.gouv.fr/static/js/widget.js')).toBe(FICHE_MAIRIE);
   });
 
-  it('n’emprunte pas à l’export quand la source porte une valeur illisible', (): void => {
-    expect(avecSource('-')).toBeUndefined();
+  it.each([['-'], ['https://www.'], ['néant']])(
+    'retombe sur l’export quand la source porte la valeur illisible « %s »',
+    (illisible): void => {
+      expect(avecSource(illisible)).toBe(FICHE_MAIRIE);
+    }
+  );
+
+  it('ne rend aucune fiche quand la source est illisible et que l’export n’a rien', (): void => {
+    expect(
+      processFicheAccesLibre(
+        { nom: 'Mairie d’Allonnes', accessibilite: '-' },
+        AVEC_COLONNE,
+        accesLibreIndex([]),
+        ADRESSE,
+        'Mairie d’Allonnes',
+        typologies('MUNI')
+      )
+    ).toBeUndefined();
   });
 });
