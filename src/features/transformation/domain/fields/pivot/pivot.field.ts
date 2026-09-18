@@ -1,9 +1,65 @@
-import { Pivot } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { type Adresse, Pivot } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import {
+  cleDAdresse,
+  type EtablissementALAdresse,
+  numeroDeVoie,
+  voieNormalisee
+} from '../../../../../libraries/annuaire-entreprises';
 import type { LieuxMediationNumeriqueMatching, DataSource } from '../../matching';
+import type { Recorder } from '../../report';
+import { type AnnuaireIndex, etablissementDuLieu } from './determination';
 
-export const processPivot = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Pivot | undefined => {
+export const PIVOT_FIELD = 'pivot';
+
+const PIVOT_REMPLACE = 'Le SIRET déclaré désigne un autre établissement que celui trouvé à cette adresse';
+
+const PIVOT_NON_CONFIRME = "Aucun établissement de ce nom n'est enregistré à cette adresse : le SIRET déclaré est retiré";
+
+const PIVOT_AJOUTE = 'Aucun SIRET déclaré : celui de cet établissement a été déterminé depuis le nom et l’adresse';
+
+const DETERMINE_DEPUIS_L_ADRESSE = 'SIRET déterminé depuis le nom et l’adresse du lieu';
+
+const pivotDeclare = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Pivot | undefined => {
   const colonne: string = matching.pivot?.colonne ?? '';
-  const pivot: string | undefined = source[colonne]?.toString().replace(/[\s.-]/gu, '');
+  const valeur: string | undefined = source[colonne]?.toString().replace(/[\s.-]/gu, '');
 
-  return pivot == null ? undefined : (Pivot.safe(pivot) ?? undefined);
+  return valeur == null ? undefined : (Pivot.safe(valeur) ?? undefined);
+};
+
+const cleDuLieu = (adresse: Adresse): string =>
+  cleDAdresse({
+    codePostal: adresse.code_postal,
+    numero: numeroDeVoie(adresse.voie),
+    voie: voieNormalisee(adresse.voie)
+  });
+
+const signaler = (recorder: Recorder, entryName: string, message: string, before: string, after: string): void => {
+  recorder.record(PIVOT_FIELD, message, entryName).fix({ before, apply: DETERMINE_DEPUIS_L_ADRESSE, after });
+};
+
+export const processPivot = (
+  source: DataSource,
+  matching: LieuxMediationNumeriqueMatching,
+  annuaire: AnnuaireIndex,
+  adresse: Adresse,
+  nom: string,
+  recorder: Recorder,
+  entryName: string
+): Pivot | undefined => {
+  const declare: Pivot | undefined = pivotDeclare(source, matching);
+
+  if (annuaire.size === 0) return declare;
+
+  const trouve: EtablissementALAdresse | undefined = etablissementDuLieu(annuaire, cleDuLieu(adresse), nom, adresse.commune);
+  const determine: Pivot | undefined = trouve == null ? undefined : (Pivot.safe(trouve.siret) ?? undefined);
+
+  if (determine == null) {
+    if (declare != null) recorder.record(PIVOT_FIELD, PIVOT_NON_CONFIRME, entryName);
+    return undefined;
+  }
+
+  if (declare == null) signaler(recorder, entryName, PIVOT_AJOUTE, '', determine);
+  else if (declare !== determine) signaler(recorder, entryName, PIVOT_REMPLACE, declare, determine);
+
+  return determine;
 };

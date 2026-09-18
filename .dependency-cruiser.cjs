@@ -274,6 +274,7 @@ const LIBRARY_DEPENDENCIES = {
   'observatoire-des-territoires': ['http', 'collectivites', 'csv'],
   ban: ['csv'],
   'acces-libre': [],
+  'annuaire-entreprises': [],
   text: []
 };
 

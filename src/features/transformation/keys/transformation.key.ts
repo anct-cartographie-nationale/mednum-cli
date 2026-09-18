@@ -4,6 +4,7 @@ import type { Output } from '../../../libraries/file-system';
 import { type InjectionKey, keyFor } from '../../../libraries/injection';
 import type {
   AccesLibreIndex,
+  AnnuaireIndex,
   AddressCache,
   AddressRecord,
   BatchGeocoding,
@@ -65,6 +66,10 @@ export const GEOCODE_BATCH: InjectionKey<GeocodeBatch> = keyFor<GeocodeBatch>('t
 export type LoadAccesLibre = () => Promise<AccesLibreIndex>;
 
 export const LOAD_ACCES_LIBRE: InjectionKey<LoadAccesLibre> = keyFor<LoadAccesLibre>('transformation.load-acces-libre');
+
+export type LoadAnnuaire = () => Promise<AnnuaireIndex>;
+
+export const LOAD_ANNUAIRE: InjectionKey<LoadAnnuaire> = keyFor<LoadAnnuaire>('transformation.load-annuaire');
 
 export type SaveOutputs = (lieuxDeMediationNumerique: LieuMediationNumerique[]) => void;
 

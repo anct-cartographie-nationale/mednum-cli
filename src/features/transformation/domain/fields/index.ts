@@ -13,6 +13,7 @@ export * from './localisation';
 export * from './modalites-acces/modalites-acces.field';
 export * from './modalites-accompagnement/modalites-accompagnement.field';
 export * from './nom/nom.field';
+export * from './pivot/determination';
 export * from './pivot/pivot.field';
 export * from './presentation/presentation.field';
 export * from './prise-rdv/prise-rdv.field';

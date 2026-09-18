@@ -35,17 +35,19 @@ const writeReportErrorsJsonOutput = (producer: Output, listErrors: ErrorOutput[]
 export const writeErrorsOutputFiles =
   (producer: Output) =>
   (reports: Report): void => {
-    const listErrors: ErrorOutput[] = [];
-
-    reports.records().forEach((reportEntry: Record): void => {
-      const typedError: ErrorOutput = {
-        index: reportEntry.index,
-        field: reportEntry.errors[0] === undefined ? '' : reportEntry.errors[0].field,
-        message: reportEntry.errors[0] === undefined ? '' : reportEntry.errors[0].message,
-        entryName: reportEntry.errors[0] === undefined ? '' : reportEntry.errors[0].entryName
-      };
-      listErrors.push(typedError);
-    });
+    const listErrors: ErrorOutput[] = reports.records().flatMap((reportEntry: Record): ErrorOutput[] =>
+      reportEntry.errors.map(
+        (erreur): ErrorOutput => ({
+          index: reportEntry.index,
+          field: erreur.field,
+          message: erreur.message,
+          entryName: erreur.entryName,
+          ...(erreur.fixes[0] == null
+            ? {}
+            : { valeurDorigine: erreur.fixes[0].before, valeurRetenue: erreur.fixes[0].after ?? '' })
+        })
+      )
+    );
 
     writeReportErrorsJsonOutput(producer, listErrors);
     writeReportErrorsCsvOutput(producer, listErrors);

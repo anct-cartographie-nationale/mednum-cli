@@ -1,5 +1,6 @@
 import { Command } from 'commander';
 import * as dotenv from 'dotenv';
+import { addAnnuaireCommandTo } from './annuaire';
 import { addDataInclusionCommandTo } from './data-inclusion';
 import { addDedupliquerCommandTo } from './dedupliquer';
 import { addFusionnerCommandTo } from './fusionner';
@@ -24,6 +25,7 @@ export const runCli = (argv?: string[]): void => {
   addPublierCommandTo(program);
   addDedupliquerCommandTo(program);
   addDataInclusionCommandTo(program);
+  addAnnuaireCommandTo(program);
   addFusionnerCommandTo(program);
 
   program.parse(argv);

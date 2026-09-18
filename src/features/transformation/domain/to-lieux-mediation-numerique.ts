@@ -49,7 +49,7 @@ import {
   processModalitesAcces,
   isPrive
 } from './fields';
-import type { AccesLibreIndex } from './fields';
+import type { AccesLibreIndex, AnnuaireIndex } from './fields';
 import type { DataSource, LieuxMediationNumeriqueMatching } from './matching';
 import type { FindCommune } from '../../../libraries/collectivites';
 import { isWorthCaching, type LocationEnriched } from './geocoding';
@@ -134,7 +134,8 @@ const lieuDeMediationNumerique = async (
   recorder: Recorder,
   { findCommune, isInQpv, isInFrr, geocode, config: matching }: TransformationRepository,
   locationEnriched?: LocationEnriched,
-  accesLibre: AccesLibreIndex = new Map()
+  accesLibre: AccesLibreIndex = new Map(),
+  annuaire: AnnuaireIndex = new Map()
 ): Promise<LieuMediationNumerique | undefined> => {
   const adresse: Adresse = adresseRetenue(findCommune, dataSource, matching, locationEnriched);
   const nom: Nom = processNom(dataSource, matching);
@@ -144,7 +145,9 @@ const lieuDeMediationNumerique = async (
 
   const lieuMediationNumerique: LieuMediationNumerique = {
     id: processId(dataSource, matching, index, sourceName),
-    ...pivotIfAny(processPivot(dataSource, matching)),
+    ...pivotIfAny(
+      processPivot(dataSource, matching, annuaire, adresse, nom, recorder, entryIdentification(dataSource, matching))
+    ),
     nom,
     adresse,
     ...localisationIfAny(localisation),
@@ -241,7 +244,8 @@ export const toLieuxMediationNumerique =
     report: Report,
     addressCache: AddressCache,
     locationEnriched: LocationEnriched,
-    accesLibre: AccesLibreIndex = new Map()
+    accesLibre: AccesLibreIndex = new Map(),
+    annuaire: AnnuaireIndex = new Map()
   ) =>
   async (dataSource: unknown, index: number): Promise<LieuMediationNumerique | undefined> => {
     try {
@@ -263,7 +267,8 @@ export const toLieuxMediationNumerique =
         report.entry(index),
         repository,
         locationEnriched,
-        accesLibre
+        accesLibre,
+        annuaire
       );
 
       // Un lieu absent l'est pour une raison déjà consignée — un nom, une voie, un identifiant
