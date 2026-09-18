@@ -53,6 +53,7 @@ Les données sont republiées quotidiennement sur [data.gouv dans l'organisation
   - [Fusionner](#fusionner)
   - [Dédupliquer](#dédupliquer)
   - [Extraire depuis data.inclusion](#extraire-depuis-datainclusion)
+  - [Construire l'annuaire des établissements](#construire-lannuaire-des-établissements)
 - 🤝 [Contribution](#contribution)
 - 🏷️ [Gestion des versions](#gestion-des-versions)
 - 📝 [Licence](#licence)
@@ -105,6 +106,23 @@ Une fois l'exécution terminée, le dossier de dossier indiqué comme chemin de 
 - Un fichier `JSON` avec le prefix `structures-inclusion` avec les informations des structures transformées respectant le [schéma des structures de l'inclusion](https://www.data.inclusion.beta.gouv.fr/schemas-de-donnees-de-loffre/schema-des-structures-et-services-dinsertion#schema-structure)
 - Un fichier `JSON` avec le prefix `services-inclusion` avec les informations des services transformées respectant le [schéma des services de l'inclusion](https://www.data.inclusion.beta.gouv.fr/schemas-de-donnees-de-loffre/schema-des-structures-et-services-dinsertion#schema-service)
 - Un fichier `publier.json` qui contient les métadonnées pour la publication d'un jeu de données sur data.gouv avec les références des 4 fichiers décrits précédemment en tant que ressources
+- Deux fichiers avec le suffixe `report`, l'un `CSV` et l'autre `JSON`, qui recensent ce que la transformation a écarté ou corrigé
+- Un fichier `JSON` avec le suffixe `addresses` qui conserve les réponses de la Base Adresse Nationale, pour ne pas les redemander à l'exécution suivante
+
+##### Contenu du rapport
+
+Chaque ligne du rapport désigne un champ d'un lieu, avec le motif de son rejet ou de sa correction. Un lieu dont plusieurs champs posent problème occupe donc plusieurs lignes.
+
+| colonne | contenu |
+| --- | --- |
+| `index` | la position de l'entrée dans la source |
+| `field` | le champ concerné |
+| `message` | ce qui a été constaté |
+| `entryName` | le nom du lieu, pour le retrouver dans la source |
+| `valeurDorigine` | la valeur que portait la source, lorsqu'une correction a eu lieu |
+| `valeurRetenue` | la valeur retenue à sa place |
+
+Les deux dernières colonnes ne sont renseignées que pour les champs dérivés d'un référentiel, aujourd'hui le seul `pivot` : elles donnent au producteur la valeur à reprendre plutôt que de lui laisser constater une disparition.
 
 #### Options disponibles pour la commande transformer
 
@@ -847,6 +865,50 @@ Une [clé d'API data.inclusion](https://www.data.inclusion.beta.gouv.fr/api/lapi
 
 ```bash
 npx @gouvfr-anct/mednum data-inclusion -k <votre-clé>
+```
+
+### Construire l'annuaire des établissements
+
+La commande `mednum annuaire` prépare l'index dont `transformer` se sert pour déterminer le SIRET d'un lieu. Elle lit les lieux déjà transformés, en retient les adresses, puis projette sur elles les deux exports de l'[Annuaire des Entreprises](https://www.data.gouv.fr/datasets/donnees-des-entreprises-utilisees-dans-lannuaire-des-entreprises/) publiés sur data.gouv — celui des établissements, qui porte les adresses, et celui des unités légales, qui porte les dénominations. Des quelque quarante millions d'établissements, seuls quelques dizaines de milliers sont conservés : ceux qui se trouvent à l'adresse d'un lieu.
+
+L'index ne peut donc pas être construit pendant la transformation, puisqu'il dépend de ses sorties. Il se construit après elle et sert l'exécution suivante.
+
+```bash
+npx @gouvfr-anct/mednum annuaire
+```
+
+Les deux archives représentent environ 1,7 Go et leur lecture prend une quinzaine de minutes. En intégration continue, l'index est mis en cache pour la semaine et n'est donc reconstruit qu'une fois tous les sept jours.
+
+Sans cet index, `transformer` ne détermine aucun SIRET et conserve tels quels ceux que les sources déclarent : une absence d'index n'est pas une absence d'établissement.
+
+#### Options disponibles pour la commande annuaire
+
+##### Fichiers d'entrée `-i, --input-files-pattern <input-files-pattern>`
+
+Le motif des fichiers de lieux déjà transformés dont les adresses seront retenues.
+
+```bash
+npx @gouvfr-anct/mednum annuaire --input-files-pattern "./to-merge/*-sans-doublons.json"
+```
+
+ou
+
+```bash
+npx @gouvfr-anct/mednum annuaire -i "./to-merge/*-sans-doublons.json"
+```
+
+##### Fichier de sortie `-o, --output-file <output-file>`
+
+Le chemin du fichier JSON qui va recevoir les établissements retenus. Il peut aussi être fourni par la variable d'environnement `ANNUAIRE`.
+
+```bash
+npx @gouvfr-anct/mednum annuaire --output-file ./assets/input/annuaire-entreprises.json
+```
+
+ou
+
+```bash
+npx @gouvfr-anct/mednum annuaire -o ./assets/input/annuaire-entreprises.json
 ```
 
 ## Contribution
