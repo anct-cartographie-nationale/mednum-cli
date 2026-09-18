@@ -19,10 +19,11 @@ const PIVOT_AJOUTE = 'Aucun SIRET déclaré : celui de cet établissement a ét�
 
 const DETERMINE_DEPUIS_L_ADRESSE = 'SIRET déterminé depuis le nom et l’adresse du lieu';
 
-const pivotDeclare = (source: DataSource, matching: LieuxMediationNumeriqueMatching): string | undefined => {
+const pivotDeclare = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Pivot | undefined => {
   const colonne: string = matching.pivot?.colonne ?? '';
+  const valeur: string | undefined = source[colonne]?.toString().replace(/[\s.-]/gu, '');
 
-  return source[colonne]?.toString().replace(/[\s.-]/gu, '');
+  return valeur == null ? undefined : (Pivot.safe(valeur) ?? undefined);
 };
 
 const cleDuLieu = (adresse: Adresse): string =>
@@ -45,18 +46,19 @@ export const processPivot = (
   recorder: Recorder,
   entryName: string
 ): Pivot | undefined => {
-  const declare: string | undefined = pivotDeclare(source, matching);
+  const declare: Pivot | undefined = pivotDeclare(source, matching);
+
+  if (annuaire.size === 0) return declare;
+
   const trouve: EtablissementALAdresse | undefined = etablissementDuLieu(annuaire, cleDuLieu(adresse), nom, adresse.commune);
   const determine: Pivot | undefined = trouve == null ? undefined : (Pivot.safe(trouve.siret) ?? undefined);
 
-  if (determine == null && declare != null && declare !== '') {
-    recorder.record(PIVOT_FIELD, PIVOT_NON_CONFIRME, entryName);
+  if (determine == null) {
+    if (declare != null) recorder.record(PIVOT_FIELD, PIVOT_NON_CONFIRME, entryName);
     return undefined;
   }
 
-  if (determine == null) return undefined;
-
-  if (declare == null || declare === '') signaler(recorder, entryName, PIVOT_AJOUTE, '', determine);
+  if (declare == null) signaler(recorder, entryName, PIVOT_AJOUTE, '', determine);
   else if (declare !== determine) signaler(recorder, entryName, PIVOT_REMPLACE, declare, determine);
 
   return determine;

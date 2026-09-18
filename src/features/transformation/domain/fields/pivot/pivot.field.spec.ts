@@ -29,7 +29,9 @@ const etablissement = (siret: string): EtablissementALAdresse => ({
 });
 
 const ANNUAIRE: AnnuaireIndex = new Map([['49650|31|rue jean gallart', [etablissement(SIRET_DU_LIEU)]]]);
-const VIDE: AnnuaireIndex = new Map();
+const AILLEURS: AnnuaireIndex = new Map([['75002|10|rue de la paix', [etablissement(AUTRE_SIRET)]]]);
+
+const INDISPONIBLE: AnnuaireIndex = new Map();
 
 const determiner = (source: DataSource, annuaire: AnnuaireIndex): { pivot: Pivot | undefined; records: ReportRecord[] } => {
   const report: Report = Report();
@@ -63,7 +65,7 @@ describe('pivot dérivé de l’annuaire', (): void => {
   });
 
   it('retire le SIRET déclaré qu’aucun établissement ne confirme', (): void => {
-    const { pivot, records } = determiner({ SIRET: AUTRE_SIRET }, VIDE);
+    const { pivot, records } = determiner({ SIRET: AUTRE_SIRET }, AILLEURS);
 
     expect(pivot).toBeUndefined();
     expect(records[0]?.errors[0]?.message).toContain('retiré');
@@ -78,7 +80,7 @@ describe('pivot dérivé de l’annuaire', (): void => {
   });
 
   it('ne signale rien quand il n’y a ni SIRET déclaré ni établissement trouvé', (): void => {
-    const { pivot, records } = determiner({}, VIDE);
+    const { pivot, records } = determiner({}, AILLEURS);
 
     expect(pivot).toBeUndefined();
     expect(records).toStrictEqual([]);
@@ -88,5 +90,42 @@ describe('pivot dérivé de l’annuaire', (): void => {
     const annuaire: AnnuaireIndex = new Map([['49650|31|rue jean gallart', [etablissement('12345678910111')]]]);
 
     expect(determiner({}, annuaire).pivot).toBeUndefined();
+  });
+});
+
+describe('annuaire indisponible', (): void => {
+  it('conserve le SIRET déclaré plutôt que de le retirer', (): void => {
+    const { pivot, records } = determiner({ SIRET: AUTRE_SIRET }, INDISPONIBLE);
+
+    expect(pivot).toBe(AUTRE_SIRET);
+    expect(records).toStrictEqual([]);
+  });
+
+  it('ne détermine rien quand la source ne déclare rien', (): void => {
+    expect(determiner({}, INDISPONIBLE).pivot).toBeUndefined();
+  });
+
+  it('écarte tout de même un SIRET déclaré invalide', (): void => {
+    expect(determiner({ SIRET: '12345678910111' }, INDISPONIBLE).pivot).toBeUndefined();
+  });
+});
+
+describe('valeur déclarée qui n’est pas un SIRET', (): void => {
+  it.each([['00000000000000'], ['12345678910111'], ['842 887 408 00'], ['-']])(
+    'traite « %s » comme une absence de déclaration, sans signaler de retrait',
+    (valeur): void => {
+      const { pivot, records } = determiner({ SIRET: valeur }, AILLEURS);
+
+      expect(pivot).toBeUndefined();
+      expect(records).toStrictEqual([]);
+    }
+  );
+
+  it('signale un ajout, non une correction, quand la valeur déclarée était la sentinelle', (): void => {
+    const { pivot, records } = determiner({ SIRET: '00000000000000' }, ANNUAIRE);
+
+    expect(pivot).toBe(SIRET_DU_LIEU);
+    expect(records[0]?.errors[0]?.message).toContain('Aucun SIRET déclaré');
+    expect(records[0]?.errors[0]?.fixes?.[0]).toMatchObject({ before: '', after: SIRET_DU_LIEU });
   });
 });
