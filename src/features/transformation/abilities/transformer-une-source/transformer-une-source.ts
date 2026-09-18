@@ -135,7 +135,7 @@ export const transformerUneSource = async ({
     geocode: inject(GEOCODE)
   };
   const storage: AddressRecord[] = inject(LOAD_ADDRESS_STORAGE)();
-  const accesLibre: AccesLibreIndex = inject(LOAD_ACCES_LIBRE)();
+  const accesLibre: AccesLibreIndex = await inject(LOAD_ACCES_LIBRE)();
 
   journal.info('2. Transformation des données vers le schéma des lieux de mediation numérique');
   const lieuxDeMediationNumerique: LieuMediationNumerique[] = [];

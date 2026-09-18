@@ -62,7 +62,7 @@ export type GeocodeBatch = (adresses: NormalizedAddress[], storage: AddressRecor
 
 export const GEOCODE_BATCH: InjectionKey<GeocodeBatch> = keyFor<GeocodeBatch>('transformation.geocode-batch');
 
-export type LoadAccesLibre = () => AccesLibreIndex;
+export type LoadAccesLibre = () => Promise<AccesLibreIndex>;
 
 export const LOAD_ACCES_LIBRE: InjectionKey<LoadAccesLibre> = keyFor<LoadAccesLibre>('transformation.load-acces-libre');
 

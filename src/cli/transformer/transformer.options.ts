@@ -21,7 +21,7 @@ export type TransformerOptions = {
  */
 const DEFAULT_ADDRESS_CACHE = './assets/input/addresses.json';
 
-const DEFAULT_ACCES_LIBRE = './assets/input/acces-libre.json';
+const DEFAULT_ACCES_LIBRE = './assets/input/acces-libre.csv';
 
 const validateNotEmpty =
   (message: string) =>
@@ -57,7 +57,7 @@ const addressCacheOption = (program: Command): Command =>
 const accesLibreOption = (program: Command): Command =>
   program.option(
     '--acces-libre <acces-libre>',
-    `Le fichier des fiches d'accessibilité Accès Libre, produit par « mednum acces-libre » (défaut : ${DEFAULT_ACCES_LIBRE})`
+    `L'export Accès Libre déjà téléchargé, relu plutôt que redemandé à data.gouv (défaut : ${DEFAULT_ACCES_LIBRE})`
   );
 
 const outputDirectoryOption = (program: Command): Command =>

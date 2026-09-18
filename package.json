@@ -67,7 +67,6 @@
     "lint.staged": "lint-staged",
     "test": "vitest",
     "build": "tsdown",
-    "start.acces-libre": "tsx src/cli/index.ts acces-libre -o ./assets/input/acces-libre.json",
     "start.data-inclusion": "tsx src/cli/index.ts data-inclusion",
     "mednum": "tsx src/cli/index.ts",
     "transformer.all": "npm run transformer.charente-maritime && npm run transformer.coop-numerique && npm run transformer.dora && npm run transformer.france-services && npm run transformer.france-travail && npm run transformer.francil-in && npm run transformer.fredo && npm run transformer.grand-paris-sud && npm run transformer.hinaura && npm run transformer.herault && npm run transformer.mednum-bfc && npm run transformer.meuse && npm run transformer.mulhouse && npm run transformer.les-landes && npm run transformer.loire-atlantique && npm run transformer.manche && npm run transformer.numi && npm run transformer.paca && npm run transformer.paris && npm run transformer.res-in && npm run transformer.rhin-occ && npm run transformer.siilab && npm run transformer.vendee && npm run transformer.vosges",

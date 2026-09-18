@@ -1,3 +1,5 @@
+import { createReadStream, createWriteStream, existsSync, renameSync } from 'node:fs';
+import { pipeline } from 'node:stream/promises';
 import type { Readable } from 'node:stream';
 import axios from 'axios';
 import { parse } from 'csv-parse';
@@ -15,8 +17,18 @@ const toErp = (row: AccesLibreRow): AccesLibreErp => ({
   ficheUrl: row.web_url
 });
 
-export const fetchAccesLibreErps = async (url: string = ACCES_LIBRE_DATASET_URL): Promise<AccesLibreErp[]> => {
-  const flux = (await axios.get<Readable>(url, { responseType: 'stream' })).data;
+const telecharger = async (url: string): Promise<Readable> => (await axios.get<Readable>(url, { responseType: 'stream' })).data;
+
+const telechargerVers = async (url: string, destination: string): Promise<string> => {
+  const enCours = `${destination}.partiel`;
+
+  await pipeline(await telecharger(url), createWriteStream(enCours));
+  renameSync(enCours, destination);
+
+  return destination;
+};
+
+const projeter = async (flux: Readable): Promise<AccesLibreErp[]> => {
   const erps: AccesLibreErp[] = [];
 
   for await (const row of flux.pipe(parse({ columns: true, skip_records_with_error: true }))) {
@@ -25,3 +37,12 @@ export const fetchAccesLibreErps = async (url: string = ACCES_LIBRE_DATASET_URL)
 
   return erps;
 };
+
+const fluxDeLExport = async (cheminLocal?: string, url: string = ACCES_LIBRE_DATASET_URL): Promise<Readable> => {
+  if (cheminLocal == null) return telecharger(url);
+
+  return createReadStream(existsSync(cheminLocal) ? cheminLocal : await telechargerVers(url, cheminLocal));
+};
+
+export const accesLibreErps = async (cheminLocal?: string, url?: string): Promise<AccesLibreErp[]> =>
+  projeter(await fluxDeLExport(cheminLocal, url));
