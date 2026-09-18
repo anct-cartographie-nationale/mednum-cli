@@ -60,7 +60,7 @@
   "scripts": {
     "lint": "biome check ./src",
     "lint.fix": "biome check --write ./src",
-    "lint.architecture": "depcruise src && folderslint",
+    "lint.architecture": "node scripts/lint-architecture.mjs && folderslint",
     "doc.architecture": "mkdir -p docs && depcruise src --include-only \"^src\" --output-type archi | dot -T svg > docs/architecture.svg",
     "ts.check": "tsc --noEmit",
     "lint.commit": "npx commitlint --from origin/main",

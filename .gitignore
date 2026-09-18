@@ -80,6 +80,8 @@ openapi.json
 # Diagramme d'architecture, régénérable par `pnpm doc.architecture`
 docs/architecture.svg
 
+docs/harmonisation-*.md
+
 # Optional eslint cache
 .eslintcache
 
