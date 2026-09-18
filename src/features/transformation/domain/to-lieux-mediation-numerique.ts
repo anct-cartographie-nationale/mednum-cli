@@ -13,6 +13,7 @@ import {
   type PublicsSpecifiquementAdresses,
   type Services,
   type Typologies,
+  type Nom,
   type FicheAccesLibre,
   Horaires,
   type Url
@@ -136,16 +137,18 @@ const lieuDeMediationNumerique = async (
   accesLibre: AccesLibreIndex = new Map()
 ): Promise<LieuMediationNumerique | undefined> => {
   const adresse: Adresse = adresseRetenue(findCommune, dataSource, matching, locationEnriched);
+  const nom: Nom = processNom(dataSource, matching);
+  const typologies: Typologies = processTypologies(dataSource, matching);
   const localisation: Localisation | undefined = await processLocalisation(dataSource, matching, geocode(adresse));
   if (isPrive(dataSource, matching)) return undefined;
 
   const lieuMediationNumerique: LieuMediationNumerique = {
     id: processId(dataSource, matching, index, sourceName),
     ...pivotIfAny(processPivot(dataSource, matching)),
-    nom: processNom(dataSource, matching),
+    nom,
     adresse,
     ...localisationIfAny(localisation),
-    ...typologiesIfAny(processTypologies(dataSource, matching)),
+    ...typologiesIfAny(typologies),
     contact: processContact(recorder)(dataSource, matching),
     ...horairesIfAny(processHoraires(dataSource, matching), recorder, entryIdentification(dataSource, matching)),
     presentation: processPresentation(dataSource, matching),
@@ -163,7 +166,7 @@ const lieuDeMediationNumerique = async (
     ),
     ...modalitesAccesIfAny(processModalitesAcces(dataSource, matching)),
     ...modalitesAccompagnementIfAny(processModalitesAccompagnement(dataSource, matching)),
-    ...ficheAccesLibreIfAny(processFicheAccesLibre(dataSource, matching, accesLibre, adresse)),
+    ...ficheAccesLibreIfAny(processFicheAccesLibre(dataSource, matching, accesLibre, adresse, nom, typologies)),
     ...priseRdvIfAny(processPriseRdv(dataSource, matching))
   };
 

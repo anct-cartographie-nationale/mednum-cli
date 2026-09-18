@@ -34,7 +34,13 @@ describe('accessibilite field', (): void => {
 
     const accesLibreData = accesLibreIndex([]);
 
-    const accessibilite: string | undefined = processFicheAccesLibre(source, matching, accesLibreData, adresseProcessed);
+    const accessibilite: string | undefined = processFicheAccesLibre(
+      source,
+      matching,
+      accesLibreData,
+      adresseProcessed,
+      'Un lieu'
+    );
 
     expect(accessibilite).toBe(
       'https://acceslibre.beta.gouv.fr/app/73-chambery/a/administration-publique/erp/mairie-chambery/'
@@ -58,7 +64,13 @@ describe('accessibilite field', (): void => {
 
     const accesLibreData = accesLibreIndex([]);
 
-    const accessibilite: string | undefined = processFicheAccesLibre(source, matching, accesLibreData, adresseProcessed);
+    const accessibilite: string | undefined = processFicheAccesLibre(
+      source,
+      matching,
+      accesLibreData,
+      adresseProcessed,
+      'Un lieu'
+    );
 
     expect(accessibilite).toBeUndefined();
   });
@@ -82,7 +94,13 @@ describe('accessibilite field', (): void => {
 
     const accesLibreData = accesLibreIndex([]);
 
-    const accessibilite: string | undefined = processFicheAccesLibre(source, matching, accesLibreData, adresseProcessed);
+    const accessibilite: string | undefined = processFicheAccesLibre(
+      source,
+      matching,
+      accesLibreData,
+      adresseProcessed,
+      'Un lieu'
+    );
 
     expect(accessibilite).toBeUndefined();
   });
@@ -107,7 +125,13 @@ describe('accessibilite field', (): void => {
 
     const accesLibreData = accesLibreIndex([]);
 
-    const accessibilite: string | undefined = processFicheAccesLibre(source, matching, accesLibreData, adresseProcessed);
+    const accessibilite: string | undefined = processFicheAccesLibre(
+      source,
+      matching,
+      accesLibreData,
+      adresseProcessed,
+      'Un lieu'
+    );
 
     expect(accessibilite).toBe(
       'https://acceslibre.beta.gouv.fr/recherche/?what=&where=Saint-Nazaire-le-D%C3%A9sert%20%2826%29&lat=44.569759&lon=5.275761&code=26321'
@@ -133,7 +157,13 @@ describe('accessibilite field', (): void => {
 
     const accesLibreData = accesLibreIndex([]);
 
-    const accessibilite: string | undefined = processFicheAccesLibre(source, matching, accesLibreData, adresseProcessed);
+    const accessibilite: string | undefined = processFicheAccesLibre(
+      source,
+      matching,
+      accesLibreData,
+      adresseProcessed,
+      'Un lieu'
+    );
 
     expect(accessibilite).toBeUndefined();
   });
@@ -157,7 +187,8 @@ describe('accessibilite field', (): void => {
       source,
       matching,
       accesLibreIndex([ALLONNES]),
-      adresseProcessed
+      adresseProcessed,
+      "France Services d'Allonnes"
     );
 
     expect(ficheAccesLibre).toBe(

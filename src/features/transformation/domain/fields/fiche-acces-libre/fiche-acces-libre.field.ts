@@ -1,8 +1,8 @@
-import { type Adresse, FicheAccesLibre } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { type Adresse, FicheAccesLibre, type Typologies } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import type { AccesLibreErp } from '../../../../../libraries/acces-libre';
 import type { LieuxMediationNumeriqueMatching, DataSource, Colonne } from '../../matching';
-import { ACTIVITES_ACCUEILLANTES } from './activites-accueillantes';
 import { adresseExacte, adresseExacteDuLieu } from './adresse-exacte';
+import { estAttribuee } from './attribution';
 
 export type AccesLibreIndex = Map<string, AccesLibreErp[]>;
 
@@ -13,22 +13,32 @@ export const accesLibreIndex = (erps: AccesLibreErp[]): AccesLibreIndex =>
     return cle == null ? index : index.set(cle, [...(index.get(cle) ?? []), erp]);
   }, new Map<string, AccesLibreErp[]>());
 
-const estAccueillante = (erp: AccesLibreErp): boolean => ACTIVITES_ACCUEILLANTES.includes(erp.activite);
-
-const ficheDeLAdresse = (index: AccesLibreIndex, adresse: Adresse): AccesLibreErp | undefined => {
+const ficheDeLAdresse = (
+  index: AccesLibreIndex,
+  adresse: Adresse,
+  nom: string,
+  typologies?: Typologies
+): AccesLibreErp | undefined => {
   if (adresse.code_insee == null) return undefined;
 
   const cle: string | undefined = adresseExacteDuLieu(adresse.code_insee, adresse.voie);
 
   if (cle == null) return undefined;
 
-  const candidats: AccesLibreErp[] = (index.get(cle) ?? []).filter(estAccueillante);
+  const attribuees: AccesLibreErp[] = (index.get(cle) ?? []).filter((erp: AccesLibreErp): boolean =>
+    estAttribuee(nom, typologies, erp)
+  );
 
-  return candidats.length === 1 ? candidats[0] : undefined;
+  return attribuees.length === 1 ? attribuees[0] : undefined;
 };
 
-const getAccessibiliteFromAccesLibre = (index: AccesLibreIndex, adresse: Adresse): FicheAccesLibre | undefined => {
-  const erp: AccesLibreErp | undefined = ficheDeLAdresse(index, adresse);
+const getAccessibiliteFromAccesLibre = (
+  index: AccesLibreIndex,
+  adresse: Adresse,
+  nom: string,
+  typologies?: Typologies
+): FicheAccesLibre | undefined => {
+  const erp: AccesLibreErp | undefined = ficheDeLAdresse(index, adresse, nom, typologies);
 
   return erp == null ? undefined : (FicheAccesLibre.safe(erp.ficheUrl) ?? undefined);
 };
@@ -48,8 +58,10 @@ export const processFicheAccesLibre = (
   source: DataSource,
   matching: LieuxMediationNumeriqueMatching,
   accesLibre: AccesLibreIndex,
-  adresseProcessed: Adresse
+  adresseProcessed: Adresse,
+  nom: string,
+  typologies?: Typologies
 ): FicheAccesLibre | undefined =>
   canProcessAccessibilite(source, matching.fiche_acces_libre)
     ? (FicheAccesLibre.safe(fixUrl(source[matching.fiche_acces_libre.colonne]?.toString() ?? '')) ?? undefined)
-    : getAccessibiliteFromAccesLibre(accesLibre, adresseProcessed);
+    : getAccessibiliteFromAccesLibre(accesLibre, adresseProcessed, nom, typologies);
