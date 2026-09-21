@@ -1,6 +1,7 @@
 import { type Adresse, Pivot } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import {
   cleDAdresse,
+  communeNormalisee,
   type EtablissementALAdresse,
   numeroDeVoie,
   voieNormalisee
@@ -29,6 +30,7 @@ const pivotDeclare = (source: DataSource, matching: LieuxMediationNumeriqueMatch
 const cleDuLieu = (adresse: Adresse): string =>
   cleDAdresse({
     codePostal: adresse.code_postal,
+    commune: communeNormalisee(adresse.commune),
     numero: numeroDeVoie(adresse.voie),
     voie: voieNormalisee(adresse.voie)
   });

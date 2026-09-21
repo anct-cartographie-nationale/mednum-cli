@@ -35,12 +35,19 @@ export const numeroDeVoie = (valeur: string): string => {
 
 export const voieNormalisee = (valeur: string): string => normaliser((valeur ?? '').replace(NUMERO_EN_TETE, ''));
 
-const cleDeLEtablissement = (adresse: string): string | undefined => {
+export const communeNormalisee = (valeur: string): string => normaliser(valeur);
+
+export const cleDeLEtablissement = (adresse: string): string | undefined => {
   const decoupee: RegExpExecArray | null = ADRESSE_AVEC_COMMUNE.exec(adresse ?? '');
 
-  if (decoupee?.[1] == null || decoupee[2] == null) return undefined;
+  if (decoupee?.[1] == null || decoupee[2] == null || decoupee[3] == null) return undefined;
 
-  return cleDAdresse({ codePostal: decoupee[2], numero: numeroDeVoie(decoupee[1]), voie: voieNormalisee(decoupee[1]) });
+  return cleDAdresse({
+    codePostal: decoupee[2],
+    commune: communeNormalisee(decoupee[3]),
+    numero: numeroDeVoie(decoupee[1]),
+    voie: voieNormalisee(decoupee[1])
+  });
 };
 
 const fluxDistant = async (url: string): Promise<Readable> => (await axios.get<Readable>(url, { responseType: 'stream' })).data;

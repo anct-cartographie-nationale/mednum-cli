@@ -32,13 +32,21 @@ describe('voieNormalisee', (): void => {
 });
 
 describe('cleDAdresse', (): void => {
-  it('assemble commune, numéro et voie', (): void => {
-    expect(cleDAdresse({ codePostal: '75002', numero: '10', voie: 'rue de la paix' })).toBe('75002|10|rue de la paix');
+  it('assemble code postal, commune, numéro et voie', (): void => {
+    expect(cleDAdresse({ codePostal: '75002', commune: 'paris', numero: '10', voie: 'rue de la paix' })).toBe(
+      '75002|paris|10|rue de la paix'
+    );
   });
 
   it('distingue deux numéros de la même voie', (): void => {
-    expect(cleDAdresse({ codePostal: '75002', numero: '10', voie: 'rue de la paix' })).not.toBe(
-      cleDAdresse({ codePostal: '75002', numero: '12', voie: 'rue de la paix' })
+    expect(cleDAdresse({ codePostal: '75002', commune: 'paris', numero: '10', voie: 'rue de la paix' })).not.toBe(
+      cleDAdresse({ codePostal: '75002', commune: 'paris', numero: '12', voie: 'rue de la paix' })
+    );
+  });
+
+  it('distingue deux communes qui partagent un code postal et un nom de voie', (): void => {
+    expect(cleDAdresse({ codePostal: '30350', commune: 'savignargues', numero: '1', voie: 'place de la mairie' })).not.toBe(
+      cleDAdresse({ codePostal: '30350', commune: 'cardet', numero: '1', voie: 'place de la mairie' })
     );
   });
 });
