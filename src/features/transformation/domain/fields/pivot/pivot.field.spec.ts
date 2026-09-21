@@ -4,7 +4,7 @@ import type { EtablissementALAdresse } from '../../../../../libraries/annuaire-e
 import type { DataSource, LieuxMediationNumeriqueMatching } from '../../matching';
 import { type Record as ReportRecord, Report } from '../../report';
 import type { AnnuaireIndex } from './determination';
-import { processPivot } from './pivot.field';
+import { etablissementRetenu, processPivot } from './pivot.field';
 
 const MATCHING = { pivot: { colonne: 'SIRET' } } as LieuxMediationNumeriqueMatching;
 
@@ -36,7 +36,14 @@ const INDISPONIBLE: AnnuaireIndex = new Map();
 const determiner = (source: DataSource, annuaire: AnnuaireIndex): { pivot: Pivot | undefined; records: ReportRecord[] } => {
   const report: Report = Report();
   const recorder = report.entry(0);
-  const pivot: Pivot | undefined = processPivot(source, MATCHING, annuaire, ADRESSE, NOM, recorder, NOM);
+  const pivot: Pivot | undefined = processPivot(
+    source,
+    MATCHING,
+    annuaire,
+    etablissementRetenu(annuaire, ADRESSE, NOM),
+    recorder,
+    NOM
+  );
   recorder.commit();
 
   return { pivot, records: report.records() };

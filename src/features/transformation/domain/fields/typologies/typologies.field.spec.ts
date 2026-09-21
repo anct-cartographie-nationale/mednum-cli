@@ -998,3 +998,25 @@ describe('typologies field', (): void => {
     expect(typologies).toStrictEqual([Typologie.CAF, Typologie.CPAM]);
   });
 });
+
+describe('typologie de repli par la catégorie juridique', (): void => {
+  const matching: LieuxMediationNumeriqueMatching = {
+    nom: { colonne: 'name' }
+  } as LieuxMediationNumeriqueMatching;
+
+  it('type un lieu que ni la source ni son nom ne typent', (): void => {
+    expect(processTypologies({ name: 'Ayyem Zamen' }, matching, '9220')).toStrictEqual([Typologie.ASSO]);
+  });
+
+  it('ne substitue jamais la catégorie juridique à une typologie trouvée', (): void => {
+    expect(processTypologies({ name: 'Médiathèque de Nalliers' }, matching, '9220')).toStrictEqual([Typologie.BIB]);
+  });
+
+  it('laisse le lieu sans typologie quand la catégorie juridique ne dit rien', (): void => {
+    expect(processTypologies({ name: 'Ayyem Zamen' }, matching, '5710')).toStrictEqual([]);
+  });
+
+  it('laisse le lieu sans typologie quand l’annuaire est indisponible', (): void => {
+    expect(processTypologies({ name: 'Ayyem Zamen' }, matching)).toStrictEqual([]);
+  });
+});

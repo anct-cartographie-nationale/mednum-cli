@@ -19,6 +19,7 @@ import {
   type Url
 } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { type core, ZodError } from 'zod';
+import type { EtablissementALAdresse } from '../../../libraries/annuaire-entreprises';
 import type { Feature } from '../../../libraries/ban';
 import type { AddressCache, AddressRecord } from './address-cache';
 import { GeocodingError } from './geocoding';
@@ -36,6 +37,7 @@ import {
   processLocalisation,
   processModalitesAccompagnement,
   processNom,
+  etablissementRetenu,
   processPivot,
   processPresentation,
   processPriseRdv,
@@ -139,14 +141,15 @@ const lieuDeMediationNumerique = async (
 ): Promise<LieuMediationNumerique | undefined> => {
   const adresse: Adresse = adresseRetenue(findCommune, dataSource, matching, locationEnriched);
   const nom: Nom = processNom(dataSource, matching);
-  const typologies: Typologies = processTypologies(dataSource, matching);
+  const etablissement: EtablissementALAdresse | undefined = etablissementRetenu(annuaire, adresse, nom);
+  const typologies: Typologies = processTypologies(dataSource, matching, etablissement?.natureJuridique);
   const localisation: Localisation | undefined = await processLocalisation(dataSource, matching, geocode(adresse));
   if (isPrive(dataSource, matching)) return undefined;
 
   const lieuMediationNumerique: LieuMediationNumerique = {
     id: processId(dataSource, matching, index, sourceName),
     ...pivotIfAny(
-      processPivot(dataSource, matching, annuaire, adresse, nom, recorder, entryIdentification(dataSource, matching))
+      processPivot(dataSource, matching, annuaire, etablissement, recorder, entryIdentification(dataSource, matching))
     ),
     nom,
     adresse,

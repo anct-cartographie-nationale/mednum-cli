@@ -2,6 +2,7 @@ import { DispositifProgrammeNational, Typologie, Typologies } from '@gouvfr-anct
 import { type Choice, cibleAsDefault, type DataSource, type LieuxMediationNumeriqueMatching } from '../../matching';
 import { processDispositifProgrammeNationaux } from '../dispositifs-programmes-nationaux/dispositifs-programmes-nationaux.field';
 import { TYPOLOGIE_MATCHERS, type TypologieMatcher } from './name-to-typologie';
+import { typologieDeLaNatureJuridique } from './nature-juridique-to-typologie';
 
 const isAllowedTerm = (choice: Choice<Typologie>, sourceValue: string): boolean =>
   choice.sauf?.every((forbidden: string): boolean => !sourceValue.includes(forbidden)) ?? true;
@@ -71,9 +72,19 @@ const checkingTypologieSourceValues = (source: DataSource, matching: LieuxMediat
 const typologiesArePreset = (matching: LieuxMediationNumeriqueMatching): boolean =>
   matching.typologie?.[0]?.cible != null && matching.typologie[0].colonnes == null && matching.typologie[0].termes == null;
 
-export const processTypologies = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Typologies =>
+const typologiesDeLaSource = (source: DataSource, matching: LieuxMediationNumeriqueMatching): Typologies =>
   ((checkingTypologieSourceValues(source, matching) ?? []).some((check: boolean): boolean => !check) &&
     !typologiesArePreset(matching)) ||
   matching.typologie?.[0]?.cible == null
     ? inferTypologies(source, matching)
     : Typologies(Array.from(new Set(matching.typologie.reduce(appendTypologies(source), inferTypologies(source, matching)))));
+
+export const processTypologies = (
+  source: DataSource,
+  matching: LieuxMediationNumeriqueMatching,
+  natureJuridique?: string
+): Typologies => {
+  const declarees: Typologies = typologiesDeLaSource(source, matching);
+
+  return declarees.length > 0 ? declarees : Typologies(appendTypologie([], typologieDeLaNatureJuridique(natureJuridique)));
+};
