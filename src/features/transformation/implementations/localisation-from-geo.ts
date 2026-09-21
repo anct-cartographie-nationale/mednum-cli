@@ -99,6 +99,22 @@ const usableResponseFrom = (result?: BanResultRow): BanResponse | null =>
   result == null || !hasUsableName(result) ? null : { data: toFeatureCollection(result) };
 
 /**
+ * Un lot sain rend 1,6 % de lignes muettes — 2,3 % au pire, mesuré sur cinq tirages de trois
+ * cents adresses du jeu national. Un lot qui en rend plus du quart n'a pas rencontré des
+ * adresses introuvables : il a mal répondu. La distinction compte parce qu'une ligne muette est
+ * indiscernable d'un « rien trouvé », et qu'un échec inscrit au cache y reste une semaine.
+ */
+const LIGNES_MUETTES_TOLEREES = 0.25;
+
+const LIGNES_MINIMALES_POUR_JUGER = 20;
+
+const estDegrade = (indices: number[], results: BanResultRow[]): boolean => {
+  const muettes: number = indices.filter((_: number, position: number): boolean => !hasUsableName(results[position])).length;
+
+  return indices.length >= LIGNES_MINIMALES_POUR_JUGER && muettes / indices.length > LIGNES_MUETTES_TOLEREES;
+};
+
+/**
  * Géocodage par lot. Seules les adresses absentes du cache et complètes sont envoyées à la
  * BAN ; le résultat est réaligné sur les positions du lot d'origine.
  */
@@ -119,8 +135,14 @@ export const fetchBanResponseBatch = async (
     if (results.length === 0) return geocodingUnavailable(adresses);
 
     const resultAt: Map<number, BanResultRow | undefined> = resultsByBatchIndex(indices, results);
+    const envoyees = new Set<number>(indices);
+    const degrade: boolean = estDegrade(indices, results);
 
-    return adresses.map((_: NormalizedAddress, index: number): BanResponse | null => usableResponseFrom(resultAt.get(index)));
+    return adresses.map((_: NormalizedAddress, index: number): BatchGeocoding => {
+      if (!envoyees.has(index)) return null;
+
+      return usableResponseFrom(resultAt.get(index)) ?? (degrade ? GEOCODING_UNAVAILABLE : null);
+    });
   } catch (error: unknown) {
     console.error("[BAN batch] Erreur lors de l'appel ou du parsing CSV", error);
     return geocodingUnavailable(adresses);
