@@ -266,7 +266,7 @@ describe('labels autres field', (): void => {
       LOCALISATION_IN_QPV
     );
 
-    expect(labelsAutres).toStrictEqual(['QPV', 'FRR']);
+    expect(labelsAutres).toStrictEqual(['FRR', 'QPV']);
   });
 
   it('should get only one QPV if QPV is set in source', (): void => {
@@ -311,7 +311,7 @@ describe('labels autres field', (): void => {
       LOCALISATION_IN_QPV
     );
 
-    expect(labelsAutres).toStrictEqual(['QPV', 'FRR']);
+    expect(labelsAutres).toStrictEqual(['FRR', 'QPV']);
   });
 
   it('should ignore the obsolete ZRR label provided by a source, whatever its case', (): void => {
@@ -333,5 +333,22 @@ describe('labels autres field', (): void => {
     );
 
     expect(labelsAutres).toStrictEqual(['FRR']);
+  });
+});
+
+describe('ordre des autres formations labels', (): void => {
+  it('ordonne les labels quelle que soit la place des libellés territoriaux', (): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      autres_formations_labels: [{ colonnes: ['labels'] }]
+    } as LieuxMediationNumeriqueMatching;
+
+    const labels: string[] = processAutresFormationsLabels(
+      { labels: "Ville de Paris|Francil'in|cooltech" },
+      matching,
+      (): boolean => false,
+      (): boolean => false
+    );
+
+    expect(labels).toStrictEqual(['cooltech', "Francil'in", 'Ville de Paris']);
   });
 });

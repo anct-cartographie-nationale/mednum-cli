@@ -143,13 +143,13 @@ describe('prises en charge spécifiques field', (): void => {
     );
 
     expect(publicsAccueillis).toStrictEqual([
-      PriseEnChargeSpecifique.Surdite,
+      PriseEnChargeSpecifique.DeficienceVisuelle,
       PriseEnChargeSpecifique.HandicapsMentaux,
-      PriseEnChargeSpecifique.Illettrisme,
-      PriseEnChargeSpecifique.LanguesEtrangeresAutre,
-      PriseEnChargeSpecifique.LanguesEtrangeresAnglais,
       PriseEnChargeSpecifique.HandicapsMoteurs,
-      PriseEnChargeSpecifique.DeficienceVisuelle
+      PriseEnChargeSpecifique.Illettrisme,
+      PriseEnChargeSpecifique.LanguesEtrangeresAnglais,
+      PriseEnChargeSpecifique.LanguesEtrangeresAutre,
+      PriseEnChargeSpecifique.Surdite
     ]);
   });
 

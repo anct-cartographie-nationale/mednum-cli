@@ -137,8 +137,8 @@ describe('services field', (): void => {
     const services: Service[] = processServices({ 'À disposition': "découvrir l'ordinateur" }, MATCHING);
 
     expect(services).toStrictEqual([
-      Service.MaitriseDesOutilsNumeriquesDuQuotidien,
       Service.ComprehensionDuMondeNumerique,
+      Service.MaitriseDesOutilsNumeriquesDuQuotidien,
       Service.UtilisationSecuriseeDuNumerique
     ]);
   });
@@ -165,9 +165,9 @@ describe('services field', (): void => {
     const services: Service[] = processServices({ 'À disposition': 'cultures numériques' }, MATCHING);
 
     expect(services).toStrictEqual([
-      Service.MaitriseDesOutilsNumeriquesDuQuotidien,
       Service.ComprehensionDuMondeNumerique,
-      Service.LoisirsEtCreationsNumeriques
+      Service.LoisirsEtCreationsNumeriques,
+      Service.MaitriseDesOutilsNumeriquesDuQuotidien
     ]);
   });
 
@@ -186,14 +186,14 @@ describe('services field', (): void => {
 
     expect(services).toStrictEqual([
       Service.AccesInternetEtMaterielInformatique,
-      Service.MaitriseDesOutilsNumeriquesDuQuotidien,
-      Service.ComprehensionDuMondeNumerique,
+      Service.MaterielInformatiqueAPrixSolidaire,
       Service.AideAuxDemarchesAdministratives,
+      Service.ComprehensionDuMondeNumerique,
       Service.InsertionProfessionnelleViaLeNumerique,
-      Service.ParentaliteEtEducationAvecLeNumerique,
-      Service.UtilisationSecuriseeDuNumerique,
       Service.LoisirsEtCreationsNumeriques,
-      Service.MaterielInformatiqueAPrixSolidaire
+      Service.MaitriseDesOutilsNumeriquesDuQuotidien,
+      Service.ParentaliteEtEducationAvecLeNumerique,
+      Service.UtilisationSecuriseeDuNumerique
     ]);
   });
 

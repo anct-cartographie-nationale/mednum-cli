@@ -94,6 +94,6 @@ describe('modalites accompagnement field', (): void => {
       MATCHING
     );
 
-    expect(modalitesAccompagnement).toStrictEqual([ModaliteAccompagnement.DansUnAtelier, ModaliteAccompagnement.ADistance]);
+    expect(modalitesAccompagnement).toStrictEqual([ModaliteAccompagnement.ADistance, ModaliteAccompagnement.DansUnAtelier]);
   });
 });

@@ -288,7 +288,7 @@ describe('remove duplicates', (): void => {
             date_maj: '2023-05-03',
             courriels: 'commune-de-durtal@france-services.fr',
             source: 'hinaura',
-            services: `${Service.AideAuxDemarchesAdministratives}|${Service.MaitriseDesOutilsNumeriquesDuQuotidien}|${Service.InsertionProfessionnelleViaLeNumerique}`
+            services: `${Service.AideAuxDemarchesAdministratives}|${Service.InsertionProfessionnelleViaLeNumerique}|${Service.MaitriseDesOutilsNumeriquesDuQuotidien}`
           }
         ]
       ])
@@ -353,7 +353,7 @@ describe('remove duplicates', (): void => {
             courriels: 'commune-de-durtal@france-services.fr',
             source: 'hinaura',
             services: Service.AideAuxDemarchesAdministratives,
-            modalites_accompagnement: `${ModaliteAccompagnement.EnAutonomie}|${ModaliteAccompagnement.AccompagnementIndividuel}|${ModaliteAccompagnement.DansUnAtelier}|${ModaliteAccompagnement.ADistance}`
+            modalites_accompagnement: `${ModaliteAccompagnement.ADistance}|${ModaliteAccompagnement.AccompagnementIndividuel}|${ModaliteAccompagnement.DansUnAtelier}|${ModaliteAccompagnement.EnAutonomie}`
           }
         ]
       ])
@@ -418,7 +418,7 @@ describe('remove duplicates', (): void => {
             courriels: 'commune-de-durtal@france-services.fr',
             source: 'hinaura',
             services: Service.AideAuxDemarchesAdministratives,
-            frais_a_charge: `${Frais.GratuitSousCondition}|${Frais.Payant}|${Frais.Gratuit}`
+            frais_a_charge: `${Frais.Gratuit}|${Frais.GratuitSousCondition}|${Frais.Payant}`
           }
         ]
       ])
@@ -485,8 +485,8 @@ describe('remove duplicates', (): void => {
             courriels: 'commune-de-durtal@france-services.fr',
             source: 'hinaura',
             services: Service.AideAuxDemarchesAdministratives,
-            publics_specifiquement_adresses: `${PublicSpecifiquementAdresse.Seniors}|${PublicSpecifiquementAdresse.Jeunes}|${PublicSpecifiquementAdresse.Etudiants}|${PublicSpecifiquementAdresse.FamillesEnfants}`,
-            prise_en_charge_specifique: `${PriseEnChargeSpecifique.Surdite}|${PriseEnChargeSpecifique.HandicapsMoteurs}|${PriseEnChargeSpecifique.LanguesEtrangeresAutre}|${PriseEnChargeSpecifique.LanguesEtrangeresAnglais}`
+            publics_specifiquement_adresses: `${PublicSpecifiquementAdresse.Etudiants}|${PublicSpecifiquementAdresse.FamillesEnfants}|${PublicSpecifiquementAdresse.Jeunes}|${PublicSpecifiquementAdresse.Seniors}`,
+            prise_en_charge_specifique: `${PriseEnChargeSpecifique.HandicapsMoteurs}|${PriseEnChargeSpecifique.LanguesEtrangeresAnglais}|${PriseEnChargeSpecifique.LanguesEtrangeresAutre}|${PriseEnChargeSpecifique.Surdite}`
           }
         ]
       ])
@@ -551,7 +551,7 @@ describe('remove duplicates', (): void => {
             courriels: 'commune-de-durtal@france-services.fr',
             source: 'hinaura',
             services: Service.AideAuxDemarchesAdministratives,
-            dispositif_programmes_nationaux: `${DispositifProgrammeNational.ConseillersNumeriques}|${DispositifProgrammeNational.FranceServices}|${DispositifProgrammeNational.CertificationPIX}|${DispositifProgrammeNational.AidantsConnect}`
+            dispositif_programmes_nationaux: `${DispositifProgrammeNational.AidantsConnect}|${DispositifProgrammeNational.CertificationPIX}|${DispositifProgrammeNational.ConseillersNumeriques}|${DispositifProgrammeNational.FranceServices}`
           }
         ]
       ])
@@ -616,7 +616,7 @@ describe('remove duplicates', (): void => {
             courriels: 'commune-de-durtal@france-services.fr',
             source: 'hinaura',
             services: Service.AideAuxDemarchesAdministratives,
-            autres_formations_labels: ['Ville de Paris', "Francil'in", 'cooltech', 'fablab'].join('|')
+            autres_formations_labels: ['cooltech', 'fablab', "Francil'in", 'Ville de Paris'].join('|')
           }
         ]
       ])
@@ -682,9 +682,9 @@ describe('remove duplicates', (): void => {
             source: 'hinaura',
             services: Service.AideAuxDemarchesAdministratives,
             site_web: [
-              'https://www.ville-durtal.fr/',
+              'https://www.cap-tierslieux.org',
               'https://www.ccals.fr/profils/durtal/',
-              'https://www.cap-tierslieux.org'
+              'https://www.ville-durtal.fr/'
             ].join('|')
           }
         ]
@@ -750,7 +750,7 @@ describe('remove duplicates', (): void => {
             courriels: 'commune-de-durtal@france-services.fr',
             source: 'hinaura',
             services: Service.AideAuxDemarchesAdministratives,
-            typologie: `${Typologie.RFS}|${Typologie.ASSO}|${Typologie.TIERS_LIEUX}`
+            typologie: `${Typologie.ASSO}|${Typologie.RFS}|${Typologie.TIERS_LIEUX}`
           }
         ]
       ])
@@ -1177,7 +1177,7 @@ describe('remove duplicates', (): void => {
             longitude: -0.2551539846,
             date_maj: '2023-05-03',
             source: 'conseiller-numerique',
-            dispositif_programmes_nationaux: `${DispositifProgrammeNational.FranceServices}|${DispositifProgrammeNational.ConseillersNumeriques}|${DispositifProgrammeNational.CertificationPIX}`,
+            dispositif_programmes_nationaux: `${DispositifProgrammeNational.CertificationPIX}|${DispositifProgrammeNational.ConseillersNumeriques}|${DispositifProgrammeNational.FranceServices}`,
             services: Service.AccesInternetEtMaterielInformatique
           }
         ]
@@ -1344,5 +1344,51 @@ describe('remove duplicates', (): void => {
     expect(mergedLieu?.id).toBe('Conseil-Departemental_1__Conseil-Departemental_2__Conseil-Departemental_3');
     expect(mergedLieu?.horaires).toBe('Mo-Sun 00:00-00:00');
     expect(mergedLieu?.services).toBe(Service.AccesInternetEtMaterielInformatique);
+  });
+});
+
+describe('ordre des valeurs multiples après fusion', (): void => {
+  const lieuFusionnable = (id: string, source: string, services: string): SchemaLieuMediationNumerique => ({
+    id,
+    pivot: '00000000000000',
+    nom: 'France Services Durtal',
+    adresse: '11 rue Joseph Cugnot',
+    code_postal: '49430',
+    code_insee: '49127',
+    commune: 'Durtal',
+    latitude: 47.6699154795,
+    longitude: -0.2551539846,
+    date_maj: '2023-05-03',
+    source,
+    services
+  });
+
+  const servicesFusionnes = (premier: string, second: string): string | undefined => {
+    const lieux: SchemaLieuMediationNumerique[] = [
+      lieuFusionnable('mediation-numerique-hinaura-MairiE2-mediation-numerique', 'hinaura', premier),
+      lieuFusionnable('mediation-numerique-hub-lo-436-mediation-numerique', 'francil-in', second)
+    ];
+
+    return [
+      ...mergeDuplicates(new Date('2023-05-30'))(lieux, groupDuplicates(duplicationComparisons(lieux, false))).values()
+    ][0]?.services;
+  };
+
+  it('ordonne les services fusionnés', (): void => {
+    expect(servicesFusionnes(Service.MaitriseDesOutilsNumeriquesDuQuotidien, Service.AideAuxDemarchesAdministratives)).toBe(
+      `${Service.AideAuxDemarchesAdministratives}|${Service.MaitriseDesOutilsNumeriquesDuQuotidien}`
+    );
+  });
+
+  it('rend le même ordre quel que soit le lieu qui arrive en premier', (): void => {
+    const unSens: string | undefined = servicesFusionnes(
+      Service.MaitriseDesOutilsNumeriquesDuQuotidien,
+      Service.AideAuxDemarchesAdministratives
+    );
+
+    expect(unSens).toBeDefined();
+    expect(unSens).toBe(
+      servicesFusionnes(Service.AideAuxDemarchesAdministratives, Service.MaitriseDesOutilsNumeriquesDuQuotidien)
+    );
   });
 });

@@ -51,8 +51,8 @@ describe('labels nationaux field', (): void => {
     );
 
     expect(labelsNationaux).toStrictEqual([
-      DispositifProgrammeNational.FranceServices,
-      DispositifProgrammeNational.ConseillersNumeriques
+      DispositifProgrammeNational.ConseillersNumeriques,
+      DispositifProgrammeNational.FranceServices
     ]);
   });
 
