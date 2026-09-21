@@ -615,13 +615,7 @@ describe('typologies field', (): void => {
   it.each([
     ['Mairie de Saint Alban'],
     ['Maire'],
-    ['Agglomération du Choletais'],
     ['Commune de Ventiseri'],
-    ["CA D'EPINAL"],
-    ['CARCASSONNE AGGLO'],
-    ['Communauté Agglomération La Rochelle'],
-    ["Communauté d'Agglomération Bergeracoise"],
-    ['CONCARNEAU CORNOUAILLE AGGLOMERATION'],
     ["Municipalité d'Annay"],
     ["Ville d'Alès"],
     ['Marie de Lugrin']
@@ -633,6 +627,26 @@ describe('typologies field', (): void => {
     const typologies: Typologies = processTypologies({ name: nom }, matching);
 
     expect(typologies).toStrictEqual([Typologie.MUNI]);
+  });
+
+  it.each([
+    ['Agglomération du Choletais'],
+    ["CA D'EPINAL"],
+    ['CARCASSONNE AGGLO'],
+    ['Communauté Agglomération La Rochelle'],
+    ["Communauté d'Agglomération Bergeracoise"],
+    ['CONCARNEAU CORNOUAILLE AGGLOMERATION'],
+    ['Douaisis Agglo'],
+    ['Troyes Champagne Métropole - EPCI']
+  ])('should get EPCI and never MUNI when name contains %s', (nom: string): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      nom: { colonne: 'name' }
+    } as LieuxMediationNumeriqueMatching;
+
+    const typologies: Typologies = processTypologies({ name: nom }, matching);
+
+    expect(typologies).toContain(Typologie.EPCI);
+    expect(typologies).not.toContain(Typologie.MUNI);
   });
 
   it.each([["Service d'intermédiation locative de la croix marine Auvergne Rhône Alpes"]])(

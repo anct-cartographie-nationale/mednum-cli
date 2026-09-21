@@ -181,7 +181,14 @@ export const TYPOLOGIE_MATCHERS: TypologieMatcher[] = [
   },
   {
     typologie: Typologie.EPCI,
-    matchers: [/(?:^|\W)EPCI(?:\W|$)/i, /Intercommunalité/i]
+    matchers: [
+      /(?:^|\W)EPCI(?:\W|$)/i,
+      /Intercommunalité/i,
+      /^CA\s/i,
+      /\sAgglo(?:m[ée]ration)?$/i,
+      /Agglom[ée]ration d/i,
+      /Communaut[ée] (?:d\W)?Agglom[ée]ration/i
+    ]
   },
   {
     typologie: Typologie.EPI,
@@ -278,10 +285,6 @@ export const TYPOLOGIE_MATCHERS: TypologieMatcher[] = [
       /(?:^|\W)mairie(?:\W|$)/i,
       /(?:^|\W)maire(?:\W|$)/i,
       /^commune(?:\W|$)/i,
-      /^CA\s/i,
-      /\sAgglo(?:m[ée]ration)?$/i,
-      /Agglom[ée]ration d/i,
-      /Communaut[ée] (?:d\W)?Agglom[ée]ration/i,
       /^ville d[eu']/i,
       /h[oô]tel de ville/i,
       /marie de\s/i
