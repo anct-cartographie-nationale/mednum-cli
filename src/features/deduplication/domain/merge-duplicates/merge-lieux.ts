@@ -1,9 +1,7 @@
-import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { type SchemaLieuMediationNumerique, triee } from '@gouvfr-anct/lieux-de-mediation-numerique';
 
 const mergeArrayStrings = (arrayString1: string, arrayString2: string): string =>
-  Array.from(new Set([...arrayString1.split('|'), ...arrayString2.split('|')]))
-    .filter(Boolean)
-    .join('|');
+  triee(Array.from(new Set([...arrayString1.split('|'), ...arrayString2.split('|')])).filter(Boolean)).join('|');
 
 const mergeServices = (services1?: string, services2?: string): { services?: string } =>
   services1 == null || services2 == null ? {} : { services: mergeArrayStrings(services1, services2) };

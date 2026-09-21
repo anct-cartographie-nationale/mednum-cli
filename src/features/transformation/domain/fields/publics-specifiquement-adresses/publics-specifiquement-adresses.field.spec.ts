@@ -82,8 +82,8 @@ describe('publics accueillis field', (): void => {
     );
 
     expect(publicsSpecifiquementAdresses).toStrictEqual([
-      PublicSpecifiquementAdresse.FamillesEnfants,
-      PublicSpecifiquementAdresse.Etudiants
+      PublicSpecifiquementAdresse.Etudiants,
+      PublicSpecifiquementAdresse.FamillesEnfants
     ]);
   });
 
@@ -129,11 +129,11 @@ describe('publics accueillis field', (): void => {
     );
 
     expect(publicsSpecifiquementAdresses).toStrictEqual([
-      PublicSpecifiquementAdresse.Jeunes,
-      PublicSpecifiquementAdresse.FamillesEnfants,
       PublicSpecifiquementAdresse.Etudiants,
-      PublicSpecifiquementAdresse.Seniors,
-      PublicSpecifiquementAdresse.Femmes
+      PublicSpecifiquementAdresse.FamillesEnfants,
+      PublicSpecifiquementAdresse.Femmes,
+      PublicSpecifiquementAdresse.Jeunes,
+      PublicSpecifiquementAdresse.Seniors
     ]);
   });
 

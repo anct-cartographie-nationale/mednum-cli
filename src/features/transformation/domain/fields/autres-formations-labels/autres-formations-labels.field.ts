@@ -1,4 +1,4 @@
-import type { Adresse, Localisation } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { type Adresse, type Localisation, triee } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { type Choice, type LieuxMediationNumeriqueMatching, type DataSource, cibleAsDefault } from '../../matching';
 import type { IsInFrr, IsInQpv } from '../../../../../libraries/collectivites';
 
@@ -106,14 +106,15 @@ export const processAutresFormationsLabels = (
   isInFrr: IsInFrr,
   adresse?: Adresse,
   localisation?: Localisation
-): string[] => [
-  ...Array.from(
-    new Set(
-      appendExtraLabels(isInQpv, isInFrr)(
-        labelsFromSource(matching, source).flatMap(labelWithPipe).filter(isNotObsoleteLabel),
-        adresse,
-        localisation
+): string[] =>
+  triee(
+    Array.from(
+      new Set(
+        appendExtraLabels(isInQpv, isInFrr)(
+          labelsFromSource(matching, source).flatMap(labelWithPipe).filter(isNotObsoleteLabel),
+          adresse,
+          localisation
+        )
       )
     )
-  )
-];
+  );
