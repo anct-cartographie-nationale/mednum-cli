@@ -4,7 +4,7 @@ import type { EtablissementALAdresse } from '../../../../../libraries/annuaire-e
 import type { DataSource, LieuxMediationNumeriqueMatching } from '../../matching';
 import { type Record as ReportRecord, Report } from '../../report';
 import type { AnnuaireIndex } from './determination';
-import { processPivot } from './pivot.field';
+import { etablissementRetenu, processPivot } from './pivot.field';
 
 const MATCHING = { pivot: { colonne: 'SIRET' } } as LieuxMediationNumeriqueMatching;
 
@@ -28,15 +28,22 @@ const etablissement = (siret: string): EtablissementALAdresse => ({
   actif: true
 });
 
-const ANNUAIRE: AnnuaireIndex = new Map([['49650|31|rue jean gallart', [etablissement(SIRET_DU_LIEU)]]]);
-const AILLEURS: AnnuaireIndex = new Map([['75002|10|rue de la paix', [etablissement(AUTRE_SIRET)]]]);
+const ANNUAIRE: AnnuaireIndex = new Map([['49650|allonnes|31|rue jean gallart', [etablissement(SIRET_DU_LIEU)]]]);
+const AILLEURS: AnnuaireIndex = new Map([['75002|paris|10|rue de la paix', [etablissement(AUTRE_SIRET)]]]);
 
 const INDISPONIBLE: AnnuaireIndex = new Map();
 
 const determiner = (source: DataSource, annuaire: AnnuaireIndex): { pivot: Pivot | undefined; records: ReportRecord[] } => {
   const report: Report = Report();
   const recorder = report.entry(0);
-  const pivot: Pivot | undefined = processPivot(source, MATCHING, annuaire, ADRESSE, NOM, recorder, NOM);
+  const pivot: Pivot | undefined = processPivot(
+    source,
+    MATCHING,
+    annuaire,
+    etablissementRetenu(annuaire, ADRESSE, NOM),
+    recorder,
+    NOM
+  );
   recorder.commit();
 
   return { pivot, records: report.records() };
@@ -87,7 +94,7 @@ describe('pivot dérivé de l’annuaire', (): void => {
   });
 
   it('écarte un SIRET dont la clé de contrôle est fausse', (): void => {
-    const annuaire: AnnuaireIndex = new Map([['49650|31|rue jean gallart', [etablissement('12345678910111')]]]);
+    const annuaire: AnnuaireIndex = new Map([['49650|allonnes|31|rue jean gallart', [etablissement('12345678910111')]]]);
 
     expect(determiner({}, annuaire).pivot).toBeUndefined();
   });

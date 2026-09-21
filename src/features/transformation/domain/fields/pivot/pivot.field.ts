@@ -1,6 +1,7 @@
 import { type Adresse, Pivot } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import {
   cleDAdresse,
+  communeNormalisee,
   type EtablissementALAdresse,
   numeroDeVoie,
   voieNormalisee
@@ -29,6 +30,7 @@ const pivotDeclare = (source: DataSource, matching: LieuxMediationNumeriqueMatch
 const cleDuLieu = (adresse: Adresse): string =>
   cleDAdresse({
     codePostal: adresse.code_postal,
+    commune: communeNormalisee(adresse.commune),
     numero: numeroDeVoie(adresse.voie),
     voie: voieNormalisee(adresse.voie)
   });
@@ -37,12 +39,17 @@ const signaler = (recorder: Recorder, entryName: string, message: string, before
   recorder.record(PIVOT_FIELD, message, entryName).fix({ before, apply: DETERMINE_DEPUIS_L_ADRESSE, after });
 };
 
+export const etablissementRetenu = (
+  annuaire: AnnuaireIndex,
+  adresse: Adresse,
+  nom: string
+): EtablissementALAdresse | undefined => etablissementDuLieu(annuaire, cleDuLieu(adresse), nom, adresse.commune);
+
 export const processPivot = (
   source: DataSource,
   matching: LieuxMediationNumeriqueMatching,
   annuaire: AnnuaireIndex,
-  adresse: Adresse,
-  nom: string,
+  etablissement: EtablissementALAdresse | undefined,
   recorder: Recorder,
   entryName: string
 ): Pivot | undefined => {
@@ -50,8 +57,7 @@ export const processPivot = (
 
   if (annuaire.size === 0) return declare;
 
-  const trouve: EtablissementALAdresse | undefined = etablissementDuLieu(annuaire, cleDuLieu(adresse), nom, adresse.commune);
-  const determine: Pivot | undefined = trouve == null ? undefined : (Pivot.safe(trouve.siret) ?? undefined);
+  const determine: Pivot | undefined = etablissement == null ? undefined : (Pivot.safe(etablissement.siret) ?? undefined);
 
   if (determine == null) {
     if (declare != null) recorder.record(PIVOT_FIELD, PIVOT_NON_CONFIRME, entryName);

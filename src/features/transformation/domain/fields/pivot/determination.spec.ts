@@ -94,3 +94,55 @@ describe('établissement du lieu', (): void => {
     );
   });
 });
+
+describe('entités domiciliées chez leur hôte', (): void => {
+  it.each([
+    ['LA VILLE DE MULHOUSE', 'AMICALE DU PERSONNEL VILLE DE MULHOUSE', 'Mulhouse'],
+    ['Mairie du 12e arrondissement', 'COMITE FETES 12E ARRONDISSEMENT PARIS', 'Paris'],
+    ['Caf des Landes', 'CSE CAF DES LANDES', 'Mont-de-Marsan'],
+    [
+      'Mairie de Champigny sur Marne',
+      'COMITE DE GESTION DES OEUVRES SOCIALES DE LA MAIRIE DE CHAMPIGNY',
+      'Champigny-sur-Marne'
+    ],
+    ['Mairie du 8e arrondissement', 'CAISSE DES ECOLES DU 8E ARRONDISSEMENT', 'Paris'],
+    ["Mairie d'Avroult", 'APE AVROULT', 'Avroult'],
+    ['COLLEGE LES QUATRE SAISONS', 'ASSOCIATION SPORTIVE DU COLLEGE DES QUATRE SAISONS', 'Onet-le-Château'],
+    ['CPAM', 'SOC MUTUALISTE DU PERSONNEL CPAM 17', 'La Rochelle'],
+    ['UDAF', 'SCI UDAF LE MARTELET', 'Lyon'],
+    ['CC TERRES DE CHALOSSE', 'OFFICE DE TOURISME TERRES DE CHALOSSE', 'Montfort-en-Chalosse']
+  ])('refuse « %s » pour « %s »', (nom: string, denomination: string, commune: string): void => {
+    expect(denominationConcorde(nom, commune, denomination)).toBe(false);
+  });
+
+  it('retient l’entité elle-même quand c’est elle que le lieu nomme', (): void => {
+    expect(denominationConcorde("Amicale laïque d'Allonnes", 'Allonnes', 'AMICALE LAIQUE')).toBe(true);
+  });
+
+  it('retient l’office de tourisme quand le lieu est l’office de tourisme', (): void => {
+    expect(
+      denominationConcorde(
+        'Office de tourisme Terres de Chalosse',
+        'Montfort-en-Chalosse',
+        'OFFICE DE TOURISME TERRES DE CHALOSSE'
+      )
+    ).toBe(true);
+  });
+});
+
+describe('deux communes derrière un même code postal', (): void => {
+  it('ne confond pas deux communes quand la clé les distingue', (): void => {
+    const savignargues: AnnuaireIndex = new Map([
+      [
+        '30350|savignargues|1|place de la mairie',
+        [etablissement({ siret: '21300068000016', denomination: 'COMMUNE DE SAVIGNARGUES' })]
+      ],
+      ['30350|cardet|1|place de la mairie', [etablissement({ siret: '21300063100017', denomination: 'COMMUNE DE CARDET' })]]
+    ]);
+
+    expect(
+      etablissementDuLieu(savignargues, '30350|savignargues|1|place de la mairie', 'COMMUNE DE SAVIGNARGUES', 'Savignargues')
+        ?.denomination
+    ).toBe('COMMUNE DE SAVIGNARGUES');
+  });
+});

@@ -22,4 +22,5 @@ export * from './publics-specifiquement-adresses/publics-specifiquement-adresses
 export * from './services/services.field';
 export * from './source/source.field';
 export * from './typologies/typologies.field';
+export * from './typologies/nature-juridique-to-typologie';
 export * from './prive/prive.field';

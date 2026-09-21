@@ -615,13 +615,7 @@ describe('typologies field', (): void => {
   it.each([
     ['Mairie de Saint Alban'],
     ['Maire'],
-    ['Agglomération du Choletais'],
     ['Commune de Ventiseri'],
-    ["CA D'EPINAL"],
-    ['CARCASSONNE AGGLO'],
-    ['Communauté Agglomération La Rochelle'],
-    ["Communauté d'Agglomération Bergeracoise"],
-    ['CONCARNEAU CORNOUAILLE AGGLOMERATION'],
     ["Municipalité d'Annay"],
     ["Ville d'Alès"],
     ['Marie de Lugrin']
@@ -633,6 +627,26 @@ describe('typologies field', (): void => {
     const typologies: Typologies = processTypologies({ name: nom }, matching);
 
     expect(typologies).toStrictEqual([Typologie.MUNI]);
+  });
+
+  it.each([
+    ['Agglomération du Choletais'],
+    ["CA D'EPINAL"],
+    ['CARCASSONNE AGGLO'],
+    ['Communauté Agglomération La Rochelle'],
+    ["Communauté d'Agglomération Bergeracoise"],
+    ['CONCARNEAU CORNOUAILLE AGGLOMERATION'],
+    ['Douaisis Agglo'],
+    ['Troyes Champagne Métropole - EPCI']
+  ])('should get EPCI and never MUNI when name contains %s', (nom: string): void => {
+    const matching: LieuxMediationNumeriqueMatching = {
+      nom: { colonne: 'name' }
+    } as LieuxMediationNumeriqueMatching;
+
+    const typologies: Typologies = processTypologies({ name: nom }, matching);
+
+    expect(typologies).toContain(Typologie.EPCI);
+    expect(typologies).not.toContain(Typologie.MUNI);
   });
 
   it.each([["Service d'intermédiation locative de la croix marine Auvergne Rhône Alpes"]])(
@@ -982,5 +996,27 @@ describe('typologies field', (): void => {
     const typologies: Typologies = processTypologies({ name: 'CPAM / CAF du Gers', checkboxListeTypelieu: '1' }, matching);
 
     expect(typologies).toStrictEqual([Typologie.CAF, Typologie.CPAM]);
+  });
+});
+
+describe('typologie de repli par la catégorie juridique', (): void => {
+  const matching: LieuxMediationNumeriqueMatching = {
+    nom: { colonne: 'name' }
+  } as LieuxMediationNumeriqueMatching;
+
+  it('type un lieu que ni la source ni son nom ne typent', (): void => {
+    expect(processTypologies({ name: 'Ayyem Zamen' }, matching, '9220')).toStrictEqual([Typologie.ASSO]);
+  });
+
+  it('ne substitue jamais la catégorie juridique à une typologie trouvée', (): void => {
+    expect(processTypologies({ name: 'Médiathèque de Nalliers' }, matching, '9220')).toStrictEqual([Typologie.BIB]);
+  });
+
+  it('laisse le lieu sans typologie quand la catégorie juridique ne dit rien', (): void => {
+    expect(processTypologies({ name: 'Ayyem Zamen' }, matching, '5710')).toStrictEqual([]);
+  });
+
+  it('laisse le lieu sans typologie quand l’annuaire est indisponible', (): void => {
+    expect(processTypologies({ name: 'Ayyem Zamen' }, matching)).toStrictEqual([]);
   });
 });

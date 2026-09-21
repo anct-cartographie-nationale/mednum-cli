@@ -1,8 +1,9 @@
-import { cleDAdresse, numeroDeVoie, voieNormalisee } from '../../../../../libraries/annuaire-entreprises';
+import { cleDAdresse, communeNormalisee, numeroDeVoie, voieNormalisee } from '../../../../../libraries/annuaire-entreprises';
 
 export type LieuLocalise = {
   adresse?: string;
   code_postal?: string;
+  commune?: string;
 };
 
 export const clesDesLieux = (lieux: LieuLocalise[]): Set<string> =>
@@ -14,6 +15,7 @@ export const clesDesLieux = (lieux: LieuLocalise[]): Set<string> =>
       : cles.add(
           cleDAdresse({
             codePostal,
+            commune: communeNormalisee(lieu.commune ?? ''),
             numero: numeroDeVoie(lieu.adresse ?? ''),
             voie: voieNormalisee(lieu.adresse ?? '')
           })

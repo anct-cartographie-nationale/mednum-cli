@@ -25,6 +25,27 @@ const motsDe = (valeur: string): string[] =>
     .split(' ')
     .filter((mot: string): boolean => mot.length > 2 && !MOTS_VIDES.includes(mot));
 
+const ENTITES_HEBERGEES: RegExp[] = [
+  /^amicale\b/u,
+  /^comite (?:des? |d |de la )?fetes?\b/u,
+  /^(?:cse|comite (?:social et economique|d entreprise|d etablissement))\b/u,
+  /(?:oeuvres sociales|du personnel|des personnels)\b/u,
+  /^caisse (?:des? )?ecoles\b/u,
+  /^(?:ape|apel|association (?:des )?parents)\b/u,
+  /^(?:association sportive|usep|unss|union sportive)\b/u,
+  /^(?:fse|foyer socio|cooperative scolaire)\b/u,
+  /^(?:soc |societe )?mutualiste\b/u,
+  /^(?:union immobiliere|sci)\b/u,
+  /^office (?:de |du )?tourisme\b/u
+];
+
+const estHebergeeChezSonHote = (nom: string, denomination: string): boolean => {
+  const hote: string = normaliser(nom);
+  const candidate: string = normaliser(denomination);
+
+  return ENTITES_HEBERGEES.some((motif: RegExp): boolean => motif.test(candidate) && !motif.test(hote));
+};
+
 const sansLaCommune = (valeur: string, commune: string): string => {
   const toponyme: string[] = motsDe(commune);
 
@@ -37,7 +58,12 @@ export const denominationConcorde = (nom: string, commune: string, denomination:
   const gauche: string = sansLaCommune(nom, commune);
   const droite: string = sansLaCommune(denomination, commune);
 
-  return gauche !== '' && droite !== '' && tokenSetSimilarityRatio(gauche, droite) >= SIMILARITE_DE_DENOMINATION_MINIMALE;
+  return (
+    !estHebergeeChezSonHote(nom, denomination) &&
+    gauche !== '' &&
+    droite !== '' &&
+    tokenSetSimilarityRatio(gauche, droite) >= SIMILARITE_DE_DENOMINATION_MINIMALE
+  );
 };
 
 export const etablissementDuLieu = (
