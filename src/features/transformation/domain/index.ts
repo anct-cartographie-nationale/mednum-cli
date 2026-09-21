@@ -2,6 +2,7 @@ export * from './address-cache';
 export * from './error-report-to-csv';
 export * from './fields';
 export * from './geocoding';
+export * from './identifiants-uniques';
 export * from './matching';
 export * from './merge-hours-ranges/merge-hours-ranges';
 export * from './report';

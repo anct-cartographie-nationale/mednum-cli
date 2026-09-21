@@ -8,6 +8,7 @@ import {
   AddressCache,
   type AddressIndex,
   indexerParEtiquette,
+  sansIdentifiantEnDouble,
   type BatchGeocoding,
   type DataSource,
   getAddressData,
@@ -163,14 +164,17 @@ export const transformerUneSource = async ({
     if (offset + BATCH_SIZE < sourceItems.length) await delay(PAUSE_MS);
   }
 
-  journal.info(`3. Sauvegarde du rapport d'erreur ${report.records().length}`);
+  const lieuxPubliables: LieuMediationNumerique[] = sansIdentifiantEnDouble(lieuxDeMediationNumerique, report);
+  journal.info(
+    `3. Sauvegarde du rapport d'erreur ${report.records().length} (écartés pour identifiant en double : ${lieuxDeMediationNumerique.length - lieuxPubliables.length})`
+  );
   inject(SAVE_ERRORS)(report);
 
   const ecartes: number = report
     .records()
     .filter((record: ReportRecord): boolean => record.errors.some(({ field }): boolean => field === UNLOCATED_FIELD)).length;
-  journal.info(`4. Sauvegarde des sorties : ${lieuxDeMediationNumerique.length} (écartés faute de coordonnées : ${ecartes})`);
-  inject(SAVE_OUTPUTS)(lieuxDeMediationNumerique);
+  journal.info(`4. Sauvegarde des sorties : ${lieuxPubliables.length} (écartés faute de coordonnées : ${ecartes})`);
+  inject(SAVE_OUTPUTS)(lieuxPubliables);
 
   journal.info(`5. Sauvegarde de l'historique: + ${addressCache.records().length}`);
   inject(SAVE_ADDRESSES)(addressCache);

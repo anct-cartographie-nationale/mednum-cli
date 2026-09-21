@@ -130,8 +130,8 @@ const adresseRetenue = (
   processAdresse(findCommune)(dataSource, matching);
 
 const lieuDeMediationNumerique = async (
-  index: number,
   dataSource: DataSource,
+  sourceBrute: DataSource,
   sourceName: string,
   recorder: Recorder,
   { findCommune, isInQpv, isInFrr, geocode, config: matching }: TransformationRepository,
@@ -147,7 +147,7 @@ const lieuDeMediationNumerique = async (
   if (isPrive(dataSource, matching)) return undefined;
 
   const lieuMediationNumerique: LieuMediationNumerique = {
-    id: processId(dataSource, matching, index, sourceName),
+    id: processId(sourceBrute, matching, sourceName),
     ...pivotIfAny(
       processPivot(dataSource, matching, annuaire, etablissement, recorder, entryIdentification(dataSource, matching))
     ),
@@ -264,8 +264,8 @@ export const toLieuxMediationNumerique =
           .commit();
       }
       const lieu: LieuMediationNumerique | undefined = await lieuDeMediationNumerique(
-        index,
         dataSourceEnriched as DataSource,
+        dataSource as DataSource,
         sourceName,
         report.entry(index),
         repository,
