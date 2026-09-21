@@ -41,6 +41,25 @@ export const isRecentFailedAttempt = (record?: AddressRecord): boolean => {
 };
 
 /**
+ * Le cache, indexé par étiquette. Le chercher par balayage coûtait une lecture complète du cache
+ * par adresse traitée : quinze mille entrées parcourues vingt mille fois. L'index se construit
+ * une fois par exécution et rend la recherche immédiate.
+ */
+export type AddressIndex = ReadonlyMap<string, AddressRecord>;
+
+/**
+ * Quand une étiquette revient, le géocodage l'emporte sur son absence — même règle que
+ * `keepGeocoded`, pour qu'une tentative infructueuse survenue après une réussie n'efface pas ce
+ * que l'on sait.
+ */
+export const indexerParEtiquette = (records: readonly AddressRecord[]): AddressIndex =>
+  records.reduce(
+    (index: Map<string, AddressRecord>, record: AddressRecord): Map<string, AddressRecord> =>
+      index.set(record.addresseOriginale, keepGeocoded(index.get(record.addresseOriginale), record)),
+    new Map<string, AddressRecord>()
+  );
+
+/**
  * Une adresse n'a qu'une entrée : la table est indexée par l'étiquette, si bien qu'un doublon
  * ne peut pas se former, ni pendant une exécution ni entre deux lieux qui partagent l'adresse.
  *
