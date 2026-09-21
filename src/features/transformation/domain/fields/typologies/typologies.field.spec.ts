@@ -103,7 +103,7 @@ describe('typologies field', (): void => {
     expect(typologies).toStrictEqual([Typologie.CCAS]);
   });
 
-  it.each([["CONSEIL DEP DE L'ACCES AU SERVICE SOCIAUX"], ['COSEIL DEPATEMENTAL DES YVELINES SERVICE MNA'], ['CDAD Ardennes']])(
+  it.each([["CONSEIL DEP DE L'ACCES AU SERVICE SOCIAUX"], ['COSEIL DEPATEMENTAL DES YVELINES SERVICE MNA']])(
     'should get CD when name contains %s',
     (nom: string): void => {
       const matching: LieuxMediationNumeriqueMatching = {
@@ -296,15 +296,27 @@ describe('typologies field', (): void => {
     expect(typologies).toStrictEqual([Typologie.E2C]);
   });
 
-  it('should get EI when name contains EI', (): void => {
-    const matching: LieuxMediationNumeriqueMatching = {
-      nom: { colonne: 'name' }
-    } as LieuxMediationNumeriqueMatching;
+  it.each([["ARQA Entreprise d'Insertion (EI)"], ['Entreprise d’insertion EBS Le Relais NEIF']])(
+    'should get EI when name contains %s',
+    (nom: string): void => {
+      const matching: LieuxMediationNumeriqueMatching = {
+        nom: { colonne: 'name' }
+      } as LieuxMediationNumeriqueMatching;
 
-    const typologies: Typologies = processTypologies({ name: 'EI Girard Hervé - mon assistant numérique' }, matching);
+      expect(processTypologies({ name: nom }, matching)).toStrictEqual([Typologie.EI]);
+    }
+  );
 
-    expect(typologies).toStrictEqual([Typologie.EI]);
-  });
+  it.each([['EI Girard Hervé - mon assistant numérique'], ['PaperMotion by Christophe JOURDAIN EI']])(
+    'ne prend pas « %s » pour une entreprise d’insertion, EI y désignant un entrepreneur individuel',
+    (nom: string): void => {
+      const matching: LieuxMediationNumeriqueMatching = {
+        nom: { colonne: 'name' }
+      } as LieuxMediationNumeriqueMatching;
+
+      expect(processTypologies({ name: nom }, matching)).not.toContain(Typologie.EI);
+    }
+  );
 
   it.each([["Bus It'In"], ['Antilly/ CCPV Van numérique']])('should get ENM when name contains %s', (nom: string): void => {
     const matching: LieuxMediationNumeriqueMatching = {
@@ -1018,5 +1030,71 @@ describe('typologie de repli par la catégorie juridique', (): void => {
 
   it('laisse le lieu sans typologie quand l’annuaire est indisponible', (): void => {
     expect(processTypologies({ name: 'Ayyem Zamen' }, matching)).toStrictEqual([]);
+  });
+});
+
+describe('sigles homonymes que le nom ne suffit pas à trancher', (): void => {
+  const matching: LieuxMediationNumeriqueMatching = {
+    nom: { colonne: 'name' }
+  } as LieuxMediationNumeriqueMatching;
+
+  const typologiesDe = (nom: string): Typologies => processTypologies({ name: nom }, matching);
+
+  it('ne prend pas CDC Habitat pour une communauté de communes', (): void => {
+    expect(typologiesDe('CDC HABITAT ERMONT EAUBONNE')).not.toContain(Typologie.CC);
+  });
+
+  it.each([['CDC ARDECHE DES SOURCES ET VOLCANS'], ['CDC ILE DE RÉ - POLE SERVICES A LA POPULATION']])(
+    'reconnaît « %s » comme une communauté de communes',
+    (nom: string): void => {
+      expect(typologiesDe(nom)).toContain(Typologie.CC);
+    }
+  );
+
+  it('reconnaît un conseil départemental', (): void => {
+    expect(typologiesDe('CONSEIL DEPARTEMENTAL DE GUADELOUPE')).toStrictEqual([Typologie.CD]);
+  });
+
+  it('ne prend pas un conseil départemental des associations familiales pour un conseil départemental', (): void => {
+    expect(typologiesDe('CONSEIL DEPARTEMENTAL DES ASSOCIATIONS FAMILIALES LAIQUES')).not.toContain(Typologie.CD);
+  });
+
+  it('ne prend pas un conseil départemental de l’accès au droit pour un conseil départemental', (): void => {
+    expect(typologiesDe("CONSEIL DEP DE L'ACCES AU DROIT")).not.toContain(Typologie.CD);
+  });
+
+  it.each([
+    ['Espace Parisien pour l’Insertion (EPI) Flandre 19e'],
+    ['Espace Parisien Insertion (EPI) Moisant'],
+    ['Epi-Centre'],
+    ['Association Epi de Mains']
+  ])('ne prend pas « %s » pour un espace public internet', (nom: string): void => {
+    expect(typologiesDe(nom)).not.toContain(Typologie.EPI);
+  });
+
+  it.each([['ATELIERS NUMERIQUE - EPI'], ['Espace Public Internet Loriolais - EPI LO']])(
+    'reconnaît « %s » comme un espace public internet',
+    (nom: string): void => {
+      expect(typologiesDe(nom)).toContain(Typologie.EPI);
+    }
+  );
+
+  it.each([['Msap Poste de Lescheraines'], ['Poste République'], ['LaPoste Villebourbon'], ['Bureau de poste de Royan']])(
+    'reconnaît « %s » comme un bureau de poste',
+    (nom: string): void => {
+      expect(typologiesDe(nom)).toContain(Typologie.LA_POSTE);
+    }
+  );
+
+  it('range un conseil départemental de l’accès au droit parmi les points d’accès au droit', (): void => {
+    expect(typologiesDe('CDAD Ardennes')).toStrictEqual([Typologie.PAD]);
+  });
+
+  it('garde MUNI pour une commune dont le nom contient « Marie de »', (): void => {
+    expect(typologiesDe('COMMUNE DE SAINTE MARIE DE RE')).toContain(Typologie.MUNI);
+  });
+
+  it.each([['Marie de Dompierre sur Yon'], ['Marie de Lugrin']])('rattrape la coquille de « %s »', (nom: string): void => {
+    expect(typologiesDe(nom)).toContain(Typologie.MUNI);
   });
 });

@@ -55,7 +55,7 @@ export const TYPOLOGIE_MATCHERS: TypologieMatcher[] = [
   },
   {
     typologie: Typologie.CD,
-    matchers: [/^CON?SEIL DEP/i, /CDAD/i]
+    matchers: [/^CON?SEIL DEP(?!.*(?:association|acc[èe]s au droit))/i]
   },
   {
     typologie: Typologie.CDAS,
@@ -98,11 +98,11 @@ export const TYPOLOGIE_MATCHERS: TypologieMatcher[] = [
   },
   {
     typologie: Typologie.CD,
-    matchers: [/conseil d[eé]partemental/i]
+    matchers: [/conseil d[eé]partemental(?!.*(?:association|acc[èe]s au droit))/i]
   },
   {
     typologie: Typologie.CC,
-    matchers: [/^communaut[ée] (?:des? )?(?:inter)?com(?:munes?)?/i, /^cdc(?:\W|$)/i, /^cc(?:\W|$)/i]
+    matchers: [/^communaut[ée] (?:des? )?(?:inter)?com(?:munes?)?/i, /^cdc(?!\s+habitat\b)(?:\W|$)/i, /^cc(?:\W|$)/i]
   },
   {
     typologie: Typologie.CCAS,
@@ -173,7 +173,7 @@ export const TYPOLOGIE_MATCHERS: TypologieMatcher[] = [
   },
   {
     typologie: Typologie.EI,
-    matchers: [/(?:^|\W)EI(?:\W|$)/i]
+    matchers: [/Entreprise d[’'\s]Insertion/i]
   },
   {
     typologie: Typologie.ENM,
@@ -192,7 +192,10 @@ export const TYPOLOGIE_MATCHERS: TypologieMatcher[] = [
   },
   {
     typologie: Typologie.EPI,
-    matchers: [/(?:^|\W)EPI(?:\W|$)/i, /Esp[a@]ce (?:Public )?(?:Internet|Informatique|Connecté)/i]
+    matchers: [
+      /^(?!.*(?:[Pp]arisien|[Ii]nsertion))(?:.*\W)?EPI(?:\W|$)/,
+      /Esp[a@]ce (?:Public )?(?:Internet|Informatique|Connecté)/i
+    ]
   },
   {
     typologie: Typologie.EPIDE,
@@ -244,7 +247,7 @@ export const TYPOLOGIE_MATCHERS: TypologieMatcher[] = [
   },
   {
     typologie: Typologie.LA_POSTE,
-    matchers: [/la\s?poste/i, /poste\s/i, /Agence (?:communale )?postale/i, /Bureau de poste/i]
+    matchers: [/la\s?poste/i, /(?:^|\W)poste\s/i, /Agence (?:communale )?postale/i, /Bureau de poste/i]
   },
   {
     typologie: Typologie.MDE,
@@ -287,7 +290,7 @@ export const TYPOLOGIE_MATCHERS: TypologieMatcher[] = [
       /^commune(?:\W|$)/i,
       /^ville d[eu']/i,
       /h[oô]tel de ville/i,
-      /marie de\s/i
+      /^marie de\s/i
     ]
   },
   {
@@ -296,7 +299,7 @@ export const TYPOLOGIE_MATCHERS: TypologieMatcher[] = [
   },
   {
     typologie: Typologie.PAD,
-    matchers: [/Acc[èe]s aux? Droit/i, /Justice et du Droit/i, /Maison du droit/i]
+    matchers: [/Acc[èe]s aux? Droit/i, /Justice et du Droit/i, /Maison du droit/i, /CDAD/i]
   },
   {
     typologie: Typologie.PENSION,
