@@ -6,7 +6,8 @@ import {
   type AccesLibreIndex,
   type AnnuaireIndex,
   AddressCache,
-  type AddressRecord,
+  type AddressIndex,
+  indexerParEtiquette,
   type BatchGeocoding,
   type DataSource,
   getAddressData,
@@ -70,7 +71,7 @@ const transformBatch = async (
   sourceName: string,
   report: Report,
   addressCache: AddressCache,
-  storage: AddressRecord[],
+  cache: AddressIndex,
   accesLibre: AccesLibreIndex,
   annuaire: AnnuaireIndex
 ): Promise<LieuMediationNumerique[]> => {
@@ -86,7 +87,7 @@ const transformBatch = async (
   const apports: SourceEvidence[] = await Promise.all(
     lieux.map(async (lieu: unknown): Promise<SourceEvidence> => sourceEvidence(lieu as DataSource, repository.config))
   );
-  const responsesBan: BatchGeocoding[] = await inject(GEOCODE_BATCH)(adresses, storage);
+  const responsesBan: BatchGeocoding[] = await inject(GEOCODE_BATCH)(adresses, cache);
 
   const transformed = await Promise.all(
     lieux.map(async (lieu: unknown, index: number): Promise<LieuMediationNumerique | undefined> => {
@@ -95,7 +96,7 @@ const transformBatch = async (
         repository.config,
         apports[index] as SourceEvidence,
         responsesBan[index]
-      )(storage);
+      )(cache);
 
       return toLieuxMediationNumerique(
         repository,
@@ -138,7 +139,7 @@ export const transformerUneSource = async ({
     ...(await inject(LOAD_TERRITORIAL_ENRICHMENT)()),
     geocode: inject(GEOCODE)
   };
-  const storage: AddressRecord[] = inject(LOAD_ADDRESS_STORAGE)();
+  const cache: AddressIndex = indexerParEtiquette(inject(LOAD_ADDRESS_STORAGE)());
   const accesLibre: AccesLibreIndex = await inject(LOAD_ACCES_LIBRE)();
   const annuaire: AnnuaireIndex = await inject(LOAD_ANNUAIRE)();
 
@@ -154,7 +155,7 @@ export const transformerUneSource = async ({
         sourceName,
         report,
         addressCache,
-        storage,
+        cache,
         accesLibre,
         annuaire
       ))

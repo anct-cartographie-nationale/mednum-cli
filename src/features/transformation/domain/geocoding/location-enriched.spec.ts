@@ -1,6 +1,14 @@
 import { describe, it, expect } from 'vitest';
 import { GEOCODING_UNAVAILABLE, getAddressData, isWorthCaching, UNRESOLVED_REASONS } from '.';
-import type { AddressRecord, LieuxMediationNumeriqueMatching, NormalizedAddress, SourceEvidence } from '..';
+import {
+  type AddressRecord,
+  indexerParEtiquette,
+  type LieuxMediationNumeriqueMatching,
+  type NormalizedAddress,
+  type SourceEvidence
+} from '..';
+
+const indexer = indexerParEtiquette;
 
 const STANDARD_MATCHING: LieuxMediationNumeriqueMatching = {
   nom: { colonne: 'nom' },
@@ -81,7 +89,7 @@ const reponse = (features: (typeof DATASEARCH)[]) => ({
 
 describe('getAddressData', (): void => {
   it('retente une adresse dont le cache ne porte aucune réponse, au lieu de la tenir pour connue', async () => {
-    const result = await getAddressData(LILAS, STANDARD_MATCHING, SANS_APPORT, reponse([DATASEARCH]))(AddressesBan);
+    const result = await getAddressData(LILAS, STANDARD_MATCHING, SANS_APPORT, reponse([DATASEARCH]))(indexer(AddressesBan));
 
     expect(result.statut).toBe('from_api');
     expect(result.data).toMatchObject({ 'Adresse postale *': '10 Rue de la Paix', latitude: 48.868989 });
@@ -92,7 +100,7 @@ describe('getAddressData', (): void => {
       { dateDeTraitement: new Date(Date.now() - 24 * 60 * 60 * 1000), addresseOriginale: '15 rue des Lilas 75008 Paris' }
     ];
 
-    const result = await getAddressData(LILAS, STANDARD_MATCHING, SANS_APPORT, reponse([DATASEARCH]))(hier);
+    const result = await getAddressData(LILAS, STANDARD_MATCHING, SANS_APPORT, reponse([DATASEARCH]))(indexer(hier));
 
     expect(result.statut).toBe('from_storage');
     expect(result.data).toBeUndefined();
@@ -103,9 +111,9 @@ describe('getAddressData', (): void => {
       { dateDeTraitement: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), addresseOriginale: '15 rue des Lilas 75008 Paris' }
     ];
 
-    expect((await getAddressData(LILAS, STANDARD_MATCHING, SANS_APPORT, reponse([DATASEARCH]))(leMoisDernier)).statut).toBe(
-      'from_api'
-    );
+    expect(
+      (await getAddressData(LILAS, STANDARD_MATCHING, SANS_APPORT, reponse([DATASEARCH]))(indexer(leMoisDernier))).statut
+    ).toBe('from_api');
   });
 
   it('retente une adresse dont la tentative infructueuse porte une date illisible', async () => {
@@ -113,20 +121,20 @@ describe('getAddressData', (): void => {
       { dateDeTraitement: 'pas une date', addresseOriginale: '15 rue des Lilas 75008 Paris' }
     ];
 
-    expect((await getAddressData(LILAS, STANDARD_MATCHING, SANS_APPORT, reponse([DATASEARCH]))(dateCassee)).statut).toBe(
-      'from_api'
-    );
+    expect(
+      (await getAddressData(LILAS, STANDARD_MATCHING, SANS_APPORT, reponse([DATASEARCH]))(indexer(dateCassee))).statut
+    ).toBe('from_api');
   });
 
   it('n’inscrit rien au cache quand le géocodeur est indisponible, pour ne pas figer un échec qui n’en est pas un', async () => {
-    const result = await getAddressData(LILAS, STANDARD_MATCHING, SANS_APPORT, GEOCODING_UNAVAILABLE)([]);
+    const result = await getAddressData(LILAS, STANDARD_MATCHING, SANS_APPORT, GEOCODING_UNAVAILABLE)(new Map());
 
     expect(result.statut).toBe('geocoding_unavailable');
     expect(result.data).toBeUndefined();
   });
 
   it('sert quand même le cache lorsque le géocodeur est indisponible', async () => {
-    const result = await getAddressData(CHALLANS, STANDARD_MATCHING, SANS_APPORT, GEOCODING_UNAVAILABLE)(AddressesBan);
+    const result = await getAddressData(CHALLANS, STANDARD_MATCHING, SANS_APPORT, GEOCODING_UNAVAILABLE)(indexer(AddressesBan));
 
     expect(result.statut).toBe('from_storage');
     expect(result.data).toMatchObject({ latitude: 46.843771 });
@@ -138,14 +146,14 @@ describe('getAddressData', (): void => {
       ...AddressesBan
     ];
 
-    const result = await getAddressData(CHALLANS, STANDARD_MATCHING, SANS_APPORT)(echecPuisSucces);
+    const result = await getAddressData(CHALLANS, STANDARD_MATCHING, SANS_APPORT)(indexer(echecPuisSucces));
 
     expect(result.statut).toBe('from_storage');
     expect(result.data).toMatchObject({ 'Adresse postale *': '18 Boulevard rené bazin', latitude: 46.843771 });
   });
 
   it('rend les colonnes géocodées quand le cache porte une réponse', async () => {
-    const result = await getAddressData(CHALLANS, STANDARD_MATCHING, SANS_APPORT)(AddressesBan);
+    const result = await getAddressData(CHALLANS, STANDARD_MATCHING, SANS_APPORT)(indexer(AddressesBan));
 
     expect(result).toEqual({
       data: {
@@ -167,7 +175,7 @@ describe('getAddressData', (): void => {
   });
 
   it('ne rend que les colonnes géocodées, les autres champs de la source étant déjà connus de l’appelant', async () => {
-    const result = await getAddressData(CHALLANS, STANDARD_MATCHING, SANS_APPORT)(AddressesBan);
+    const result = await getAddressData(CHALLANS, STANDARD_MATCHING, SANS_APPORT)(indexer(AddressesBan));
 
     expect(result.data).not.toHaveProperty('nom');
   });
@@ -177,7 +185,7 @@ describe('getAddressData', (): void => {
     ['la commune manque', adresse('La Réunion', '97400', ''), 'La Réunion 97400 '],
     ['le code postal manque', adresse('La Réunion', '', 'Saint-Denis'), 'La Réunion  Saint-Denis']
   ])('n’interroge pas la BAN quand %s', async (_, incomplete, etiquette) => {
-    const result = await getAddressData(incomplete, STANDARD_MATCHING, SANS_APPORT, reponse([DATASEARCH]))([]);
+    const result = await getAddressData(incomplete, STANDARD_MATCHING, SANS_APPORT, reponse([DATASEARCH]))(new Map());
 
     expect(result).toEqual({
       statut: 'no_from_storage',
@@ -187,7 +195,7 @@ describe('getAddressData', (): void => {
   });
 
   it('écarte une réponse sans aucune correspondance', async () => {
-    const result = await getAddressData(PAIX, STANDARD_MATCHING, SANS_APPORT, reponse([]))(AddressesBan);
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, SANS_APPORT, reponse([]))(indexer(AddressesBan));
 
     expect(result).toMatchObject({ statut: 'no_from_storage', addresseOriginale: '10 rue de la paix 75002 Paris' });
   });
@@ -195,13 +203,13 @@ describe('getAddressData', (): void => {
   it('écarte une réponse dont le score reste sous le seuil de 0,9', async () => {
     const faible = { ...DATASEARCH, properties: { ...DATASEARCH.properties, score: 0.5 } };
 
-    const result = await getAddressData(PAIX, STANDARD_MATCHING, SANS_APPORT, reponse([faible]))(AddressesBan);
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, SANS_APPORT, reponse([faible]))(indexer(AddressesBan));
 
     expect(result).toMatchObject({ statut: 'no_from_storage', addresseOriginale: '10 rue de la paix 75002 Paris' });
   });
 
   it('retient une réponse fraîche au dessus du seuil', async () => {
-    const result = await getAddressData(PAIX, STANDARD_MATCHING, SANS_APPORT, reponse([DATASEARCH]))(AddressesBan);
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, SANS_APPORT, reponse([DATASEARCH]))(indexer(AddressesBan));
 
     expect(result).toMatchObject({
       data: { latitude: 48.868989, longitude: 2.33115, 'Adresse postale *': '10 Rue de la Paix' },
@@ -224,14 +232,14 @@ describe('corroboration par les coordonnées de la source', (): void => {
   };
 
   it('retient un rapprochement faible quand la source le corrobore par ses propres coordonnées', async () => {
-    const result = await getAddressData(PAIX, STANDARD_MATCHING, A_PROXIMITE, reponse([faible]))([]);
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, A_PROXIMITE, reponse([faible]))(new Map());
 
     expect(result.statut).toBe('from_api');
     expect(result.data).toMatchObject({ latitude: 48.868989, longitude: 2.33115 });
   });
 
   it('verse l’adresse d’origine au complément quand seule la proximité a permis de retenir la réponse', async () => {
-    const result = await getAddressData(PAIX, STANDARD_MATCHING, A_PROXIMITE, reponse([faible]))([]);
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, A_PROXIMITE, reponse([faible]))(new Map());
 
     expect(result.data?.['Complement adresse']).toBe('10 rue de la paix 75002 Paris');
   });
@@ -239,27 +247,27 @@ describe('corroboration par les coordonnées de la source', (): void => {
   it('concatène l’adresse d’origine au complément déjà renseigné, séparés par un tiret', async () => {
     const avecComplement: SourceEvidence = { ...A_PROXIMITE, complement: 'Bâtiment C' };
 
-    const result = await getAddressData(PAIX, STANDARD_MATCHING, avecComplement, reponse([faible]))([]);
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, avecComplement, reponse([faible]))(new Map());
 
     expect(result.data?.['Complement adresse']).toBe('Bâtiment C - 10 rue de la paix 75002 Paris');
   });
 
   it('ne touche pas au complément quand le score se suffit à lui-même', async () => {
-    const result = await getAddressData(PAIX, STANDARD_MATCHING, A_PROXIMITE, reponse([DATASEARCH]))([]);
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, A_PROXIMITE, reponse([DATASEARCH]))(new Map());
 
     expect(result.statut).toBe('from_api');
     expect(result.data).not.toHaveProperty('Complement adresse');
   });
 
   it('écarte un rapprochement faible dont le point est loin de celui de la source', async () => {
-    const result = await getAddressData(PAIX, STANDARD_MATCHING, AU_LOIN, reponse([faible]))([]);
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, AU_LOIN, reponse([faible]))(new Map());
 
     expect(result.statut).toBe('no_from_storage');
     expect(result.data).toBeUndefined();
   });
 
   it('écarte un rapprochement faible quand la source ne porte aucune coordonnée à opposer', async () => {
-    const result = await getAddressData(PAIX, STANDARD_MATCHING, SANS_APPORT, reponse([faible]))([]);
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, SANS_APPORT, reponse([faible]))(new Map());
 
     expect(result.statut).toBe('no_from_storage');
   });
@@ -269,7 +277,7 @@ describe('corroboration par les coordonnées de la source', (): void => {
     ['rapprochement faible sans coordonnées à opposer', SANS_APPORT, [faible], UNRESOLVED_REASONS.tooWeakWithoutCoordinates],
     ['rapprochement faible et point trop éloigné', AU_LOIN, [faible], UNRESOLVED_REASONS.tooWeakAndTooFar]
   ])('dit au rapport pourquoi elle écarte : %s', async (_, apport, features, motif) => {
-    const result = await getAddressData(PAIX, STANDARD_MATCHING, apport, reponse(features))([]);
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, apport, reponse(features))(new Map());
 
     expect(result.motif).toBe(motif);
   });
@@ -296,7 +304,7 @@ describe('adresse retenue', (): void => {
   };
 
   it('rend l’adresse de la Base Adresse Nationale, sans la retoucher', async () => {
-    const result = await getAddressData(PAIX, STANDARD_MATCHING, SANS_APPORT, reponse([DATASEARCH]))([]);
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, SANS_APPORT, reponse([DATASEARCH]))(new Map());
 
     expect(result.adresse).toEqual({
       voie: '10 Rue de la Paix',
@@ -307,8 +315,8 @@ describe('adresse retenue', (): void => {
   });
 
   it('rend la même adresse qu’elle vienne du cache ou de l’API', async () => {
-    const duCache = await getAddressData(CHALLANS, STANDARD_MATCHING, SANS_APPORT)(AddressesBan);
-    const deLApi = await getAddressData(CHALLANS, STANDARD_MATCHING, SANS_APPORT, reponse([]))([]);
+    const duCache = await getAddressData(CHALLANS, STANDARD_MATCHING, SANS_APPORT)(indexer(AddressesBan));
+    const deLApi = await getAddressData(CHALLANS, STANDARD_MATCHING, SANS_APPORT, reponse([]))(new Map());
 
     expect(duCache.adresse).toEqual({
       voie: '18 Boulevard rené bazin',
@@ -320,25 +328,25 @@ describe('adresse retenue', (): void => {
   });
 
   it('n’en rend aucune quand le référentiel n’a rien répondu', async () => {
-    const result = await getAddressData(PAIX, STANDARD_MATCHING, SANS_APPORT, reponse([]))([]);
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, SANS_APPORT, reponse([]))(new Map());
 
     expect(result.adresse).toBeUndefined();
   });
 
   it('conserve le complément de la source quand le score se suffit à lui-même', async () => {
-    const result = await getAddressData(PAIX, STANDARD_MATCHING, AVEC_COMPLEMENT, reponse([DATASEARCH]))([]);
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, AVEC_COMPLEMENT, reponse([DATASEARCH]))(new Map());
 
     expect(result.adresse?.complement_adresse).toBe('Bâtiment C');
   });
 
   it('verse l’adresse d’origine au complément quand seule la proximité a permis de retenir la réponse', async () => {
-    const result = await getAddressData(PAIX, STANDARD_MATCHING, A_PROXIMITE, reponse([faible]))([]);
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, A_PROXIMITE, reponse([faible]))(new Map());
 
     expect(result.adresse?.complement_adresse).toBe('Bâtiment C - 10 rue de la paix 75002 Paris');
   });
 
   it('n’emprunte jamais le complément au référentiel', async () => {
-    const result = await getAddressData(PAIX, STANDARD_MATCHING, SANS_APPORT, reponse([DATASEARCH]))([]);
+    const result = await getAddressData(PAIX, STANDARD_MATCHING, SANS_APPORT, reponse([DATASEARCH]))(new Map());
 
     expect(result.adresse).not.toHaveProperty('complement_adresse');
   });

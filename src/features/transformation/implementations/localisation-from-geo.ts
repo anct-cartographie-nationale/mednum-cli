@@ -10,7 +10,7 @@ import {
   searchAddress,
   toFeatureCollection
 } from '../../../libraries/ban';
-import { type AddressRecord, type Geocode, isRecentFailedAttempt, type NormalizedAddress } from '../domain';
+import { type AddressIndex, type Geocode, isRecentFailedAttempt, type NormalizedAddress } from '../domain';
 import {
   addressLabel,
   banRowFor,
@@ -67,17 +67,16 @@ const noGeocoding = (adresses: NormalizedAddress[]): null[] => adresses.map((): 
 const geocodingUnavailable = (adresses: NormalizedAddress[]): (typeof GEOCODING_UNAVAILABLE)[] =>
   adresses.map((): typeof GEOCODING_UNAVAILABLE => GEOCODING_UNAVAILABLE);
 
-const needsGeocoding = (adresse: NormalizedAddress, arrayFromStorage: AddressRecord[]): boolean =>
-  !isMissingFields(adresse) &&
-  !arrayFromStorage.some(
-    (record: AddressRecord): boolean =>
-      addressLabel(adresse) === record?.addresseOriginale && (record.responseBan != null || isRecentFailedAttempt(record))
-  );
+const needsGeocoding = (adresse: NormalizedAddress, cache: AddressIndex): boolean => {
+  const connue = cache.get(addressLabel(adresse));
 
-const indicesToGeocode = (adresses: NormalizedAddress[], arrayFromStorage: AddressRecord[]): number[] =>
-  adresses.flatMap((adresse: NormalizedAddress, index: number): number[] =>
-    needsGeocoding(adresse, arrayFromStorage) ? [index] : []
-  );
+  return !isMissingFields(adresse) && !(connue != null && (connue.responseBan != null || isRecentFailedAttempt(connue)));
+};
+
+const indicesToGeocode = (adresses: NormalizedAddress[], cache: AddressIndex): number[] =>
+  adresses.flatMap((adresse: NormalizedAddress, index: number): number[] => (needsGeocoding(adresse, cache) ? [index] : []));
+
+const jamaisTentee = (adresse: NormalizedAddress, cache: AddressIndex): boolean => !cache.has(addressLabel(adresse));
 
 const banRowsAt = (adresses: NormalizedAddress[], indices: number[]): BanAddressRow[] =>
   indices
@@ -108,10 +107,29 @@ const LIGNES_MUETTES_TOLEREES = 0.25;
 
 const LIGNES_MINIMALES_POUR_JUGER = 20;
 
-const estDegrade = (indices: number[], results: BanResultRow[]): boolean => {
-  const muettes: number = indices.filter((_: number, position: number): boolean => !hasUsableName(results[position])).length;
+/**
+ * La proportion ne se juge que sur les adresses jamais tentées : elles seules forment un
+ * échantillon non biaisé. Un lot composé d'adresses rejouées après échec est un tamis de cas
+ * difficiles — la moitié de lignes muettes y est normale et ne dit rien du géocodeur. Les
+ * adresses rejouées suivent le verdict sans entrer dans son calcul.
+ */
+const positionsDesPremieresTentatives = (indices: number[], adresses: NormalizedAddress[], cache: AddressIndex): number[] =>
+  indices.flatMap((index: number, position: number): number[] => {
+    const adresse: NormalizedAddress | undefined = adresses[index];
 
-  return indices.length >= LIGNES_MINIMALES_POUR_JUGER && muettes / indices.length > LIGNES_MUETTES_TOLEREES;
+    return adresse != null && jamaisTentee(adresse, cache) ? [position] : [];
+  });
+
+const estDegrade = (
+  indices: number[],
+  results: BanResultRow[],
+  adresses: NormalizedAddress[],
+  cache: AddressIndex
+): boolean => {
+  const premieres: number[] = positionsDesPremieresTentatives(indices, adresses, cache);
+  const muettes: number = premieres.filter((position: number): boolean => !hasUsableName(results[position])).length;
+
+  return premieres.length >= LIGNES_MINIMALES_POUR_JUGER && muettes / premieres.length > LIGNES_MUETTES_TOLEREES;
 };
 
 /**
@@ -120,10 +138,10 @@ const estDegrade = (indices: number[], results: BanResultRow[]): boolean => {
  */
 export const fetchBanResponseBatch = async (
   adresses: NormalizedAddress[],
-  arrayFromStorage: AddressRecord[],
+  cache: AddressIndex,
   postCsv: PostCsv = postBanCsv
 ): Promise<BatchGeocoding[]> => {
-  const indices: number[] = indicesToGeocode(adresses, arrayFromStorage);
+  const indices: number[] = indicesToGeocode(adresses, cache);
 
   if (indices.length === 0) return noGeocoding(adresses);
 
@@ -136,7 +154,7 @@ export const fetchBanResponseBatch = async (
 
     const resultAt: Map<number, BanResultRow | undefined> = resultsByBatchIndex(indices, results);
     const envoyees = new Set<number>(indices);
-    const degrade: boolean = estDegrade(indices, results);
+    const degrade: boolean = estDegrade(indices, results, adresses, cache);
 
     return adresses.map((_: NormalizedAddress, index: number): BatchGeocoding => {
       if (!envoyees.has(index)) return null;

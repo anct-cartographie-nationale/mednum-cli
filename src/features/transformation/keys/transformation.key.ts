@@ -6,6 +6,7 @@ import type {
   AccesLibreIndex,
   AnnuaireIndex,
   AddressCache,
+  AddressIndex,
   AddressRecord,
   BatchGeocoding,
   Geocode,
@@ -59,7 +60,7 @@ export const LOAD_ADDRESS_STORAGE: InjectionKey<LoadAddressStorage> = keyFor<Loa
 );
 
 /** Géocodage par lot, réaligné sur les positions du lot d'origine. */
-export type GeocodeBatch = (adresses: NormalizedAddress[], storage: AddressRecord[]) => Promise<BatchGeocoding[]>;
+export type GeocodeBatch = (adresses: NormalizedAddress[], cache: AddressIndex) => Promise<BatchGeocoding[]>;
 
 export const GEOCODE_BATCH: InjectionKey<GeocodeBatch> = keyFor<GeocodeBatch>('transformation.geocode-batch');
 

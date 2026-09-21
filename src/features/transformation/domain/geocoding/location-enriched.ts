@@ -1,6 +1,6 @@
 import type { AdresseToValidate, LocalisationToValidate } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import type { Feature, FeatureCollection } from '../../../../libraries/ban';
-import { type AddressRecord, isRecentFailedAttempt } from '../address-cache';
+import { type AddressIndex, type AddressRecord, isRecentFailedAttempt } from '../address-cache';
 import { complementAdresseIfAny } from '../fields/adresse/adresse.field';
 import type { DataSource, LieuxMediationNumeriqueMatching } from '../matching';
 import { acceptedFeature, complementFor, rejectionReason, UNRESOLVED_REASONS, type UnresolvedReason } from './acceptance';
@@ -55,15 +55,6 @@ const retainedFrom = (matching: LieuxMediationNumeriqueMatching, evidence: Sourc
 };
 
 /**
- * Le chargement du cache déduplique déjà, mais cette fonction ne s'y fie pas : si une même
- * adresse revient en échec et en succès, le succès l'emporte, faute de quoi l'ordre du tableau
- * déciderait du sort du lieu.
- */
-const cachedFor = (records: AddressRecord[], addressLabel: string): AddressRecord | undefined =>
-  records.find((record: AddressRecord): boolean => record?.addresseOriginale === addressLabel && record.responseBan != null) ??
-  records.find((record: AddressRecord): boolean => record?.addresseOriginale === addressLabel);
-
-/**
  * Liste blanche volontaire : seule une tentative réellement aboutie — la BAN a répondu, qu'elle
  * ait trouvé ou non — apprend quelque chose au cache. Tout autre statut, en particulier une
  * indisponibilité du géocodeur, doit le laisser intact.
@@ -82,9 +73,9 @@ export const getAddressData =
     evidence: SourceEvidence,
     response?: BatchGeocoding
   ) =>
-  async (arrayFromStorage: AddressRecord[]): Promise<LocationEnriched> => {
+  async (cache: AddressIndex): Promise<LocationEnriched> => {
     const addresseOriginale: string = addressLabel(adresse);
-    const cached: AddressRecord | undefined = cachedFor(arrayFromStorage, addresseOriginale);
+    const cached: AddressRecord | undefined = cache.get(addresseOriginale);
 
     if (cached?.responseBan != null) return { ...retainedFrom(matching, evidence, cached.responseBan), statut: 'from_storage' };
 

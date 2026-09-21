@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { type AddressRecord, AddressCache } from './index';
+import { type AddressRecord, AddressCache, indexerParEtiquette } from './index';
 import type { Properties } from '../../../../libraries/ban';
 
 describe('addresses', (): void => {
@@ -78,5 +78,38 @@ describe('addresses', (): void => {
     const cache: AddressCache = AddressCache([SANS_REPONSE, GEOCODEE, SANS_REPONSE]);
 
     expect(cache.records()).toStrictEqual([GEOCODEE]);
+  });
+});
+
+describe('indexerParEtiquette', (): void => {
+  const echec = (etiquette: string): AddressRecord => ({
+    addresseOriginale: etiquette,
+    dateDeTraitement: '2026-09-21T00:00:00.000Z'
+  });
+
+  const succes = (etiquette: string): AddressRecord => ({
+    addresseOriginale: etiquette,
+    dateDeTraitement: '2026-09-21T00:00:00.000Z',
+    responseBan: { properties: { score: 0.95 } } as AddressRecord['responseBan']
+  });
+
+  it('rend une entrée par étiquette', (): void => {
+    expect(indexerParEtiquette([echec('a'), echec('b'), echec('a')]).size).toBe(2);
+  });
+
+  it('retrouve une entrée sans parcourir le cache', (): void => {
+    expect(indexerParEtiquette([echec('a'), echec('b')]).get('b')).toStrictEqual(echec('b'));
+  });
+
+  it('garde le géocodage quand la même étiquette revient en échec après une réussite', (): void => {
+    expect(indexerParEtiquette([succes('a'), echec('a')]).get('a')?.responseBan).toBeDefined();
+  });
+
+  it('garde le géocodage quand la réussite arrive après l’échec', (): void => {
+    expect(indexerParEtiquette([echec('a'), succes('a')]).get('a')?.responseBan).toBeDefined();
+  });
+
+  it('rend un index vide pour un cache vide', (): void => {
+    expect(indexerParEtiquette([]).size).toBe(0);
   });
 });
