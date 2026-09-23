@@ -151,23 +151,23 @@
     "prepare": "husky"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.12",
+    "@biomejs/biome": "2.5.13",
     "@commitlint/cli": "^21.2.2",
     "@commitlint/config-conventional": "^21.2.2",
-    "@swc/core": "^1.16.1",
+    "@swc/core": "^1.16.2",
     "@types/geojson": "^7946.0.16",
-    "@types/node": "^26.4.1",
+    "@types/node": "^26.5.1",
     "dependency-cruiser": "^18.2.0",
     "folderslint": "^1.2.0",
     "husky": "^9.1.7",
-    "lint-staged": "^17.4.1",
+    "lint-staged": "^17.5.1",
     "tsdown": "0.23.0",
     "tsx": "^4.23.13",
     "typescript": "^7.0.2",
     "vitest": "^5.0.0"
   },
   "dependencies": {
-    "@gouvfr-anct/lieux-de-mediation-numerique": "^4.2.0",
+    "@gouvfr-anct/lieux-de-mediation-numerique": "^4.3.0",
     "@gouvfr-anct/timetable-to-osm-opening-hours": "^2.1.0",
     "@turf/turf": "^7.4.0",
     "axios": "^1.20.0",
@@ -183,9 +183,9 @@
     "fuzzball": "^2.2.6",
     "glob": "^13.0.6",
     "iconv-lite": "^0.7.3",
-    "inquirer": "^14.2.1",
+    "inquirer": "^14.2.2",
     "piqure": "^2.3.0",
     "proj4": "^2.22.0",
-    "zod": "^4.5.4"
+    "zod": "^4.6.4"
   }
 }
