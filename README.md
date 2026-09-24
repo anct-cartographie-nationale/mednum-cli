@@ -11,35 +11,42 @@ Les sources de données prises en comptes pour le moment sont celles collectées
 
 **Les plateformes nationales** :
 
-- [La Coop de la médiation numérique](https://coop-numerique.anct.gouv.fr/), solution numérique nationale incluant les médiateurs du dispositif [Conseiller Numérique](https://www.conseiller-numerique.gouv.fr/)
-- [Dora](https://dora.inclusion.beta.gouv.fr/) via [Data inclusion](https://data.inclusion.gouv.fr/)
-- [France Services](https://agence-cohesion-territoires.gouv.fr/france-services-36) via [Data inclusion](https://data.inclusion.gouv.fr/)
-- [France Travail](https://www.francetravail.fr/) via [Data inclusion](https://data.inclusion.gouv.fr/)
+| Source | Territoire | Données | Fiche |
+| --- | --- | --- | --- |
+| [La Coop de la médiation numérique](https://coop-numerique.anct.gouv.fr/) | National | [API](https://coop-numerique.anct.gouv.fr/api/v1/lieux-activite) | — |
+| [Dora](https://dora.inclusion.beta.gouv.fr/) | National | via [Data inclusion](https://data.inclusion.gouv.fr/) | — |
+| France Services | National | [CSV](https://www.data.gouv.fr/fr/datasets/r/31576dff-fd61-4de9-819f-32c2f880b142) | [Data gouv](https://www.data.gouv.fr/datasets/liste-des-structures-labellisees-france-services?resource_id=31576dff-fd61-4de9-819f-32c2f880b142) |
+| [France Travail](https://www.francetravail.fr/) | National | via [Data inclusion](https://data.inclusion.gouv.fr/) | — |
 
 **Les Hubs** :
 
-- [Fredo](https://fredo.fr/) via [Data inclusion](https://data.inclusion.gouv.fr/)
-- [Hinaura](https://hinaura.fr/?cartographie)
-- [Mednum BFC](https://github.com/multi-coop/data-bfc-ternum)
-- [Numi](https://reseaugrain.fr/)
-- [Res-in](https://resin.grandlyon.com/)
-- [RhinOcc](https://rhinoccc.gogocarto.fr/)
-- [Siilab](https://cdonline.articque.com/share/display/fced105cab1f92aa69c9f80bac70f80a86ba6731)
+| Source | Territoire | Données | Fiche |
+| --- | --- | --- | --- |
+| Francil-in | Île-de-France | [JSON](https://static.data.gouv.fr/resources/lieux-de-mediation-numerique-metropole-du-grand-paris/20260623-164219/lieux-mediations-numerique-npt.json) | [Data gouv](https://www.data.gouv.fr/datasets/lieux-de-mediation-numerique-metropole-du-grand-paris?resource_id=13ffde52-acd0-4e66-9556-aa056c30a42d) |
+| [Fredo](https://fredo.fr/) | National | via [Data inclusion](https://data.inclusion.gouv.fr/) | — |
+| Hinaura | Auvergne-Rhône-Alpes | [API](https://carto.hinaura.fr/?api/forms/8/entries) | — |
+| Mednum BFC | Bourgogne-Franche-Comté | [CSV](https://raw.githubusercontent.com/multi-coop/data-bfc-ternum/main/csv/bfc-ternum-dataset.csv) | — |
+| Numi | Normandie | [CSV](https://reseaugrain.fr/base_de_donnees_carto_numi_2025/) | — |
+| Res-in | Lyon | [API](https://resin.grandlyon.com/api/structures) | — |
+| RhinOcc | Occitanie | [API](https://rhinoccc.gogocarto.fr/api/elements.json?categories=&excludeExternal=true) | — |
+| Siilab | Hauts-de-France | [CSV](https://cdonline.articque.com/download/434922/SIILAB_HDF_standard_med_num.csv) | — |
 
 **Les départements** :
 
-- [Charente-Maritime](https://www.data.gouv.fr/fr/datasets/r/8f732d2a-cb7d-48c0-8c68-a2991692e820)
-- [Grand Paris Sud](https://data.grandparissud.fr/)
-- [Hérault](https://www.herault-data.fr/)
-- [Landes](https://www.pigma.org/)
-- [Loire-Atlantique](https://www.data.gouv.fr/fr/datasets/r/95824460-e707-4db1-a67b-46b4e540d8ac)
-- [Manche](https://www.data.gouv.fr/api/1/datasets/r/ee988005-b0af-4d59-8f2e-b8c92a22944e)
-- [Meuse](https://www.data.gouv.fr/fr/datasets/r/a0a0639d-5895-4dfa-9c65-8a58b396d754)
-- [Mulhouse](https://data.mulhouse-alsace.fr/)
-- [Paca](https://www.data.gouv.fr/fr/datasets/r/5250e9c9-8abe-4a4e-8ebc-cb4e8fe72b71)
-- [Paris](https://opendata.paris.fr/)
-- [Vendée](https://www.data.gouv.fr/fr/datasets/r/d2877549-0ac9-4c1d-96bf-ede948e980fb)
-- [Vosges](https://www.data.gouv.fr/api/1/datasets/r/6a6e16c5-5a88-424a-a5d9-a5adca6457d2)
+| Source | Territoire | Données | Fiche |
+| --- | --- | --- | --- |
+| Charente-Maritime | Nouvelle-Aquitaine | [CSV](https://www.data.gouv.fr/api/1/datasets/r/8f732d2a-cb7d-48c0-8c68-a2991692e820) | [Data gouv](https://www.data.gouv.fr/datasets/lieux-de-mediation-numerique-organisation-departement-de-la-charente-maritime?resource_id=8f732d2a-cb7d-48c0-8c68-a2991692e820) |
+| Grand Paris Sud | Île-de-France | [API](https://data.grandparissud.fr/api/explore/v2.1/catalog/datasets/datainclusion-description-des-structures-gps/records?limit=100) | — |
+| Hérault | Hérault | [CSV](https://www.herault-data.fr/api/explore/v2.1/catalog/datasets/lieux-daccueil-et-daccompagnement-aux-outils-numeriques-/exports/csv) | — |
+| Landes | Nouvelle-Aquitaine | [JSON](https://www.pigma.org/fr/datapusher/ws/default/usergroup6.a9d11fa0-12e5-4161-9a0d-3a1c21da3bf0/all.json) | — |
+| Loire-Atlantique | Loire-Atlantique | [JSON](https://www.data.gouv.fr/fr/datasets/r/95824460-e707-4db1-a67b-46b4e540d8ac) | [Data gouv](https://www.data.gouv.fr/datasets/lieux-numeriques-en-loire-atlantique-2?resource_id=95824460-e707-4db1-a67b-46b4e540d8ac) |
+| Manche | Manche | [CSV](https://www.data.gouv.fr/api/1/datasets/r/ee988005-b0af-4d59-8f2e-b8c92a22944e) | [Data gouv](https://www.data.gouv.fr/datasets/lieux-de-mediation-numerique-la-manche?resource_id=ee988005-b0af-4d59-8f2e-b8c92a22944e) |
+| Meuse | Meuse | [CSV](https://www.data.gouv.fr/api/1/datasets/r/a0a0639d-5895-4dfa-9c65-8a58b396d754) | [Data gouv](https://www.data.gouv.fr/datasets/lieux-de-mediation-numerique-conseil-departemental-de-la-meuse?resource_id=a0a0639d-5895-4dfa-9c65-8a58b396d754) |
+| Mulhouse | Haut-Rhin | [API](https://data.mulhouse-alsace.fr/api/records/1.0/search/?dataset=68224_acteurs-de-la-mediation-numerique-a-mulhouse) | — |
+| Paca | Provence-Alpes-Côte d'Azur | [CSV](https://www.data.gouv.fr/fr/datasets/r/5250e9c9-8abe-4a4e-8ebc-cb4e8fe72b71) | [Data gouv](https://www.data.gouv.fr/datasets/lieux-d-inclusion-numerique-provence-alpes-cote-d-azur?resource_id=5250e9c9-8abe-4a4e-8ebc-cb4e8fe72b71) |
+| Paris | Île-de-France | [CSV](https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/reseau-parisien-dinclusion-numerique/exports/csv) | — |
+| Vendée | Vendée | [CSV](https://www.data.gouv.fr/fr/datasets/r/d2877549-0ac9-4c1d-96bf-ede948e980fb) | [Data gouv](https://www.data.gouv.fr/datasets/lieux-de-mediation-numerique-organisation-groupe-de-recherche-et-daction-sur-linclusion-numerique?resource_id=d2877549-0ac9-4c1d-96bf-ede948e980fb) |
+| Vosges | Vosges | [CSV](https://www.data.gouv.fr/api/1/datasets/r/6a6e16c5-5a88-424a-a5d9-a5adca6457d2) | [Data gouv](https://www.data.gouv.fr/datasets/lieux-de-mediation-numerique-vosges?resource_id=6a6e16c5-5a88-424a-a5d9-a5adca6457d2) |
 
 Les données sont republiées quotidiennement sur [data.gouv dans l'organisation de la Cartographie Nationale des lieux de médiation numérique](https://www.data.gouv.fr/fr/organizations/cartographie-nationale-des-lieux-de-mediation-numerique/)
 
