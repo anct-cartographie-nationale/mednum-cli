@@ -239,6 +239,17 @@ describe('horaires field', (): void => {
     expect(openingHours).toBe('We,Sa 14:00-18:00');
   });
 
+  it('should ignore blank lines between days', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        'Horaires ouverture': 'Mardi 15h-18h\n\nMercredi 10h-12h / 14h à 18h\n\nVendredi 15h-18h\n\nSamedi 9h-12h'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('Tu,Fr 15:00-18:00; We 10:00-12:00,14:00-18:00; Sa 09:00-12:00');
+  });
+
   it('should get opening hours for list of days with different opening hours', (): void => {
     const openingHours: OsmOpeningHoursString = processHoraires(
       {
