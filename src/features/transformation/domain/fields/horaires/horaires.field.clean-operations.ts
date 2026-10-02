@@ -101,8 +101,13 @@ const INSERT_DAYS_SEPARATOR_BETWEEN_HOURS_AND_DAY: HorairesFieldCleanOperation =
   fix: (_: string, before: string, day: string): string => `${before} / ${day}`
 };
 
+/**
+ * Un saut de ligne devient une seule espace, blancs voisins compris : les opérations suivantes
+ * attendent une espace unique entre une heure et le jour qui suit, et un espace invisible en fin
+ * de ligne suffisait à fondre deux jours en un.
+ */
 const CLEAN_UNICODE_AND_USELESS_CHAR: HorairesFieldCleanOperation = {
-  selector: /[\n+'"]/gu,
+  selector: /[^\S\n]*\n[^\S\n]*|[+'"]/gu,
   fix: (): string => ' '
 };
 

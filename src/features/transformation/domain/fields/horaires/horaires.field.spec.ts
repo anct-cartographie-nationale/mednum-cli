@@ -217,6 +217,28 @@ describe('horaires field', (): void => {
     expect(openingHours).toBe('We 09:30-12:30');
   });
 
+  it('should ignore trailing spaces at the end of a line before the next day', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        'Horaires ouverture': 'Mardi : 08h30/12h \nMercredi : 14h/ 17h'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('Tu 08:30-12:00; We 14:00-17:00');
+  });
+
+  it('should ignore trailing spaces when two days share the same opening hours', (): void => {
+    const openingHours: OsmOpeningHoursString = processHoraires(
+      {
+        'Horaires ouverture': 'Mercredi : 14h-18h \nSamedi : 14h-18h'
+      },
+      matching
+    );
+
+    expect(openingHours).toBe('We,Sa 14:00-18:00');
+  });
+
   it('should get opening hours for list of days with different opening hours', (): void => {
     const openingHours: OsmOpeningHoursString = processHoraires(
       {
