@@ -33,6 +33,7 @@ const promptAndRun = async (transformerOptions: TransformerOptions): Promise<voi
     .then(async (mednumAnswers: Answers): Promise<void> => transformer({ ...transformerOptions, ...mednumAnswers }))
     .catch((error: Error): void => {
       console.error(error.message);
+      process.exitCode = 1;
     });
 
 const configureCommandOptions = (command: Command, option: (_: Command) => Command): Command => option(command);

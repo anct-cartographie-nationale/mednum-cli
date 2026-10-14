@@ -75,7 +75,7 @@ describe('horaires field', (): void => {
       matching
     );
 
-    expect(openingHours).toBe('08:30-12:00,13:30-17:00');
+    expect(openingHours).toBe('Mo-Su 08:30-12:00,13:30-17:00');
   });
 
   it('should process complex opening hours', (): void => {
@@ -236,7 +236,7 @@ describe('horaires field', (): void => {
       matching
     );
 
-    expect(openingHours).toBe('Mo-Fr 09:00-12:00,13:30-16:15; We,Sa 09:00-12:00');
+    expect(openingHours).toBe('Mo,Tu,Th,Fr 09:00-12:00,13:30-16:15; We,Sa 09:00-12:00');
   });
 
   it('should get opening days for two days with different hours', (): void => {
@@ -537,7 +537,7 @@ describe('horaires field', (): void => {
       matching
     );
 
-    expect(openingHours).toBe('Mo-Fr 09:00-12:00,14:00-17:00; We 09:00-12:00');
+    expect(openingHours).toBe('Mo,Tu,Th,Fr 09:00-12:00,14:00-17:00; We 09:00-12:00');
   });
 
   it('should replace range separators used as times separators without h next to hour', (): void => {
@@ -671,7 +671,7 @@ describe('horaires field', (): void => {
       matching
     );
 
-    expect(openingHours).toBe('Mo-Sa 08:00-12:00; We 08:00-12:00,13:30-17:30');
+    expect(openingHours).toBe('Mo,Tu,Th-Sa 08:00-12:00; We 08:00-12:00,13:30-17:30');
   });
 
   it('should format hours without minutes and h', (): void => {

@@ -168,7 +168,7 @@
   },
   "dependencies": {
     "@gouvfr-anct/lieux-de-mediation-numerique": "^4.3.0",
-    "@gouvfr-anct/timetable-to-osm-opening-hours": "^2.1.0",
+    "@gouvfr-anct/timetable-to-osm-opening-hours": "^2.1.1",
     "@turf/turf": "^7.4.0",
     "axios": "^1.20.0",
     "axios-retry": "^4.5.0",
