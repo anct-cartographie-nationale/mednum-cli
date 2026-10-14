@@ -12,8 +12,8 @@ importers:
         specifier: ^4.3.0
         version: 4.3.0
       '@gouvfr-anct/timetable-to-osm-opening-hours':
-        specifier: ^2.1.0
-        version: 2.1.0(typescript@7.0.2)
+        specifier: ^2.1.1
+        version: 2.1.1(typescript@7.0.2)
       '@turf/turf':
         specifier: ^7.4.0
         version: 7.4.0
@@ -580,8 +580,8 @@ packages:
     resolution: {integrity: sha512-bY0vw8hs2i44g3FlAX+Ozg9qOHyOCce+nzYMsDFUadhXjSbLo31k7j7M2qDlFpKYgjc3/04UTmEk8iOBnflQJg==}
     engines: {node: '>=22.13.0'}
 
-  '@gouvfr-anct/timetable-to-osm-opening-hours@2.1.0':
-    resolution: {integrity: sha512-P5UwarBy6BVtHdGFWGNsQa6gBRcIyo6PJH3iiPSr17Oua5FWokowSYfV0Tok86uD3V7tIlpfLS29H1Fg+xztNQ==}
+  '@gouvfr-anct/timetable-to-osm-opening-hours@2.1.1':
+    resolution: {integrity: sha512-WvPOAyo6WDDN4LHIfTQr+81RQXwRGwtkki2Ut7RX4l+o3TbVoahwbj+DZU61aCIhrKNN9Uo0NvjUpFhQbxt5mQ==}
 
   '@inquirer/ansi@2.0.8':
     resolution: {integrity: sha512-WpQM+Ti6Z40EFwwt+uL2p4UabT+W179zHp6HhLVOzfbwnVn05IPO/eXIZXGNqcT1jbQ15SujNLzQ39k4QPPxBQ==}
@@ -3104,7 +3104,7 @@ snapshots:
       libphonenumber-js: 1.13.13
       zod: 4.6.4
 
-  '@gouvfr-anct/timetable-to-osm-opening-hours@2.1.0(typescript@7.0.2)':
+  '@gouvfr-anct/timetable-to-osm-opening-hours@2.1.1(typescript@7.0.2)':
     dependencies:
       opening_hours: 3.14.0(typescript@7.0.2)
     transitivePeerDependencies:

@@ -5,3 +5,4 @@ allowBuilds:
 minimumReleaseAge: 14400
 minimumReleaseAgeExclude:
   - '@gouvfr-anct/lieux-de-mediation-numerique'
+  - '@gouvfr-anct/timetable-to-osm-opening-hours'
