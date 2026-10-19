@@ -264,7 +264,7 @@ describe('mednum - dataset to update', (): void => {
 
         return updatedDataset;
       },
-      updateRessourceFor: (dataset: Dataset) => (): Dataset => dataset
+      addRessourceTo: (dataset: Dataset) => (): Dataset => dataset
     } as unknown as DatasetRepository;
 
     await publishDataset(publishDatasetRepository, { id: '', isOwner: false })({
@@ -305,7 +305,8 @@ describe('mednum - dataset to update', (): void => {
   });
 
   it('should update existing dataset with new ressources, do not update preexisting ressource', async (): Promise<void> => {
-    let expectedId: string | undefined = 'SHOULD_BE_UNDEFINED';
+    const addedRessources: PublishRessource[] = [];
+    let updateRessourceForCalled: boolean = false;
 
     const publishDatasetRepository: DatasetRepository = {
       get: (): Dataset[] => [
@@ -338,11 +339,14 @@ describe('mednum - dataset to update', (): void => {
         ],
         title: updateDataset.title
       }),
-      updateRessourceFor:
+      addRessourceTo:
         () =>
-        (_: PublishRessource, id?: string): void => {
-          expectedId = id;
-        }
+        (ressource: PublishRessource): void => {
+          addedRessources.push(ressource);
+        },
+      updateRessourceFor: () => (): void => {
+        updateRessourceForCalled = true;
+      }
     } as unknown as DatasetRepository;
 
     await publishDataset(publishDatasetRepository, { id: '', isOwner: false })({
@@ -364,7 +368,14 @@ describe('mednum - dataset to update', (): void => {
       ]
     });
 
-    expect(expectedId).toBeUndefined();
+    expect(addedRessources).toStrictEqual([
+      {
+        source: './assets/output/hinaura/services-inclusion-20230107_le-hub-hinaura.json',
+        schema: 'gip-inclusion/data-inclusion-schema',
+        description: "Structures de l'inclusion qui proposent des services de médiation numérique"
+      }
+    ]);
+    expect(updateRessourceForCalled).toBe(false);
   });
 
   it('should update existing dataset with new ressources, and also update preexisting ressource', async (): Promise<void> => {

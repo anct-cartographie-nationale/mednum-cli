@@ -37,11 +37,12 @@ const matchName =
 
 const toRessourceToUpload =
   (dataset: Dataset, datasetRepository: DatasetRepository) =>
-  async (ressourceToPublish: PublishRessource): Promise<void> =>
-    datasetRepository.updateRessourceFor(dataset)(
-      ressourceToPublish,
-      dataset.ressources.find(matchName(ressourceToPublish))?.id
-    );
+  async (ressourceToPublish: PublishRessource): Promise<void> => {
+    const ressourceId: string | undefined = dataset.ressources.find(matchName(ressourceToPublish))?.id;
+    await (ressourceId == null
+      ? datasetRepository.addRessourceTo(dataset)(ressourceToPublish)
+      : datasetRepository.updateRessourceFor(dataset)(ressourceToPublish, ressourceId));
+  };
 
 const updateExistingDataset =
   (datasetRepository: DatasetRepository) =>
