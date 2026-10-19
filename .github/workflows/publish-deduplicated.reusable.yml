@@ -56,3 +56,17 @@ jobs:
           sed -i 's/-sans-doublons//g' publier.json
       - name: Publish
         run: pnpm publier.deduplicated
+      - name: Download deduplicated data without the Coop numérique
+        uses: actions/download-artifact@v8
+        with:
+          name: deduplicated-hors-coop
+          path: assets/deduplicated-hors-coop
+      - name: Rename files to publish without the Coop numérique
+        run: |
+          cd assets/deduplicated-hors-coop
+          for file in *-sans-doublons.*; do mv "$file" "${file//-sans-doublons/-hors-coop}"; done
+          sed -i 's/-sans-doublons/-hors-coop/g' publier.json
+          jq '.ressources |= map(.description |= sub(" au format"; ", hors lieux de la Coop numérique, au format"))' publier.json > publier.tmp.json
+          mv publier.tmp.json publier.json
+      - name: Publish without the Coop numérique
+        run: pnpm publier.deduplicated-hors-coop

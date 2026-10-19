@@ -164,6 +164,15 @@ jobs:
         with:
           name: merged
           path: merged
+      - name: Leave out the Coop numérique places
+        run: rm -f to-merge/*-coop-numerique-lieux-de-mediation-numeriques-*
+      - name: Merge transformed data without the Coop numérique
+        run: pnpm fusionner.hors-coop
+      - name: Upload merged data without the Coop numérique
+        uses: actions/upload-artifact@v7
+        with:
+          name: merged-hors-coop
+          path: merged-hors-coop
 
   cache-addresses:
     name: Cache addresses
@@ -314,3 +323,35 @@ jobs:
         with:
           name: deduplicated
           path: assets/deduplicated
+
+  deduplicate-hors-coop:
+    name: Deduplicate without the Coop numérique
+    runs-on: ubuntu-latest
+    needs: merge
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 12
+          run_install: false
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Download merged data without the Coop numérique
+        uses: actions/download-artifact@v8
+        with:
+          name: merged-hors-coop
+          path: assets/to-deduplicate-hors-coop
+      - name: Deduplicate merged data without the Coop numérique
+        run: pnpm dedupliquer.hors-coop
+      - name: Upload deduplicated data without the Coop numérique
+        uses: actions/upload-artifact@v7
+        with:
+          name: deduplicated-hors-coop
+          path: assets/deduplicated-hors-coop
