@@ -228,7 +228,7 @@ La cartographie ne lit ni data.gouv.fr ni la Coop : elle lit **le dataspace de l
 
 Les lieux situés à la même adresse sont écartés en cercle autour du point pour rester tous cliquables.
 
-**Territoires non reconnus.** Saint-Pierre-et-Miquelon, Saint-Barthélemy et les collectivités du Pacifique ne figurent pas dans la table des départements de la cartographie. Un lieu dans ces territoires n'est compté dans aucun département, et le lien vers sa fiche depuis la liste ne fonctionne pas.
+**Territoires non reconnus.** Saint-Pierre-et-Miquelon, Saint-Barthélemy, Wallis-et-Futuna, la Polynésie française et la Nouvelle-Calédonie ne figurent pas dans la table des départements de la cartographie, qui connaît en revanche la Guadeloupe, la Martinique, la Guyane, La Réunion, Mayotte et Saint-Martin. Un lieu dans ces territoires n'est compté dans aucun département, et le lien vers sa fiche depuis la liste ne fonctionne pas.
 
 ### Les filtres à la main de l'utilisateur
 
