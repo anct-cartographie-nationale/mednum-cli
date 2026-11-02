@@ -2,7 +2,7 @@
 
 Ce document décrit les règles qui décident qu'un lieu de médiation numérique apparaît sur [la Cartographie Nationale](https://cartographie.societenumerique.gouv.fr), qu'il fusionne avec un autre, et qu'il porte tel ou tel label.
 
-Quatre applications se succèdent entre la saisie d'un lieu et son affichage. Le document couvre trois d'entre elles depuis leur code en vigueur : [la Coop de la médiation numérique](https://coop-numerique.anct.gouv.fr), qui expose ses lieux ; l'outil de traitement des données, appelé ici « la CLI », qui construit le jeu national ; et la cartographie, qui l'affiche. La quatrième, le dataspace de l'ANCT, qui se trouve entre la CLI et la cartographie, n'est pas couverte : c'est l'angle mort de ce document, nommé dans sa [dernière section](#langle-mort--du-jeu-national-à-la-cartographie).
+Quatre applications se succèdent entre la saisie d'un lieu et son affichage. Le document couvre trois d'entre elles : [la Coop de la médiation numérique](https://coop-numerique.anct.gouv.fr), qui expose ses lieux ; l'outil de traitement des données, appelé ici « la CLI », qui construit le jeu national ; et la cartographie, qui l'affiche. La quatrième, le dataspace de l'ANCT, qui se trouve entre la CLI et la cartographie, n'est pas couverte : c'est l'angle mort de ce document, nommé dans sa [dernière section](#langle-mort--du-jeu-national-à-la-cartographie).
 
 ## Sommaire
 
