@@ -228,8 +228,6 @@ La cartographie ne lit ni data.gouv.fr ni la Coop : elle lit **le dataspace de l
 
 Les lieux situés à la même adresse sont écartés en cercle autour du point pour rester tous cliquables.
 
-La cartographie n'applique **aucun filtre** sur l'ancienneté de la mise à jour, sur la source, sur l'itinérance ni sur « Ce lieu n'accueille pas de public ». Si un tel tri existe, il est fait par le dataspace avant livraison.
-
 **Territoires non reconnus.** Saint-Pierre-et-Miquelon, Saint-Barthélemy et les collectivités du Pacifique ne figurent pas dans la table des départements de la cartographie. Un lieu dans ces territoires n'est compté dans aucun département, et le lien vers sa fiche depuis la liste ne fonctionne pas.
 
 ### Les filtres à la main de l'utilisateur
