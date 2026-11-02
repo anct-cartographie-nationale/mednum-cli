@@ -46,8 +46,6 @@ Quatre conditions se cumulent. S'il en manque une, le lieu n'est pas transmis à
 
 Avant transmission, chaque lieu est vérifié contre le schéma national. Si son identifiant, son nom, son adresse ou ses services sont invalides, il est écarté. Si un champ facultatif est invalide, horaires ou contact par exemple, seul ce champ est retiré et le lieu reste transmis.
 
-**Mises hors carte automatiques.** Certaines opérations de reprise de données dans la Coop remettent l'interrupteur de visibilité à « non » : adresse confiée à un autre lieu, suppression, retrait de publication. Un lieu qui disparaît sans action visible de l'utilisateur peut venir de là.
-
 ### Le label Conseillers numériques côté Coop
 
 La Coop transmet le label « Conseillers numériques » quand **au moins une personne rattachée au lieu** remplit toutes ces conditions :
