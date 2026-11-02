@@ -230,20 +230,6 @@ Les lieux situés à la même adresse sont écartés en cercle autour du point p
 
 **Territoires non reconnus.** Saint-Pierre-et-Miquelon, Saint-Barthélemy, Wallis-et-Futuna, la Polynésie française et la Nouvelle-Calédonie ne figurent pas dans la table des départements de la cartographie, qui connaît en revanche la Guadeloupe, la Martinique, la Guyane, La Réunion, Mayotte et Saint-Martin. Un lieu dans ces territoires n'est compté dans aucun département, et le lien vers sa fiche depuis la liste ne fonctionne pas.
 
-### Les filtres à la main de l'utilisateur
-
-Les familles de filtres se cumulent ; dans une même famille, cocher plusieurs cases élargit la sélection.
-
-| Filtre | Ce qu'il fait |
-| --- | --- |
-| Besoins | Les neuf services du schéma. |
-| Public cible | Publics spécifiquement adressés (jeunes, seniors, étudiants, familles) et prises en charge spécifiques (langues étrangères, illettrisme, handicaps…). |
-| Ouvert actuellement | Calculé depuis les horaires ; un lieu sans horaires ou aux horaires illisibles est exclu. |
-| Ouvert le week-end, Gratuit, Prise de RDV en ligne | « Prise de RDV en ligne » retient tout lieu dont le champ de prise de rendez-vous est rempli. |
-| Source | Liste des sources présentes dans les données. |
-| Dispositifs | Seulement « Conseillers numériques » et « France Services ». |
-| Territoires prioritaires | « QPV » et « FRR ». **La case « FRR » cherche en réalité la valeur ZRR**, que la CLI supprime : ce filtre ne remonte donc aucun lieu. Défaut connu à corriger côté cartographie. |
-
 ### Comment les labels sont affichés
 
 - **Conseillers numériques et France Services.** Le logo s'affiche sur la carte de la liste et en grand sur la fiche, à côté du nom, **dès que le champ des dispositifs nationaux contient la valeur**. Rien d'autre n'entre en compte : ni le nombre de conseillers, ni la liste des médiateurs. Un lieu sans aucun des deux reçoit un logo générique « lieu de médiation numérique ».
