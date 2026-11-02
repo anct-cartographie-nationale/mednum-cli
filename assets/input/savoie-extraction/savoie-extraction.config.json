@@ -718,11 +718,6 @@
     },
     {
       "colonnes": ["dispositif_programmes_nationaux"],
-      "termes": ["Conseillers numériques"],
-      "cible": "Conseillers numériques"
-    },
-    {
-      "colonnes": ["dispositif_programmes_nationaux"],
       "termes": ["Emmaüs Connect"],
       "cible": "Emmaüs Connect"
     },

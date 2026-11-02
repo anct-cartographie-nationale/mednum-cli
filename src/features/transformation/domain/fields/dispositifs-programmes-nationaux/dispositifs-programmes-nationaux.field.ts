@@ -1,5 +1,6 @@
-import { type DispositifProgrammeNational, DispositifProgrammesNationaux } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import { DispositifProgrammeNational, DispositifProgrammesNationaux } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { type Choice, type LieuxMediationNumeriqueMatching, type DataSource, cibleAsDefault } from '../../matching';
+import type { Recorder } from '../../report';
 
 const isAllowedTerm = (choice: Choice<DispositifProgrammeNational>, sourceValue: string): boolean =>
   choice.sauf?.every((forbidden: string): boolean => !sourceValue.includes(forbidden)) ?? true;
@@ -53,3 +54,33 @@ export const processDispositifProgrammeNationaux = (
   DispositifProgrammesNationaux(
     Array.from(new Set(matching.dispositif_programmes_nationaux?.reduce(appendDispositifsProgrammesNationaux(source), [])))
   );
+
+export const SOURCE_COOP_NUMERIQUE = 'Coop numérique';
+
+export const DISPOSITIF_PROGRAMMES_NATIONAUX_FIELD = 'dispositif_programmes_nationaux';
+
+const CONSEILLERS_NUMERIQUES_RESERVE_A_LA_COOP =
+  'Seule la Coop de la médiation numérique atteste le label « Conseillers numériques » : le label déclaré par la source est retiré';
+
+const declareConseillersNumeriques = (dispositifs: DispositifProgrammesNationaux): boolean =>
+  dispositifs.includes(DispositifProgrammeNational.ConseillersNumeriques);
+
+const sansConseillersNumeriques = (dispositifs: DispositifProgrammesNationaux): DispositifProgrammesNationaux =>
+  DispositifProgrammesNationaux(
+    dispositifs.filter(
+      (dispositif: DispositifProgrammeNational): boolean => dispositif !== DispositifProgrammeNational.ConseillersNumeriques
+    )
+  );
+
+export const reserveALaCoop = (
+  dispositifs: DispositifProgrammesNationaux,
+  sourceName: string,
+  recorder: Recorder,
+  entryName: string
+): DispositifProgrammesNationaux => {
+  if (sourceName === SOURCE_COOP_NUMERIQUE || !declareConseillersNumeriques(dispositifs)) return dispositifs;
+
+  recorder.record(DISPOSITIF_PROGRAMMES_NATIONAUX_FIELD, CONSEILLERS_NUMERIQUES_RESERVE_A_LA_COOP, entryName);
+
+  return sansConseillersNumeriques(dispositifs);
+};
