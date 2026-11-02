@@ -225,7 +225,6 @@ La cartographie ne lit ni data.gouv.fr ni la Coop : elle lit **le dataspace de l
 | --- | --- |
 | Code INSEE présent | Un lieu sans code INSEE de commune n'est jamais chargé par la cartographie. |
 | Coordonnées présentes, pour la carte seulement | Sans latitude et longitude, le lieu n'a pas de marqueur sur la carte. Il reste dans la liste, dans les compteurs, dans l'export, et sa fiche s'ouvre sans mini-carte. |
-| Niveau de zoom | Jusqu'au zoom 7, la carte montre un compteur par région ; de 8 à 9, un compteur par département ; au-delà, les marqueurs individuels, regroupés en grappes numérotées quand ils sont proches. Un lieu qu'on ne voit pas peut simplement être dans une grappe. |
 
 Les lieux situés à la même adresse sont écartés en cercle autour du point pour rester tous cliquables.
 
