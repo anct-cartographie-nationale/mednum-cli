@@ -60,8 +60,6 @@ Deux conséquences :
 - **Un conseiller numérique qui a masqué son profil ne fait pas apparaître le label**, même s'il est en poste.
 - **La date de fin de contrat n'est pas consultée.** Seul compte le marqueur « poste actif » du dataspace, qui ne suit pas toujours la fin de contrat. C'est un arbitrage de l'ANCT d'août 2026.
 
-À ce calcul s'ajoute la valeur enregistrée dans la fiche du lieu, héritée d'anciens imports depuis la cartographie et qu'aucun écran de la Coop ne permet de modifier. **Un lieu qui porte encore « Conseillers numériques » dans sa fiche garde donc le label même sans aucun conseiller actif.** Le problème est connu côté Coop, mesuré à plusieurs milliers de lieux visibles, et un ticket est ouvert pour le corriger.
-
 ### Les autres labels côté Coop
 
 - **Les autres dispositifs nationaux** (France Services, Aidants Connect…) viennent uniquement de la valeur enregistrée dans la fiche, héritée des imports. La Coop ne les calcule pas et ne permet pas de les saisir.
