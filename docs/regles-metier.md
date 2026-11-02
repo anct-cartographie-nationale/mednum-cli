@@ -256,8 +256,6 @@ Entre la publication du jeu national par la CLI et son affichage par la cartogra
 - **Le marqueur « poste actif »** d'un conseiller numérique, que la Coop consulte pour poser le label Conseillers numériques.
 - **Tout filtre éventuel appliqué avant livraison à la cartographie**, et le déclenchement du rafraîchissement de la cartographie après une mise à jour.
 
-Quand une question de support n'a trouvé de réponse ni côté Coop, ni dans le rapport de la CLI, ni dans les règles d'affichage de la cartographie, c'est là qu'elle se trouve.
-
 ## Liens utiles
 
 | Ressource | Lien |
