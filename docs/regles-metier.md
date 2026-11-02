@@ -170,12 +170,6 @@ Un lieu présent dans une source est publié dans le jeu national sauf s'il tomb
 | Exclusion sur décision métier | Une liste fixe d'une quinzaine d'identifiants est retirée du jeu national. C'est une solution temporaire pour écarter de la cartographie des lieux issus de sources externes alors qu'ils restent présents dans ces sources, sur lesquelles nous n'avons pas la main. La liste n'est modifiable que par une évolution de l'outil, ce qui la rend difficile à maintenir. La cible est une fonctionnalité de MIN permettant d'exclure un lieu issu d'une source externe, qui remplacerait cette liste. |
 | Identifiant fusionné trop long | Un lieu issu de très nombreuses fusions dont l'identifiant cumulé dépasse une taille limite est retiré. Le cas est rare et apparaît dans le journal d'exécution. |
 
-### Points d'attention pour le support
-
-- Un lieu peut être présent dans le jeu de sa source et absent du jeu national : il a été fusionné avec un lieu d'une autre source. Chercher son identifiant d'origine dans l'identifiant du lieu fusionné.
-- Un lieu Coop absent du jeu national a le plus souvent été écarté **avant** d'arriver à la CLI : vérifier d'abord les [conditions de transmission côté Coop](#conditions-pour-quun-lieu-coop-soit-transmis), puis le rapport d'erreurs de la source `coop-numerique`.
-- Une adresse corrigée chez le producteur n'est revue par la Base Adresse Nationale qu'après un délai : un échec de géocodage est conservé en cache sept jours avant d'être retenté.
-
 ## Quelles sont les règles pour qu'un lieu porte un label ?
 
 La CLI ne décide pas de l'affichage d'un label ; elle remplit trois champs du schéma national que la cartographie lit ensuite.
