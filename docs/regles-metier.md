@@ -55,7 +55,7 @@ La Coop transmet le label « Conseillers numériques » quand **au moins une per
 - son compte n'est pas supprimé ;
 - son poste de conseiller numérique est marqué actif dans le dataspace.
 
-Deux conséquences à connaître pour le support :
+Deux conséquences :
 
 - **Un conseiller numérique qui a masqué son profil ne fait pas apparaître le label**, même s'il est en poste.
 - **La date de fin de contrat n'est pas consultée.** Seul compte le marqueur « poste actif » du dataspace, qui ne suit pas toujours la fin de contrat. C'est un arbitrage de l'ANCT d'août 2026.
