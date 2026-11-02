@@ -34,6 +34,7 @@ import {
   processId,
   processAutresFormationsLabels,
   processDispositifProgrammeNationaux,
+  reserveALaCoop,
   processLocalisation,
   processModalitesAccompagnement,
   processNom,
@@ -165,7 +166,14 @@ const lieuDeMediationNumerique = async (
     ...publicsSpecifiquementAdressesIfAny(processPublicsSpecifiquementAdresses(dataSource, matching)),
     ...prisesEnChargeSpecifiquesIfAny(processPrisesEnChargeSpecifiques(dataSource, matching)),
     ...fraisAChargeIfAny(processFraisACharge(dataSource, matching)),
-    ...dispositifProgrammesNationauxIfAny(processDispositifProgrammeNationaux(dataSource, matching)),
+    ...dispositifProgrammesNationauxIfAny(
+      reserveALaCoop(
+        processDispositifProgrammeNationaux(dataSource, matching),
+        sourceName,
+        recorder,
+        entryIdentification(dataSource, matching)
+      )
+    ),
     ...formationsLabelsIfAny(processFormationsLabels(dataSource, matching)),
     ...autresFormationsLabelsIfAny(
       processAutresFormationsLabels(dataSource, matching, isInQpv, isInFrr, adresse, localisation)
