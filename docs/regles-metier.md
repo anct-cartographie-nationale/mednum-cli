@@ -27,7 +27,7 @@ Un lieu peut donc être écarté à chacune de ces étapes, et la cause se cherc
 
 ## En amont : ce que la Coop transmet
 
-La Coop ne transmet pas tous ses lieux. Ce qu'elle expose est décidé par son code, à partir de choix faits dans son interface.
+La Coop ne transmet pas tous ses lieux. Ce qu'elle expose suit ses propres règles, à partir de choix faits dans son interface.
 
 ### Conditions pour qu'un lieu Coop soit transmis
 
@@ -277,7 +277,7 @@ Les familles de filtres se cumulent ; dans une même famille, cocher plusieurs c
 
 ## L'angle mort : du jeu national à la cartographie
 
-Entre la publication du jeu national par la CLI et son affichage par la cartographie se trouve le **dataspace de l'ANCT**. Il lit le jeu national hors Coop, y réintègre les lieux de la Coop et de MIN qu'il consigne déjà, et expose le résultat à la cartographie. Trois choses lui appartiennent et ne sont décrites ni ici ni dans le code des trois applications couvertes :
+Entre la publication du jeu national par la CLI et son affichage par la cartographie se trouve le **dataspace de l'ANCT**. Il lit le jeu national hors Coop, y réintègre les lieux de la Coop et de MIN qu'il consigne déjà, et expose le résultat à la cartographie. Trois choses lui appartiennent et ne sont décrites ni ici ni dans les règles des trois applications couvertes :
 
 - **La règle de réintégration des lieux Coop et MIN** dans le jeu hors Coop, et le rattachement entre un lieu Coop et sa fiche sur la cartographie.
 - **Le marqueur « poste actif »** d'un conseiller numérique, que la Coop consulte pour poser le label Conseillers numériques.
@@ -301,4 +301,4 @@ Quand une question de support n'a trouvé de réponse ni côté Coop, ni dans le
 | Base Adresse Nationale | https://adresse.data.gouv.fr |
 | Contact support de la cartographie | carto@inclusion-numerique.anct.gouv.fr |
 
-Les règles de ce document sont celles du code en vigueur à la date de rédaction, le 2 novembre 2026. Elles évoluent par modification des applications, versionnée et relue ; ce document doit être mis à jour en même temps.
+Les règles de ce document sont celles en vigueur à la date de rédaction, le 2 novembre 2026. Elles évoluent par modification des applications, versionnée et relue ; ce document doit être mis à jour en même temps.
