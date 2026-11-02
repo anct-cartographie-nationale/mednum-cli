@@ -130,7 +130,7 @@ Chaque source dispose d'une **configuration de correspondance** qui dit, colonne
 
 Le label « Conseillers numériques » est posé sur un lieu Coop quand **la Coop le fournit** dans les données qu'elle expose. La CLI recopie cette information ; elle ne la déduit pas elle-même de la présence d'un conseiller. La règle qui décide qu'une structure Coop porte ce label est donc à chercher ailleurs, selon le jeu de données concerné : côté Coop pour le jeu national complet, côté dataspace pour les données affichées sur la cartographie, puisque le dataspace gère lui-même les lieux Coop avant de les fournir à la cartographie.
 
-Aucune autre source ne peut poser ce label. Si une source autre que la Coop le déclare, la CLI le retire et porte le motif au rapport d'erreurs de la source ; le lieu reste publié sans ce label. Le garde-fou est dans le code et ne dépend pas de la configuration des sources.
+Aucune autre source ne peut poser ce label. Si une source autre que la Coop le déclare, la CLI le retire et porte le motif au rapport d'erreurs de la source ; le lieu reste publié sans ce label.
 
 ### Les labels calculés : QPV et FRR
 
