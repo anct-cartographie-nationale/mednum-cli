@@ -14,6 +14,7 @@ jobs:
       sources: '[
         "charente-maritime",
         "coop-numerique",
+        "corse",
         "dora",
         "france-services",
         "france-travail",

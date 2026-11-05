@@ -1,136 +1,127 @@
 {
-  "nom": {
-    "colonne": "Structure"
+  "id": {
+    "colonne": "Identifiant"
   },
-  "typologie": [
-    {
-      "colonnes": ["Type"],
-      "termes": ["France Services"],
-      "cible": "RFS"
-    },
-    {
-      "colonnes": ["Type"],
-      "termes": ["Association"],
-      "cible": "ASSO"
-    },
-    {
-      "colonnes": ["Type"],
-      "termes": ["Collectivité"],
-      "cible": "MUNI"
-    },
-    {
-      "colonnes": ["Type"],
-      "termes": ["Espace Public Numérique"],
-      "cible": "EPN"
-    },
-    {
-      "colonnes": ["Type"],
-      "termes": ["Mission locale", "ARML"],
-      "cible": "ML"
-    }
-  ],
-  "code_postal": {
-    "colonne": ""
+  "pivot": {
+    "colonne": "SIRET / RNA / RIDET"
+  },
+  "nom": {
+    "colonne": "Nom de la structure"
   },
   "commune": {
-    "colonne": ""
+    "colonne": "Commune"
+  },
+  "code_postal": {
+    "colonne": "Code postal"
+  },
+  "code_insee": {
+    "colonne": "Code INSEE"
   },
   "adresse": {
     "colonne": "Adresse"
   },
+  "complement_adresse": {
+    "colonne": "Complément d'adresse"
+  },
   "latitude": {
-    "colonne": "lat"
+    "colonne": "Latitude"
   },
   "longitude": {
-    "colonne": "long"
+    "colonne": "Longitude"
   },
+  "typologie": [
+    { "colonnes": ["Typologie"], "termes": ["Association"], "cible": "ASSO" },
+    { "colonnes": ["Typologie"], "termes": ["Auto-entreprise"], "cible": "Autre" },
+    { "colonnes": ["Typologie"], "termes": ["Collectivité"], "cible": "MUNI" },
+    { "colonnes": ["Typologie"], "termes": ["Commune"], "cible": "MUNI" },
+    { "colonnes": ["Typologie"], "termes": ["France Services"], "cible": "RFS" },
+    { "colonnes": ["Typologie"], "termes": ["Mission locale"], "cible": "ML" },
+    { "colonnes": ["Typologie"], "termes": ["Médiathèque"], "cible": "BIB" }
+  ],
   "telephone": {
-    "colonne": "N° de téléphone"
+    "colonne": "Numéro de téléphone"
   },
   "courriels": {
-    "colonne": "Adresse e-mail"
+    "colonne": "Courriel(s)"
   },
   "site_web": {
-    "colonne": "Site internet"
+    "colonne": "Site web"
+  },
+  "horaires": {
+    "semaine": "Horaires"
   },
   "presentation_resume": {
-    "colonne": "Activités proposées"
+    "colonne": "Présentation résumée"
   },
-  "modalites_accompagnement": [
-    {
-      "colonnes": ["Activités proposées"],
-      "termes": ["individuel", "Accompagnement"],
-      "cible": "Accompagnement individuel"
-    },
-    {
-      "colonnes": ["Activités proposées"],
-      "termes": ["Ateliers", "Groupe de parole"],
-      "cible": "Dans un atelier collectif"
-    }
+  "presentation_detail": {
+    "colonne": "Présentation détaillée"
+  },
+  "source": {
+    "colonne": "Structure collectant la donnée"
+  },
+  "itinerance": [
+    { "colonnes": ["Itinérance"], "termes": ["Oui"], "cible": "Itinérant" }
   ],
+  "structure_parente": {
+    "colonne": "Structure parente"
+  },
   "date_maj": {
-    "colonne": ""
+    "colonne": "Date de mise à jour"
   },
-  "publics_specifiquement_adresses": [
-    {
-      "colonnes": ["Activités proposées"],
-      "termes": ["autonomie numérique des jeunes de 16 à 29 ans", "ateliers numériques dédiés aux jeunes"],
-      "cible": "Jeunes"
-    },
-    {
-      "colonnes": ["Activités proposées"],
-      "termes": ["autonomie numérique des jeunes de 16 à 29 ans"],
-      "cible": "Étudiants"
-    }
-  ],
   "services": [
     {
-      "colonnes": ["Matériel mis à disposition"],
-      "termes": ["Connexion Internet", "Photocopieuse", "Imprimante", "Scanner", "Ordinateur fixe", "impression 3D", "fraiseuse numérique"],
-      "cible": "Accès internet et matériel informatique"
-    },
-    {
-      "colonnes": ["Activités proposées"],
-      "termes": ["formation aux outils numériques", "initiation à l'informatique", "pratiques numériques", "Utiliser le numérique au quotidien", "Prendre en main un smartphone ou une tablette", "Prendre en main un ordinateur"],
-      "cible": "Maîtrise des outils numériques du quotidien"
-    },
-    {
-      "colonnes": ["Activités proposées"],
-      "termes": ["bonnes pratiques numériques", "prévention sur les usages numériques", "fake news, cybersécurité"],
-      "cible": "Utilisation sécurisée du numérique"
-    },
-    {
-      "colonnes": ["Activités proposées"],
-      "termes": ["création graphique", "programmation", "montage photo", "impression 3D", "fraiseuse numérique"],
-      "cible": "Loisirs et créations numériques"
-    },
-    {
-      "colonnes": ["Activités proposées"],
-      "termes": ["présentation des métiers de la filière numérique", "Accompagnement à la création d'entreprise", "Organisme de formation"],
-      "cible": "Insertion professionnelle via le numérique"
-    },
-    {
-      "colonnes": ["Activités proposées"],
-      "termes": ["pratiques numériques", "usages numériques", "Groupe de parole", "IA, cryptomonnaies, blockchain", "Approfondir sa culture numérique"],
-      "cible": "Compréhension du monde numérique"
-    },
-    {
-      "colonnes": ["Activités proposées"],
-      "termes": ["l'accès aux droits", "démarches classique en ligne", "CAF", "CPAM", "l'accès aux droits", "services publics dématérialisés", "l'accès aux droits", "services publics dématérialisés"],
+      "colonnes": ["Services"],
+      "termes": ["accès aux droits", "démarches", "CAF", "CPAM", "Pole Emploi", "aide peut être fournie"],
       "cible": "Aide aux démarches administratives"
     },
     {
-      "colonnes": ["Activités proposées"],
-      "termes": ["destination des parents", "l'E-parentalité"],
+      "colonnes": ["Services"],
+      "termes": ["outils numériques", "initiation à l'informatique", "Prendre en main un ordinateur", "Prendre en main un smartphone", "Utiliser le numérique au quotidien", "prise en main des outils numériques", "étape numérique"],
+      "cible": "Maîtrise des outils numériques du quotidien"
+    },
+    {
+      "colonnes": ["Services"],
+      "termes": ["métiers de la filière numérique"],
+      "cible": "Insertion professionnelle via le numérique"
+    },
+    {
+      "colonnes": ["Services"],
+      "termes": ["bonnes pratiques numériques", "prévention sur les usages numériques", "cybersécurité", "fake news"],
+      "cible": "Utilisation sécurisée du numérique"
+    },
+    {
+      "colonnes": ["Services"],
+      "termes": ["création graphique", "codage et à la programmation", "impression 3D", "montage photo", "jeux vidéos", "jeux en réseaux", "robotique", "musée numérique", "micro folie", "VR"],
+      "cible": "Loisirs et créations numériques"
+    },
+    {
+      "colonnes": ["Services"],
+      "termes": ["approfondir sa culture numérique", "thématiques numériques", "groupe de parole", "actualités liées au numérique", "numérique inclusif", "blockchain", "cryptomonnaies"],
+      "cible": "Compréhension du monde numérique"
+    },
+    {
+      "colonnes": ["Services"],
+      "termes": ["destination des parents", "e-parentalité", "contrôle parental"],
       "cible": "Parentalité et éducation avec le numérique"
     },
     {
-      "colonnes": ["Activités proposées"],
-      "termes": ["Dotation de matériel numérique"],
+      "colonnes": ["Services", "Equipements disponibles"],
+      "termes": ["dotation de matériel numérique"],
       "cible": "Acquisition de matériel informatique à prix solidaire"
+    },
+    {
+      "colonnes": ["Equipements disponibles"],
+      "termes": ["Connexion Internet", "Ordinateur", "Imprimante", "Scanner", "Photocopieuse", "Tablette", "Smartphone", "Cartes SIM"],
+      "cible": "Accès internet et matériel informatique"
     }
   ],
-  "horaires": {
-    "semaine": "Horaires"
-  }
+  "publics_specifiquement_adresses": [
+    { "colonnes": ["Public cible"], "termes": ["Adolescents", "Jeunes actifs", "Jeunes sans emploi", "jeunes parents"], "cible": "Jeunes" },
+    { "colonnes": ["Public cible"], "termes": ["Université"], "cible": "Étudiants" },
+    { "colonnes": ["Public cible"], "termes": ["Enfants", "Parents d'élèves", "jeunes parents"], "cible": "Familles et/ou enfants" },
+    { "colonnes": ["Public cible"], "termes": ["Séniors"], "cible": "Seniors" }
+  ],
+  "autres_formations_labels": [
+    { "colonnes": ["Zone géographique spécifique"], "termes": ["Petites Villes de Demain", "PVD"], "cible": "PVD" }
+  ]
 }
