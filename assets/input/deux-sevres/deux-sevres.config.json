@@ -1,0 +1,76 @@
+{
+  "id": {
+    "colonne": "Id Service Inclusion"
+  },
+  "pivot": {
+    "colonne": "Siret"
+  },
+  "nom": {
+    "colonne": "Lieu Intervention"
+  },
+  "adresse": {
+    "colonne": "Adresse"
+  },
+  "code_postal": {
+    "colonne": "Code Postal"
+  },
+  "commune": {
+    "colonne": "Commune"
+  },
+  "telephone": {
+    "colonne": "Telephone"
+  },
+  "courriels": {
+    "colonne": "Adresse Mail"
+  },
+  "site_web": {
+    "colonne": "Site Internet"
+  },
+  "date_maj": {
+    "colonne": "Date Derniere Modif"
+  },
+  "horaires": {
+    "semaine": "Horaires Ouverture"
+  },
+  "typologie": [
+    { "colonnes": ["Type Lieu"], "termes": ["France services"], "cible": "RFS" },
+    { "colonnes": ["Type Lieu"], "termes": ["Centre SocioCulturel", "CSC"], "cible": "CSC" },
+    { "colonnes": ["Type Lieu"], "termes": ["Mairie"], "cible": "MUNI" },
+    { "colonnes": ["Type Lieu"], "termes": ["Médiathèque"], "cible": "BIB" },
+    { "colonnes": ["Type Lieu"], "termes": ["La Poste"], "cible": "LA_POSTE" },
+    { "colonnes": ["Type Lieu"], "termes": ["MDS"], "cible": "MDS" },
+    { "colonnes": ["Type Lieu"], "termes": ["CAF"], "cible": "CAF" },
+    { "colonnes": ["Type Lieu"], "termes": ["FabLab"], "cible": "FABLAB" },
+    { "colonnes": ["Type Lieu"], "termes": ["Tiers-lieu"], "cible": "TIERS_LIEUX" },
+    { "colonnes": ["Type Lieu"], "termes": ["Mission locale"], "cible": "ML" },
+    { "colonnes": ["Type Lieu"], "termes": ["Maison de l'emploi"], "cible": "MDE" }
+  ],
+  "services": [
+    { "colonnes": ["Demarches Admin"], "termes": ["OUI"], "cible": "Aide aux démarches administratives" },
+    { "colonnes": ["Acces Usages Base"], "termes": ["OUI"], "cible": "Maîtrise des outils numériques du quotidien" },
+    { "colonnes": ["Acces Ressources Num Cult"], "termes": ["OUI"], "cible": "Compréhension du monde numérique" },
+    { "colonnes": ["Fab Lab"], "termes": ["OUI"], "cible": "Loisirs et créations numériques" },
+    {
+      "colonnes": ["Postes Libre Acces", "Connexion Internet", "Impression", "Depannage Petites Reparation"],
+      "termes": ["OUI"],
+      "cible": "Accès internet et matériel informatique"
+    }
+  ],
+  "modalites_acces": [
+    { "colonnes": ["Modalites Acces"], "termes": ["Libre", "sans rendez-vous"], "cible": "Se présenter" },
+    { "colonnes": ["Modalites Acces"], "termes": ["rendez-vous", "RDV", "inscription", "réservation"], "cible": "Téléphoner" },
+    { "colonnes": ["Adresse Mail"], "termes": ["@"], "cible": "Contacter par mail" }
+  ],
+  "modalites_accompagnement": [
+    { "colonnes": ["Postes Libre Acces"], "termes": ["OUI"], "cible": "En autonomie" },
+    { "colonnes": ["Demarches Admin", "Acces Usages Base"], "termes": ["OUI"], "cible": "Accompagnement individuel" },
+    { "colonnes": ["Modalites Acces", "Publics Concernes"], "termes": ["atelier"], "cible": "Dans un atelier collectif" }
+  ],
+  "frais_a_charge": [
+    { "colonnes": ["Modalites Acces"], "termes": ["Gratuit"], "cible": "Gratuit" },
+    { "colonnes": ["Modalites Acces"], "termes": ["payant", "€", "adhésion", "forfait", "tarif"], "cible": "Payant" }
+  ],
+  "publics_specifiquement_adresses": [
+    { "colonnes": ["Publics Concernes"], "termes": ["Jeunes", "16-25", "16-26", "12-30"], "cible": "Jeunes" }
+  ]
+}
