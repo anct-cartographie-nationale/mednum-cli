@@ -36,6 +36,8 @@ Les sources de données prises en comptes pour le moment sont celles collectées
 | Source | Territoire | Données | Fiche |
 | --- | --- | --- | --- |
 | Charente-Maritime | Nouvelle-Aquitaine | [CSV](https://www.data.gouv.fr/api/1/datasets/r/8f732d2a-cb7d-48c0-8c68-a2991692e820) | [Data gouv](https://www.data.gouv.fr/datasets/lieux-de-mediation-numerique-organisation-departement-de-la-charente-maritime?resource_id=8f732d2a-cb7d-48c0-8c68-a2991692e820) |
+| Corse | Corse | [CSV](https://www.data.gouv.fr/api/1/datasets/r/613ece22-c8b7-4b86-8a19-f24e26cdb62d) | [Data gouv](https://www.data.gouv.fr/datasets/structures-dinclusion-numerique-en-corse?resource_id=613ece22-c8b7-4b86-8a19-f24e26cdb62d) |
+| Deux-Sèvres | Deux-Sèvres | [CSV](https://www.data.gouv.fr/api/1/datasets/r/b7ddfb17-b606-41ae-bb1a-de32b50b670d) | [Data gouv](https://www.data.gouv.fr/datasets/jeu-de-donnees-sur-linclusion-numerique-en-deux-sevres?resource_id=b7ddfb17-b606-41ae-bb1a-de32b50b670d) |
 | Grand Paris Sud | Île-de-France | [API](https://data.grandparissud.fr/api/explore/v2.1/catalog/datasets/datainclusion-description-des-structures-gps/records?limit=100) | — |
 | Hérault | Hérault | [CSV](https://www.herault-data.fr/api/explore/v2.1/catalog/datasets/lieux-daccueil-et-daccompagnement-aux-outils-numeriques-/exports/csv) | — |
 | Landes | Nouvelle-Aquitaine | [JSON](https://www.pigma.org/fr/datapusher/ws/default/usergroup6.a9d11fa0-12e5-4161-9a0d-3a1c21da3bf0/all.json) | — |
